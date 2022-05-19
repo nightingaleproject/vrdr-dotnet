@@ -157,7 +157,7 @@ namespace VRDR
             }
             // Loop over every property (these are the fields); Order by priority
             List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Priority).ToList();
-            foreach(PropertyInfo property in properties)
+            foreach (PropertyInfo property in properties)
             {
                 // Grab the field attributes
                 IJEField info = property.GetCustomAttribute<IJEField>();
@@ -188,7 +188,7 @@ namespace VRDR
             StringBuilder ije = new StringBuilder(new String(' ', 5000), 5000);
 
             // Loop over every property (these are the fields)
-            foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
+            foreach (PropertyInfo property in typeof(IJEMortality).GetProperties())
             {
                 // Grab the field value
                 string field = Convert.ToString(property.GetValue(this, null));
@@ -610,8 +610,10 @@ namespace VRDR
                     {
                         current = "N";
                     }
-                } else if (geoType == "countyC" || geoType == "cityC"){
-                    current = Truncate(current, info.Length).PadLeft(info.Length,'0');
+                }
+                else if (geoType == "countyC" || geoType == "cityC")
+                {
+                    current = Truncate(current, info.Length).PadLeft(info.Length, '0');
                 }
             }
 
@@ -740,7 +742,7 @@ namespace VRDR
         /// <param name="fhirField">Name of the FHIR field to get from the record; must have a related Helper property, e.g., EducationLevel must have EducationLevelHelper</param>
         /// <param name="ijeField">Name of the IJE field that the FHIR field content is being placed into</param>
         /// <returns>The IJE value of the field translated from the FHIR value on the record</returns>
-        private string Get_MappingFHIRToIJE(Dictionary<string,string> mapping, string fhirField, string ijeField)
+        private string Get_MappingFHIRToIJE(Dictionary<string, string> mapping, string fhirField, string ijeField)
         {
             PropertyInfo helperProperty = typeof(DeathRecord).GetProperty($"{fhirField}Helper");
             if (helperProperty == null)
@@ -760,7 +762,7 @@ namespace VRDR
             {
                 validationErrors.Add($"Error: Unable to find IJE {ijeField} mapping for FHIR {fhirField} field value '{fhirCode}'");
                 return "";
-             }
+            }
 
         }
 
@@ -770,7 +772,7 @@ namespace VRDR
         /// <param name="ijeField">Name of the IJE field that the FHIR field content is being set from</param>
         /// <param name="fhirField">Name of the FHIR field to set on the record; must have a related Helper property, e.g., EducationLevel must have EducationLevelHelper</param>
         /// <param name="value">The value to translate from IJE to FHIR and set on the record</param>
-        private void Set_MappingIJEToFHIR(Dictionary<string,string> mapping, string ijeField, string fhirField, string value)
+        private void Set_MappingIJEToFHIR(Dictionary<string, string> mapping, string ijeField, string fhirField, string value)
         {
             if (!String.IsNullOrWhiteSpace(value))
             {
@@ -797,7 +799,7 @@ namespace VRDR
             Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
             string code;
             nchsicd10code = nchsicd10code.Trim();
-            if(ICD10rgx.IsMatch(nchsicd10code))
+            if (ICD10rgx.IsMatch(nchsicd10code))
             {
                 code = nchsicd10code;
             }
@@ -808,20 +810,20 @@ namespace VRDR
                 if (NCHSICD10rgx.IsMatch(nchsicd10code))
                 {
                     code = nchsicd10code;
-                    if(nchsicd10code.Length == 4)
+                    if (nchsicd10code.Length == 4)
                     {
                         code = nchsicd10code.Insert(3, ".");
                     }
                 }
             }
-            return(code);
+            return (code);
         }
         /// <summary>Actual ICD10 to NCHS ICD10 </summary>
         private string ActualICD10toNCHSICD10(string icd10code)
         {
-            if(!String.IsNullOrEmpty(icd10code))
+            if (!String.IsNullOrEmpty(icd10code))
             {
-                return(icd10code.Replace(".",""));
+                return (icd10code.Replace(".", ""));
             }
             else
             {
@@ -1170,7 +1172,7 @@ namespace VRDR
             }
         }
 
-                /// <summary>Date of Birth--Year</summary>
+        /// <summary>Date of Birth--Year</summary>
         [IJEField(19, 205, 4, "Date of Birth--Year", "DOB_YR", 1)]
         public string DOB_YR
         {
@@ -1219,7 +1221,7 @@ namespace VRDR
             get
             {
                 return Dictionary_Geo_Get("BPLACE_CNT", "PlaceOfBirth", "address", "country", true);
-               }
+            }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
@@ -1473,7 +1475,7 @@ namespace VRDR
 
         // The DETHNIC functions handle unknown ethnicity as follows
         // All of the DETHNIC fields have to be unknown, U, for the ethnicity json data to be empty ex. UUUU
-            // Individual "Unknown" DETHNIC fields cannot be preserved in a roundtrip, only UUUU will return UUUU
+        // Individual "Unknown" DETHNIC fields cannot be preserved in a roundtrip, only UUUU will return UUUU
         // If at least one DETHNIC field is H, the json data should show Hispanic or Latino ex. NNHN will return NNHN
         // If at least one DETHNIC field is N and no fields are H, the json data should show Non-Hispanic or Latino ex. UUNU will return NNNN
         /// <summary>Decedent of Hispanic Origin?--Mexican</summary>
@@ -1495,7 +1497,8 @@ namespace VRDR
             }
             set
             {
-                if (value == "H"){
+                if (value == "H")
+                {
                     value = "Y";
                 }
                 Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC1", "Ethnicity1", value);
@@ -1521,7 +1524,8 @@ namespace VRDR
             }
             set
             {
-                if (value == "H"){
+                if (value == "H")
+                {
                     value = "Y";
                 }
                 Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC2", "Ethnicity2", value);
@@ -1547,7 +1551,8 @@ namespace VRDR
             }
             set
             {
-                if (value == "H"){
+                if (value == "H")
+                {
                     value = "Y";
                 }
                 Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC3", "Ethnicity3", value);
@@ -1573,7 +1578,8 @@ namespace VRDR
             }
             set
             {
-                if (value == "H"){
+                if (value == "H")
+                {
                     value = "Y";
                 }
                 Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC4", "Ethnicity4", value);
@@ -2548,11 +2554,11 @@ namespace VRDR
         {
             get
             {
-               return( ActualICD10toNCHSICD10(LeftJustified_Get("MAN_UC","ManUnderlyingCOD")));
+                return (ActualICD10toNCHSICD10(LeftJustified_Get("MAN_UC", "ManUnderlyingCOD")));
             }
             set
             {
-                LeftJustified_Set("MAN_UC","ManUnderlyingCOD", NCHSICD10toActualICD10(value));
+                LeftJustified_Set("MAN_UC", "ManUnderlyingCOD", NCHSICD10toActualICD10(value));
             }
         }
 
@@ -2562,11 +2568,11 @@ namespace VRDR
         {
             get
             {
-               return( ActualICD10toNCHSICD10(LeftJustified_Get("ACME_UC","AutomatedUnderlyingCOD")));
+                return (ActualICD10toNCHSICD10(LeftJustified_Get("ACME_UC", "AutomatedUnderlyingCOD")));
             }
             set
             {
-                LeftJustified_Set("ACME_UC","AutomatedUnderlyingCOD", NCHSICD10toActualICD10(value));
+                LeftJustified_Set("ACME_UC", "AutomatedUnderlyingCOD", NCHSICD10toActualICD10(value));
             }
         }
 
@@ -2583,11 +2589,11 @@ namespace VRDR
             get
             {
                 string eacStr = "";
-                foreach((int LineNumber, int Position, string Code, bool ECode) entry in record.EntityAxisCauseOfDeath)
+                foreach ((int LineNumber, int Position, string Code, bool ECode) entry in record.EntityAxisCauseOfDeath)
                 {
                     string lineNumber = Truncate(entry.LineNumber.ToString(), 1).PadRight(1, ' ');
                     string position = Truncate(entry.Position.ToString(), 1).PadRight(1, ' ');
-                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' ');;
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' '); ;
                     string reserved = " ";
                     string eCode = entry.ECode ? "&" : " ";
                     eacStr += lineNumber + position + icdCode + reserved + eCode;
@@ -2600,7 +2606,7 @@ namespace VRDR
                 List<(int LineNumber, int Position, string Code, bool ECode)> eac = new List<(int LineNumber, int Position, string Code, bool ECode)>();
                 string paddedValue = value.PadRight(160); // Accept input that's missing white space padding to the right
                 IEnumerable<string> codes = Enumerable.Range(0, paddedValue.Length / 8).Select(i => paddedValue.Substring(i * 8, 8));
-                foreach(string code in codes)
+                foreach (string code in codes)
                 {
                     if (!String.IsNullOrWhiteSpace(code))
                     {
@@ -2643,7 +2649,7 @@ namespace VRDR
             get
             {
                 string racStr = "";
-                foreach((int Position, string Code, bool Pregnancy) entry in record.RecordAxisCauseOfDeath)
+                foreach ((int Position, string Code, bool Pregnancy) entry in record.RecordAxisCauseOfDeath)
                 {
                     // Position doesn't appear in the IJE/TRX format it's just implicit
                     string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' ');
@@ -2659,7 +2665,7 @@ namespace VRDR
                 string paddedValue = value.PadRight(100); // Accept input that's missing white space padding to the right
                 IEnumerable<string> codes = Enumerable.Range(0, paddedValue.Length / 5).Select(i => paddedValue.Substring(i * 5, 5));
                 int position = 1;
-                foreach(string code in codes)
+                foreach (string code in codes)
                 {
                     if (!String.IsNullOrWhiteSpace(code))
                     {
@@ -2824,7 +2830,8 @@ namespace VRDR
             get
             {
                 var ret = record.CertificationRoleHelper;
-                if(Mappings.CertifierTypes.FHIRToIJE.ContainsKey(ret)){
+                if (Mappings.CertifierTypes.FHIRToIJE.ContainsKey(ret))
+                {
                     return Get_MappingFHIRToIJE(Mappings.CertifierTypes.FHIRToIJE, "CertificationRole", "CERTL");
                 }
                 else  // If the return value is not a code, it is just an arbitrary string, so return it.
@@ -2834,7 +2841,8 @@ namespace VRDR
             }
             set
             {
-                if(Mappings.CertifierTypes.IJEToFHIR.ContainsKey(value.Split(' ')[0])){
+                if (Mappings.CertifierTypes.IJEToFHIR.ContainsKey(value.Split(' ')[0]))
+                {
                     Set_MappingIJEToFHIR(Mappings.CertifierTypes.IJEToFHIR, "CERTL", "CertificationRole", value.Trim());
                 }
                 else  // If the value is not a valid code, it is just an arbitrary string.  The helper will deal with it.
@@ -2886,7 +2894,7 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("STATESP","StateSpecific", value);
+                LeftJustified_Set("STATESP", "StateSpecific", value);
             }
         }
 
@@ -3184,7 +3192,7 @@ namespace VRDR
                 {
                     LeftJustified_Set("LONG_D", "DeathLocationLongitude", value);
                 }
-             }
+            }
         }
 
         /// <summary>Place of Death. Latitude</summary>
@@ -3201,7 +3209,7 @@ namespace VRDR
                 {
                     LeftJustified_Set("LAT_D", "DeathLocationLatitude", value);
                 }
-             }
+            }
         }
 
         /// <summary>Decedent's spouse living at decedent's DOD?</summary>
@@ -3728,7 +3736,7 @@ namespace VRDR
             }
         }
 
-             /// <summary>Was case Referred to Medical Examiner/Coroner?</summary>
+        /// <summary>Was case Referred to Medical Examiner/Coroner?</summary>
         [IJEField(172, 2108, 1, "Was case Referred to Medical Examiner/Coroner?", "REFERRED", 1)]
         public string REFERRED
         {
@@ -3778,7 +3786,8 @@ namespace VRDR
             get
             {
                 var ret = record.TransportationRoleHelper;
-                if(Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(ret)){
+                if (Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(ret))
+                {
                     return Get_MappingFHIRToIJE(Mappings.TransportationIncidentRole.FHIRToIJE, "TransportationRole", "TRANSPRT");
                 }
                 else
@@ -3788,7 +3797,8 @@ namespace VRDR
             }
             set
             {
-                if(Mappings.TransportationIncidentRole.IJEToFHIR.ContainsKey(value.Split(' ')[0])){
+                if (Mappings.TransportationIncidentRole.IJEToFHIR.ContainsKey(value.Split(' ')[0]))
+                {
                     Set_MappingIJEToFHIR(Mappings.TransportationIncidentRole.IJEToFHIR, "TRANSPRT", "TransportationRole", value.Trim());
                 }
                 else
@@ -3887,7 +3897,7 @@ namespace VRDR
         [IJEField(181, 2505, 17, "Place of injury. Longitude", "LONG_I", 1)]
         public string LONG_I
         {
-get
+            get
             {
                 return LeftJustified_Get("LONG_I", "InjuryLocationLongitude");
             }
@@ -3897,7 +3907,7 @@ get
                 {
                     LeftJustified_Set("LONG_I", "InjuryLocationLongitude", value);
                 }
-             }
+            }
         }
 
         /// <summary>Place of injury. Latitude</summary>
@@ -3914,7 +3924,7 @@ get
                 {
                     LeftJustified_Set("LAT_I", "InjuryLocationLatitude", value);
                 }
-             }
+            }
         }
 
         /// <summary>Old NCHS education code if collected - receiving state will recode as they prefer</summary>
@@ -3952,7 +3962,8 @@ get
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(record.COD1A)) {
+                if (!String.IsNullOrWhiteSpace(record.COD1A))
+                {
                     return record.COD1A.Trim();
                 }
                 return "";
@@ -3972,7 +3983,8 @@ get
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(record.INTERVAL1A)) {
+                if (!String.IsNullOrWhiteSpace(record.INTERVAL1A))
+                {
                     return record.INTERVAL1A.Trim();
                 }
                 return "";
@@ -3992,7 +4004,8 @@ get
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(record.COD1B)) {
+                if (!String.IsNullOrWhiteSpace(record.COD1B))
+                {
                     return record.COD1B.Trim();
                 }
                 return "";
@@ -4012,7 +4025,8 @@ get
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(record.INTERVAL1B)) {
+                if (!String.IsNullOrWhiteSpace(record.INTERVAL1B))
+                {
                     return record.INTERVAL1B.Trim();
                 }
                 return "";
@@ -4032,7 +4046,8 @@ get
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(record.COD1C)) {
+                if (!String.IsNullOrWhiteSpace(record.COD1C))
+                {
                     return record.COD1C.Trim();
                 }
                 return "";
@@ -4052,7 +4067,8 @@ get
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(record.INTERVAL1C)) {
+                if (!String.IsNullOrWhiteSpace(record.INTERVAL1C))
+                {
                     return record.INTERVAL1C.Trim();
                 }
                 return "";
@@ -4072,7 +4088,8 @@ get
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(record.COD1D)) {
+                if (!String.IsNullOrWhiteSpace(record.COD1D))
+                {
                     return record.COD1D.Trim();
                 }
                 return "";
@@ -4092,7 +4109,8 @@ get
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(record.INTERVAL1D)) {
+                if (!String.IsNullOrWhiteSpace(record.INTERVAL1D))
+                {
                     return record.INTERVAL1D.Trim();
                 }
                 return "";
@@ -4223,7 +4241,7 @@ get
         /// <summary>Spouse's Suffix</summary>
         [IJEField(198, 3475, 10, "Spouse's Suffix", "SPOUSESUFFIX", 1)]
         public string SPOUSESUFFIX
-         {
+        {
             get
             {
                 return LeftJustified_Get("SPOUSESUFFIX", "SpouseSuffix");
@@ -4423,7 +4441,7 @@ get
         [IJEField(211, 3756, 10, "Funeral Facility - Post Directional", "FUNPOSTDIR", 1)]
         public string FUNPOSTDIR
         {
-           get
+            get
             {
                 return Dictionary_Geo_Get("FUNPOSTDIR", "FuneralHomeAddress", "address", "postdir", true);
             }
@@ -4440,7 +4458,7 @@ get
         [IJEField(212, 3766, 7, "Funeral Facility - Unit or apt number", "FUNUNITNUM", 1)]
         public string FUNUNITNUM
         {
-          get
+            get
             {
                 return Dictionary_Geo_Get("FUNUNITNUM", "FuneralHomeAddress", "address", "unitnum", true);
             }
@@ -4724,7 +4742,7 @@ get
         [IJEField(228, 4120, 10, "Certifier - Post Directional", "CERTPOSTDIR", 1)]
         public string CERTPOSTDIR
         {
-           get
+            get
             {
                 return Dictionary_Geo_Get("CERTPOSTDIR", "CertifierAddress", "address", "postdir", true);
             }
@@ -4743,7 +4761,7 @@ get
         [IJEField(229, 4130, 7, "Certifier - Unit or apt number", "CERTUNITNUM", 1)]
         public string CERTUNITNUM
         {
-           get
+            get
             {
                 return Dictionary_Geo_Get("CERTUNITNUM", "CertifierAddress", "address", "unitnum", true);
             }

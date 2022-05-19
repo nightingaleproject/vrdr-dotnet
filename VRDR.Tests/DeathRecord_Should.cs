@@ -543,7 +543,7 @@ namespace VRDR.Tests
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["system"]);
             Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["code"]);
             Assert.Equal("Accidental death", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["display"]);
-            Assert.Equal(ValueSets.MannerOfDeath.Natural_Death , ((DeathRecord)JSONRecords[1]).MannerOfDeathTypeHelper);
+            Assert.Equal(ValueSets.MannerOfDeath.Natural_Death, ((DeathRecord)JSONRecords[1]).MannerOfDeathTypeHelper);
         }
 
         [Fact]
@@ -557,11 +557,11 @@ namespace VRDR.Tests
 
         [Fact]
         public void Get_CertifierGivenNames()
-        {;
+        {
             string[] cnamesjson1 = ((DeathRecord)JSONRecords[2]).CertifierGivenNames;
-            Assert.NotNull (cnamesjson1);
-            Assert.Equal(1, cnamesjson1.Length);
-            Assert.Equal("Jim", cnamesjson1[0]);
+            Assert.Equal("Jim", cnamesjson1[0]); // This works...
+            Assert.Equal(1, cnamesjson1.Length); // This works
+            Assert.Single("Jim", cnamesjson1); // This should work!   Complains that element is empty
             string[] cnamesjson = ((DeathRecord)JSONRecords[0]).CertifierGivenNames;
             Assert.Equal("Doctor", cnamesjson[0]);
             Assert.Equal("Middle", cnamesjson[1]);
@@ -1032,8 +1032,7 @@ namespace VRDR.Tests
             Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).GivenNames[1]);
             Assert.Equal("Madelyn", ((DeathRecord)XMLRecords[0]).GivenNames[0]);
             Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).GivenNames[1]);
-            Assert.Equal("Madelyn", ((DeathRecord)JSONRecords[2]).GivenNames[0]);
-            Assert.Equal(1, ((DeathRecord)JSONRecords[2]).GivenNames.Length);
+            Assert.Single("Madelyn", ((DeathRecord)JSONRecords[2]).GivenNames);
         }
 
         [Fact]
@@ -2841,12 +2840,12 @@ namespace VRDR.Tests
         {
             Assert.Null(((DeathRecord)JSONRecords[1]).DateOfDeath);
             Assert.Null(((DeathRecord)JSONRecords[1]).DeathDay);
-            Assert.Equal((uint)2020,(((DeathRecord)JSONRecords[1]).DeathYear));
+            Assert.Equal((uint)2020, (((DeathRecord)JSONRecords[1]).DeathYear));
             Assert.Equal("2020-11-12T00:00:00", ((DeathRecord)JSONRecords[2]).DateOfDeath);
-            Assert.Equal((uint)2020,(((DeathRecord)JSONRecords[2]).DeathYear));
-            Assert.Null( ((DeathRecord)JSONRecords[2]).DeathTime);
+            Assert.Equal((uint)2020, (((DeathRecord)JSONRecords[2]).DeathYear));
+            Assert.Null(((DeathRecord)JSONRecords[2]).DeathTime);
             Assert.Equal("2019-02-19T16:48:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
-            Assert.Equal((uint)2019,(((DeathRecord)JSONRecords[0]).DeathYear));
+            Assert.Equal((uint)2019, (((DeathRecord)JSONRecords[0]).DeathYear));
         }
 
         [Fact]
@@ -2872,13 +2871,13 @@ namespace VRDR.Tests
             SetterDeathRecord.DeathMonth = 5;
             SetterDeathRecord.DeathDay = null;
             SetterDeathRecord.DeathTime = "10:00:00";
-            IJEMortality ije1 = new IJEMortality(SetterDeathRecord,false);
+            IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
             Assert.Equal("1000", ije1.TOD);
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Equal(2021, (int)dr2.DeathYear);
             Assert.Equal(5, (int)dr2.DeathMonth);
             Assert.Null(dr2.DeathDay);
-            Assert.Equal("10:00:00",dr2.DeathTime);
+            Assert.Equal("10:00:00", dr2.DeathTime);
         }
 
         [Fact]

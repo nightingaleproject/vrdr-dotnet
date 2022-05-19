@@ -3025,7 +3025,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.Mexican,  NvssEthnicity.Mexican, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Mexican, NvssEthnicity.Mexican, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3101,7 +3101,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.PuertoRican,  NvssEthnicity.PuertoRican, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.PuertoRican, NvssEthnicity.PuertoRican, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3177,7 +3177,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.Cuban,  NvssEthnicity.Cuban,null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Cuban, NvssEthnicity.Cuban, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3251,9 +3251,9 @@ namespace VRDR
                 {
                     CreateInputRaceEthnicityObs();
                 }
-                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Other);;
+                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Other); ;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.Other,  NvssEthnicity.Other,null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Other, NvssEthnicity.Other, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3323,7 +3323,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.Literal,  NvssEthnicity.Literal,null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Literal, NvssEthnicity.Literal, null);
                 component.Value = new FhirString(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3399,7 +3399,7 @@ namespace VRDR
                 {
                     InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == element.Item1);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.ComponentCode,   element.Item1,  element.Item1,null);
+                    component.Code = new CodeableConcept(CodeSystems.ComponentCode, element.Item1, element.Item1, null);
                     if (booleanRaceCodes.Contains(element.Item1))
                     {
                         if (element.Item2 == "Y")
@@ -3464,7 +3464,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.MissingValueReason);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssRace.MissingValueReason,  NvssRace.MissingValueReason, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssRace.MissingValueReason, NvssRace.MissingValueReason, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -10172,16 +10172,18 @@ namespace VRDR
             }
 
             // Grab Certifier
-            if ( Composition == null || (Composition.Attester == null || Composition.Attester.FirstOrDefault() == null || Composition.Attester.First().Party == null || String.IsNullOrWhiteSpace(Composition.Attester.First().Party.Reference)))
+            if (Composition == null || (Composition.Attester == null || Composition.Attester.FirstOrDefault() == null || Composition.Attester.First().Party == null || String.IsNullOrWhiteSpace(Composition.Attester.First().Party.Reference)))
             {
-                if(fullRecord)
+                if (fullRecord)
                 {
                     throw new System.ArgumentException("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).");
                 }
-            }else{  // There is an attester
+            }
+            else
+            {  // There is an attester
                 var attesterID = (Composition.Attester.First().Party.Reference).Split('/').Last(); // Practititioner/Certifier-Example1 --> Certifier-Example1.  Trims the type off of the path
                 var practitionerEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference ||
-                (entry.Resource.Id != null && entry.Resource.Id == attesterID )));
+                (entry.Resource.Id != null && entry.Resource.Id == attesterID)));
                 if (practitionerEntry != null)
                 {
                     Certifier = (Practitioner)practitionerEntry.Resource;

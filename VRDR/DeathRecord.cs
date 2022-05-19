@@ -6404,42 +6404,35 @@ namespace VRDR
                 if (AgeAtDeathObs?.Value != null)
                 {
                     Dictionary<string, string> age = new Dictionary<string, string>();
-                    age.Add("value", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));
-                    age.Add("unit", ((Quantity)AgeAtDeathObs.Value).Unit);
-                    age.Add("code", ((Quantity)AgeAtDeathObs.Value).Code);
-                    age.Add("system", ((Quantity)AgeAtDeathObs.Value).System);
+                    Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                    age.Add("value", quantity.Value == null ? "" : Convert.ToString(quantity.Value));
+                    age.Add("unit", quantity.Unit == null ? "" : quantity.Unit);
+                    age.Add("code", quantity.Code == null ? "" : quantity.Code);
+                    age.Add("system", quantity.System == null ? "" : quantity.System);
                     return age;
                 }
                 return new Dictionary<string, string>() { { "value", "" }, { "unit", "" }, { "code", "" }, { "system", "" } };
             }
             set
             {
-
                 if (AgeAtDeathObs == null)
                 {
                     CreateAgeAtDeathObs();
                 }
                 Quantity quantity = (Quantity)AgeAtDeathObs.Value;
                 string extractedValue = GetValue(value, "value");
-                if (!String.IsNullOrWhiteSpace(extractedValue))
+                if (extractedValue != null)
                 {
                     quantity.Value = Convert.ToDecimal(extractedValue);
                 }
-                string extractedUnit = GetValue(value, "unit");
-                if (!String.IsNullOrWhiteSpace(extractedUnit))
+                else
                 {
-                    quantity.Unit = extractedUnit;
+                    quantity.Value = null;
                 }
-                string extractedCode = GetValue(value, "code");
-                if (!String.IsNullOrWhiteSpace(extractedCode))
-                {
-                    quantity.Code = extractedCode;
-                }
-                string extractedSystem = GetValue(value, "system");
-                if (!String.IsNullOrWhiteSpace(extractedSystem))
-                {
-                    quantity.System = extractedSystem;
-                }
+                // Set Unit, Code, and System to either the string if present or null otherwise
+                quantity.Unit = GetValue(value, "unit");
+                quantity.Code = GetValue(value, "code");
+                quantity.System = GetValue(value, "system");
             }
         }
 
@@ -10910,12 +10903,14 @@ namespace VRDR
             }
         }
 
-        /// <summary>Get a value from a Dictionary, but return null if the key doesn't exist.</summary>
+        /// <summary>Get a value from a Dictionary, but return null if the key doesn't exist or the value is an empty string.</summary>
         private static string GetValue(Dictionary<string, string> dict, string key)
         {
-            string value;
-            dict.TryGetValue(key, out value);
-            return value;
+            if (dict != null && dict.ContainsKey(key) && !String.IsNullOrWhiteSpace(dict[key]))
+            {
+                return dict[key];
+            }
+            return null;
         }
 
         // /// <summary>Check to make sure the given profile contains the given resource.</summary>

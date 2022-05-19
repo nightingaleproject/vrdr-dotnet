@@ -559,9 +559,8 @@ namespace VRDR.Tests
         public void Get_CertifierGivenNames()
         {
             string[] cnamesjson1 = ((DeathRecord)JSONRecords[2]).CertifierGivenNames;
-            Assert.Equal("Jim", cnamesjson1[0]); // This works...
-            Assert.Equal(1, cnamesjson1.Length); // This works
-            Assert.Single("Jim", cnamesjson1); // This should work!   Complains that element is empty
+            Assert.Equal("Jim", cnamesjson1[0]);
+            Assert.Single(cnamesjson1);
             string[] cnamesjson = ((DeathRecord)JSONRecords[0]).CertifierGivenNames;
             Assert.Equal("Doctor", cnamesjson[0]);
             Assert.Equal("Middle", cnamesjson[1]);
@@ -1032,7 +1031,8 @@ namespace VRDR.Tests
             Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).GivenNames[1]);
             Assert.Equal("Madelyn", ((DeathRecord)XMLRecords[0]).GivenNames[0]);
             Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).GivenNames[1]);
-            Assert.Single("Madelyn", ((DeathRecord)JSONRecords[2]).GivenNames);
+            Assert.Equal("Madelyn", ((DeathRecord)JSONRecords[2]).GivenNames[0]);
+            Assert.Single(((DeathRecord)JSONRecords[2]).GivenNames);
         }
 
         [Fact]

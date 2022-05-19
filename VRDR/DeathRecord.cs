@@ -10429,7 +10429,10 @@ namespace VRDR
                     }
                 }
             }
-            UpdateDeathRecordIdentifier();
+            if(fullRecord)
+            {
+                UpdateDeathRecordIdentifier();
+            }
         }
 
         /// <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>

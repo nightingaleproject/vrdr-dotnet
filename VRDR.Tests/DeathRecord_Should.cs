@@ -2234,60 +2234,30 @@ namespace VRDR.Tests
         public void Set_AgeAtDeath()
         {
             Dictionary<string, string> aad = new Dictionary<string, string>();
-            aad.Add("type", "a");
-            aad.Add("units", "79");
+            aad.Add("unit", "a");
+            aad.Add("value", "79");
             SetterDeathRecord.AgeAtDeath = aad;
-            Assert.Equal("a", SetterDeathRecord.AgeAtDeath["type"]);
-            Assert.Equal("79", SetterDeathRecord.AgeAtDeath["units"]);
+            Assert.Equal("a", SetterDeathRecord.AgeAtDeath["unit"]);
+            Assert.Equal("79", SetterDeathRecord.AgeAtDeath["value"]);
         }
 
         [Fact]
         public void Get_AgeAtDeath()
         {
-            Assert.Equal("a", ((DeathRecord)JSONRecords[1]).AgeAtDeath["type"]);
-            Assert.Equal("42", ((DeathRecord)JSONRecords[1]).AgeAtDeath["units"]);
-            Assert.False(((DeathRecord)JSONRecords[1]).AgeAtDeathDataAbsentBoolean);
+            Assert.Equal("a", ((DeathRecord)JSONRecords[1]).AgeAtDeath["unit"]);
+            Assert.Equal("42", ((DeathRecord)JSONRecords[1]).AgeAtDeath["value"]);
             DeathRecord dr1 = (DeathRecord)JSONRecords[1];
             DeathRecord dr2 = new DeathRecord(dr1.ToJSON());
-            Assert.Equal("a", (dr2.AgeAtDeath["type"]));
-            Assert.Equal("42", (dr2.AgeAtDeath["units"]));
-            Assert.False(dr2.AgeAtDeathDataAbsentBoolean);
+            Assert.Equal("a", (dr2.AgeAtDeath["unit"]));
+            Assert.Equal("42", (dr2.AgeAtDeath["value"]));
             Dictionary<string, string> aad = new Dictionary<string, string>();
-            aad.Add("type", "a");
-            aad.Add("units", "79");
+            aad.Add("unit", "a");
+            aad.Add("value", "79");
             dr2.AgeAtDeath = aad;
-            Assert.Equal("a", (dr2.AgeAtDeath["type"]));
-            Assert.Equal("79", (dr2.AgeAtDeath["units"]));
-            Assert.False(dr2.AgeAtDeathDataAbsentBoolean);
-            Assert.Equal("a", ((DeathRecord)XMLRecords[0]).AgeAtDeath["type"]);
-            Assert.Equal("79", ((DeathRecord)XMLRecords[0]).AgeAtDeath["units"]);
-            Assert.False(((DeathRecord)XMLRecords[0]).AgeAtDeathDataAbsentBoolean);
-        }
-
-        [Fact]
-        public void Set_AgeAtDeath_Data_Absent()
-        {
-            Dictionary<string, string> aad1 = new Dictionary<string, string>();
-            aad1.Add("type", "");
-            aad1.Add("units", "");
-            SetterDeathRecord.AgeAtDeath = aad1;
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["type"]);
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["units"]);
-
-            Dictionary<string, string> aad2 = new Dictionary<string, string>();
-            SetterDeathRecord.AgeAtDeathDataAbsentBoolean = true;
-            SetterDeathRecord.AgeAtDeath = aad2;
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["type"]);
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["units"]);
-            Assert.True(SetterDeathRecord.AgeAtDeathDataAbsentBoolean);
-        }
-
-        [Fact]
-        public void Get_AgeAtDeath_Data_Absent()
-        {
-            DeathRecord json = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));
-            Assert.Equal("", json.AgeAtDeath["type"]);
-            Assert.Equal("", json.AgeAtDeath["units"]);
+            Assert.Equal("a", (dr2.AgeAtDeath["unit"]));
+            Assert.Equal("79", (dr2.AgeAtDeath["value"]));
+            Assert.Equal("a", ((DeathRecord)XMLRecords[0]).AgeAtDeath["unit"]);
+            Assert.Equal("79", ((DeathRecord)XMLRecords[0]).AgeAtDeath["value"]);
         }
 
         [Fact]
@@ -2308,9 +2278,8 @@ namespace VRDR.Tests
             Assert.Equal("999", ije.AGE);
             Assert.Equal("9", ije.AGETYPE);
             DeathRecord dr2 = ije.ToDeathRecord();
-            Assert.Equal("", dr2.AgeAtDeath["type"]);
-            Assert.Equal("", dr2.AgeAtDeath["units"]);
-            Assert.True(dr2.AgeAtDeathDataAbsentBoolean);
+            Assert.Equal("", dr2.AgeAtDeath["unit"]);
+            Assert.Equal("", dr2.AgeAtDeath["value"]);
         }
 
         [Fact]

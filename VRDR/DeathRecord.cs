@@ -1080,14 +1080,20 @@ namespace VRDR
         }
 
         /// <summary>Filing Format.</summary>
-        /// <value>Source flag: paper/electronic.</value>
-        /// <example>
+        /// <value>Source flag: paper/electronic.
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>        /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.FilingFormat = ValueSets.FilingFormat.electronic;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Filed method: {ExampleDeathRecord.FilingFormat}");</para>
         /// </example>
         [Property("Filing Format", Property.Types.Dictionary, "Death Certification", "Filing format.", true, IGURL.DeathCertificate, true, 13)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat')", "")]
         public Dictionary<string, string> FilingFormat
         {
@@ -1125,7 +1131,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.FilingFormatHelper}");</para>
         /// </example>
-        [Property("Filing Format Helper", Property.Types.String, "Death Certification", "Filing Format.", true, IGURL.DeathCertificate, true, 4)]
+        [Property("Filing Format Helper", Property.Types.String, "Death Certification", "Filing Format.", true, IGURL.DeathCertificate, true, 13)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat')", "")]
         public string FilingFormatHelper
@@ -1214,6 +1220,9 @@ namespace VRDR
         /// <para>Console.WriteLine($"Filed method: {ExampleDeathRecord.ReplaceStatus}");</para>
         /// </example>
         [Property("Replace Status", Property.Types.Dictionary, "Death Certification", "Replace status.", true, IGURL.DeathCertificate, true, 13)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
         public Dictionary<string, string> ReplaceStatus
         {
@@ -2576,6 +2585,9 @@ namespace VRDR
         /// <para>Console.WriteLine($"Sex at Time of Death: {ExampleDeathRecord.SexAtDeath}");</para>
         /// </example>
         [Property("Sex At Death", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Sex at Death.", true, IGURL.Decedent, true, 12)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath')", "")]
         public Dictionary<string, string> SexAtDeath
         {
@@ -3441,6 +3453,9 @@ namespace VRDR
         /// <para>Console.WriteLine($"Missing Race: {ExampleDeathRecord.RaceMissingValueReason['display']}");</para>
         /// </example>
         [Property("RaceMissingValueReason", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, IGURL.InputRaceAndEthnicity, true, 38)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='MissingValueReason')", "")]
         public Dictionary<string, string> RaceMissingValueReason
         {
@@ -6066,7 +6081,9 @@ namespace VRDR
             }
             set
             {
-                // If the jurisdiction is YC (New York City) set the addressJurisdiction to YC and the addressState to NY, otherwise just set the addressState
+                // If the jurisdiction is YC (New York City) set the addressJurisdiction to YC and the addressState to NY, otherwise set both to the same;
+                // setting the addressJurisdiction is technically optional but the way we use DeathLocationAddress to constantly read the existing values
+                // when adding new values means that having both set correctly is important for consistency
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary<string, string> currentAddress = DeathLocationAddress;
@@ -6077,6 +6094,7 @@ namespace VRDR
                     }
                     else
                     {
+                        currentAddress["addressJurisdiction"] = value;
                         currentAddress["addressState"] = value;
                     }
                     DeathLocationAddress = currentAddress;
@@ -9888,6 +9906,9 @@ namespace VRDR
         /// <para>Console.WriteLine($"Intentional Reject {ExampleDeathRecord.IntentionalReject}");</para>
         /// </example>
         [Property("IntentionalReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public Dictionary<string, string> IntentionalReject
         {
@@ -9955,6 +9976,9 @@ namespace VRDR
         /// </example>
 
         [Property("AcmeSystemReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public Dictionary<string, string> AcmeSystemReject
         {
@@ -10022,6 +10046,9 @@ namespace VRDR
         /// <para>Console.WriteLine($"Transax Conversion Code: {ExampleDeathRecord.TransaxConversion}");</para>
         /// </example>
         [Property("TransaxConversion", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public Dictionary<string, string> TransaxConversion
         {

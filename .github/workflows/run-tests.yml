@@ -41,13 +41,13 @@ jobs:
           echo "* dotnet test VRDR.Tests/DeathRecord.Tests.csproj"
           dotnet test VRDR.Tests/DeathRecord.Tests.csproj
           echo "* dotnet run --project VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json"
-          dotnet run --project VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json
+          dotnet run --project VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json > /dev/null
           echo "* dotnet run --project VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run --project VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml
+          dotnet run --project VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml > /dev/null
           echo "* dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml
+          dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml > /dev/null
           echo "* dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.json"
-          dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.json
+          dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.json > /dev/null
           echo "* ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml"
           ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml
           echo "* ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json"

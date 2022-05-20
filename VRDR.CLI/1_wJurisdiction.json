@@ -7,7 +7,13 @@
     ]
   },
   "identifier": {
-    "value": "2018MA000001"
+    "value": "2018MA000001",
+    "extension": [
+      {
+        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/CertificateNumber",
+        "valueString": "000001"
+      }
+    ]
   },
   "type": "document",
   "entry": [

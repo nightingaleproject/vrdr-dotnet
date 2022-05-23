@@ -59,8 +59,9 @@ namespace VRDR
                 Header.Focus.Clear();
                 if (deathRecord != null)
                 {
-                    MessageBundle.AddResourceEntry(deathRecord.GetBundle(), "urn:uuid:" + deathRecord.GetBundle().Id);
-                    Header.Focus.Add(new ResourceReference("urn:uuid:" + deathRecord.GetBundle().Id));
+                    Bundle bundle = deathRecord.GetBundle();
+                    MessageBundle.AddResourceEntry(bundle, "urn:uuid:" + bundle.Id);
+                    Header.Focus.Add(new ResourceReference("urn:uuid:" + bundle.Id));
                 }
             }
         }

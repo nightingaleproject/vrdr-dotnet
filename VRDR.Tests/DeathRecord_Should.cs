@@ -2135,6 +2135,10 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.DispositionLocationName = "Bedford Cemetery";
             Assert.Equal("Bedford Cemetery", SetterDeathRecord.DispositionLocationName);
+            SetterDeathRecord.DispositionLocationName = "";
+            Assert.Null(SetterDeathRecord.DispositionLocationName);
+            SetterDeathRecord.DispositionLocationName = null;
+            Assert.Null(SetterDeathRecord.DispositionLocationName);
         }
 
         [Fact]
@@ -2561,6 +2565,10 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.InjuryLocationName = "Example Injury Location Name";
             Assert.Equal("Example Injury Location Name", SetterDeathRecord.InjuryLocationName);
+            SetterDeathRecord.InjuryLocationName = "";
+            Assert.Null(SetterDeathRecord.InjuryLocationName);
+            SetterDeathRecord.InjuryLocationName = null;
+            Assert.Null(SetterDeathRecord.InjuryLocationName);
         }
 
         [Fact]
@@ -2780,6 +2788,10 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.DeathLocationName = "Example Death Location Name";
             Assert.Equal("Example Death Location Name", SetterDeathRecord.DeathLocationName);
+            SetterDeathRecord.DeathLocationName = "";
+            Assert.Null(SetterDeathRecord.DeathLocationName);
+            SetterDeathRecord.DeathLocationName = null;
+            Assert.Null(SetterDeathRecord.DeathLocationName);
         }
 
         [Fact]
@@ -3277,6 +3289,14 @@ namespace VRDR.Tests
             Assert.Equal("9", ije2.INACT);
         }
 
+        [Fact]
+        public void Get_BlankLocationNames()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BlankLocationNames.json")));
+            Assert.Null(dr.DeathLocationName);
+            Assert.Null(dr.InjuryLocationName);
+            Assert.Null(dr.DispositionLocationName);
+        }
 
         private string FixturePath(string filePath)
         {

@@ -21,6 +21,9 @@ namespace VRDR
     /// </summary>
     public class DeathRecord
     {
+        /// <summary>String to represent a blank value when an empty string is not allowed</summary>
+        public static string BlankPlaceholder = "BLANK";
+
         /// <summary>Mortality data for code translations.</summary>
         private MortalityData MortalityData = MortalityData.Instance;
 
@@ -303,6 +306,7 @@ namespace VRDR
             DispositionLocation.Meta = new Meta();
             string[] dispositionlocation_profile = { ProfileURL.DispositionLocation };
             DispositionLocation.Meta.Profile = dispositionlocation_profile;
+            DispositionLocation.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
             Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
             DispositionLocation.PhysicalType = new CodeableConcept();
             DispositionLocation.PhysicalType.Coding.Add(pt);
@@ -449,6 +453,7 @@ namespace VRDR
             InjuryLocationLoc.Meta = new Meta();
             string[] injurylocation_profile = { ProfileURL.InjuryLocation };
             InjuryLocationLoc.Meta.Profile = injurylocation_profile;
+            InjuryLocationLoc.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
             InjuryLocationLoc.Address = DictToAddress(EmptyAddrDict());
             InjuryLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "injury", "injury location", null));
             AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
@@ -485,7 +490,7 @@ namespace VRDR
             string[] deathlocation_profile = { ProfileURL.DeathLocation };
             DeathLocationLoc.Meta.Profile = deathlocation_profile;
             DeathLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "death", "death location", null));
-            DeathLocationLoc.Name = "";
+            DeathLocationLoc.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
             AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
 
@@ -5138,7 +5143,7 @@ namespace VRDR
         {
             get
             {
-                if (DispositionLocation != null)
+                if (DispositionLocation != null && DispositionLocation.Name != null && DispositionLocation.Name != DeathRecord.BlankPlaceholder)
                 {
                     return DispositionLocation.Name;
                 }
@@ -5150,8 +5155,14 @@ namespace VRDR
                 {
                     CreateDispositionLocation();
                 }
-
-                DispositionLocation.Name = value;
+                if (value != null && !String.IsNullOrWhiteSpace(value))
+                {
+                    DispositionLocation.Name = value;
+                }
+                else
+                {
+                    DispositionLocation.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
+                }
             }
         }
 
@@ -6152,7 +6163,7 @@ namespace VRDR
         {
             get
             {
-                if (DeathLocationLoc != null)
+                if (DeathLocationLoc != null  && DeathLocationLoc.Name != null && DeathLocationLoc.Name != DeathRecord.BlankPlaceholder)
                 {
                     return DeathLocationLoc.Name;
                 }
@@ -6164,9 +6175,14 @@ namespace VRDR
                 {
                     CreateDeathLocation();
                 }
-
-                DeathLocationLoc.Name = value;
-
+                if (value != null && !String.IsNullOrWhiteSpace(value))
+                {
+                    DeathLocationLoc.Name = value;
+                }
+                else
+                {
+                    DeathLocationLoc.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
+                }
             }
         }
 
@@ -6890,7 +6906,7 @@ namespace VRDR
         {
             get
             {
-                if (InjuryLocationLoc != null)
+                if (InjuryLocationLoc != null && InjuryLocationLoc.Name != null && InjuryLocationLoc.Name != DeathRecord.BlankPlaceholder)
                 {
                     return InjuryLocationLoc.Name;
                 }
@@ -6903,7 +6919,14 @@ namespace VRDR
                     CreateInjuryLocationLoc();
                     // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                 }
-                InjuryLocationLoc.Name = value;
+                if (value != null && !String.IsNullOrWhiteSpace(value))
+                {
+                    InjuryLocationLoc.Name = value;
+                }
+                else
+                {
+                    InjuryLocationLoc.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
+                }
             }
         }
 

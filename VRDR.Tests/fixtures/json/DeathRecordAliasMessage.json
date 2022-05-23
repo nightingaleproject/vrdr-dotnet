@@ -1,67 +1,93 @@
 {
   "resourceType": "Bundle",
-  "id": "af2f89f8-940a-417f-9033-dc5e15e3280a",
+  "id": "DeathRecordAliasMessage-Example1",
+  "meta": {
+    "profile": [
+      "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-DeathRecordAliasMessage"
+    ]
+  },
   "type": "message",
-  "timestamp": "2022-05-05T17:58:03.199949-04:00",
+  "timestamp": "2021-05-20T00:00:00Z",
   "entry": [
     {
-      "fullUrl": "urn:uuid:48bb70bd-84b9-4341-9626-9e72fd38f47c",
       "resource": {
         "resourceType": "MessageHeader",
-        "id": "48bb70bd-84b9-4341-9626-9e72fd38f47c",
+        "id": "AliasHeader-Example1",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-AliasHeader"
+          ]
+        },
         "eventUri": "http://nchs.cdc.gov/vrdr_alias",
         "destination": [
           {
             "endpoint": "http://nchs.cdc.gov/vrdr_submission"
           }
         ],
+        "source": {
+          "endpoint": "https://sos.nh.gov/vitalrecords"
+        },
         "focus": [
           {
-            "reference": "urn:uuid:45be8c25-c2b2-4a9a-aae3-bc01cf4e5873"
+            "reference": "Parameters/AliasParameters-Example1"
           }
         ]
-      }
+      },
+      "fullUrl": "http://www.example.org/fhir/Header/AliasHeader-Example1"
     },
     {
-      "fullUrl": "urn:uuid:45be8c25-c2b2-4a9a-aae3-bc01cf4e5873",
       "resource": {
         "resourceType": "Parameters",
-        "id": "45be8c25-c2b2-4a9a-aae3-bc01cf4e5873",
+        "id": "AliasParameters-Example1",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-AliasParameters"
+          ]
+        },
         "parameter": [
           {
+            "name": "jurisdiction_id",
+            "valueString": "NH"
+          },
+          {
             "name": "cert_no",
-            "valueUnsignedInt": 12
+            "valueUnsignedInt": 123456
+          },
+          {
+            "name": "death_year",
+            "valueUnsignedInt": 2018
           },
           {
             "name": "state_auxiliary_id",
-            "valueString": "SAI"
-          },
-          {
-            "name": "alias_decedent_first_name",
-            "valueString": "DecedentFirstName"
-          },
-          {
-            "name": "alias_decedent_last_name",
-            "valueString": "DecedentLastName"
-          },
-          {
-            "name": "alias_decedent_middle_name",
-            "valueString": "DecedentMiddleName"
-          },
-          {
-            "name": "alias_decedent_name_suffix",
-            "valueString": "DecedentNameSuffix"
+            "valueString": "abcdef10"
           },
           {
             "name": "alias_father_surname",
-            "valueString": "FatherSurname"
+            "valueString": "Jingleheimer"
+          },
+          {
+            "name": "alias_decedent_first_name",
+            "valueString": "John"
+          },
+          {
+            "name": "alias_decedent_middle_name",
+            "valueString": "Jacob"
+          },
+          {
+            "name": "alias_decedent_last_name",
+            "valueString": "Schmidt"
+          },
+          {
+            "name": "alias_decedent_name_suffix",
+            "valueString": "III"
           },
           {
             "name": "alias_social_security_number",
-            "valueString": "SocialSecurityNumber"
+            "valueString": "123-45-6789"
           }
         ]
-      }
+      },
+      "fullUrl": "http://www.example.org/fhir/Parameters/AliasParameters-Example1"
     }
   ]
 }

@@ -137,10 +137,8 @@ namespace VRDR.Tests
         [Fact]
         public void ParseDeathLocationJurisdictionIJEtoJson()
         {
-            DeathRecord dxml = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
-            DeathRecord djson = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
-            IJEMortality ijefromjson = new IJEMortality(djson);
-            IJEMortality ijefromxml = new IJEMortality(dxml);
+            IJEMortality ijefromjson = new IJEMortality(DeathRecord1_XML);
+            IJEMortality ijefromxml = new IJEMortality(DeathRecord1_JSON);
             DeathRecord fromijefromjson = ijefromjson.ToDeathRecord();
             DeathRecord fromijefromxml = ijefromjson.ToDeathRecord();
 
@@ -392,8 +390,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_RegisteredTime_ConvertIJE()
         {
-            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
-            IJEMortality ije1 = new IJEMortality(dr);
+            IJEMortality ije1 = new IJEMortality(DeathRecord1_JSON);
             Assert.Equal("2019", ije1.DOR_YR);
             Assert.Equal("02", ije1.DOR_MO);
             Assert.Equal("01", ije1.DOR_DY);
@@ -2639,8 +2636,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_InjuryDate_Roundtrip()
         {
-            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
-            IJEMortality ije1 = new IJEMortality(dr);
+            IJEMortality ije1 = new IJEMortality(DeathRecord1_JSON);
             Assert.Equal("2018", ije1.DOI_YR);
             Assert.Equal("02", ije1.DOI_MO);
             Assert.Equal("19", ije1.DOI_DY);
@@ -2856,8 +2852,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DateOfDeath_Roundtrip()
         {
-            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
-            IJEMortality ije1 = new IJEMortality(dr);
+            IJEMortality ije1 = new IJEMortality(DeathRecord1_JSON);
             Assert.Equal("2019", ije1.DOD_YR);
             Assert.Equal("02", ije1.DOD_MO);
             Assert.Equal("19", ije1.DOD_DY);
@@ -2936,8 +2931,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SurgeryDate_Roundtrip()
         {
-            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
-            IJEMortality ije1 = new IJEMortality(dr);
+            IJEMortality ije1 = new IJEMortality(DeathRecord1_JSON);
             Assert.Equal("2017", ije1.SUR_YR);
             Assert.Equal("03", ije1.SUR_MO);
             Assert.Equal("18", ije1.SUR_DY);

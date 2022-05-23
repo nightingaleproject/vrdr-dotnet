@@ -297,7 +297,7 @@ namespace VRDR.Tests
         {
             Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, ((DeathRecord)JSONRecords[0]).DeathLocationTypeHelper);
             Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Hospital, ((DeathRecord)JSONRecords[2]).DeathLocationTypeHelper);
-            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Hospital, ((DeathRecord)JSONRecords[3]).DeathLocationTypeHelper);
+            Assert.Null(((DeathRecord)JSONRecords[3]).DeathLocationTypeHelper);
             Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, ((DeathRecord)XMLRecords[0]).DeathLocationTypeHelper);
         }
         [Fact]
@@ -2932,7 +2932,7 @@ namespace VRDR.Tests
         public void Get_DateOfDeathPronouncement()
         {
             Assert.Equal("2018-02-20T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeathPronouncement);
-            Assert.Equal("2018-02-20T16:48:06-05:00", ((DeathRecord)JSONRecords[1]).DateOfDeathPronouncement);
+            Assert.Equal("2020-11-13T16:39:40-05:00", ((DeathRecord)JSONRecords[1]).DateOfDeathPronouncement);
             Assert.Equal("2019-02-20T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeathPronouncement);
         }
 

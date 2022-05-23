@@ -322,6 +322,27 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateCauseOfDeathCodingResponseFromSubmissionBundle()
+        {
+            CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage((DeathRecord)JSONRecords[0]);
+            // Add cause of death coding
+            message.DeathRecord.AutomatedUnderlyingCOD = "A04.7";
+            // Add record axis codes
+            IList<(int, string, bool)> causeOfDeathRecordAxis = new List<(int, string, bool)>();
+            causeOfDeathRecordAxis.Add((1, "A41.9", false));
+            message.DeathRecord.RecordAxisCauseOfDeath = causeOfDeathRecordAxis;
+            // Add entity axis codes
+            IList<(int, int, string, bool)> causeOfDeathEntityAxis = new List<(int, int, string, bool)>();
+            causeOfDeathEntityAxis.Add((1, 1, "J18.9", false));
+            message.DeathRecord.EntityAxisCauseOfDeath = causeOfDeathEntityAxis;
+            // Make sure the codes are actually in there
+            string json = message.ToJson();
+            Assert.True(json.IndexOf("A04.7") > -1);
+            Assert.True(json.IndexOf("A41.9") > -1);
+            Assert.True(json.IndexOf("J18.9") > -1);
+        }
+
+        [Fact]
         public void CreateCauseOfDeathCodingUpdateFromJSON()
         {
             CauseOfDeathCodingUpdateMessage message = BaseMessage.Parse<CauseOfDeathCodingUpdateMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingUpdateMessage.json"));

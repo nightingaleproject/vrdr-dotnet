@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['element_0',['Element',['../class_v_r_d_r_1_1_f_h_i_r_path.html#ac337113ce657f9d4642018631f8f8fdc',1,'VRDR::FHIRPath']]],
-  ['emergingissues_1',['EmergingIssues',['../class_v_r_d_r_1_1_death_record.html#a4cf4422cf8b7974ffd5f4bac7f4e08d6',1,'VRDR::DeathRecord']]]
+  ['description_0',['Description',['../class_v_r_d_r_1_1_issue.html#aa4628712f9d1a0f6cbcae0e12e2939ee',1,'VRDR.Issue.Description()'],['../class_v_r_d_r_1_1_property.html#a0208d339ed7aae9f4396e0986463358a',1,'VRDR.Property.Description()'],['../class_v_r_d_r_1_1_property_param.html#a51bdc6c46a2e9d26d74c0542affc322d',1,'VRDR.PropertyParam.Description()']]]
 ];

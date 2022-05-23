@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jurisdictioncodes_0',['JurisdictionCodes',['../class_v_r_d_r_1_1_mortality_data.html#ab8917f0b69ae35f6a08e14b742deb9f8',1,'VRDR::MortalityData']]]
+  ['igurl_0',['IGUrl',['../class_v_r_d_r_1_1_property.html#aa8a0c7e020636f6be0174dabaa4be9be',1,'VRDR::Property']]]
 ];

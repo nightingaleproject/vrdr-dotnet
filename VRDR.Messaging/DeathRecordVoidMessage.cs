@@ -37,14 +37,14 @@ namespace VRDR
         {
             get
             {
-                return (uint?)Record?.GetSingleValue<PositiveInt>("block_count")?.Value;
+                return (uint?)Record?.GetSingleValue<UnsignedInt>("block_count")?.Value;
             }
             set
             {
                 Record.Remove("block_count");
                 if (value != null && value > 1)
                 {
-                    Record.Add("block_count", new PositiveInt((int)value));
+                    Record.Add("block_count", new UnsignedInt((int)value));
                 }
             }
         }

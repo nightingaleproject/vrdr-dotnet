@@ -1114,17 +1114,32 @@ namespace VRDR
         {
             get
             {
-                String fhirValue = Dictionary_Get("AGETYPE", "AgeAtDeath", "type");
-                String ijeValue;
-                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(fhirValue ?? "", out ijeValue); // null-coalesce to empty string to avoid NPE
+                // Pull unit from coded unit or, if that's not there, look in the text representation, else null-coalesce to empty string
+                string unit = Dictionary_Get("AGETYPE", "AgeAtDeath", "code") ?? Dictionary_Get("AGETYPE", "AgeAtDeath", "unit") ?? "";
+                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(unit, out string ijeValue);
                 return ijeValue ?? "9";
             }
             set
             {
-                String fhirValue;
-                if (!String.IsNullOrWhiteSpace(value) && Mappings.UnitsOfAge.IJEToFHIR.TryGetValue(value, out fhirValue))
+                // If we have an IJE value map it to FHIR and set the unit, code and system appropriately, otherwise set to unknown
+                if (!String.IsNullOrWhiteSpace(value) && Mappings.UnitsOfAge.IJEToFHIR.TryGetValue(value, out string fhirValue))
                 {
-                    Dictionary_Set("AGETYPE", "AgeAtDeath", "type", fhirValue);
+                    Dictionary_Set("AGETYPE", "AgeAtDeath", "unit", fhirValue);
+                    Dictionary_Set("AGETYPE", "AgeAtDeath", "code", fhirValue);
+                    if (fhirValue == ValueSets.UnitsOfAge.Unknown)
+                    {
+                        Dictionary_Set("AGETYPE", "AgeAtDeath", "system", CodeSystems.NullFlavor_HL7_V3);
+                    }
+                    else
+                    {
+                        Dictionary_Set("AGETYPE", "AgeAtDeath", "system", CodeSystems.UnitsOfMeasure);
+                    }
+                }
+                else
+                {
+                    Dictionary_Set("AGETYPE", "AgeAtDeath", "unit", ValueSets.UnitsOfAge.Unknown);
+                    Dictionary_Set("AGETYPE", "AgeAtDeath", "code", ValueSets.UnitsOfAge.Unknown);
+                    Dictionary_Set("AGETYPE", "AgeAtDeath", "system", CodeSystems.UnitsOfMeasure);
                 }
             }
         }
@@ -1138,23 +1153,16 @@ namespace VRDR
                 if ((record.AgeAtDeath != null) && this.AGETYPE != "9")
                 {
                     IJEField info = FieldInfo("AGE");
-                    return Truncate(record.AgeAtDeath["units"], info.Length).PadLeft(info.Length, '0');
+                    return Truncate(record.AgeAtDeath["value"], info.Length).PadLeft(info.Length, '0');
                 }
                 else
-                {  // record.AgeAtDeath["value"] is not defined
+                {
                     return "999";
                 }
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value) && value != "999")
-                {
-                    Dictionary_Set("AGE", "AgeAtDeath", "units", value.TrimStart('0'));
-                }
-                else
-                {
-                    record.AgeAtDeathDataAbsentBoolean = true;
-                }
+                Dictionary_Set("AGE", "AgeAtDeath", "value", value.TrimStart('0'));
             }
         }
 

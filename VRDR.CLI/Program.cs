@@ -561,17 +561,19 @@ namespace VRDR.CLI
                     {
                         continue;
                     }
-                    Console.WriteLine($"Property: Name: {property.Name.ToString()} Type: {property.PropertyType.ToString()}");
+                    // Console.WriteLine($"Property: Name: {property.Name.ToString()} Type: {property.PropertyType.ToString()}");
                     string one;
                     string two;
                     string three;
                     if (property.PropertyType.ToString() == "System.Collections.Generic.Dictionary`2[System.String,System.String]")
                     {
                         Dictionary<string,string> oneDict = (Dictionary<string,string>)property.GetValue(d1);
+                        Dictionary<string,string> twoDict = (Dictionary<string,string>)property.GetValue(d2);
+                        Dictionary<string,string> threeDict = (Dictionary<string,string>)property.GetValue(d3);
                         // Ignore empty entries in the dictionary so they don't throw off comparisons.
-                        one = String.Join(", ", oneDict.Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");
-                        two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");;
-                        three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");;
+                        one = String.Join(", ", oneDict.Select(x => (x.Value != "") ? (x.Key + "=" + x.Value) : ("")).ToArray()).Replace(" ,", "");
+                        two = String.Join(", ", twoDict.Select(x => (x.Value != "") ? (x.Key + "=" + x.Value) : ("")).ToArray()).Replace(" ,", "");
+                        three = String.Join(", ", threeDict.Select(x => (x.Value != "") ? (x.Key + "=" + x.Value) : ("")).ToArray()).Replace(" ,", "");
                     }
                     else if (property.PropertyType.ToString() == "System.String[]")
                     {
@@ -592,7 +594,8 @@ namespace VRDR.CLI
                     }
                     else
                     {
-                        Console.WriteLine("[MATCH]\t" + $"\"{one}\" (property: {property.Name}) equals \"{three}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\"");
+                        // We don't actually need to see all the matches and it makes it hard to see the mismatches
+                        // Console.WriteLine("[MATCH]\t" + $"\"{one}\" (property: {property.Name}) equals \"{three}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\"");
                         good++;
                     }
                 }

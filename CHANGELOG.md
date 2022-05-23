@@ -1,5 +1,9 @@
 ## Changelog
 
+### next
+
+* Update AgeAtDeath property to expect a dictionary with "value" and "unit" rather than "units" and "type" to match the FHIR IG
+
 ### v4.0.0.preview2 - 2022-05-09
 
 * Addressed inconsistencies in how identifiers were being handled

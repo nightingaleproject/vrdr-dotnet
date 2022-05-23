@@ -12,24 +12,26 @@ namespace VRDR.Tests
 {
     public class DeathRecord_Should
     {
-        private ArrayList XMLRecords;
-
-        private ArrayList JSONRecords;
+        private DeathRecord DeathRecord1_XML;
+        private DeathRecord DeathCertificateDocument2_XML;
+        private DeathRecord DeathRecord1_JSON;
+        private DeathRecord DeathCertificateDocument2_JSON;
+        private DeathRecord DeathCertificateDocument1_JSON;
+        private DeathRecord CauseOfDeathCodedContentBundle1_JSON;
+        private DeathRecord DemographicCodedContentBundle1_JSON;
 
         private DeathRecord SetterDeathRecord;
 
         public DeathRecord_Should()
         {
-            XMLRecords = new ArrayList();
-            XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"))));
-            XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/Bundle-DeathCertificateDocument-Example2.xml"))));
-            JSONRecords = new ArrayList();
-            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
-            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example2.json"))));
-            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example1.json"))));
-            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-CauseOfDeathCodedContentBundle-Example1.json"))));
-            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DemographicCodedContentBundle-Example1.json"))));
-            //Console.WriteLine("TEST1: " + ((DeathRecord)JSONRecords[0]).ToJSON());
+            DeathRecord1_XML = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
+            DeathCertificateDocument2_XML = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/Bundle-DeathCertificateDocument-Example2.xml")));
+            DeathRecord1_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            DeathCertificateDocument2_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example2.json")));
+            DeathCertificateDocument1_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example1.json")));
+            CauseOfDeathCodedContentBundle1_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-CauseOfDeathCodedContentBundle-Example1.json")));
+            DemographicCodedContentBundle1_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DemographicCodedContentBundle-Example1.json")));
+
             SetterDeathRecord = new DeathRecord();
         }
 
@@ -93,7 +95,7 @@ namespace VRDR.Tests
         [Fact]
         public void ToFromDescription()
         {
-            DeathRecord first = (DeathRecord)XMLRecords[0];
+            DeathRecord first = DeathRecord1_XML;
             string firstDescription = first.ToDescription();
             DeathRecord second = DeathRecord.FromDescription(firstDescription);
             Assert.Equal(first.Identifier, second.Identifier);
@@ -110,7 +112,7 @@ namespace VRDR.Tests
         [Fact]
         public void ToFromCodedBundleViaDescription()
         {
-            DeathRecord record = (DeathRecord)JSONRecords[1];
+            DeathRecord record = DeathCertificateDocument2_JSON;
             DeathRecord codedCODRecord = new DeathRecord(record.GetCauseOfDeathCodedContentBundle());
             DeathRecord codedDemoRecord = new DeathRecord(record.GetDemographicCodedContentBundle());
             string CodedCODDescription = codedCODRecord.ToDescription();
@@ -203,7 +205,7 @@ namespace VRDR.Tests
             Assert.Equal("Hmong", ije2.RACE18);
 
             // From VRDR IG
-            DeathRecord d3 = (((DeathRecord)JSONRecords[0]));
+            DeathRecord d3 = (DeathRecord1_JSON);
             IJEMortality ije3 = new IJEMortality(d3);
             Assert.Equal("H", ije3.DETHNIC1);
             Assert.Equal("U", ije3.DETHNIC2);
@@ -295,10 +297,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DeathLocationType()
         {
-            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, ((DeathRecord)JSONRecords[0]).DeathLocationTypeHelper);
-            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Hospital, ((DeathRecord)JSONRecords[2]).DeathLocationTypeHelper);
-            Assert.Null(((DeathRecord)JSONRecords[3]).DeathLocationTypeHelper);
-            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, ((DeathRecord)XMLRecords[0]).DeathLocationTypeHelper);
+            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, DeathRecord1_JSON.DeathLocationTypeHelper);
+            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Hospital, DeathCertificateDocument1_JSON.DeathLocationTypeHelper);
+            Assert.Null(CauseOfDeathCodedContentBundle1_JSON.DeathLocationTypeHelper);
+            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, DeathRecord1_XML.DeathLocationTypeHelper);
         }
         [Fact]
         public void Set_Identifier()
@@ -310,9 +312,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_Identifier()
         {
-            Assert.Equal("000182", ((DeathRecord)JSONRecords[0]).Identifier);
-            Assert.Equal("000182", ((DeathRecord)JSONRecords[1]).Identifier);
-            Assert.Equal("000182", ((DeathRecord)XMLRecords[0]).Identifier);
+            Assert.Equal("000182", DeathRecord1_JSON.Identifier);
+            Assert.Equal("000182", DeathCertificateDocument2_JSON.Identifier);
+            Assert.Equal("000182", DeathRecord1_XML.Identifier);
         }
 
         [Fact]
@@ -331,12 +333,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DeathRecordIdentifier()
         {
-            Assert.Equal("2019YC000182", ((DeathRecord)JSONRecords[0]).DeathRecordIdentifier);
-            Assert.Equal("2020NY000182", ((DeathRecord)JSONRecords[1]).DeathRecordIdentifier);
-            Assert.Equal("2020NY000182", ((DeathRecord)JSONRecords[2]).DeathRecordIdentifier);
-            Assert.Equal("2020NY000182", ((DeathRecord)JSONRecords[3]).DeathRecordIdentifier);
-            Assert.Equal("2020NY000182", ((DeathRecord)JSONRecords[4]).DeathRecordIdentifier);
-            Assert.Equal("2019YC000182", ((DeathRecord)XMLRecords[0]).DeathRecordIdentifier);
+            Assert.Equal("2019YC000182", DeathRecord1_JSON.DeathRecordIdentifier);
+            Assert.Equal("2020NY000182", DeathCertificateDocument2_JSON.DeathRecordIdentifier);
+            Assert.Equal("2020NY000182", DeathCertificateDocument1_JSON.DeathRecordIdentifier);
+            Assert.Equal("2020NY000182", CauseOfDeathCodedContentBundle1_JSON.DeathRecordIdentifier);
+            Assert.Equal("2020NY000182", DemographicCodedContentBundle1_JSON.DeathRecordIdentifier);
+            Assert.Equal("2019YC000182", DeathRecord1_XML.DeathRecordIdentifier);
         }
 
         [Fact]
@@ -351,10 +353,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_StateLocalIdentifier()
         {
-            Assert.Equal("000000000042", ((DeathRecord)JSONRecords[0]).StateLocalIdentifier1);
-            Assert.Equal("000000000042", ((DeathRecord)XMLRecords[0]).StateLocalIdentifier1);
-            Assert.Equal("000000000001", ((DeathRecord)JSONRecords[1]).StateLocalIdentifier1);
-            Assert.Equal("100000000001", ((DeathRecord)JSONRecords[1]).StateLocalIdentifier2);
+            Assert.Equal("000000000042", DeathRecord1_JSON.StateLocalIdentifier1);
+            Assert.Equal("000000000042", DeathRecord1_XML.StateLocalIdentifier1);
+            Assert.Equal("000000000001", DeathCertificateDocument2_JSON.StateLocalIdentifier1);
+            Assert.Equal("100000000001", DeathCertificateDocument2_JSON.StateLocalIdentifier2);
         }
 
         [Fact]
@@ -367,9 +369,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_CertifiedTime()
         {
-            Assert.Equal("2019-01-29T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).CertifiedTime);
-            Assert.Equal("2020-11-14T16:39:40-05:00", ((DeathRecord)JSONRecords[1]).CertifiedTime);
-            Assert.Equal("2019-01-29T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).CertifiedTime);
+            Assert.Equal("2019-01-29T16:48:06-05:00", DeathRecord1_JSON.CertifiedTime);
+            Assert.Equal("2020-11-14T16:39:40-05:00", DeathCertificateDocument2_JSON.CertifiedTime);
+            Assert.Equal("2019-01-29T16:48:06-05:00", DeathRecord1_XML.CertifiedTime);
         }
 
         [Fact]
@@ -382,9 +384,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_RegisteredTime()
         {
-            Assert.Equal("2019-02-01T16:47:04-05:00", ((DeathRecord)JSONRecords[0]).RegisteredTime);
-            Assert.Equal("2020-11-15T16:39:54-05:00", ((DeathRecord)JSONRecords[1]).RegisteredTime);
-            Assert.Equal("2019-02-01T16:47:04-05:00", ((DeathRecord)XMLRecords[0]).RegisteredTime);
+            Assert.Equal("2019-02-01T16:47:04-05:00", DeathRecord1_JSON.RegisteredTime);
+            Assert.Equal("2020-11-15T16:39:54-05:00", DeathCertificateDocument2_JSON.RegisteredTime);
+            Assert.Equal("2019-02-01T16:47:04-05:00", DeathRecord1_XML.RegisteredTime);
         }
 
         [Fact]
@@ -423,13 +425,13 @@ namespace VRDR.Tests
         [Fact]
         public void Get_CertificationRole()
         {
-            Assert.Equal("Nurse Practitioner", ((DeathRecord)JSONRecords[1]).CertificationRoleHelper);
-            Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertificationRole["code"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).CertificationRole["system"]);
-            Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)JSONRecords[0]).CertificationRole["display"]);
-            Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertificationRole["code"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).CertificationRole["system"]);
-            Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)XMLRecords[0]).CertificationRole["display"]);
+            Assert.Equal("Nurse Practitioner", DeathCertificateDocument2_JSON.CertificationRoleHelper);
+            Assert.Equal("434641000124105", DeathRecord1_JSON.CertificationRole["code"]);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_XML.CertificationRole["system"]);
+            Assert.Equal("Physician certified and pronounced death certificate", DeathRecord1_JSON.CertificationRole["display"]);
+            Assert.Equal("434641000124105", DeathRecord1_XML.CertificationRole["code"]);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_JSON.CertificationRole["system"]);
+            Assert.Equal("Physician certified and pronounced death certificate", DeathRecord1_XML.CertificationRole["display"]);
         }
 
         // [Fact]
@@ -446,8 +448,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_InterestedPartyIdentifier()
         // {
-        //     Assert.Equal("1010101", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier["value"]);
-        //     Assert.Equal("1010101", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier["value"]);
+        //     Assert.Equal("1010101", DeathRecord1_JSON.InterestedPartyIdentifier["value"]);
+        //     Assert.Equal("1010101", DeathRecord1_XML.InterestedPartyIdentifier["value"]);
         // }
 
         // [Fact]
@@ -460,8 +462,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_InterestedPartyName()
         // {
-        //     Assert.Equal("Example Hospital", ((DeathRecord)JSONRecords[0]).InterestedPartyName);
-        //     Assert.Equal("Example Hospital", ((DeathRecord)XMLRecords[0]).InterestedPartyName);
+        //     Assert.Equal("Example Hospital", DeathRecord1_JSON.InterestedPartyName);
+        //     Assert.Equal("Example Hospital", DeathRecord1_XML.InterestedPartyName);
         // }
 
         // [Fact]
@@ -488,20 +490,20 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_InterestedPartyAddress()
         // {
-        //     Assert.Equal("10 Example Street", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressLine1"]);
-        //     Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressLine2"]);
-        //     Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCity"]);
-        //     Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCounty"]);
-        //     Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressState"]);
-        //     Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressZip"]);
-        //     Assert.Equal("US", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCountry"]);
-        //     Assert.Equal("10 Example Street", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine1"]);
-        //     Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine2"]);
-        //     Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCity"]);
-        //     Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCounty"]);
-        //     Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressState"]);
-        //     Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressZip"]);
-        //     Assert.Equal("US", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCountry"]);
+        //     Assert.Equal("10 Example Street", DeathRecord1_JSON.InterestedPartyAddress["addressLine1"]);
+        //     Assert.Equal("Line 2", DeathRecord1_JSON.InterestedPartyAddress["addressLine2"]);
+        //     Assert.Equal("Bedford", DeathRecord1_JSON.InterestedPartyAddress["addressCity"]);
+        //     Assert.Equal("Middlesex", DeathRecord1_JSON.InterestedPartyAddress["addressCounty"]);
+        //     Assert.Equal("MA", DeathRecord1_JSON.InterestedPartyAddress["addressState"]);
+        //     Assert.Equal("01730", DeathRecord1_JSON.InterestedPartyAddress["addressZip"]);
+        //     Assert.Equal("US", DeathRecord1_JSON.InterestedPartyAddress["addressCountry"]);
+        //     Assert.Equal("10 Example Street", DeathRecord1_XML.InterestedPartyAddress["addressLine1"]);
+        //     Assert.Equal("Line 2", DeathRecord1_XML.InterestedPartyAddress["addressLine2"]);
+        //     Assert.Equal("Bedford", DeathRecord1_XML.InterestedPartyAddress["addressCity"]);
+        //     Assert.Equal("Middlesex", DeathRecord1_XML.InterestedPartyAddress["addressCounty"]);
+        //     Assert.Equal("MA", DeathRecord1_XML.InterestedPartyAddress["addressState"]);
+        //     Assert.Equal("01730", DeathRecord1_XML.InterestedPartyAddress["addressZip"]);
+        //     Assert.Equal("US", DeathRecord1_XML.InterestedPartyAddress["addressCountry"]);
         // }
 
         // [Fact]
@@ -520,12 +522,12 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_InterestedPartyType()
         // {
-        //     Assert.Equal("prov", ((DeathRecord)JSONRecords[0]).InterestedPartyType["code"]);
-        //     Assert.Equal(CodeSystems.HL7_organization_type, ((DeathRecord)XMLRecords[0]).InterestedPartyType["system"]);
-        //     Assert.Equal("Healthcare Provider", ((DeathRecord)JSONRecords[0]).InterestedPartyType["display"]);
-        //     Assert.Equal("prov", ((DeathRecord)XMLRecords[0]).InterestedPartyType["code"]);
-        //     Assert.Equal(CodeSystems.HL7_organization_type, ((DeathRecord)JSONRecords[0]).InterestedPartyType["system"]);
-        //     Assert.Equal("Healthcare Provider", ((DeathRecord)XMLRecords[0]).InterestedPartyType["display"]);
+        //     Assert.Equal("prov", DeathRecord1_JSON.InterestedPartyType["code"]);
+        //     Assert.Equal(CodeSystems.HL7_organization_type, DeathRecord1_XML.InterestedPartyType["system"]);
+        //     Assert.Equal("Healthcare Provider", DeathRecord1_JSON.InterestedPartyType["display"]);
+        //     Assert.Equal("prov", DeathRecord1_XML.InterestedPartyType["code"]);
+        //     Assert.Equal(CodeSystems.HL7_organization_type, DeathRecord1_JSON.InterestedPartyType["system"]);
+        //     Assert.Equal("Healthcare Provider", DeathRecord1_XML.InterestedPartyType["display"]);
         // }
 
         [Fact]
@@ -541,13 +543,13 @@ namespace VRDR.Tests
         [Fact]
         public void Get_MannerOfDeathType()
         {
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).MannerOfDeathType["system"]);
-            Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, ((DeathRecord)JSONRecords[0]).MannerOfDeathType["code"]);
-            Assert.Equal("Accidental death", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["display"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["system"]);
-            Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["code"]);
-            Assert.Equal("Accidental death", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["display"]);
-            Assert.Equal(ValueSets.MannerOfDeath.Natural_Death, ((DeathRecord)JSONRecords[1]).MannerOfDeathTypeHelper);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_JSON.MannerOfDeathType["system"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, DeathRecord1_JSON.MannerOfDeathType["code"]);
+            Assert.Equal("Accidental death", DeathRecord1_JSON.MannerOfDeathType["display"]);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_XML.MannerOfDeathType["system"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, DeathRecord1_XML.MannerOfDeathType["code"]);
+            Assert.Equal("Accidental death", DeathRecord1_XML.MannerOfDeathType["display"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Natural_Death, DeathCertificateDocument2_JSON.MannerOfDeathTypeHelper);
         }
 
         [Fact]
@@ -562,13 +564,13 @@ namespace VRDR.Tests
         [Fact]
         public void Get_CertifierGivenNames()
         {
-            string[] cnamesjson1 = ((DeathRecord)JSONRecords[2]).CertifierGivenNames;
+            string[] cnamesjson1 = DeathCertificateDocument1_JSON.CertifierGivenNames;
             Assert.Equal("Jim", cnamesjson1[0]);
             Assert.Single(cnamesjson1);
-            string[] cnamesjson = ((DeathRecord)JSONRecords[0]).CertifierGivenNames;
+            string[] cnamesjson = DeathRecord1_JSON.CertifierGivenNames;
             Assert.Equal("Doctor", cnamesjson[0]);
             Assert.Equal("Middle", cnamesjson[1]);
-            string[] cnamesxml = ((DeathRecord)XMLRecords[0]).CertifierGivenNames;
+            string[] cnamesxml = DeathRecord1_XML.CertifierGivenNames;
             Assert.Equal("Doctor", cnamesxml[0]);
             Assert.Equal("Middle", cnamesxml[1]);
         }
@@ -583,9 +585,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_CertifierFamilyName()
         {
-            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).CertifierFamilyName);
-            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).CertifierFamilyName);
-            Assert.Equal("Black", ((DeathRecord)JSONRecords[2]).CertifierFamilyName);
+            Assert.Equal("Last", DeathRecord1_XML.CertifierFamilyName);
+            Assert.Equal("Last", DeathRecord1_JSON.CertifierFamilyName);
+            Assert.Equal("Black", DeathCertificateDocument1_JSON.CertifierFamilyName);
         }
 
         [Fact]
@@ -598,8 +600,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_CertifierSuffix()
         {
-            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).CertifierSuffix);
-            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).CertifierSuffix);
+            Assert.Equal("Jr.", DeathRecord1_XML.CertifierSuffix);
+            Assert.Equal("Jr.", DeathRecord1_XML.CertifierSuffix);
         }
 
         [Fact]
@@ -638,25 +640,25 @@ namespace VRDR.Tests
         [Fact]
         public void Get_CertifierAddress()
         {
-            Assert.Equal("11 Example Street", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressCountry"]);
-            Assert.Equal("11 Example Street", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCountry"]);
-            Assert.Equal("44 South Street", ((DeathRecord)JSONRecords[1]).CertifierAddress["addressLine1"]);
-            Assert.Equal("Bird in Hand", ((DeathRecord)JSONRecords[1]).CertifierAddress["addressCity"]);
-            Assert.Equal("PA", ((DeathRecord)JSONRecords[1]).CertifierAddress["addressState"]);
-            Assert.Equal("17505", ((DeathRecord)JSONRecords[1]).CertifierAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)JSONRecords[1]).CertifierAddress["addressCountry"]);
+            Assert.Equal("11 Example Street", DeathRecord1_JSON.CertifierAddress["addressLine1"]);
+            Assert.Equal("Line 2", DeathRecord1_JSON.CertifierAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_JSON.CertifierAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_JSON.CertifierAddress["addressCounty"]);
+            Assert.Equal("MA", DeathRecord1_JSON.CertifierAddress["addressState"]);
+            Assert.Equal("01730", DeathRecord1_JSON.CertifierAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_JSON.CertifierAddress["addressCountry"]);
+            Assert.Equal("11 Example Street", DeathRecord1_XML.CertifierAddress["addressLine1"]);
+            Assert.Equal("Line 2", DeathRecord1_XML.CertifierAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_XML.CertifierAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_XML.CertifierAddress["addressCounty"]);
+            Assert.Equal("MA", DeathRecord1_XML.CertifierAddress["addressState"]);
+            Assert.Equal("01730", DeathRecord1_XML.CertifierAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_XML.CertifierAddress["addressCountry"]);
+            Assert.Equal("44 South Street", DeathCertificateDocument2_JSON.CertifierAddress["addressLine1"]);
+            Assert.Equal("Bird in Hand", DeathCertificateDocument2_JSON.CertifierAddress["addressCity"]);
+            Assert.Equal("PA", DeathCertificateDocument2_JSON.CertifierAddress["addressState"]);
+            Assert.Equal("17505", DeathCertificateDocument2_JSON.CertifierAddress["addressZip"]);
+            Assert.Equal("US", DeathCertificateDocument2_JSON.CertifierAddress["addressCountry"]);
         }
 
         // [Fact]
@@ -675,12 +677,12 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_CertifierQualification()
         // {
-        //     Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertifierQualification["code"]);
-        //     Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
-        //     Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
-        //     Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertifierQualification["code"]);
-        //     Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
-        //     Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
+        //     Assert.Equal("434641000124105", DeathRecord1_JSON.CertifierQualification["code"]);
+        //     Assert.Equal(CodeSystems.SCT, DeathRecord1_XML.CertifierQualification["system"]);
+        //     Assert.Equal("Physician certified and pronounced death certificate", DeathRecord1_JSON.CertifierQualification["display"]);
+        //     Assert.Equal("434641000124105", DeathRecord1_XML.CertifierQualification["code"]);
+        //     Assert.Equal(CodeSystems.SCT, DeathRecord1_JSON.CertifierQualification["system"]);
+        //     Assert.Equal("Physician certified and pronounced death certificate", DeathRecord1_XML.CertifierQualification["display"]);
         // }
 
         // [Fact]
@@ -693,8 +695,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_CertifierLicenseNumber()
         // {
-        //     Assert.Equal("789123456", ((DeathRecord)JSONRecords[0]).CertifierLicenseNumber);
-        //     Assert.Equal("789123456", ((DeathRecord)XMLRecords[0]).CertifierLicenseNumber);
+        //     Assert.Equal("789123456", DeathRecord1_JSON.CertifierLicenseNumber);
+        //     Assert.Equal("789123456", DeathRecord1_XML.CertifierLicenseNumber);
         // }
 
         [Fact]
@@ -707,8 +709,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ContributingConditions()
         {
-            Assert.Equal("hypertensive heart disease", ((DeathRecord)JSONRecords[1]).ContributingConditions);
-            Assert.Equal("Example Contributing Conditions", ((DeathRecord)XMLRecords[0]).ContributingConditions);
+            Assert.Equal("hypertensive heart disease", DeathCertificateDocument2_JSON.ContributingConditions);
+            Assert.Equal("Example Contributing Conditions", DeathRecord1_XML.ContributingConditions);
         }
 
         [Fact]
@@ -721,8 +723,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1A()
         {
-            Assert.Equal("Cardiopulmonary arrest", ((DeathRecord)JSONRecords[1]).COD1A);
-            Assert.Equal("Cardiopulmonary arrest", ((DeathRecord)XMLRecords[1]).COD1A);
+            Assert.Equal("Cardiopulmonary arrest", DeathCertificateDocument2_JSON.COD1A);
+            Assert.Equal("Cardiopulmonary arrest", DeathCertificateDocument2_XML.COD1A);
         }
 
         [Fact]
@@ -735,8 +737,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1A()
         {
-            Assert.Equal("4 hours", ((DeathRecord)JSONRecords[1]).INTERVAL1A);
-            Assert.Equal("4 hours", ((DeathRecord)XMLRecords[1]).INTERVAL1A);
+            Assert.Equal("4 hours", DeathCertificateDocument2_JSON.INTERVAL1A);
+            Assert.Equal("4 hours", DeathCertificateDocument2_XML.INTERVAL1A);
         }
 
         // [Fact]
@@ -755,12 +757,12 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_CODE1A()
         // {
-        //     Assert.Equal("I21.0", ((DeathRecord)JSONRecords[0]).CODE1A["code"]);
-        //     Assert.Equal("http://hl7.org/fhir/sid/icd-10", ((DeathRecord)XMLRecords[0]).CODE1A["system"]);
-        //     Assert.Equal("Acute transmural myocardial infarction of anterior wall", ((DeathRecord)JSONRecords[0]).CODE1A["display"]);
-        //     Assert.Equal("I21.0", ((DeathRecord)XMLRecords[0]).CODE1A["code"]);
-        //     Assert.Equal("http://hl7.org/fhir/sid/icd-10", ((DeathRecord)JSONRecords[0]).CODE1A["system"]);
-        //     Assert.Equal("Acute transmural myocardial infarction of anterior wall", ((DeathRecord)XMLRecords[0]).CODE1A["display"]);
+        //     Assert.Equal("I21.0", DeathRecord1_JSON.CODE1A["code"]);
+        //     Assert.Equal("http://hl7.org/fhir/sid/icd-10", DeathRecord1_XML.CODE1A["system"]);
+        //     Assert.Equal("Acute transmural myocardial infarction of anterior wall", DeathRecord1_JSON.CODE1A["display"]);
+        //     Assert.Equal("I21.0", DeathRecord1_XML.CODE1A["code"]);
+        //     Assert.Equal("http://hl7.org/fhir/sid/icd-10", DeathRecord1_JSON.CODE1A["system"]);
+        //     Assert.Equal("Acute transmural myocardial infarction of anterior wall", DeathRecord1_XML.CODE1A["display"]);
         // }
 
         [Fact]
@@ -773,8 +775,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1B()
         {
-            Assert.Equal("Eclampsia", ((DeathRecord)JSONRecords[1]).COD1B);
-            Assert.Equal("Eclampsia", ((DeathRecord)XMLRecords[1]).COD1B);
+            Assert.Equal("Eclampsia", DeathCertificateDocument2_JSON.COD1B);
+            Assert.Equal("Eclampsia", DeathCertificateDocument2_XML.COD1B);
         }
 
         [Fact]
@@ -787,8 +789,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1B()
         {
-            Assert.Equal("3 months", ((DeathRecord)JSONRecords[1]).INTERVAL1B);
-            Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1B);
+            Assert.Equal("3 months", DeathCertificateDocument2_JSON.INTERVAL1B);
+            Assert.Equal("3 months", DeathCertificateDocument2_XML.INTERVAL1B);
         }
 
         // [Fact]
@@ -807,12 +809,12 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_CODE1B()
         // {
-        //     Assert.Equal("I21.9", ((DeathRecord)JSONRecords[0]).CODE1B["code"]);
-        //     Assert.Equal("http://hl7.org/fhir/sid/icd-10", ((DeathRecord)XMLRecords[0]).CODE1B["system"]);
-        //     Assert.Equal("Acute myocardial infarction, unspecified", ((DeathRecord)JSONRecords[0]).CODE1B["display"]);
-        //     Assert.Equal("I21.9", ((DeathRecord)XMLRecords[0]).CODE1B["code"]);
-        //     Assert.Equal("http://hl7.org/fhir/sid/icd-10", ((DeathRecord)JSONRecords[0]).CODE1B["system"]);
-        //     Assert.Equal("Acute myocardial infarction, unspecified", ((DeathRecord)XMLRecords[0]).CODE1B["display"]);
+        //     Assert.Equal("I21.9", DeathRecord1_JSON.CODE1B["code"]);
+        //     Assert.Equal("http://hl7.org/fhir/sid/icd-10", DeathRecord1_XML.CODE1B["system"]);
+        //     Assert.Equal("Acute myocardial infarction, unspecified", DeathRecord1_JSON.CODE1B["display"]);
+        //     Assert.Equal("I21.9", DeathRecord1_XML.CODE1B["code"]);
+        //     Assert.Equal("http://hl7.org/fhir/sid/icd-10", DeathRecord1_JSON.CODE1B["system"]);
+        //     Assert.Equal("Acute myocardial infarction, unspecified", DeathRecord1_XML.CODE1B["display"]);
         // }
 
         [Fact]
@@ -825,7 +827,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1C()
         {
-            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)XMLRecords[1]).COD1C);
+            Assert.Equal("Coronary artery thrombosis", DeathCertificateDocument2_XML.COD1C);
         }
 
         [Fact]
@@ -838,7 +840,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1C()
         {
-            Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1C);
+            Assert.Equal("3 months", DeathCertificateDocument2_XML.INTERVAL1C);
         }
 
         // [Fact]
@@ -864,7 +866,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1D()
         {
-            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)XMLRecords[1]).COD1D);
+            Assert.Equal("Atherosclerotic coronary artery disease", DeathCertificateDocument2_XML.COD1D);
         }
 
         [Fact]
@@ -877,7 +879,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1D()
         {
-            Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1D);
+            Assert.Equal("3 months", DeathCertificateDocument2_XML.INTERVAL1D);
         }
 
         // [Fact]
@@ -979,9 +981,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_StateSpecific()
         {
-            Assert.Equal("State Specific Content", ((DeathRecord)JSONRecords[0]).StateSpecific);
-            Assert.Equal("State Specific Content", ((DeathRecord)JSONRecords[2]).StateSpecific);
-            Assert.Equal("State Specific Content", ((DeathRecord)XMLRecords[0]).StateSpecific);
+            Assert.Equal("State Specific Content", DeathRecord1_JSON.StateSpecific);
+            Assert.Equal("State Specific Content", DeathCertificateDocument1_JSON.StateSpecific);
+            Assert.Equal("State Specific Content", DeathRecord1_XML.StateSpecific);
         }
 
         [Fact]
@@ -997,9 +999,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FilingFormat()
         {
-            Assert.Equal("electronic", ((DeathRecord)JSONRecords[0]).FilingFormatHelper);
-            Assert.Equal("electronic", ((DeathRecord)JSONRecords[2]).FilingFormatHelper);
-            Assert.Equal("electronic", ((DeathRecord)XMLRecords[0]).FilingFormatHelper);
+            Assert.Equal("electronic", DeathRecord1_JSON.FilingFormatHelper);
+            Assert.Equal("electronic", DeathCertificateDocument1_JSON.FilingFormatHelper);
+            Assert.Equal("electronic", DeathRecord1_XML.FilingFormatHelper);
         }
 
         [Fact]
@@ -1015,9 +1017,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ReplaceStatus()
         {
-            Assert.Equal("original", ((DeathRecord)JSONRecords[0]).ReplaceStatusHelper);
-            Assert.Equal("original", ((DeathRecord)JSONRecords[2]).ReplaceStatusHelper);
-            Assert.Equal("original", ((DeathRecord)XMLRecords[0]).ReplaceStatusHelper);
+            Assert.Equal("original", DeathRecord1_JSON.ReplaceStatusHelper);
+            Assert.Equal("original", DeathCertificateDocument1_JSON.ReplaceStatusHelper);
+            Assert.Equal("original", DeathRecord1_XML.ReplaceStatusHelper);
         }
         [Fact]
         public void Set_GivenNames()
@@ -1031,12 +1033,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_GivenNames()
         {
-            Assert.Equal("Madelyn", ((DeathRecord)JSONRecords[0]).GivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).GivenNames[1]);
-            Assert.Equal("Madelyn", ((DeathRecord)XMLRecords[0]).GivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).GivenNames[1]);
-            Assert.Equal("Madelyn", ((DeathRecord)JSONRecords[2]).GivenNames[0]);
-            Assert.Single(((DeathRecord)JSONRecords[2]).GivenNames);
+            Assert.Equal("Madelyn", DeathRecord1_JSON.GivenNames[0]);
+            Assert.Equal("Middle", DeathRecord1_JSON.GivenNames[1]);
+            Assert.Equal("Madelyn", DeathRecord1_XML.GivenNames[0]);
+            Assert.Equal("Middle", DeathRecord1_XML.GivenNames[1]);
+            Assert.Equal("Madelyn", DeathCertificateDocument1_JSON.GivenNames[0]);
+            Assert.Single(DeathCertificateDocument1_JSON.GivenNames);
         }
 
         [Fact]
@@ -1049,8 +1051,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FamilyName()
         {
-            Assert.Equal("Patel", ((DeathRecord)JSONRecords[0]).FamilyName);
-            Assert.Equal("Patel", ((DeathRecord)XMLRecords[0]).FamilyName);
+            Assert.Equal("Patel", DeathRecord1_JSON.FamilyName);
+            Assert.Equal("Patel", DeathRecord1_XML.FamilyName);
         }
 
         [Fact]
@@ -1063,8 +1065,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_Suffix()
         {
-            Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).Suffix);
-            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).Suffix);
+            Assert.Equal("Jr.", DeathRecord1_JSON.Suffix);
+            Assert.Equal("Jr.", DeathRecord1_XML.Suffix);
         }
 
         // v1.3 OBE tests
@@ -1078,8 +1080,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_Gender()
         // {
-        //     Assert.Equal("male", ((DeathRecord)JSONRecords[0]).Gender);
-        //     Assert.Equal("male", ((DeathRecord)XMLRecords[0]).Gender);
+        //     Assert.Equal("male", DeathRecord1_JSON.Gender);
+        //     Assert.Equal("male", DeathRecord1_XML.Gender);
         // }
 
         [Fact]
@@ -1092,8 +1094,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SexAtDeath()
         {
-            Assert.Equal("unknown", ((DeathRecord)JSONRecords[0]).SexAtDeathHelper);
-            Assert.Equal("unknown", ((DeathRecord)XMLRecords[0]).SexAtDeathHelper);
+            Assert.Equal("unknown", DeathRecord1_JSON.SexAtDeathHelper);
+            Assert.Equal("unknown", DeathRecord1_XML.SexAtDeathHelper);
         }
 
         [Fact]
@@ -1106,8 +1108,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DateOfBirth()
         {
-            Assert.Equal("1940-02-19", ((DeathRecord)JSONRecords[0]).DateOfBirth);
-            Assert.Equal("1940-02-19", ((DeathRecord)XMLRecords[0]).DateOfBirth);
+            Assert.Equal("1940-02-19", DeathRecord1_JSON.DateOfBirth);
+            Assert.Equal("1940-02-19", DeathRecord1_XML.DateOfBirth);
         }
 
         [Fact]
@@ -1153,20 +1155,20 @@ namespace VRDR.Tests
         [Fact]
         public void Get_Residence()
         {
-            Assert.Equal("5590 Lockwood Drive", ((DeathRecord)JSONRecords[0]).Residence["addressLine1"]);
-            Assert.Equal("", ((DeathRecord)JSONRecords[0]).Residence["addressLine2"]);
-            Assert.Equal("Danville", ((DeathRecord)JSONRecords[0]).Residence["addressCity"]);
-            Assert.Equal("Fairfax", ((DeathRecord)JSONRecords[0]).Residence["addressCounty"]);
-            Assert.Equal("VA", ((DeathRecord)JSONRecords[0]).Residence["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).Residence["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).Residence["addressCountry"]);
-            Assert.Equal("5590 Lockwood Drive", ((DeathRecord)XMLRecords[0]).Residence["addressLine1"]);
-            Assert.Equal("", ((DeathRecord)XMLRecords[0]).Residence["addressLine2"]);
-            Assert.Equal("Danville", ((DeathRecord)XMLRecords[0]).Residence["addressCity"]);
-            Assert.Equal("Fairfax", ((DeathRecord)XMLRecords[0]).Residence["addressCounty"]);
-            Assert.Equal("VA", ((DeathRecord)XMLRecords[0]).Residence["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).Residence["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).Residence["addressCountry"]);
+            Assert.Equal("5590 Lockwood Drive", DeathRecord1_JSON.Residence["addressLine1"]);
+            Assert.Equal("", DeathRecord1_JSON.Residence["addressLine2"]);
+            Assert.Equal("Danville", DeathRecord1_JSON.Residence["addressCity"]);
+            Assert.Equal("Fairfax", DeathRecord1_JSON.Residence["addressCounty"]);
+            Assert.Equal("VA", DeathRecord1_JSON.Residence["addressState"]);
+            Assert.Equal("01730", DeathRecord1_JSON.Residence["addressZip"]);
+            Assert.Equal("US", DeathRecord1_JSON.Residence["addressCountry"]);
+            Assert.Equal("5590 Lockwood Drive", DeathRecord1_XML.Residence["addressLine1"]);
+            Assert.Equal("", DeathRecord1_XML.Residence["addressLine2"]);
+            Assert.Equal("Danville", DeathRecord1_XML.Residence["addressCity"]);
+            Assert.Equal("Fairfax", DeathRecord1_XML.Residence["addressCounty"]);
+            Assert.Equal("VA", DeathRecord1_XML.Residence["addressState"]);
+            Assert.Equal("01730", DeathRecord1_XML.Residence["addressZip"]);
+            Assert.Equal("US", DeathRecord1_XML.Residence["addressCountry"]);
         }
 
         [Fact]
@@ -1183,8 +1185,8 @@ namespace VRDR.Tests
         [Fact]
         public void Set_ResidenceWithinCityLimits()
         {
-            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).ResidenceWithinCityLimitsHelper);
-            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).ResidenceWithinCityLimitsHelper);
+            Assert.Equal("Y", DeathRecord1_JSON.ResidenceWithinCityLimitsHelper);
+            Assert.Equal("Y", DeathRecord1_XML.ResidenceWithinCityLimitsHelper);
         }
 
         [Fact]
@@ -1197,8 +1199,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SSN()
         {
-            Assert.Equal("987654321", ((DeathRecord)JSONRecords[0]).SSN);
-            Assert.Equal("987654321", ((DeathRecord)XMLRecords[0]).SSN);
+            Assert.Equal("987654321", DeathRecord1_JSON.SSN);
+            Assert.Equal("987654321", DeathRecord1_XML.SSN);
         }
 
         [Fact]
@@ -1213,8 +1215,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_Ethnicity()
         {
-            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).Ethnicity1Helper);
-            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).Ethnicity1Helper);
+            Assert.Equal("Y", DeathRecord1_JSON.Ethnicity1Helper);
+            Assert.Equal("Y", DeathRecord1_XML.Ethnicity1Helper);
         }
 
         [Fact]
@@ -1266,37 +1268,37 @@ namespace VRDR.Tests
         [Fact]
         public void Get_Race()
         {
-            Assert.Equal(Tuple.Create(NvssRace.White, "Y"), ((DeathRecord)JSONRecords[0]).Race[0]);
-            Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), ((DeathRecord)JSONRecords[0]).Race[1]);
-            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), ((DeathRecord)JSONRecords[0]).Race[2]);
-            Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), ((DeathRecord)JSONRecords[0]).Race[3]);
-            Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), ((DeathRecord)JSONRecords[0]).Race[4]);
-            Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), ((DeathRecord)JSONRecords[0]).Race[5]);
-            Assert.Equal(Tuple.Create(NvssRace.Japanese, "N"), ((DeathRecord)JSONRecords[0]).Race[6]);
-            Assert.Equal(Tuple.Create(NvssRace.Korean, "N"), ((DeathRecord)JSONRecords[0]).Race[7]);
-            Assert.Equal(Tuple.Create(NvssRace.Vietnamese, "N"), ((DeathRecord)JSONRecords[0]).Race[8]);
-            Assert.Equal(Tuple.Create(NvssRace.OtherAsian, "N"), ((DeathRecord)JSONRecords[0]).Race[9]);
-            Assert.Equal(Tuple.Create(NvssRace.NativeHawaiian, "N"), ((DeathRecord)JSONRecords[0]).Race[10]);
-            Assert.Equal(Tuple.Create(NvssRace.GuamanianOrChamorro, "N"), ((DeathRecord)JSONRecords[0]).Race[11]);
-            Assert.Equal(Tuple.Create(NvssRace.Samoan, "N"), ((DeathRecord)JSONRecords[0]).Race[12]);
-            Assert.Equal(Tuple.Create(NvssRace.OtherPacificIslander, "N"), ((DeathRecord)JSONRecords[0]).Race[13]);
-            Assert.Equal(Tuple.Create(NvssRace.OtherRace, "N"), ((DeathRecord)JSONRecords[0]).Race[14]);
+            Assert.Equal(Tuple.Create(NvssRace.White, "Y"), DeathRecord1_JSON.Race[0]);
+            Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), DeathRecord1_JSON.Race[1]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), DeathRecord1_JSON.Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), DeathRecord1_JSON.Race[3]);
+            Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), DeathRecord1_JSON.Race[4]);
+            Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), DeathRecord1_JSON.Race[5]);
+            Assert.Equal(Tuple.Create(NvssRace.Japanese, "N"), DeathRecord1_JSON.Race[6]);
+            Assert.Equal(Tuple.Create(NvssRace.Korean, "N"), DeathRecord1_JSON.Race[7]);
+            Assert.Equal(Tuple.Create(NvssRace.Vietnamese, "N"), DeathRecord1_JSON.Race[8]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherAsian, "N"), DeathRecord1_JSON.Race[9]);
+            Assert.Equal(Tuple.Create(NvssRace.NativeHawaiian, "N"), DeathRecord1_JSON.Race[10]);
+            Assert.Equal(Tuple.Create(NvssRace.GuamanianOrChamorro, "N"), DeathRecord1_JSON.Race[11]);
+            Assert.Equal(Tuple.Create(NvssRace.Samoan, "N"), DeathRecord1_JSON.Race[12]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherPacificIslander, "N"), DeathRecord1_JSON.Race[13]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherRace, "N"), DeathRecord1_JSON.Race[14]);
 
-            Assert.Equal(Tuple.Create(NvssRace.White, "Y"), ((DeathRecord)XMLRecords[0]).Race[0]);
-            Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), ((DeathRecord)XMLRecords[0]).Race[1]);
-            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), ((DeathRecord)XMLRecords[0]).Race[2]);
-            Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), ((DeathRecord)XMLRecords[0]).Race[3]);
-            Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), ((DeathRecord)XMLRecords[0]).Race[4]);
-            Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), ((DeathRecord)XMLRecords[0]).Race[5]);
-            Assert.Equal(Tuple.Create(NvssRace.Japanese, "N"), ((DeathRecord)XMLRecords[0]).Race[6]);
-            Assert.Equal(Tuple.Create(NvssRace.Korean, "N"), ((DeathRecord)XMLRecords[0]).Race[7]);
-            Assert.Equal(Tuple.Create(NvssRace.Vietnamese, "N"), ((DeathRecord)XMLRecords[0]).Race[8]);
-            Assert.Equal(Tuple.Create(NvssRace.OtherAsian, "N"), ((DeathRecord)XMLRecords[0]).Race[9]);
-            Assert.Equal(Tuple.Create(NvssRace.NativeHawaiian, "N"), ((DeathRecord)XMLRecords[0]).Race[10]);
-            Assert.Equal(Tuple.Create(NvssRace.GuamanianOrChamorro, "N"), ((DeathRecord)XMLRecords[0]).Race[11]);
-            Assert.Equal(Tuple.Create(NvssRace.Samoan, "N"), ((DeathRecord)XMLRecords[0]).Race[12]);
-            Assert.Equal(Tuple.Create(NvssRace.OtherPacificIslander, "N"), ((DeathRecord)XMLRecords[0]).Race[13]);
-            Assert.Equal(Tuple.Create(NvssRace.OtherRace, "N"), ((DeathRecord)XMLRecords[0]).Race[14]);
+            Assert.Equal(Tuple.Create(NvssRace.White, "Y"), DeathRecord1_XML.Race[0]);
+            Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), DeathRecord1_XML.Race[1]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), DeathRecord1_XML.Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), DeathRecord1_XML.Race[3]);
+            Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), DeathRecord1_XML.Race[4]);
+            Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), DeathRecord1_XML.Race[5]);
+            Assert.Equal(Tuple.Create(NvssRace.Japanese, "N"), DeathRecord1_XML.Race[6]);
+            Assert.Equal(Tuple.Create(NvssRace.Korean, "N"), DeathRecord1_XML.Race[7]);
+            Assert.Equal(Tuple.Create(NvssRace.Vietnamese, "N"), DeathRecord1_XML.Race[8]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherAsian, "N"), DeathRecord1_XML.Race[9]);
+            Assert.Equal(Tuple.Create(NvssRace.NativeHawaiian, "N"), DeathRecord1_XML.Race[10]);
+            Assert.Equal(Tuple.Create(NvssRace.GuamanianOrChamorro, "N"), DeathRecord1_XML.Race[11]);
+            Assert.Equal(Tuple.Create(NvssRace.Samoan, "N"), DeathRecord1_XML.Race[12]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherPacificIslander, "N"), DeathRecord1_XML.Race[13]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherRace, "N"), DeathRecord1_XML.Race[14]);
         }
 
         [Fact]
@@ -1323,20 +1325,20 @@ namespace VRDR.Tests
         [Fact]
         public void Get_PlaceOfBirth()
         {
-            Assert.Equal("", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressLine1"]);
-            Assert.Equal("", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressLine2"]);
-            Assert.Equal("Roanoke", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCity"]);
-            Assert.Equal("", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCounty"]);
-            Assert.Equal("VA", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressState"]);
-            Assert.Equal("", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCountry"]);
-            Assert.Equal("", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine1"]);
-            Assert.Equal("", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine2"]);
-            Assert.Equal("Roanoke", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCity"]);
-            Assert.Equal("", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCounty"]);
-            Assert.Equal("VA", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressState"]);
-            Assert.Equal("", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCountry"]);
+            Assert.Equal("", DeathRecord1_JSON.PlaceOfBirth["addressLine1"]);
+            Assert.Equal("", DeathRecord1_JSON.PlaceOfBirth["addressLine2"]);
+            Assert.Equal("Roanoke", DeathRecord1_JSON.PlaceOfBirth["addressCity"]);
+            Assert.Equal("", DeathRecord1_JSON.PlaceOfBirth["addressCounty"]);
+            Assert.Equal("VA", DeathRecord1_JSON.PlaceOfBirth["addressState"]);
+            Assert.Equal("", DeathRecord1_JSON.PlaceOfBirth["addressZip"]);
+            Assert.Equal("US", DeathRecord1_JSON.PlaceOfBirth["addressCountry"]);
+            Assert.Equal("", DeathRecord1_XML.PlaceOfBirth["addressLine1"]);
+            Assert.Equal("", DeathRecord1_XML.PlaceOfBirth["addressLine2"]);
+            Assert.Equal("Roanoke", DeathRecord1_XML.PlaceOfBirth["addressCity"]);
+            Assert.Equal("", DeathRecord1_XML.PlaceOfBirth["addressCounty"]);
+            Assert.Equal("VA", DeathRecord1_XML.PlaceOfBirth["addressState"]);
+            Assert.Equal("", DeathRecord1_XML.PlaceOfBirth["addressZip"]);
+            Assert.Equal("US", DeathRecord1_XML.PlaceOfBirth["addressCountry"]);
         }
 
         [Fact]
@@ -1351,12 +1353,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_MaritalStatus()
         {
-            Assert.Equal(ValueSets.MaritalStatus.Never_Married, ((DeathRecord)JSONRecords[0]).MaritalStatus["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, ((DeathRecord)JSONRecords[0]).MaritalStatus["system"]);
-            Assert.Equal("Never Married", ((DeathRecord)JSONRecords[0]).MaritalStatus["display"]);
-            Assert.Equal(ValueSets.MaritalStatus.Never_Married, ((DeathRecord)XMLRecords[0]).MaritalStatus["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, ((DeathRecord)XMLRecords[0]).MaritalStatus["system"]);
-            Assert.Equal("Never Married", ((DeathRecord)XMLRecords[0]).MaritalStatus["display"]);
+            Assert.Equal(ValueSets.MaritalStatus.Never_Married, DeathRecord1_JSON.MaritalStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, DeathRecord1_JSON.MaritalStatus["system"]);
+            Assert.Equal("Never Married", DeathRecord1_JSON.MaritalStatus["display"]);
+            Assert.Equal(ValueSets.MaritalStatus.Never_Married, DeathRecord1_XML.MaritalStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, DeathRecord1_XML.MaritalStatus["system"]);
+            Assert.Equal("Never Married", DeathRecord1_XML.MaritalStatus["display"]);
         }
 
         [Fact]
@@ -1371,12 +1373,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_MaritalStatusEditFlag()
         {
-            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)JSONRecords[0]).MaritalStatusEditFlag["code"]);
-            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)JSONRecords[0]).MaritalStatusEditFlag["system"]);
-            Assert.Equal("Edit Passed", ((DeathRecord)JSONRecords[0]).MaritalStatusEditFlag["display"]);
-            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)XMLRecords[0]).MaritalStatusEditFlag["code"]);
-            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)XMLRecords[0]).MaritalStatusEditFlag["system"]);
-            Assert.Equal("Edit Passed", ((DeathRecord)XMLRecords[0]).MaritalStatusEditFlag["display"]);
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, DeathRecord1_JSON.MaritalStatusEditFlag["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, DeathRecord1_JSON.MaritalStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", DeathRecord1_JSON.MaritalStatusEditFlag["display"]);
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, DeathRecord1_XML.MaritalStatusEditFlag["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, DeathRecord1_XML.MaritalStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", DeathRecord1_XML.MaritalStatusEditFlag["display"]);
         }
 
         [Fact]
@@ -1408,8 +1410,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_MaritalDescriptor()
         {
-            Assert.Equal("Single", ((DeathRecord)JSONRecords[0]).MaritalStatusLiteral);
-            Assert.Equal("Single", ((DeathRecord)XMLRecords[0]).MaritalStatusLiteral);
+            Assert.Equal("Single", DeathRecord1_JSON.MaritalStatusLiteral);
+            Assert.Equal("Single", DeathRecord1_XML.MaritalStatusLiteral);
         }
 
         [Fact]
@@ -1424,10 +1426,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FatherGivenNames()
         {
-            Assert.Equal("Father", ((DeathRecord)JSONRecords[0]).FatherGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).FatherGivenNames[1]);
-            Assert.Equal("Father", ((DeathRecord)XMLRecords[0]).FatherGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).FatherGivenNames[1]);
+            Assert.Equal("Father", DeathRecord1_JSON.FatherGivenNames[0]);
+            Assert.Equal("Middle", DeathRecord1_JSON.FatherGivenNames[1]);
+            Assert.Equal("Father", DeathRecord1_XML.FatherGivenNames[0]);
+            Assert.Equal("Middle", DeathRecord1_XML.FatherGivenNames[1]);
         }
 
         [Fact]
@@ -1440,8 +1442,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FatherFamilyName()
         {
-            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).FatherFamilyName);
-            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).FatherFamilyName);
+            Assert.Equal("Last", DeathRecord1_JSON.FatherFamilyName);
+            Assert.Equal("Last", DeathRecord1_XML.FatherFamilyName);
         }
 
         [Fact]
@@ -1454,8 +1456,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FatherSuffix()
         {
-            Assert.Equal("Sr.", ((DeathRecord)JSONRecords[0]).FatherSuffix);
-            Assert.Equal("Sr.", ((DeathRecord)XMLRecords[0]).FatherSuffix);
+            Assert.Equal("Sr.", DeathRecord1_JSON.FatherSuffix);
+            Assert.Equal("Sr.", DeathRecord1_XML.FatherSuffix);
         }
 
         [Fact]
@@ -1470,10 +1472,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_MotherGivenNames()
         {
-            Assert.Equal("Mother", ((DeathRecord)JSONRecords[0]).MotherGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).MotherGivenNames[1]);
-            Assert.Equal("Mother", ((DeathRecord)XMLRecords[0]).MotherGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).MotherGivenNames[1]);
+            Assert.Equal("Mother", DeathRecord1_JSON.MotherGivenNames[0]);
+            Assert.Equal("Middle", DeathRecord1_JSON.MotherGivenNames[1]);
+            Assert.Equal("Mother", DeathRecord1_XML.MotherGivenNames[0]);
+            Assert.Equal("Middle", DeathRecord1_XML.MotherGivenNames[1]);
         }
 
         [Fact]
@@ -1486,8 +1488,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_MotherMaidenName()
         {
-            Assert.Equal("Maiden", ((DeathRecord)JSONRecords[0]).MotherMaidenName);
-            Assert.Equal("Maiden", ((DeathRecord)XMLRecords[0]).MotherMaidenName);
+            Assert.Equal("Maiden", DeathRecord1_JSON.MotherMaidenName);
+            Assert.Equal("Maiden", DeathRecord1_XML.MotherMaidenName);
         }
 
         [Fact]
@@ -1500,8 +1502,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_MotherSuffix()
         {
-            Assert.Equal("Dr.", ((DeathRecord)JSONRecords[0]).MotherSuffix);
-            Assert.Equal("Dr.", ((DeathRecord)XMLRecords[0]).MotherSuffix);
+            Assert.Equal("Dr.", DeathRecord1_JSON.MotherSuffix);
+            Assert.Equal("Dr.", DeathRecord1_XML.MotherSuffix);
         }
 
         [Fact]
@@ -1516,8 +1518,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ContactRelationship()
         {
-            Assert.Equal("Friend of family", ((DeathRecord)JSONRecords[0]).ContactRelationship["text"]);
-            Assert.Equal("Friend of family", ((DeathRecord)XMLRecords[0]).ContactRelationship["text"]);
+            Assert.Equal("Friend of family", DeathRecord1_JSON.ContactRelationship["text"]);
+            Assert.Equal("Friend of family", DeathRecord1_XML.ContactRelationship["text"]);
         }
 
         [Fact]
@@ -1532,12 +1534,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SpouseLiving()
         {
-            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, ((DeathRecord)JSONRecords[0]).SpouseAlive["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).SpouseAlive["system"]);
-            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).SpouseAlive["display"]);
-            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, ((DeathRecord)XMLRecords[0]).SpouseAlive["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).SpouseAlive["system"]);
-            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).SpouseAlive["display"]);
+            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, DeathRecord1_JSON.SpouseAlive["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, DeathRecord1_JSON.SpouseAlive["system"]);
+            Assert.Equal("Yes", DeathRecord1_JSON.SpouseAlive["display"]);
+            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, DeathRecord1_XML.SpouseAlive["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, DeathRecord1_XML.SpouseAlive["system"]);
+            Assert.Equal("Yes", DeathRecord1_XML.SpouseAlive["display"]);
         }
 
         [Fact]
@@ -1552,10 +1554,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SpouseGivenNames()
         {
-            Assert.Equal("Spouse", ((DeathRecord)JSONRecords[0]).SpouseGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).SpouseGivenNames[1]);
-            Assert.Equal("Spouse", ((DeathRecord)XMLRecords[0]).SpouseGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).SpouseGivenNames[1]);
+            Assert.Equal("Spouse", DeathRecord1_JSON.SpouseGivenNames[0]);
+            Assert.Equal("Middle", DeathRecord1_JSON.SpouseGivenNames[1]);
+            Assert.Equal("Spouse", DeathRecord1_XML.SpouseGivenNames[0]);
+            Assert.Equal("Middle", DeathRecord1_XML.SpouseGivenNames[1]);
         }
 
         [Fact]
@@ -1568,8 +1570,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SpouseFamilyName()
         {
-            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).SpouseFamilyName);
-            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).SpouseFamilyName);
+            Assert.Equal("Last", DeathRecord1_JSON.SpouseFamilyName);
+            Assert.Equal("Last", DeathRecord1_XML.SpouseFamilyName);
         }
 
         [Fact]
@@ -1582,8 +1584,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SpouseMaidenName()
         {
-            Assert.Equal("Maiden", ((DeathRecord)JSONRecords[0]).SpouseMaidenName);
-            Assert.Equal("Maiden", ((DeathRecord)XMLRecords[0]).SpouseMaidenName);
+            Assert.Equal("Maiden", DeathRecord1_JSON.SpouseMaidenName);
+            Assert.Equal("Maiden", DeathRecord1_XML.SpouseMaidenName);
         }
         [Fact]
         public void Set_SpouseSuffix()
@@ -1595,8 +1597,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SpouseSuffix()
         {
-            Assert.Equal("Ph.D.", ((DeathRecord)JSONRecords[0]).SpouseSuffix);
-            Assert.Equal("Ph.D.", ((DeathRecord)XMLRecords[0]).SpouseSuffix);
+            Assert.Equal("Ph.D.", DeathRecord1_JSON.SpouseSuffix);
+            Assert.Equal("Ph.D.", DeathRecord1_XML.SpouseSuffix);
         }
 
         [Fact]
@@ -1614,12 +1616,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EducationLevel()
         {
-            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)JSONRecords[0]).EducationLevelHelper);
-            Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, ((DeathRecord)JSONRecords[0]).EducationLevel["system"]);
-            Assert.Equal("Bachelor's Degree", ((DeathRecord)JSONRecords[0]).EducationLevel["display"]);
-            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)XMLRecords[0]).EducationLevelHelper);
-            Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, ((DeathRecord)XMLRecords[0]).EducationLevel["system"]);
-            Assert.Equal("Bachelor's Degree", ((DeathRecord)XMLRecords[0]).EducationLevel["display"]);
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, DeathRecord1_JSON.EducationLevelHelper);
+            Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, DeathRecord1_JSON.EducationLevel["system"]);
+            Assert.Equal("Bachelor's Degree", DeathRecord1_JSON.EducationLevel["display"]);
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, DeathRecord1_XML.EducationLevelHelper);
+            Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, DeathRecord1_XML.EducationLevel["system"]);
+            Assert.Equal("Bachelor's Degree", DeathRecord1_XML.EducationLevel["display"]);
         }
 
         [Fact]
@@ -1642,12 +1644,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EducationLevelEditFlag()
         {
-            Assert.Equal(VRDR.ValueSets.EditBypass01234.Edit_Passed, ((DeathRecord)JSONRecords[0]).EducationLevelEditFlagHelper);
-            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)JSONRecords[0]).EducationLevelEditFlag["system"]);
-            Assert.Equal("Edit Passed", ((DeathRecord)JSONRecords[0]).EducationLevelEditFlag["display"]);
-            Assert.Equal(VRDR.ValueSets.EditBypass01234.Edit_Passed, ((DeathRecord)XMLRecords[0]).EducationLevelEditFlagHelper);
-            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)XMLRecords[0]).EducationLevelEditFlag["system"]);
-            Assert.Equal("Edit Passed", ((DeathRecord)XMLRecords[0]).EducationLevelEditFlag["display"]);
+            Assert.Equal(VRDR.ValueSets.EditBypass01234.Edit_Passed, DeathRecord1_JSON.EducationLevelEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, DeathRecord1_JSON.EducationLevelEditFlag["system"]);
+            Assert.Equal("Edit Passed", DeathRecord1_JSON.EducationLevelEditFlag["display"]);
+            Assert.Equal(VRDR.ValueSets.EditBypass01234.Edit_Passed, DeathRecord1_XML.EducationLevelEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, DeathRecord1_XML.EducationLevelEditFlag["system"]);
+            Assert.Equal("Edit Passed", DeathRecord1_XML.EducationLevelEditFlag["display"]);
         }
 
         [Fact]
@@ -1664,7 +1666,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ActivityAtTimeOfDeath()
         {
-            Assert.Equal(VRDR.ValueSets.ActivityAtTimeOfDeath.While_Engaged_In_Leisure_Activities, ((DeathRecord)JSONRecords[1]).ActivityAtDeathHelper);
+            Assert.Equal(VRDR.ValueSets.ActivityAtTimeOfDeath.While_Engaged_In_Leisure_Activities, DeathCertificateDocument2_JSON.ActivityAtDeathHelper);
         }
 
         [Fact]
@@ -1683,8 +1685,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_AutomatedUnderlyingCOD()
         {
-            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).AutomatedUnderlyingCOD);
-            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[3]).AutomatedUnderlyingCOD);
+            Assert.Equal("J96.0", DeathCertificateDocument2_JSON.AutomatedUnderlyingCOD);
+            Assert.Equal("J96.0", CauseOfDeathCodedContentBundle1_JSON.AutomatedUnderlyingCOD);
         }
 
         [Fact]
@@ -1702,8 +1704,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ManUnderlyingCOD()
         {
-            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).ManUnderlyingCOD);
-            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[3]).ManUnderlyingCOD);
+            Assert.Equal("J96.0", DeathCertificateDocument2_JSON.ManUnderlyingCOD);
+            Assert.Equal("J96.0", CauseOfDeathCodedContentBundle1_JSON.ManUnderlyingCOD);
         }
 
         [Fact]
@@ -1715,8 +1717,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_PlaceOfInjury()
         {
-            Assert.Equal(ValueSets.PlaceOfInjury.Home, ((DeathRecord)JSONRecords[1]).PlaceOfInjuryHelper);
-            Assert.Equal(ValueSets.PlaceOfInjury.Home, ((DeathRecord)JSONRecords[3]).PlaceOfInjuryHelper);
+            Assert.Equal(ValueSets.PlaceOfInjury.Home, DeathCertificateDocument2_JSON.PlaceOfInjuryHelper);
+            Assert.Equal(ValueSets.PlaceOfInjury.Home, CauseOfDeathCodedContentBundle1_JSON.PlaceOfInjuryHelper);
         }
         [Fact]
         public void Set_EditedRaceCodes()
@@ -1763,10 +1765,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EditedRaceCodes()
         {
-            Assert.Equal(ValueSets.RaceCode.White, ((DeathRecord)JSONRecords[1]).FirstEditedRaceCodeHelper);
-            Assert.Equal(ValueSets.RaceCode.Israeli, ((DeathRecord)JSONRecords[1]).SecondEditedRaceCodeHelper);
-            Assert.Equal(ValueSets.HispanicOrigin.Chilean, ((DeathRecord)JSONRecords[1]).HispanicCodeHelper);
-            Assert.Equal(ValueSets.RaceRecode40.Aian_And_Asian, ((DeathRecord)JSONRecords[1]).RaceRecode40Helper);
+            Assert.Equal(ValueSets.RaceCode.White, DeathCertificateDocument2_JSON.FirstEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Israeli, DeathCertificateDocument2_JSON.SecondEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.HispanicOrigin.Chilean, DeathCertificateDocument2_JSON.HispanicCodeHelper);
+            Assert.Equal(ValueSets.RaceRecode40.Aian_And_Asian, DeathCertificateDocument2_JSON.RaceRecode40Helper);
         }
 
 
@@ -1781,8 +1783,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BirthRecordId()
         {
-            Assert.Equal("242123", ((DeathRecord)JSONRecords[0]).BirthRecordId);
-            Assert.Equal("242123", ((DeathRecord)XMLRecords[0]).BirthRecordId);
+            Assert.Equal("242123", DeathRecord1_JSON.BirthRecordId);
+            Assert.Equal("242123", DeathRecord1_XML.BirthRecordId);
         }
 
         [Fact]
@@ -1802,7 +1804,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BirthRecord_Roundtrip()
         {
-            DeathRecord dr = ((DeathRecord)JSONRecords[0]);
+            DeathRecord dr = DeathRecord1_JSON;
             Assert.Equal("242123", dr.BirthRecordId);
             IJEMortality ije1 = new IJEMortality(dr);
             Assert.Equal("242123", ije1.BCNO);
@@ -1831,8 +1833,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BirthRecordState()
         {
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).BirthRecordState);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).BirthRecordState);
+            Assert.Equal("MA", DeathRecord1_JSON.BirthRecordState);
+            Assert.Equal("MA", DeathRecord1_XML.BirthRecordState);
         }
 
         [Fact]
@@ -1845,8 +1847,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BirthRecordYear()
         {
-            Assert.Equal("1940", ((DeathRecord)JSONRecords[0]).BirthRecordYear);
-            Assert.Equal("1940", ((DeathRecord)XMLRecords[0]).BirthRecordYear);
+            Assert.Equal("1940", DeathRecord1_JSON.BirthRecordYear);
+            Assert.Equal("1940", DeathRecord1_XML.BirthRecordYear);
         }
 
         [Fact]
@@ -1859,8 +1861,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_UsualOccupation()
         {
-            Assert.Equal("Executive secretary", ((DeathRecord)JSONRecords[0]).UsualOccupation);
-            Assert.Equal("Executive secretary", ((DeathRecord)XMLRecords[0]).UsualOccupation);
+            Assert.Equal("Executive secretary", DeathRecord1_JSON.UsualOccupation);
+            Assert.Equal("Executive secretary", DeathRecord1_XML.UsualOccupation);
 
         }
 
@@ -1874,8 +1876,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_UsualIndustry()
         {
-            Assert.Equal("State department of agriculture", ((DeathRecord)JSONRecords[0]).UsualIndustry);
-            Assert.Equal("State department of agriculture", ((DeathRecord)XMLRecords[0]).UsualIndustry);
+            Assert.Equal("State department of agriculture", DeathRecord1_JSON.UsualIndustry);
+            Assert.Equal("State department of agriculture", DeathRecord1_XML.UsualIndustry);
         }
 
         [Fact]
@@ -1888,9 +1890,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_MilitaryService()
         {
-            Assert.Equal(VRDR.ValueSets.YesNoUnknown.Yes, ((DeathRecord)JSONRecords[0]).MilitaryServiceHelper);
-            Assert.Equal(VRDR.ValueSets.YesNoUnknown.Yes, ((DeathRecord)JSONRecords[1]).MilitaryServiceHelper);
-            Assert.Equal(VRDR.ValueSets.YesNoUnknown.Yes, ((DeathRecord)XMLRecords[0]).MilitaryServiceHelper);
+            Assert.Equal(VRDR.ValueSets.YesNoUnknown.Yes, DeathRecord1_JSON.MilitaryServiceHelper);
+            Assert.Equal(VRDR.ValueSets.YesNoUnknown.Yes, DeathCertificateDocument2_JSON.MilitaryServiceHelper);
+            Assert.Equal(VRDR.ValueSets.YesNoUnknown.Yes, DeathRecord1_XML.MilitaryServiceHelper);
         }
 
         // [Fact]
@@ -1905,10 +1907,10 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_MorticianGivenNames()
         // {
-        //     Assert.Equal("FD", ((DeathRecord)JSONRecords[0]).MorticianGivenNames[0]);
-        //     Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).MorticianGivenNames[1]);
-        //     Assert.Equal("FD", ((DeathRecord)XMLRecords[0]).MorticianGivenNames[0]);
-        //     Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).MorticianGivenNames[1]);
+        //     Assert.Equal("FD", DeathRecord1_JSON.MorticianGivenNames[0]);
+        //     Assert.Equal("Middle", DeathRecord1_JSON.MorticianGivenNames[1]);
+        //     Assert.Equal("FD", DeathRecord1_XML.MorticianGivenNames[0]);
+        //     Assert.Equal("Middle", DeathRecord1_XML.MorticianGivenNames[1]);
         // }
 
         // [Fact]
@@ -1921,8 +1923,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_MorticianFamilyName()
         // {
-        //     Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).MorticianFamilyName);
-        //     Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).MorticianFamilyName);
+        //     Assert.Equal("Last", DeathRecord1_JSON.MorticianFamilyName);
+        //     Assert.Equal("Last", DeathRecord1_XML.MorticianFamilyName);
         // }
 
         // [Fact]
@@ -1935,8 +1937,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_MorticianSuffix()
         // {
-        //     Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).MorticianSuffix);
-        //     Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).MorticianSuffix);
+        //     Assert.Equal("Jr.", DeathRecord1_JSON.MorticianSuffix);
+        //     Assert.Equal("Jr.", DeathRecord1_XML.MorticianSuffix);
         // }
 
         // [Fact]
@@ -1953,8 +1955,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_MorticianIdentifier()
         // {
-        //     Assert.Equal("9876543210", ((DeathRecord)JSONRecords[0]).MorticianIdentifier["value"]);
-        //     Assert.Equal("9876543210", ((DeathRecord)XMLRecords[0]).MorticianIdentifier["value"]);
+        //     Assert.Equal("9876543210", DeathRecord1_JSON.MorticianIdentifier["value"]);
+        //     Assert.Equal("9876543210", DeathRecord1_XML.MorticianIdentifier["value"]);
         // }
 
         // [Fact]
@@ -1969,10 +1971,10 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_PronouncerGivenNames()
         // {
-        //     Assert.Equal("FD", ((DeathRecord)JSONRecords[0]).PronouncerGivenNames[0]);
-        //     Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).PronouncerGivenNames[1]);
-        //     Assert.Equal("FD", ((DeathRecord)XMLRecords[0]).PronouncerGivenNames[0]);
-        //     Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).PronouncerGivenNames[1]);
+        //     Assert.Equal("FD", DeathRecord1_JSON.PronouncerGivenNames[0]);
+        //     Assert.Equal("Middle", DeathRecord1_JSON.PronouncerGivenNames[1]);
+        //     Assert.Equal("FD", DeathRecord1_XML.PronouncerGivenNames[0]);
+        //     Assert.Equal("Middle", DeathRecord1_XML.PronouncerGivenNames[1]);
         // }
 
         // [Fact]
@@ -1985,8 +1987,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_PronouncerFamilyName()
         // {
-        //     Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).PronouncerFamilyName);
-        //     Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).PronouncerFamilyName);
+        //     Assert.Equal("Last", DeathRecord1_JSON.PronouncerFamilyName);
+        //     Assert.Equal("Last", DeathRecord1_XML.PronouncerFamilyName);
         // }
 
         // [Fact]
@@ -1999,8 +2001,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_PronouncerSuffix()
         // {
-        //     Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).PronouncerSuffix);
-        //     Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).PronouncerSuffix);
+        //     Assert.Equal("Jr.", DeathRecord1_JSON.PronouncerSuffix);
+        //     Assert.Equal("Jr.", DeathRecord1_XML.PronouncerSuffix);
         // }
 
         // [Fact]
@@ -2017,8 +2019,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_PronouncerIdentifier()
         // {
-        //     Assert.Equal("0000000000", ((DeathRecord)JSONRecords[0]).PronouncerIdentifier["value"]);
-        //     Assert.Equal("0000000000", ((DeathRecord)XMLRecords[0]).PronouncerIdentifier["value"]);
+        //     Assert.Equal("0000000000", DeathRecord1_JSON.PronouncerIdentifier["value"]);
+        //     Assert.Equal("0000000000", DeathRecord1_XML.PronouncerIdentifier["value"]);
         // }
 
         [Fact]
@@ -2057,21 +2059,21 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FuneralHomeAddress()
         {
-            Assert.Equal("1011010 Example Street", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressLine1"]);
-            Assert.Equal("1011010 Example Street", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCountry"]);
+            Assert.Equal("1011010 Example Street", DeathRecord1_XML.FuneralHomeAddress["addressLine1"]);
+            Assert.Equal("1011010 Example Street", DeathRecord1_JSON.FuneralHomeAddress["addressLine1"]);
+            Assert.Equal("Line 2", DeathRecord1_JSON.FuneralHomeAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_JSON.FuneralHomeAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_JSON.FuneralHomeAddress["addressCounty"]);
+            Assert.Equal("MA", DeathRecord1_JSON.FuneralHomeAddress["addressState"]);
+            Assert.Equal("01730", DeathRecord1_JSON.FuneralHomeAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_JSON.FuneralHomeAddress["addressCountry"]);
 
-            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCountry"]);
+            Assert.Equal("Line 2", DeathRecord1_XML.FuneralHomeAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_XML.FuneralHomeAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_XML.FuneralHomeAddress["addressCounty"]);
+            Assert.Equal("MA", DeathRecord1_XML.FuneralHomeAddress["addressState"]);
+            Assert.Equal("01730", DeathRecord1_XML.FuneralHomeAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_XML.FuneralHomeAddress["addressCountry"]);
         }
 
         [Fact]
@@ -2084,8 +2086,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FuneralHomeName()
         {
-            Assert.Equal("Smith Funeral Home", ((DeathRecord)JSONRecords[0]).FuneralHomeName);
-            Assert.Equal("Smith Funeral Home", ((DeathRecord)XMLRecords[0]).FuneralHomeName);
+            Assert.Equal("Smith Funeral Home", DeathRecord1_JSON.FuneralHomeName);
+            Assert.Equal("Smith Funeral Home", DeathRecord1_XML.FuneralHomeName);
         }
 
         [Fact]
@@ -2112,20 +2114,20 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DispositionLocationAddress()
         {
-            Assert.Equal("603 Example Street", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressCountry"]);
-            Assert.Equal("603 Example Street", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCountry"]);
+            Assert.Equal("603 Example Street", DeathRecord1_JSON.DispositionLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", DeathRecord1_JSON.DispositionLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_JSON.DispositionLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_JSON.DispositionLocationAddress["addressCounty"]);
+            Assert.Equal("MA", DeathRecord1_JSON.DispositionLocationAddress["addressState"]);
+            Assert.Equal("01730", DeathRecord1_JSON.DispositionLocationAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_JSON.DispositionLocationAddress["addressCountry"]);
+            Assert.Equal("603 Example Street", DeathRecord1_XML.DispositionLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", DeathRecord1_XML.DispositionLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_XML.DispositionLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_XML.DispositionLocationAddress["addressCounty"]);
+            Assert.Equal("MA", DeathRecord1_XML.DispositionLocationAddress["addressState"]);
+            Assert.Equal("01730", DeathRecord1_XML.DispositionLocationAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_XML.DispositionLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -2138,9 +2140,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DispositionLocationName()
         {
-            Assert.Equal("Bedford Cemetery", ((DeathRecord)JSONRecords[0]).DispositionLocationName);
-            Assert.Equal("Rosewood Cemetary", ((DeathRecord)JSONRecords[1]).DispositionLocationName);
-            Assert.Equal("Bedford Cemetery", ((DeathRecord)XMLRecords[0]).DispositionLocationName);
+            Assert.Equal("Bedford Cemetery", DeathRecord1_JSON.DispositionLocationName);
+            Assert.Equal("Rosewood Cemetary", DeathCertificateDocument2_JSON.DispositionLocationName);
+            Assert.Equal("Bedford Cemetery", DeathRecord1_XML.DispositionLocationName);
         }
 
         [Fact]
@@ -2156,12 +2158,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DecedentDispositionMethod()
         {
-            Assert.Equal("449971000124106", ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["code"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["system"]);
-            Assert.Equal("Burial", ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["display"]);
-            Assert.Equal("449971000124106", ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["code"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["system"]);
-            Assert.Equal("Burial", ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["display"]);
+            Assert.Equal("449971000124106", DeathRecord1_JSON.DecedentDispositionMethod["code"]);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_JSON.DecedentDispositionMethod["system"]);
+            Assert.Equal("Burial", DeathRecord1_JSON.DecedentDispositionMethod["display"]);
+            Assert.Equal("449971000124106", DeathRecord1_XML.DecedentDispositionMethod["code"]);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_XML.DecedentDispositionMethod["system"]);
+            Assert.Equal("Burial", DeathRecord1_XML.DecedentDispositionMethod["display"]);
         }
 
         [Fact]
@@ -2191,15 +2193,15 @@ namespace VRDR.Tests
         [Fact]
         public void Get_AutopsyPerformedIndicator()
         {
-            Assert.Equal(ValueSets.YesNoUnknown.Yes, ((DeathRecord)JSONRecords[1]).AutopsyPerformedIndicatorHelper);
-            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["system"]);
-            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["display"]);
-            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicatorHelper);
-            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["system"]);
-            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["display"]);
-            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicatorHelper);
+            Assert.Equal(ValueSets.YesNoUnknown.Yes, DeathCertificateDocument2_JSON.AutopsyPerformedIndicatorHelper);
+            Assert.Equal("Y", DeathRecord1_JSON.AutopsyPerformedIndicator["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, DeathRecord1_JSON.AutopsyPerformedIndicator["system"]);
+            Assert.Equal("Yes", DeathRecord1_JSON.AutopsyPerformedIndicator["display"]);
+            Assert.Equal("Y", DeathRecord1_JSON.AutopsyPerformedIndicatorHelper);
+            Assert.Equal("Y", DeathRecord1_XML.AutopsyPerformedIndicator["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, DeathRecord1_XML.AutopsyPerformedIndicator["system"]);
+            Assert.Equal("Yes", DeathRecord1_XML.AutopsyPerformedIndicator["display"]);
+            Assert.Equal("Y", DeathRecord1_XML.AutopsyPerformedIndicatorHelper);
         }
 
         [Fact]
@@ -2219,75 +2221,45 @@ namespace VRDR.Tests
         [Fact]
         public void Get_AutopsyResultsAvailable()
         {
-            Assert.Equal(ValueSets.YesNoUnknown.Yes, ((DeathRecord)JSONRecords[1]).AutopsyResultsAvailableHelper);
-            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["system"]);
-            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["display"]);
-            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailableHelper);
-            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["system"]);
-            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["display"]);
-            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailableHelper);
+            Assert.Equal(ValueSets.YesNoUnknown.Yes, DeathCertificateDocument2_JSON.AutopsyResultsAvailableHelper);
+            Assert.Equal("Y", DeathRecord1_JSON.AutopsyResultsAvailable["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, DeathRecord1_JSON.AutopsyResultsAvailable["system"]);
+            Assert.Equal("Yes", DeathRecord1_JSON.AutopsyResultsAvailable["display"]);
+            Assert.Equal("Y", DeathRecord1_JSON.AutopsyResultsAvailableHelper);
+            Assert.Equal("Y", DeathRecord1_XML.AutopsyResultsAvailable["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, DeathRecord1_XML.AutopsyResultsAvailable["system"]);
+            Assert.Equal("Yes", DeathRecord1_XML.AutopsyResultsAvailable["display"]);
+            Assert.Equal("Y", DeathRecord1_XML.AutopsyResultsAvailableHelper);
         }
 
         [Fact]
         public void Set_AgeAtDeath()
         {
             Dictionary<string, string> aad = new Dictionary<string, string>();
-            aad.Add("type", "a");
-            aad.Add("units", "79");
+            aad.Add("unit", "a");
+            aad.Add("value", "79");
             SetterDeathRecord.AgeAtDeath = aad;
-            Assert.Equal("a", SetterDeathRecord.AgeAtDeath["type"]);
-            Assert.Equal("79", SetterDeathRecord.AgeAtDeath["units"]);
+            Assert.Equal("a", SetterDeathRecord.AgeAtDeath["unit"]);
+            Assert.Equal("79", SetterDeathRecord.AgeAtDeath["value"]);
         }
 
         [Fact]
         public void Get_AgeAtDeath()
         {
-            Assert.Equal("a", ((DeathRecord)JSONRecords[1]).AgeAtDeath["type"]);
-            Assert.Equal("42", ((DeathRecord)JSONRecords[1]).AgeAtDeath["units"]);
-            Assert.False(((DeathRecord)JSONRecords[1]).AgeAtDeathDataAbsentBoolean);
-            DeathRecord dr1 = (DeathRecord)JSONRecords[1];
+            Assert.Equal("a", DeathCertificateDocument2_JSON.AgeAtDeath["unit"]);
+            Assert.Equal("42", DeathCertificateDocument2_JSON.AgeAtDeath["value"]);
+            DeathRecord dr1 = DeathCertificateDocument2_JSON;
             DeathRecord dr2 = new DeathRecord(dr1.ToJSON());
-            Assert.Equal("a", (dr2.AgeAtDeath["type"]));
-            Assert.Equal("42", (dr2.AgeAtDeath["units"]));
-            Assert.False(dr2.AgeAtDeathDataAbsentBoolean);
+            Assert.Equal("a", (dr2.AgeAtDeath["unit"]));
+            Assert.Equal("42", (dr2.AgeAtDeath["value"]));
             Dictionary<string, string> aad = new Dictionary<string, string>();
-            aad.Add("type", "a");
-            aad.Add("units", "79");
+            aad.Add("unit", "a");
+            aad.Add("value", "79");
             dr2.AgeAtDeath = aad;
-            Assert.Equal("a", (dr2.AgeAtDeath["type"]));
-            Assert.Equal("79", (dr2.AgeAtDeath["units"]));
-            Assert.False(dr2.AgeAtDeathDataAbsentBoolean);
-            Assert.Equal("a", ((DeathRecord)XMLRecords[0]).AgeAtDeath["type"]);
-            Assert.Equal("79", ((DeathRecord)XMLRecords[0]).AgeAtDeath["units"]);
-            Assert.False(((DeathRecord)XMLRecords[0]).AgeAtDeathDataAbsentBoolean);
-        }
-
-        [Fact]
-        public void Set_AgeAtDeath_Data_Absent()
-        {
-            Dictionary<string, string> aad1 = new Dictionary<string, string>();
-            aad1.Add("type", "");
-            aad1.Add("units", "");
-            SetterDeathRecord.AgeAtDeath = aad1;
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["type"]);
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["units"]);
-
-            Dictionary<string, string> aad2 = new Dictionary<string, string>();
-            SetterDeathRecord.AgeAtDeathDataAbsentBoolean = true;
-            SetterDeathRecord.AgeAtDeath = aad2;
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["type"]);
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["units"]);
-            Assert.True(SetterDeathRecord.AgeAtDeathDataAbsentBoolean);
-        }
-
-        [Fact]
-        public void Get_AgeAtDeath_Data_Absent()
-        {
-            DeathRecord json = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));
-            Assert.Equal("", json.AgeAtDeath["type"]);
-            Assert.Equal("", json.AgeAtDeath["units"]);
+            Assert.Equal("a", (dr2.AgeAtDeath["unit"]));
+            Assert.Equal("79", (dr2.AgeAtDeath["value"]));
+            Assert.Equal("a", DeathRecord1_XML.AgeAtDeath["unit"]);
+            Assert.Equal("79", DeathRecord1_XML.AgeAtDeath["value"]);
         }
 
         [Fact]
@@ -2308,9 +2280,8 @@ namespace VRDR.Tests
             Assert.Equal("999", ije.AGE);
             Assert.Equal("9", ije.AGETYPE);
             DeathRecord dr2 = ije.ToDeathRecord();
-            Assert.Equal("", dr2.AgeAtDeath["type"]);
-            Assert.Equal("", dr2.AgeAtDeath["units"]);
-            Assert.True(dr2.AgeAtDeathDataAbsentBoolean);
+            Assert.Equal("", dr2.AgeAtDeath["unit"]);
+            Assert.Equal("", dr2.AgeAtDeath["value"]);
         }
 
         [Fact]
@@ -2371,13 +2342,13 @@ namespace VRDR.Tests
         [Fact]
         public void Get_PregnancyStatus()
         {
-            Assert.Equal("1", ((DeathRecord)JSONRecords[0]).PregnancyStatus["code"]);
-            Assert.Equal(VRDR.CodeSystems.PregnancyStatus, ((DeathRecord)JSONRecords[0]).PregnancyStatus["system"]);
-            Assert.Equal("Not pregnant within past year", ((DeathRecord)JSONRecords[0]).PregnancyStatus["display"]);
-            Assert.Equal(ValueSets.PregnancyStatus.Pregnant_At_Time_Of_Death,((DeathRecord)JSONRecords[1]).PregnancyStatusHelper );
-            Assert.Equal("1", ((DeathRecord)XMLRecords[0]).PregnancyStatus["code"]);
-            Assert.Equal(VRDR.CodeSystems.PregnancyStatus, ((DeathRecord)XMLRecords[0]).PregnancyStatus["system"]);
-            Assert.Equal("Not pregnant within past year", ((DeathRecord)XMLRecords[0]).PregnancyStatus["display"]);
+            Assert.Equal("1", DeathRecord1_JSON.PregnancyStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PregnancyStatus, DeathRecord1_JSON.PregnancyStatus["system"]);
+            Assert.Equal("Not pregnant within past year", DeathRecord1_JSON.PregnancyStatus["display"]);
+            Assert.Equal(ValueSets.PregnancyStatus.Pregnant_At_Time_Of_Death,DeathCertificateDocument2_JSON.PregnancyStatusHelper );
+            Assert.Equal("1", DeathRecord1_XML.PregnancyStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PregnancyStatus, DeathRecord1_XML.PregnancyStatus["system"]);
+            Assert.Equal("Not pregnant within past year", DeathRecord1_XML.PregnancyStatus["display"]);
         }
 
         [Fact]
@@ -2400,13 +2371,13 @@ namespace VRDR.Tests
         [Fact]
         public void Get_PregnancyStatusEditFlag()
         {
-            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Failed_Data_Queried_But_Not_Verified, ((DeathRecord)JSONRecords[1]).PregnancyStatusEditFlagHelper);
-            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Passed, ((DeathRecord)JSONRecords[0]).PregnancyStatusEditFlagHelper);
-            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)JSONRecords[0]).PregnancyStatusEditFlag["system"]);
-            Assert.Equal("Edit Passed", ((DeathRecord)JSONRecords[0]).PregnancyStatusEditFlag["display"]);
-            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Passed, ((DeathRecord)XMLRecords[0]).PregnancyStatusEditFlagHelper);
-            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)XMLRecords[0]).PregnancyStatusEditFlag["system"]);
-            Assert.Equal("Edit Passed", ((DeathRecord)XMLRecords[0]).PregnancyStatusEditFlag["display"]);
+            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Failed_Data_Queried_But_Not_Verified, DeathCertificateDocument2_JSON.PregnancyStatusEditFlagHelper);
+            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Passed, DeathRecord1_JSON.PregnancyStatusEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, DeathRecord1_JSON.PregnancyStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", DeathRecord1_JSON.PregnancyStatusEditFlag["display"]);
+            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Passed, DeathRecord1_XML.PregnancyStatusEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, DeathRecord1_XML.PregnancyStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", DeathRecord1_XML.PregnancyStatusEditFlag["display"]);
         }
 
         [Fact]
@@ -2422,9 +2393,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_InjuryPlace()
         {
-            Assert.Equal("At home, in the kitchen", ((DeathRecord)JSONRecords[0]).InjuryPlaceDescription);
-            Assert.Equal("Home", ((DeathRecord)JSONRecords[1]).InjuryPlaceDescription);
-            Assert.Equal("At home, in the kitchen", ((DeathRecord)XMLRecords[0]).InjuryPlaceDescription);
+            Assert.Equal("At home, in the kitchen", DeathRecord1_JSON.InjuryPlaceDescription);
+            Assert.Equal("Home", DeathCertificateDocument2_JSON.InjuryPlaceDescription);
+            Assert.Equal("At home, in the kitchen", DeathRecord1_XML.InjuryPlaceDescription);
         }
 
         [Fact]
@@ -2456,13 +2427,13 @@ namespace VRDR.Tests
         [Fact]
         public void Get_TransportationRole()
         {
-            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, ((DeathRecord)JSONRecords[0]).TransportationRole["code"]);
-            Assert.Equal(ValueSets.TransportationIncidentRole.Pedestrian, ((DeathRecord)JSONRecords[1]).TransportationRoleHelper);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).TransportationRole["system"]);
-            Assert.Equal("Passenger", ((DeathRecord)JSONRecords[0]).TransportationRole["display"]);
-            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, ((DeathRecord)XMLRecords[0]).TransportationRole["code"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).TransportationRole["system"]);
-            Assert.Equal("Passenger", ((DeathRecord)XMLRecords[0]).TransportationRole["display"]);
+            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, DeathRecord1_JSON.TransportationRole["code"]);
+            Assert.Equal(ValueSets.TransportationIncidentRole.Pedestrian, DeathCertificateDocument2_JSON.TransportationRoleHelper);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_JSON.TransportationRole["system"]);
+            Assert.Equal("Passenger", DeathRecord1_JSON.TransportationRole["display"]);
+            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, DeathRecord1_XML.TransportationRole["code"]);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_XML.TransportationRole["system"]);
+            Assert.Equal("Passenger", DeathRecord1_XML.TransportationRole["display"]);
         }
 
         [Fact]
@@ -2492,15 +2463,15 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ExaminerContacted()
         {
-            Assert.Equal("N", ((DeathRecord)JSONRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
-            Assert.Equal("No", ((DeathRecord)JSONRecords[0]).ExaminerContacted["display"]);
-            Assert.Equal("N", ((DeathRecord)JSONRecords[0]).ExaminerContactedHelper);
-            Assert.Equal("Y", ((DeathRecord)JSONRecords[1]).ExaminerContactedHelper);
-            Assert.Equal("N", ((DeathRecord)XMLRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
-            Assert.Equal("No", ((DeathRecord)XMLRecords[0]).ExaminerContacted["display"]);
-            Assert.Equal("N", ((DeathRecord)XMLRecords[0]).ExaminerContactedHelper);
+            Assert.Equal("N", DeathRecord1_JSON.ExaminerContacted["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, DeathRecord1_JSON.ExaminerContacted["system"]);
+            Assert.Equal("No", DeathRecord1_JSON.ExaminerContacted["display"]);
+            Assert.Equal("N", DeathRecord1_JSON.ExaminerContactedHelper);
+            Assert.Equal("Y", DeathCertificateDocument2_JSON.ExaminerContactedHelper);
+            Assert.Equal("N", DeathRecord1_XML.ExaminerContacted["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, DeathRecord1_XML.ExaminerContacted["system"]);
+            Assert.Equal("No", DeathRecord1_XML.ExaminerContacted["display"]);
+            Assert.Equal("N", DeathRecord1_XML.ExaminerContactedHelper);
         }
 
         [Fact]
@@ -2519,13 +2490,13 @@ namespace VRDR.Tests
         [Fact]
         public void Get_TobaccoUse()
         {
-            Assert.Equal("373066001", ((DeathRecord)JSONRecords[0]).TobaccoUse["code"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).TobaccoUse["system"]);
-            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TobaccoUse["display"]);
-            Assert.Equal(ValueSets.ContributoryTobaccoUse.Yes, ((DeathRecord)JSONRecords[0]).TobaccoUseHelper);
-            Assert.Equal("373066001", ((DeathRecord)XMLRecords[0]).TobaccoUse["code"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).TobaccoUse["system"]);
-            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TobaccoUse["display"]);
+            Assert.Equal("373066001", DeathRecord1_JSON.TobaccoUse["code"]);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_JSON.TobaccoUse["system"]);
+            Assert.Equal("Yes", DeathRecord1_JSON.TobaccoUse["display"]);
+            Assert.Equal(ValueSets.ContributoryTobaccoUse.Yes, DeathRecord1_JSON.TobaccoUseHelper);
+            Assert.Equal("373066001", DeathRecord1_XML.TobaccoUse["code"]);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_XML.TobaccoUse["system"]);
+            Assert.Equal("Yes", DeathRecord1_XML.TobaccoUse["display"]);
         }
 
         [Fact]
@@ -2569,20 +2540,20 @@ namespace VRDR.Tests
         [Fact]
         public void Get_InjuryLocationAddress()
         {
-            Assert.Equal("781 Example Street", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCountry"]);
-            Assert.Equal("781 Example Street", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCountry"]);
+            Assert.Equal("781 Example Street", DeathRecord1_JSON.InjuryLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", DeathRecord1_JSON.InjuryLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_JSON.InjuryLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_JSON.InjuryLocationAddress["addressCounty"]);
+            Assert.Equal("MA", DeathRecord1_JSON.InjuryLocationAddress["addressState"]);
+            Assert.Equal("01730", DeathRecord1_JSON.InjuryLocationAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_JSON.InjuryLocationAddress["addressCountry"]);
+            Assert.Equal("781 Example Street", DeathRecord1_XML.InjuryLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", DeathRecord1_XML.InjuryLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_XML.InjuryLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_XML.InjuryLocationAddress["addressCounty"]);
+            Assert.Equal("MA", DeathRecord1_XML.InjuryLocationAddress["addressState"]);
+            Assert.Equal("01730", DeathRecord1_XML.InjuryLocationAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_XML.InjuryLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -2603,17 +2574,17 @@ namespace VRDR.Tests
         [Fact]
         public void Get_InjuryLocationLatLong()
         {
-            Assert.Equal("-77.050636", ((DeathRecord)JSONRecords[0]).InjuryLocationLongitude);
-            Assert.Equal("38.889248", ((DeathRecord)JSONRecords[0]).InjuryLocationLatitude);
-            Assert.Equal("-77.050636", ((DeathRecord)XMLRecords[0]).InjuryLocationLongitude);
-            Assert.Equal("38.889248", ((DeathRecord)XMLRecords[0]).InjuryLocationLatitude);
+            Assert.Equal("-77.050636", DeathRecord1_JSON.InjuryLocationLongitude);
+            Assert.Equal("38.889248", DeathRecord1_JSON.InjuryLocationLatitude);
+            Assert.Equal("-77.050636", DeathRecord1_XML.InjuryLocationLongitude);
+            Assert.Equal("38.889248", DeathRecord1_XML.InjuryLocationLatitude);
         }
 
         [Fact]
         public void Get_InjuryLocationName()
         {
-            Assert.Equal("Example Injury Location Name", ((DeathRecord)JSONRecords[0]).InjuryLocationName);
-            Assert.Equal("Example Injury Location Name", ((DeathRecord)XMLRecords[0]).InjuryLocationName);
+            Assert.Equal("Example Injury Location Name", DeathRecord1_JSON.InjuryLocationName);
+            Assert.Equal("Example Injury Location Name", DeathRecord1_XML.InjuryLocationName);
         }
 
         // [Fact]
@@ -2626,8 +2597,8 @@ namespace VRDR.Tests
         // [Fact]
         // public void Get_InjuryLocationDescription()
         // {
-        //     Assert.Equal("Example Injury Location Description", ((DeathRecord)JSONRecords[0]).InjuryLocationDescription);
-        //     Assert.Equal("Example Injury Location Description", ((DeathRecord)XMLRecords[0]).InjuryLocationDescription);
+        //     Assert.Equal("Example Injury Location Description", DeathRecord1_JSON.InjuryLocationDescription);
+        //     Assert.Equal("Example Injury Location Description", DeathRecord1_XML.InjuryLocationDescription);
         // }
 
         [Fact]
@@ -2644,17 +2615,17 @@ namespace VRDR.Tests
         [Fact]
         public void Get_InjuryDate()
         {
-            Assert.Equal("2018-02-19T16:48:00", ((DeathRecord)JSONRecords[0]).InjuryDate);
-            Assert.Equal(2018, (int)((DeathRecord)JSONRecords[0]).InjuryYear);
-            Assert.Equal(2, (int)((DeathRecord)JSONRecords[0]).InjuryMonth);
-            Assert.Equal(19, (int)((DeathRecord)JSONRecords[0]).InjuryDay);
-            Assert.Equal("16:48", ((DeathRecord)JSONRecords[0]).InjuryTime);
-            Assert.Equal("13:00", ((DeathRecord)JSONRecords[1]).InjuryTime);
-            Assert.Equal("2018-02-19T16:48:00", ((DeathRecord)XMLRecords[0]).InjuryDate);
-            Assert.Equal(2018, (int)((DeathRecord)XMLRecords[0]).InjuryYear);
-            Assert.Equal(2, (int)((DeathRecord)XMLRecords[0]).InjuryMonth);
-            Assert.Equal(19, (int)((DeathRecord)XMLRecords[0]).InjuryDay);
-            Assert.Equal("16:48", ((DeathRecord)XMLRecords[0]).InjuryTime);
+            Assert.Equal("2018-02-19T16:48:00", DeathRecord1_JSON.InjuryDate);
+            Assert.Equal(2018, (int)DeathRecord1_JSON.InjuryYear);
+            Assert.Equal(2, (int)DeathRecord1_JSON.InjuryMonth);
+            Assert.Equal(19, (int)DeathRecord1_JSON.InjuryDay);
+            Assert.Equal("16:48", DeathRecord1_JSON.InjuryTime);
+            Assert.Equal("13:00", DeathCertificateDocument2_JSON.InjuryTime);
+            Assert.Equal("2018-02-19T16:48:00", DeathRecord1_XML.InjuryDate);
+            Assert.Equal(2018, (int)DeathRecord1_XML.InjuryYear);
+            Assert.Equal(2, (int)DeathRecord1_XML.InjuryMonth);
+            Assert.Equal(19, (int)DeathRecord1_XML.InjuryDay);
+            Assert.Equal("16:48", DeathRecord1_XML.InjuryTime);
         }
 
         [Fact]
@@ -2699,15 +2670,15 @@ namespace VRDR.Tests
         [Fact]
         public void Get_InjuryAtWork()
         {
-            Assert.Equal("N", ((DeathRecord)JSONRecords[0]).InjuryAtWork["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)JSONRecords[0]).InjuryAtWork["system"]);
-            Assert.Equal("No", ((DeathRecord)JSONRecords[0]).InjuryAtWork["display"]);
-            Assert.Equal("N", ((DeathRecord)JSONRecords[0]).InjuryAtWorkHelper);
-            Assert.Equal(VRDR.ValueSets.YesNoUnknown.No, ((DeathRecord)JSONRecords[1]).InjuryAtWorkHelper);
-            Assert.Equal("N", ((DeathRecord)XMLRecords[0]).InjuryAtWork["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)XMLRecords[0]).InjuryAtWork["system"]);
-            Assert.Equal("No", ((DeathRecord)XMLRecords[0]).InjuryAtWork["display"]);
-            Assert.Equal("N", ((DeathRecord)XMLRecords[0]).InjuryAtWorkHelper);
+            Assert.Equal("N", DeathRecord1_JSON.InjuryAtWork["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, DeathRecord1_JSON.InjuryAtWork["system"]);
+            Assert.Equal("No", DeathRecord1_JSON.InjuryAtWork["display"]);
+            Assert.Equal("N", DeathRecord1_JSON.InjuryAtWorkHelper);
+            Assert.Equal(VRDR.ValueSets.YesNoUnknown.No, DeathCertificateDocument2_JSON.InjuryAtWorkHelper);
+            Assert.Equal("N", DeathRecord1_XML.InjuryAtWork["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, DeathRecord1_XML.InjuryAtWork["system"]);
+            Assert.Equal("No", DeathRecord1_XML.InjuryAtWork["display"]);
+            Assert.Equal("N", DeathRecord1_XML.InjuryAtWorkHelper);
         }
 
 
@@ -2723,11 +2694,11 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DeathLocationLatLong()
         {
-            Assert.Equal("-77.050636", ((DeathRecord)JSONRecords[0]).DeathLocationLongitude);
-            Assert.Equal("38.889248", ((DeathRecord)JSONRecords[0]).DeathLocationLatitude);
-            Assert.Equal("38.889248", ((DeathRecord)JSONRecords[1]).DeathLocationLatitude);
-            Assert.Equal("-77.050636", ((DeathRecord)XMLRecords[0]).DeathLocationLongitude);
-            Assert.Equal("38.889248", ((DeathRecord)XMLRecords[0]).DeathLocationLatitude);
+            Assert.Equal("-77.050636", DeathRecord1_JSON.DeathLocationLongitude);
+            Assert.Equal("38.889248", DeathRecord1_JSON.DeathLocationLatitude);
+            Assert.Equal("38.889248", DeathCertificateDocument2_JSON.DeathLocationLatitude);
+            Assert.Equal("-77.050636", DeathRecord1_XML.DeathLocationLongitude);
+            Assert.Equal("38.889248", DeathRecord1_XML.DeathLocationLatitude);
         }
 
         [Fact]
@@ -2771,37 +2742,37 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DeathLocationAddress()
         {
-            Assert.Equal("671 Example Street", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCounty"]);
-            Assert.Equal("NY", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressState"]);
-            Assert.Equal("YC", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressJurisdiction"]);
-            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCountry"]);
-            Assert.Equal("671 Example Street", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCounty"]);
-            Assert.Equal("NY", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCountry"]);
-            Assert.Equal("12345", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCityC"]);
-            Assert.Equal("123", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCountyC"]);
-            Assert.Equal("12345", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCityC"]);
-            Assert.Equal("123", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCountyC"]);
-            Assert.Equal("W", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressPredir"]);
-            Assert.Equal("E", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressPostdir"]);
-            Assert.Equal("Example", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressStname"]);
-            Assert.Equal("671", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressStnum"]);
-            Assert.Equal("Street", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressStdesig"]);
-            Assert.Equal("3", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressUnitnum"]);
-            Assert.Equal("W", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressPredir"]);
-            Assert.Equal("E", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressPostdir"]);
-            Assert.Equal("Example", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressStname"]);
-            Assert.Equal("671", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressStnum"]);
-            Assert.Equal("Street", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressStdesig"]);
-            Assert.Equal("3", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressUnitnum"]);
+            Assert.Equal("671 Example Street", DeathRecord1_JSON.DeathLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", DeathRecord1_JSON.DeathLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_JSON.DeathLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_JSON.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("NY", DeathRecord1_JSON.DeathLocationAddress["addressState"]);
+            Assert.Equal("YC", DeathRecord1_JSON.DeathLocationAddress["addressJurisdiction"]);
+            Assert.Equal("01730", DeathRecord1_JSON.DeathLocationAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_JSON.DeathLocationAddress["addressCountry"]);
+            Assert.Equal("671 Example Street", DeathRecord1_XML.DeathLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", DeathRecord1_XML.DeathLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", DeathRecord1_XML.DeathLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", DeathRecord1_XML.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("NY", DeathRecord1_XML.DeathLocationAddress["addressState"]);
+            Assert.Equal("01730", DeathRecord1_XML.DeathLocationAddress["addressZip"]);
+            Assert.Equal("US", DeathRecord1_XML.DeathLocationAddress["addressCountry"]);
+            Assert.Equal("12345", DeathRecord1_XML.DeathLocationAddress["addressCityC"]);
+            Assert.Equal("123", DeathRecord1_JSON.DeathLocationAddress["addressCountyC"]);
+            Assert.Equal("12345", DeathRecord1_XML.DeathLocationAddress["addressCityC"]);
+            Assert.Equal("123", DeathRecord1_JSON.DeathLocationAddress["addressCountyC"]);
+            Assert.Equal("W", DeathRecord1_JSON.DeathLocationAddress["addressPredir"]);
+            Assert.Equal("E", DeathRecord1_JSON.DeathLocationAddress["addressPostdir"]);
+            Assert.Equal("Example", DeathRecord1_JSON.DeathLocationAddress["addressStname"]);
+            Assert.Equal("671", DeathRecord1_JSON.DeathLocationAddress["addressStnum"]);
+            Assert.Equal("Street", DeathRecord1_JSON.DeathLocationAddress["addressStdesig"]);
+            Assert.Equal("3", DeathRecord1_JSON.DeathLocationAddress["addressUnitnum"]);
+            Assert.Equal("W", DeathRecord1_XML.DeathLocationAddress["addressPredir"]);
+            Assert.Equal("E", DeathRecord1_XML.DeathLocationAddress["addressPostdir"]);
+            Assert.Equal("Example", DeathRecord1_XML.DeathLocationAddress["addressStname"]);
+            Assert.Equal("671", DeathRecord1_XML.DeathLocationAddress["addressStnum"]);
+            Assert.Equal("Street", DeathRecord1_XML.DeathLocationAddress["addressStdesig"]);
+            Assert.Equal("3", DeathRecord1_XML.DeathLocationAddress["addressUnitnum"]);
         }
 
         [Fact]
@@ -2823,16 +2794,16 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DeathLocationName()
         {
-            Assert.Equal("Example Death Location Name", ((DeathRecord)JSONRecords[0]).DeathLocationName);
-            Assert.Equal("Example Death Location Name", ((DeathRecord)XMLRecords[0]).DeathLocationName);
+            Assert.Equal("Example Death Location Name", DeathRecord1_JSON.DeathLocationName);
+            Assert.Equal("Example Death Location Name", DeathRecord1_XML.DeathLocationName);
         }
 
         [Fact]
         public void Get_DeathLocationJurisdiction()
         {
-            Assert.Equal("YC", ((DeathRecord)JSONRecords[0]).DeathLocationJurisdiction);
-            Assert.Equal("NY", ((DeathRecord)JSONRecords[1]).DeathLocationJurisdiction);
-            Assert.Equal("YC", ((DeathRecord)XMLRecords[0]).DeathLocationJurisdiction);
+            Assert.Equal("YC", DeathRecord1_JSON.DeathLocationJurisdiction);
+            Assert.Equal("NY", DeathCertificateDocument2_JSON.DeathLocationJurisdiction);
+            Assert.Equal("YC", DeathRecord1_XML.DeathLocationJurisdiction);
         }
 
         [Fact]
@@ -2845,9 +2816,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DeathLocationDescription()
         {
-            Assert.Equal("Example Death Location Description", ((DeathRecord)JSONRecords[0]).DeathLocationDescription);
-            Assert.Equal("nursing home", ((DeathRecord)JSONRecords[1]).DeathLocationDescription);
-            Assert.Equal("Example Death Location Description", ((DeathRecord)XMLRecords[0]).DeathLocationDescription);
+            Assert.Equal("Example Death Location Description", DeathRecord1_JSON.DeathLocationDescription);
+            Assert.Equal("nursing home", DeathCertificateDocument2_JSON.DeathLocationDescription);
+            Assert.Equal("Example Death Location Description", DeathRecord1_XML.DeathLocationDescription);
         }
 
         [Fact]
@@ -2860,14 +2831,14 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DateOfDeath()
         {
-            Assert.Null(((DeathRecord)JSONRecords[1]).DateOfDeath);
-            Assert.Null(((DeathRecord)JSONRecords[1]).DeathDay);
-            Assert.Equal((uint)2020, (((DeathRecord)JSONRecords[1]).DeathYear));
-            Assert.Equal("2020-11-12T00:00:00", ((DeathRecord)JSONRecords[2]).DateOfDeath);
-            Assert.Equal((uint)2020, (((DeathRecord)JSONRecords[2]).DeathYear));
-            Assert.Null(((DeathRecord)JSONRecords[2]).DeathTime);
-            Assert.Equal("2019-02-19T16:48:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
-            Assert.Equal((uint)2019, (((DeathRecord)JSONRecords[0]).DeathYear));
+            Assert.Null(DeathCertificateDocument2_JSON.DateOfDeath);
+            Assert.Null(DeathCertificateDocument2_JSON.DeathDay);
+            Assert.Equal((uint)2020, (DeathCertificateDocument2_JSON.DeathYear));
+            Assert.Equal("2020-11-12T00:00:00", DeathCertificateDocument1_JSON.DateOfDeath);
+            Assert.Equal((uint)2020, (DeathCertificateDocument1_JSON.DeathYear));
+            Assert.Null(DeathCertificateDocument1_JSON.DeathTime);
+            Assert.Equal("2019-02-19T16:48:00", DeathRecord1_XML.DateOfDeath);
+            Assert.Equal((uint)2019, (DeathRecord1_JSON.DeathYear));
         }
 
         [Fact]
@@ -2931,9 +2902,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DateOfDeathPronouncement()
         {
-            Assert.Equal("2018-02-20T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeathPronouncement);
-            Assert.Equal("2020-11-13T16:39:40-05:00", ((DeathRecord)JSONRecords[1]).DateOfDeathPronouncement);
-            Assert.Equal("2019-02-20T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06-05:00", DeathRecord1_JSON.DateOfDeathPronouncement);
+            Assert.Equal("2020-11-13T16:39:40-05:00", DeathCertificateDocument2_JSON.DateOfDeathPronouncement);
+            Assert.Equal("2019-02-20T16:48:06-05:00", DeathRecord1_XML.DateOfDeathPronouncement);
         }
 
         [Fact]
@@ -2946,8 +2917,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SurgeryDate()
         {
-            Assert.Equal("2017-03-18", ((DeathRecord)JSONRecords[0]).SurgeryDate);
-            Assert.Equal("2017-03-18", ((DeathRecord)XMLRecords[0]).SurgeryDate);
+            Assert.Equal("2017-03-18", DeathRecord1_JSON.SurgeryDate);
+            Assert.Equal("2017-03-18", DeathRecord1_XML.SurgeryDate);
         }
 
         [Fact]
@@ -3020,7 +2991,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ReceiptDate()
         {
-            Assert.Equal("2021-12-12", ((DeathRecord)JSONRecords[1]).ReceiptDate);
+            Assert.Equal("2021-12-12", DeathCertificateDocument2_JSON.ReceiptDate);
         }
 
         [Fact]
@@ -3033,7 +3004,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_TransaxConversion()
         {
-            Assert.Equal(VRDR.ValueSets.TransaxConversion.Conversion_Using_Non_Ambivalent_Table_Entries, ((DeathRecord)JSONRecords[1]).TransaxConversionHelper);
+            Assert.Equal(VRDR.ValueSets.TransaxConversion.Conversion_Using_Non_Ambivalent_Table_Entries, DeathCertificateDocument2_JSON.TransaxConversionHelper);
         }
 
         [Fact]
@@ -3046,7 +3017,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_AcmeSystemReject()
         {
-            Assert.Equal(VRDR.ValueSets.AcmeSystemReject.Not_Rejected, ((DeathRecord)JSONRecords[1]).AcmeSystemRejectHelper);
+            Assert.Equal(VRDR.ValueSets.AcmeSystemReject.Not_Rejected, DeathCertificateDocument2_JSON.AcmeSystemRejectHelper);
         }
 
         [Fact]
@@ -3059,7 +3030,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_IntentionalReject()
         {
-            Assert.Equal(VRDR.ValueSets.IntentionalReject.Reject1, ((DeathRecord)JSONRecords[1]).IntentionalRejectHelper);
+            Assert.Equal(VRDR.ValueSets.IntentionalReject.Reject1, DeathCertificateDocument2_JSON.IntentionalRejectHelper);
         }
 
         [Fact]
@@ -3072,7 +3043,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ShipmentNumber()
         {
-            Assert.Equal("A2B2", ((DeathRecord)JSONRecords[1]).ShipmentNumber);
+            Assert.Equal("A2B2", DeathCertificateDocument2_JSON.ShipmentNumber);
         }
 
 
@@ -3115,26 +3086,26 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EmergingIssues()
         {
-            Assert.Equal("A", ((DeathRecord)JSONRecords[0]).EmergingIssue1_1);
-            Assert.Equal("B", ((DeathRecord)JSONRecords[0]).EmergingIssue1_2);
-            Assert.Equal("C", ((DeathRecord)JSONRecords[0]).EmergingIssue1_3);
-            Assert.Equal("D", ((DeathRecord)JSONRecords[0]).EmergingIssue1_4);
-            Assert.Equal("E", ((DeathRecord)JSONRecords[0]).EmergingIssue1_5);
-            Assert.Equal("F", ((DeathRecord)JSONRecords[0]).EmergingIssue1_6);
-            Assert.Equal("AAAAAAAA", ((DeathRecord)JSONRecords[0]).EmergingIssue8_1);
-            Assert.Equal("BBBBBBBB", ((DeathRecord)JSONRecords[0]).EmergingIssue8_2);
-            Assert.Equal("CCCCCCCC", ((DeathRecord)JSONRecords[0]).EmergingIssue8_3);
-            Assert.Equal("AAAAAAAAAAAAAAAAAAAA", ((DeathRecord)JSONRecords[0]).EmergingIssue20);
-            Assert.Equal("A", ((DeathRecord)XMLRecords[0]).EmergingIssue1_1);
-            Assert.Equal("B", ((DeathRecord)XMLRecords[0]).EmergingIssue1_2);
-            Assert.Equal("C", ((DeathRecord)XMLRecords[0]).EmergingIssue1_3);
-            Assert.Equal("D", ((DeathRecord)XMLRecords[0]).EmergingIssue1_4);
-            Assert.Equal("E", ((DeathRecord)XMLRecords[0]).EmergingIssue1_5);
-            Assert.Equal("F", ((DeathRecord)XMLRecords[0]).EmergingIssue1_6);
-            Assert.Equal("AAAAAAAA", ((DeathRecord)XMLRecords[0]).EmergingIssue8_1);
-            Assert.Equal("BBBBBBBB", ((DeathRecord)XMLRecords[0]).EmergingIssue8_2);
-            Assert.Equal("CCCCCCCC", ((DeathRecord)XMLRecords[0]).EmergingIssue8_3);
-            Assert.Equal("AAAAAAAAAAAAAAAAAAAA", ((DeathRecord)XMLRecords[0]).EmergingIssue20);
+            Assert.Equal("A", DeathRecord1_JSON.EmergingIssue1_1);
+            Assert.Equal("B", DeathRecord1_JSON.EmergingIssue1_2);
+            Assert.Equal("C", DeathRecord1_JSON.EmergingIssue1_3);
+            Assert.Equal("D", DeathRecord1_JSON.EmergingIssue1_4);
+            Assert.Equal("E", DeathRecord1_JSON.EmergingIssue1_5);
+            Assert.Equal("F", DeathRecord1_JSON.EmergingIssue1_6);
+            Assert.Equal("AAAAAAAA", DeathRecord1_JSON.EmergingIssue8_1);
+            Assert.Equal("BBBBBBBB", DeathRecord1_JSON.EmergingIssue8_2);
+            Assert.Equal("CCCCCCCC", DeathRecord1_JSON.EmergingIssue8_3);
+            Assert.Equal("AAAAAAAAAAAAAAAAAAAA", DeathRecord1_JSON.EmergingIssue20);
+            Assert.Equal("A", DeathRecord1_XML.EmergingIssue1_1);
+            Assert.Equal("B", DeathRecord1_XML.EmergingIssue1_2);
+            Assert.Equal("C", DeathRecord1_XML.EmergingIssue1_3);
+            Assert.Equal("D", DeathRecord1_XML.EmergingIssue1_4);
+            Assert.Equal("E", DeathRecord1_XML.EmergingIssue1_5);
+            Assert.Equal("F", DeathRecord1_XML.EmergingIssue1_6);
+            Assert.Equal("AAAAAAAA", DeathRecord1_XML.EmergingIssue8_1);
+            Assert.Equal("BBBBBBBB", DeathRecord1_XML.EmergingIssue8_2);
+            Assert.Equal("CCCCCCCC", DeathRecord1_XML.EmergingIssue8_3);
+            Assert.Equal("AAAAAAAAAAAAAAAAAAAA", DeathRecord1_XML.EmergingIssue20);
         }
 
         [Fact]
@@ -3156,14 +3127,14 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EntityAxisCodes()
         {
-            var eacGet = ((DeathRecord)JSONRecords[1]).EntityAxisCauseOfDeath;
+            var eacGet = DeathCertificateDocument2_JSON.EntityAxisCauseOfDeath;
             Assert.Single(eacGet);
             Assert.Equal(1, eacGet.ElementAt(0).LineNumber);
             Assert.Equal(1, eacGet.ElementAt(0).Position);
             Assert.Equal("J96.0", eacGet.ElementAt(0).Code);
             Assert.False(eacGet.ElementAt(0).ECode);
             // Add more items to IG example
-            eacGet = ((DeathRecord)JSONRecords[3]).EntityAxisCauseOfDeath;
+            eacGet = CauseOfDeathCodedContentBundle1_JSON.EntityAxisCauseOfDeath;
             Assert.Equal(4, eacGet.LongCount());
             Assert.Equal(1, eacGet.ElementAt(0).LineNumber);
             Assert.Equal(1, eacGet.ElementAt(0).Position);
@@ -3204,12 +3175,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_RecordAxisCodes()
         {
-            var racGet = ((DeathRecord)JSONRecords[1]).RecordAxisCauseOfDeath;
+            var racGet = DeathCertificateDocument2_JSON.RecordAxisCauseOfDeath;
             Assert.Single(racGet);
             Assert.Equal(1, racGet.ElementAt(0).Position);
             Assert.Equal("J96.0", racGet.ElementAt(0).Code);
             Assert.False(racGet.ElementAt(0).Pregnancy);
-            racGet = ((DeathRecord)JSONRecords[3]).RecordAxisCauseOfDeath;
+            racGet = CauseOfDeathCodedContentBundle1_JSON.RecordAxisCauseOfDeath;
             Assert.Single(racGet);
             Assert.Equal(1, racGet.ElementAt(0).Position);
             Assert.Equal("J96.0", racGet.ElementAt(0).Code);
@@ -3231,7 +3202,7 @@ namespace VRDR.Tests
         [Fact]
         public void Test_GetCauseOfDeathCodedContentBundle()
         {
-            Bundle bundle = ((DeathRecord)(JSONRecords[0])).GetCauseOfDeathCodedContentBundle();
+            Bundle bundle = DeathRecord1_JSON.GetCauseOfDeathCodedContentBundle();
             DeathRecord codedcontentbundle = new DeathRecord(bundle);
             Assert.NotNull(bundle);
             Assert.Equal("2019YC000182",codedcontentbundle.DeathRecordIdentifier);
@@ -3246,7 +3217,7 @@ namespace VRDR.Tests
         [Fact]
         public void Test_GetDemographicCodedContentBundle()
         {
-            Bundle bundle = ((DeathRecord)JSONRecords[0]).GetDemographicCodedContentBundle();
+            Bundle bundle = DeathRecord1_JSON.GetDemographicCodedContentBundle();
             Assert.NotNull(bundle);
             DeathRecord codedcontentbundle = new DeathRecord(bundle);
             Assert.Equal("2019YC000182",codedcontentbundle.DeathRecordIdentifier);

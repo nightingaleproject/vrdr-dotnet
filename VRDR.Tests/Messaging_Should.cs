@@ -87,9 +87,9 @@ namespace VRDR.Tests
             Assert.Equal("2020-11-13T16:39:40-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Equal("2018NH123456", submission.NCHSIdentifier);
-            Assert.Equal((uint)1, submission.CertNo);
+            Assert.Equal((uint)123456, submission.CertNo);
             Assert.Equal((uint)2018, submission.DeathYear);
-            Assert.Equal("42", submission.StateAuxiliaryId);
+            Assert.Equal("abcdef10", submission.StateAuxiliaryId);
             Assert.Equal(submission.JurisdictionId, submission.DeathRecord.DeathLocationJurisdiction);
 
             submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionNoIdentifiers.json"));
@@ -174,9 +174,9 @@ namespace VRDR.Tests
             Assert.Equal("2020-11-13T16:39:40-05:00", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Equal("2018NH123456", update.NCHSIdentifier);
-            Assert.Equal((uint)1, update.CertNo);
+            Assert.Equal((uint)123456, update.CertNo);
             Assert.Equal((uint)2018, update.DeathYear);
-            Assert.Equal("42", update.StateAuxiliaryId);
+            Assert.Equal("abcdef10", update.StateAuxiliaryId);
 
             update = BaseMessage.Parse<DeathRecordUpdateMessage>(FixtureStream("fixtures/json/DeathRecordUpdateNoIdentifiers.json"));
             Assert.Equal("2018-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
@@ -756,14 +756,14 @@ namespace VRDR.Tests
             DeathRecordAliasMessage message = BaseMessage.Parse<DeathRecordAliasMessage>(FixtureStream("fixtures/json/DeathRecordAliasMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_alias", message.MessageType);
             Assert.Equal((uint)123456, message.CertNo);
-            Assert.Equal("SAI", message.StateAuxiliaryId);
+            Assert.Equal("abcdef10", message.StateAuxiliaryId);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
-            Assert.Equal("DecedentFirstName", message.AliasDecedentFirstName);
-            Assert.Equal("DecedentLastName", message.AliasDecedentLastName);
-            Assert.Equal("DecedentMiddleName", message.AliasDecedentMiddleName);
-            Assert.Equal("DecedentNameSuffix", message.AliasDecedentNameSuffix);
-            Assert.Equal("FatherSurname", message.AliasFatherSurname);
-            Assert.Equal("SocialSecurityNumber", message.AliasSocialSecurityNumber);
+            Assert.Equal("John", message.AliasDecedentFirstName);
+            Assert.Equal("Schmidt", message.AliasDecedentLastName);
+            Assert.Equal("Jacob", message.AliasDecedentMiddleName);
+            Assert.Equal("III", message.AliasDecedentNameSuffix);
+            Assert.Equal("Jingleheimer", message.AliasFatherSurname);
+            Assert.Equal("123-45-6789", message.AliasSocialSecurityNumber);
         }
 
         [Fact]

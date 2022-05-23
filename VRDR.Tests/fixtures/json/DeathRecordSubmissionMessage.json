@@ -56,6 +56,10 @@
           {
             "name": "death_year",
             "valueUnsignedInt": 2018
+          },
+          {
+            "name": "state_auxiliary_id",
+            "valueString": "abcdef10"
           }
         ]
       },
@@ -125,8 +129,7 @@
                       "coding": [
                         {
                           "system": "http://snomed.info/sct",
-                          "code": "103693007",
-                          "display": "Diagnostic procedure (procedure)"
+                          "code": "103693007"
                         }
                       ]
                     }
@@ -499,8 +502,7 @@
                   "coding": [
                     {
                       "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
-                      "code": "FTH",
-                      "display": "father"
+                      "code": "FTH"
                     }
                   ]
                 }
@@ -538,8 +540,7 @@
                   "coding": [
                     {
                       "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
-                      "code": "MTH",
-                      "display": "mother"
+                      "code": "MTH"
                     }
                   ]
                 }
@@ -574,8 +575,7 @@
                   "coding": [
                     {
                       "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
-                      "code": "SPS",
-                      "display": "spouse"
+                      "code": "SPS"
                     }
                   ]
                 }
@@ -613,8 +613,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "39016-1",
-                    "display": "Age at death"
+                    "code": "39016-1"
                   }
                 ]
               },
@@ -956,8 +955,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "21842-0",
-                        "display": "Birthplace"
+                        "code": "21842-0"
                       }
                     ]
                   },
@@ -968,8 +966,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "80904-6",
-                        "display": "Birth year"
+                        "code": "80904-6"
                       }
                     ]
                   },
@@ -997,8 +994,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "80913-7",
-                    "display": "Highest level of education [US Standard Certificate of Death]"
+                    "code": "80913-7"
                   }
                 ]
               },
@@ -1031,8 +1027,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "55280-2",
-                    "display": "Military service Narrative"
+                    "code": "55280-2"
                   }
                 ]
               },
@@ -1126,8 +1121,7 @@
                 "coding": [
                   {
                     "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs",
-                    "code": "emergingissues",
-                    "display": "NCHS-required Parameter Slots for Emerging Issues"
+                    "code": "emergingissues"
                   }
                 ]
               },
@@ -1164,8 +1158,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "69442-2",
-                    "display": "Timing of recent pregnancy in relation to death"
+                    "code": "69442-2"
                   }
                 ]
               },
@@ -1246,8 +1239,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "81956-5",
-                    "display": "Date+time of death"
+                    "code": "81956-5"
                   }
                 ]
               },
@@ -1257,8 +1249,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "80616-6",
-                        "display": "Date and time pronounced dead [US Standard Certificate of Death]"
+                        "code": "80616-6"
                       }
                     ]
                   },
@@ -1269,8 +1260,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "58332-8",
-                        "display": "Location of death"
+                        "code": "58332-8"
                       }
                     ]
                   },
@@ -1343,8 +1333,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "80992-1",
-                    "display": "Date and time of surgery"
+                    "code": "80992-1"
                   }
                 ]
               },
@@ -1369,8 +1358,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "74497-9",
-                    "display": "Medical examiner or coroner was contacted [US Standard Certificate of Death]"
+                    "code": "74497-9"
                   }
                 ]
               },
@@ -1403,8 +1391,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "69449-7",
-                    "display": "Manner of death"
+                    "code": "69449-7"
                   }
                 ]
               },
@@ -1502,8 +1489,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "11374-6",
-                    "display": "Injury incident description Narrative"
+                    "code": "11374-6"
                   }
                 ]
               },
@@ -1513,8 +1499,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "69444-8",
-                        "display": "Did death result from injury at work"
+                        "code": "69444-8"
                       }
                     ]
                   },
@@ -1533,8 +1518,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "69450-5",
-                        "display": "Place of injury Facility"
+                        "code": "69450-5"
                       }
                     ]
                   },
@@ -1547,8 +1531,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "69451-3",
-                        "display": "Transportation role of decedent"
+                        "code": "69451-3"
                       }
                     ]
                   },
@@ -1694,8 +1677,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "69453-9",
-                    "display": "Cause of death [US Standard Certificate of Death]"
+                    "code": "69453-9"
                   }
                 ]
               },
@@ -1716,8 +1698,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "69440-6",
-                        "display": "Disease onset to death interval"
+                        "code": "69440-6"
                       }
                     ]
                   },
@@ -1752,8 +1733,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "69453-9",
-                    "display": "Cause of death [US Standard Certificate of Death]"
+                    "code": "69453-9"
                   }
                 ]
               },
@@ -1774,8 +1754,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "69440-6",
-                        "display": "Disease onset to death interval"
+                        "code": "69440-6"
                       }
                     ]
                   },
@@ -1810,8 +1789,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "69441-4",
-                    "display": "Other significant causes or conditions of death"
+                    "code": "69441-4"
                   }
                 ]
               },
@@ -1921,8 +1899,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "80905-3",
-                    "display": "Body disposition method"
+                    "code": "80905-3"
                   }
                 ]
               },
@@ -1960,8 +1937,7 @@
                 "coding": [
                   {
                     "system": "http://loinc.org",
-                    "code": "85699-7",
-                    "display": "Autopsy was performed"
+                    "code": "85699-7"
                   }
                 ]
               },
@@ -1971,8 +1947,7 @@
                     "coding": [
                       {
                         "system": "http://loinc.org",
-                        "code": "69436-4",
-                        "display": "Autopsy results available"
+                        "code": "69436-4"
                       }
                     ]
                   },

@@ -1832,6 +1832,8 @@ namespace VRDR.Tests
         {
             Assert.Equal("MA", DeathRecord1_JSON.BirthRecordState);
             Assert.Equal("MA", DeathRecord1_XML.BirthRecordState);
+            Assert.Equal("YC", DeathCertificateDocument1_JSON.BirthRecordState);
+
         }
 
         [Fact]

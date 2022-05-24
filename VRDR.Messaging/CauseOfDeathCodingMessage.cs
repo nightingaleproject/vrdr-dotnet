@@ -57,13 +57,17 @@ namespace VRDR
             set
             {
                 deathRecord = value;
-                MessageBundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Bundle );
-                Header.Focus.Clear();
-                if (deathRecord != null)
-                {
-                    MessageBundle.AddResourceEntry(deathRecord.GetCauseOfDeathCodedContentBundle(), "urn:uuid:" + deathRecord.GetCauseOfDeathCodedContentBundle().Id);
-                    Header.Focus.Add(new ResourceReference("urn:uuid:" + deathRecord.GetCauseOfDeathCodedContentBundle().Id));
-                }
+                UpdateMessageBundleRecord();
+            }
+        }
+
+        /// <summary>The record bundle that should go into the message bundle for this message</summary>
+        /// <value>the MessageBundleRecord</value>
+        protected override Bundle MessageBundleRecord
+        {
+            get
+            {
+                return deathRecord?.GetCauseOfDeathCodedContentBundle();
             }
         }
     }

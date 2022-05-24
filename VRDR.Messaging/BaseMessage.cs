@@ -119,6 +119,22 @@ namespace VRDR
         }
 
         /// <summary>
+        /// Update the record bundle in this message based on the MessageBundleRecord property (for whichever subclass we're instantiated as).
+        /// Important if we're managing a death record that might have changed.
+        /// </summary>
+        protected void UpdateMessageBundleRecord()
+        {
+            MessageBundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Bundle );
+            Header.Focus.Clear();
+            Bundle newBundle = MessageBundleRecord;
+            if (newBundle != null)
+            {
+                MessageBundle.AddResourceEntry(newBundle, "urn:uuid:" + newBundle.Id);
+                Header.Focus.Add(new ResourceReference("urn:uuid:" + newBundle.Id));
+            }
+        }
+
+        /// <summary>
         /// Allow explicit casting of a message into a bundle
         /// </summary>
         /// <param name="message">the death record to extract the bundle from</param>
@@ -129,6 +145,7 @@ namespace VRDR
         /// <returns>a string representation of this DeathRecordSubmissionMessage in XML format</returns>
         public string ToXML(bool prettyPrint = false)
         {
+            UpdateMessageBundleRecord(); // Update the record in the message bundle in case the DeathRecord (if present) has changed
             return MessageBundle.ToXml(new FhirXmlSerializationSettings { Pretty = prettyPrint, AppendNewLine = prettyPrint, TrimWhitespaces = prettyPrint });
         }
 
@@ -145,6 +162,7 @@ namespace VRDR
         /// <returns>a string representation of this DeathRecordSubmissionMessage in JSON format</returns>
         public string ToJSON(bool prettyPrint = false)
         {
+            UpdateMessageBundleRecord(); // Update the record in the message bundle in case the DeathRecord (if present) has changed
             return MessageBundle.ToJson(new FhirJsonSerializationSettings { Pretty = prettyPrint, AppendNewLine = prettyPrint });
         }
 
@@ -161,6 +179,17 @@ namespace VRDR
         // Message Properties
         //
         /////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>The record bundle that should go into the message bundle for this message</summary>
+        /// <value>the MessageBundleRecord</value>
+        protected virtual Bundle MessageBundleRecord
+        {
+            get
+            {
+                // The base message class and some subclasses do not have a record
+                return null;
+            }
+        }
 
         /// <summary>Message timestamp</summary>
         /// <value>the message timestamp.</value>

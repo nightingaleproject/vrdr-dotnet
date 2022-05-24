@@ -988,7 +988,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier1}");</para>
         /// </example>
-        [Property("State Local Identifier1", Property.Types.String, "Death Certificate", "State Local Identifier.", true, ProfileURL.DeathCertificate, true, 5)]
+        [Property("State Local Identifier1", Property.Types.String, "Death Certification", "State Local Identifier.", true, ProfileURL.DeathCertificate, true, 5)]
         [FHIRPath("Bundle", "identifier")]
         public string StateLocalIdentifier1
         {
@@ -1023,7 +1023,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier1}");</para>
         /// </example>
-        [Property("State Local Identifier2", Property.Types.String, "Death Certificate", "State Local Identifier.", true, ProfileURL.DeathCertificate, true, 5)]
+        [Property("State Local Identifier2", Property.Types.String, "Death Certification", "State Local Identifier.", true, ProfileURL.DeathCertificate, true, 5)]
         [FHIRPath("Bundle", "identifier")]
         public string StateLocalIdentifier2
         {
@@ -1138,7 +1138,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.FilingFormatHelper}");</para>
         /// </example>
-        [Property("Filing Format Helper", Property.Types.String, "Death Certification", "Filing Format.", true, IGURL.DeathCertificate, true, 13)]
+        [Property("Filing Format Helper", Property.Types.String, "Death Certification", "Filing Format.", false, IGURL.DeathCertificate, true, 13)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat')", "")]
         public string FilingFormatHelper
@@ -1267,7 +1267,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"ReplaceStatus: {ExampleDeathRecord.ReplaceStatusHelper}");</para>
         /// </example>
-        [Property("Replace Status Helper", Property.Types.String, "Death Certification", "Replace Status.", true, IGURL.DeathCertificate, true, 4)]
+        [Property("Replace Status Helper", Property.Types.String, "Death Certification", "Replace Status.", false, IGURL.DeathCertificate, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
         public string ReplaceStatusHelper
@@ -1347,7 +1347,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRoleHelper}");</para>
         /// </example>
-        [Property("Certification Role", Property.Types.String, "Death Certification", "Certification Role.", true, IGURL.DeathCertification, true, 4)]
+        [Property("Certification Role Helper", Property.Types.String, "Death Certification", "Certification Role.", false, IGURL.DeathCertification, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "performer")]
         public string CertificationRoleHelper
@@ -1454,7 +1454,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathTypeHelper}");</para>
         /// </example>
-        [Property("Manner Of Death Type", Property.Types.String, "Death Certification", "Manner of Death Type.", true, IGURL.MannerOfDeath, true, 49)]
+        [Property("Manner Of Death Type Helper", Property.Types.String, "Death Certification", "Manner of Death Type.", false, IGURL.MannerOfDeath, true, 49)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7')", "")]
 
@@ -2629,7 +2629,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's SexAtDeathHelper: {ExampleDeathRecord.SexAtDeathHelper}");</para>
         /// </example>
-        [Property("Sex At Death", Property.Types.String, "Decedent Demographics", "Decedent's Sex At Death.", true, IGURL.Decedent, false, 34)]
+        [Property("Sex At Death Helper", Property.Types.String, "Decedent Demographics", "Decedent's Sex At Death.", false, IGURL.Decedent, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath')", "")]
         public string SexAtDeathHelper
@@ -2937,7 +2937,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimitsHelper}");</para>
         /// </example>
-        [Property("ResidenceWithinCityLimits Helper", Property.Types.String, "Decedent Demographics", "Decedent's ResidenceWithinCityLimits.", true, IGURL.Decedent, false, 34)]
+        [Property("ResidenceWithinCityLimits Helper", Property.Types.String, "Decedent Demographics", "Decedent's ResidenceWithinCityLimits.", false, IGURL.Decedent, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
         public string ResidenceWithinCityLimitsHelper
@@ -3044,7 +3044,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
         /// </example>
-        [Property("Ethnicity 1 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 1.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [Property("Ethnicity 1 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 1.", false, IGURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public string Ethnicity1Helper
@@ -3120,7 +3120,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
         /// </example>
-        [Property("Ethnicity 2 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 2.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [Property("Ethnicity 2 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 2.", false, IGURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public string Ethnicity2Helper
@@ -3196,7 +3196,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity3Helper}");</para>
         /// </example>
-        [Property("Ethnicity 3 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 3.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [Property("Ethnicity 3 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 3.", false, IGURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public string Ethnicity3Helper
@@ -3272,7 +3272,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity4Helper}");</para>
         /// </example>
-        [Property("Ethnicity 4 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 4.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [Property("Ethnicity 4 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 4.", false, IGURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public string Ethnicity4Helper
@@ -3484,7 +3484,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's RaceMissingValueReason: {ExampleDeathRecord.RaceMissingValueReasonHelper}");</para>
         /// </example>
-        [Property("RaceMissingValueReason", Property.Types.String, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, IGURL.InputRaceAndEthnicity, true, 38)]
+        [Property("RaceMissingValueReasonHelper", Property.Types.String, "Decedent Demographics", "Decedent's Race MissingValueReason.", false, IGURL.InputRaceAndEthnicity, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='MissingValueReason')", "")]
         public string RaceMissingValueReasonHelper
         {
@@ -3704,7 +3704,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusHelper}");</para>
         /// </example>
-        [Property("Marital Status", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, IGURL.Decedent, true, 24)]
+        [Property("Marital Status Helper", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", false, IGURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
         public string MaritalStatusHelper
@@ -3733,7 +3733,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusEditFlagHelper}");</para>
         /// </example>
-        [Property("Marital Status Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Marital Status Edit Flag Helper", true, IGURL.Decedent, true, 24)]
+        [Property("Marital Status Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Marital Status Edit Flag Helper", false, IGURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
         public string MaritalStatusEditFlagHelper
@@ -4259,7 +4259,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Spouse Alive: {ExampleDeathRecord.SpouseAliveHelper}");</para>
         /// </example>
-        [Property("Spouse Alive", Property.Types.String, "Decedent Demographics", "Spouse Alive", true, IGURL.Decedent, false, 27)]
+        [Property("Spouse Alive Helper", Property.Types.String, "Decedent Demographics", "Spouse Alive", false, IGURL.Decedent, false, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "")]
         public string SpouseAliveHelper
         {
@@ -4298,7 +4298,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7').value.coding", "")]
         public Dictionary<string, string> EducationLevel
         {
             get
@@ -4334,9 +4334,9 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Education Level: {ExampleDeathRecord.EducationLevelHelper}");</para>
         /// </example>
-        [Property("Education Level", Property.Types.String, "Decedent Demographics", "Decedent's Education Level.", true, IGURL.DecedentEducationLevel, false, 34)]
+        [Property("Education Level Helper", Property.Types.String, "Decedent Demographics", "Decedent's Education Level.", false, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7').value.coding", "")]
         public string EducationLevelHelper
         {
             get
@@ -4412,7 +4412,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Education Level Edit Flag: {ExampleDeathRecord.EducationLevelHelperEditFlag}");</para>
         /// </example>
-        [Property("Education Level Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Decedent's Education Level Edit Flag Helper.", true, IGURL.DecedentEducationLevel, false, 34)]
+        [Property("Education Level Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Decedent's Education Level Edit Flag Helper.", false, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
         public string EducationLevelEditFlagHelper
@@ -4722,7 +4722,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceHelper}");</para>
         /// </example>
-        [Property("Military Service Helper", Property.Types.String, "Decedent Demographics", "Decedent's Military Service.", true, IGURL.DecedentMilitaryService, false, 23)]
+        [Property("Military Service Helper", Property.Types.String, "Decedent Demographics", "Decedent's Military Service.", false, IGURL.DecedentMilitaryService, false, 23)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='55280-2')", "")]
         public string MilitaryServiceHelper
         {
@@ -5230,7 +5230,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethodHelper}");</para>
         /// </example>
         /// </value>
-        [Property("Decedent Disposition Method", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", true, IGURL.DecedentDispositionMethod, true, 1)]
+        [Property("Decedent Disposition Method Helper", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", false, IGURL.DecedentDispositionMethod, true, 1)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80905-3')", "")]
         public string DecedentDispositionMethodHelper
@@ -5305,7 +5305,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</para>
         /// </example>
-        [Property("Autopsy Performed Indicator Helper", Property.Types.String, "Death Investigation", "Autopsy Performed Indicator.", true, IGURL.AutopsyPerformedIndicator, true, 29)]
+        [Property("Autopsy Performed Indicator Helper", Property.Types.String, "Death Investigation", "Autopsy Performed Indicator.", false, IGURL.AutopsyPerformedIndicator, true, 29)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
         public string AutopsyPerformedIndicatorHelper
         {
@@ -6025,7 +6025,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableHelper}");</para>
         /// </example>
-        [Property("Autopsy Results Available Helper", Property.Types.String, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, IGURL.AutopsyPerformedIndicator, true, 31)]
+        [Property("Autopsy Results Available Helper", Property.Types.String, "Death Investigation", "Autopsy results available, used to complete cause of death.", false, IGURL.AutopsyPerformedIndicator, true, 31)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
         public string AutopsyResultsAvailableHelper
         {
@@ -6376,7 +6376,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
         /// </example>
-        [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", true, IGURL.DeathDate, false, 19)]
+        [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", false, IGURL.DeathDate, false, 19)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "component")]
         public string DeathLocationTypeHelper
@@ -6500,7 +6500,7 @@ namespace VRDR
         /// <summary>
         /// Age at Death Edit Bypass Flag Helper
         /// </summary>
-        [Property("Age At Death Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Age At Death Edit Flag Helper.", true, IGURL.DecedentAge, true, 2)]
+        [Property("Age At Death Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Age At Death Edit Flag Helper.", false, IGURL.DecedentAge, true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').value.extension", "")]
         public String AgeAtDeathEditFlagHelper
@@ -6574,7 +6574,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatusHelper}");</para>
         /// </example>
-        [Property("Pregnancy Status", Property.Types.String, "Death Investigation", "Pregnancy Status At Death.", true, IGURL.DecedentPregnancyStatus, true, 33)]
+        [Property("Pregnancy Status Helper", Property.Types.String, "Death Investigation", "Pregnancy Status At Death.", false, IGURL.DecedentPregnancyStatus, true, 33)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
         public string PregnancyStatusHelper
@@ -6654,7 +6654,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Pregnancy Status Edit Flag: {ExampleDeathRecord.PregnancyStatusHelperEditFlag}");</para>
         /// </example>
-        [Property("Pregnancy Status Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Decedent's Pregnancy Status Edit Flag Helper.", true, IGURL.DecedentPregnancyStatus, false, 34)]
+        [Property("Pregnancy Status Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Decedent's Pregnancy Status Edit Flag Helper.", false, IGURL.DecedentPregnancyStatus, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
         public string PregnancyStatusEditFlagHelper
@@ -6734,7 +6734,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
         /// </example>
-        [Property("Examiner Contacted Helper", Property.Types.String, "Death Investigation", "Examiner Contacted.", true, IGURL.ExaminerContacted, true, 27)]
+        [Property("Examiner Contacted Helper", Property.Types.String, "Death Investigation", "Examiner Contacted.", false, IGURL.ExaminerContacted, true, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
         public string ExaminerContactedHelper
         {
@@ -7283,7 +7283,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury At Work? : {ExampleDeathRecord.InjuryAtWorkHelper}");</para>
         /// </example>
-        [Property("Injury At Work Helper", Property.Types.String, "Death Investigation", "Did the injury occur at work?", true, IGURL.InjuryIncident, true, 42)]
+        [Property("Injury At Work Helper", Property.Types.String, "Death Investigation", "Did the injury occur at work?", false, IGURL.InjuryIncident, true, 42)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public string InjuryAtWorkHelper
         {
@@ -7370,7 +7370,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRoleHelper");</para>
         /// </example>
-        [Property("Transportation Role Helper", Property.Types.String, "Death Investigation", "Transportation Role in death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Transportation-Role.html", true, 45)]
+        [Property("Transportation Role Helper", Property.Types.String, "Death Investigation", "Transportation Role in death.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Transportation-Role.html", true, 45)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]  // The component  code is '69451-3'
         public string TransportationRoleHelper
@@ -7483,7 +7483,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUseHelper}");</para>
         /// </example>
-        [Property("Tobacco Use Helper", Property.Types.String, "Death Investigation", "Tobacco Use.", true, IGURL.TobaccoUseContributedToDeath, true, 27)]
+        [Property("Tobacco Use Helper", Property.Types.String, "Death Investigation", "Tobacco Use.", false, IGURL.TobaccoUseContributedToDeath, true, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0')", "")]
         public string TobaccoUseHelper
         {
@@ -7821,7 +7821,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Activity at Time of Death: {ExampleDeathRecord.ActivityAtDeath}");</para>
         /// </example>
-        [Property("Activity at Time of Death", Property.Types.String, "Coded Content", "Decedent's Activity at Time of Death.", true, IGURL.ActivityAtTimeOfDeath, false, 34)]
+        [Property("Activity at Time of Death Helper", Property.Types.String, "Coded Content", "Decedent's Activity at Time of Death.", false, IGURL.ActivityAtTimeOfDeath, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80626-5')", "")]
         public string ActivityAtDeathHelper
@@ -7953,7 +7953,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.PlaceOfInjuryHelper}");</para>
         /// </example>
-        [Property("Place of Injury", Property.Types.String, "Coded Content", "Place of Injury.", true, IGURL.PlaceOfInjury, false, 34)]
+        [Property("Place of Injury Helper", Property.Types.String, "Coded Content", "Place of Injury.", false, IGURL.PlaceOfInjury, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11376-1')", "")]
         public string PlaceOfInjuryHelper
@@ -8029,7 +8029,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCodeHelper}");</para>
         /// </example>
-        [Property("First Edited Race Code Helper", Property.Types.String, "Coded Content", "First Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("First Edited Race Code Helper", Property.Types.String, "Coded Content", "First Edited Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string FirstEditedRaceCodeHelper
@@ -8105,7 +8105,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Second Edited Race Code: {ExampleDeathRecord.SecondEditedRaceCodeHelper}");</para>
         /// </example>
-        [Property("Second Edited Race Code Helper", Property.Types.String, "Coded Content", "Second Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Second Edited Race Code Helper", Property.Types.String, "Coded Content", "Second Edited Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string SecondEditedRaceCodeHelper
@@ -8181,7 +8181,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Third Edited Race Code: {ExampleDeathRecord.ThirdEditedRaceCodeHelper}");</para>
         /// </example>
-        [Property("Third Edited Race Code Helper", Property.Types.String, "Coded Content", "Third Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Third Edited Race Code Helper", Property.Types.String, "Coded Content", "Third Edited Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string ThirdEditedRaceCodeHelper
@@ -8257,7 +8257,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Fourth Edited Race Code: {ExampleDeathRecord.FourthEditedRaceCodeHelper}");</para>
         /// </example>
-        [Property("Fourth Edited Race Code Helper", Property.Types.String, "Coded Content", "Fourth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Fourth Edited Race Code Helper", Property.Types.String, "Coded Content", "Fourth Edited Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string FourthEditedRaceCodeHelper
@@ -8333,7 +8333,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Fifth Edited Race Code: {ExampleDeathRecord.FifthEditedRaceCodeHelper}");</para>
         /// </example>
-        [Property("Fifth Edited Race Code Helper", Property.Types.String, "Coded Content", "Fifth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Fifth Edited Race Code Helper", Property.Types.String, "Coded Content", "Fifth Edited Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string FifthEditedRaceCodeHelper
@@ -8409,7 +8409,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Sixth Edited Race Code: {ExampleDeathRecord.SixthEditedRaceCodeHelper}");</para>
         /// </example>
-        [Property("Sixth Edited Race Code Helper", Property.Types.String, "Coded Content", "Sixth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Sixth Edited Race Code Helper", Property.Types.String, "Coded Content", "Sixth Edited Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string SixthEditedRaceCodeHelper
@@ -8485,7 +8485,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Seventh Edited Race Code: {ExampleDeathRecord.SeventhEditedRaceCodeHelper}");</para>
         /// </example>
-        [Property("Seventh Edited Race Code Helper", Property.Types.String, "Coded Content", "Seventh Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Seventh Edited Race Code Helper", Property.Types.String, "Coded Content", "Seventh Edited Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string SeventhEditedRaceCodeHelper
@@ -8561,7 +8561,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Eighth Edited Race Code: {ExampleDeathRecord.EighthEditedRaceCodeHelper}");</para>
         /// </example>
-        [Property("Eighth Edited Race Code Helper", Property.Types.String, "Coded Content", "Eighth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Eighth Edited Race Code Helper", Property.Types.String, "Coded Content", "Eighth Edited Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string EighthEditedRaceCodeHelper
@@ -8637,7 +8637,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"First American Indian Race Code: {ExampleDeathRecord.FirstAmericanIndianRaceCodeHelper}");</para>
         /// </example>
-        [Property("First American Indian Race Code Helper", Property.Types.String, "Coded Content", "First American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("First American Indian Race Code Helper", Property.Types.String, "Coded Content", "First American Indian Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string FirstAmericanIndianRaceCodeHelper
@@ -8713,7 +8713,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Second American Indian Race Code: {ExampleDeathRecord.SecondAmericanIndianRaceCodeHelper}");</para>
         /// </example>
-        [Property("Second American Indian Race Code Helper", Property.Types.String, "Coded Content", "Second American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Second American Indian Race Code Helper", Property.Types.String, "Coded Content", "Second American Indian Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string SecondAmericanIndianRaceCodeHelper
@@ -8789,7 +8789,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"First Other Asian Race Code: {ExampleDeathRecord.FirstOtherAsianRaceCodeHelper}");</para>
         /// </example>
-        [Property("First Other Asian Race Code Helper", Property.Types.String, "Coded Content", "First Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("First Other Asian Race Code Helper", Property.Types.String, "Coded Content", "First Other Asian Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string FirstOtherAsianRaceCodeHelper
@@ -8865,7 +8865,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Second Other Asian Race Code: {ExampleDeathRecord.SecondOtherAsianRaceCodeHelper}");</para>
         /// </example>
-        [Property("Second Other Asian Race Code Helper", Property.Types.String, "Coded Content", "Second Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Second Other Asian Race Code Helper", Property.Types.String, "Coded Content", "Second Other Asian Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string SecondOtherAsianRaceCodeHelper
@@ -8941,7 +8941,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"First Other Pacific Islander Race Code: {ExampleDeathRecord.FirstOtherPacificIslanderRaceCodeHelper}");</para>
         /// </example>
-        [Property("First Other Pacific Islander Race Code Helper", Property.Types.String, "Coded Content", "First Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("First Other Pacific Islander Race Code Helper", Property.Types.String, "Coded Content", "First Other Pacific Islander Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string FirstOtherPacificIslanderRaceCodeHelper
@@ -9017,7 +9017,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Second Other Pacific Islander Race Code: {ExampleDeathRecord.SecondOtherPacificIslanderRaceCodeHelper}");</para>
         /// </example>
-        [Property("Second Other Pacific Islander Race Code Helper", Property.Types.String, "Coded Content", "Second Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Second Other Pacific Islander Race Code Helper", Property.Types.String, "Coded Content", "Second Other Pacific Islander Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string SecondOtherPacificIslanderRaceCodeHelper
@@ -9093,7 +9093,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"First Other Race Code: {ExampleDeathRecord.FirstOtherRaceCodeHelper}");</para>
         /// </example>
-        [Property("First Other Race Code Helper", Property.Types.String, "Coded Content", "First Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("First Other Race Code Helper", Property.Types.String, "Coded Content", "First Other Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string FirstOtherRaceCodeHelper
@@ -9169,7 +9169,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Second Other Race Code: {ExampleDeathRecord.SecondOtherRaceCodeHelper}");</para>
         /// </example>
-        [Property("Second Other Race Code Helper", Property.Types.String, "Coded Content", "Second Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Second Other Race Code Helper", Property.Types.String, "Coded Content", "Second Other Race Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string SecondOtherRaceCodeHelper
@@ -9245,7 +9245,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Hispanic Code: {ExampleDeathRecord.HispanicCodeHelper}");</para>
         /// </example>
-        [Property("Hispanic Code Helper", Property.Types.String, "Coded Content", "Hispanic Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Hispanic Code Helper", Property.Types.String, "Coded Content", "Hispanic Code.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string HispanicCodeHelper
@@ -9321,7 +9321,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Hispanic Code For Literal: {ExampleDeathRecord.HispanicCodeForLiteralHelper}");</para>
         /// </example>
-        [Property("Hispanic Code For Literal Helper", Property.Types.String, "Coded Content", "Hispanic Code For Literal.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Hispanic Code For Literal Helper", Property.Types.String, "Coded Content", "Hispanic Code For Literal.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string HispanicCodeForLiteralHelper
@@ -9397,7 +9397,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Race Recode 40: {ExampleDeathRecord.RaceRecode40Helper}");</para>
         /// </example>
-        [Property("Race Recode 40 Helper", Property.Types.String, "Coded Content", "Race Recode 40.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [Property("Race Recode 40 Helper", Property.Types.String, "Coded Content", "Race Recode 40.", false, IGURL.CodedRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
         public string RaceRecode40Helper
@@ -9427,7 +9427,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"First Entity Axis Code: {ExampleDeathRecord.EntityAxisCauseOfDeath.ElementAt(0).Code}");</para>
         /// </example>
-        [Property("Entity Axis Cause of Death", Property.Types.Tuple4Arr, "Entity Axis Cause of Death", "", true, IGURL.EntityAxisCauseOfDeath, false, 50)]
+        [Property("Entity Axis Cause of Death", Property.Types.Tuple4Arr, "Coded Content", "", true, IGURL.EntityAxisCauseOfDeath, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80356-9)", "")]
         public IEnumerable<(int LineNumber, int Position, string Code, bool ECode)> EntityAxisCauseOfDeath
         {
@@ -9528,7 +9528,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"First Record Axis Code: {ExampleDeathRecord.RecordAxisCauseOfDeath.ElememtAt(0).Code}");</para>
         /// </example>
-        [Property("Record Axis Cause Of Death", Property.Types.Tuple4Arr, "RecordAxisCauseOfDeath", "", true, IGURL.RecordAxisCauseOfDeath, false, 50)]
+        [Property("Record Axis Cause Of Death", Property.Types.Tuple4Arr, "Coded Content", "", true, IGURL.RecordAxisCauseOfDeath, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80357-7)", "")]
         public IEnumerable<(int Position, string Code, bool Pregnancy)> RecordAxisCauseOfDeath
         {
@@ -9623,7 +9623,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Receipt Year: {ExampleDeathRecord.ReceiptYear}");</para>
         /// </example>
-        [Property("ReceiptYear", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("ReceiptYear", Property.Types.UInt32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public uint? ReceiptYear
         {
@@ -9654,7 +9654,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Receipt Month: {ExampleDeathRecord.ReceiptMonth}");</para>
         /// </example>
-        [Property("ReceiptMonth", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("ReceiptMonth", Property.Types.UInt32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public uint? ReceiptMonth
         {
@@ -9682,7 +9682,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Receipt Day: {ExampleDeathRecord.ReceiptDay}");</para>
         /// </example>
-        [Property("ReceiptDay", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("ReceiptDay", Property.Types.UInt32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public uint? ReceiptDay
         {
@@ -9710,7 +9710,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Receipt Date: {ExampleDeathRecord.ReceiptDate}");</para>
         /// </example>
-        [Property("Receipt Date", Property.Types.StringDateTime, "Coded Observations", "Receipt Date.", true, IGURL.CodingStatusValues, true, 25)]
+        [Property("Receipt Date", Property.Types.StringDateTime, "Coded Content", "Receipt Date.", true, IGURL.CodingStatusValues, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string ReceiptDate
         {
@@ -9748,7 +9748,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Coder STatus {ExampleDeathRecord.CoderStatus}");</para>
         /// </example>
-        [Property("CoderStatus", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
+        [Property("CoderStatus", Property.Types.UInt32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, false)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public int? CoderStatus
         {
@@ -9781,7 +9781,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Shipment Number{ExampleDeathRecord.ShipmentNumber}");</para>
         /// </example>
-        [Property("ShipmentNumber", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
+        [Property("ShipmentNumber", Property.Types.String, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, false)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string ShipmentNumber
         {
@@ -9813,7 +9813,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Intentional Reject {ExampleDeathRecord.IntentionalReject}");</para>
         /// </example>
-        [Property("IntentionalReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("IntentionalReject", Property.Types.Dictionary, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -9853,7 +9853,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Intentional Reject Code: {ExampleDeathRecord.IntentionalRejectHelper}");</para>
         /// </example>
-        [Property("IntentionalRejectHelper", Property.Types.String, "Intentional Reject Codes", "IntentionalRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
+        [Property("IntentionalRejectHelper", Property.Types.String, "Intentional Reject Codes", "IntentionalRejectCodes.", false, IGURL.CodingStatusValues, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string IntentionalRejectHelper
@@ -9883,7 +9883,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
         /// </example>
 
-        [Property("AcmeSystemReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("AcmeSystemReject", Property.Types.Dictionary, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -9923,7 +9923,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
         /// </example>
-        [Property("AcmeSystemRejectHelper", Property.Types.String, "Acme System Reject Codes", "AcmeSystemRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
+        [Property("AcmeSystemRejectHelper", Property.Types.String, "Acme System Reject Codes", "AcmeSystemRejectCodes.", false, IGURL.CodingStatusValues, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string AcmeSystemRejectHelper
@@ -9953,7 +9953,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transax Conversion Code: {ExampleDeathRecord.TransaxConversion}");</para>
         /// </example>
-        [Property("TransaxConversion", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("TransaxConversion", Property.Types.Dictionary, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -9993,7 +9993,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.TransaxConversionHelper}");</para>
         /// </example>
-        [Property("TransaxConversionFlag Helper", Property.Types.String, "Transax Conversion", "TransaxConversion Flag.", true, IGURL.CodingStatusValues, true, 4)]
+        [Property("TransaxConversionFlag Helper", Property.Types.String, "Transax Conversion", "TransaxConversion Flag.", false, IGURL.CodingStatusValues, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string TransaxConversionHelper

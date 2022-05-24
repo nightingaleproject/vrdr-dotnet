@@ -1832,7 +1832,7 @@ namespace VRDR
         /// <para>}</para>
         /// </example>
         [Property("Causes Of Death", Property.Types.TupleArr, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPart1, true, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(onset.empty().not())", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69453-9')", "")]
         public Tuple<string, string>[] CausesOfDeath
         {
             get
@@ -2697,8 +2697,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Birth: {ExampleDeathRecord.BirthYear}");</para>
         /// </example>
-        [Property("BirthYear", Property.Types.UInt32, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 25)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
+        [Property("BirthYear", Property.Types.UInt32, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 14)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).birthDate", "")]
         public uint? BirthYear
         {
             get
@@ -2727,8 +2727,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Birth: {ExampleDeathRecord.BirthMonth}");</para>
         /// </example>
-        [Property("BirthMonth", Property.Types.UInt32, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 25)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
+        [Property("BirthMonth", Property.Types.UInt32, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 14)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).birthDate", "")]
         public uint? BirthMonth
         {
             get
@@ -2757,8 +2757,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Birth: {ExampleDeathRecord.BirthDay}");</para>
         /// </example>
-        [Property("BirthDay", Property.Types.UInt32, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 25)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
+        [Property("BirthDay", Property.Types.UInt32, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 14)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).birthDate", "")]
         public uint? BirthDay
         {
             get
@@ -2788,7 +2788,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
         /// </example>
         [Property("Date Of Birth", Property.Types.String, "Decedent Demographics", "Decedent's Date of Birth.", true, IGURL.Decedent, true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).birthDate", "")]
         public string DateOfBirth
         {
             get
@@ -5107,7 +5107,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='disposition')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='disposition')", "address")]
         public Dictionary<string, string> DispositionLocationAddress
         {
             get
@@ -5138,7 +5138,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Disposition Location Name: {ExampleDeathRecord.DispositionLocationName}");</para>
         /// </example>
         [Property("Disposition Location Name", Property.Types.String, "Decedent Disposition", "Name of Disposition Location.", true, IGURL.DispositionLocation, false, 92)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='disposition')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='disposition')", "name")]
         public string DispositionLocationName
         {
             get
@@ -5799,7 +5799,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Decedent Date of Death Pronouncement: {ExampleDeathRecord.DateOfDeathPronouncement}");</para>
         /// </example>
         [Property("Date/Time Of Death Pronouncement", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date/Time of Death Pronouncement.", true, IGURL.DeathDate, false, 20)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80616-6')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5').component.where(code.coding.code='80616-6')", "")]
         public string DateOfDeathPronouncement
         {
             get
@@ -6052,7 +6052,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
         [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, IGURL.DeathLocation, false, 16)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "extension")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='death')", "")]
         public string DeathLocationJurisdiction
         {
             get
@@ -6127,7 +6127,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state literal")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country literal")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='death')", "address")]
         public Dictionary<string, string> DeathLocationAddress
         {
             get
@@ -6158,7 +6158,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Location Name: {ExampleDeathRecord.DeathLocationName}");</para>
         /// </example>
         [Property("Death Location Name", Property.Types.String, "Death Investigation", "Name of Death Location.", true, IGURL.DeathLocation, false, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='death')", "name")]
         public string DeathLocationName
         {
             get
@@ -6195,7 +6195,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Location Lattitude: {ExampleDeathRecord.DeathLocationLattitude}");</para>
         /// </example>
         [Property("Death Location Latitude", Property.Types.String, "Death Investigation", "Death Location Lattitude.", true, IGURL.DeathLocation, false, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "position.latitude")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='death')", "position")]
         public string DeathLocationLatitude
         {
             get
@@ -6233,7 +6233,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Location Longitude: {ExampleDeathRecord.DeathLocationLongitude}");</para>
         /// </example>
         [Property("Death Location Longitude", Property.Types.String, "Death Investigation", "Death Location Lattitude.", true, IGURL.DeathLocation, false, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "position.longitude")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='death')", "position")]
         public string DeathLocationLongitude
         {
             get
@@ -6272,7 +6272,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
         /// </example>
         [Property("Death Location Description", Property.Types.String, "Death Investigation", "Description of Death Location.", true, IGURL.DeathLocation, false, 18)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "description")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='death')", "description")]
         public string DeathLocationDescription
         {
             get
@@ -6473,7 +6473,7 @@ namespace VRDR
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').value.extension", "")]
         public Dictionary<string, string> AgeAtDeathEditFlag
         {
             get
@@ -6502,7 +6502,7 @@ namespace VRDR
         /// </summary>
         [Property("Age At Death Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Age At Death Edit Flag Helper.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').value.extension", "")]
         public String AgeAtDeathEditFlagHelper
         {
             get
@@ -6789,7 +6789,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='injury')", "address")]
         public Dictionary<string, string> InjuryLocationAddress
         {
             get
@@ -6823,7 +6823,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Lattitude: {ExampleDeathRecord.InjuryLocationLattitude}");</para>
         /// </example>
         [Property("Injury Location Latitude", Property.Types.String, "Death Investigation", "Injury Location Lattitude.", true, IGURL.InjuryLocation, false, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "position.latitude")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='injury')", "position")]
         public string InjuryLocationLatitude
         {
             get
@@ -6861,7 +6861,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Longitude: {ExampleDeathRecord.InjuryLocationLongitude}");</para>
         /// </example>
         [Property("Injury Location Longitude", Property.Types.String, "Death Investigation", "Injury Location Lattitude.", true, IGURL.DeathLocation, false, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "position.longitude")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='injury')", "position")]
         public string InjuryLocationLongitude
         {
             get
@@ -6901,7 +6901,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
         /// </example>
         [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, IGURL.InjuryLocation, true, 35)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='injury')", "name")]
         public string InjuryLocationName
         {
             get
@@ -6939,7 +6939,7 @@ namespace VRDR
         // /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
         // /// </example>
         // [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, IGURL.InjuryLocation, true, 36)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "description")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Location).where(type.coding.code='injury')", "description")]
         // public string InjuryLocationDescription
         // {
         //     get
@@ -11002,7 +11002,7 @@ namespace VRDR
                 var matches = Navigator.Select(path.Path);
                 if (matches.Count() > 0)
                 {
-                    if (info.Type == Property.Types.TupleCOD || info.Type == Property.Types.Tuple4Arr)
+                    if (info.Type == Property.Types.TupleCOD || info.Type == Property.Types.TupleArr || info.Type == Property.Types.Tuple4Arr)
                     {
                         // Make sure to grab all of the Conditions for COD
                         string xml = "";

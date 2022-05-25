@@ -1,8 +1,30 @@
 ## Changelog
 
-### next
+### v4.0.0.preview3 - 2022-05-25
 
-* Update AgeAtDeath property to expect a dictionary with "value" and "unit" rather than "units" and "type" to match the FHIR IG
+* Aligned with IG updates
+    - Eliminated CauseOfDeathPathway and added lineNumber component to Part1CauseOfDeath
+    - Eliminated fields not in VRDR IG: BirthSex, BirthRecordDataAbsentReason, Occupation, Work
+    - Updated approach for Location names to support field being required by setting to "BLANK" when not specified
+    - Made small changes to field types to pass FHIR validation
+    - Updated examples to match new IG
+* Made updates to improve consistency and usability
+    - Refactored RecordAxis and EntityAxis to use named tuples
+    - Changed EditFlag properties to have consistent names
+    - Removed Boolean methods in favor of more consistent Helper methods
+    - Updated AgeAtDeath property to expect a dictionary with "value" and "unit" rather than "units" and "type" to match the FHIR IG
+* Made updates to address bugs
+    - Fixed errors in CertificationRole and TransportationRole
+    - Fixed value set mapping for SpouseAlive
+    - Fixed issue with Hispanic/No/Unknown mapping
+    - Fixed issue with edit flag properties overwriting other content
+    - Fixed issue with DeathLocationJurisdiction property setting values incorrectly
+    - Fixed issue with PartialDateTime extensions being used where PartialDate should be used
+    - Fixed issue with Messaging library to correctly support changing a Record within a Message
+* Made updates to address issues in Canary
+    - Updated functionality used by Canary to exclude Helper properties from Canary tests
+    - Fixed FHIR paths to support better test results in Canary
+* Added release of VRDR.Client NuGet package
 
 ### v4.0.0.preview2 - 2022-05-09
 

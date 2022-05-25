@@ -66,9 +66,39 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2><a class="anchor" id="autotoc_md1"></a>
-next</h2>
+v4.0.0.preview3 - 2022-05-25</h2>
 <ul>
-<li>Update AgeAtDeath property to expect a dictionary with "value" and "unit" rather than "units" and "type" to match the FHIR IG</li>
+<li>Aligned with IG updates<ul>
+<li>Eliminated CauseOfDeathPathway and added lineNumber component to Part1CauseOfDeath</li>
+<li>Eliminated fields not in <a class="el" href="namespace_v_r_d_r.html">VRDR</a> IG: BirthSex, BirthRecordDataAbsentReason, Occupation, Work</li>
+<li>Updated approach for Location names to support field being required by setting to "BLANK" when not specified</li>
+<li>Made small changes to field types to pass FHIR validation</li>
+<li>Updated examples to match new IG</li>
+</ul>
+</li>
+<li>Made updates to improve consistency and usability<ul>
+<li>Refactored RecordAxis and EntityAxis to use named tuples</li>
+<li>Changed EditFlag properties to have consistent names</li>
+<li>Removed Boolean methods in favor of more consistent Helper methods</li>
+<li>Updated AgeAtDeath property to expect a dictionary with "value" and "unit" rather than "units" and "type" to match the FHIR IG</li>
+</ul>
+</li>
+<li>Made updates to address bugs<ul>
+<li>Fixed errors in CertificationRole and TransportationRole</li>
+<li>Fixed value set mapping for SpouseAlive</li>
+<li>Fixed issue with Hispanic/No/Unknown mapping</li>
+<li>Fixed issue with edit flag properties overwriting other content</li>
+<li>Fixed issue with DeathLocationJurisdiction property setting values incorrectly</li>
+<li>Fixed issue with PartialDateTime extensions being used where PartialDate should be used</li>
+<li>Fixed issue with Messaging library to correctly support changing a Record within a Message</li>
+</ul>
+</li>
+<li>Made updates to address issues in Canary<ul>
+<li>Updated functionality used by Canary to exclude Helper properties from Canary tests</li>
+<li>Fixed FHIR paths to support better test results in Canary</li>
+</ul>
+</li>
+<li>Added release of VRDR.Client NuGet package</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md2"></a>
 v4.0.0.preview2 - 2022-05-09</h2>

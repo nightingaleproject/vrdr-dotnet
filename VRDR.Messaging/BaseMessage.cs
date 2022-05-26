@@ -441,21 +441,44 @@ namespace VRDR
         /// <returns>The deserialized message object</returns>
         public static BaseMessage Parse(string source, bool permissive = false)
         {
-            Bundle bundle = null;
+            Bundle bundle = ParseGenericBundle(source, permissive);
+
+            return Parse(bundle);
+        }
+
+        /// <summary>
+        /// Parse an XML or JSON serialization of a FHIR Bundle and construct a generic BaseMessage.
+        /// </summary>
+        /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
+        /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
+        /// <returns>The deserialized base message object</returns>
+        public static BaseMessage ParseGenericMessage(string source, bool permissive = false)
+        {
+            Bundle bundle = ParseGenericBundle(source, permissive);
+            BaseMessage message = new BaseMessage(bundle, true, false);
+            return message;
+        }
+
+        /// <summary>
+        /// Parse an XML or JSON serialization of a FHIR Bundle. 
+        /// </summary>
+        /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
+        /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
+        /// <returns>The deserialized bundle object</returns>
+        public static Bundle ParseGenericBundle(string source, bool permissive = false)
+        {
             if (!String.IsNullOrEmpty(source) && source.TrimStart().StartsWith("<"))
             {
-                bundle = ParseXML(source, permissive);
+                return ParseXML(source, permissive);
             }
             else if (!String.IsNullOrEmpty(source) && source.TrimStart().StartsWith("{"))
             {
-                bundle = ParseJSON(source, permissive);
+                return ParseJSON(source, permissive);
             }
             else
             {
                 throw new System.ArgumentException("The given input does not appear to be a valid XML or JSON FHIR message.");
             }
-
-            return Parse(bundle);
         }
 
         /// <summary>
@@ -567,6 +590,11 @@ namespace VRDR
                 throw new System.ArgumentException(e.Message);
             }
 
+            if (bundle.Type.ToString() != "Message")
+            {
+                throw new System.ArgumentException($"The given input does not appear to be a valid XML FHIR message.{bundle.Type.ToString()} !");
+            }
+
             return bundle;
         }
 
@@ -597,6 +625,11 @@ namespace VRDR
             catch (Exception e)
             {
                 throw new System.ArgumentException(e.Message);
+            }
+
+            if (bundle.Type.ToString() != "Message")
+            {
+                throw new System.ArgumentException($"The given input does not appear to be a valid JSON FHIR message.{bundle.Type.ToString()} !");
             }
 
             return bundle;

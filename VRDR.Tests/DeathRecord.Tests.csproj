@@ -56,6 +56,7 @@
     <None Update="fixtures/json/MissingMessageType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingObservationCode.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingRelatedPersonRelationshipCode.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/old-trx-pre-IGv13.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/RaceEthnicityCaseRecord.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/RaceEthnicityCaseRecord2.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordVoidMessage.json" CopyToOutputDirectory="PreserveNewest" />

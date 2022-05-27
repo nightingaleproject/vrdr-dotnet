@@ -465,7 +465,7 @@ namespace VRDR
         /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <returns>The deserialized bundle object</returns>
-        public static Bundle ParseGenericBundle(string source, bool permissive = false)
+        private static Bundle ParseGenericBundle(string source, bool permissive = false)
         {
             if (!String.IsNullOrEmpty(source) && source.TrimStart().StartsWith("<"))
             {
@@ -590,11 +590,6 @@ namespace VRDR
                 throw new System.ArgumentException(e.Message);
             }
 
-            if (bundle.Type.ToString() != "Message")
-            {
-                throw new System.ArgumentException($"The given input does not appear to be a valid XML FHIR message.{bundle.Type.ToString()} !");
-            }
-
             return bundle;
         }
 
@@ -625,11 +620,6 @@ namespace VRDR
             catch (Exception e)
             {
                 throw new System.ArgumentException(e.Message);
-            }
-
-            if (bundle.Type.ToString() != "Message")
-            {
-                throw new System.ArgumentException($"The given input does not appear to be a valid JSON FHIR message.{bundle.Type.ToString()} !");
             }
 
             return bundle;

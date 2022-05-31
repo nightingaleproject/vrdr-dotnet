@@ -45,8 +45,9 @@ namespace VRDR.HTTP
             string requestBody = GetBodyContent(request);
             DeathRecord deathRecord = null;
 
-            Console.WriteLine($"Request from: {request.UserHostAddress}, type: {request.ContentType}, url: {request.RawUrl}.");
-            
+            Console.WriteLine(
+                $"Request from: {request.UserHostAddress}, type: {request.ContentType}, url: {request.RawUrl}.");
+
             // Look at content type to determine input format; be permissive in what we accept as format specification
             try
             {
@@ -118,14 +119,12 @@ namespace VRDR.HTTP
 
         public static string GenerateJsonResponse(string success, string type, string data)
         {
-            var jsonResponse = "{" +
+            var response = "{" +
                                "\"success\": \"" + success + "\"," +
                                "\"type\": \"" + type + "\"," +
                                "\"data\": \"" + data + "\"" +
                                "}";
-            Object json = JObject.Parse(jsonResponse);
-            return json.ToString();
+            return response;
         }
-
     }
 }

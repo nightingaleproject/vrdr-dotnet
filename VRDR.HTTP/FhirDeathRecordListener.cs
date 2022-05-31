@@ -1,10 +1,7 @@
 using System;
 using System.Net;
-using System.Threading;
-using System.Linq;
-using System.Net.Mime;
 using System.Text;
-using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace VRDR.HTTP
 {

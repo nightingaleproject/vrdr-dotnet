@@ -66,6 +66,11 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2><a class="anchor" id="autotoc_md1"></a>
+v4.0.0.preview4 - 2022-05-31</h2>
+<ul>
+<li>Added parsing of generic non-VRDR message bundles to support more flexibility in message-handling APIs built using the VRDR.Messaging library</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md2"></a>
 v4.0.0.preview3 - 2022-05-25</h2>
 <ul>
 <li>Aligned with IG updates<ul>
@@ -100,12 +105,12 @@ v4.0.0.preview3 - 2022-05-25</h2>
 </li>
 <li>Added release of VRDR.Client NuGet package</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<h2><a class="anchor" id="autotoc_md3"></a>
 v4.0.0.preview2 - 2022-05-09</h2>
 <ul>
 <li>Addressed inconsistencies in how identifiers were being handled</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md3"></a>
+<h2><a class="anchor" id="autotoc_md4"></a>
 v4.0.0.preview1 - 2022-05-07</h2>
 <ul>
 <li>Aligned <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library to latest <a class="el" href="namespace_v_r_d_r.html">VRDR</a> IG at <a href="http://build.fhir.org/ig/HL7/vrdr/artifacts.html">http://build.fhir.org/ig/HL7/vrdr/artifacts.html</a><ul>
@@ -135,7 +140,7 @@ v4.0.0.preview1 - 2022-05-07</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 v3.3.1 - 2022-04-07</h2>
 <ul>
 <li>Added the CertificationRoleHelper method</li>
@@ -147,19 +152,19 @@ v3.3.1 - 2022-04-07</h2>
 <li>Added a ruby script for converting an Excel file with records in pseudo-IJE format into a set of FHIR records for testing</li>
 <li>Removed support for the now-obsolete netcoreapp2.1</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 v3.3.0 - 2022-04-05</h2>
 <ul>
 <li>Added a client library (VDRD.Client) for interacting with the <a href="https://github.com/nightingaleproject/Reference-NCHS-API">NVSS FHIR API</a></li>
 <li>Added helper methods for setting field values that use value sets</li>
 <li>Fixed bug in unknown DOB IJE to FHIR conversion</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 v3.2.1 - 2021-10-05</h2>
 <ul>
 <li>Return null rather than an error when jurisdiction id is missing from <a class="el" href="namespace_v_r_d_r.html">VRDR</a> record</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 v3.2.0 - 2021-10-01</h2>
 <ul>
 <li>Fixed FHIRPath and data types to support date absent extension</li>
@@ -167,7 +172,7 @@ v3.2.0 - 2021-10-01</h2>
 <li>Return descriptive error when jurisdiction id is missing from <a class="el" href="namespace_v_r_d_r.html">VRDR</a> record</li>
 <li>Add support for passing Bundles directly to BaseMessage</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 v3.2.0-preview5 - 2021-09-13</h2>
 <ul>
 <li>Fixed bug in how nulls are interpreted when loading description files that caused segments of records to be dropped in Canary</li>
@@ -176,22 +181,22 @@ v3.2.0-preview5 - 2021-09-13</h2>
 <li>Improved text that describes expected values for the Death Location Jurisdiction field</li>
 <li>Fixed bug that caused incorrect data to be shown in Canary for Death Location Jurisdiction</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 v3.2.0-preview4 - 2021-09-02</h2>
 <ul>
 <li>Fixed bug that causes error when calling data absent boolean setter methods</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 v3.2.0-preview3 - 2021-09-01</h2>
 <ul>
 <li>Add methods for getting and setting AgeAtDeathAbsentReason and BirthRecordIdentifierAbsentReason. A boolean getter and setter returning whether a reason has been set has also been provided.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md12"></a>
 v3.2.0-preview2 - 2021-08-25</h2>
 <ul>
 <li>Fetch DeathLocationJurisdiction from DeathLocationJurisdiction instead of DeathLocationAddress?["addressState"] in <a class="el" href="namespace_v_r_d_r.html">VRDR</a> Messaging</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md13"></a>
 v3.2.0-preview1 - 2021-08-24</h2>
 <ul>
 <li>Updated to <a href="http://hl7.org/fhir/us/vrdr/2021Sep/">STU2 version</a> of the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> IG</li>
@@ -202,19 +207,19 @@ v3.2.0-preview1 - 2021-08-24</h2>
 <li>Added support for missing data as per the STU2 IG</li>
 <li>Full list of supported IJE fields <a href="VRDRdotNETLibraryCoverage.csv">is now available</a>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 v3.1.1 - 2021-06-10</h2>
 <ul>
 <li>Reorder death record properties to reflect order in standard death certificate</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md15"></a>
 v3.1.0 - 2021-02-17</h2>
 <ul>
 <li>Acknowledgement messages support block_count field for acknowledging bulk void messages</li>
 <li>Added additional required fields to CodingResponseMessage</li>
 <li>Documentation updated to reflect completed migration from CauseCode to CodingResponseMessage</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 v3.1.0-RC5 - 2020-09-16</h2>
 <ul>
 <li>Blank identifiers are ignored in a Death Certificate Reference</li>
@@ -222,7 +227,7 @@ v3.1.0-RC5 - 2020-09-16</h2>
 <li>Added IJE vs. IJE-from-FHIR comparison utility function to <a class="el" href="namespace_v_r_d_r_1_1_c_l_i.html">VRDR.CLI</a></li>
 <li>Fixed a bug that allowed blank values in IJE age fields</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md17"></a>
 v3.1.0-RC4 - 2020-09-10</h2>
 <ul>
 <li>Added message related utility functions to <a class="el" href="namespace_v_r_d_r_1_1_c_l_i.html">VRDR.CLI</a></li>
@@ -231,7 +236,7 @@ v3.1.0-RC4 - 2020-09-10</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md18"></a>
 v3.1.0-RC3 - 2020-09-10</h2>
 <ul>
 <li>Assorted bug fixes<ul>
@@ -239,7 +244,7 @@ v3.1.0-RC3 - 2020-09-10</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md19"></a>
 v3.1.0-RC2 - 2020-09-08</h2>
 <ul>
 <li>Assorted bug fixes<ul>
@@ -249,7 +254,7 @@ v3.1.0-RC2 - 2020-09-08</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md19"></a>
+<h2><a class="anchor" id="autotoc_md20"></a>
 v3.1.0-RC1 - 2020-08-25</h2>
 <ul>
 <li>Updated <code>DeathRecord</code> class to match latest <a class="el" href="namespace_v_r_d_r.html">VRDR</a> IG changes.</li>
@@ -291,21 +296,21 @@ v3.1.0-RC1 - 2020-08-25</h2>
 <li>Added <code>DeathRecord.EthnicityText</code> property for uncoded ethnicity</li>
 <li>Added <code>DeathRecord.RaceText</code> property for uncoded race</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md20"></a>
+<h2><a class="anchor" id="autotoc_md21"></a>
 v3.1.0-preview10 - 2020-06-12</h2>
 <ul>
 <li>Improve error handling during message parsing.</li>
 <li>Add <code>MessageParseException</code> class.</li>
 <li>Added <code>CauseOfDeathEntityAxisList</code> property to <code>CodingResponseMessage</code> and <code>CodingUpdateMessage</code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md22"></a>
 v3.1.0-preview9 - 2020-05-29</h2>
 <ul>
 <li>Add ability to format output for human readability via <code>prettyPrint</code> parameter of <code>BaseMessage.ToXML</code> and <code>BaseMessage.ToJSON</code>.</li>
 <li>Move VRDR.Messaging API documentation to new, <a class="el" href="md_doc__messaging.html">task-oriented, documentation page</a>.</li>
 <li><code>ExtractionErrorMessage(sourceMessage)</code> constructor initializes the <code>MessageSource</code> property from <code>sourceMessage.MessageDestination</code>. Removed the defaulted <code>source</code> parameter from this constructor.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 v3.1.0-preview8 - 2020-05-27</h2>
 <ul>
 <li>Add business identifier properties (<code>NCHSIdentifier</code>, <code>StateAuxiliaryIdentifier</code>, <code>CertificateNumber</code>) to every message type.</li>

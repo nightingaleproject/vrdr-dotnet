@@ -1,11 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Net;
-using System.Threading;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.ServiceProcess;
-using VRDR;
+using System.Threading;
+using Newtonsoft.Json.Linq;
 
 namespace VRDR.HTTP
 {
@@ -48,55 +46,85 @@ namespace VRDR.HTTP
             DeathRecord deathRecord = null;
 
             Console.WriteLine($"Request from: {request.UserHostAddress}, type: {request.ContentType}, url: {request.RawUrl}.");
-
+            
             // Look at content type to determine input format; be permissive in what we accept as format specification
-            switch (request.ContentType)
+            try
             {
-                case string ijeType when new Regex(@"ije").IsMatch(ijeType): // application/ije
-                    IJEMortality ije = new IJEMortality(requestBody);
-                    deathRecord = ije.ToDeathRecord();
-                    break;
-                case string nightingaleType when new Regex(@"nightingale").IsMatch(nightingaleType):
-                    deathRecord = Nightingale.FromNightingale(requestBody);
-                    break;
-                case string jsonType when new Regex(@"json").IsMatch(jsonType): // application/fhir+json
-                case string xmlType when new Regex(@"xml").IsMatch(xmlType): // application/fhir+xml
-                default:
-                    deathRecord = new DeathRecord(requestBody);
-                    break;
+                switch (request.ContentType)
+                {
+                    case string ijeType when new Regex(@"ije").IsMatch(ijeType): // application/ije
+                        IJEMortality ije = new IJEMortality(requestBody);
+                        deathRecord = ije.ToDeathRecord();
+                        break;
+                    case string nightingaleType when new Regex(@"nightingale").IsMatch(nightingaleType):
+                        deathRecord = Nightingale.FromNightingale(requestBody);
+                        break;
+                    case string jsonType when new Regex(@"json").IsMatch(jsonType): // application/fhir+json
+                    case string xmlType when new Regex(@"xml").IsMatch(xmlType): // application/fhir+xml
+                    default:
+                        deathRecord = new DeathRecord(requestBody);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                return GenerateJsonResponse("false", ResponseTypes.Error.ToString(), e.Message);
             }
 
             // Look at URL extension to determine output format; be permissive in what we accept as format specification
+            string type = "";
             string result = "";
-            switch (request.RawUrl)
+            try
             {
-                case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
-                    IJEMortality ije = new IJEMortality(deathRecord);
-                    result = ije.ToString();
-                    break;
-                case string url when new Regex(@"json$").IsMatch(url): // .json
-                    result = deathRecord.ToJSON();
-                    break;
-                case string url when new Regex(@"xml$").IsMatch(url): // .xml
-                    result = deathRecord.ToXML();
-                    break;
-                case string url when new Regex(@"nightingale$").IsMatch(url): // .nightingale
-                    result = Nightingale.ToNightingale(deathRecord);
-                    break;
+                switch (request.RawUrl)
+                {
+                    case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
+                        type = ResponseTypes.Ije.ToString();
+                        IJEMortality ije = new IJEMortality(deathRecord);
+                        result = ije.ToString();
+                        break;
+                    case string url when new Regex(@"json$").IsMatch(url): // .json
+                        type = ResponseTypes.FhirJson.ToString();
+                        result = deathRecord.ToJSON();
+                        break;
+                    case string url when new Regex(@"xml$").IsMatch(url): // .xml
+                        type = ResponseTypes.FhirXml.ToString();
+                        result = deathRecord.ToXML();
+                        break;
+                    case string url when new Regex(@"nightingale$").IsMatch(url): // .nightingale
+                        type = ResponseTypes.Nightingale.ToString();
+                        result = Nightingale.ToNightingale(deathRecord);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                return GenerateJsonResponse("false", ResponseTypes.Error.ToString(), e.Message);
             }
 
-            return result;
+            return GenerateJsonResponse("true", type, result);
         }
 
         public static string GetBodyContent(HttpListenerRequest request)
         {
-            using (System.IO.Stream body = request.InputStream)
+            using (Stream body = request.InputStream)
             {
-                using (System.IO.StreamReader reader = new System.IO.StreamReader(body, request.ContentEncoding))
+                using (StreamReader reader = new StreamReader(body, request.ContentEncoding))
                 {
                     return reader.ReadToEnd();
                 }
             }
+        }
+
+        public static string GenerateJsonResponse(string success, string type, string data)
+        {
+            var jsonResponse = "{" +
+                               "\"success\": \"" + success + "\"," +
+                               "\"type\": \"" + type + "\"," +
+                               "\"data\": \"" + data + "\"" +
+                               "}";
+            Object json = JObject.Parse(jsonResponse);
+            return json.ToString();
         }
 
     }

@@ -2,7 +2,9 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace VRDR.HTTP
 {
@@ -55,15 +57,18 @@ namespace VRDR.HTTP
                                 string rstr = _responderMethod(ctx.Request);
                                 byte[] buf = Encoding.UTF8.GetBytes(rstr);
                                 ctx.Response.ContentLength64 = buf.Length;
+                                ctx.Response.ContentType = "application/json";
                                 ctx.Response.OutputStream.Write(buf, 0, buf.Length);
                             }
                             catch (Exception e)
                             {
                                 string rstr = e.Message;
-                                byte[] buf = Encoding.UTF8.GetBytes(rstr);
+                                string response = Program.GenerateJsonResponse("false", ResponseTypes.Error.ToString(), rstr);
+                                byte[] buf = Encoding.UTF8.GetBytes(response);
                                 ctx.Response.ContentLength64 = buf.Length;
-                                ctx.Response.OutputStream.Write(buf, 0, buf.Length);
+                                ctx.Response.ContentType = "application/json";
                                 ctx.Response.StatusCode = 400;
+                                ctx.Response.OutputStream.Write(buf, 0, buf.Length);
                             }
                             finally
                             {

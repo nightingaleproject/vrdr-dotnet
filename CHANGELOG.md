@@ -1,5 +1,9 @@
 ## Changelog
 
+### v4.0.0.preview4 - 2022-05-31
+
+* Added parsing of generic non-VRDR message bundles to support more flexibility in message-handling APIs built using the VRDR.Messaging library
+
 ### v4.0.0.preview3 - 2022-05-25
 
 * Aligned with IG updates

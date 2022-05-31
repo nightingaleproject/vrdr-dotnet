@@ -861,6 +861,23 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void ParseOldTRXVersionAsGenericMsg()
+        {
+            // verifies the Generic Message Parser allows for messages based on the old IG 1.2
+            string trxMsg = FixtureStream("fixtures/json/old-trx-pre-IGv13.json").ReadToEnd();
+            BaseMessage msg = BaseMessage.ParseGenericMessage(trxMsg, true);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_coding", msg.MessageType);
+        }
+
+        [Fact]
+        public void ParseOldTRXVersionAsCodedMsgType()
+        {
+            // verifies the Type Specific Message Parser errors on messages based on the old IG 1.2
+            MessageParseException ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/old-trx-pre-IGv13.json")));
+            Assert.Equal("Unsupported message type: http://nchs.cdc.gov/vrdr_coding", ex.Message);
+        }
+
+        [Fact]
         public void CreateExtractionErrorForMessage()
         {
             DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));

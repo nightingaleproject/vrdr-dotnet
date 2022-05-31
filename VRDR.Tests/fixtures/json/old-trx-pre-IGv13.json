@@ -1,0 +1,116 @@
+{
+    "resourceType": "Bundle",
+    "id": "6d7d1d05-2c20-49ef-ab0e-a62ffb7e7d98",
+    "type": "message",
+    "timestamp": "2022-01-13T15:00:11.152535-05:00",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:8b18869d-865d-4cb4-9392-3d1f07752b8b",
+            "resource": {
+                "resourceType": "MessageHeader",
+                "id": "8b18869d-865d-4cb4-9392-3d1f07752b8b",
+                "eventUri": "http://nchs.cdc.gov/vrdr_coding",
+                "destination": [
+                    {
+                        "endpoint": "https://utah.gov/VRDR/fhir/message/endpoint"
+                    }
+                ],
+                "source": {
+                    "endpoint": "http://nchs.cdc.gov/vrdr_submission"
+                },
+                "focus": [
+                    {
+                        "reference": "urn:uuid:681424f9-8675-4032-a6fd-9ccf6fcda95b"
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:681424f9-8675-4032-a6fd-9ccf6fcda95b",
+            "resource": {
+                "resourceType": "Parameters",
+                "id": "681424f9-8675-4032-a6fd-9ccf6fcda95b",
+                "parameter": [
+                    {
+                        "name": "cert_no",
+                        "valueUnsignedInt": 1
+                    },
+                    {
+                        "name": "death_year",
+                        "valueUnsignedInt": 2021
+                    },
+                    {
+                        "name": "jurisdiction_id",
+                        "valueString": "UT"
+                    },
+                    {
+                        "name": "manner",
+                        "valueString": "Natural"
+                    },
+                    {
+                        "name": "injpl",
+                        "valueString": "SportsAndAthleticsArea"
+                    },
+                    {
+                        "name": "rec_mo",
+                        "valueUnsignedInt": 1
+                    },
+                    {
+                        "name": "rec_dy",
+                        "valueUnsignedInt": 12
+                    },
+                    {
+                        "name": "cs",
+                        "valueCoding": {
+                            "system": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Software/MICAR/Data_Entry_Software/ACME_TRANSAX/Documentation/auser.pdf",
+                            "code": "1"
+                        }
+                    },
+                    {
+                        "name": "ship",
+                        "valueString": "028"
+                    },
+                    {
+                        "name": "sys_rej",
+                        "valueString": "NotRejected"
+                    },
+                    {
+                        "name": "underlying_cause_of_death",
+                        "valueCoding": {
+                            "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                            "code": "I469"
+                        }
+                    },
+                    {
+                        "name": "record_cause_of_death",
+                        "part": [
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "I469"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "entity_axis_code",
+                        "part": [
+                            {
+                                "name": "lineNumber",
+                                "valueId": "1"
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "I469"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

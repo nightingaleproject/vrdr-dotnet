@@ -59,11 +59,11 @@ namespace VRDR.HTTP
                             }
                             catch (Exception e)
                             {
+                                ctx.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                                 string rstr = e.Message;
                                 byte[] buf = Encoding.UTF8.GetBytes(rstr);
                                 ctx.Response.ContentLength64 = buf.Length;
                                 ctx.Response.OutputStream.Write(buf, 0, buf.Length);
-                                ctx.Response.StatusCode = 400;
                             }
                             finally
                             {

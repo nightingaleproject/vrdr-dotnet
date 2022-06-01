@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.ServiceProcess;
+using Hl7.Fhir.Model;
 using VRDR;
 
 namespace VRDR.HTTP
@@ -62,7 +63,28 @@ namespace VRDR.HTTP
                 case string jsonType when new Regex(@"json").IsMatch(jsonType): // application/fhir+json
                 case string xmlType when new Regex(@"xml").IsMatch(xmlType): // application/fhir+xml
                 default:
-                    deathRecord = new DeathRecord(requestBody);
+                    // We should accept either a bare record or a record wrapped in a message as input
+                    Bundle bundle = BaseMessage.ParseGenericBundle(requestBody, true);
+                    if (bundle.Type.ToString() == "Document")
+                    {
+                        deathRecord = new DeathRecord(requestBody);
+                    }
+                    else if (bundle.Type.ToString() == "Message")
+                    {
+                        BaseMessage message = BaseMessage.Parse(requestBody, true);
+                        switch(message)
+                        {
+                            case DeathRecordSubmissionMessage submission:
+                                deathRecord = submission.DeathRecord;
+                                break;
+                            default:
+                                throw new System.ArgumentException("Unknown FHIR Message Bundle received");
+                        }
+                    }
+                    else
+                    {
+                        throw new System.ArgumentException("Unknown FHIR Bundle received");
+                    }
                     break;
             }
 

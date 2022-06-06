@@ -4496,8 +4496,9 @@ namespace VRDR
                 if (BirthRecordIdentifier != null && BirthRecordIdentifier.Component.Count > 0)
                 {
                     // Find correct component
-                    var stateComp = BirthRecordIdentifier.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0");
-                    if (stateComp != null && stateComp.Value != null)
+                    var stateComp = BirthRecordIdentifier.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null &&
+                    ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0");
+                    if (stateComp != null && stateComp.Value != null && stateComp.Value as FhirString != null)
                     {
                         return (Convert.ToString(stateComp.Value));
                     }

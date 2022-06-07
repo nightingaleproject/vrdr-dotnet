@@ -1,5 +1,6 @@
 namespace VRDR
 {
+    /// <summary> enum for describing response types </summary>
     public enum ResponseTypes
     {
         /// <summary> Response type is ERROR </summary>

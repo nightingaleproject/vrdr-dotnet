@@ -1200,7 +1200,7 @@ namespace VRDR
                 if (Composition != null)
                 {
                     Extension stateSpecificData = Composition.Extension.Where(ext => ext.Url == ExtensionURL.StateSpecificField).FirstOrDefault();
-                    if (stateSpecificData != null)
+                    if (stateSpecificData != null && stateSpecificData.Value as FhirString != null)
                     {
                         return stateSpecificData.Value.ToString();
                     }
@@ -1931,7 +1931,7 @@ namespace VRDR
                 {
                     var intervalComp = CauseOfDeathConditionA.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
-                    if (intervalComp?.Value != null)
+                    if (intervalComp?.Value != null && intervalComp.Value as FhirString != null)
                     {
                         return intervalComp.Value.ToString();
                     }
@@ -2058,7 +2058,7 @@ namespace VRDR
                 {
                     var intervalComp = CauseOfDeathConditionB.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
-                    if (intervalComp?.Value != null)
+                    if (intervalComp?.Value != null && intervalComp.Value as FhirString != null)
                     {
                         return intervalComp.Value.ToString();
                     }
@@ -2186,7 +2186,7 @@ namespace VRDR
                 {
                     var intervalComp = CauseOfDeathConditionC.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
-                    if (intervalComp?.Value != null)
+                    if (intervalComp?.Value != null && intervalComp.Value as FhirString != null)
                     {
                         return intervalComp.Value.ToString();
                     }
@@ -2312,7 +2312,7 @@ namespace VRDR
                 {
                     var intervalComp = CauseOfDeathConditionD.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
-                    if (intervalComp?.Value != null)
+                    if (intervalComp?.Value != null && intervalComp.Value as FhirString != null)
                     {
                         return intervalComp.Value.ToString();
                     }
@@ -3313,7 +3313,7 @@ namespace VRDR
                 if (InputRaceAndEthnicityObs != null)
                 {
                     Observation.ComponentComponent ethnicity = InputRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
-                    if (ethnicity != null && ethnicity.Value != null)
+                    if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as FhirString != null)
                     {
                         return ethnicity.Value.ToString();
                     }
@@ -5529,7 +5529,7 @@ namespace VRDR
                 if (part != null)
                 {
                     Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-                    if (dataAbsent != null || part.Value == null)
+                    if (dataAbsent != null || part.Value == null )
                     {
                         // There's either a specific claim that there's no data or actually no data, so return null
                         return null;
@@ -7535,7 +7535,7 @@ namespace VRDR
             }
             // Remove existing component (if it exists) and add an appropriate component.
             Observation.ComponentComponent issue = EmergingIssues.Component.FirstOrDefault(c => c.Code.Coding[0].Code == identifier);
-            if (issue != null && issue.Value != null)
+            if (issue != null && issue.Value != null && issue.Value as FhirString != null)
             {
                 return issue.Value.ToString();
             }

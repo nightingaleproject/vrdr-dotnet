@@ -6164,7 +6164,7 @@ namespace VRDR
         {
             get
             {
-                if (DeathLocationLoc != null  && DeathLocationLoc.Name != null && DeathLocationLoc.Name != DeathRecord.BlankPlaceholder)
+                if (DeathLocationLoc != null && DeathLocationLoc.Name != null && DeathLocationLoc.Name != DeathRecord.BlankPlaceholder)
                 {
                     return DeathLocationLoc.Name;
                 }
@@ -10355,7 +10355,7 @@ namespace VRDR
                     }
                 }
             }
-            if(fullRecord)
+            if (fullRecord)
             {
                 UpdateDeathRecordIdentifier();
             }

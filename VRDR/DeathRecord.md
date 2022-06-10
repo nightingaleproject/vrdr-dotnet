@@ -1,5 +1,9 @@
 <a name='assembly'></a>
-# DeathRecord
+# Documentation of Public Methods of DeathRecord and IJEMortality
+## Creating this File
+Creation of this file is determined by the DocumentationFile tag in the .csproj file, and the package reference to Vsxmd.
+Run 'dotnet build'.
+Some editing is required.
 
 ## Contents
 

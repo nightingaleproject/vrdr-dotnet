@@ -1093,7 +1093,11 @@ namespace VRDR
         /// <para>"display" - a human readable meaning of the code</para>
         /// </value>        /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.FilingFormat = ValueSets.FilingFormat.electronic;</para>
+        /// <para>Dictionary&lt;string, string&gt; format = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>format.Add("code", ValueSets.FilingFormat.electronic);</para>
+        /// <para>format.Add("system", CodeSystems.FilingFormat);</para>
+        /// <para>format.Add("display", "Electronic");</para>
+        /// <para>ExampleDeathRecord.FilingFormat = format;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Filed method: {ExampleDeathRecord.FilingFormat}");</para>
         /// </example>
@@ -1222,7 +1226,11 @@ namespace VRDR
         /// <value>Replacement Record – suggested codes.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.ReplaceStatus = ValueSets.ReplaceStatus.Original_Record;</para>
+        /// <para>Dictionary&lt;string, string&gt; replace = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>replace.Add("code", "original");</para>
+        /// <para>replace.Add("system", CodeSystems.ReplaceStatus);</para>
+        /// <para>replace.Add("display", "original");</para>
+        /// <para>ExampleDeathRecord.ReplaceStatus = replace;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Filed method: {ExampleDeathRecord.ReplaceStatus}");</para>
         /// </example>
@@ -1446,10 +1454,6 @@ namespace VRDR
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; manner = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>manner.Add("code", "7878000");</para>
-        /// <para>manner.Add("system", "");</para>
-        /// <para>manner.Add("display", "Accidental death");</para>
         /// <para>ExampleDeathRecord.MannerOfDeathTypeHelper = MannerOfDeath.Natural;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathTypeHelper}");</para>
@@ -2588,7 +2592,11 @@ namespace VRDR
         /// <value>the decedent's sex at time of death</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.SexAtDeath = "F";</para>
+        /// <para>Dictionary&lt;string, string&gt; sex = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>sex.Add("code", "female");</para>
+        /// <para>sex.Add("system", "http://hl7.org/fhir/administrative-gender");</para>
+        /// <para>sex.Add("display", "female");</para>
+        /// <para>ExampleDeathRecord.SexAtDeath = sex;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Sex at Time of Death: {ExampleDeathRecord.SexAtDeath}");</para>
         /// </example>
@@ -2625,7 +2633,7 @@ namespace VRDR
         /// <value>Decedent's sex at death.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.SexAtDeathHelper = VRDR.ValueSets.AdministractiveGender.Male;</para>
+        /// <para>ExampleDeathRecord.SexAtDeathHelper = VRDR.ValueSets.AdministrativeGender.Male;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's SexAtDeathHelper: {ExampleDeathRecord.SexAtDeathHelper}");</para>
         /// </example>
@@ -3569,9 +3577,11 @@ namespace VRDR
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.Contact = "Friend of family";</para>
+        /// <para>Dictionary&lt;string, string&gt; relationship = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>relationship.Add("text", "sibling");</para>
+        /// <para>SetterDeathRecord.ContactRelationship = relationship;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Contact's Relationship: {ExampleDeathRecord.Contact}");</para>
+        /// <para>Console.WriteLine($"Contact's Relationship: {ExampleDeathRecord.ContactRelationship["text"]}");</para>
         /// </example>
         [Property("Contact Relationship", Property.Types.Dictionary, "Decedent Demographics", "The informant's relationship to the decedent", true, IGURL.Decedent, true, 24)]
         [PropertyParam("relationship", "The relationship to the decedent.")]
@@ -4476,11 +4486,7 @@ namespace VRDR
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; brs = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>brs.Add("code", "US-MA");</para>
-        /// <para>brs.Add("system", "urn:iso:std:iso:3166:-2");</para>
-        /// <para>brs.Add("display", "Massachusetts");</para>
-        /// <para>ExampleDeathRecord.BirthRecordState = brs;</para>
+        /// <para>ExampleDeathRecord.BirthRecordState = "MA";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordState}");</para>
         /// </example>
@@ -4719,7 +4725,7 @@ namespace VRDR
         /// <value>the decedent's military service. Whether the decedent served in the military, a null value means "unknown".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MilitaryServiceHelper = Y;</para>
+        /// <para>ExampleDeathRecord.MilitaryServiceHelper = "Y";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceHelper}");</para>
         /// </example>
@@ -5224,13 +5230,14 @@ namespace VRDR
         /// <summary>Decedent's Disposition Method Helper.</summary>
         /// <value>the decedent's disposition method. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DecedentDispositionMethodHelper = dmethod;</para>
+        /// <para>ExampleDeathRecord.DecedentDispositionMethodHelper = VRDR.ValueSets.MethodOfDisposition.Burial;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethodHelper}");</para>
         /// </example>
-        /// </value>
+
         [Property("Decedent Disposition Method Helper", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", false, IGURL.DecedentDispositionMethod, true, 1)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80905-3')", "")]
@@ -5302,7 +5309,7 @@ namespace VRDR
         /// <value>autopsy performed indicator. A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AutopsyPerformedIndicatorBoolean = true;</para>
+        /// <para>ExampleDeathRecord.AutopsyPerformedIndicatorHelper = "Y"";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</para>
         /// </example>
@@ -6373,7 +6380,7 @@ namespace VRDR
         /// <value>type of death location code.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DeathLocationTypeHelper = "16983000";</para>
+        /// <para>ExampleDeathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Home;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
         /// </example>
@@ -6727,13 +6734,13 @@ namespace VRDR
             }
         }
 
-        /// <summary>Examiner Contacted Boolean. This is a conenience method, to access the code use ExaminerContacted instead.</summary>
+        /// <summary>Examiner Contacted Helper. This is a conenience method, to access the code use ExaminerContacted instead.</summary>
         /// <value>if a medical examiner was contacted. A null value indicates "unknown".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.ExaminerContacted = false;</para>
+        /// <para>ExampleDeathRecord.ExaminerContactedHelper = "N"</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
+        /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContactedHelper}");</para>
         /// </example>
         [Property("Examiner Contacted Helper", Property.Types.String, "Death Investigation", "Examiner Contacted.", false, IGURL.ExaminerContacted, true, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
@@ -7280,7 +7287,7 @@ namespace VRDR
         /// <value>did the injury occur at work? A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.InjuryAtWorkHelper = true;</para>
+        /// <para>ExampleDeathRecord.InjuryAtWorkHelper = "Y"";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury At Work? : {ExampleDeathRecord.InjuryAtWorkHelper}");</para>
         /// </example>
@@ -9810,7 +9817,11 @@ namespace VRDR
         /// <value>string</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.IntentionalReject = "Reject1";</para>
+        /// <para>Dictionary&lt;string, string&gt; reject = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>format.Add("code", ValueSets.FilingFormat.electronic);</para>
+        /// <para>format.Add("system", CodeSystems.IntentionalReject);</para>
+        /// <para>format.Add("display", "Reject1");</para>
+        /// <para>ExampleDeathRecord.IntentionalReject = "reject";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Intentional Reject {ExampleDeathRecord.IntentionalReject}");</para>
         /// </example>
@@ -9879,7 +9890,11 @@ namespace VRDR
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AcmeSystemReject = 3;</para>
+        /// <para>Dictionary&lt;string, string&gt; reject = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>format.Add("code", ValueSets.FilingFormat.electronic);</para>
+        /// <para>format.Add("system", CodeSystems.SystemReject);</para>
+        /// <para>format.Add("display", "3");</para>
+        /// <para>ExampleDeathRecord.AcmeSystemReject = reject;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
         /// </example>
@@ -9920,7 +9935,7 @@ namespace VRDR
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AcmeSystemReject = 3;</para>
+        /// <para>ExampleDeathRecord.AcmeSystemReject = "3";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
         /// </example>
@@ -9950,7 +9965,11 @@ namespace VRDR
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.TransaxConversion = 3;</para>
+        /// <para>Dictionary&lt;string, string&gt; tcf = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>tcf.Add("code", "3");</para>
+        /// <para>tcf.Add("system", CodeSystems.TransaxConversion);</para>
+        /// <para>tcf.Add("display", "Conversion using non-ambivalent table entries");</para>
+        /// <para>ExampleDeathRecord.TransaxConversion = tcf;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transax Conversion Code: {ExampleDeathRecord.TransaxConversion}");</para>
         /// </example>

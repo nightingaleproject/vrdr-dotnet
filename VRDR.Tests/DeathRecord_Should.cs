@@ -1808,7 +1808,12 @@ namespace VRDR.Tests
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Equal("242123", dr2.BirthRecordId);
         }
-
+        [Fact]
+        public void BirthRecord_Relic()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RecordVRDRv1.2.json")));
+            Exception ex = Assert.Throws<System.ArgumentOutOfRangeException>(() => new IJEMortality(dr));
+        }
         [Fact]
         public void BirthRecord_Absent_Roundtrip()
         {

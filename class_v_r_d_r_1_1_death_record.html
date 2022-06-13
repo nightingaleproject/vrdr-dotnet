@@ -522,7 +522,7 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <tr class="memdesc:a0be75f373f27b20c3b1b78f9bd4456d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Examiner Contacted. <a href="class_v_r_d_r_1_1_death_record.html#a0be75f373f27b20c3b1b78f9bd4456d7">More...</a><br /></td></tr>
 <tr class="separator:a0be75f373f27b20c3b1b78f9bd4456d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad689631be73317346b227a7e876f479a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#ad689631be73317346b227a7e876f479a">ExaminerContactedHelper</a><code> [getset]</code></td></tr>
-<tr class="memdesc:ad689631be73317346b227a7e876f479a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Examiner Contacted Boolean. This is a conenience method, to access the code use ExaminerContacted instead. <a href="class_v_r_d_r_1_1_death_record.html#ad689631be73317346b227a7e876f479a">More...</a><br /></td></tr>
+<tr class="memdesc:ad689631be73317346b227a7e876f479a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Examiner Contacted Helper. This is a conenience method, to access the code use ExaminerContacted instead. <a href="class_v_r_d_r_1_1_death_record.html#ad689631be73317346b227a7e876f479a">More...</a><br /></td></tr>
 <tr class="separator:ad689631be73317346b227a7e876f479a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52d258bfa3475dbfd91837492f286e09"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#a52d258bfa3475dbfd91837492f286e09">InjuryLocationAddress</a><code> [getset]</code></td></tr>
 <tr class="memdesc:a52d258bfa3475dbfd91837492f286e09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Location of Injury. <a href="class_v_r_d_r_1_1_death_record.html#a52d258bfa3475dbfd91837492f286e09">More...</a><br /></td></tr>
@@ -1319,7 +1319,11 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Acme System Reject.</p>
 <p >"code" - the code</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.AcmeSystemReject = 3;</p>
+<p >Dictionary&lt;string, string&gt; reject = new Dictionary&lt;string, string&gt;();</p>
+<p >format.Add("code", ValueSets.FilingFormat.electronic);</p>
+<p >format.Add("system", CodeSystems.SystemReject);</p>
+<p >format.Add("display", "3");</p>
+<p >ExampleDeathRecord.AcmeSystemReject = reject;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</p>
 
@@ -1348,7 +1352,7 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Acme System Reject.</p>
 <p >"code" - the code</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.AcmeSystemReject = 3;</p>
+<p >ExampleDeathRecord.AcmeSystemReject = "3";</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</p>
 
@@ -1577,9 +1581,9 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Autopsy Performed Indicator Helper. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</p>
 <p >autopsy performed indicator. A null value indicates "not applicable".</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.AutopsyPerformedIndicatorBoolean = true;</p>
-<p >// Getter:</p>
-<p >Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</p>
+<p >ExampleDeathRecord.AutopsyPerformedIndicatorHelper = "Y"";&lt;/para&gt;
+&lt;para&gt;// Getter:&lt;/para&gt;
+&lt;para&gt;Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</p>
 
 </div>
 </div>
@@ -1761,11 +1765,7 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p >"system" - the code system this code belongs to</p>
 <p >"display" - a human readable meaning of the code</p>
 <p >// Setter:</p>
-<p >Dictionary&lt;string, string&gt; brs = new Dictionary&lt;string, string&gt;();</p>
-<p >brs.Add("code", "US-MA");</p>
-<p >brs.Add("system", "urn:iso:std:iso:3166:-2");</p>
-<p >brs.Add("display", "Massachusetts");</p>
-<p >ExampleDeathRecord.BirthRecordState = brs;</p>
+<p >ExampleDeathRecord.BirthRecordState = "MA";</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordState}");</p>
 
@@ -2302,9 +2302,11 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>The informant of the decedent's death.</p>
 <p >String representation of the informant's relationship to the decedent </p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.Contact = "Friend of family";</p>
+<p >Dictionary&lt;string, string&gt; relationship = new Dictionary&lt;string, string&gt;();</p>
+<p >relationship.Add("text", "sibling");</p>
+<p >SetterDeathRecord.ContactRelationship = relationship;</p>
 <p >// Getter:</p>
-<p >Console.WriteLine($"Contact's Relationship: {ExampleDeathRecord.Contact}");</p>
+<p >Console.WriteLine($"Contact's Relationship: {ExampleDeathRecord.ContactRelationship["text"]}");</p>
 
 </div>
 </div>
@@ -2704,7 +2706,7 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Type of Death Location Helper</p>
 <p >type of death location code.</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.DeathLocationTypeHelper = "16983000";</p>
+<p >ExampleDeathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Home;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</p>
 
@@ -2884,7 +2886,7 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p >the decedent's disposition method. A Dictionary representing a code, containing the following key/value pairs: </p>
 <p >"code" - the code</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.DecedentDispositionMethodHelper = dmethod;</p>
+<p >ExampleDeathRecord.DecedentDispositionMethodHelper = VRDR.ValueSets.MethodOfDisposition.Burial;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethodHelper}");</p>
 
@@ -3826,12 +3828,12 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 </table>
 </div><div class="memdoc">
 
-<p>Examiner Contacted Boolean. This is a conenience method, to access the code use ExaminerContacted instead.</p>
+<p>Examiner Contacted Helper. This is a conenience method, to access the code use ExaminerContacted instead.</p>
 <p >if a medical examiner was contacted. A null value indicates "unknown".</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.ExaminerContacted = false;</p>
+<p >ExampleDeathRecord.ExaminerContactedHelper = "N"</p>
 <p >// Getter:</p>
-<p >Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</p>
+<p >Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContactedHelper}");</p>
 
 </div>
 </div>
@@ -4044,7 +4046,11 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p >"display" - a human readable meaning of the code</p>
 <p >/// </p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.FilingFormat = ValueSets.FilingFormat.electronic;</p>
+<p >Dictionary&lt;string, string&gt; format = new Dictionary&lt;string, string&gt;();</p>
+<p >format.Add("code", ValueSets.FilingFormat.electronic);</p>
+<p >format.Add("system", CodeSystems.FilingFormat);</p>
+<p >format.Add("display", "Electronic");</p>
+<p >ExampleDeathRecord.FilingFormat = format;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Filed method: {ExampleDeathRecord.FilingFormat}");</p>
 
@@ -4794,9 +4800,9 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Injury At Work Helper This is a convenience method, to access the code use the InjuryAtWork property instead.</p>
 <p >did the injury occur at work? A null value indicates "not applicable".</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.InjuryAtWorkHelper = true;</p>
-<p >// Getter:</p>
-<p >Console.WriteLine($"Injury At Work? : {ExampleDeathRecord.InjuryAtWorkHelper}");</p>
+<p >ExampleDeathRecord.InjuryAtWorkHelper = "Y"";&lt;/para&gt;
+&lt;para&gt;// Getter:&lt;/para&gt;
+&lt;para&gt;Console.WriteLine($"Injury At Work? : {ExampleDeathRecord.InjuryAtWorkHelper}");</p>
 
 </div>
 </div>
@@ -5161,7 +5167,11 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p >Intentional Reject</p>
 <p >string</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.IntentionalReject = "Reject1";</p>
+<p >Dictionary&lt;string, string&gt; reject = new Dictionary&lt;string, string&gt;();</p>
+<p >format.Add("code", ValueSets.FilingFormat.electronic);</p>
+<p >format.Add("system", CodeSystems.IntentionalReject);</p>
+<p >format.Add("display", "Reject1");</p>
+<p >ExampleDeathRecord.IntentionalReject = "reject";</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Intentional Reject {ExampleDeathRecord.IntentionalReject}");</p>
 
@@ -5402,10 +5412,6 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p >the manner of death type </p>
 <p >"code" - the code</p>
 <p >// Setter:</p>
-<p >Dictionary&lt;string, string&gt; manner = new Dictionary&lt;string, string&gt;();</p>
-<p >manner.Add("code", "7878000");</p>
-<p >manner.Add("system", "");</p>
-<p >manner.Add("display", "Accidental death");</p>
 <p >ExampleDeathRecord.MannerOfDeathTypeHelper = MannerOfDeath.Natural;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathTypeHelper}");</p>
@@ -5662,7 +5668,7 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Decedent's Military Service. This is a helper method, to obtain the code use the MilitaryService property instead.</p>
 <p >the decedent's military service. Whether the decedent served in the military, a null value means "unknown".</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.MilitaryServiceHelper = Y;</p>
+<p >ExampleDeathRecord.MilitaryServiceHelper = "Y";</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceHelper}");</p>
 
@@ -6354,7 +6360,11 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Replace Status.</p>
 <p >Replacement Record – suggested codes.</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.ReplaceStatus = ValueSets.ReplaceStatus.Original_Record;</p>
+<p >Dictionary&lt;string, string&gt; replace = new Dictionary&lt;string, string&gt;();</p>
+<p >replace.Add("code", "original");</p>
+<p >replace.Add("system", CodeSystems.ReplaceStatus);</p>
+<p >replace.Add("display", "original");</p>
+<p >ExampleDeathRecord.ReplaceStatus = replace;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Filed method: {ExampleDeathRecord.ReplaceStatus}");</p>
 
@@ -6914,7 +6924,11 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Decedent's Sex at Death.</p>
 <p >the decedent's sex at time of death</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.SexAtDeath = "F";</p>
+<p >Dictionary&lt;string, string&gt; sex = new Dictionary&lt;string, string&gt;();</p>
+<p >sex.Add("code", "female");</p>
+<p >sex.Add("system", "http://hl7.org/fhir/administrative-gender");</p>
+<p >sex.Add("display", "female");</p>
+<p >ExampleDeathRecord.SexAtDeath = sex;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Sex at Time of Death: {ExampleDeathRecord.SexAtDeath}");</p>
 
@@ -6943,7 +6957,7 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Decedent's Sex At Death Helper</p>
 <p >Decedent's sex at death.</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.SexAtDeathHelper = VRDR.ValueSets.AdministractiveGender.Male;</p>
+<p >ExampleDeathRecord.SexAtDeathHelper = VRDR.ValueSets.AdministrativeGender.Male;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Decedent's SexAtDeathHelper: {ExampleDeathRecord.SexAtDeathHelper}");</p>
 
@@ -7640,7 +7654,11 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlag
 <p>Transax Conversion Flag</p>
 <p >"code" - the code</p>
 <p >// Setter:</p>
-<p >ExampleDeathRecord.TransaxConversion = 3;</p>
+<p >Dictionary&lt;string, string&gt; tcf = new Dictionary&lt;string, string&gt;();</p>
+<p >tcf.Add("code", "3");</p>
+<p >tcf.Add("system", CodeSystems.TransaxConversion);</p>
+<p >tcf.Add("display", "Conversion using non-ambivalent table entries");</p>
+<p >ExampleDeathRecord.TransaxConversion = tcf;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Transax Conversion Code: {ExampleDeathRecord.TransaxConversion}");</p>
 

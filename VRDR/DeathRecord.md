@@ -2,6 +2,8 @@
 # Documentation of Public Methods of DeathRecord and IJEMortality
 ## Creating this File
 Creation of this file is determined by the DocumentationFile tag in the .csproj file, and the package reference to Vsxmd.
+Normally, have the .xml file generated and the Vsxmd package reference uncommented.
+For releases, have the md file generated, and the vsxmd package reference commented.
 Run 'dotnet build'.
 Some editing is required.
 

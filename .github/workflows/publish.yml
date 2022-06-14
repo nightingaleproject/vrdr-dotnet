@@ -12,7 +12,9 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.408
+          dotnet-version: |
+            3.1.408
+            6.0.x
       # Publish
       - name: publish DeathRecord on version change
         uses: rohith/publish-nuget@v2
@@ -45,3 +47,4 @@ jobs:
           NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
           PACKAGE_NAME: VRDR.Client
           INCLUDE_SYMBOLS: false
+

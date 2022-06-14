@@ -6734,7 +6734,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Examiner Contacted Helper. This is a conenience method, to access the code use ExaminerContacted instead.</summary>
+        /// <summary>Examiner Contacted Helper. This is a convenience method, to access the code use ExaminerContacted instead.</summary>
         /// <value>if a medical examiner was contacted. A null value indicates "unknown".</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -9935,7 +9935,7 @@ namespace VRDR
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AcmeSystemReject = "3";</para>
+        /// <para>ExampleDeathRecord.AcmeSystemRejectHelper = "3";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
         /// </example>

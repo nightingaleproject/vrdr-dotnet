@@ -424,6 +424,24 @@ namespace VRDR.CLI
                 Console.WriteLine(d.ToDescription());
                 return 0;
             }
+            else if (args.Length == 2 && args[0] == "2ijecontent")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                IJEMortality ije1 = new IJEMortality(d);
+                // Loop over every property (these are the fields); Order by priority
+                List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Priority).ToList();
+                foreach (PropertyInfo property in properties)
+                {
+                    // Grab the field attributes
+                    IJEField info = property.GetCustomAttribute<IJEField>();
+                    // Grab the field value
+                    string field = Convert.ToString(property.GetValue(ije1, null));
+                    // Print the key/value pair to console
+                    Console.WriteLine( info.Name + ": " + field);
+                }
+
+                return 0;
+            }
             else if (args.Length == 2 && args[0] == "2ije")
             {
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));

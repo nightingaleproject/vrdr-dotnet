@@ -425,7 +425,7 @@ namespace VRDR.CLI
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "2ijecontent")
-            {
+            { // dumps content of a death record in key/value IJE format
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 IJEMortality ije1 = new IJEMortality(d);
                 // Loop over every property (these are the fields); Order by priority
@@ -689,6 +689,29 @@ namespace VRDR.CLI
                     case DeathRecordSubmissionMessage submission:
                         var record = submission.DeathRecord;
                         Console.WriteLine(record.ToJSON());
+                        break;
+                }
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "extract2ijecontent")
+            {  // dumps content of a submission message in key/value IJE format
+                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+                switch(message)
+                {
+                    case DeathRecordSubmissionMessage submission:
+                        var d = submission.DeathRecord;
+                        IJEMortality ije1 = new IJEMortality(d);
+                        // Loop over every property (these are the fields); Order by priority
+                        List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Priority).ToList();
+                        foreach (PropertyInfo property in properties)
+                        {
+                            // Grab the field attributes
+                            IJEField info = property.GetCustomAttribute<IJEField>();
+                            // Grab the field value
+                            string field = Convert.ToString(property.GetValue(ije1, null));
+                            // Print the key/value pair to console
+                            Console.WriteLine(info.Name + ": " + field);
+                }
                         break;
                 }
                 return 0;

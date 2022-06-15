@@ -6814,8 +6814,6 @@ namespace VRDR
                 {
                     CreateInjuryLocationLoc();
                     //LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
-                    Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
 
                 InjuryLocationLoc.Address = DictToAddress(value);

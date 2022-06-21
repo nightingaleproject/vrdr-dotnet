@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>VRDR.Client</PackageId>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="VRDR.Messaging" Version="3.2.1"/>
+    <ProjectReference Include="..\VRDR.Messaging\VRDRMessaging.csproj"/>
   </ItemGroup>
 
 </Project>

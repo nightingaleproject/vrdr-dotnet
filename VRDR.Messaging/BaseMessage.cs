@@ -465,7 +465,7 @@ namespace VRDR
         /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <returns>The deserialized bundle object</returns>
-        private static Bundle ParseGenericBundle(string source, bool permissive = false)
+        public static Bundle ParseGenericBundle(string source, bool permissive = false)
         {
             if (!String.IsNullOrEmpty(source) && source.TrimStart().StartsWith("<"))
             {

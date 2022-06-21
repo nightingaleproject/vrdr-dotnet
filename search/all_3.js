@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['dateofbirth_0',['DateOfBirth',['../class_v_r_d_r_1_1_death_record.html#abd22c1f178d39a85b4fa68999e1f0b95',1,'VRDR::DeathRecord']]],
-  ['dateofdeath_1',['DateOfDeath',['../class_v_r_d_r_1_1_death_record.html#a24e1ce9b8d65501d6f2b765351c34bec',1,'VRDR::DeathRecord']]],
+  ['dateofbirth_0',['DateOfBirth',['../class_v_r_d_r_1_1_death_record.html#a7726ab536f74f6a538116910ab211d13',1,'VRDR::DeathRecord']]],
+  ['dateofdeath_1',['DateOfDeath',['../class_v_r_d_r_1_1_death_record.html#ac1c9ca35e9c6598701ca902c5ae654bf',1,'VRDR::DeathRecord']]],
   ['dateofdeathpronouncement_2',['DateOfDeathPronouncement',['../class_v_r_d_r_1_1_death_record.html#ae0ee24f4b3702228d114e43ef1dd912c',1,'VRDR::DeathRecord']]],
   ['davislineberry_3',['DavisLineberry',['../class_v_r_d_r_1_1_connectathon.html#af326fa222ab0ded5b88383727faeaf68',1,'VRDR::Connectathon']]],
   ['dbplacecity_4',['DBPLACECITY',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a18aa46599ceba5f9eb1d6767d34e60aa',1,'VRDR::IJEMortality']]],
@@ -26,7 +26,7 @@ var searchData=
   ['deathrecordupdatemessage_23',['DeathRecordUpdateMessage',['../class_v_r_d_r_1_1_death_record_update_message.html#af9ffd0dd51be07ab7136997f935e8074',1,'VRDR.DeathRecordUpdateMessage.DeathRecordUpdateMessage(DeathRecord record)'],['../class_v_r_d_r_1_1_death_record_update_message.html#a7b7b58e85b0d2cce73b6333855bc380b',1,'VRDR.DeathRecordUpdateMessage.DeathRecordUpdateMessage()'],['../class_v_r_d_r_1_1_death_record_update_message.html',1,'VRDR.DeathRecordUpdateMessage']]],
   ['deathrecordvoidmessage_24',['DeathRecordVoidMessage',['../class_v_r_d_r_1_1_death_record_void_message.html#af86046e9865c783b4061d24d3747aab2',1,'VRDR.DeathRecordVoidMessage.DeathRecordVoidMessage()'],['../class_v_r_d_r_1_1_death_record_void_message.html#a9e6a5f34e592a6c9f8728b58ad086054',1,'VRDR.DeathRecordVoidMessage.DeathRecordVoidMessage(DeathRecord record)'],['../class_v_r_d_r_1_1_death_record_void_message.html',1,'VRDR.DeathRecordVoidMessage']]],
   ['deathtime_25',['DeathTime',['../class_v_r_d_r_1_1_death_record.html#a553aa5fe79a1772d544c9fd5f8e062f5',1,'VRDR::DeathRecord']]],
-  ['deathyear_26',['DeathYear',['../class_v_r_d_r_1_1_base_message.html#aa5a918fd9b0183daededad767d5022aa',1,'VRDR.BaseMessage.DeathYear()'],['../class_v_r_d_r_1_1_death_record.html#a4673750d294cc36cb86da8411bac3696',1,'VRDR.DeathRecord.DeathYear()']]],
+  ['deathyear_26',['DeathYear',['../class_v_r_d_r_1_1_base_message.html#a4421a91f6006e5185fab4638308cb052',1,'VRDR.BaseMessage.DeathYear()'],['../class_v_r_d_r_1_1_death_record.html#a4673750d294cc36cb86da8411bac3696',1,'VRDR.DeathRecord.DeathYear()']]],
   ['decedentdispositionmethod_27',['DecedentDispositionMethod',['../class_v_r_d_r_1_1_death_record.html#a5254f2ee90de8e4d98baf3316174cbcd',1,'VRDR::DeathRecord']]],
   ['decedentdispositionmethodhelper_28',['DecedentDispositionMethodHelper',['../class_v_r_d_r_1_1_death_record.html#ade68bb3a2ad78cecc0d7d32132f835dd',1,'VRDR::DeathRecord']]],
   ['deduc_29',['DEDUC',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a3e3e13010ac8baf06861271bda8896cc',1,'VRDR::IJEMortality']]],

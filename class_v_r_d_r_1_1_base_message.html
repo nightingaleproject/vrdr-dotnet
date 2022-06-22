@@ -133,6 +133,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ae36081006302a6866befa8abf6eae943"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#ae36081006302a6866befa8abf6eae943">ParseGenericMessage</a> (string source, bool permissive=false)</td></tr>
 <tr class="memdesc:ae36081006302a6866befa8abf6eae943"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse an XML or JSON serialization of a FHIR Bundle and construct a generic <a class="el" href="class_v_r_d_r_1_1_base_message.html" title="Class BaseMessage is the base class of all messages.">BaseMessage</a>.  <a href="class_v_r_d_r_1_1_base_message.html#ae36081006302a6866befa8abf6eae943">More...</a><br /></td></tr>
 <tr class="separator:ae36081006302a6866befa8abf6eae943"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8eb292cae691eae977c8cd58648380e0"><td class="memItemLeft" align="right" valign="top">static Bundle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#a8eb292cae691eae977c8cd58648380e0">ParseGenericBundle</a> (string source, bool permissive=false)</td></tr>
+<tr class="memdesc:a8eb292cae691eae977c8cd58648380e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse an XML or JSON serialization of a FHIR Bundle.  <a href="class_v_r_d_r_1_1_base_message.html#a8eb292cae691eae977c8cd58648380e0">More...</a><br /></td></tr>
+<tr class="separator:a8eb292cae691eae977c8cd58648380e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79bbb34a984e5579168d6f2f12991014"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#a79bbb34a984e5579168d6f2f12991014">Parse</a> (Bundle bundle)</td></tr>
 <tr class="memdesc:a79bbb34a984e5579168d6f2f12991014"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the appropriate subclass of <a class="el" href="class_v_r_d_r_1_1_base_message.html" title="Class BaseMessage is the base class of all messages.">BaseMessage</a> based on a FHIR Bundle. Clients can use the typeof operator to determine the type of message object returned.  <a href="class_v_r_d_r_1_1_base_message.html#a79bbb34a984e5579168d6f2f12991014">More...</a><br /></td></tr>
 <tr class="separator:a79bbb34a984e5579168d6f2f12991014"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -715,6 +718,52 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>NCHSIdentifier</b><
 </dd>
 </dl>
 </div>
+
+</div>
+</div>
+<a id="a8eb292cae691eae977c8cd58648380e0" name="a8eb292cae691eae977c8cd58648380e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8eb292cae691eae977c8cd58648380e0">&#9670;&nbsp;</a></span>ParseGenericBundle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Bundle VRDR.BaseMessage.ParseGenericBundle </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>permissive</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse an XML or JSON serialization of a FHIR Bundle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the XML or JSON serialization of a FHIR Bundle</td></tr>
+    <tr><td class="paramname">permissive</td><td>if the parser should be permissive when parsing the given string</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The deserialized bundle object</dd></dl>
 
 </div>
 </div>

@@ -1322,14 +1322,14 @@ namespace VRDR
             {
                 if (DeathCertification == null)
                 {
-                    return EmptyCodeDict();
+                    return EmptyCodeableDict();
                 }
                 Hl7.Fhir.Model.Procedure.PerformerComponent performer = DeathCertification.Performer.FirstOrDefault();
                 if (performer != null && performer.Function != null)
                 {
                     return CodeableConceptToDict(performer.Function);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -1422,7 +1422,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)MannerOfDeath.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -2617,7 +2617,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)sex.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -3598,7 +3598,7 @@ namespace VRDR
                         return CodeableConceptToDict(contact.Relationship.FirstOrDefault());
                     }
                 }
-                return null;
+                return EmptyCodeableDict();
             }
             set
             {
@@ -3638,7 +3638,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)Decedent.MaritalStatus);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -3691,7 +3691,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)addressExt.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -4317,7 +4317,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)DecedentEducationLevel.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -4696,7 +4696,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)MilitaryServiceObs.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -4981,7 +4981,7 @@ namespace VRDR
                 }
                 else
                 {
-                    return null;
+                    return EmptyAddrDict();
                 }
             }
             set
@@ -5202,7 +5202,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)DispositionMethod.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -5292,7 +5292,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)AutopsyPerformed.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -6001,7 +6001,7 @@ namespace VRDR
             {
                 if (AutopsyPerformed == null || AutopsyPerformed.Component == null)
                 {
-                    return EmptyCodeDict();
+                    return EmptyCodeableDict();
                 }
                 var performed = AutopsyPerformed.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
                     && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69436-4");
@@ -6009,7 +6009,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)performed.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -6348,11 +6348,10 @@ namespace VRDR
                         return (CodeableConceptToDict((CodeableConcept)placeComp.Value));
                     }
                 }
-                return null;
+                return EmptyCodeableDict();
             }
             set
             {
-
                 if (DeathDateObs == null)
                 {
                     CreateDeathDateObs(); // Create it
@@ -6553,7 +6552,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)PregnancyObs.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -6708,7 +6707,7 @@ namespace VRDR
                     CodeableConcept cc = (CodeableConcept)ExaminerContactedObs.Value;
                     return CodeableConceptToDict(cc);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -7255,7 +7254,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)placeComp.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -7456,7 +7455,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)TobaccoUseObs.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -7807,7 +7806,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)ActivityAtTimeOfDeathObs.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -7939,7 +7938,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)PlaceOfInjuryObs.Value);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -9837,7 +9836,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(intentionalReject);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -9911,7 +9910,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(acmeSystemReject);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -9985,7 +9984,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(transaxConversion);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {

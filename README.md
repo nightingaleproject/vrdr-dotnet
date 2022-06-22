@@ -398,6 +398,9 @@ dotnet run --project VRDR.CLI connectathon 1 100 MA
 # Generate a verbose JSON description of the record (in the format used to drive Canary)
 dotnet run --project VRDR.CLI description VRDR.CLI/1.json
 
+# Dump content of a death record in key/value IJE format
+dotnet run --project VRDR.CLI 2ijecontent VRDR.CLI/1.json
+
 # Convert a record to IJE and back to identify any conversion issues
 dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json
 
@@ -412,6 +415,9 @@ dotnet run --project VRDR.CLI compare VRDR.CLI/1.MOR VRDR.CLI/1.json
 
 # Extract a FHIR record from a FHIR message
 dotnet run --project VRDR.CLI extract VRDR.CLI/1submit.json
+
+# Dump content of a submission message in key/value IJE format
+dotnet run --project VRDR.CLI extract2ijecontent VRDR.CLI/1submit.json
 
 # Create a submission FHIR message wrapping a FHIR record
 dotnet run --project VRDR.CLI submit VRDR.CLI/1.json

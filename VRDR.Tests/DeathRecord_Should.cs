@@ -297,7 +297,7 @@ namespace VRDR.Tests
         {
             Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, DeathRecord1_JSON.DeathLocationTypeHelper);
             Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Hospital, DeathCertificateDocument1_JSON.DeathLocationTypeHelper);
-            Assert.Null(CauseOfDeathCodedContentBundle1_JSON.DeathLocationTypeHelper);
+            Assert.Equal("", CauseOfDeathCodedContentBundle1_JSON.DeathLocationType["code"]);
             Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, DeathRecord1_XML.DeathLocationTypeHelper);
         }
         [Fact]
@@ -3222,7 +3222,7 @@ namespace VRDR.Tests
             Assert.Equal("000182", codedcontentbundle.Identifier);
             Assert.Equal("000000000042", codedcontentbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", codedcontentbundle.StateLocalIdentifier2);
-            Assert.Null(codedcontentbundle.DeathLocationType); // should be missing
+            Assert.Equal("", codedcontentbundle.DeathLocationType["code"]); // should be empty
             Assert.Null(codedcontentbundle.BirthDay); // should be missing
             // TODO: Fill out tests
         }
@@ -3237,7 +3237,7 @@ namespace VRDR.Tests
             Assert.Equal("000182", codedcontentbundle.Identifier);
             Assert.Equal("000000000042", codedcontentbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", codedcontentbundle.StateLocalIdentifier2);
-            Assert.Null(codedcontentbundle.DeathLocationType); // should be missing
+            Assert.Equal("", codedcontentbundle.DeathLocationType["code"]); // should be empty
             Assert.Null(codedcontentbundle.BirthDay); // should be missing
             // TODO: Fill out tests
         }

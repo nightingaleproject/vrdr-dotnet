@@ -700,7 +700,7 @@ namespace VRDR.CLI
                 {
                     case DeathRecordSubmissionMessage submission:
                         var d = submission.DeathRecord;
-                        IJEMortality ije1 = new IJEMortality(d);
+                        IJEMortality ije1 = new IJEMortality(d, false);
                         // Loop over every property (these are the fields); Order by priority
                         List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Priority).ToList();
                         foreach (PropertyInfo property in properties)

@@ -427,7 +427,7 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "2ijecontent")
             { // dumps content of a death record in key/value IJE format
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-                IJEMortality ije1 = new IJEMortality(d);
+                IJEMortality ije1 = new IJEMortality(d, false);
                 // Loop over every property (these are the fields); Order by priority
                 List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Priority).ToList();
                 foreach (PropertyInfo property in properties)
@@ -700,7 +700,7 @@ namespace VRDR.CLI
                 {
                     case DeathRecordSubmissionMessage submission:
                         var d = submission.DeathRecord;
-                        IJEMortality ije1 = new IJEMortality(d);
+                        IJEMortality ije1 = new IJEMortality(d, false);
                         // Loop over every property (these are the fields); Order by priority
                         List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Priority).ToList();
                         foreach (PropertyInfo property in properties)

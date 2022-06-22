@@ -412,6 +412,9 @@ Example Usages</h4>
 <div class="line"># Generate a verbose JSON description of the record (in the format used to drive Canary)</div>
 <div class="line">dotnet run --project VRDR.CLI description VRDR.CLI/1.json</div>
 <div class="line"> </div>
+<div class="line"># Dump content of a death record in key/value IJE format</div>
+<div class="line">dotnet run --project VRDR.CLI 2ijecontent VRDR.CLI/1.json</div>
+<div class="line"> </div>
 <div class="line"># Convert a record to IJE and back to identify any conversion issues</div>
 <div class="line">dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json</div>
 <div class="line"> </div>
@@ -426,6 +429,9 @@ Example Usages</h4>
 <div class="line"> </div>
 <div class="line"># Extract a FHIR record from a FHIR message</div>
 <div class="line">dotnet run --project VRDR.CLI extract VRDR.CLI/1submit.json</div>
+<div class="line"> </div>
+<div class="line"># Dump content of a submission message in key/value IJE format</div>
+<div class="line">dotnet run --project VRDR.CLI extract2ijecontent VRDR.CLI/1submit.json</div>
 <div class="line"> </div>
 <div class="line"># Create a submission FHIR message wrapping a FHIR record</div>
 <div class="line">dotnet run --project VRDR.CLI submit VRDR.CLI/1.json</div>

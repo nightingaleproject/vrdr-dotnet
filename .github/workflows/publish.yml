@@ -17,7 +17,7 @@ jobs:
             6.0.x
       # Publish
       - name: publish DeathRecord on version change
-        uses: alirezanet/publish-nuget@v3
+        uses: alirezanet/publish-nuget@v3.0.4
         with:
           PROJECT_FILE_PATH: VRDR/DeathRecord.csproj # Relative to repository root
           VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo

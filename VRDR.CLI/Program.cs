@@ -445,7 +445,7 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "2ije")
             {
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-                IJEMortality ije1 = new IJEMortality(d);
+                IJEMortality ije1 = new IJEMortality(d, false);
                 Console.WriteLine(ije1.ToString());
                 return 0;
             }
@@ -684,10 +684,15 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "extract")
             {
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+                DeathRecord record;
                 switch(message)
                 {
                     case DeathRecordSubmissionMessage submission:
-                        var record = submission.DeathRecord;
+                        record = submission.DeathRecord;
+                        Console.WriteLine(record.ToJSON());
+                        break;
+                    case CauseOfDeathCodingMessage coding:
+                        record = coding.DeathRecord;
                         Console.WriteLine(record.ToJSON());
                         break;
                 }

@@ -1,5 +1,13 @@
 ## Changelog
 
+### v4.0.0.preview5 - 2022-06-22
+
+* Addressed incorrect conversion of non-string values into strings
+* Updated documentation to better align with recent library changes
+* Added new 2ijecontent and extract2ijecontent services to the command line tool
+* Removed erroneous second injury location object from output bundle
+* Fixed issue where VRDR DeathRecord properties that return a dictionary were returning null
+
 ### v4.0.0.preview4 - 2022-05-31
 
 * Added parsing of generic non-VRDR message bundles to support more flexibility in message-handling APIs built using the VRDR.Messaging library

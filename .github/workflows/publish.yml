@@ -28,7 +28,7 @@ jobs:
           PACKAGE_NAME: VRDR
           INCLUDE_SYMBOLS: false
       - name: publish Messaging on version change
-        uses: rohith/publish-nuget@v2
+        uses: alirezanet/publish-nuget@v3.0.4
         with:
           PROJECT_FILE_PATH: VRDR.Messaging/VRDRMessaging.csproj # Relative to repository root
           VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo
@@ -38,7 +38,7 @@ jobs:
           PACKAGE_NAME: VRDR.Messaging
           INCLUDE_SYMBOLS: false
       - name: publish Client on version change
-        uses: rohith/publish-nuget@v2
+        uses: alirezanet/publish-nuget@v3.0.4
         with:
           PROJECT_FILE_PATH: VRDR.Client/VRDRClient.csproj # Relative to repository root
           VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo

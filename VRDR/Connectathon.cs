@@ -287,7 +287,7 @@ namespace VRDR
             ije.INDUST = "Never Worked";
             ije.BCNO = "001023";
             ije.IDOB_YR = "2021";
-            ije.BSTATE = "CA";
+            ije.BSTATE = "CO";
             ije.MANNER = "P";
             ije.AUTOP = "U";
             ije.AUTOPF = "U";

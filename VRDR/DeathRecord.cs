@@ -1382,7 +1382,7 @@ namespace VRDR
             }
             set
             {
-                if (value == null || String.IsNullOrEmpty(value.Trim())){
+                if (String.IsNullOrWhiteSpace(value)){
                     // do nothing
                     return;
                 }
@@ -7406,7 +7406,7 @@ namespace VRDR
             }
             set
             {
-                if (value == null || String.IsNullOrEmpty(value.Trim())){
+                if (String.IsNullOrWhiteSpace(value)){
                     // do nothing
                     return;
                 }

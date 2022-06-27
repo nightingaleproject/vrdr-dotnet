@@ -1382,7 +1382,11 @@ namespace VRDR
             }
             set
             {
-                if ((value != null) && !VRDR.Mappings.CertifierTypes.FHIRToIJE.ContainsKey(value))
+                if (value == null || String.IsNullOrEmpty(value.Trim())){
+                    // do nothing
+                    return;
+                }
+                if (!VRDR.Mappings.CertifierTypes.FHIRToIJE.ContainsKey(value))
                 { //other
 
                     CertificationRole = CodeableConceptToDict(new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value));
@@ -7402,11 +7406,15 @@ namespace VRDR
             }
             set
             {
+                if (value == null || String.IsNullOrEmpty(value.Trim())){
+                    // do nothing
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
                 }
-                if ((value != null) && !VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value))
+                if (!VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value))
                 { //other
                     //Find the component, or create it
                     var transportComp = InjuryIncidentObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null &&

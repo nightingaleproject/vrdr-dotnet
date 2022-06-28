@@ -246,7 +246,7 @@ namespace VRDR.Tests
                     case NvssRace.White:
                         Assert.Equal("Y", pair.Item2);
                         break;
-                    case NvssRace.AmericanIndianOrAlaskaNative:
+                    case NvssRace.AmericanIndianOrAlaskanNative:
                         Assert.Equal("N", pair.Item2);
                         break;
                     default:
@@ -1267,7 +1267,7 @@ namespace VRDR.Tests
         {
             Assert.Equal(Tuple.Create(NvssRace.White, "Y"), DeathRecord1_JSON.Race[0]);
             Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), DeathRecord1_JSON.Race[1]);
-            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), DeathRecord1_JSON.Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskanNative, "N"), DeathRecord1_JSON.Race[2]);
             Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), DeathRecord1_JSON.Race[3]);
             Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), DeathRecord1_JSON.Race[4]);
             Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), DeathRecord1_JSON.Race[5]);
@@ -1283,7 +1283,7 @@ namespace VRDR.Tests
 
             Assert.Equal(Tuple.Create(NvssRace.White, "Y"), DeathRecord1_XML.Race[0]);
             Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), DeathRecord1_XML.Race[1]);
-            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), DeathRecord1_XML.Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskanNative, "N"), DeathRecord1_XML.Race[2]);
             Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), DeathRecord1_XML.Race[3]);
             Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), DeathRecord1_XML.Race[4]);
             Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), DeathRecord1_XML.Race[5]);

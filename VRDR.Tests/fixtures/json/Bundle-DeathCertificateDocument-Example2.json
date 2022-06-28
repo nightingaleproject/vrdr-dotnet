@@ -632,7 +632,7 @@
             "code": {
               "coding": [
                 {
-                  "code": "AmericanIndianOrAlaskaNative",
+                  "code": "AmericanIndianOrAlaskanNative",
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
@@ -786,7 +786,7 @@
             "code": {
               "coding": [
                 {
-                  "code": "FirstAmericanIndianOrAlaskaNativeLiteral",
+                  "code": "FirstAmericanIndianOrAlaskanNativeLiteral",
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]

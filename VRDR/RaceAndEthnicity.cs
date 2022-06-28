@@ -8,7 +8,7 @@ namespace VRDR
         /// <summary> BlackOrAfricanAmerican </summary>
         public const string BlackOrAfricanAmerican = "BlackOrAfricanAmerican";
         /// <summary> AmericanIndianOrAlaskaNative </summary>
-        public const string AmericanIndianOrAlaskaNative = "AmericanIndianOrAlaskaNative";
+        public const string AmericanIndianOrAlaskanNative = "AmericanIndianOrAlaskanNative";
         /// <summary> AsianIndian </summary>
         public const string AsianIndian = "AsianIndian";
         /// <summary> Chinese </summary>
@@ -57,7 +57,7 @@ namespace VRDR
             List<string> booleanRaceCodes = new List<string>();
             booleanRaceCodes.Add(NvssRace.White);
             booleanRaceCodes.Add(NvssRace.BlackOrAfricanAmerican);
-            booleanRaceCodes.Add(NvssRace.AmericanIndianOrAlaskaNative);
+            booleanRaceCodes.Add(NvssRace.AmericanIndianOrAlaskanNative);
             booleanRaceCodes.Add(NvssRace.AsianIndian);
             booleanRaceCodes.Add(NvssRace.Chinese);
             booleanRaceCodes.Add(NvssRace.Filipino);
@@ -87,7 +87,7 @@ namespace VRDR
             return literalRaceCodes;
         }
     };
-    /// <summary> String representations of IJE Ethnicity fields </summary>  
+    /// <summary> String representations of IJE Ethnicity fields </summary>
     public static class NvssEthnicity {
         /// <summary> Mexican </summary>
         public const string Mexican = "HispanicMexican";

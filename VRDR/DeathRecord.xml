@@ -4744,7 +4744,7 @@
         <member name="F:VRDR.NvssRace.BlackOrAfricanAmerican">
             <summary> BlackOrAfricanAmerican </summary>
         </member>
-        <member name="F:VRDR.NvssRace.AmericanIndianOrAlaskaNative">
+        <member name="F:VRDR.NvssRace.AmericanIndianOrAlaskanNative">
             <summary> AmericanIndianOrAlaskaNative </summary>
         </member>
         <member name="F:VRDR.NvssRace.AsianIndian">
@@ -4817,7 +4817,7 @@
             <summary> GetLiteralRaceCodes Returns a list of the literal Race Codes</summary>
         </member>
         <member name="T:VRDR.NvssEthnicity">
-            <summary> String representations of IJE Ethnicity fields </summary>  
+            <summary> String representations of IJE Ethnicity fields </summary>
         </member>
         <member name="F:VRDR.NvssEthnicity.Mexican">
             <summary> Mexican </summary>

@@ -480,7 +480,7 @@
           <code>
             <coding>
               <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
-              <code value="AmericanIndianOrAlaskaNative" />
+              <code value="AmericanIndianOrAlaskanNative" />
             </coding>
           </code>
           <valueBoolean value="true" />
@@ -606,7 +606,7 @@
           <code>
             <coding>
               <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
-              <code value="FirstAmericanIndianOrAlaskaNativeLiteral" />
+              <code value="FirstAmericanIndianOrAlaskanNativeLiteral" />
             </coding>
           </code>
           <valueString value="Arikara" />

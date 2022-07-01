@@ -60,10 +60,10 @@ namespace VRDR.HTTP
                             catch (Exception e)
                             {
                                 string rstr = e.Message;
-                                string response = Program.GenerateJsonResponse("false", ResponseTypes.Error.ToString(), rstr);
+                                String response = Program.GenerateJsonResponse("ConversionError", rstr);
                                 byte[] buf = Encoding.UTF8.GetBytes(response);
                                 ctx.Response.ContentLength64 = buf.Length;
-                                ctx.Response.ContentType = "application/json";
+                                ctx.Response.ContentType = "application/problem+json";
                                 ctx.Response.StatusCode = 400;
                                 ctx.Response.OutputStream.Write(buf, 0, buf.Length);
                             }

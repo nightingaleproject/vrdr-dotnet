@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Newtonsoft.Json.Linq;
 
 namespace VRDR.HTTP
 {
@@ -69,41 +68,36 @@ namespace VRDR.HTTP
             }
             catch (Exception e)
             {
-                return GenerateJsonResponse("false", ResponseTypes.Error.ToString(), e.Message);
+                throw new Exception(e.Message);
             }
 
             // Look at URL extension to determine output format; be permissive in what we accept as format specification
-            string type = "";
             string result = "";
             try
             {
                 switch (request.RawUrl)
                 {
                     case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
-                        type = ResponseTypes.Ije.ToString();
                         IJEMortality ije = new IJEMortality(deathRecord);
                         result = ije.ToString();
                         break;
                     case string url when new Regex(@"json$").IsMatch(url): // .json
-                        type = ResponseTypes.FhirJson.ToString();
                         result = deathRecord.ToJSON();
                         break;
                     case string url when new Regex(@"xml$").IsMatch(url): // .xml
-                        type = ResponseTypes.FhirXml.ToString();
                         result = deathRecord.ToXML();
                         break;
                     case string url when new Regex(@"nightingale$").IsMatch(url): // .nightingale
-                        type = ResponseTypes.Nightingale.ToString();
                         result = Nightingale.ToNightingale(deathRecord);
                         break;
                 }
             }
             catch (Exception e)
             {
-                return GenerateJsonResponse("false", ResponseTypes.Error.ToString(), e.Message);
+                throw new Exception(e.Message);
             }
 
-            return GenerateJsonResponse("true", type, result);
+            return result;
         }
 
         public static string GetBodyContent(HttpListenerRequest request)
@@ -117,12 +111,11 @@ namespace VRDR.HTTP
             }
         }
 
-        public static string GenerateJsonResponse(string success, string type, string data)
+        public static String GenerateJsonResponse(string type, string data)
         {
             var response = "{" +
-                               "\"success\": \"" + success + "\"," +
                                "\"type\": \"" + type + "\"," +
-                               "\"data\": \"" + data + "\"" +
+                               "\"detail\": \"" + data + "\"" +
                                "}";
             return response;
         }

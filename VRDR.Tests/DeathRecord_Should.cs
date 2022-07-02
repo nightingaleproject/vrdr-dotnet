@@ -3175,13 +3175,13 @@ namespace VRDR.Tests
             Assert.Equal(2, racGet.Count());
             Assert.Equal(1, racGet.ElementAt(0).Position);
             Assert.Equal("T27.3", racGet.ElementAt(0).Code);
-            Assert.False(racGet.ElementAt(0).Pregnancy); // Pregnancy flag is only allowed in position 2
+            Assert.True(racGet.ElementAt(0).Pregnancy); // Pregnancy flag is not enforced as only allowed in position 2
             Assert.Equal(2, racGet.ElementAt(1).Position);
             Assert.Equal("T27.5", racGet.ElementAt(1).Code);
             Assert.True(racGet.ElementAt(1).Pregnancy);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
-            string fmtRac = "T273 T2751".PadRight(100, ' ');
+            string fmtRac = "T2731T2751".PadRight(100, ' ');
             Assert.Equal(fmtRac, ije.RAC);
         }
 

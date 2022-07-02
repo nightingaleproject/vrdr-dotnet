@@ -9605,7 +9605,7 @@ namespace VRDR
 
                     // Record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
                     // http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage
-                    if (rac.Pregnancy && rac.Position == 2)
+                    if (rac.Pregnancy)
                     {
                         Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
                         pregComp.Value = new FhirBoolean(true);

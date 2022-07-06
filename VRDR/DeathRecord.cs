@@ -5623,7 +5623,7 @@ namespace VRDR
                 if (dateStringMatch != null && DateTime.TryParse(dateStringMatch.ToString(), out dateTime))
                 {
                     TimeSpan timeSpan = new TimeSpan(0, dateTime.Hour, dateTime.Minute, dateTime.Second);
-                    return timeSpan.ToString(@"hh\:mm");
+                    return timeSpan.ToString(@"hh\:mm\:ss");
                 }
                 return null;
             }
@@ -5797,7 +5797,7 @@ namespace VRDR
                     DeathMonth = (uint?)parsedTime.Month;
                     DeathDay = (uint?)parsedTime.Day;
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
-                    DeathTime = timeSpan.ToString(@"hh\:mm");
+                    DeathTime = timeSpan.ToString(@"hh\:mm\:ss");
                 }
             }
         }
@@ -7134,7 +7134,7 @@ namespace VRDR
                     InjuryMonth = (uint?)parsedTime.Month;
                     InjuryDay = (uint?)parsedTime.Day;
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
-                    InjuryTime = timeSpan.ToString(@"hh\:mm");
+                    InjuryTime = timeSpan.ToString(@"hh\:mm\:ss");
                 }
             }
         }

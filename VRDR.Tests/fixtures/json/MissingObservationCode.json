@@ -388,8 +388,8 @@
             "code" : {
               "coding" : [
                 {
-                  "code" : "AmericanIndianOrAlaskaNative",
-                  "display" : "AmericanIndianOrAlaskaNative"
+                  "code" : "AmericanIndianOrAlaskanNative",
+                  "display" : "AmericanIndianOrAlaskanNative"
                 }
               ]
             },

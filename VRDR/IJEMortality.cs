@@ -1659,13 +1659,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.AmericanIndianOrAlaskaNative);
+                return Get_Race(NvssRace.AmericanIndianOrAlaskanNative);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.AmericanIndianOrAlaskaNative, value);
+                    Set_Race(NvssRace.AmericanIndianOrAlaskanNative, value);
                 }
             }
         }

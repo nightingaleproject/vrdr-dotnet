@@ -1382,7 +1382,11 @@ namespace VRDR
             }
             set
             {
-                if ((value != null) && !VRDR.Mappings.CertifierTypes.FHIRToIJE.ContainsKey(value))
+                if (String.IsNullOrWhiteSpace(value)){
+                    // do nothing
+                    return;
+                }
+                if (!VRDR.Mappings.CertifierTypes.FHIRToIJE.ContainsKey(value))
                 { //other
 
                     CertificationRole = CodeableConceptToDict(new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value));
@@ -5619,7 +5623,7 @@ namespace VRDR
                 if (dateStringMatch != null && DateTime.TryParse(dateStringMatch.ToString(), out dateTime))
                 {
                     TimeSpan timeSpan = new TimeSpan(0, dateTime.Hour, dateTime.Minute, dateTime.Second);
-                    return timeSpan.ToString(@"hh\:mm");
+                    return timeSpan.ToString(@"hh\:mm\:ss");
                 }
                 return null;
             }
@@ -5793,7 +5797,7 @@ namespace VRDR
                     DeathMonth = (uint?)parsedTime.Month;
                     DeathDay = (uint?)parsedTime.Day;
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
-                    DeathTime = timeSpan.ToString(@"hh\:mm");
+                    DeathTime = timeSpan.ToString(@"hh\:mm\:ss");
                 }
             }
         }
@@ -7130,7 +7134,7 @@ namespace VRDR
                     InjuryMonth = (uint?)parsedTime.Month;
                     InjuryDay = (uint?)parsedTime.Day;
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
-                    InjuryTime = timeSpan.ToString(@"hh\:mm");
+                    InjuryTime = timeSpan.ToString(@"hh\:mm\:ss");
                 }
             }
         }
@@ -7402,11 +7406,15 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)){
+                    // do nothing
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
                 }
-                if ((value != null) && !VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value))
+                if (!VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value))
                 { //other
                     //Find the component, or create it
                     var transportComp = InjuryIncidentObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null &&

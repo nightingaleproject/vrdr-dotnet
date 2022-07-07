@@ -246,7 +246,7 @@ namespace VRDR.Tests
                     case NvssRace.White:
                         Assert.Equal("Y", pair.Item2);
                         break;
-                    case NvssRace.AmericanIndianOrAlaskaNative:
+                    case NvssRace.AmericanIndianOrAlaskanNative:
                         Assert.Equal("N", pair.Item2);
                         break;
                     default:
@@ -1267,7 +1267,7 @@ namespace VRDR.Tests
         {
             Assert.Equal(Tuple.Create(NvssRace.White, "Y"), DeathRecord1_JSON.Race[0]);
             Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), DeathRecord1_JSON.Race[1]);
-            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), DeathRecord1_JSON.Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskanNative, "N"), DeathRecord1_JSON.Race[2]);
             Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), DeathRecord1_JSON.Race[3]);
             Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), DeathRecord1_JSON.Race[4]);
             Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), DeathRecord1_JSON.Race[5]);
@@ -1283,7 +1283,7 @@ namespace VRDR.Tests
 
             Assert.Equal(Tuple.Create(NvssRace.White, "Y"), DeathRecord1_XML.Race[0]);
             Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), DeathRecord1_XML.Race[1]);
-            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), DeathRecord1_XML.Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskanNative, "N"), DeathRecord1_XML.Race[2]);
             Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), DeathRecord1_XML.Race[3]);
             Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), DeathRecord1_XML.Race[4]);
             Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), DeathRecord1_XML.Race[5]);
@@ -2621,23 +2621,23 @@ namespace VRDR.Tests
             Assert.Equal(2018, (int)SetterDeathRecord.InjuryYear);
             Assert.Equal(2, (int)SetterDeathRecord.InjuryMonth);
             Assert.Equal(19, (int)SetterDeathRecord.InjuryDay);
-            Assert.Equal("16:48", SetterDeathRecord.InjuryTime);
+            Assert.Equal("16:48:00", SetterDeathRecord.InjuryTime);
         }
 
         [Fact]
         public void Get_InjuryDate()
         {
-            Assert.Equal("2018-02-19T16:48:00", DeathRecord1_JSON.InjuryDate);
+            Assert.Equal("2018-02-19T16:48:06", DeathRecord1_JSON.InjuryDate);
             Assert.Equal(2018, (int)DeathRecord1_JSON.InjuryYear);
             Assert.Equal(2, (int)DeathRecord1_JSON.InjuryMonth);
             Assert.Equal(19, (int)DeathRecord1_JSON.InjuryDay);
-            Assert.Equal("16:48", DeathRecord1_JSON.InjuryTime);
-            Assert.Equal("13:00", DeathCertificateDocument2_JSON.InjuryTime);
-            Assert.Equal("2018-02-19T16:48:00", DeathRecord1_XML.InjuryDate);
+            Assert.Equal("16:48:06", DeathRecord1_JSON.InjuryTime);
+            Assert.Equal("13:00:00", DeathCertificateDocument2_JSON.InjuryTime);
+            Assert.Equal("2018-02-19T16:48:06", DeathRecord1_XML.InjuryDate);
             Assert.Equal(2018, (int)DeathRecord1_XML.InjuryYear);
             Assert.Equal(2, (int)DeathRecord1_XML.InjuryMonth);
             Assert.Equal(19, (int)DeathRecord1_XML.InjuryDay);
-            Assert.Equal("16:48", DeathRecord1_XML.InjuryTime);
+            Assert.Equal("16:48:06", DeathRecord1_XML.InjuryTime);
         }
 
         [Fact]
@@ -2648,7 +2648,7 @@ namespace VRDR.Tests
             Assert.Equal("02", ije1.DOI_MO);
             Assert.Equal("19", ije1.DOI_DY);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal("2018-02-19T16:48:00", dr2.InjuryDate);
+            Assert.Equal("2018-02-19T16:48:06", dr2.InjuryDate);
             Assert.Equal(2018, (int)dr2.InjuryYear);
             Assert.Equal(02, (int)dr2.InjuryMonth);
             Assert.Equal(19, (int)dr2.InjuryDay);
@@ -2852,7 +2852,7 @@ namespace VRDR.Tests
             Assert.Equal("2020-11-12T00:00:00", DeathCertificateDocument1_JSON.DateOfDeath);
             Assert.Equal((uint)2020, (DeathCertificateDocument1_JSON.DeathYear));
             Assert.Null(DeathCertificateDocument1_JSON.DeathTime);
-            Assert.Equal("2019-02-19T16:48:00", DeathRecord1_XML.DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:06", DeathRecord1_XML.DateOfDeath);
             Assert.Equal((uint)2019, (DeathRecord1_JSON.DeathYear));
         }
 
@@ -2864,7 +2864,7 @@ namespace VRDR.Tests
             Assert.Equal("02", ije1.DOD_MO);
             Assert.Equal("19", ije1.DOD_DY);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal("2019-02-19T16:48:00", dr2.DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:06", dr2.DateOfDeath);
             Assert.Equal(2019, (int)dr2.DeathYear);
             Assert.Equal(02, (int)dr2.DeathMonth);
             Assert.Equal(19, (int)dr2.DeathDay);

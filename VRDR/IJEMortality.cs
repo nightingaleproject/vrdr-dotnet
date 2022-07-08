@@ -577,26 +577,7 @@ namespace VRDR
             string current = Convert.ToString(dictionary[key]);
             if (isCoded)
             {
-                if (geoType == "place") //|| geoType == "city")
-                {
-                    string state = null;
-                    string county = null;
-                    dictionary.TryGetValue(keyPrefix + "State", out state);
-                    dictionary.TryGetValue(keyPrefix + "County", out county);
-                    if (state != null && county != null)
-                    {
-                        current = dataLookup.StateNameAndCountyNameAndPlaceNameToPlaceCode(state, county, current);
-                    }
-                }
-                else if (geoType == "state")
-                {
-                    //current = dataLookup.StateNameToStateCode(current);
-                }
-                else if (geoType == "country")
-                {
-                    //current = dataLookup.CountryNameToCountryCode(current);
-                }
-                else if (geoType == "insideCityLimits")
+                if (geoType == "insideCityLimits")
                 {
                     if (String.IsNullOrWhiteSpace(current))
                     {
@@ -652,27 +633,7 @@ namespace VRDR
             {
                 if (isCoded)
                 {
-                    // v1.3 removed lookups for city
-                    if (geoType == "place") // This is a tricky case, we need to know about county and state!
-                    {
-                        string state = null;
-                        string county = null;
-                        dictionary.TryGetValue(keyPrefix + "State", out state);
-                        dictionary.TryGetValue(keyPrefix + "County", out county);
-                        if (!String.IsNullOrWhiteSpace(state) && !String.IsNullOrWhiteSpace(county))
-                        {
-                            string city = dataLookup.StateNameAndCountyNameAndPlaceCodeToPlaceName(state, county, value);
-                            if (!String.IsNullOrWhiteSpace(city))
-                            {
-                                dictionary[key] = city;
-                            }
-                        }
-                    }
-                    else if (geoType == "state" || geoType == "country")
-                    {
-                        dictionary[key] = value;
-                    }
-                    else if (geoType == "insideCityLimits")
+                    if (geoType == "insideCityLimits")
                     {
                         if (!String.IsNullOrWhiteSpace(value) && value == "N")
                         {

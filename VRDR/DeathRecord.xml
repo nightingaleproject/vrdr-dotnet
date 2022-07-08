@@ -4568,9 +4568,6 @@
         <member name="P:VRDR.MortalityData.Instance">
             <summary>Instance get method for singleton.</summary>
         </member>
-        <member name="M:VRDR.MortalityData.StateCodeToRandomPlace(System.String)">
-            <summary>Given a State code, return a random PlaceCode.</summary>
-        </member>
         <member name="M:VRDR.MortalityData.StateNameToStateCode(System.String)">
             <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         </member>
@@ -4589,63 +4586,6 @@
         <member name="M:VRDR.MortalityData.CountryCodeToCountryName(System.String)">
             <summary>Given a Country code - return the representative Country name.</summary>
         </member>
-        <member name="M:VRDR.MortalityData.StateNameAndCountyNameToCountyCode(System.String,System.String)">
-            <summary>Given a State and County name - return the representative County code.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.StateNameAndCountyCodeToCountyName(System.String,System.String)">
-            <summary>Given a County code and a State name - return the representative County name.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.StateNameAndCountyNameAndPlaceNameToPlaceCode(System.String,System.String,System.String)">
-            <summary>Given a State, County, and Place name - return the representative Place code.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.StateNameAndCountyNameAndPlaceCodeToPlaceName(System.String,System.String,System.String)">
-            <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.StateCodeAndCityNameToCountyName(System.String,System.String)">
-            <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.EthnicityNameToEthnicityCode(System.String)">
-            <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.EthnicityCodeToEthnicityName(System.String)">
-            <summary>Given an Ethnicity code - return the representative Ethnicity name.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.AIANRaceNameToRaceCode(System.String)">
-            <summary>Given an American Indian or Alaska Native Race name - return the representative Race code.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.AIANRaceCodeToRaceName(System.String)">
-            <summary>Given an American Indian or Alaska Native Race code - return the representative Race name.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.ARaceNameToRaceCode(System.String)">
-            <summary>Given an Asian Race name - return the representative Race code.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.ARaceCodeToRaceName(System.String)">
-            <summary>Given an Asian Race code - return the representative Race name.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.BAARaceNameToRaceCode(System.String)">
-            <summary>Given a Black or African American Race name - return the representative Race code.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.BAARaceCodeToRaceName(System.String)">
-            <summary>Given a Black or African American Race code - return the representative Race name.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.NHOPIRaceNameToRaceCode(System.String)">
-            <summary>Given a Native Hawaiian or Other Pacific Islander Race name - return the representative Race code.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.NHOPIRaceCodeToRaceName(System.String)">
-            <summary>Given a Native Hawaiian or Other Pacific Islander Race code - return the representative Race name.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.WRaceNameToRaceCode(System.String)">
-            <summary>Given a White Race name - return the representative Race code.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.WRaceCodeToRaceName(System.String)">
-            <summary>Given a White Race code - return the representative Race name.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.RaceNameToRaceCode(System.String)">
-            <summary>Given a Race name - return the representative Race code.</summary>
-        </member>
-        <member name="M:VRDR.MortalityData.RaceCodeToRaceName(System.String)">
-            <summary>Given a Race code - return the representative Race name.</summary>
-        </member>
         <member name="M:VRDR.MortalityData.DictKeyFinderHelper``1(``0,System.String)">
             <summary>Given a value in a &lt;string, string&gt; object, return the first matching key.</summary>
         </member>
@@ -4655,32 +4595,11 @@
         <member name="F:VRDR.MortalityData.JurisdictionCodes">
             <summary>Jurisdiction Codes</summary>
         </member>
-        <member name="F:VRDR.MortalityData.CDCRaceAIANCodes">
-            <summary>CDC Race American Indian or Alaska Native Codes</summary>
-        </member>
-        <member name="F:VRDR.MortalityData.CDCRaceACodes">
-            <summary>CDC Race Asian Codes</summary>
-        </member>
-        <member name="F:VRDR.MortalityData.CDCRaceBAACodes">
-            <summary>CDC Race Black or African American Codes</summary>
-        </member>
-        <member name="F:VRDR.MortalityData.CDCRaceNHOPICodes">
-            <summary>CDC Race Native Hawaiian or Other Pacific Islander Codes</summary>
-        </member>
-        <member name="F:VRDR.MortalityData.CDCRaceWCodes">
-            <summary>CDC Race White Codes</summary>
-        </member>
-        <member name="F:VRDR.MortalityData.CDCEthnicityCodes">
-            <summary>CDC Ethnicity Codes</summary>
-        </member>
         <member name="F:VRDR.MortalityData.StateTerritoryProvinceCodes">
             <summary>State and Territory Province Codes</summary>
         </member>
         <member name="F:VRDR.MortalityData.CountryCodes">
             <summary>Country Codes based on PH_Country_GEC = 2.16.840.1.113883.13.250    </summary>
-        </member>
-        <member name="F:VRDR.MortalityData.PlaceCodes">
-            <summary>Place Codes</summary>
         </member>
         <member name="T:VRDR.LinqHelper">
             <summary>Internal Helper class which provides Trimming and Case-Insensitive comparison of LINQ Queries.</summary>

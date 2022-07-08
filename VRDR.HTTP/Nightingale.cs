@@ -572,7 +572,7 @@ namespace VRDR.HTTP
                 string[] races = JsonConvert.DeserializeObject<string[]>(GetValue(values, "race.race.specify"));
                 foreach (string r in races)
                 {
-                    string c = mdata.RaceNameToRaceCode(r);
+                    string c = ""; //  mdata.RaceNameToRaceCode(r); -- this code is probably OBE and should be updated to align with the latest IG and code
                     if (!String.IsNullOrWhiteSpace(c))
                     {
                         rtuples.Add(Tuple.Create(r, c));

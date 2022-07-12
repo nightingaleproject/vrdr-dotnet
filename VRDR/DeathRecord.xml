@@ -400,6 +400,10 @@
             <summary>Helper method to return the subset of this record that makes up a DemographicCodedContent bundle.</summary>
             <returns>a new FHIR Bundle</returns>
         </member>
+        <member name="M:VRDR.DeathRecord.GetMortalityRosterBundle(System.Boolean)">
+            <summary>Helper method to return the subset of this record that makes up a Mortality Roster bundle.</summary>
+            <returns>a new FHIR Bundle</returns>
+        </member>
         <member name="P:VRDR.DeathRecord.Identifier">
             <summary>Death Record Identifier, Death Certificate Number.</summary>
             <value>a record identification string.</value>
@@ -4960,6 +4964,9 @@
         <member name="F:VRDR.ProfileURL.RecordAxisCauseOfDeath">
             <summary>URL for RecordAxisCauseOfDeath</summary>
         </member>
+        <member name="F:VRDR.ProfileURL.MortalityRosterBundle">
+            <summary>URL for MortalityRosterBundle </summary>
+        </member>
         <member name="T:VRDR.ExtensionURL">
             <summary>Extension URLs</summary>
         </member>
@@ -5031,6 +5038,9 @@
         </member>
         <member name="F:VRDR.ExtensionURL.ReplaceStatus">
             <summary>URL for ReplaceStatus</summary>
+        </member>
+        <member name="F:VRDR.ExtensionURL.AliasStatus">
+            <summary>URL for AliasStatus</summary>
         </member>
         <member name="F:VRDR.ExtensionURL.StreetNumber">
             <summary>URL for StreetNumber</summary>
@@ -5238,6 +5248,9 @@
         </member>
         <member name="F:VRDR.IGURL.RecordAxisCauseOfDeath">
             <summary>URL for RecordAxisCauseOfDeath</summary>
+        </member>
+        <member name="F:VRDR.IGURL.MortalityRosterBundle">
+            <summary>URL for MortalityRosterBundle </summary>
         </member>
         <member name="T:VRDR.ValueSets">
             <summary> ValueSet Helpers </summary>

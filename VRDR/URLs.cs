@@ -128,6 +128,9 @@ namespace VRDR
         /// <summary>URL for RecordAxisCauseOfDeath</summary>
         public const string RecordAxisCauseOfDeath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-record-axis-cause-of-death";
 
+        /// <summary>URL for MortalityRosterBundle </summary>
+        public const string MortalityRosterBundle = "http://hl7.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-mortality-roster-bundle";
+
     }
 
     /// <summary>Extension URLs</summary>
@@ -201,6 +204,9 @@ namespace VRDR
 
         /// <summary>URL for ReplaceStatus</summary>
         public const string ReplaceStatus = "http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus";
+
+        /// <summary>URL for AliasStatus</summary>
+        public const string AliasStatus = "http://hl7.org/fhir/us/vrdr/StructureDefinition/AliasStatus";
 
         /// <summary>URL for StreetNumber</summary>
         public const string StreetNumber = "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetNumber";
@@ -411,5 +417,7 @@ namespace VRDR
         /// <summary>URL for RecordAxisCauseOfDeath</summary>
         public const string RecordAxisCauseOfDeath = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-record-axis-cause-of-death.html";
 
+        /// <summary>URL for MortalityRosterBundle </summary>
+        public const string MortalityRosterBundle = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-mortality-roster-bundle.html";
     }
 }

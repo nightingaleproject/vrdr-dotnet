@@ -3241,7 +3241,22 @@ namespace VRDR.Tests
             Assert.Null(codedcontentbundle.BirthDay); // should be missing
             // TODO: Fill out tests
         }
-
+        [Fact]
+        public void Test_MortalityRosterBundle()
+        {
+            Bundle bundle = DeathRecord1_JSON.GetMortalityRosterBundle(false);
+            DeathRecord mortalityrosterbundle = new DeathRecord(bundle);
+            Assert.NotNull(bundle);
+            var numExtensions = bundle.Meta.Extension.Count();
+            Assert.Equal(2,numExtensions); // alias and replace
+            Assert.Equal("2019YC000182",mortalityrosterbundle.DeathRecordIdentifier);
+            Assert.Equal("000182", mortalityrosterbundle.Identifier);
+            Assert.Equal("000000000042", mortalityrosterbundle.StateLocalIdentifier1);
+            Assert.Equal("100000000001", mortalityrosterbundle.StateLocalIdentifier2);
+            Assert.Equal("", mortalityrosterbundle.CertificationRole["code"]); // should be empty
+            Assert.Equal("",mortalityrosterbundle.PregnancyStatusHelper); // should be missing
+            // TODO: Fill out tests
+        }
         [Fact]
         public void TestTRXRoundTrip()
         {

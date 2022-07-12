@@ -729,6 +729,13 @@ namespace VRDR.CLI
                 Console.WriteLine(message.ToJSON(true));
                 return 0;
             }
+            else if (args.Length == 2 && args[0] == "toMortalityRoster")
+            {
+                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                Bundle mortalityRoster = record.GetMortalityRosterBundle(false);
+                Console.WriteLine(mortalityRoster.ToJson());
+                return 0;
+            }
             else if (args.Length == 2 && args[0] == "resubmit")
             {
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -20,6 +21,7 @@ namespace VRDR.CLI
     {
         static int Main(string[] args)
         {
+            Console.WriteLine($"{args.Length}");
             if (args.Length == 0)
             {
                 DeathRecord deathRecord = new DeathRecord();
@@ -818,6 +820,39 @@ namespace VRDR.CLI
                         break;
                 }
                 return 0;
+            }
+            else if (args.Length == 5 && args[0] == "generatedrecords")
+            {
+                Console.WriteLine("generatedrecords");
+                int start_certificate_number = Int16.Parse(args[1]);
+                int count = Int16.Parse(args[2]);
+                string output_directory = args[3];
+                string state = args[4];
+                if (start_certificate_number < 0) {
+                    Console.WriteLine("Must supply a starting certificate number greater than 0");
+                    return(1);
+                }else if (String.IsNullOrWhiteSpace(args[3]) || !Directory.Exists(args[3])){
+                    Console.WriteLine("Must supply a valid output directory");
+                    return(1);
+                }else if (count <= 0 ){
+                    Console.WriteLine("Must supply a count greater than 0");
+                    return(1);
+                }
+                Console.WriteLine(" count = ${count} output_directory = ${output_directory}");
+                for (int i = 0; i < count; i += 1) {
+                   int certificate_number = start_certificate_number + i;
+                   string cert6 = certificate_number.ToString("D6");
+                   int record_selector = (i % 3) + 1;
+                   String file_name =  $"{output_directory}/{DateTime.Today.Year}{cert6}{state}.json";
+                   Console.WriteLine(file_name);
+                   StreamWriter sw = new StreamWriter(file_name);
+                   // FromId(int id, int? certificateNumber = null, string state = null)
+                   DeathRecord d = Connectathon.FromId(record_selector, certificate_number, state);
+                   sw.WriteLine(d.ToJson());
+                   sw.Flush();
+                }
+            } else {
+                Console.WriteLine($" args = {args.Length}   args[0] = {args[0]}");
             }
             return 0;
         }

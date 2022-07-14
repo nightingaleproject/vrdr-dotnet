@@ -19,10 +19,47 @@ namespace VRDR.CLI
 {
     class Program
     {
+        static string commands =
+@"* VRDR Command Line Interface - commands
+  - help:  prints this help message  (no arguments)
+  - fakerecord: prints a fake XML death record (no arguments)
+  - connectathon: prints one of the 3 connectathon records (1 argument: the number (1,2, or 3) of the connectathon record)
+  - description: prints a verbose JSON description of the record (in the format used to drive Canary) (1 argument: the path to the death record)
+  - 2ije: Read in the FHIR XML or JSON death record and print out as IJE (1 argument: path to death record in JSON or XML format)
+  - 2ijecontent: Read in the FHIR XML or JSON death record and dump content  in key/value IJE format (1 argument: path to death record in JSON or XML format)
+  - ack: Create an acknowledgement FHIR message for a submission FHIR message (1 argument: submission FHIR message)
+  - checkJson: Read in the given FHIR json (being permissive) and print out the same; useful for doing validation diffs (1 argument: FHIR JSon file)
+  - checkXml: Read in the given FHIR xml (being permissive) and print out the same; useful for doing validation diffs (1 argument: FHIR XML file)
+  - compare: Compare an IJE record with a FHIR record by each IJE field (2 arguments:  IJE record, FHIR Record)
+  - connectathon: prints one of the 3 connectathon records (1 argument: the number (1,2, or 3) of the connectathon record)
+  - description: prints a verbose JSON description of the record (in the format used to drive Canary) (1 argument: the path to the death record)
+  - extract2ijecontent: Dump content of a submission message in key/value IJE format (1 argument: submission message)
+  - extract: Extract a FHIR record from a FHIR message (1 argument: FHIR message)
+  - fakerecord: prints a fake XML death record (no arguments)
+  - generatedrecords: Generate records for bulk testing based on the 3 connectathon testing records. (4 arguments: initial certificate number, number of records to generate (each with cert_no one greater than its predecessor), output directory (must exist), Submitting jurisdiction)
+  - ije2json: Read in the IJE death record and print out as JSON (1 argument: path to death record in IJE format)
+  - ije2xml: Read in the IJE death record and print out as XML (1 argument: path to death record in IJE format)
+  - ije: Read in and parse an IJE death record and print out the values for every (supported) field (1 argument: path to death record in IJE format)
+  - json2json: Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR JSON (1 argument: FHIR JSON Death Record)
+  - json2xml: Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR XML (1 argument: FHIR JSON Death Record)
+  - resubmit: Create an update FHIR message wrapping a FHIR death record (1 argument:  FHIR death record)
+  - roundtrip-all: Convert a record to JSON and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record )
+  - roundtrip-ije: Convert a record to IJE and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record)
+  - showcodes: Extract and show the codes in a coding response message (1 argument: coding response message)
+  - submit: Create a submission FHIR message wrapping a FHIR death record (1 argument: FHIR death record)
+  - toMortalityRoster: Create and print a mortality roster bundle from a death record (1 argument: FHIR death record)
+  - trx2fhir: Creates a Cause of Death Coding Bundle from a TRX Message (1 argument: TRX file)
+  - void: Creates a Void message for a Death Record (1 argument: FHIR death record)
+  - xml2json: Read in the IJE death record and print out as JSON (1 argument: path to death record in XML format)
+  - xml2xml: Read in the IJE death record and print out as XML (1 argument: path to death record in XML format)
+";
         static int Main(string[] args)
         {
-            Console.WriteLine($"{args.Length}");
-            if (args.Length == 0)
+            if ((args.Length == 0) || ((args.Length == 1) && (args[0] == "help"))){
+                Console.WriteLine(commands);
+                return(0);
+            }
+            else if (args.Length == 1 && args[0] == "fakerecord")
             {
                 DeathRecord deathRecord = new DeathRecord();
 
@@ -821,9 +858,9 @@ namespace VRDR.CLI
                 }
                 return 0;
             }
-            else if (args.Length == 5 && args[0] == "generatedrecords")
+            else if (args.Length == 5 && args[0] == "generaterecords")
             {
-                Console.WriteLine("generatedrecords");
+                Console.WriteLine("generaterecords");
                 int start_certificate_number = Int16.Parse(args[1]);
                 int count = Int16.Parse(args[2]);
                 string output_directory = args[3];

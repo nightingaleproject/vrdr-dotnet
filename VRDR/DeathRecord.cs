@@ -893,8 +893,7 @@ namespace VRDR
             string[] profile = { ProfileURL.MortalityRosterBundle };
             mortRosterBundle.Meta.Profile = profile;
             mortRosterBundle.Timestamp = DateTime.Now;
-            // Make sure to include the base identifiers, including certificate number and auxiliary state IDs
-            mortRosterBundle.Identifier = Bundle.Identifier;
+            mortRosterBundle.Identifier = Bundle.Identifier; // includes the certificate number, and aux state IDs
             AddResourceToBundleIfPresent(Decedent, mortRosterBundle);
             AddResourceToBundleIfPresent(DeathLocationLoc, mortRosterBundle);
             AddResourceToBundleIfPresent(DeathDateObs, mortRosterBundle);

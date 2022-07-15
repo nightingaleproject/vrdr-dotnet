@@ -739,7 +739,7 @@ namespace VRDR.CLI
             }
             else if (args.Length == 2 && args[0] == "extract2ijecontent")
             {  // dumps content of a submission message in key/value IJE format
-                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]), true );
                 switch(message)
                 {
                     case DeathRecordSubmissionMessage submission:
@@ -889,7 +889,7 @@ namespace VRDR.CLI
                    sw.Flush();
                 }
             } else {
-                Console.WriteLine($" args = {args.Length}   args[0] = {args[0]}");
+                Console.WriteLine($"**** No such command {args[0]}");
             }
             return 0;
         }

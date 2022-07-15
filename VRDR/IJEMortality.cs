@@ -696,7 +696,7 @@ namespace VRDR
             Tuple<string, string> raceTuple = Array.Find(raceStatus, element => element.Item1 == name);
             if (raceTuple != null)
             {
-                return raceTuple.Item2;
+                return (raceTuple.Item2).Trim();
             }
             return "";
         }

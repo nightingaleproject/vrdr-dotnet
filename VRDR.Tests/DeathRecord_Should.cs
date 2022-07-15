@@ -15,6 +15,7 @@ namespace VRDR.Tests
         private DeathRecord DeathRecord1_XML;
         private DeathRecord DeathCertificateDocument2_XML;
         private DeathRecord DeathRecord1_JSON;
+        private DeathRecord DeathRecord2_JSON;
         private DeathRecord DeathCertificateDocument2_JSON;
         private DeathRecord DeathCertificateDocument1_JSON;
         private DeathRecord CauseOfDeathCodedContentBundle1_JSON;
@@ -27,6 +28,7 @@ namespace VRDR.Tests
             DeathRecord1_XML = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
             DeathCertificateDocument2_XML = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/Bundle-DeathCertificateDocument-Example2.xml")));
             DeathRecord1_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            DeathRecord2_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/2022CT000008_record.json")));
             DeathCertificateDocument2_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example2.json")));
             DeathCertificateDocument1_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example1.json")));
             CauseOfDeathCodedContentBundle1_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-CauseOfDeathCodedContentBundle-Example1.json")));
@@ -92,6 +94,16 @@ namespace VRDR.Tests
             Assert.NotNull(ije);
         }
 
+        [Fact]
+        // Check that two issues in NVSS-398 have been resolved
+        public void ConnectathonRecordNVSS398()
+        {
+            DeathRecord first = DeathRecord2_JSON;
+            IJEMortality firstije = new IJEMortality(first);
+            Assert.Null(first.DateOfDeath);   // Record has an unknown death day, the DeathDate should be null
+            Assert.Null(first.DeathDay);
+            Assert.Equal("French", firstije.RACE22);
+        }
         [Fact]
         public void ToFromDescription()
         {

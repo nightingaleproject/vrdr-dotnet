@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace VRDR.HTTP
 {
@@ -60,7 +61,9 @@ namespace VRDR.HTTP
                             catch (Exception e)
                             {
                                 string rstr = e.Message;
-                                String response = Program.GenerateJsonResponse("ConversionError", rstr);
+                                // String response = Program.GenerateJsonResponse("ConversionError", rstr);
+                                var jsonResponse = new {type = "ConversionError", detail = rstr};
+                                String response = JsonConvert.SerializeObject(jsonResponse);
                                 byte[] buf = Encoding.UTF8.GetBytes(response);
                                 ctx.Response.ContentLength64 = buf.Length;
                                 ctx.Response.ContentType = "application/problem+json";

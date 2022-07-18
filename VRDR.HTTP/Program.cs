@@ -48,8 +48,6 @@ namespace VRDR.HTTP
                 $"Request from: {request.UserHostAddress}, type: {request.ContentType}, url: {request.RawUrl}.");
 
             // Look at content type to determine input format; be permissive in what we accept as format specification
-            try
-            {
                 switch (request.ContentType)
                 {
                     case string ijeType when new Regex(@"ije").IsMatch(ijeType): // application/ije
@@ -65,16 +63,9 @@ namespace VRDR.HTTP
                         deathRecord = new DeathRecord(requestBody);
                         break;
                 }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
 
             // Look at URL extension to determine output format; be permissive in what we accept as format specification
             string result = "";
-            try
-            {
                 switch (request.RawUrl)
                 {
                     case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
@@ -91,11 +82,6 @@ namespace VRDR.HTTP
                         result = Nightingale.ToNightingale(deathRecord);
                         break;
                 }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
 
             return result;
         }
@@ -109,15 +95,6 @@ namespace VRDR.HTTP
                     return reader.ReadToEnd();
                 }
             }
-        }
-
-        public static String GenerateJsonResponse(string type, string data)
-        {
-            var response = "{" +
-                               "\"type\": \"" + type + "\"," +
-                               "\"detail\": \"" + data + "\"" +
-                               "}";
-            return response;
         }
     }
 }

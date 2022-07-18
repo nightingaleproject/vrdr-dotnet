@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -881,6 +882,37 @@ namespace VRDR
             AddResourceToBundleIfPresent(InputRaceAndEthnicityObs, dccBundle);
             return dccBundle;
         }
+        /// <summary>Helper method to return the subset of this record that makes up a Mortality Roster bundle.</summary>
+        /// <returns>a new FHIR Bundle</returns>
+        public Bundle GetMortalityRosterBundle(Boolean alias)
+        {
+            Bundle mortRosterBundle = new Bundle();
+            mortRosterBundle.Id = Guid.NewGuid().ToString();
+            mortRosterBundle.Type = Bundle.BundleType.Collection;
+            mortRosterBundle.Meta = new Meta();
+            string[] profile = { ProfileURL.MortalityRosterBundle };
+            mortRosterBundle.Meta.Profile = profile;
+            mortRosterBundle.Timestamp = DateTime.Now;
+            mortRosterBundle.Identifier = Bundle.Identifier; // includes the certificate number, and aux state IDs
+            AddResourceToBundleIfPresent(Decedent, mortRosterBundle);
+            AddResourceToBundleIfPresent(DeathLocationLoc, mortRosterBundle);
+            AddResourceToBundleIfPresent(DeathDateObs, mortRosterBundle);
+            AddResourceToBundleIfPresent(Father, mortRosterBundle);
+            AddResourceToBundleIfPresent(Mother, mortRosterBundle);
+
+            // Stick Replace and Alias into bundle header as extensions
+            // Copy replace from Composition header
+            // Use value of alias from argument
+            if (!String.IsNullOrWhiteSpace(ReplaceStatusHelper))
+            {
+                    Extension replaceExt = new Extension(ExtensionURL.ReplaceStatus , DictToCodeableConcept(ReplaceStatus) );
+                    mortRosterBundle.Meta.Extension.Add(replaceExt);
+            }
+            Extension aliasExt = new Extension(ExtensionURL.AliasStatus, new FhirBoolean(alias));
+            mortRosterBundle.Meta.Extension.Add(aliasExt);
+            return mortRosterBundle;
+        }
+
 
         /////////////////////////////////////////////////////////////////////////////////
         //

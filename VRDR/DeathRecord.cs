@@ -6475,12 +6475,17 @@ namespace VRDR
             }
             set
             {
-                if (AgeAtDeathObs == null)
+                string extractedValue = GetValue(value, "value");
+                if((GetValue(value,"value") == null &&  GetValue(value,"unit") == null)) // if there is nothing to do, do nothing.
+                {
+                    return;
+                }
+                if ( AgeAtDeathObs == null)
                 {
                     CreateAgeAtDeathObs();
                 }
                 Quantity quantity = (Quantity)AgeAtDeathObs.Value;
-                string extractedValue = GetValue(value, "value");
+
                 if (extractedValue != null)
                 {
                     quantity.Value = Convert.ToDecimal(extractedValue);
@@ -6493,6 +6498,7 @@ namespace VRDR
                 quantity.Unit = GetValue(value, "unit");
                 quantity.Code = GetValue(value, "code");
                 quantity.System = GetValue(value, "system");
+                AgeAtDeathObs.Value = (Quantity)quantity;
             }
         }
 
@@ -6531,6 +6537,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null){
+                    return;
+                }
                 if (AgeAtDeathObs == null)
                 {
                     CreateAgeAtDeathObs();

@@ -8,5 +8,6 @@ var searchData=
   ['getdemographiccodedcontentbundle_5',['GetDemographicCodedContentBundle',['../class_v_r_d_r_1_1_death_record.html#af2aa66beaeb8ef80aaae0b24b730af77',1,'VRDR::DeathRecord']]],
   ['getfirst_6',['GetFirst',['../class_v_r_d_r_1_1_death_record.html#aa52277443735efe7ddadd9c0a50fb889',1,'VRDR::DeathRecord']]],
   ['getitypedelement_7',['GetITypedElement',['../class_v_r_d_r_1_1_death_record.html#a14d009a92d42937e26e47ba8c324e97a',1,'VRDR::DeathRecord']]],
-  ['getlast_8',['GetLast',['../class_v_r_d_r_1_1_death_record.html#aced32110e46501fbc5a8693605befb5a',1,'VRDR::DeathRecord']]]
+  ['getlast_8',['GetLast',['../class_v_r_d_r_1_1_death_record.html#aced32110e46501fbc5a8693605befb5a',1,'VRDR::DeathRecord']]],
+  ['getmortalityrosterbundle_9',['GetMortalityRosterBundle',['../class_v_r_d_r_1_1_death_record.html#adc5285ddb7527891c4f1bbee87dd5104',1,'VRDR::DeathRecord']]]
 ];

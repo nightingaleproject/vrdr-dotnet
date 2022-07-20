@@ -36,10 +36,10 @@ namespace VRDR.Tests
         }
 
         [Theory]
-        [InlineData("ÅLAND", "FI")]
-        [InlineData("CENTRAL AND SOUTHERN LINE ISLANDS", "CL")]
-        [InlineData("ETHIOPIA", "ET")]
-        [InlineData("US", "US")]
+        [InlineData("Åland, Finland", "FI")]
+        [InlineData("Central And Southern Line Islands", "CL")]
+        [InlineData("Ethiopia", "ET")]
+        [InlineData("United States", "US")]
         [InlineData("Fake Place", null)]
         public void CountryNameToCountryCode_Test(string input, string expected)
         {
@@ -47,10 +47,10 @@ namespace VRDR.Tests
         }
 
         [Theory]
-        [InlineData("FI", "ÅLAND")]
-        [InlineData("\t   fi ", "ÅLAND")]
-        [InlineData("CF", "CONGO (BRAZZAVILLE)")]
-        [InlineData("ZZ", "NOT CLASSIFIABLE")]
+        [InlineData("FI", "Åland, Finland")]
+        [InlineData("\t   fi ", "Åland, Finland")]
+        [InlineData("CF", "Congo (brazzaville), Republic Of The Congo")]
+        [InlineData("ZZ", "Not Classifiable")]
         [InlineData("   ", null)]
         public void CountryCodeToCountryName_Test(string input, string expected)
         {

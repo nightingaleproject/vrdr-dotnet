@@ -3136,7 +3136,11 @@ namespace VRDR
             {
                 var stateCode = Dictionary_Geo_Get("DSTATE", "DeathLocationAddress", "address", "state", false);
                 var mortalityData = MortalityData.Instance;
-                return mortalityData.StateCodeToStateName(stateCode);
+                string statetextd = mortalityData.StateCodeToStateName(stateCode);
+                if (statetextd == null){
+                    statetextd = " ";
+                }
+                return( Truncate(statetextd, 28).PadRight(28, ' '));
             }
             set
             {
@@ -3337,7 +3341,11 @@ namespace VRDR
                 // expand STATEC 2 letter code to full name
                 var stateCode = Dictionary_Geo_Get("STATEC", "Residence", "address", "state", false);
                 var mortalityData = MortalityData.Instance;
-                return mortalityData.StateCodeToStateName(stateCode);
+                string statetextr = mortalityData.StateCodeToStateName(stateCode);
+                if (statetextr == null){
+                    statetextr = " ";
+                }
+                return( Truncate(statetextr, 28).PadRight(28, ' '));
             }
             set
             {
@@ -4547,7 +4555,11 @@ namespace VRDR
             {
                 var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", false);
                 var mortalityData = MortalityData.Instance;
-                return mortalityData.StateCodeToStateName(stateCode);
+                string funstate = mortalityData.StateCodeToStateName(stateCode);
+                if (funstate == null){
+                    funstate = " ";
+                }
+                return( Truncate(funstate, 28).PadRight(28, ' '));
             }
             set
             {
@@ -4855,7 +4867,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Get("CERTSTATE", "CertifierAddress", "addressState");
+                var stateCode =  Dictionary_Get("CERTSTATE", "CertifierAddress", "addressState");
+                var mortalityData = MortalityData.Instance;
+                string certstate = mortalityData.StateCodeToStateName(stateCode);
+                if (certstate == null){
+                    certstate = " ";
+                }
+                return( Truncate(certstate, 28).PadRight(28, ' '));
             }
             set
             {
@@ -4920,7 +4938,11 @@ namespace VRDR
             {
                 var stateCode = Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "state", false);
                 var mortalityData = MortalityData.Instance;
-                return mortalityData.StateCodeToStateName(stateCode);
+                string stinjury = mortalityData.StateCodeToStateName(stateCode);
+                if (stinjury == null){
+                    stinjury = " ";
+                }
+                return( Truncate(stinjury, 28).PadRight(28, ' '));
             }
             set
             {
@@ -4936,7 +4958,11 @@ namespace VRDR
             {
                 var stateCode = Dictionary_Geo_Get("BPLACE_ST", "PlaceOfBirth", "address", "state", false);
                 var mortalityData = MortalityData.Instance;
-                return mortalityData.StateCodeToStateName(stateCode);
+                string statebth = mortalityData.StateCodeToStateName(stateCode);
+                if (statebth == null){
+                    statebth = " ";
+                }
+                return( Truncate(statebth, 28).PadRight(28, ' '));
 
             }
             set
@@ -4970,7 +4996,12 @@ namespace VRDR
             {
                 var countryCode = Dictionary_Geo_Get("DTHCOUNTRYCD", "Residence", "address", "country", false);
                 var mortalityData = MortalityData.Instance;
-                return mortalityData.CountryCodeToCountryName(countryCode);
+                string dthcountry = mortalityData.CountryCodeToCountryName(countryCode);
+                if(dthcountry == null)
+                {
+                    dthcountry = " ";
+                }
+                return( Truncate(dthcountry, 28).PadRight(28, ' '));
             }
             set
             {

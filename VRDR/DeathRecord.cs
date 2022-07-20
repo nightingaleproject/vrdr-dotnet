@@ -1463,6 +1463,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && MannerOfDeath == null){
+                    return;
+                }
                 if (MannerOfDeath == null)
                 {
                     MannerOfDeath = new Observation();
@@ -2658,6 +2661,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && Decedent.Extension == null){
+                    return;
+                }
                 Decedent.Extension.RemoveAll(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
                 Extension sex = new Extension();
                 sex.Url = ExtensionURL.NVSSSexAtDeath;
@@ -4358,6 +4364,10 @@ namespace VRDR
             }
             set
             {
+                if( IsDictEmptyOrDefault(value) && DecedentEducationLevel == null)
+                {
+                    return;
+                }
                 if (DecedentEducationLevel == null)
                 {
                     CreateEducationLevelObs();
@@ -4434,6 +4444,10 @@ namespace VRDR
             }
             set
             {
+                if( IsDictEmptyOrDefault(value) && DecedentEducationLevel == null)
+                {
+                    return;
+                }
                 if (DecedentEducationLevel == null)
                 {
                     CreateEducationLevelObs();
@@ -4654,6 +4668,10 @@ namespace VRDR
             }
             set
             {
+                if( (String.IsNullOrEmpty(value)))
+                {
+                    return;
+                }
                 if (UsualWork == null)
                 {
                     CreateUsualWork();
@@ -4689,6 +4707,10 @@ namespace VRDR
             }
             set
             {
+                if( (String.IsNullOrEmpty(value)))
+                {
+                    return;
+                }
                 if (UsualWork == null)
                 {
                     CreateUsualWork();
@@ -4737,6 +4759,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && MilitaryServiceObs == null){
+                    return;
+                }
                 if (MilitaryServiceObs == null)
                 {
                     MilitaryServiceObs = new Observation();
@@ -5333,6 +5358,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && AutopsyPerformed == null){
+                    return;
+                }
                 if (AutopsyPerformed == null)
                 {
                     CreateAutopsyPerformed();
@@ -6050,6 +6078,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && AutopsyPerformed == null){
+                    return;
+                }
                 if (AutopsyPerformed == null)
                 {
                     CreateAutopsyPerformed();
@@ -6389,6 +6420,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && DeathDateObs == null){
+                    return;
+                }
                 if (DeathDateObs == null)
                 {
                     CreateDeathDateObs(); // Create it
@@ -6537,7 +6571,7 @@ namespace VRDR
             }
             set
             {
-                if (value == null){
+                if (IsDictEmptyOrDefault(value) && AgeAtDeathObs == null){
                     return;
                 }
                 if (AgeAtDeathObs == null)
@@ -6602,6 +6636,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && PregnancyObs == null){
+                    return;
+                }
                 if (PregnancyObs == null)
                 {
                     CreatePregnancyObs();
@@ -6682,6 +6719,9 @@ namespace VRDR
             }
             set
             {
+                 if (IsDictEmptyOrDefault(value) && PregnancyObs == null){
+                    return;
+                }
                 if (PregnancyObs == null)
                 {
                     CreatePregnancyObs();
@@ -6757,6 +6797,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && ExaminerContactedObs == null){
+                    return;
+                }
                 var contactedCoding = DictToCodeableConcept(value);
                 if (ExaminerContactedObs == null)
                 {

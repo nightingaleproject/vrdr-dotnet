@@ -617,9 +617,12 @@ namespace VRDR
                 }
             }
 
-            if (current != null)
+            if (geoType == "zip"){  // Remove "-" for zip
+                current.Replace("-", string.Empty);
+            }
+            if (current != null )
             {
-                return Truncate(current.Replace("-", string.Empty), info.Length).PadRight(info.Length, ' '); // Remove "-" for zip
+                return Truncate(current, info.Length).PadRight(info.Length, ' ');
             }
             else
             {

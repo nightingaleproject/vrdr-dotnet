@@ -340,6 +340,15 @@ namespace VRDR.Tests
             Assert.Equal("902101111", ije1.ZIP9_D);
 
         }
+        [Fact]
+        public void SetSTNAME_R()
+        {
+            IJEMortality ije1 = new IJEMortality();
+
+            ije1.STNAME_R = "St-Jean";
+            Assert.Equal("St-Jean", ije1.STNAME_R.Trim());
+
+        }
 
         [Fact]
         public void HandleUnknownBirthRecordId()

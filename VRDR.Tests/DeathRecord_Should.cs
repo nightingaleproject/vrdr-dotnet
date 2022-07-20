@@ -1124,7 +1124,7 @@ namespace VRDR.Tests
             raddress.Add("addressCountyC", "123");
             raddress.Add("addressStnum", "101");
             raddress.Add("addressPredir", "N");
-            raddress.Add("addressStname", "Example");
+            raddress.Add("addressStname", "St-Jean");
             raddress.Add("addressStdesig", "St");
             raddress.Add("addressPostdir", "W");
             raddress.Add("addressUnitnum", "A");
@@ -1143,7 +1143,7 @@ namespace VRDR.Tests
             Assert.Equal("123", SetterDeathRecord.Residence["addressCountyC"]);
             Assert.Equal("101", SetterDeathRecord.Residence["addressStnum"]);
             Assert.Equal("N", SetterDeathRecord.Residence["addressPredir"]);
-            Assert.Equal("Example", SetterDeathRecord.Residence["addressStname"]);
+            Assert.Equal("St-Jean", SetterDeathRecord.Residence["addressStname"]);
             Assert.Equal("St", SetterDeathRecord.Residence["addressStdesig"]);
             Assert.Equal("W", SetterDeathRecord.Residence["addressPostdir"]);
             Assert.Equal("A", SetterDeathRecord.Residence["addressUnitnum"]);

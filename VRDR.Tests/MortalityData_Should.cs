@@ -344,6 +344,8 @@ namespace VRDR.Tests
         public void SetSTNAME_R()
         {
             IJEMortality ije1 = new IJEMortality();
+            Assert.Equal("", ije1.AUXNO.Trim());
+
             ije1.COUNTRYC = "  ";
             Assert.Equal("", ije1.COUNTRYTEXT_R.Trim());
 

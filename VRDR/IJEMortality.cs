@@ -928,6 +928,10 @@ namespace VRDR
         {
             get
             {
+                if(record.StateLocalIdentifier1 == null)
+                {
+                    return(new String(' ', 12));
+                }
                 return RightJustifiedZeroed_Get("AUXNO", "StateLocalIdentifier1");
             }
             set
@@ -2884,6 +2888,10 @@ namespace VRDR
         {
             get
             {
+                if(record.StateLocalIdentifier2 == null)
+                {
+                    return(new String(' ', 12));
+                }
                 return RightJustifiedZeroed_Get("AUXNO2", "StateLocalIdentifier2");
             }
             set

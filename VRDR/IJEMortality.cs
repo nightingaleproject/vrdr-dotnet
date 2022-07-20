@@ -3354,7 +3354,12 @@ namespace VRDR
                 // This is Now just the two letter code.  Need to map it to country name
                 var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false);
                 var mortalityData = MortalityData.Instance;
-                return mortalityData.CountryCodeToCountryName(countryCode);
+                string countrytextr = mortalityData.CountryCodeToCountryName(countryCode);
+                if(countrytextr == null)
+                {
+                    countrytextr = " ";
+                }
+                return( Truncate(countrytextr, 28).PadRight(28, ' '));
             }
             set
             {

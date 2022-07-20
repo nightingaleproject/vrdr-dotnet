@@ -6855,7 +6855,10 @@ namespace VRDR
             }
             set
             {
-                if (InjuryLocationLoc == null)
+            if (value == null && InjuryLocationLoc == null){
+                return;
+            }
+            if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
                     //LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
@@ -6887,6 +6890,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryLocationLoc == null){
+                    return;
+                }
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
@@ -6925,6 +6931,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryLocationLoc == null){
+                    return;
+                }
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
@@ -6965,6 +6974,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryLocationLoc == null){
+                    return;
+                }
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
@@ -7037,6 +7049,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7067,6 +7082,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7097,6 +7115,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7127,6 +7148,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7203,6 +7227,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7244,6 +7271,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7304,6 +7334,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7391,6 +7424,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7559,7 +7595,10 @@ namespace VRDR
         /// <summary>Set an emerging issue value, creating an empty EmergingIssues Observation as needed.</summary>
         private void SetEmergingIssue(string identifier, string value)
         {
-            if (EmergingIssues == null)
+            if (value == null && EmergingIssues == null){
+                return;
+            }
+            if (EmergingIssues == null )
             {
                 EmergingIssues = new Observation();
                 EmergingIssues.Id = Guid.NewGuid().ToString();

@@ -637,6 +637,11 @@ namespace VRDR
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
 
+            // if the value is null, and the dictionary does not exist, return
+            if (dictionary == null && String.IsNullOrWhiteSpace(value))
+            {
+                return;
+            }
             // initialize the dictionary if it does not exist
             if (dictionary == null)
             {
@@ -1348,7 +1353,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "LIMITS", "ResidenceWithinCityLimits", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "LIMITS", "ResidenceWithinCityLimits", value);
+                }
             }
         }
 
@@ -1362,7 +1370,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.MaritalStatus.IJEToFHIR, "MARITAL", "MaritalStatus", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.MaritalStatus.IJEToFHIR, "MARITAL", "MaritalStatus", value);
+                }
             }
         }
 
@@ -1376,7 +1387,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.EditBypass0124.IJEToFHIR, "MARITAL_BYPASS", "MaritalStatusEditFlag", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.EditBypass0124.IJEToFHIR, "MARITAL_BYPASS", "MaritalStatusEditFlag", value);
+                }
             }
         }
 
@@ -1390,7 +1404,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.PlaceOfDeath.IJEToFHIR, "DPLACE", "DeathLocationType", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.PlaceOfDeath.IJEToFHIR, "DPLACE", "DeathLocationType", value);
+                }
             }
         }
 
@@ -1421,7 +1438,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.MethodOfDisposition.IJEToFHIR, "DISP", "DecedentDispositionMethod", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.MethodOfDisposition.IJEToFHIR, "DISP", "DecedentDispositionMethod", value);
+                }
             }
         }
 
@@ -1435,7 +1455,10 @@ namespace VRDR
             }
             set
             {
-                NumericAllowingUnknown_Set("DOD_MO", "DeathMonth", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    NumericAllowingUnknown_Set("DOD_MO", "DeathMonth", value);
+                }
             }
         }
 
@@ -1449,7 +1472,10 @@ namespace VRDR
             }
             set
             {
-                NumericAllowingUnknown_Set("DOD_DY", "DeathDay", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    NumericAllowingUnknown_Set("DOD_DY", "DeathDay", value);
+                }
             }
         }
 
@@ -1463,7 +1489,10 @@ namespace VRDR
             }
             set
             {
-                TimeAllowingUnknown_Set("TOD", "DeathTime", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    TimeAllowingUnknown_Set("TOD", "DeathTime", value);
+                }
             }
         }
 
@@ -1477,7 +1506,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.EducationLevel.IJEToFHIR, "DEDUC", "EducationLevel", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.EducationLevel.IJEToFHIR, "DEDUC", "EducationLevel", value);
+                }
             }
         }
 
@@ -1491,7 +1523,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.EditBypass01234.IJEToFHIR, "DEDUC_BYPASS", "EducationLevelEditFlag", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.EditBypass01234.IJEToFHIR, "DEDUC_BYPASS", "EducationLevelEditFlag", value);
+                }
             }
         }
 
@@ -1519,11 +1554,14 @@ namespace VRDR
             }
             set
             {
-                if (value == "H")
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                    value = "Y";
+                    if (value == "H")
+                    {
+                        value = "Y";
+                    }
+                    Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC1", "Ethnicity1", value);
                 }
-                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC1", "Ethnicity1", value);
             }
         }
 
@@ -1546,11 +1584,14 @@ namespace VRDR
             }
             set
             {
-                if (value == "H")
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                    value = "Y";
+                    if (value == "H")
+                    {
+                        value = "Y";
+                    }
+                    Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC2", "Ethnicity2", value);
                 }
-                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC2", "Ethnicity2", value);
             }
         }
 
@@ -1573,11 +1614,14 @@ namespace VRDR
             }
             set
             {
-                if (value == "H")
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                    value = "Y";
+                    if (value == "H")
+                    {
+                        value = "Y";
+                    }
+                    Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC3", "Ethnicity3", value);
                 }
-                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC3", "Ethnicity3", value);
             }
         }
 
@@ -1600,11 +1644,14 @@ namespace VRDR
             }
             set
             {
-                if (value == "H")
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                    value = "Y";
+                    if (value == "H")
+                    {
+                        value = "Y";
+                    }
+                    Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC4", "Ethnicity4", value);
                 }
-                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC4", "Ethnicity4", value);
             }
         }
 
@@ -2920,7 +2967,10 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("STATESP", "StateSpecific", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("STATESP", "StateSpecific", value);
+                }
             }
         }
 
@@ -2934,7 +2984,10 @@ namespace VRDR
             }
             set
             {
-                NumericAllowingUnknown_Set("SUR_MO", "SurgeryMonth", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    NumericAllowingUnknown_Set("SUR_MO", "SurgeryMonth", value);
+                }
             }
         }
 
@@ -2948,7 +3001,10 @@ namespace VRDR
             }
             set
             {
-                NumericAllowingUnknown_Set("SUR_DY", "SurgeryDay", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                        NumericAllowingUnknown_Set("SUR_DY", "SurgeryDay", value);
+                }
             }
         }
 
@@ -2962,7 +3018,10 @@ namespace VRDR
             }
             set
             {
-                NumericAllowingUnknown_Set("SUR_YR", "SurgeryYear", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                        NumericAllowingUnknown_Set("SUR_YR", "SurgeryYear", value);
+                }
             }
         }
 
@@ -3005,7 +3064,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "ARMEDF", "MilitaryService", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "ARMEDF", "MilitaryService", value);
+                }
             }
 
         }
@@ -3020,7 +3082,10 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("DINSTI", "DeathLocationName", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("DINSTI", "DeathLocationName", value);
+                }
             }
         }
 
@@ -3190,7 +3255,10 @@ namespace VRDR
             }
             set
             {
-                Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "county", false, value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "county", false, value);
+                }
             }
         }
 
@@ -3204,7 +3272,10 @@ namespace VRDR
             }
             set
             {
-                Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "cityC", false, value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "cityC", false, value);
+                }
             }
         }
 
@@ -3252,7 +3323,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.SpouseAlive.IJEToFHIR, "SPOUSELV", "SpouseAlive", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.SpouseAlive.IJEToFHIR, "SPOUSELV", "SpouseAlive", value);
+                }
             }
         }
 
@@ -3483,7 +3557,6 @@ namespace VRDR
             }
             set
             {
-                // NOOP
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("STNAME_R", "Residence", "address", "stname", false, value);
@@ -3537,7 +3610,6 @@ namespace VRDR
             }
             set
             {
-                // NOOP
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("UNITNUM_R", "Residence", "address", "unitnum", false, value);
@@ -3555,7 +3627,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.HispanicOrigin.IJEToFHIR, "DETHNICE", "HispanicCode", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.HispanicOrigin.IJEToFHIR, "DETHNICE", "HispanicCode", value);
+                }
             }
         }
 
@@ -3771,7 +3846,10 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("DMOMMDN", "MotherMaidenName", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("DMOMMDN", "MotherMaidenName", value);
+                }
             }
         }
 
@@ -3785,7 +3863,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "REFERRED", "ExaminerContacted", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "REFERRED", "ExaminerContacted", value);
+                }
             }
         }
 
@@ -3799,7 +3880,10 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("POILITRL", "InjuryPlaceDescription", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("POILITRL", "InjuryPlaceDescription", value);
+                }
             }
 
         }
@@ -3814,7 +3898,10 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("HOWINJ", "InjuryDescription", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("HOWINJ", "InjuryDescription", value);
+                }
             }
         }
 
@@ -3836,13 +3923,16 @@ namespace VRDR
             }
             set
             {
-                if (Mappings.TransportationIncidentRole.IJEToFHIR.ContainsKey(value.Split(' ')[0]))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_MappingIJEToFHIR(Mappings.TransportationIncidentRole.IJEToFHIR, "TRANSPRT", "TransportationRole", value.Trim());
-                }
-                else
-                {
-                    record.TransportationRoleHelper = value;   // If the value is not a valid code, it is just an arbitrary string.  The helper will deal with it.
+                    if (Mappings.TransportationIncidentRole.IJEToFHIR.ContainsKey(value.Split(' ')[0]))
+                    {
+                        Set_MappingIJEToFHIR(Mappings.TransportationIncidentRole.IJEToFHIR, "TRANSPRT", "TransportationRole", value.Trim());
+                    }
+                    else
+                    {
+                        record.TransportationRoleHelper = value;   // If the value is not a valid code, it is just an arbitrary string.  The helper will deal with it.
+                    }
                 }
             }
         }
@@ -3991,7 +4081,10 @@ namespace VRDR
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.ReplaceStatus.IJEToFHIR, "REPLACE", "ReplaceStatus", value);
+               if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_MappingIJEToFHIR(Mappings.ReplaceStatus.IJEToFHIR, "REPLACE", "ReplaceStatus", value);
+                }
             }
         }
 
@@ -4404,7 +4497,10 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("FUNFACNAME", "FuneralHomeName", value);
+               if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("FUNFACNAME", "FuneralHomeName", value);
+                }
             }
         }
 
@@ -4692,7 +4788,10 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("CERTLAST", "CertifierFamilyName", value);
+               if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("CERTLAST", "CertifierFamilyName", value);
+                }
             }
         }
 
@@ -4706,7 +4805,10 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("CERTSUFFIX", "CertifierSuffix", value);
+               if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("CERTSUFFIX", "CertifierSuffix", value);
+                }
             }
         }
 

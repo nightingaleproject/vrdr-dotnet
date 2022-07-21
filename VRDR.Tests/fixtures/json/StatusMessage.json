@@ -1,0 +1,73 @@
+{
+  "resourceType": "Bundle",
+  "id": "StatusMessage-Example1",
+  "meta": {
+    "profile": [
+      "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-StatusMessage"
+    ]
+  },
+  "type": "message",
+  "timestamp": "2021-05-20T00:00:00Z",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "StatusHeader-Example1",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-STatusHeader"
+          ]
+        },
+        "eventUri": "http://nchs.cdc.gov/vrdr_status",
+        "destination": [
+          {
+            "endpoint": "http://nchs.cdc.gov/vrdr_submission"
+          }
+        ],
+        "source": {
+          "endpoint": "https://sos.nh.gov/vitalrecords"
+        },
+        "focus": [
+          {
+            "reference": "Parameters/StatusParameters-Example1"
+          }
+        ]
+      },
+      "fullUrl": "http://www.example.org/fhir/Header/StatusHeader-Example1"
+    },
+    {
+      "resource": {
+        "resourceType": "Parameters",
+        "id": "StatusParameters-Example1",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-StatusParameters"
+          ]
+        },
+        "parameter": [
+          {
+            "name": "status",
+            "valueString": "manualDemographicCoding"
+          },
+          {
+            "name": "jurisdiction_id",
+            "valueString": "NY"
+          },
+          {
+            "name": "cert_no",
+            "valueUnsignedInt": 123456
+          },
+          {
+            "name": "death_year",
+            "valueUnsignedInt": 2018
+          },
+          {
+            "name": "state_auxiliary_id",
+            "valueString": "abcdef10"
+          }
+        ]
+      },
+      "fullUrl": "http://www.example.org/fhir/Parameters/StatusParameters-Example1"
+    }
+  ]
+}

@@ -646,6 +646,22 @@ namespace VRDR.Tests
             message.BlockCount = 100;
             Assert.Equal((uint)100, message.BlockCount);
         }
+        [Fact]
+        public void CreateStatusMessage()
+        {
+            StatusMessage message = new StatusMessage();
+            Assert.Equal("http://nchs.cdc.gov/vrdr_status", message.MessageType);
+            Assert.Null(message.CertNo);
+            message.CertNo = 11;
+            Assert.Equal((uint)11, message.CertNo);
+            Assert.Null(message.StateAuxiliaryId);
+            message.StateAuxiliaryId = "bar";
+            Assert.Equal("bar", message.StateAuxiliaryId);
+            Assert.Null(message.NCHSIdentifier);
+            Assert.Null(message.Status);
+            message.Status = "manualDemographicCoding";
+            Assert.Equal("manualDemographicCoding", message.Status);
+        }
 
         [Fact]
         public void CreateAckForDeathRecordVoidMessage()
@@ -684,6 +700,39 @@ namespace VRDR.Tests
             Assert.Equal(voidMessage.BlockCount, ack.BlockCount);
         }
 
+       [Fact]
+        public void CreateAckForStatusMessage()
+        {
+            StatusMessage statusMessage = BaseMessage.Parse<StatusMessage>(FixtureStream("fixtures/json/StatusMessage.json"));
+            AcknowledgementMessage ack = new AcknowledgementMessage(statusMessage);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Equal(statusMessage.MessageId, ack.AckedMessageId);
+            Assert.Equal(statusMessage.MessageSource, ack.MessageDestination);
+            Assert.Equal(statusMessage.MessageDestination, ack.MessageSource);
+            Assert.Equal(statusMessage.StateAuxiliaryId, ack.StateAuxiliaryId);
+            Assert.Equal(statusMessage.CertNo, ack.CertNo);
+            Assert.Equal(statusMessage.NCHSIdentifier, ack.NCHSIdentifier);
+
+            statusMessage = null;
+            ack = new AcknowledgementMessage(statusMessage);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Null(ack.AckedMessageId);
+            Assert.Null(ack.MessageDestination);
+            Assert.Null(ack.MessageSource);
+            Assert.Null(ack.CertNo);
+            Assert.Null(ack.StateAuxiliaryId);
+            Assert.Null(ack.NCHSIdentifier);
+
+            statusMessage = new DeathRecordVoidMessage();
+            ack = new AcknowledgementMessage(statusMessage);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Equal(statusMessage.MessageId, ack.AckedMessageId);
+            Assert.Equal(statusMessage.MessageSource, ack.MessageDestination);
+            Assert.Equal(statusMessage.MessageDestination, ack.MessageSource);
+            Assert.Equal(statusMessage.StateAuxiliaryId, ack.StateAuxiliaryId);
+            Assert.Equal(statusMessage.CertNo, ack.CertNo);
+            Assert.Equal(statusMessage.NCHSIdentifier, ack.NCHSIdentifier);
+        }
         [Fact]
         public void CreateDeathRecordVoidMessageFromJson()
         {

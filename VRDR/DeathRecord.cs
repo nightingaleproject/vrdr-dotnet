@@ -3608,10 +3608,13 @@ namespace VRDR
             set
             {
                 Decedent.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.PatientBirthPlace);
-                Extension placeOfBirthExt = new Extension();
-                placeOfBirthExt.Url = OtherExtensionURL.PatientBirthPlace;
-                placeOfBirthExt.Value = DictToAddress(value);
-                Decedent.Extension.Add(placeOfBirthExt);
+                if(!IsDictEmptyOrDefault(value))
+                {
+                    Extension placeOfBirthExt = new Extension();
+                    placeOfBirthExt.Url = OtherExtensionURL.PatientBirthPlace;
+                    placeOfBirthExt.Value = DictToAddress(value);
+                    Decedent.Extension.Add(placeOfBirthExt);
+                }
             }
         }
 

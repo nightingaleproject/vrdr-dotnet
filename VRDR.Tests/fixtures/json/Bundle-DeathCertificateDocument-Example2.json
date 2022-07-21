@@ -580,7 +580,8 @@
             }
           ],
           "value": 42,
-          "unit": "a"
+          "unit": "years",
+          "code": "a"
         },
         "subject": {
           "reference": "Patient/Decedent-Example1"

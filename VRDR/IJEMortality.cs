@@ -1121,32 +1121,39 @@ namespace VRDR
         {
             get
             {
-                // Pull unit from coded unit or, if that's not there, look in the text representation, else null-coalesce to empty string
-                string unit = Dictionary_Get("AGETYPE", "AgeAtDeath", "code") ?? Dictionary_Get("AGETYPE", "AgeAtDeath", "unit") ?? "";
+                // Pull unit from coded unit.   "unit" field is descriptive only, and is not required by VRDR IG
+                string unit = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
                 Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(unit, out string ijeValue);
                 return ijeValue ?? "9";
             }
             set
             {
-                // If we have an IJE value map it to FHIR and set the unit, code and system appropriately, otherwise set to unknown
-                if (!String.IsNullOrWhiteSpace(value) && Mappings.UnitsOfAge.IJEToFHIR.TryGetValue(value, out string fhirValue))
+                if (String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("AGETYPE", "AgeAtDeath", "unit", fhirValue);
-                    Dictionary_Set("AGETYPE", "AgeAtDeath", "code", fhirValue);
-                    if (fhirValue == ValueSets.UnitsOfAge.Unknown)
-                    {
-                        Dictionary_Set("AGETYPE", "AgeAtDeath", "system", CodeSystems.NullFlavor_HL7_V3);
-                    }
-                    else
-                    {
-                        Dictionary_Set("AGETYPE", "AgeAtDeath", "system", CodeSystems.UnitsOfMeasure);
-                    }
+                    return;  // nothing to do
                 }
-                else
+                // If we have an IJE value map it to FHIR and set the unit, code and system appropriately, otherwise set to unknown
+                if (!Mappings.UnitsOfAge.IJEToFHIR.TryGetValue(value, out string fhirValue))
                 {
-                    Dictionary_Set("AGETYPE", "AgeAtDeath", "unit", ValueSets.UnitsOfAge.Unknown);
-                    Dictionary_Set("AGETYPE", "AgeAtDeath", "code", ValueSets.UnitsOfAge.Unknown);
-                    Dictionary_Set("AGETYPE", "AgeAtDeath", "system", CodeSystems.UnitsOfMeasure);
+                    // We have an invalid code, map it to unknown
+                    fhirValue = ValueSets.UnitsOfAge.Unknown;
+                }
+                // We have the code, now we need the corresponding unit and system
+                // Iterate over the allowed options and see if the code supplies is one of them
+                int length = ValueSets.UnitsOfAge.Codes.Length;
+                for (int i = 0; i < length; i += 1)
+                {
+                    if (ValueSets.UnitsOfAge.Codes[i, 0] == fhirValue)
+                    {
+                        // Found it, so call the supplied setter with the appropriate dictionary built based on the code
+                        // using the supplied options and return
+                        Dictionary<string, string> dict = new Dictionary<string, string>();
+                        dict.Add("code", fhirValue);
+                        dict.Add("unit", ValueSets.UnitsOfAge.Codes[i, 1]);
+                        dict.Add("system", ValueSets.UnitsOfAge.Codes[i, 2]);
+                        typeof(DeathRecord).GetProperty("AgeAtDeath").SetValue(this.record, dict);
+                        return;
+                    }
                 }
             }
         }
@@ -3143,8 +3150,8 @@ namespace VRDR
             get
             {
                 var stateCode = Dictionary_Geo_Get("DSTATE", "DeathLocationAddress", "address", "state", false);
-                var mortalityData = MortalityData.Instance;
-                string statetextd = mortalityData.StateCodeToStateName(stateCode);
+                //var mortalityData = MortalityData.Instance;
+                string statetextd = dataLookup.StateCodeToStateName(stateCode);
                 if (statetextd == null){
                     statetextd = " ";
                 }
@@ -3348,8 +3355,8 @@ namespace VRDR
             {
                 // expand STATEC 2 letter code to full name
                 var stateCode = Dictionary_Geo_Get("STATEC", "Residence", "address", "state", false);
-                var mortalityData = MortalityData.Instance;
-                string statetextr = mortalityData.StateCodeToStateName(stateCode);
+ //               var mortalityData = MortalityData.Instance;
+                string statetextr = dataLookup.StateCodeToStateName(stateCode);
                 if (statetextr == null){
                     statetextr = " ";
                 }
@@ -3369,8 +3376,8 @@ namespace VRDR
             {
                 // This is Now just the two letter code.  Need to map it to country name
                 var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false);
-                var mortalityData = MortalityData.Instance;
-                string countrytextr = mortalityData.CountryCodeToCountryName(countryCode);
+//                var mortalityData = MortalityData.Instance;
+                string countrytextr = dataLookup.CountryCodeToCountryName(countryCode);
                 if(countrytextr == null)
                 {
                     countrytextr = " ";
@@ -4344,8 +4351,8 @@ namespace VRDR
             get
             {
                 var stateCode = Dictionary_Geo_Get("DISPSTATECD", "InjuryLocationAddress", "address", "state", false);
-                var mortalityData = MortalityData.Instance;
-                return mortalityData.StateCodeToStateName(stateCode);
+//                var mortalityData = MortalityData.Instance;
+                return dataLookup.StateCodeToStateName(stateCode);
             }
             set
             {
@@ -4562,8 +4569,8 @@ namespace VRDR
             get
             {
                 var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", false);
-                var mortalityData = MortalityData.Instance;
-                string funstate = mortalityData.StateCodeToStateName(stateCode);
+//                var mortalityData = MortalityData.Instance;
+                string funstate = dataLookup.StateCodeToStateName(stateCode);
                 if (funstate == null){
                     funstate = " ";
                 }
@@ -4876,8 +4883,8 @@ namespace VRDR
             get
             {
                 var stateCode =  Dictionary_Get("CERTSTATE", "CertifierAddress", "addressState");
-                var mortalityData = MortalityData.Instance;
-                string certstate = mortalityData.StateCodeToStateName(stateCode);
+//                var mortalityData = MortalityData.Instance;
+                string certstate = dataLookup.StateCodeToStateName(stateCode);
                 if (certstate == null){
                     certstate = " ";
                 }
@@ -4945,8 +4952,8 @@ namespace VRDR
             get
             {
                 var stateCode = Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "state", false);
-                var mortalityData = MortalityData.Instance;
-                string stinjury = mortalityData.StateCodeToStateName(stateCode);
+//                var mortalityData = MortalityData.Instance;
+                string stinjury = dataLookup.StateCodeToStateName(stateCode);
                 if (stinjury == null){
                     stinjury = " ";
                 }
@@ -4965,8 +4972,8 @@ namespace VRDR
             get
             {
                 var stateCode = Dictionary_Geo_Get("BPLACE_ST", "PlaceOfBirth", "address", "state", false);
-                var mortalityData = MortalityData.Instance;
-                string statebth = mortalityData.StateCodeToStateName(stateCode);
+//                var mortalityData = MortalityData.Instance;
+                string statebth = dataLookup.StateCodeToStateName(stateCode);
                 if (statebth == null){
                     statebth = " ";
                 }
@@ -5003,8 +5010,8 @@ namespace VRDR
             get
             {
                 var countryCode = Dictionary_Geo_Get("DTHCOUNTRYCD", "Residence", "address", "country", false);
-                var mortalityData = MortalityData.Instance;
-                string dthcountry = mortalityData.CountryCodeToCountryName(countryCode);
+//                var mortalityData = MortalityData.Instance;
+                string dthcountry = dataLookup.CountryCodeToCountryName(countryCode);
                 if(dthcountry == null)
                 {
                     dthcountry = " ";

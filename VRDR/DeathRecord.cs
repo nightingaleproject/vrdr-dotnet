@@ -352,7 +352,7 @@ namespace VRDR
             AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "39016-1", "Age at death", null);
             AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             AgeAtDeathObs.Value = new Quantity();
-            AgeAtDeathObs.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null); // set at birth
+            // AgeAtDeathObs.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null); // set at birth
             AddReferenceToComposition(AgeAtDeathObs.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
@@ -6510,7 +6510,10 @@ namespace VRDR
             set
             {
                 string extractedValue = GetValue(value, "value");
-                if((GetValue(value,"value") == null &&  GetValue(value,"unit") == null)) // if there is nothing to do, do nothing.
+                string extractedCode = GetValue(value, "code");;
+                string extractedUnit = GetValue(value, "unit");
+                string extractedSystem = GetValue(value, "system");
+                if((extractedValue == null &&  extractedCode == null && extractedUnit == null && extractedSystem == null)) // if there is nothing to do, do nothing.
                 {
                     return;
                 }
@@ -6524,14 +6527,17 @@ namespace VRDR
                 {
                     quantity.Value = Convert.ToDecimal(extractedValue);
                 }
-                else
+                if (extractedUnit != null)
                 {
-                    quantity.Value = null;
+                    quantity.Unit = extractedUnit;
                 }
-                // Set Unit, Code, and System to either the string if present or null otherwise
-                quantity.Unit = GetValue(value, "unit");
-                quantity.Code = GetValue(value, "code");
-                quantity.System = GetValue(value, "system");
+                if (extractedCode != null)
+                {
+                    quantity.Code = extractedCode;
+                }
+                if (extractedSystem != null){
+                    quantity.System = extractedSystem;
+                }
                 AgeAtDeathObs.Value = (Quantity)quantity;
             }
         }

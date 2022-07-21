@@ -299,7 +299,17 @@ namespace VRDR.Tests
             Assert.Equal("MA", ije1.DSTATE);
             Assert.Equal("4", ije1.DPLACE);
             DeathRecord dr = ije1.ToDeathRecord();
+            Dictionary<string,string> age = new Dictionary<string,string>();
+            age.Add("value", "10");
+            age.Add("unit", "Months");
+            age.Add("code", "mo");
+            dr.AgeAtDeath = age;
+            Assert.Equal("mo", dr.AgeAtDeath["code"]);
             IJEMortality ije1rt = new IJEMortality(dr);
+            Assert.Equal("mo", dr.AgeAtDeath["code"]);
+            Assert.Equal("mo", ije1rt.ToDeathRecord().AgeAtDeath["code"]);
+            Assert.Equal("2", ije1rt.AGETYPE);
+            Assert.Equal("010",ije1rt.AGE);
             Assert.Equal("4", ije1rt.DPLACE);
             ije1.DSTATE = "YC";
             ije1.AUXNO = "000000000001";
@@ -322,9 +332,13 @@ namespace VRDR.Tests
             Assert.Equal("000000000001", ije3.AUXNO);
             Assert.Equal("000000000002", ije3.AUXNO2);
             Assert.Equal("YC", ije3.DSTATE);
+            ije3.AGE = "010";
+            ije3.AGETYPE = "2";
             DeathRecord dr4 = ije3.ToDeathRecord();
             Assert.Equal("NY", dr4.DeathLocationAddress["addressState"]);
             Assert.Equal("YC", dr4.DeathLocationJurisdiction);
+            Assert.Equal("mo", dr4.AgeAtDeath["code"]);
+            Assert.Equal("10", dr4.AgeAtDeath["value"]);
         }
 
         [Fact]

@@ -723,7 +723,7 @@ namespace VRDR.Tests
             Assert.Null(ack.StateAuxiliaryId);
             Assert.Null(ack.NCHSIdentifier);
 
-            statusMessage = new DeathRecordVoidMessage();
+            statusMessage = new StatusMessage();
             ack = new AcknowledgementMessage(statusMessage);
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(statusMessage.MessageId, ack.AckedMessageId);

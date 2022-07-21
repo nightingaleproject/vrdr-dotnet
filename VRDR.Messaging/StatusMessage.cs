@@ -32,7 +32,7 @@ namespace VRDR
             ExtractBusinessIdentifiers(record);
         }
 
-        /// <summary>ProcessingStatus/summary>
+        /// <summary>ProcessingStatus</summary>
         public string Status
         {
             get

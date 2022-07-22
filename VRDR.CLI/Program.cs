@@ -865,7 +865,7 @@ namespace VRDR.CLI
                 int count = Int16.Parse(args[2]);
                 string output_directory = args[3];
                 string state = args[4];
-                if (start_certificate_number < 0) {
+                if (start_certificate_number <= 0) {
                     Console.WriteLine("Must supply a starting certificate number greater than 0");
                     return(1);
                 }else if (String.IsNullOrWhiteSpace(args[3]) || !Directory.Exists(args[3])){
@@ -875,7 +875,6 @@ namespace VRDR.CLI
                     Console.WriteLine("Must supply a count greater than 0");
                     return(1);
                 }
-                Console.WriteLine(" count = ${count} output_directory = ${output_directory}");
                 for (int i = 0; i < count; i += 1) {
                    int certificate_number = start_certificate_number + i;
                    string cert6 = certificate_number.ToString("D6");

@@ -186,7 +186,7 @@ Producing Example</h4>
 <div class="ttc" id="aclass_v_r_d_r_1_1_code_systems_html"><div class="ttname"><a href="class_v_r_d_r_1_1_code_systems.html">VRDR.CodeSystems</a></div><div class="ttdef"><b>Definition:</b> CodeSystems.cs:5</div></div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_death_record_html"><div class="ttname"><a href="class_v_r_d_r_1_1_death_record.html">VRDR.DeathRecord</a></div><div class="ttdoc">Class DeathRecord models a FHIR Vital Records Death Reporting (VRDR) Death Record....</div><div class="ttdef"><b>Definition:</b> DeathRecord.cs:24</div></div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_death_record_html_ad6754479d0b9f0d0af10b86cf2956aab"><div class="ttname"><a href="class_v_r_d_r_1_1_death_record.html#ad6754479d0b9f0d0af10b86cf2956aab">VRDR.DeathRecord.ToJSON</a></div><div class="ttdeci">string ToJSON()</div><div class="ttdoc">Helper method to return a JSON string representation of this Death Record.</div><div class="ttdef"><b>Definition:</b> DeathRecord.cs:776</div></div>
-<div class="ttc" id="anamespace_v_r_d_r_html"><div class="ttname"><a href="namespace_v_r_d_r.html">VRDR</a></div><div class="ttdef"><b>Definition:</b> Program.cs:18</div></div>
+<div class="ttc" id="anamespace_v_r_d_r_html"><div class="ttname"><a href="namespace_v_r_d_r.html">VRDR</a></div><div class="ttdef"><b>Definition:</b> Program.cs:19</div></div>
 </div><!-- fragment --><h4><a class="anchor" id="autotoc_md51"></a>
 Consuming Example</h4>
 <p >An example of consuming a <a class="el" href="namespace_v_r_d_r.html">VRDR</a> FHIR document (in XML format) using this library, and printing some details from it: </p><div class="fragment"><div class="line"><span class="keyword">using </span><a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
@@ -373,7 +373,10 @@ VRDR.CLI</h3>
 <p >This directory contains a sample command line interface app that uses the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library to do a few different things.</p>
 <h4><a class="anchor" id="autotoc_md60"></a>
 Example Usages</h4>
-<div class="fragment"><div class="line"># Builds a fake death record and print out the record as FHIR XML and JSON</div>
+<div class="fragment"><div class="line"># Prints CLI Help</div>
+<div class="line">dotnet run -- project VRDR.CLI help</div>
+<div class="line"> </div>
+<div class="line"># Builds a fake death record and print out the record as FHIR XML and JSON</div>
 <div class="line">dotnet run --project VRDR.CLI</div>
 <div class="line"> </div>
 <div class="line"># Read in the FHIR XML or JSON death record and print out as IJE</div>
@@ -408,6 +411,14 @@ Example Usages</h4>
 <div class="line"> </div>
 <div class="line"># Generate the first connectathon record with certifcate number 100 and jurisdiction MA</div>
 <div class="line">dotnet run --project VRDR.CLI connectathon 1 100 MA</div>
+<div class="line"> </div>
+<div class="line"># Generate records for bulk testing based on the 3 connectathon testing records.</div>
+<div class="line"># Parameters are:</div>
+<div class="line">#    - initial certificate number</div>
+<div class="line">#    - number of records to generate (each with cert_no one greater than its predecessor)</div>
+<div class="line">#    - output directory (must exist)</div>
+<div class="line">#    - SUbmitting jurisdiction</div>
+<div class="line">dotnet run --project VRDR.CLI generaterecords 23 100 ./generatedrecords CT</div>
 <div class="line"> </div>
 <div class="line"># Generate a verbose JSON description of the record (in the format used to drive Canary)</div>
 <div class="line">dotnet run --project VRDR.CLI description VRDR.CLI/1.json</div>

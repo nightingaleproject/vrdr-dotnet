@@ -8,5 +8,6 @@ var searchData=
   ['statenameandcountynameandplacecodetoplacename_5',['StateNameAndCountyNameAndPlaceCodeToPlaceName',['../class_v_r_d_r_1_1_mortality_data.html#aa2059842f7698cda532259e86434a846',1,'VRDR::MortalityData']]],
   ['statenameandcountynameandplacenametoplacecode_6',['StateNameAndCountyNameAndPlaceNameToPlaceCode',['../class_v_r_d_r_1_1_mortality_data.html#ac69cba8234af9d70e93cf519ba0e5a61',1,'VRDR::MortalityData']]],
   ['statenameandcountynametocountycode_7',['StateNameAndCountyNameToCountyCode',['../class_v_r_d_r_1_1_mortality_data.html#a0229e8ab7f70e3f92f8ca06b282628e5',1,'VRDR::MortalityData']]],
-  ['statenametostatecode_8',['StateNameToStateCode',['../class_v_r_d_r_1_1_mortality_data.html#a4648e3c8f03eaacd959bfcf9009306ea',1,'VRDR::MortalityData']]]
+  ['statenametostatecode_8',['StateNameToStateCode',['../class_v_r_d_r_1_1_mortality_data.html#a4648e3c8f03eaacd959bfcf9009306ea',1,'VRDR::MortalityData']]],
+  ['statusmessage_9',['StatusMessage',['../class_v_r_d_r_1_1_status_message.html#a56f76eb024af3bc536ff2a42de486623',1,'VRDR.StatusMessage.StatusMessage()'],['../class_v_r_d_r_1_1_status_message.html#aae795cf18c9a54a9618262832218d004',1,'VRDR.StatusMessage.StatusMessage(DeathRecord record)']]]
 ];

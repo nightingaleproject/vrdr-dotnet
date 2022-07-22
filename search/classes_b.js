@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vrdrlistener_0',['VRDRListener',['../class_v_r_d_r_1_1_h_t_t_p_1_1_v_r_d_r_listener.html',1,'VRDR::HTTP']]]
+  ['trxhelper_0',['TRXHelper',['../class_v_r_d_r_1_1_i_j_e_mortality_1_1_t_r_x_helper.html',1,'VRDR::IJEMortality']]]
 ];

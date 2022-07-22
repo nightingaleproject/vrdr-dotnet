@@ -63,7 +63,7 @@
     <None Update="fixtures/json/DeathRecordVoidMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordVoidMessageNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordAliasMessage.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/fixtures/json/StatusMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/StatusMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingEthnicityData.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/DeathRecord1.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/AcknowledgementMessage.xml" CopyToOutputDirectory="PreserveNewest" />

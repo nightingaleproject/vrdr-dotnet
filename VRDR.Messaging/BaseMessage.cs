@@ -460,7 +460,7 @@ namespace VRDR
         }
 
         /// <summary>
-        /// Parse an XML or JSON serialization of a FHIR Bundle. 
+        /// Parse an XML or JSON serialization of a FHIR Bundle.
         /// </summary>
         /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
@@ -521,6 +521,9 @@ namespace VRDR
                     break;
                 case ExtractionErrorMessage.MESSAGE_TYPE:
                     message = new ExtractionErrorMessage(bundle, message);
+                    break;
+                case StatusMessage.MESSAGE_TYPE:
+                    message = new StatusMessage(bundle);
                     break;
                 default:
                     string errorText;

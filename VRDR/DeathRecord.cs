@@ -352,7 +352,7 @@ namespace VRDR
             AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "39016-1", "Age at death", null);
             AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             AgeAtDeathObs.Value = new Quantity();
-            AgeAtDeathObs.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null); // set at birth
+            // AgeAtDeathObs.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null); // set at birth
             AddReferenceToComposition(AgeAtDeathObs.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
@@ -1462,6 +1462,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && MannerOfDeath == null){
+                    return;
+                }
                 if (MannerOfDeath == null)
                 {
                     MannerOfDeath = new Observation();
@@ -2657,6 +2660,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && Decedent.Extension == null){
+                    return;
+                }
                 Decedent.Extension.RemoveAll(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
                 Extension sex = new Extension();
                 sex.Url = ExtensionURL.NVSSSexAtDeath;
@@ -3601,10 +3607,13 @@ namespace VRDR
             set
             {
                 Decedent.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.PatientBirthPlace);
-                Extension placeOfBirthExt = new Extension();
-                placeOfBirthExt.Url = OtherExtensionURL.PatientBirthPlace;
-                placeOfBirthExt.Value = DictToAddress(value);
-                Decedent.Extension.Add(placeOfBirthExt);
+                if(!IsDictEmptyOrDefault(value))
+                {
+                    Extension placeOfBirthExt = new Extension();
+                    placeOfBirthExt.Url = OtherExtensionURL.PatientBirthPlace;
+                    placeOfBirthExt.Value = DictToAddress(value);
+                    Decedent.Extension.Add(placeOfBirthExt);
+                }
             }
         }
 
@@ -4357,6 +4366,10 @@ namespace VRDR
             }
             set
             {
+                if( IsDictEmptyOrDefault(value) && DecedentEducationLevel == null)
+                {
+                    return;
+                }
                 if (DecedentEducationLevel == null)
                 {
                     CreateEducationLevelObs();
@@ -4433,6 +4446,10 @@ namespace VRDR
             }
             set
             {
+                if( IsDictEmptyOrDefault(value) && DecedentEducationLevel == null)
+                {
+                    return;
+                }
                 if (DecedentEducationLevel == null)
                 {
                     CreateEducationLevelObs();
@@ -4653,6 +4670,10 @@ namespace VRDR
             }
             set
             {
+                if( (String.IsNullOrEmpty(value)))
+                {
+                    return;
+                }
                 if (UsualWork == null)
                 {
                     CreateUsualWork();
@@ -4688,6 +4709,10 @@ namespace VRDR
             }
             set
             {
+                if( (String.IsNullOrEmpty(value)))
+                {
+                    return;
+                }
                 if (UsualWork == null)
                 {
                     CreateUsualWork();
@@ -4736,6 +4761,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && MilitaryServiceObs == null){
+                    return;
+                }
                 if (MilitaryServiceObs == null)
                 {
                     MilitaryServiceObs = new Observation();
@@ -5332,6 +5360,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && AutopsyPerformed == null){
+                    return;
+                }
                 if (AutopsyPerformed == null)
                 {
                     CreateAutopsyPerformed();
@@ -6049,6 +6080,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && AutopsyPerformed == null){
+                    return;
+                }
                 if (AutopsyPerformed == null)
                 {
                     CreateAutopsyPerformed();
@@ -6388,6 +6422,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && DeathDateObs == null){
+                    return;
+                }
                 if (DeathDateObs == null)
                 {
                     CreateDeathDateObs(); // Create it
@@ -6474,24 +6511,36 @@ namespace VRDR
             }
             set
             {
-                if (AgeAtDeathObs == null)
+                string extractedValue = GetValue(value, "value");
+                string extractedCode = GetValue(value, "code");;
+                string extractedUnit = GetValue(value, "unit");
+                string extractedSystem = GetValue(value, "system");
+                if((extractedValue == null &&  extractedCode == null && extractedUnit == null && extractedSystem == null)) // if there is nothing to do, do nothing.
+                {
+                    return;
+                }
+                if ( AgeAtDeathObs == null)
                 {
                     CreateAgeAtDeathObs();
                 }
                 Quantity quantity = (Quantity)AgeAtDeathObs.Value;
-                string extractedValue = GetValue(value, "value");
+
                 if (extractedValue != null)
                 {
                     quantity.Value = Convert.ToDecimal(extractedValue);
                 }
-                else
+                if (extractedUnit != null)
                 {
-                    quantity.Value = null;
+                    quantity.Unit = extractedUnit;
                 }
-                // Set Unit, Code, and System to either the string if present or null otherwise
-                quantity.Unit = GetValue(value, "unit");
-                quantity.Code = GetValue(value, "code");
-                quantity.System = GetValue(value, "system");
+                if (extractedCode != null)
+                {
+                    quantity.Code = extractedCode;
+                }
+                if (extractedSystem != null){
+                    quantity.System = extractedSystem;
+                }
+                AgeAtDeathObs.Value = (Quantity)quantity;
             }
         }
 
@@ -6530,6 +6579,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && AgeAtDeathObs == null){
+                    return;
+                }
                 if (AgeAtDeathObs == null)
                 {
                     CreateAgeAtDeathObs();
@@ -6592,6 +6644,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && PregnancyObs == null){
+                    return;
+                }
                 if (PregnancyObs == null)
                 {
                     CreatePregnancyObs();
@@ -6672,6 +6727,9 @@ namespace VRDR
             }
             set
             {
+                 if (IsDictEmptyOrDefault(value) && PregnancyObs == null){
+                    return;
+                }
                 if (PregnancyObs == null)
                 {
                     CreatePregnancyObs();
@@ -6747,6 +6805,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && ExaminerContactedObs == null){
+                    return;
+                }
                 var contactedCoding = DictToCodeableConcept(value);
                 if (ExaminerContactedObs == null)
                 {
@@ -6845,7 +6906,10 @@ namespace VRDR
             }
             set
             {
-                if (InjuryLocationLoc == null)
+            if (value == null && InjuryLocationLoc == null){
+                return;
+            }
+            if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
                     //LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
@@ -6877,6 +6941,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryLocationLoc == null){
+                    return;
+                }
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
@@ -6915,6 +6982,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryLocationLoc == null){
+                    return;
+                }
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
@@ -6955,6 +7025,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryLocationLoc == null){
+                    return;
+                }
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
@@ -7027,6 +7100,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7057,6 +7133,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7087,6 +7166,9 @@ namespace VRDR
             }
             set
             {
+                if (value == null && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7117,6 +7199,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7193,6 +7278,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7234,6 +7322,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7294,6 +7385,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7381,6 +7475,9 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value) && InjuryIncidentObs == null){
+                    return;
+                }
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
@@ -7549,7 +7646,10 @@ namespace VRDR
         /// <summary>Set an emerging issue value, creating an empty EmergingIssues Observation as needed.</summary>
         private void SetEmergingIssue(string identifier, string value)
         {
-            if (EmergingIssues == null)
+            if (value == null && EmergingIssues == null){
+                return;
+            }
+            if (EmergingIssues == null )
             {
                 EmergingIssues = new Observation();
                 EmergingIssues.Id = Guid.NewGuid().ToString();

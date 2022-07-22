@@ -36,10 +36,10 @@ namespace VRDR.Tests
         }
 
         [Theory]
-        [InlineData("ÅLAND", "FI")]
-        [InlineData("CENTRAL AND SOUTHERN LINE ISLANDS", "CL")]
-        [InlineData("ETHIOPIA", "ET")]
-        [InlineData("US", "US")]
+        [InlineData("Åland, Finland", "FI")]
+        [InlineData("Central And Southern Line Islands", "CL")]
+        [InlineData("Ethiopia", "ET")]
+        [InlineData("United States", "US")]
         [InlineData("Fake Place", null)]
         public void CountryNameToCountryCode_Test(string input, string expected)
         {
@@ -47,10 +47,10 @@ namespace VRDR.Tests
         }
 
         [Theory]
-        [InlineData("FI", "ÅLAND")]
-        [InlineData("\t   fi ", "ÅLAND")]
-        [InlineData("CF", "CONGO (BRAZZAVILLE)")]
-        [InlineData("ZZ", "NOT CLASSIFIABLE")]
+        [InlineData("FI", "Åland, Finland")]
+        [InlineData("\t   fi ", "Åland, Finland")]
+        [InlineData("CF", "Congo (brazzaville), Republic Of The Congo")]
+        [InlineData("ZZ", "Not Classifiable")]
         [InlineData("   ", null)]
         public void CountryCodeToCountryName_Test(string input, string expected)
         {
@@ -299,7 +299,17 @@ namespace VRDR.Tests
             Assert.Equal("MA", ije1.DSTATE);
             Assert.Equal("4", ije1.DPLACE);
             DeathRecord dr = ije1.ToDeathRecord();
+            Dictionary<string,string> age = new Dictionary<string,string>();
+            age.Add("value", "10");
+            age.Add("unit", "Months");
+            age.Add("code", "mo");
+            dr.AgeAtDeath = age;
+            Assert.Equal("mo", dr.AgeAtDeath["code"]);
             IJEMortality ije1rt = new IJEMortality(dr);
+            Assert.Equal("mo", dr.AgeAtDeath["code"]);
+            Assert.Equal("mo", ije1rt.ToDeathRecord().AgeAtDeath["code"]);
+            Assert.Equal("2", ije1rt.AGETYPE);
+            Assert.Equal("010",ije1rt.AGE);
             Assert.Equal("4", ije1rt.DPLACE);
             ije1.DSTATE = "YC";
             ije1.AUXNO = "000000000001";
@@ -322,9 +332,13 @@ namespace VRDR.Tests
             Assert.Equal("000000000001", ije3.AUXNO);
             Assert.Equal("000000000002", ije3.AUXNO2);
             Assert.Equal("YC", ije3.DSTATE);
+            ije3.AGE = "010";
+            ije3.AGETYPE = "2";
             DeathRecord dr4 = ije3.ToDeathRecord();
             Assert.Equal("NY", dr4.DeathLocationAddress["addressState"]);
             Assert.Equal("YC", dr4.DeathLocationJurisdiction);
+            Assert.Equal("mo", dr4.AgeAtDeath["code"]);
+            Assert.Equal("10", dr4.AgeAtDeath["value"]);
         }
 
         [Fact]
@@ -338,6 +352,22 @@ namespace VRDR.Tests
             ije1.ADDRESS_D = "580 Dustin Center";
             Assert.Equal("580 Dustin Center", ije1.ADDRESS_D.Trim());
             Assert.Equal("902101111", ije1.ZIP9_D);
+
+        }
+        [Fact]
+        public void SetSTNAME_R()
+        {
+            IJEMortality ije1 = new IJEMortality();
+            Assert.Equal("", ije1.AUXNO.Trim());
+
+            ije1.COUNTRYC = "  ";
+            Assert.Equal("", ije1.COUNTRYTEXT_R.Trim());
+
+            ije1.COUNTRYC = "US";
+            Assert.Equal("United States", ije1.COUNTRYTEXT_R.Trim());
+
+            ije1.STNAME_R = "St-Jean";
+            Assert.Equal("St-Jean", ije1.STNAME_R.Trim());
 
         }
 

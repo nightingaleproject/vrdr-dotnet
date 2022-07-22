@@ -213,6 +213,7 @@ namespace VRDR.Tests
             Assert.Equal("N", ije2.DETHNIC4);
             Assert.Equal("Y", ije2.RACE10);
             Assert.Equal("Hmong", ije2.RACE18);
+            Assert.Equal("Y", ije2.RACE3);
 
             // From VRDR IG
             DeathRecord d3 = (DeathRecord1_JSON);
@@ -1136,7 +1137,7 @@ namespace VRDR.Tests
             raddress.Add("addressCountyC", "123");
             raddress.Add("addressStnum", "101");
             raddress.Add("addressPredir", "N");
-            raddress.Add("addressStname", "Example");
+            raddress.Add("addressStname", "St-Jean");
             raddress.Add("addressStdesig", "St");
             raddress.Add("addressPostdir", "W");
             raddress.Add("addressUnitnum", "A");
@@ -1155,7 +1156,7 @@ namespace VRDR.Tests
             Assert.Equal("123", SetterDeathRecord.Residence["addressCountyC"]);
             Assert.Equal("101", SetterDeathRecord.Residence["addressStnum"]);
             Assert.Equal("N", SetterDeathRecord.Residence["addressPredir"]);
-            Assert.Equal("Example", SetterDeathRecord.Residence["addressStname"]);
+            Assert.Equal("St-Jean", SetterDeathRecord.Residence["addressStname"]);
             Assert.Equal("St", SetterDeathRecord.Residence["addressStdesig"]);
             Assert.Equal("W", SetterDeathRecord.Residence["addressPostdir"]);
             Assert.Equal("A", SetterDeathRecord.Residence["addressUnitnum"]);
@@ -2256,29 +2257,29 @@ namespace VRDR.Tests
         public void Set_AgeAtDeath()
         {
             Dictionary<string, string> aad = new Dictionary<string, string>();
-            aad.Add("unit", "a");
-            aad.Add("value", "79");
+            aad.Add("code", "mo");
+            aad.Add("value", "11");
             SetterDeathRecord.AgeAtDeath = aad;
-            Assert.Equal("a", SetterDeathRecord.AgeAtDeath["unit"]);
-            Assert.Equal("79", SetterDeathRecord.AgeAtDeath["value"]);
+            Assert.Equal("mo", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
         }
 
         [Fact]
         public void Get_AgeAtDeath()
         {
-            Assert.Equal("a", DeathCertificateDocument2_JSON.AgeAtDeath["unit"]);
+            Assert.Equal("a", DeathCertificateDocument2_JSON.AgeAtDeath["code"]);
             Assert.Equal("42", DeathCertificateDocument2_JSON.AgeAtDeath["value"]);
             DeathRecord dr1 = DeathCertificateDocument2_JSON;
             DeathRecord dr2 = new DeathRecord(dr1.ToJSON());
-            Assert.Equal("a", (dr2.AgeAtDeath["unit"]));
+            Assert.Equal("a", (dr2.AgeAtDeath["code"]));
             Assert.Equal("42", (dr2.AgeAtDeath["value"]));
             Dictionary<string, string> aad = new Dictionary<string, string>();
-            aad.Add("unit", "a");
-            aad.Add("value", "79");
+            aad.Add("code", "mo");
+            aad.Add("value", "11");
             dr2.AgeAtDeath = aad;
-            Assert.Equal("a", (dr2.AgeAtDeath["unit"]));
-            Assert.Equal("79", (dr2.AgeAtDeath["value"]));
-            Assert.Equal("a", DeathRecord1_XML.AgeAtDeath["unit"]);
+            Assert.Equal("mo", (dr2.AgeAtDeath["code"]));
+            Assert.Equal("11", (dr2.AgeAtDeath["value"]));
+            Assert.Equal("a", DeathRecord1_XML.AgeAtDeath["code"]);
             Assert.Equal("79", DeathRecord1_XML.AgeAtDeath["value"]);
         }
 
@@ -3216,6 +3217,7 @@ namespace VRDR.Tests
         public void CheckConnectathonRecord1()
         {
             DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
+            Assert.Equal("62", dr1.AgeAtDeath["value"]);
             Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
             Assert.Equal("062", ije.AGE);

@@ -359,6 +359,9 @@ This directory contains a sample command line interface app that uses the VRDR l
 #### Example Usages
 
 ```bash
+# Prints CLI Help
+dotnet run -- project VRDR.CLI help
+
 # Builds a fake death record and print out the record as FHIR XML and JSON
 dotnet run --project VRDR.CLI
 
@@ -394,6 +397,14 @@ dotnet run --project VRDR.CLI ije VRDR.CLI/1.MOR
 
 # Generate the first connectathon record with certifcate number 100 and jurisdiction MA
 dotnet run --project VRDR.CLI connectathon 1 100 MA
+
+# Generate records for bulk testing based on the 3 connectathon testing records.
+# Parameters are:
+#    - initial certificate number
+#    - number of records to generate (each with cert_no one greater than its predecessor)
+#    - output directory (must exist)
+#    - SUbmitting jurisdiction
+dotnet run --project VRDR.CLI generaterecords 23 100 ./generatedrecords CT
 
 # Generate a verbose JSON description of the record (in the format used to drive Canary)
 dotnet run --project VRDR.CLI description VRDR.CLI/1.json

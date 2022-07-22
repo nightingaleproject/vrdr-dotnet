@@ -7,7 +7,7 @@ namespace VRDR
         public const string White = "White";
         /// <summary> BlackOrAfricanAmerican </summary>
         public const string BlackOrAfricanAmerican = "BlackOrAfricanAmerican";
-        /// <summary> AmericanIndianOrAlaskaNative </summary>
+        /// <summary> AmericanIndianOrAlaskanNative </summary>
         public const string AmericanIndianOrAlaskanNative = "AmericanIndianOrAlaskanNative";
         /// <summary> AsianIndian </summary>
         public const string AsianIndian = "AsianIndian";

@@ -1686,7 +1686,8 @@
         },
         "valueQuantity": {
           "value": 79,
-          "unit": "a"
+          "unit": "years",
+          "code": "a"
         }
       }
     },

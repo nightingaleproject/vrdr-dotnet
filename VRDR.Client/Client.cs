@@ -136,7 +136,7 @@ public class Client
         parameters.Add("client_id", this.Credentials.ClientId);
         parameters.Add("client_secret", this.Credentials.ClientSecret);
         parameters.Add("username", this.Credentials.Username);
-        parameters.Add("pass", this.Credentials.Pass);
+        parameters.Add("password", this.Credentials.Pass);
         
         var request = new HttpRequestMessage(HttpMethod.Post, this.Credentials.Url){Content = new FormUrlEncodedContent(parameters)};
         var response = client.Send(request);

@@ -108,8 +108,7 @@ public class Client
         HttpResponseMessage response = GetAuthorizeToken();
         if (response.IsSuccessStatusCode)
         {
-            String? content = response.Content.ToString();
-            // parse the response to get the access token
+            var content = response.Content.ReadAsStringAsync().Result;
             if (!String.IsNullOrEmpty(content))
             {
                 JObject json = JObject.Parse(content);

@@ -27,12 +27,12 @@ public class Client
         this.LocalTesting = local;
         this.Credentials = credentials;
     }
-    // GetMessageResponsesAsync makes a GET request to the NVSS FHIR API server for new messages
-    // responses since the provided timestamp
-    public HttpResponseMessage GetMessageResponsesAsync(String lastUpdated)
+    // GetMessageResponsesAsync makes a GET request to the NVSS FHIR API server for any new messages
+    // responses
+    public HttpResponseMessage GetMessageResponsesAsync()
     {
         var address = this.Url;
-        Console.WriteLine($">>> Get messages since: {lastUpdated}");
+        Console.WriteLine($">>> Retrieving new messages from NCHS...");
 
         // if testing against the NVSS FHIR API server, add the authentication token
         if (!this.LocalTesting){
@@ -47,9 +47,6 @@ public class Client
             }
         }
 
-        if (lastUpdated != null){
-            address = this.Url + "?_since=" + lastUpdated;
-        }
         var response = client.GetAsync(address).Result;
 
         // check if the token expired, refresh and try again
@@ -61,7 +58,7 @@ public class Client
             {
                 return authRetry;
             }
-            response = client.GetAsync(address).Result;
+            response = client.GetAsync(this.Url).Result;
         }
         
         return response;

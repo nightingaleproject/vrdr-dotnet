@@ -153,6 +153,7 @@ namespace VRDR
             string[] father_profile = { ProfileURL.DecedentFather };
             Father.Meta.Profile = father_profile;
             Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Father.Active = true; // USCore RelatedPerson requires active = true
             Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
             AddReferenceToComposition(Father.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
@@ -170,6 +171,7 @@ namespace VRDR
             string[] mother_profile = { ProfileURL.DecedentMother };
             Mother.Meta.Profile = mother_profile;
             Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Mother.Active = true; // USCore RelatedPerson requires active = true
             Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
             AddReferenceToComposition(Mother.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
@@ -187,6 +189,7 @@ namespace VRDR
             string[] spouse_profile = { ProfileURL.DecedentSpouse };
             Spouse.Meta.Profile = spouse_profile;
             Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Spouse.Active = true; // USCore RelatedPerson requires active = true
             Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
             AddReferenceToComposition(Spouse.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);

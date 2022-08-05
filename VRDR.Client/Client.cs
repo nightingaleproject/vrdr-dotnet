@@ -108,8 +108,7 @@ public class Client
         HttpResponseMessage response = GetAuthorizeToken();
         if (response.IsSuccessStatusCode)
         {
-            String? content = response.Content.ToString();
-            // parse the response to get the access token
+            var content = response.Content.ReadAsStringAsync().Result;
             if (!String.IsNullOrEmpty(content))
             {
                 JObject json = JObject.Parse(content);
@@ -136,7 +135,7 @@ public class Client
         parameters.Add("client_id", this.Credentials.ClientId);
         parameters.Add("client_secret", this.Credentials.ClientSecret);
         parameters.Add("username", this.Credentials.Username);
-        parameters.Add("pass", this.Credentials.Pass);
+        parameters.Add("password", this.Credentials.Pass);
         
         var request = new HttpRequestMessage(HttpMethod.Post, this.Credentials.Url){Content = new FormUrlEncodedContent(parameters)};
         var response = client.Send(request);

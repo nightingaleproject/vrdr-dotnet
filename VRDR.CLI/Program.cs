@@ -808,26 +808,29 @@ namespace VRDR.CLI
             }
             else if (args.Length == 2 && args[0] == "trx2fhir")
             {
-                // Mapping a TRX file to an IJE file:
-                // char 1-12 of TRX -> char 1-12 of IJE
-                // char 22-29 of TRX -> char 673-681 if IJE WITH ORDER SWAPPED
-                // char 13-41 of TRX -> TRX only
-                // char 42-407 of TRX -> char 701-1037 of IJE
-                // There might be some additional data in TRX now (SUR_MO, etc.)
-                string trx = File.ReadAllText(args[1]);
-                string ije = trx.Substring(0,12);
-                ije = ije.PadRight(672, ' ');
-                ije = ije + trx.Substring(25, 4);
-                ije = ije + trx.Substring(21, 4);
-                ije = ije.PadRight(700, ' ');
-                ije = ije + trx.Substring(41, 365);
-                ije = ije.PadRight(5000, ' ');
-                IJEMortality ijeRecord = new IJEMortality(ije);
+                IJEMortality ijeRecord = trx2ije(args[1]);
                 ijeRecord.trx.CS = "3";
                 ijeRecord.trx.SHIP = "555";
                 CauseOfDeathCodingMessage cod = new CauseOfDeathCodingMessage(ijeRecord.ToDeathRecord());
                 //CauseOfDeathCodingUpdateMessage cod = new CauseOfDeathCodingUpdateMessage(ijeRecord.ToDeathRecord());
                 Console.WriteLine(cod.ToJSON(true));
+            }
+            else if (args.Length == 2 && args[0] == "fhir2trx") //  CauseOfDeathCodingMessage to TRX
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                IJEMortality ije = new IJEMortality(d, false);
+                string TRXString = ije2trx(ije);
+                Console.WriteLine(TRXString);
+            }
+            else if (args.Length == 3 && args[0] == "compareTRXtoFHIR")
+            {
+                // Read the TRX file and convert to IJE
+                IJEMortality ije1 = trx2ije(args[1]);
+                // REad the FHIR JSON file and convert to IJE
+                DeathRecord record2 = new DeathRecord(File.ReadAllText(args[2]), false);
+                IJEMortality ije2 = new IJEMortality(record2, false);
+
+                return (CompareIJEtoIJE(ije1, ije2, true));
             }
             else if (args.Length == 2 && args[0] == "showcodes")
             {
@@ -937,6 +940,73 @@ namespace VRDR.CLI
             {
                 return value.Substring(0, length);
             }
+        }
+        private static IJEMortality trx2ije(string trxfilename){
+                // Mapping a TRX file to an IJE file:
+                // char 1-12 of TRX -> char 1-12 of IJE
+                // char 22-29 of TRX -> char 673-681 if IJE WITH ORDER SWAPPED
+                // char 13-41 of TRX -> TRX only
+                // char 42-407 of TRX -> char 701-1037 of IJE
+                // There might be some additional data in TRX now (SUR_MO, etc.)
+                string trx = File.ReadAllText(trxfilename);
+                trx = trx.PadRight(500);
+                string ije = trx.Substring(0,11); // 12
+                ije = ije.PadRight(672, ' ');     // 673
+                ije = ije + trx.Substring(25, 4); //677
+                ije = ije + trx.Substring(21, 4); //681
+                ije = ije.PadRight(700, ' ');
+                ije = ije + trx.Substring(41, 357);
+                ije = ije.PadRight(5000, ' ');
+                IJEMortality ijeRecord = new IJEMortality(ije, false);
+                return (ijeRecord);
+        }
+        private static string ije2trx(IJEMortality ije){
+                // Mapping a TRX file to an IJE file:
+                // char 1-12 of TRX -> char 1-12 of IJE
+                // char 13-21 of TRX -> TRX only
+                // char 22-29 of TRX -> char 673-681 if IJE WITH ORDER SWAPPED
+                // char 29-41 of TRX -> TRX only
+                // char 42-407 of TRX -> char 701-1037 of IJE
+                // There might be some additional data in TRX now (SUR_MO, etc.)
+                string ijeString = ije.ToString();
+                string trxString;
+                trxString = ije.DOD_YR + ije.DOD_MO + ije.DOD_DY;
+                trxString = trxString.PadRight(21,' '); // 21
+                trxString = trxString + ije.R_MO + ije.R_DY + ije.R_YR; // 29
+                trxString = trxString.PadRight(41,' '); // 41
+                trxString = trxString + ije.MANNER;
+                trxString = trxString + ijeString.Substring(701, 335); // starts in 42
+                trxString = trxString.PadRight(500);
+                return (trxString);
+        }
+
+        private static int CompareIJEtoIJE(IJEMortality ije1, IJEMortality ije2, Boolean trxonly = false){
+                string[] ijeonlyfields = new String[]{"DSTATE", "FILENO", "AUXNO", "POILITRL", "HOWINJ","TRANSPRT", "COD1A", "INTERVAL1A", "COD1B", "INTERVAL1B", "OTHERCONDITION", "CERTDATE" };
+                string ijeString1 = ije1.ToString();
+                string ijeString2 = ije2.ToString();
+
+                List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Field).ToList();
+
+                int differences = 0;
+
+                foreach(PropertyInfo property in properties)
+                {
+                    IJEField info = property.GetCustomAttribute<IJEField>();
+                    if(trxonly && ijeonlyfields.Contains(info.Name)){
+                        continue;
+                    }
+                    string field1 = ijeString1.Substring(info.Location - 1, info.Length);
+                    string field2 = ijeString2.Substring(info.Location - 1, info.Length);
+                    if (field1 != field2)
+                    {
+                        differences += 1;
+                        Console.WriteLine($"1: {info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field1 + "\"",-80}");
+                        Console.WriteLine($"2: {info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field2 + "\"",-80}");
+                        Console.WriteLine();
+                    }
+                }
+                Console.WriteLine($"Differences detected: {differences}");
+                return differences;
         }
     }
 }

@@ -2853,7 +2853,13 @@ namespace VRDR.Tests
         public void Set_DateOfDeath()
         {
             SetterDeathRecord.DateOfDeath = "2018-02-19T16:48:00";
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "exact");
+            code.Add("system", CodeSystems.DateOfDeathDeterminationMethods);
+            code.Add("display", "exact");
+            SetterDeathRecord.DateOfDeathDeterminationMethod = code;
             Assert.Equal("2018-02-19T16:48:00", SetterDeathRecord.DateOfDeath);
+            Assert.Equal("exact", SetterDeathRecord.DateOfDeathDeterminationMethod["code"]);
         }
 
         [Fact]

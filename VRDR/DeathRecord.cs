@@ -392,13 +392,15 @@ namespace VRDR
             DeathDateObs.Meta.Profile = deathdate_profile;
             DeathDateObs.Status = ObservationStatus.Final;
             DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date+time of death", null);
-            DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            DeathDateObs.Subject = new ResourceReference("urn:uuid:" + (Decedent!=null?Decedent.Id:"000000000"));
             // A DeathDate can be represented either using the PartialDateTime or the valueDateTime; we always prefer
             // the PartialDateTime representation (though we'll correctly read records using valueDateTime) and so we
             // by default set up all the PartialDate extensions with a default state of "data absent"
             DeathDateObs.Value = new FhirDateTime();
             DeathDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(true));
-            AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
+            if(Decedent!=null){
+                AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
+            }
             Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
         }
         /// <summary>Create Surgery Date Observation.</summary>
@@ -495,7 +497,9 @@ namespace VRDR
             DeathLocationLoc.Meta.Profile = deathlocation_profile;
             DeathLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "death", "death location", null));
             DeathLocationLoc.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
-            AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
+            if(Decedent!=null){
+                AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
+            }
             Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
 
         }

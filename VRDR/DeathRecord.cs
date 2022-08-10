@@ -7277,9 +7277,13 @@ namespace VRDR
         {
             get
             {
-                if (InjuryIncidentObs?.Value != null)
+                if (InjuryIncidentObs?.Value != null && InjuryIncidentObs.Value as CodeableConcept != null)
                 {
-                    return Convert.ToString(InjuryIncidentObs.Value);
+                    Dictionary<string, string> dict = CodeableConceptToDict((CodeableConcept)InjuryIncidentObs.Value);
+                    if (dict.ContainsKey("text"))
+                    {
+                            return (dict["text"]);
+                    }
                 }
                 return null;
             }
@@ -7292,7 +7296,7 @@ namespace VRDR
                 {
                     CreateInjuryIncidentObs();
                 }
-                InjuryIncidentObs.Value = new FhirString(value);
+                InjuryIncidentObs.Value = new CodeableConcept(null, null, null, value);
             }
         }
 

@@ -7278,6 +7278,7 @@ namespace VRDR
             get
             {
                 CodeableConcept concept = InjuryIncidentObs?.Value as CodeableConcept;
+                if(concept != null)
                 {
                     Dictionary<string, string> dict = CodeableConceptToDict(concept);
                     if (dict.ContainsKey("text"))

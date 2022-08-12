@@ -3,7 +3,7 @@ using Hl7.Fhir.Model;
 
 namespace VRDR
 {
-    /// <summary>Class <c>DeathRecordAliasMessage</c> indicates that a previously submitted DeathRecordSubmissionMessage should be voided.</summary>
+    /// <summary>Class <c>DeathRecordAliasMessage</c> indicates that a previously submitted DeathRecordSubmissionMessage has alias information.</summary>
     public class DeathRecordAliasMessage : BaseMessage
     {
         /// <summary>
@@ -25,11 +25,35 @@ namespace VRDR
         {
         }
 
-        /// <summary>Constructor that takes a VRDR.DeathRecord and creates a message to void that record.</summary>
+        /// <summary>Constructor that takes a VRDR.DeathRecord and creates a message to submit an alias for that record.</summary>
         /// <param name="record">the VRDR.DeathRecord to create a DeathRecordAliasMessage for.</param>
         public DeathRecordAliasMessage(DeathRecord record) : this()
         {
             ExtractBusinessIdentifiers(record);
+            if (record.GivenNames.Length > 0)
+            {
+                AliasDecedentFirstName = record.GivenNames[0];
+            }
+            if (record.FamilyName != null)
+            {
+                AliasDecedentLastName = record.FamilyName;
+            }
+            if (record.GivenNames.Length > 1)
+            {
+                AliasDecedentMiddleName = record.GivenNames[1];
+            }
+            if (record.Suffix != null)
+            {
+                AliasDecedentNameSuffix = record.Suffix;
+            }
+            if (record.FatherFamilyName != null)
+            {
+                AliasFatherSurname = record.FatherFamilyName;
+            }
+            if (record.SSN != null)
+            {
+                AliasSocialSecurityNumber = record.SSN;
+            }
         }
 
         /// <summary>Alias for the decedent's first name</summary>

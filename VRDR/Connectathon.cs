@@ -9,7 +9,7 @@ namespace VRDR
     public class Connectathon
     {
         /// <summary>Generate a DeathRecord from one of 5 pre-set records, providing an optional certificate number and state</summary>
-        public static DeathRecord FromId(int id, int? certificateNumber = null, string state = null)
+        public static DeathRecord FromId(int id, int? certificateNumber = null, string state = null, int? year = null)
         {
             DeathRecord record = null;
             switch (id)
@@ -25,14 +25,19 @@ namespace VRDR
                     break;
             }
 
+            if (record != null && certificateNumber != null)
+            {
+                record.Identifier = certificateNumber.ToString();
+            }
+
             if (record != null && state != null)
             {
                 record.DeathLocationJurisdiction = state;
             }
 
-            if (record != null && certificateNumber != null)
+            if (record != null && year != null)
             {
-                record.Identifier = certificateNumber.ToString();
+                record.DeathYear = (uint)year;
             }
 
             return record;

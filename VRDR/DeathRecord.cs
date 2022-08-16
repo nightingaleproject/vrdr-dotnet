@@ -5853,7 +5853,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(DeathDateObs.Method);
                 }
-                return EmptyAddrDict();
+                return EmptyCodeableDict();
             }
             set
             {

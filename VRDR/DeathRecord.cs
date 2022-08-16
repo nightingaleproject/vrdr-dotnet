@@ -7277,9 +7277,10 @@ namespace VRDR
         {
             get
             {
-                if (InjuryIncidentObs?.Value != null)
+                CodeableConcept concept = InjuryIncidentObs?.Value as CodeableConcept;
+                if(concept != null)
                 {
-                    return Convert.ToString(InjuryIncidentObs.Value);
+                    return concept.Text;
                 }
                 return null;
             }
@@ -7292,7 +7293,7 @@ namespace VRDR
                 {
                     CreateInjuryIncidentObs();
                 }
-                InjuryIncidentObs.Value = new FhirString(value);
+                InjuryIncidentObs.Value = new CodeableConcept(null, null, null, value);
             }
         }
 

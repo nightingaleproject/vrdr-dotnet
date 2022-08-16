@@ -1015,7 +1015,8 @@ namespace VRDR.CLI
                 return value.Substring(0, length);
             }
         }
- private static IJEMortality mre2ije(string mrefilename){
+ private static IJEMortality mre2ije(string mrefilename)
+ {
                 // Mapping a MRE file to an IJE file:
                 string mre = File.ReadAllText(mrefilename);
                 mre = mre.PadRight(350);

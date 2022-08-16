@@ -392,7 +392,11 @@ namespace VRDR
             DeathDateObs.Meta.Profile = deathdate_profile;
             DeathDateObs.Status = ObservationStatus.Final;
             DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date+time of death", null);
-            DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            // Decedent is present in DeathCertificateDocuments, and absent in all other bundles.
+            if(Decedent != null)
+            {
+                DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            }
             // A DeathDate can be represented either using the PartialDateTime or the valueDateTime; we always prefer
             // the PartialDateTime representation (though we'll correctly read records using valueDateTime) and so we
             // by default set up all the PartialDate extensions with a default state of "data absent"
@@ -10190,6 +10194,14 @@ namespace VRDR
         ///               CodedContent
         private void AddReferenceToComposition(string reference, string code)
         {
+            // In many of the createXXXXXX methods this gets called as a last step to add a reference to the new instance to the composition.
+            // The Composition is present only in the DeathCertificateDocument, and is absent in all of the other bundles.
+            // In lieu of putting conditional logic in all of the calling methods, added it here.
+            if(Composition == null)
+            {
+                return;
+            }
+
             //Composition.Section.First().Entry.Add(new ResourceReference("urn:uuid:" + reference));
             Composition.SectionComponent section = new Composition.SectionComponent();
             string[] sections = new string[] { "DecedentDemographics", "DeathInvestigation", "DeathCertification", "DecedentDisposition", "CodedContent" };

@@ -1,11 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Net;
-using System.Threading;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.ServiceProcess;
-using VRDR;
+using System.Threading;
 
 namespace VRDR.HTTP
 {
@@ -90,14 +87,13 @@ namespace VRDR.HTTP
 
         public static string GetBodyContent(HttpListenerRequest request)
         {
-            using (System.IO.Stream body = request.InputStream)
+            using (Stream body = request.InputStream)
             {
-                using (System.IO.StreamReader reader = new System.IO.StreamReader(body, request.ContentEncoding))
+                using (StreamReader reader = new StreamReader(body, request.ContentEncoding))
                 {
                     return reader.ReadToEnd();
                 }
             }
         }
-
     }
 }

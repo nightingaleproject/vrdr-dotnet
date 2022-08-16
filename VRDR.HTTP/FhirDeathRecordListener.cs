@@ -1,8 +1,8 @@
 using System;
 using System.Net;
-using System.Threading;
-using System.Linq;
 using System.Text;
+using System.Threading;
+using Newtonsoft.Json;
 
 namespace VRDR.HTTP
 {
@@ -55,15 +55,19 @@ namespace VRDR.HTTP
                                 string rstr = _responderMethod(ctx.Request);
                                 byte[] buf = Encoding.UTF8.GetBytes(rstr);
                                 ctx.Response.ContentLength64 = buf.Length;
+                                ctx.Response.ContentType = "application/json";
                                 ctx.Response.OutputStream.Write(buf, 0, buf.Length);
                             }
                             catch (Exception e)
                             {
                                 string rstr = e.Message;
-                                byte[] buf = Encoding.UTF8.GetBytes(rstr);
+                                var response = new {type = "ConversionError", detail = rstr};
+                                String jsonResponse = JsonConvert.SerializeObject(response);
+                                byte[] buf = Encoding.UTF8.GetBytes(jsonResponse);
                                 ctx.Response.ContentLength64 = buf.Length;
-                                ctx.Response.OutputStream.Write(buf, 0, buf.Length);
+                                ctx.Response.ContentType = "application/problem+json";
                                 ctx.Response.StatusCode = 400;
+                                ctx.Response.OutputStream.Write(buf, 0, buf.Length);
                             }
                             finally
                             {

@@ -402,6 +402,7 @@ namespace VRDR
             // by default set up all the PartialDate extensions with a default state of "data absent"
             DeathDateObs.Value = new FhirDateTime();
             DeathDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(true));
+            DeathDateObs.Method = null;
             AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
         }
@@ -5795,7 +5796,6 @@ namespace VRDR
                 SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
             }
         }
-
         /// <summary>Decedent's Time of Death.</summary>
         /// <value>the decedent's time of death</value>
         /// <example>
@@ -5824,6 +5824,46 @@ namespace VRDR
                 }
                 SetPartialTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
             }
+        }
+
+        /// <summary>DateOfDeathDeterminationMethod.</summary>
+        /// <value>method. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "exact");</para>
+        /// <para>code.Add("system", CodeSystems.DateOfDeathDeterminationMethods);</para>
+        /// <para>code.Add("display", "exact");</para>
+        /// <para>ExampleDeathRecord.DateOfDeathDeterminationMethod = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Date of Death Determination Method: {ExampleDeathRecord.DateOfDeathDeterminationMethod['display']}");</para>
+        /// </example>
+
+       [Property("DateOfDeathDeterminationMethod", Property.Types.Dictionary, "Death Investigation", "Date of Death Determination Method.", true, IGURL.DeathDate, true, 25)]
+       [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5').method", "")]
+        public Dictionary<string, string> DateOfDeathDeterminationMethod
+        {
+            get
+            {
+                if (DeathDateObs != null && (DeathDateObs.Method as CodeableConcept) != null)
+                {
+                    return CodeableConceptToDict(DeathDateObs.Method);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (DeathDateObs == null)
+                {
+                    CreateDeathDateObs();
+                }
+                DeathDateObs.Method = DictToCodeableConcept(value);
+            }
+
         }
 
         /// <summary>Decedent's Date/Time of Death.</summary>

@@ -81,10 +81,6 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a91cc0ff7b025cf029a22a03349d9077b"><td class="memItemLeft" align="right" valign="top"><a id="a91cc0ff7b025cf029a22a03349d9077b" name="a91cc0ff7b025cf029a22a03349d9077b"></a>
-<a class="el" href="class_v_r_d_r_1_1_place_code.html">PlaceCode</a>&#160;</td><td class="memItemRight" valign="bottom"><b>StateCodeToRandomPlace</b> (string state)</td></tr>
-<tr class="memdesc:a91cc0ff7b025cf029a22a03349d9077b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a State code, return a random <a class="el" href="class_v_r_d_r_1_1_place_code.html" title="Helper class providing more descriptive definitions for each PlaceCode field">PlaceCode</a>.<br /></td></tr>
-<tr class="separator:a91cc0ff7b025cf029a22a03349d9077b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4648e3c8f03eaacd959bfcf9009306ea"><td class="memItemLeft" align="right" valign="top"><a id="a4648e3c8f03eaacd959bfcf9009306ea" name="a4648e3c8f03eaacd959bfcf9009306ea"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>StateNameToStateCode</b> (string state)</td></tr>
 <tr class="memdesc:a4648e3c8f03eaacd959bfcf9009306ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a State, Territory, or Province name - return the representative State code.<br /></td></tr>
@@ -109,82 +105,6 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>CountryNameToCountr
 string&#160;</td><td class="memItemRight" valign="bottom"><b>CountryCodeToCountryName</b> (string code)</td></tr>
 <tr class="memdesc:ad7efdd226ad1a37d8ef417f60399bb11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a Country code - return the representative Country name.<br /></td></tr>
 <tr class="separator:ad7efdd226ad1a37d8ef417f60399bb11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0229e8ab7f70e3f92f8ca06b282628e5"><td class="memItemLeft" align="right" valign="top"><a id="a0229e8ab7f70e3f92f8ca06b282628e5" name="a0229e8ab7f70e3f92f8ca06b282628e5"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>StateNameAndCountyNameToCountyCode</b> (string state, string county)</td></tr>
-<tr class="memdesc:a0229e8ab7f70e3f92f8ca06b282628e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a State and County name - return the representative County code.<br /></td></tr>
-<tr class="separator:a0229e8ab7f70e3f92f8ca06b282628e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a318bcb94b4b1805567786860279a6e01"><td class="memItemLeft" align="right" valign="top"><a id="a318bcb94b4b1805567786860279a6e01" name="a318bcb94b4b1805567786860279a6e01"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>StateNameAndCountyCodeToCountyName</b> (string state, string code)</td></tr>
-<tr class="memdesc:a318bcb94b4b1805567786860279a6e01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a County code and a State name - return the representative County name.<br /></td></tr>
-<tr class="separator:a318bcb94b4b1805567786860279a6e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac69cba8234af9d70e93cf519ba0e5a61"><td class="memItemLeft" align="right" valign="top"><a id="ac69cba8234af9d70e93cf519ba0e5a61" name="ac69cba8234af9d70e93cf519ba0e5a61"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>StateNameAndCountyNameAndPlaceNameToPlaceCode</b> (string state, string county, string place)</td></tr>
-<tr class="memdesc:ac69cba8234af9d70e93cf519ba0e5a61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a State, County, and Place name - return the representative Place code.<br /></td></tr>
-<tr class="separator:ac69cba8234af9d70e93cf519ba0e5a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2059842f7698cda532259e86434a846"><td class="memItemLeft" align="right" valign="top"><a id="aa2059842f7698cda532259e86434a846" name="aa2059842f7698cda532259e86434a846"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>StateNameAndCountyNameAndPlaceCodeToPlaceName</b> (string state, string county, string code)</td></tr>
-<tr class="memdesc:aa2059842f7698cda532259e86434a846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a State and County name, and a Place code - return the representative Place name.<br /></td></tr>
-<tr class="separator:aa2059842f7698cda532259e86434a846"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21854a10a49dac9b04af39f504f2cd67"><td class="memItemLeft" align="right" valign="top"><a id="a21854a10a49dac9b04af39f504f2cd67" name="a21854a10a49dac9b04af39f504f2cd67"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>StateCodeAndCityNameToCountyName</b> (string state, string city)</td></tr>
-<tr class="memdesc:a21854a10a49dac9b04af39f504f2cd67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a State and County name, and a Place code - return the representative Place name.<br /></td></tr>
-<tr class="separator:a21854a10a49dac9b04af39f504f2cd67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a167c6e299b0ad8938dbc2503d86cb6bb"><td class="memItemLeft" align="right" valign="top"><a id="a167c6e299b0ad8938dbc2503d86cb6bb" name="a167c6e299b0ad8938dbc2503d86cb6bb"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>EthnicityNameToEthnicityCode</b> (string name)</td></tr>
-<tr class="memdesc:a167c6e299b0ad8938dbc2503d86cb6bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an Ethnicity name - return the representative Ethnicity code.<br /></td></tr>
-<tr class="separator:a167c6e299b0ad8938dbc2503d86cb6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77719a223ca75185a970832f5e723998"><td class="memItemLeft" align="right" valign="top"><a id="a77719a223ca75185a970832f5e723998" name="a77719a223ca75185a970832f5e723998"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>EthnicityCodeToEthnicityName</b> (string code)</td></tr>
-<tr class="memdesc:a77719a223ca75185a970832f5e723998"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an Ethnicity code - return the representative Ethnicity name.<br /></td></tr>
-<tr class="separator:a77719a223ca75185a970832f5e723998"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a409abd8a8ad17354170207cc9dee1ee6"><td class="memItemLeft" align="right" valign="top"><a id="a409abd8a8ad17354170207cc9dee1ee6" name="a409abd8a8ad17354170207cc9dee1ee6"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>AIANRaceNameToRaceCode</b> (string name)</td></tr>
-<tr class="memdesc:a409abd8a8ad17354170207cc9dee1ee6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an American Indian or Alaska Native Race name - return the representative Race code.<br /></td></tr>
-<tr class="separator:a409abd8a8ad17354170207cc9dee1ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af276666561cb4dbfab6211879da779c2"><td class="memItemLeft" align="right" valign="top"><a id="af276666561cb4dbfab6211879da779c2" name="af276666561cb4dbfab6211879da779c2"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>AIANRaceCodeToRaceName</b> (string code)</td></tr>
-<tr class="memdesc:af276666561cb4dbfab6211879da779c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an American Indian or Alaska Native Race code - return the representative Race name.<br /></td></tr>
-<tr class="separator:af276666561cb4dbfab6211879da779c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac537cdfda3f503356abf764ebdca32c2"><td class="memItemLeft" align="right" valign="top"><a id="ac537cdfda3f503356abf764ebdca32c2" name="ac537cdfda3f503356abf764ebdca32c2"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>ARaceNameToRaceCode</b> (string name)</td></tr>
-<tr class="memdesc:ac537cdfda3f503356abf764ebdca32c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an Asian Race name - return the representative Race code.<br /></td></tr>
-<tr class="separator:ac537cdfda3f503356abf764ebdca32c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a38820c9095af210ae72efa68572e3d"><td class="memItemLeft" align="right" valign="top"><a id="a0a38820c9095af210ae72efa68572e3d" name="a0a38820c9095af210ae72efa68572e3d"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>ARaceCodeToRaceName</b> (string code)</td></tr>
-<tr class="memdesc:a0a38820c9095af210ae72efa68572e3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an Asian Race code - return the representative Race name.<br /></td></tr>
-<tr class="separator:a0a38820c9095af210ae72efa68572e3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8525da63a973cc5bb955e3fe3ea2b1bf"><td class="memItemLeft" align="right" valign="top"><a id="a8525da63a973cc5bb955e3fe3ea2b1bf" name="a8525da63a973cc5bb955e3fe3ea2b1bf"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>BAARaceNameToRaceCode</b> (string name)</td></tr>
-<tr class="memdesc:a8525da63a973cc5bb955e3fe3ea2b1bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a Black or African American Race name - return the representative Race code.<br /></td></tr>
-<tr class="separator:a8525da63a973cc5bb955e3fe3ea2b1bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8378ecef768b91f3675488f0ffe368a"><td class="memItemLeft" align="right" valign="top"><a id="ae8378ecef768b91f3675488f0ffe368a" name="ae8378ecef768b91f3675488f0ffe368a"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>BAARaceCodeToRaceName</b> (string code)</td></tr>
-<tr class="memdesc:ae8378ecef768b91f3675488f0ffe368a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a Black or African American Race code - return the representative Race name.<br /></td></tr>
-<tr class="separator:ae8378ecef768b91f3675488f0ffe368a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5892a52639e6115479b7471cf281e391"><td class="memItemLeft" align="right" valign="top"><a id="a5892a52639e6115479b7471cf281e391" name="a5892a52639e6115479b7471cf281e391"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>NHOPIRaceNameToRaceCode</b> (string name)</td></tr>
-<tr class="memdesc:a5892a52639e6115479b7471cf281e391"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a Native Hawaiian or Other Pacific Islander Race name - return the representative Race code.<br /></td></tr>
-<tr class="separator:a5892a52639e6115479b7471cf281e391"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82e810383e964317e93e7bffa6a226c4"><td class="memItemLeft" align="right" valign="top"><a id="a82e810383e964317e93e7bffa6a226c4" name="a82e810383e964317e93e7bffa6a226c4"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>NHOPIRaceCodeToRaceName</b> (string code)</td></tr>
-<tr class="memdesc:a82e810383e964317e93e7bffa6a226c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a Native Hawaiian or Other Pacific Islander Race code - return the representative Race name.<br /></td></tr>
-<tr class="separator:a82e810383e964317e93e7bffa6a226c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0197b5e640164129aeebc8dde91d3d8c"><td class="memItemLeft" align="right" valign="top"><a id="a0197b5e640164129aeebc8dde91d3d8c" name="a0197b5e640164129aeebc8dde91d3d8c"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>WRaceNameToRaceCode</b> (string name)</td></tr>
-<tr class="memdesc:a0197b5e640164129aeebc8dde91d3d8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a White Race name - return the representative Race code.<br /></td></tr>
-<tr class="separator:a0197b5e640164129aeebc8dde91d3d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47bd577c1e02083895b6446dfebdf3b8"><td class="memItemLeft" align="right" valign="top"><a id="a47bd577c1e02083895b6446dfebdf3b8" name="a47bd577c1e02083895b6446dfebdf3b8"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>WRaceCodeToRaceName</b> (string code)</td></tr>
-<tr class="memdesc:a47bd577c1e02083895b6446dfebdf3b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a White Race code - return the representative Race name.<br /></td></tr>
-<tr class="separator:a47bd577c1e02083895b6446dfebdf3b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ac04e3b289cae6aeb78475b9810cf52"><td class="memItemLeft" align="right" valign="top"><a id="a9ac04e3b289cae6aeb78475b9810cf52" name="a9ac04e3b289cae6aeb78475b9810cf52"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>RaceNameToRaceCode</b> (string name)</td></tr>
-<tr class="memdesc:a9ac04e3b289cae6aeb78475b9810cf52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a Race name - return the representative Race code.<br /></td></tr>
-<tr class="separator:a9ac04e3b289cae6aeb78475b9810cf52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef2a6061c83144790192364482713411"><td class="memItemLeft" align="right" valign="top"><a id="aef2a6061c83144790192364482713411" name="aef2a6061c83144790192364482713411"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>RaceCodeToRaceName</b> (string code)</td></tr>
-<tr class="memdesc:aef2a6061c83144790192364482713411"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a Race code - return the representative Race name.<br /></td></tr>
-<tr class="separator:aef2a6061c83144790192364482713411"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -192,26 +112,6 @@ Public Attributes</h2></td></tr>
 Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>JurisdictionCodes</b></td></tr>
 <tr class="memdesc:ab8917f0b69ae35f6a08e14b742deb9f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Jurisdiction Codes<br /></td></tr>
 <tr class="separator:ab8917f0b69ae35f6a08e14b742deb9f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19f254ace86a7d74f698d7ac07a40bf1"><td class="memItemLeft" align="right" valign="top"><a id="a19f254ace86a7d74f698d7ac07a40bf1" name="a19f254ace86a7d74f698d7ac07a40bf1"></a>
-Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>CDCRaceAIANCodes</b></td></tr>
-<tr class="memdesc:a19f254ace86a7d74f698d7ac07a40bf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">CDC Race American Indian or Alaska Native Codes<br /></td></tr>
-<tr class="separator:a19f254ace86a7d74f698d7ac07a40bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79772a17f0c9c9f9ad8792eeed5b1963"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#a79772a17f0c9c9f9ad8792eeed5b1963">CDCRaceACodes</a></td></tr>
-<tr class="memdesc:a79772a17f0c9c9f9ad8792eeed5b1963"><td class="mdescLeft">&#160;</td><td class="mdescRight">CDC Race Asian Codes <a href="class_v_r_d_r_1_1_mortality_data.html#a79772a17f0c9c9f9ad8792eeed5b1963">More...</a><br /></td></tr>
-<tr class="separator:a79772a17f0c9c9f9ad8792eeed5b1963"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45e9ce3e08376e1035a3cc7457eff59a"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#a45e9ce3e08376e1035a3cc7457eff59a">CDCRaceBAACodes</a></td></tr>
-<tr class="memdesc:a45e9ce3e08376e1035a3cc7457eff59a"><td class="mdescLeft">&#160;</td><td class="mdescRight">CDC Race Black or African American Codes <a href="class_v_r_d_r_1_1_mortality_data.html#a45e9ce3e08376e1035a3cc7457eff59a">More...</a><br /></td></tr>
-<tr class="separator:a45e9ce3e08376e1035a3cc7457eff59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fdb74bc19979d8e29d25f548da18b1f"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#a2fdb74bc19979d8e29d25f548da18b1f">CDCRaceNHOPICodes</a></td></tr>
-<tr class="memdesc:a2fdb74bc19979d8e29d25f548da18b1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">CDC Race Native Hawaiian or Other Pacific Islander Codes <a href="class_v_r_d_r_1_1_mortality_data.html#a2fdb74bc19979d8e29d25f548da18b1f">More...</a><br /></td></tr>
-<tr class="separator:a2fdb74bc19979d8e29d25f548da18b1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb50ac8403746213ee83ea34239bc1ce"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#aeb50ac8403746213ee83ea34239bc1ce">CDCRaceWCodes</a></td></tr>
-<tr class="memdesc:aeb50ac8403746213ee83ea34239bc1ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">CDC Race White Codes <a href="class_v_r_d_r_1_1_mortality_data.html#aeb50ac8403746213ee83ea34239bc1ce">More...</a><br /></td></tr>
-<tr class="separator:aeb50ac8403746213ee83ea34239bc1ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e7576431c61a4cf3e8eae502a26b1d1"><td class="memItemLeft" align="right" valign="top"><a id="a6e7576431c61a4cf3e8eae502a26b1d1" name="a6e7576431c61a4cf3e8eae502a26b1d1"></a>
-Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>CDCEthnicityCodes</b></td></tr>
-<tr class="memdesc:a6e7576431c61a4cf3e8eae502a26b1d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">CDC Ethnicity Codes<br /></td></tr>
-<tr class="separator:a6e7576431c61a4cf3e8eae502a26b1d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2717d0b8a25a0657edd08dcad526b327"><td class="memItemLeft" align="right" valign="top"><a id="a2717d0b8a25a0657edd08dcad526b327" name="a2717d0b8a25a0657edd08dcad526b327"></a>
 Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>StateTerritoryProvinceCodes</b></td></tr>
 <tr class="memdesc:a2717d0b8a25a0657edd08dcad526b327"><td class="mdescLeft">&#160;</td><td class="mdescRight">State and Territory Province Codes<br /></td></tr>
@@ -220,10 +120,6 @@ Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bo
 List&lt; KeyValuePair&lt; string, string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>CountryCodes</b></td></tr>
 <tr class="memdesc:a4cda1a311f0f04676ec384570e3d76ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Country Codes based on PH_Country_GEC = 2.16.840.1.113883.13.250 <br /></td></tr>
 <tr class="separator:a4cda1a311f0f04676ec384570e3d76ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d13d72f2b4601338b6019f439b853f7"><td class="memItemLeft" align="right" valign="top"><a id="a0d13d72f2b4601338b6019f439b853f7" name="a0d13d72f2b4601338b6019f439b853f7"></a>
-List&lt; <a class="el" href="class_v_r_d_r_1_1_place_code.html">PlaceCode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>PlaceCodes</b></td></tr>
-<tr class="memdesc:a0d13d72f2b4601338b6019f439b853f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Place Codes<br /></td></tr>
-<tr class="separator:a0d13d72f2b4601338b6019f439b853f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -234,176 +130,7 @@ static <a class="el" href="class_v_r_d_r_1_1_mortality_data.html">MortalityData<
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Data helper class for dealing with IJE mortality data. Follows Singleton-esque pattern!</p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a79772a17f0c9c9f9ad8792eeed5b1963" name="a79772a17f0c9c9f9ad8792eeed5b1963"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79772a17f0c9c9f9ad8792eeed5b1963">&#9670;&nbsp;</a></span>CDCRaceACodes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Dictionary&lt;string, string&gt; VRDR.MortalityData.CDCRaceACodes</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;string, string&gt;()</div>
-<div class="line">        {</div>
-<div class="line">            { <span class="stringliteral">&quot;2028-9&quot;</span>, <span class="stringliteral">&quot;Asian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2029-7&quot;</span>, <span class="stringliteral">&quot;Asian Indian&quot;</span>},</div>
-<div class="line">            { <span class="stringliteral">&quot;2030-5&quot;</span>, <span class="stringliteral">&quot;Bangladeshi&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2031-3&quot;</span>, <span class="stringliteral">&quot;Bhutanese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2032-1&quot;</span>, <span class="stringliteral">&quot;Burmese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2033-9&quot;</span>, <span class="stringliteral">&quot;Cambodian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2034-7&quot;</span>, <span class="stringliteral">&quot;Chinese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2035-4&quot;</span>, <span class="stringliteral">&quot;Taiwanese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2036-2&quot;</span>, <span class="stringliteral">&quot;Filipino&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2037-0&quot;</span>, <span class="stringliteral">&quot;Hmong&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2038-8&quot;</span>, <span class="stringliteral">&quot;Indonesian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2039-6&quot;</span>, <span class="stringliteral">&quot;Japanese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2040-4&quot;</span>, <span class="stringliteral">&quot;Korean&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2041-2&quot;</span>, <span class="stringliteral">&quot;Laotian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2042-0&quot;</span>, <span class="stringliteral">&quot;Malaysian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2043-8&quot;</span>, <span class="stringliteral">&quot;Okinawan&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2044-6&quot;</span>, <span class="stringliteral">&quot;Pakistani&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2045-3&quot;</span>, <span class="stringliteral">&quot;Sri Lankan&quot;</span>},</div>
-<div class="line">            { <span class="stringliteral">&quot;2046-1&quot;</span>, <span class="stringliteral">&quot;Thai&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2047-9&quot;</span>, <span class="stringliteral">&quot;Vietnamese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2048-7&quot;</span>, <span class="stringliteral">&quot;Iwo Jiman&quot;</span>},</div>
-<div class="line">            { <span class="stringliteral">&quot;2049-5&quot;</span>, <span class="stringliteral">&quot;Maldivian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2050-3&quot;</span>, <span class="stringliteral">&quot;Nepalese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2051-1&quot;</span>, <span class="stringliteral">&quot;Singaporean&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2052-9&quot;</span>, <span class="stringliteral">&quot;Madagascar&quot;</span> }</div>
-<div class="line">        }</div>
-</div><!-- fragment -->
-<p>CDC Race Asian Codes</p>
-
-</div>
-</div>
-<a id="a45e9ce3e08376e1035a3cc7457eff59a" name="a45e9ce3e08376e1035a3cc7457eff59a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45e9ce3e08376e1035a3cc7457eff59a">&#9670;&nbsp;</a></span>CDCRaceBAACodes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Dictionary&lt;string, string&gt; VRDR.MortalityData.CDCRaceBAACodes</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;string, string&gt;()</div>
-<div class="line">        {</div>
-<div class="line">            { <span class="stringliteral">&quot;2054-5&quot;</span>, <span class="stringliteral">&quot;Black or African American&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2056-0&quot;</span>, <span class="stringliteral">&quot;Black&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2058-6&quot;</span>, <span class="stringliteral">&quot;African American&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2060-2&quot;</span>, <span class="stringliteral">&quot;African&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2067-7&quot;</span>, <span class="stringliteral">&quot;Bahamian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2068-5&quot;</span>, <span class="stringliteral">&quot;Barbadian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2069-3&quot;</span>, <span class="stringliteral">&quot;Dominican&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2070-1&quot;</span>, <span class="stringliteral">&quot;Dominica Islander&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2071-9&quot;</span>, <span class="stringliteral">&quot;Haitian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2072-7&quot;</span>, <span class="stringliteral">&quot;Jamaican&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2073-5&quot;</span>, <span class="stringliteral">&quot;Tobagoan&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2074-3&quot;</span>, <span class="stringliteral">&quot;Trinidadian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2075-0&quot;</span>, <span class="stringliteral">&quot;West Indian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2061-0&quot;</span>, <span class="stringliteral">&quot;Botswanan&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2062-8&quot;</span>, <span class="stringliteral">&quot;Ethiopian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2063-6&quot;</span>, <span class="stringliteral">&quot;Liberian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2064-4&quot;</span>, <span class="stringliteral">&quot;Namibian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2065-1&quot;</span>, <span class="stringliteral">&quot;Nigerian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2066-9&quot;</span>, <span class="stringliteral">&quot;Zairean&quot;</span> }</div>
-<div class="line">        }</div>
-</div><!-- fragment -->
-<p>CDC Race Black or African American Codes</p>
-
-</div>
-</div>
-<a id="a2fdb74bc19979d8e29d25f548da18b1f" name="a2fdb74bc19979d8e29d25f548da18b1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fdb74bc19979d8e29d25f548da18b1f">&#9670;&nbsp;</a></span>CDCRaceNHOPICodes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Dictionary&lt;string, string&gt; VRDR.MortalityData.CDCRaceNHOPICodes</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;string, string&gt;()</div>
-<div class="line">        {</div>
-<div class="line">            { <span class="stringliteral">&quot;2076-8&quot;</span>, <span class="stringliteral">&quot;Native Hawaiian or Other Pacific Islander&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2078-4&quot;</span>, <span class="stringliteral">&quot;Polynesian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2085-9&quot;</span>, <span class="stringliteral">&quot;Micronesian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2100-6&quot;</span>, <span class="stringliteral">&quot;Melanesian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2500-7&quot;</span>, <span class="stringliteral">&quot;Other Pacific Islander&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2079-2&quot;</span>, <span class="stringliteral">&quot;Native Hawaiian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2080-0&quot;</span>, <span class="stringliteral">&quot;Samoan&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2081-8&quot;</span>, <span class="stringliteral">&quot;Tahitian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2082-6&quot;</span>, <span class="stringliteral">&quot;Tongan&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2083-4&quot;</span>, <span class="stringliteral">&quot;Tokelauan&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2086-7&quot;</span>, <span class="stringliteral">&quot;Guamanian or Chamorro&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2087-5&quot;</span>, <span class="stringliteral">&quot;Guamanian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2088-3&quot;</span>, <span class="stringliteral">&quot;Chamorro&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2089-1&quot;</span>, <span class="stringliteral">&quot;Mariana Islander&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2090-9&quot;</span>, <span class="stringliteral">&quot;Marshallese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2091-7&quot;</span>, <span class="stringliteral">&quot;Palauan&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2092-5&quot;</span>, <span class="stringliteral">&quot;Carolinian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2093-3&quot;</span>, <span class="stringliteral">&quot;Kosraean&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2094-1&quot;</span>, <span class="stringliteral">&quot;Pohnpeian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2095-8&quot;</span>, <span class="stringliteral">&quot;Saipanese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2096-6&quot;</span>, <span class="stringliteral">&quot;Kiribati&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2097-4&quot;</span>, <span class="stringliteral">&quot;Chuukese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2098-2&quot;</span>, <span class="stringliteral">&quot;Yapese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2101-4&quot;</span>, <span class="stringliteral">&quot;Fijian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2102-2&quot;</span>, <span class="stringliteral">&quot;Papua New Guinean&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2103-0&quot;</span>, <span class="stringliteral">&quot;Solomon Islander&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2104-8&quot;</span>, <span class="stringliteral">&quot;New Hebrides&quot;</span> }</div>
-<div class="line">        }</div>
-</div><!-- fragment -->
-<p>CDC Race Native Hawaiian or Other Pacific Islander Codes</p>
-
-</div>
-</div>
-<a id="aeb50ac8403746213ee83ea34239bc1ce" name="aeb50ac8403746213ee83ea34239bc1ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb50ac8403746213ee83ea34239bc1ce">&#9670;&nbsp;</a></span>CDCRaceWCodes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Dictionary&lt;string, string&gt; VRDR.MortalityData.CDCRaceWCodes</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;string, string&gt;()</div>
-<div class="line">        {</div>
-<div class="line">            { <span class="stringliteral">&quot;2106-3&quot;</span>, <span class="stringliteral">&quot;White&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2108-9&quot;</span>, <span class="stringliteral">&quot;European&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2118-8&quot;</span>, <span class="stringliteral">&quot;Middle Eastern or North African&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2129-5&quot;</span>, <span class="stringliteral">&quot;Arab&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2109-7&quot;</span>, <span class="stringliteral">&quot;Armenian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2110-5&quot;</span>, <span class="stringliteral">&quot;English&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2111-3&quot;</span>, <span class="stringliteral">&quot;French&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2112-1&quot;</span>, <span class="stringliteral">&quot;German&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2113-9&quot;</span>, <span class="stringliteral">&quot;Irish&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2114-7&quot;</span>, <span class="stringliteral">&quot;Italian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2115-4&quot;</span>, <span class="stringliteral">&quot;Polish&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2116-2&quot;</span>, <span class="stringliteral">&quot;Scottish&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2119-6&quot;</span>, <span class="stringliteral">&quot;Assyrian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2120-4&quot;</span>, <span class="stringliteral">&quot;Egyptian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2121-2&quot;</span>, <span class="stringliteral">&quot;Iranian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2122-0&quot;</span>, <span class="stringliteral">&quot;Iraqi&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2123-8&quot;</span>, <span class="stringliteral">&quot;Lebanese&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2124-6&quot;</span>, <span class="stringliteral">&quot;Palestinian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2125-3&quot;</span>, <span class="stringliteral">&quot;Syrian&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2126-1&quot;</span>, <span class="stringliteral">&quot;Afghanistani&quot;</span> },</div>
-<div class="line">            { <span class="stringliteral">&quot;2127-9&quot;</span>, <span class="stringliteral">&quot;Israeili&quot;</span> }</div>
-<div class="line">        }</div>
-</div><!-- fragment -->
-<p>CDC Race White Codes</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>VRDR/MortalityData.cs</li>
 </ul>
 </div><!-- contents -->

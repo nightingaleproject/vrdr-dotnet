@@ -28,11 +28,9 @@ var searchData=
   ['ethnicity3helper_25',['Ethnicity3Helper',['../class_v_r_d_r_1_1_death_record.html#a063fbc918d20b086cc129a3a90b3323c',1,'VRDR::DeathRecord']]],
   ['ethnicity4_26',['Ethnicity4',['../class_v_r_d_r_1_1_death_record.html#a7e7255ed4d8e19cb66b9186354415cb1',1,'VRDR::DeathRecord']]],
   ['ethnicity4helper_27',['Ethnicity4Helper',['../class_v_r_d_r_1_1_death_record.html#a39713ee4bee08924cc9fe97f73b0b6fb',1,'VRDR::DeathRecord']]],
-  ['ethnicitycodetoethnicityname_28',['EthnicityCodeToEthnicityName',['../class_v_r_d_r_1_1_mortality_data.html#a77719a223ca75185a970832f5e723998',1,'VRDR::MortalityData']]],
-  ['ethnicityliteral_29',['EthnicityLiteral',['../class_v_r_d_r_1_1_death_record.html#a26884f8ebdd9c0d222e602dde12720b7',1,'VRDR::DeathRecord']]],
-  ['ethnicitynametoethnicitycode_30',['EthnicityNameToEthnicityCode',['../class_v_r_d_r_1_1_mortality_data.html#a167c6e299b0ad8938dbc2503d86cb6bb',1,'VRDR::MortalityData']]],
-  ['examinercontacted_31',['ExaminerContacted',['../class_v_r_d_r_1_1_death_record.html#a0be75f373f27b20c3b1b78f9bd4456d7',1,'VRDR::DeathRecord']]],
-  ['examinercontactedhelper_32',['ExaminerContactedHelper',['../class_v_r_d_r_1_1_death_record.html#ad689631be73317346b227a7e876f479a',1,'VRDR::DeathRecord']]],
-  ['extractbusinessidentifiers_33',['ExtractBusinessIdentifiers',['../class_v_r_d_r_1_1_base_message.html#a67285d04ed7e729cc7dc7d064fdd54d0',1,'VRDR::BaseMessage']]],
-  ['extractionerrormessage_34',['ExtractionErrorMessage',['../class_v_r_d_r_1_1_extraction_error_message.html#ab3f2357b990a9ea82c0831749f2554a2',1,'VRDR.ExtractionErrorMessage.ExtractionErrorMessage(BaseMessage sourceMessage)'],['../class_v_r_d_r_1_1_extraction_error_message.html#a6b7b39f98b844ddda77656ef392ec704',1,'VRDR.ExtractionErrorMessage.ExtractionErrorMessage(string messageId, string destination, string source=&quot;http://nchs.cdc.gov/vrdr_submission&quot;)'],['../class_v_r_d_r_1_1_extraction_error_message.html',1,'VRDR.ExtractionErrorMessage']]]
+  ['ethnicityliteral_28',['EthnicityLiteral',['../class_v_r_d_r_1_1_death_record.html#a26884f8ebdd9c0d222e602dde12720b7',1,'VRDR::DeathRecord']]],
+  ['examinercontacted_29',['ExaminerContacted',['../class_v_r_d_r_1_1_death_record.html#a0be75f373f27b20c3b1b78f9bd4456d7',1,'VRDR::DeathRecord']]],
+  ['examinercontactedhelper_30',['ExaminerContactedHelper',['../class_v_r_d_r_1_1_death_record.html#ad689631be73317346b227a7e876f479a',1,'VRDR::DeathRecord']]],
+  ['extractbusinessidentifiers_31',['ExtractBusinessIdentifiers',['../class_v_r_d_r_1_1_base_message.html#a67285d04ed7e729cc7dc7d064fdd54d0',1,'VRDR::BaseMessage']]],
+  ['extractionerrormessage_32',['ExtractionErrorMessage',['../class_v_r_d_r_1_1_extraction_error_message.html#ab3f2357b990a9ea82c0831749f2554a2',1,'VRDR.ExtractionErrorMessage.ExtractionErrorMessage(BaseMessage sourceMessage)'],['../class_v_r_d_r_1_1_extraction_error_message.html#a6b7b39f98b844ddda77656ef392ec704',1,'VRDR.ExtractionErrorMessage.ExtractionErrorMessage(string messageId, string destination, string source=&quot;http://nchs.cdc.gov/vrdr_submission&quot;)'],['../class_v_r_d_r_1_1_extraction_error_message.html',1,'VRDR.ExtractionErrorMessage']]]
 ];

@@ -44,44 +44,43 @@ namespace VRDR.HTTP
             string requestBody = GetBodyContent(request);
             DeathRecord deathRecord = null;
 
-            Console.WriteLine(
-                $"Request from: {request.UserHostAddress}, type: {request.ContentType}, url: {request.RawUrl}.");
+            Console.WriteLine($"Request from: {request.UserHostAddress}, type: {request.ContentType}, url: {request.RawUrl}.");
 
             // Look at content type to determine input format; be permissive in what we accept as format specification
-                switch (request.ContentType)
-                {
-                    case string ijeType when new Regex(@"ije").IsMatch(ijeType): // application/ije
-                        IJEMortality ije = new IJEMortality(requestBody);
-                        deathRecord = ije.ToDeathRecord();
-                        break;
-                    case string nightingaleType when new Regex(@"nightingale").IsMatch(nightingaleType):
-                        deathRecord = Nightingale.FromNightingale(requestBody);
-                        break;
-                    case string jsonType when new Regex(@"json").IsMatch(jsonType): // application/fhir+json
-                    case string xmlType when new Regex(@"xml").IsMatch(xmlType): // application/fhir+xml
-                    default:
-                        deathRecord = new DeathRecord(requestBody);
-                        break;
-                }
+            switch (request.ContentType)
+            {
+                case string ijeType when new Regex(@"ije").IsMatch(ijeType): // application/ije
+                    IJEMortality ije = new IJEMortality(requestBody);
+                    deathRecord = ije.ToDeathRecord();
+                    break;
+                case string nightingaleType when new Regex(@"nightingale").IsMatch(nightingaleType):
+                    deathRecord = Nightingale.FromNightingale(requestBody);
+                    break;
+                case string jsonType when new Regex(@"json").IsMatch(jsonType): // application/fhir+json
+                case string xmlType when new Regex(@"xml").IsMatch(xmlType): // application/fhir+xml
+                default:
+                    deathRecord = new DeathRecord(requestBody);
+                    break;
+            }
 
             // Look at URL extension to determine output format; be permissive in what we accept as format specification
             string result = "";
-                switch (request.RawUrl)
-                {
-                    case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
-                        IJEMortality ije = new IJEMortality(deathRecord);
-                        result = ije.ToString();
-                        break;
-                    case string url when new Regex(@"json$").IsMatch(url): // .json
-                        result = deathRecord.ToJSON();
-                        break;
-                    case string url when new Regex(@"xml$").IsMatch(url): // .xml
-                        result = deathRecord.ToXML();
-                        break;
-                    case string url when new Regex(@"nightingale$").IsMatch(url): // .nightingale
-                        result = Nightingale.ToNightingale(deathRecord);
-                        break;
-                }
+            switch (request.RawUrl)
+            {
+                case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
+                    IJEMortality ije = new IJEMortality(deathRecord);
+                    result = ije.ToString();
+                    break;
+                case string url when new Regex(@"json$").IsMatch(url): // .json
+                    result = deathRecord.ToJSON();
+                    break;
+                case string url when new Regex(@"xml$").IsMatch(url): // .xml
+                    result = deathRecord.ToXML();
+                    break;
+                case string url when new Regex(@"nightingale$").IsMatch(url): // .nightingale
+                    result = Nightingale.ToNightingale(deathRecord);
+                    break;
+            }
 
             return result;
         }

@@ -29,7 +29,7 @@ public class Client
     }
     // GetMessageResponsesAsync makes a GET request to the NVSS FHIR API server for any new messages
     // responses
-    public HttpResponseMessage GetMessageResponsesAsync()
+    public async Task<HttpResponseMessage> GetMessageResponsesAsync()
     {
         var address = this.Url;
         Console.WriteLine($">>> Retrieving new messages from NCHS...");
@@ -38,7 +38,7 @@ public class Client
         if (!this.LocalTesting){
             if (String.IsNullOrEmpty(this.Token))
             {
-                HttpResponseMessage authResponse = RefreshAccessToken();
+                HttpResponseMessage authResponse = await RefreshAccessTokenAsync();
                 // return authentication error
                 if (!authResponse.IsSuccessStatusCode)
                 {
@@ -47,25 +47,25 @@ public class Client
             }
         }
 
-        var response = client.GetAsync(address).Result;
+        var response = await client.GetAsync(address).Result;
 
         // check if the token expired, refresh and try again
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
-            HttpResponseMessage authRetry = RefreshAccessToken();
+            HttpResponseMessage authRetry = await RefreshAccessTokenAsync();
             // return authentication error
             if (!authRetry.IsSuccessStatusCode)
             {
                 return authRetry;
             }
-            response = client.GetAsync(this.Url).Result;
+            response = await client.GetAsync(this.Url).Result;
         }
         
         return response;
     }
 
     // PostMessageAsync POSTS a single message to the NVSS FHIR API server for processing
-    public HttpResponseMessage PostMessageAsync(BaseMessage message)
+    public async Task<HttpResponseMessage> PostMessageAsync(BaseMessage message)
     {
 
         var json = message.ToJSON();
@@ -75,7 +75,7 @@ public class Client
         if (!this.LocalTesting){
             if (String.IsNullOrEmpty(this.Token))
             {
-                HttpResponseMessage authResponse = RefreshAccessToken();
+                HttpResponseMessage authResponse = await RefreshAccessTokenAsync();
                 // return authentication error
                 if (!authResponse.IsSuccessStatusCode)
                 {
@@ -83,29 +83,31 @@ public class Client
                 }
             }
         }
-
         var response = client.PostAsync(this.Url, data).Result;
 
         // check if the token expired, refresh and try again
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
-            HttpResponseMessage authRetry = RefreshAccessToken();
+            HttpResponseMessage authRetry = await RefreshAccessTokenAsync();
             // return authentication error
             if (!authRetry.IsSuccessStatusCode)
             {
                 return authRetry;
             }
-            response = client.PostAsync(this.Url, data).Result;
+            response = await client.PostAsync(this.Url, data);
         }
 
         return response;
     }
 
-    private HttpResponseMessage RefreshAccessToken(){
-        HttpResponseMessage response = GetAuthorizeToken();
+    private async Task<HttpResponseMessage> RefreshAccessTokenAsync(){
+        // clear the authentication headers
+        client.DefaultRequestHeaders.Authorization = null;
+
+        HttpResponseMessage response = await GetAuthorizeTokenAsync();
         if (response.IsSuccessStatusCode)
         {
-            var content = response.Content.ReadAsStringAsync().Result;
+            var content = await response.Content.ReadAsStringAsync();
             if (!String.IsNullOrEmpty(content))
             {
                 JObject json = JObject.Parse(content);
@@ -124,7 +126,7 @@ public class Client
     }
 
     /// <summary>Returns the token for the client's credientials</summary>
-    public HttpResponseMessage GetAuthorizeToken()
+    public async Task<HttpResponseMessage> GetAuthorizeTokenAsync()
     {
         // add credentials to the request
         Dictionary<string, string> parameters = new Dictionary<string, string>();
@@ -135,7 +137,7 @@ public class Client
         parameters.Add("password", this.Credentials.Pass);
         
         var request = new HttpRequestMessage(HttpMethod.Post, this.Credentials.Url){Content = new FormUrlEncodedContent(parameters)};
-        var response = client.Send(request);
+        var response = await client.SendAsync(request);
 
         return response;
     }

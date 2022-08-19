@@ -180,7 +180,8 @@ namespace VRDR
             {"WI","Wisconsin"},
             {"WY","Wyoming"},
             {"YC","New York City"},
-            {"TT","Test Jurisdiction"} // This should only be used for testing with NCHS.
+            {"TT","Test Jurisdiction"}, // This should only be used for testing with NCHS.
+            {"TS","STEVE Test Jurisdiction"} // This should only be used for STEVE testing with NCHS.
         };
 
         /// <summary>State and Territory Province Codes</summary>

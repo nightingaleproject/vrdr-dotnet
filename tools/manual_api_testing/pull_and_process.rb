@@ -66,19 +66,19 @@ searchset['entry'].each do |entry|
     case header['eventUri']
     when 'http://nchs.cdc.gov/vrdr_acknowledgement'
       puts "Found an acknowledgement message for message #{header['response']['identifier']} for certificate #{identifier}, skipping"
-      File.write("submission_acknowledgement_message_#{identifier}.json", resource.to_json)
+      File.write("#{identifier}_submission_acknowledgement_message.json", resource.to_json)
     when 'http://nchs.cdc.gov/vrdr_extraction_error'
       puts "Found an extraction error message for message #{header['response']['identifier']} for certificate #{identifier}, skipping"
-      File.write("extraction_error_message_#{identifier}.json", resource.to_json)
+      File.write("#{identifier}_extraction_error_message.json", resource.to_json)
     when 'http://nchs.cdc.gov/vrdr_causeofdeath_coding', 'http://nchs.cdc.gov/vrdr_demographics_coding'
       id = header['id']
       puts "Found a coding response message of type #{header['eventUri']} with ID #{id} for certificate #{identifier}, acknowledging"
-      File.write("#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_coding_response_message_#{identifier}.json", resource.to_json)
+      File.write("#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_coding_response_message.json", resource.to_json)
       Tempfile.create do |f|
         f << resource.to_json
         f.flush
         ack = `dotnet run --project /Users/krautscheid/git/vrdr-dotnet/VRDR.CLI ack #{f.path}`
-        File.write("#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_acknowledgement_message_#{identifier}.json", ack)
+        File.write("#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_acknowledgement_message.json", ack)
         response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
                               headers: { 'Content-Type' => 'application/json' },
                               body: ack)

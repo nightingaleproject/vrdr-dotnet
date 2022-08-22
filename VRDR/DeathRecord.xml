@@ -142,131 +142,853 @@
             HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
             http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
             </summary>
+            <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
+            Record. This class was designed to help consume and produce death records that follow the
+            HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
+            http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
+            </summary>
+            <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
+            Record. This class was designed to help consume and produce death records that follow the
+            HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
+            http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
+            </summary>
+            <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
+            Record. This class was designed to help consume and produce death records that follow the
+            HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
+            http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
+            </summary>
+            <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
+            Record. This class was designed to help consume and produce death records that follow the
+            HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
+            http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
+            </summary>
+            <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
+            Record. This class was designed to help consume and produce death records that follow the
+            HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
+            http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
+            </summary>
         </member>
-        <member name="F:VRDR.DeathRecord.BlankPlaceholder">
-            <summary>String to represent a blank value when an empty string is not allowed</summary>
+        <member name="P:VRDR.DeathRecord.ActivityAtDeath">
+            <summary>Activity at Time of Death.</summary>
+            <value>the decedent's activity at time of death. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; activity = new Dictionary&lt;string, string&gt;();</para>
+            <para>elevel.Add("code", "0");</para>
+            <para>elevel.Add("system", CodeSystems.ActivityAtTimeOfDeath);</para>
+            <para>elevel.Add("display", "While engaged in sports activity");</para>
+            <para>ExampleDeathRecord.ActivityAtDeath = activity;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
+            </example>
         </member>
-        <member name="F:VRDR.DeathRecord.MortalityData">
-            <summary>Mortality data for code translations.</summary>
+        <member name="P:VRDR.DeathRecord.ActivityAtDeathHelper">
+            <summary>Decedent's Activity At Time of Death Helper</summary>
+            <value>Decedent's Activity at Time of Death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ActivityAtDeath = 0;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Activity at Time of Death: {ExampleDeathRecord.ActivityAtDeath}");</para>
+            </example>
         </member>
-        <member name="F:VRDR.DeathRecord.Navigator">
-            <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
+        <member name="P:VRDR.DeathRecord.AutomatedUnderlyingCOD">
+            <summary>Decedent's Automated Underlying Cause of Death</summary>
+            <value>Decedent's Automated Underlying Cause of Death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AutomatedUnderlyingCOD = "I13.1";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Automated Underlying Cause of Death: {ExampleDeathRecord.AutomatedUnderlyingCOD}");</para>
+            </example>
         </member>
-        <member name="F:VRDR.DeathRecord.Bundle">
-            <summary>Bundle that contains the death record.</summary>
+        <member name="P:VRDR.DeathRecord.ManUnderlyingCOD">
+            <summary>Decedent's Manual Underlying Cause of Death</summary>
+            <value>Decedent's Manual Underlying Cause of Death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ManUnderlyingCOD = "I13.1";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Manual Underlying Cause of Death: {ExampleDeathRecord.ManUnderlyingCOD}");</para>
+            </example>
         </member>
-        <member name="F:VRDR.DeathRecord.Composition">
-            <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
+        <member name="P:VRDR.DeathRecord.PlaceOfInjury">
+            <summary>Place of Injury.</summary>
+            <value>Place of Injury. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
+            <para>elevel.Add("code", "LA14084-0");</para>
+            <para>elevel.Add("system", CodeSystems.LOINC);</para>
+            <para>elevel.Add("display", "Home");</para>
+            <para>ExampleDeathRecord.PlaceOfInjury = elevel;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"PlaceOfInjury: {ExampleDeathRecord.PlaceOfInjury['display']}");</para>
+            </example>
         </member>
-        <member name="F:VRDR.DeathRecord.Decedent">
-            <summary>The Decedent.</summary>
+        <member name="P:VRDR.DeathRecord.PlaceOfInjuryHelper">
+            <summary>Decedent's Place of Injury Helper</summary>
+            <value>Place of Injury.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.PlaceOfInjuryHelper = ValueSets.PlaceOfInjury.Home;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.PlaceOfInjuryHelper}");</para>
+            </example>
         </member>
-        <member name="F:VRDR.DeathRecord.InputRaceAndEthnicityObs">
-            <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        <member name="P:VRDR.DeathRecord.FirstEditedRaceCode">
+            <summary>First Edited Race Code.</summary>
+            <value>First Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.FirstEditedRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FirstEditedRaceCodeHelper">
+            <summary>First Edited Race Code  Helper</summary>
+            <value>First Edited Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FirstEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondEditedRaceCode">
+            <summary>Second Edited Race Code.</summary>
+            <value>Second Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.SecondEditedRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second Edited Race Code: {ExampleDeathRecord.SecondEditedRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondEditedRaceCodeHelper">
+            <summary>Second Edited Race Code  Helper</summary>
+            <value>Second Edited Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SecondEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second Edited Race Code: {ExampleDeathRecord.SecondEditedRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ThirdEditedRaceCode">
+            <summary>Third Edited Race Code.</summary>
+            <value>Third Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.ThirdEditedRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Third Edited Race Code: {ExampleDeathRecord.ThirdEditedRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ThirdEditedRaceCodeHelper">
+            <summary>Third Edited Race Code  Helper</summary>
+            <value>Third Edited Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ThirdEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Third Edited Race Code: {ExampleDeathRecord.ThirdEditedRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FourthEditedRaceCode">
+            <summary>Fourth Edited Race Code.</summary>
+            <value>Fourth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.FourthEditedRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Fourth Edited Race Code: {ExampleDeathRecord.FourthEditedRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FourthEditedRaceCodeHelper">
+            <summary>Fourth Edited Race Code  Helper</summary>
+            <value>Fourth Edited Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FourthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Fourth Edited Race Code: {ExampleDeathRecord.FourthEditedRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FifthEditedRaceCode">
+            <summary>Fifth Edited Race Code.</summary>
+            <value>Fifth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.FifthEditedRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Fifth Edited Race Code: {ExampleDeathRecord.FifthEditedRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FifthEditedRaceCodeHelper">
+            <summary>Fifth Edited Race Code  Helper</summary>
+            <value>Fifth Edited Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FifthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Fifth Edited Race Code: {ExampleDeathRecord.FifthEditedRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SixthEditedRaceCode">
+            <summary>Sixth Edited Race Code.</summary>
+            <value>Sixth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.SixthEditedRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Sixth Edited Race Code: {ExampleDeathRecord.SixthEditedRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SixthEditedRaceCodeHelper">
+            <summary>Sixth Edited Race Code  Helper</summary>
+            <value>Sixth Edited Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SixthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Sixth Edited Race Code: {ExampleDeathRecord.SixthEditedRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SeventhEditedRaceCode">
+            <summary>Seventh Edited Race Code.</summary>
+            <value>Seventh Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.SeventhEditedRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Seventh Edited Race Code: {ExampleDeathRecord.SeventhEditedRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SeventhEditedRaceCodeHelper">
+            <summary>Seventh Edited Race Code  Helper</summary>
+            <value>Seventh Edited Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SeventhEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Seventh Edited Race Code: {ExampleDeathRecord.SeventhEditedRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EighthEditedRaceCode">
+            <summary>Eighth Edited Race Code.</summary>
+            <value>Eighth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.EighthEditedRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Eighth Edited Race Code: {ExampleDeathRecord.EighthEditedRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EighthEditedRaceCodeHelper">
+            <summary>Eighth Edited Race Code  Helper</summary>
+            <value>Eighth Edited Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EighthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Eighth Edited Race Code: {ExampleDeathRecord.EighthEditedRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FirstAmericanIndianRaceCode">
+            <summary>First American Indian Race Code.</summary>
+            <value>First American Indian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.FirstAmericanIndianRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First American Indian Race Code: {ExampleDeathRecord.FirstAmericanIndianRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FirstAmericanIndianRaceCodeHelper">
+            <summary>First American Indian Race Code  Helper</summary>
+            <value>First American Indian Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FirstAmericanIndianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First American Indian Race Code: {ExampleDeathRecord.FirstAmericanIndianRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondAmericanIndianRaceCode">
+            <summary>Second American Indian Race Code.</summary>
+            <value>Second American Indian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.SecondAmericanIndianRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second American Indian Race Code: {ExampleDeathRecord.SecondAmericanIndianRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondAmericanIndianRaceCodeHelper">
+            <summary>Second American Indian Race Code  Helper</summary>
+            <value>Second American Indian Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SecondAmericanIndianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second American Indian Race Code: {ExampleDeathRecord.SecondAmericanIndianRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FirstOtherAsianRaceCode">
+            <summary>First Other Asian Race Code.</summary>
+            <value>First Other Asian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.FirstOtherAsianRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Other Asian Race Code: {ExampleDeathRecord.FirstOtherAsianRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FirstOtherAsianRaceCodeHelper">
+            <summary>First Other Asian Race Code  Helper</summary>
+            <value>First Other Asian Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FirstOtherAsianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Other Asian Race Code: {ExampleDeathRecord.FirstOtherAsianRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondOtherAsianRaceCode">
+            <summary>Second Other Asian Race Code.</summary>
+            <value>Second Other Asian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.SecondOtherAsianRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second Other Asian Race Code: {ExampleDeathRecord.SecondOtherAsianRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondOtherAsianRaceCodeHelper">
+            <summary>Second Other Asian Race Code  Helper</summary>
+            <value>Second Other Asian Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SecondOtherAsianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second Other Asian Race Code: {ExampleDeathRecord.SecondOtherAsianRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FirstOtherPacificIslanderRaceCode">
+            <summary>First Other Pacific Islander Race Code.</summary>
+            <value>First Other Pacific Islander Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.FirstOtherPacificIslanderRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Other Pacific Islander Race Code: {ExampleDeathRecord.FirstOtherPacificIslanderRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FirstOtherPacificIslanderRaceCodeHelper">
+            <summary>First Other Pacific Islander Race Code  Helper</summary>
+            <value>First Other Pacific Islander Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FirstOtherPacificIslanderRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Other Pacific Islander Race Code: {ExampleDeathRecord.FirstOtherPacificIslanderRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondOtherPacificIslanderRaceCode">
+            <summary>Second Other Pacific Islander Race Code.</summary>
+            <value>Second Other Pacific Islander Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.SecondOtherPacificIslanderRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second Other Pacific Islander Race Code: {ExampleDeathRecord.SecondOtherPacificIslanderRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondOtherPacificIslanderRaceCodeHelper">
+            <summary>Second Other Pacific Islander Race Code  Helper</summary>
+            <value>Second Other Pacific Islander Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SecondOtherPacificIslanderRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second Other Pacific Islander Race Code: {ExampleDeathRecord.SecondOtherPacificIslanderRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FirstOtherRaceCode">
+            <summary>First Other Race Code.</summary>
+            <value>First Other Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.FirstOtherRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Other Race Code: {ExampleDeathRecord.FirstOtherRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.FirstOtherRaceCodeHelper">
+            <summary>First Other Race Code  Helper</summary>
+            <value>First Other Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FirstOtherRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Other Race Code: {ExampleDeathRecord.FirstOtherRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondOtherRaceCode">
+            <summary>Second Other Race Code.</summary>
+            <value>Second Other Race Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.SecondOtherRaceCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second Other Race Code: {ExampleDeathRecord.SecondOtherRaceCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.SecondOtherRaceCodeHelper">
+            <summary>Second Other Race Code  Helper</summary>
+            <value>Second Other Race Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SecondOtherRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Second Other Race Code: {ExampleDeathRecord.SecondOtherRaceCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.HispanicCode">
+            <summary>Hispanic Code.</summary>
+            <value>Hispanic Code. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.HispanicCode = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Hispanic Code: {ExampleDeathRecord.HispanicCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.HispanicCodeHelper">
+            <summary>Hispanic Code  Helper</summary>
+            <value>Hispanic Code Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.HispanicCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Hispanic Code: {ExampleDeathRecord.HispanicCodeHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.HispanicCodeForLiteral">
+            <summary>Hispanic Code For Literal.</summary>
+            <value>Hispanic Code For Literal. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "300");</para>
+            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+            <para>racecode.Add("display", "African");</para>
+            <para>ExampleDeathRecord.HispanicCodeForLiteral = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Hispanic Code For Literal: {ExampleDeathRecord.HispanicCodeForLiteral['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.HispanicCodeForLiteralHelper">
+            <summary>Hispanic Code For Literal  Helper</summary>
+            <value>Hispanic Code For Literal Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.HispanicCodeForLiteralHelper = VRDR.ValueSets.RaceCode.African ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Hispanic Code For Literal: {ExampleDeathRecord.HispanicCodeForLiteralHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.RaceRecode40">
+            <summary>Race Recode 40.</summary>
+            <value>Race Recode 40. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+            <para>racecode.Add("code", "09");</para>
+            <para>racecode.Add("system", CodeSystems.RaceRecode40CS);</para>
+            <para>racecode.Add("display", "Vietnamiese");</para>
+            <para>ExampleDeathRecord.RaceRecode40 = racecode;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"RaceRecode40: {ExampleDeathRecord.RaceRecode40['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.RaceRecode40Helper">
+            <summary>Race Recode 40  Helper</summary>
+            <value>Race Recode 40 Helper.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.RaceRecode40Helper = VRDR.ValueSets.RaceRecode40.AIAN ;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Race Recode 40: {ExampleDeathRecord.RaceRecode40Helper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EntityAxisCauseOfDeath">
+            <summary>Entity Axis Cause Of Death
+            <para>Note that record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
+            http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage></para>
+            </summary>
+            <value>Entity-axis codes</value>
+            <example>
+            <para>// Setter:</para>
+            <para> ExampleDeathRecord.EntityAxisCauseOfDeath = new [] {(LineNumber: 2, Position: 1, Code: "T27.3", ECode: true)};</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Entity Axis Code: {ExampleDeathRecord.EntityAxisCauseOfDeath.ElementAt(0).Code}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.RecordAxisCauseOfDeath">
+            <summary>Record Axis Cause Of Death</summary>
+            <value>record-axis codes</value>
+            <example>
+            <para>// Setter:</para>
+            <para>Tuple&lt;string, string, string&gt;[] eac = new Tuple&lt;string, string, string&gt;{Tuple.Create("position", "code", "pregnancy")}</para>
+            <para>ExampleDeathRecord.RecordAxisCauseOfDeath = new [] { (Position: 1, Code: "T27.3", Pregnancy: true) };</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"First Record Axis Code: {ExampleDeathRecord.RecordAxisCauseOfDeath.ElememtAt(0).Code}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ReceiptYear">
+            <summary>The year NCHS received the death record.</summary>
+            <value>year</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ReceiptYear = 2022 </para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Receipt Year: {ExampleDeathRecord.ReceiptYear}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ReceiptMonth">
+            <summary>
+            The month NCHS received the death record.
+            </summary>
+            <summary>The month NCHS received the death record.</summary>
+            <value>month</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ReceiptMonth = 11 </para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Receipt Month: {ExampleDeathRecord.ReceiptMonth}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ReceiptDay">
+            <summary>The day NCHS received the death record.</summary>
+            <value>month</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ReceiptDay = 13 </para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Receipt Day: {ExampleDeathRecord.ReceiptDay}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ReceiptDate">
+            <summary>Receipt Date.</summary>
+            <value>receipt date</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ReceiptDate = "2018-02-19";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Receipt Date: {ExampleDeathRecord.ReceiptDate}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.CoderStatus">
+            <summary>
+            Coder Status; TRX field with no IJE mapping
+            </summary>
+            <summary>Coder Status; TRX field with no IJE mapping</summary>
+            <value>integer code</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.CoderStatus = 3;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Coder STatus {ExampleDeathRecord.CoderStatus}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ShipmentNumber">
+            <summary>
+            Shipment Number; TRX field with no IJE mapping
+            </summary>
+            <summary>Coder Status; TRX field with no IJE mapping</summary>
+            <value>string</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ShipmentNumber = "abc123"";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Shipment Number{ExampleDeathRecord.ShipmentNumber}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.IntentionalReject">
+            <summary>
+            Intentional Reject
+            </summary>
+            <summary>Intentional Reject</summary>
+            <value>string</value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; reject = new Dictionary&lt;string, string&gt;();</para>
+            <para>format.Add("code", ValueSets.FilingFormat.electronic);</para>
+            <para>format.Add("system", CodeSystems.IntentionalReject);</para>
+            <para>format.Add("display", "Reject1");</para>
+            <para>ExampleDeathRecord.IntentionalReject = "reject";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Intentional Reject {ExampleDeathRecord.IntentionalReject}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.IntentionalRejectHelper">
+            <summary>Intentional Reject Helper.</summary>
+            <value>Intentional Reject
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.IntentionalRejectHelper = ValueSets.IntentionalReject.Not_Rejected;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Intentional Reject Code: {ExampleDeathRecord.IntentionalRejectHelper}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AcmeSystemReject">
+            <summary>Acme System Reject.</summary>
+            <value>
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; reject = new Dictionary&lt;string, string&gt;();</para>
+            <para>format.Add("code", ValueSets.FilingFormat.electronic);</para>
+            <para>format.Add("system", CodeSystems.SystemReject);</para>
+            <para>format.Add("display", "3");</para>
+            <para>ExampleDeathRecord.AcmeSystemReject = reject;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AcmeSystemRejectHelper">
+            <summary>Acme System Reject.</summary>
+            <value>
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AcmeSystemRejectHelper = "3";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.TransaxConversion">
+            <summary>Transax Conversion Flag</summary>
+            <value>
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; tcf = new Dictionary&lt;string, string&gt;();</para>
+            <para>tcf.Add("code", "3");</para>
+            <para>tcf.Add("system", CodeSystems.TransaxConversion);</para>
+            <para>tcf.Add("display", "Conversion using non-ambivalent table entries");</para>
+            <para>ExampleDeathRecord.TransaxConversion = tcf;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Transax Conversion Code: {ExampleDeathRecord.TransaxConversion}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.TransaxConversionHelper">
+            <summary>TransaxConversion Helper.</summary>
+            <value>transax conversion code
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.TransaxConversionHelper = ValueSets.TransaxConversion.Conversion_Using_Non_Ambivalent_Table_Entries;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.TransaxConversionHelper}");</para>
+            </example>
         </member>
         <member name="M:VRDR.DeathRecord.CreateInputRaceEthnicityObs">
             <summary> Create Input Race and Ethnicity </summary>
         </member>
-        <member name="F:VRDR.DeathRecord.Certifier">
-            <summary>The Certifier.</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreateCertifier">
             <summary>Create Certifier.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.DeathCertification">
-            <summary>The Certification.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreateDeathCertification">
             <summary>Create Death Certification.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.MannerOfDeath">
-            <summary>The Manner of Death Observation.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.ConditionContributingToDeath">
-            <summary>Condition Contributing to Death.</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CauseOfDeathCondition(System.Int32)">
             <summary>Create a Cause Of Death Condition </summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionA">
-            <summary>Cause Of Death Condition Line A (#1).</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionB">
-            <summary>Cause Of Death Condition Line B (#2).</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionC">
-            <summary>Cause Of Death Condition Line C (#3).</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionD">
-            <summary>Cause Of Death Condition Line D (#4).</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Father">
-            <summary>Decedent's Father.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreateFather">
             <summary>Create Spouse.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.Mother">
-            <summary>Decedent's Mother.</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreateMother">
             <summary>Create Mother.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Spouse">
-            <summary>Decedent's Spouse.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreateSpouse">
             <summary>Create Spouse.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.DecedentEducationLevel">
-            <summary>Decedent Education Level.</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreateEducationLevelObs">
             <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.BirthRecordIdentifier">
-            <summary>Birth Record Identifier.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.EmergingIssues">
-            <summary>Emerging Issues.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CodingStatusValues">
-            <summary>
-            Coding Status
-            </summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.UsualWork">
-            <summary>Usual Work.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreateUsualWork">
             <summary>Create Usual Work.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.MilitaryServiceObs">
-            <summary>Whether the decedent served in the military</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.FuneralHome">
-            <summary>The Funeral Home.</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreateFuneralHome">
             <summary>Create Funeral Home.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.DispositionLocation">
-            <summary>Disposition Location.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreateDispositionLocation">
             <summary>Create Disposition Location.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.DispositionMethod">
-            <summary>Disposition Method.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.AutopsyPerformed">
-            <summary>Autopsy Performed.</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreateAutopsyPerformed">
             <summary>Create Autopsy Performed </summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.AgeAtDeathObs">
-            <summary>Age At Death.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreateAgeAtDeathObs">
             <summary>Create Age At Death Obs</summary>
@@ -277,77 +999,32 @@
         <member name="M:VRDR.DeathRecord.CreateSurgeryDateObs">
             <summary>Create Surgery Date Observation.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.PregnancyObs">
-            <summary>Decedent Pregnancy Status.</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreatePregnancyObs">
             <summary> Create Pregnancy Status. </summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.ExaminerContactedObs">
-            <summary>Examiner Contacted.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.TobaccoUseObs">
-            <summary>Tobacco Use Contributed To Death.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.InjuryLocationLoc">
-            <summary>Injury Location.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreateInjuryLocationLoc">
             <summary>Create Injury Location.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.InjuryIncidentObs">
-            <summary>Injury Incident.</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreateInjuryIncidentObs">
             <summary>Create Injury Incident.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.DeathLocationLoc">
-            <summary>Death Location.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreateDeathLocation">
             <summary>Create Death Location </summary>
         </member>
-        <member name="F:VRDR.DeathRecord.DeathDateObs">
-            <summary>Date Of Death.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.SurgeryDateObs">
-            <summary>Date Of Surgery.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.ActivityAtTimeOfDeathObs">
-            <summary> Activity at Time of Death </summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreateActivityAtTimeOfDeathObs">
             <summary>Create an empty ActivityAtTimeOfDeathObs, to be populated in ActivityAtDeath.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.AutomatedUnderlyingCauseOfDeathObs">
-            <summary> Automated Underlying Cause of Death </summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreateAutomatedUnderlyingCauseOfDeathObs">
             <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.ManualUnderlyingCauseOfDeathObs">
-            <summary> Manual Underlying Cause of Death </summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreateManualUnderlyingCauseOfDeathObs">
             <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.PlaceOfInjuryObs">
-            <summary> Place Of Injury </summary>
         </member>
         <member name="M:VRDR.DeathRecord.CreatePlaceOfInjuryObs">
             <summary>Create an empty PlaceOfInjuryObs, to be populated in PlaceOfInjury.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.CodedRaceAndEthnicityObs">
-            <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.CreateCodedRaceAndEthnicityObs">
             <summary>Create an empty CodedRaceAndEthnicityObs, to be populated in Various Methods.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.EntityAxisCauseOfDeathObsList">
-            <summary>Entity Axis Cause of Death</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.RecordAxisCauseOfDeathObsList">
-            <summary>Record Axis Cause of Death</summary>
         </member>
         <member name="M:VRDR.DeathRecord.#ctor">
             <summary>Default constructor that creates a new, empty DeathRecord.</summary>
@@ -406,6 +1083,157 @@
         <member name="M:VRDR.DeathRecord.GetMortalityRosterBundle(System.Boolean)">
             <summary>Helper method to return the subset of this record that makes up a Mortality Roster bundle.</summary>
             <returns>a new FHIR Bundle</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.AddReferenceToComposition(System.String,System.String)">
+            <summary>Add a reference to the Death Record Composition.</summary>
+            <param name="reference">a reference.</param>
+            <param name="code">the code for the section to add to.</param>
+            The sections are from : CodeSystems.DocumentSections
+                          DecedentDemographics
+                          DeathInvestigation
+                          DeathCertification
+                          DecedentDisposition
+                          CodedContent
+        </member>
+        <member name="M:VRDR.DeathRecord.RemoveReferenceFromComposition(System.String,System.String)">
+            <summary>Remove a reference from the Death Record Composition.</summary>
+            <param name="reference">a reference.</param>
+            <param name="code">a code for the section to modify.</param>
+        </member>
+        <member name="M:VRDR.DeathRecord.RestoreReferences">
+            <summary>Restores class references from a newly parsed record.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.BlankPlaceholder">
+            <summary>String to represent a blank value when an empty string is not allowed</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.MortalityData">
+            <summary>Mortality data for code translations.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Navigator">
+            <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Bundle">
+            <summary>Bundle that contains the death record.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Composition">
+            <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Decedent">
+            <summary>The Decedent.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.InputRaceAndEthnicityObs">
+            <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Certifier">
+            <summary>The Certifier.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DeathCertification">
+            <summary>The Certification.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.MannerOfDeath">
+            <summary>The Manner of Death Observation.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.ConditionContributingToDeath">
+            <summary>Condition Contributing to Death.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionA">
+            <summary>Cause Of Death Condition Line A (#1).</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionB">
+            <summary>Cause Of Death Condition Line B (#2).</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionC">
+            <summary>Cause Of Death Condition Line C (#3).</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionD">
+            <summary>Cause Of Death Condition Line D (#4).</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Father">
+            <summary>Decedent's Father.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Mother">
+            <summary>Decedent's Mother.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Spouse">
+            <summary>Decedent's Spouse.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DecedentEducationLevel">
+            <summary>Decedent Education Level.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.BirthRecordIdentifier">
+            <summary>Birth Record Identifier.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.EmergingIssues">
+            <summary>Emerging Issues.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CodingStatusValues">
+            <summary> Coding Status </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.UsualWork">
+            <summary>Usual Work.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.MilitaryServiceObs">
+            <summary>Whether the decedent served in the military</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.FuneralHome">
+            <summary>The Funeral Home.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DispositionLocation">
+            <summary>Disposition Location.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DispositionMethod">
+            <summary>Disposition Method.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.AutopsyPerformed">
+            <summary>Autopsy Performed.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.AgeAtDeathObs">
+            <summary>Age At Death.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.PregnancyObs">
+            <summary>Decedent Pregnancy Status.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.ExaminerContactedObs">
+            <summary>Examiner Contacted.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.TobaccoUseObs">
+            <summary>Tobacco Use Contributed To Death.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.InjuryLocationLoc">
+            <summary>Injury Location.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.InjuryIncidentObs">
+            <summary>Injury Incident.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DeathLocationLoc">
+            <summary>Death Location.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DeathDateObs">
+            <summary>Date Of Death.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.SurgeryDateObs">
+            <summary>Date Of Surgery.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.ActivityAtTimeOfDeathObs">
+            <summary> Activity at Time of Death </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.AutomatedUnderlyingCauseOfDeathObs">
+            <summary> Automated Underlying Cause of Death </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.ManualUnderlyingCauseOfDeathObs">
+            <summary> Manual Underlying Cause of Death </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.PlaceOfInjuryObs">
+            <summary> Place Of Injury </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CodedRaceAndEthnicityObs">
+            <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.EntityAxisCauseOfDeathObsList">
+            <summary>Entity Axis Cause of Death</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.RecordAxisCauseOfDeathObsList">
+            <summary>Record Axis Cause of Death</summary>
         </member>
         <member name="P:VRDR.DeathRecord.Identifier">
             <summary>Death Record Identifier, Death Certificate Number.</summary>
@@ -1635,26 +2463,6 @@
             <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</para>
             </example>
         </member>
-        <member name="M:VRDR.DeathRecord.GetPartialDate(Hl7.Fhir.Model.Extension,System.String)">
-            <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.SetPartialDate(Hl7.Fhir.Model.Extension,System.String,System.Nullable{System.UInt32})">
-            <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be set in the extension</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.GetPartialTime(Hl7.Fhir.Model.Extension)">
-            <summary>Getter helper for anything that uses PartialDateTime, allowing the time to be read from the extension</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.SetPartialTime(Hl7.Fhir.Model.Extension,System.String)">
-            <summary>Setter helper for anything that uses PartialDateTime, allowing the time to be set in the extension</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.GetDateFragmentOrPartialDate(Hl7.Fhir.Model.Element,System.String)">
-            <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
-            field (year, month, or day) to be read from either the value or the extension</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.GetTimeFragmentOrPartialTime(Hl7.Fhir.Model.Element)">
-            <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
-            from either the value or the extension</summary>
-        </member>
         <member name="P:VRDR.DeathRecord.DeathYear">
             <summary>Decedent's Year of Death.</summary>
             <value>the decedent's year of death</value>
@@ -2088,6 +2896,112 @@
             <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
             </example>
         </member>
+        <member name="M:VRDR.DeathRecord.SetEmergingIssue(System.String,System.String)">
+            <summary>Set an emerging issue value, creating an empty EmergingIssues Observation as needed.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetEmergingIssue(System.String)">
+            <summary>Get an emerging issue value.</summary>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue1_1">
+            <summary>Emerging Issue Field Length 1 Number 1</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue1_1 = "X";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_1}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue1_2">
+            <summary>Emerging Issue Field Length 1 Number 2</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue1_2 = "X";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_2}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue1_3">
+            <summary>Emerging Issue Field Length 1 Number 3</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue1_3 = "X";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_3}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue1_4">
+            <summary>Emerging Issue Field Length 1 Number 4</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue1_4 = "X";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_4}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue1_5">
+            <summary>Emerging Issue Field Length 1 Number 5</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue1_5 = "X";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_5}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue1_6">
+            <summary>Emerging Issue Field Length 1 Number 6</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue1_6 = "X";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_6}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue8_1">
+            <summary>Emerging Issue Field Length 8 Number 1</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue8_1 = "XXXXXXXX";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_1}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue8_2">
+            <summary>Emerging Issue Field Length 8 Number 2</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue8_2 = "XXXXXXXX";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_2}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue8_3">
+            <summary>Emerging Issue Field Length 8 Number 3</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue8_3 = "XXXXXXXX";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_3}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EmergingIssue20">
+            <summary>Emerging Issue Field Length 20</summary>
+            <value>the emerging issue value</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EmergingIssue20 = "XXXXXXXXXXXXXXXXXXXX";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue20}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.InjuryYear">
             <summary>Decedent's Year of Injury.</summary>
             <value>the decedent's year of injury</value>
@@ -2244,916 +3158,25 @@
             <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUseHelper}");</para>
             </example>
         </member>
-        <member name="M:VRDR.DeathRecord.SetEmergingIssue(System.String,System.String)">
-            <summary>Set an emerging issue value, creating an empty EmergingIssues Observation as needed.</summary>
+        <member name="M:VRDR.DeathRecord.GetPartialDate(Hl7.Fhir.Model.Extension,System.String)">
+            <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
         </member>
-        <member name="M:VRDR.DeathRecord.GetEmergingIssue(System.String)">
-            <summary>Get an emerging issue value.</summary>
+        <member name="M:VRDR.DeathRecord.SetPartialDate(Hl7.Fhir.Model.Extension,System.String,System.Nullable{System.UInt32})">
+            <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be set in the extension</summary>
         </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue1_1">
-            <summary>Emerging Issue Field Length 1 Number 1</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue1_1 = "X";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_1}");</para>
-            </example>
+        <member name="M:VRDR.DeathRecord.GetPartialTime(Hl7.Fhir.Model.Extension)">
+            <summary>Getter helper for anything that uses PartialDateTime, allowing the time to be read from the extension</summary>
         </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue1_2">
-            <summary>Emerging Issue Field Length 1 Number 2</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue1_2 = "X";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_2}");</para>
-            </example>
+        <member name="M:VRDR.DeathRecord.SetPartialTime(Hl7.Fhir.Model.Extension,System.String)">
+            <summary>Setter helper for anything that uses PartialDateTime, allowing the time to be set in the extension</summary>
         </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue1_3">
-            <summary>Emerging Issue Field Length 1 Number 3</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue1_3 = "X";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_3}");</para>
-            </example>
+        <member name="M:VRDR.DeathRecord.GetDateFragmentOrPartialDate(Hl7.Fhir.Model.Element,System.String)">
+            <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
+            field (year, month, or day) to be read from either the value or the extension</summary>
         </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue1_4">
-            <summary>Emerging Issue Field Length 1 Number 4</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue1_4 = "X";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_4}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue1_5">
-            <summary>Emerging Issue Field Length 1 Number 5</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue1_5 = "X";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_5}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue1_6">
-            <summary>Emerging Issue Field Length 1 Number 6</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue1_6 = "X";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_6}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue8_1">
-            <summary>Emerging Issue Field Length 8 Number 1</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue8_1 = "XXXXXXXX";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_1}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue8_2">
-            <summary>Emerging Issue Field Length 8 Number 2</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue8_2 = "XXXXXXXX";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_2}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue8_3">
-            <summary>Emerging Issue Field Length 8 Number 3</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue8_3 = "XXXXXXXX";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_3}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.EmergingIssue20">
-            <summary>Emerging Issue Field Length 20</summary>
-            <value>the emerging issue value</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EmergingIssue20 = "XXXXXXXXXXXXXXXXXXXX";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue20}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ActivityAtDeath">
-            <summary>Activity at Time of Death.</summary>
-            <value>the decedent's activity at time of death. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; activity = new Dictionary&lt;string, string&gt;();</para>
-            <para>elevel.Add("code", "0");</para>
-            <para>elevel.Add("system", CodeSystems.ActivityAtTimeOfDeath);</para>
-            <para>elevel.Add("display", "While engaged in sports activity");</para>
-            <para>ExampleDeathRecord.ActivityAtDeath = activity;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ActivityAtDeathHelper">
-            <summary>Decedent's Activity At Time of Death Helper</summary>
-            <value>Decedent's Activity at Time of Death.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ActivityAtDeath = 0;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent's Activity at Time of Death: {ExampleDeathRecord.ActivityAtDeath}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.AutomatedUnderlyingCOD">
-            <summary>Decedent's Automated Underlying Cause of Death</summary>
-            <value>Decedent's Automated Underlying Cause of Death.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.AutomatedUnderlyingCOD = "I13.1";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent's Automated Underlying Cause of Death: {ExampleDeathRecord.AutomatedUnderlyingCOD}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ManUnderlyingCOD">
-            <summary>Decedent's Manual Underlying Cause of Death</summary>
-            <value>Decedent's Manual Underlying Cause of Death.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ManUnderlyingCOD = "I13.1";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent's Manual Underlying Cause of Death: {ExampleDeathRecord.ManUnderlyingCOD}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.PlaceOfInjury">
-            <summary>Place of Injury.</summary>
-            <value>Place of Injury. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
-            <para>elevel.Add("code", "LA14084-0");</para>
-            <para>elevel.Add("system", CodeSystems.LOINC);</para>
-            <para>elevel.Add("display", "Home");</para>
-            <para>ExampleDeathRecord.PlaceOfInjury = elevel;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"PlaceOfInjury: {ExampleDeathRecord.PlaceOfInjury['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.PlaceOfInjuryHelper">
-            <summary>Decedent's Place of Injury Helper</summary>
-            <value>Place of Injury.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.PlaceOfInjuryHelper = ValueSets.PlaceOfInjury.Home;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.PlaceOfInjuryHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstEditedRaceCode">
-            <summary>First Edited Race Code.</summary>
-            <value>First Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.FirstEditedRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstEditedRaceCodeHelper">
-            <summary>First Edited Race Code  Helper</summary>
-            <value>First Edited Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.FirstEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondEditedRaceCode">
-            <summary>Second Edited Race Code.</summary>
-            <value>Second Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.SecondEditedRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second Edited Race Code: {ExampleDeathRecord.SecondEditedRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondEditedRaceCodeHelper">
-            <summary>Second Edited Race Code  Helper</summary>
-            <value>Second Edited Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.SecondEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second Edited Race Code: {ExampleDeathRecord.SecondEditedRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ThirdEditedRaceCode">
-            <summary>Third Edited Race Code.</summary>
-            <value>Third Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.ThirdEditedRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Third Edited Race Code: {ExampleDeathRecord.ThirdEditedRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ThirdEditedRaceCodeHelper">
-            <summary>Third Edited Race Code  Helper</summary>
-            <value>Third Edited Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ThirdEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Third Edited Race Code: {ExampleDeathRecord.ThirdEditedRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FourthEditedRaceCode">
-            <summary>Fourth Edited Race Code.</summary>
-            <value>Fourth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.FourthEditedRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Fourth Edited Race Code: {ExampleDeathRecord.FourthEditedRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FourthEditedRaceCodeHelper">
-            <summary>Fourth Edited Race Code  Helper</summary>
-            <value>Fourth Edited Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.FourthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Fourth Edited Race Code: {ExampleDeathRecord.FourthEditedRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FifthEditedRaceCode">
-            <summary>Fifth Edited Race Code.</summary>
-            <value>Fifth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.FifthEditedRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Fifth Edited Race Code: {ExampleDeathRecord.FifthEditedRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FifthEditedRaceCodeHelper">
-            <summary>Fifth Edited Race Code  Helper</summary>
-            <value>Fifth Edited Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.FifthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Fifth Edited Race Code: {ExampleDeathRecord.FifthEditedRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SixthEditedRaceCode">
-            <summary>Sixth Edited Race Code.</summary>
-            <value>Sixth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.SixthEditedRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Sixth Edited Race Code: {ExampleDeathRecord.SixthEditedRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SixthEditedRaceCodeHelper">
-            <summary>Sixth Edited Race Code  Helper</summary>
-            <value>Sixth Edited Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.SixthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Sixth Edited Race Code: {ExampleDeathRecord.SixthEditedRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SeventhEditedRaceCode">
-            <summary>Seventh Edited Race Code.</summary>
-            <value>Seventh Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.SeventhEditedRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Seventh Edited Race Code: {ExampleDeathRecord.SeventhEditedRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SeventhEditedRaceCodeHelper">
-            <summary>Seventh Edited Race Code  Helper</summary>
-            <value>Seventh Edited Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.SeventhEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Seventh Edited Race Code: {ExampleDeathRecord.SeventhEditedRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.EighthEditedRaceCode">
-            <summary>Eighth Edited Race Code.</summary>
-            <value>Eighth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.EighthEditedRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Eighth Edited Race Code: {ExampleDeathRecord.EighthEditedRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.EighthEditedRaceCodeHelper">
-            <summary>Eighth Edited Race Code  Helper</summary>
-            <value>Eighth Edited Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.EighthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Eighth Edited Race Code: {ExampleDeathRecord.EighthEditedRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstAmericanIndianRaceCode">
-            <summary>First American Indian Race Code.</summary>
-            <value>First American Indian Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.FirstAmericanIndianRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First American Indian Race Code: {ExampleDeathRecord.FirstAmericanIndianRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstAmericanIndianRaceCodeHelper">
-            <summary>First American Indian Race Code  Helper</summary>
-            <value>First American Indian Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.FirstAmericanIndianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First American Indian Race Code: {ExampleDeathRecord.FirstAmericanIndianRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondAmericanIndianRaceCode">
-            <summary>Second American Indian Race Code.</summary>
-            <value>Second American Indian Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.SecondAmericanIndianRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second American Indian Race Code: {ExampleDeathRecord.SecondAmericanIndianRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondAmericanIndianRaceCodeHelper">
-            <summary>Second American Indian Race Code  Helper</summary>
-            <value>Second American Indian Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.SecondAmericanIndianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second American Indian Race Code: {ExampleDeathRecord.SecondAmericanIndianRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstOtherAsianRaceCode">
-            <summary>First Other Asian Race Code.</summary>
-            <value>First Other Asian Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.FirstOtherAsianRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Other Asian Race Code: {ExampleDeathRecord.FirstOtherAsianRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstOtherAsianRaceCodeHelper">
-            <summary>First Other Asian Race Code  Helper</summary>
-            <value>First Other Asian Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.FirstOtherAsianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Other Asian Race Code: {ExampleDeathRecord.FirstOtherAsianRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondOtherAsianRaceCode">
-            <summary>Second Other Asian Race Code.</summary>
-            <value>Second Other Asian Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.SecondOtherAsianRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second Other Asian Race Code: {ExampleDeathRecord.SecondOtherAsianRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondOtherAsianRaceCodeHelper">
-            <summary>Second Other Asian Race Code  Helper</summary>
-            <value>Second Other Asian Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.SecondOtherAsianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second Other Asian Race Code: {ExampleDeathRecord.SecondOtherAsianRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstOtherPacificIslanderRaceCode">
-            <summary>First Other Pacific Islander Race Code.</summary>
-            <value>First Other Pacific Islander Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.FirstOtherPacificIslanderRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Other Pacific Islander Race Code: {ExampleDeathRecord.FirstOtherPacificIslanderRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstOtherPacificIslanderRaceCodeHelper">
-            <summary>First Other Pacific Islander Race Code  Helper</summary>
-            <value>First Other Pacific Islander Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.FirstOtherPacificIslanderRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Other Pacific Islander Race Code: {ExampleDeathRecord.FirstOtherPacificIslanderRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondOtherPacificIslanderRaceCode">
-            <summary>Second Other Pacific Islander Race Code.</summary>
-            <value>Second Other Pacific Islander Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.SecondOtherPacificIslanderRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second Other Pacific Islander Race Code: {ExampleDeathRecord.SecondOtherPacificIslanderRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondOtherPacificIslanderRaceCodeHelper">
-            <summary>Second Other Pacific Islander Race Code  Helper</summary>
-            <value>Second Other Pacific Islander Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.SecondOtherPacificIslanderRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second Other Pacific Islander Race Code: {ExampleDeathRecord.SecondOtherPacificIslanderRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstOtherRaceCode">
-            <summary>First Other Race Code.</summary>
-            <value>First Other Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.FirstOtherRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Other Race Code: {ExampleDeathRecord.FirstOtherRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.FirstOtherRaceCodeHelper">
-            <summary>First Other Race Code  Helper</summary>
-            <value>First Other Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.FirstOtherRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Other Race Code: {ExampleDeathRecord.FirstOtherRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondOtherRaceCode">
-            <summary>Second Other Race Code.</summary>
-            <value>Second Other Race Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.SecondOtherRaceCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second Other Race Code: {ExampleDeathRecord.SecondOtherRaceCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.SecondOtherRaceCodeHelper">
-            <summary>Second Other Race Code  Helper</summary>
-            <value>Second Other Race Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.SecondOtherRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Second Other Race Code: {ExampleDeathRecord.SecondOtherRaceCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.HispanicCode">
-            <summary>Hispanic Code.</summary>
-            <value>Hispanic Code. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.HispanicCode = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Hispanic Code: {ExampleDeathRecord.HispanicCode['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.HispanicCodeHelper">
-            <summary>Hispanic Code  Helper</summary>
-            <value>Hispanic Code Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.HispanicCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Hispanic Code: {ExampleDeathRecord.HispanicCodeHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.HispanicCodeForLiteral">
-            <summary>Hispanic Code For Literal.</summary>
-            <value>Hispanic Code For Literal. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "300");</para>
-            <para>racecode.Add("system", CodeSystems.RaceCode);</para>
-            <para>racecode.Add("display", "African");</para>
-            <para>ExampleDeathRecord.HispanicCodeForLiteral = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Hispanic Code For Literal: {ExampleDeathRecord.HispanicCodeForLiteral['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.HispanicCodeForLiteralHelper">
-            <summary>Hispanic Code For Literal  Helper</summary>
-            <value>Hispanic Code For Literal Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.HispanicCodeForLiteralHelper = VRDR.ValueSets.RaceCode.African ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Hispanic Code For Literal: {ExampleDeathRecord.HispanicCodeForLiteralHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.RaceRecode40">
-            <summary>Race Recode 40.</summary>
-            <value>Race Recode 40. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
-            <para>racecode.Add("code", "09");</para>
-            <para>racecode.Add("system", CodeSystems.RaceRecode40CS);</para>
-            <para>racecode.Add("display", "Vietnamiese");</para>
-            <para>ExampleDeathRecord.RaceRecode40 = racecode;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"RaceRecode40: {ExampleDeathRecord.RaceRecode40['display']}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.RaceRecode40Helper">
-            <summary>Race Recode 40  Helper</summary>
-            <value>Race Recode 40 Helper.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.RaceRecode40Helper = VRDR.ValueSets.RaceRecode40.AIAN ;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Race Recode 40: {ExampleDeathRecord.RaceRecode40Helper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.EntityAxisCauseOfDeath">
-            <summary>Entity Axis Cause Of Death
-            <para>Note that record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
-            http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage></para>
-            </summary>
-            <value>Entity-axis codes</value>
-            <example>
-            <para>// Setter:</para>
-            <para> ExampleDeathRecord.EntityAxisCauseOfDeath = new [] {(LineNumber: 2, Position: 1, Code: "T27.3", ECode: true)};</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Entity Axis Code: {ExampleDeathRecord.EntityAxisCauseOfDeath.ElementAt(0).Code}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.RecordAxisCauseOfDeath">
-            <summary>Record Axis Cause Of Death</summary>
-            <value>record-axis codes</value>
-            <example>
-            <para>// Setter:</para>
-            <para>Tuple&lt;string, string, string&gt;[] eac = new Tuple&lt;string, string, string&gt;{Tuple.Create("position", "code", "pregnancy")}</para>
-            <para>ExampleDeathRecord.RecordAxisCauseOfDeath = new [] { (Position: 1, Code: "T27.3", Pregnancy: true) };</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"First Record Axis Code: {ExampleDeathRecord.RecordAxisCauseOfDeath.ElememtAt(0).Code}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ReceiptYear">
-            <summary>The year NCHS received the death record.</summary>
-            <value>year</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ReceiptYear = 2022 </para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Receipt Year: {ExampleDeathRecord.ReceiptYear}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ReceiptMonth">
-            <summary>
-            The month NCHS received the death record.
-            </summary>
-            <summary>The month NCHS received the death record.</summary>
-            <value>month</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ReceiptMonth = 11 </para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Receipt Month: {ExampleDeathRecord.ReceiptMonth}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ReceiptDay">
-            <summary>The day NCHS received the death record.</summary>
-            <value>month</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ReceiptDay = 13 </para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Receipt Day: {ExampleDeathRecord.ReceiptDay}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ReceiptDate">
-            <summary>Receipt Date.</summary>
-            <value>receipt date</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ReceiptDate = "2018-02-19";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Receipt Date: {ExampleDeathRecord.ReceiptDate}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.CoderStatus">
-            <summary>
-            Coder Status; TRX field with no IJE mapping
-            </summary>
-            <summary>Coder Status; TRX field with no IJE mapping</summary>
-            <value>integer code</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.CoderStatus = 3;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Coder STatus {ExampleDeathRecord.CoderStatus}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.ShipmentNumber">
-            <summary>
-            Shipment Number; TRX field with no IJE mapping
-            </summary>
-            <summary>Coder Status; TRX field with no IJE mapping</summary>
-            <value>string</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ShipmentNumber = "abc123"";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Shipment Number{ExampleDeathRecord.ShipmentNumber}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.IntentionalReject">
-            <summary>
-            Intentional Reject
-            </summary>
-            <summary>Intentional Reject</summary>
-            <value>string</value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; reject = new Dictionary&lt;string, string&gt;();</para>
-            <para>format.Add("code", ValueSets.FilingFormat.electronic);</para>
-            <para>format.Add("system", CodeSystems.IntentionalReject);</para>
-            <para>format.Add("display", "Reject1");</para>
-            <para>ExampleDeathRecord.IntentionalReject = "reject";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Intentional Reject {ExampleDeathRecord.IntentionalReject}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.IntentionalRejectHelper">
-            <summary>Intentional Reject Helper.</summary>
-            <value>Intentional Reject
-            <para>"code" - the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.IntentionalRejectHelper = ValueSets.IntentionalReject.Not_Rejected;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Intentional Reject Code: {ExampleDeathRecord.IntentionalRejectHelper}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.AcmeSystemReject">
-            <summary>Acme System Reject.</summary>
-            <value>
-            <para>"code" - the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; reject = new Dictionary&lt;string, string&gt;();</para>
-            <para>format.Add("code", ValueSets.FilingFormat.electronic);</para>
-            <para>format.Add("system", CodeSystems.SystemReject);</para>
-            <para>format.Add("display", "3");</para>
-            <para>ExampleDeathRecord.AcmeSystemReject = reject;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.AcmeSystemRejectHelper">
-            <summary>Acme System Reject.</summary>
-            <value>
-            <para>"code" - the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.AcmeSystemRejectHelper = "3";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.TransaxConversion">
-            <summary>Transax Conversion Flag</summary>
-            <value>
-            <para>"code" - the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; tcf = new Dictionary&lt;string, string&gt;();</para>
-            <para>tcf.Add("code", "3");</para>
-            <para>tcf.Add("system", CodeSystems.TransaxConversion);</para>
-            <para>tcf.Add("display", "Conversion using non-ambivalent table entries");</para>
-            <para>ExampleDeathRecord.TransaxConversion = tcf;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Transax Conversion Code: {ExampleDeathRecord.TransaxConversion}");</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.TransaxConversionHelper">
-            <summary>TransaxConversion Helper.</summary>
-            <value>transax conversion code
-            <para>"code" - the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.TransaxConversionHelper = ValueSets.TransaxConversion.Conversion_Using_Non_Ambivalent_Table_Entries;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.TransaxConversionHelper}");</para>
-            </example>
-        </member>
-        <member name="M:VRDR.DeathRecord.AddReferenceToComposition(System.String,System.String)">
-            <summary>Add a reference to the Death Record Composition.</summary>
-            <param name="reference">a reference.</param>
-            <param name="code">the code for the section to add to.</param>
-            The sections are from : CodeSystems.DocumentSections
-                          DecedentDemographics
-                          DeathInvestigation
-                          DeathCertification
-                          DecedentDisposition
-                          CodedContent
-        </member>
-        <member name="M:VRDR.DeathRecord.RemoveReferenceFromComposition(System.String,System.String)">
-            <summary>Remove a reference from the Death Record Composition.</summary>
-            <param name="reference">a reference.</param>
-            <param name="code">a code for the section to modify.</param>
-        </member>
-        <member name="M:VRDR.DeathRecord.RestoreReferences">
-            <summary>Restores class references from a newly parsed record.</summary>
+        <member name="M:VRDR.DeathRecord.GetTimeFragmentOrPartialTime(Hl7.Fhir.Model.Element)">
+            <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
+            from either the value or the extension</summary>
         </member>
         <member name="M:VRDR.DeathRecord.SetCodeValue(System.String,System.String,System.String[0:,0:])">
             <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>

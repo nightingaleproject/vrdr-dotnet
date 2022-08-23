@@ -48,42 +48,46 @@ searchset['entry'].each do |entry|
   header = nil
   identifier = nil
   begin
-    resource = entry['resource']
-    if resource['type'] != 'message'
-      puts "Found a resource of type #{resource['type']}, skipping"
+    message = entry['resource']
+    if message['type'] != 'message'
+      puts "Found a resource of type #{message['type']}, skipping"
       next
     end
-    header = resource['entry'][0]['resource']
+    header = message['entry'][0]['resource']
     if header['resourceType'] != 'MessageHeader'
       puts "Found a message with a first entry of type #{header['resourceType']}, skipping"
       next
     end
-    params = resource['entry'][1]['resource'] rescue nil
+    params = message['entry'][1]['resource'] rescue nil
     cert_no = params['parameter'].detect { |p| p['name'] == 'cert_no' }&.[]('valueUnsignedInt') rescue 0
     jurisdiction_id = params['parameter'].detect { |p| p['name'] == 'jurisdiction_id' }&.[]('valueString') rescue 'XX'
     death_year = params['parameter'].detect { |p| p['name'] == 'death_year' }&.[]('valueUnsignedInt') rescue 0
     identifier = "#{'%04d' % death_year}#{jurisdiction_id}#{'%06d' % cert_no}"
     case header['eventUri']
     when 'http://nchs.cdc.gov/vrdr_acknowledgement'
-      puts "Found an acknowledgement message for message #{header['response']['identifier']} for certificate #{identifier}, skipping"
-      File.write("#{identifier}_submission_acknowledgement_message.json", resource.to_json)
+      puts "Found an acknowledgement message for message #{header['response']['identifier']} for certificate #{identifier}"
+      File.write("#{identifier}_submission_acknowledgement.json", message.to_json)
     when 'http://nchs.cdc.gov/vrdr_extraction_error'
-      puts "Found an extraction error message for message #{header['response']['identifier']} for certificate #{identifier}, skipping"
-      File.write("#{identifier}_extraction_error_message.json", resource.to_json)
+      puts "Found an extraction error message for message #{header['response']['identifier']} for certificate #{identifier}, acknowledging"
+      message_filename = "#{identifier}_extraction_error.json"
+      File.write(message_filename, message.to_json)
+      ack = `dotnet run --project /Users/krautscheid/git/vrdr-dotnet/VRDR.CLI ack #{message_filename}`
+      File.write("#{identifier}_extraction_error_acknowledgement.json", ack)
+      response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
+                            headers: { 'Content-Type' => 'application/json' },
+                            body: ack)
+      puts "Server response: #{response.status}"
     when 'http://nchs.cdc.gov/vrdr_causeofdeath_coding', 'http://nchs.cdc.gov/vrdr_demographics_coding'
       id = header['id']
       puts "Found a coding response message of type #{header['eventUri']} with ID #{id} for certificate #{identifier}, acknowledging"
-      File.write("#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_coding_response_message.json", resource.to_json)
-      Tempfile.create do |f|
-        f << resource.to_json
-        f.flush
-        ack = `dotnet run --project /Users/krautscheid/git/vrdr-dotnet/VRDR.CLI ack #{f.path}`
-        File.write("#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_acknowledgement_message.json", ack)
-        response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
-                              headers: { 'Content-Type' => 'application/json' },
-                              body: ack)
-        puts "Server response: #{response.status}"
-      end
+      message_filename = "#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_coding.json"
+      File.write(message_filename, message.to_json)
+      ack = `dotnet run --project /Users/krautscheid/git/vrdr-dotnet/VRDR.CLI ack #{message_filename}`
+      File.write("#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_coding_acknowledgement.json", ack)
+      response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
+                            headers: { 'Content-Type' => 'application/json' },
+                            body: ack)
+      puts "Server response: #{response.status}"
     else
       puts "Found a message of type #{header['eventUri']} for certificate #{identifier}, skipping"
     end

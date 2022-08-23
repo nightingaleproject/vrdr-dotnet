@@ -51,7 +51,7 @@ namespace VRDR.CLI
   - roundtrip-all: Convert a record to JSON and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record )
   - roundtrip-ije: Convert a record to IJE and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record)
   - showcodes: Extract and show the codes in a coding response message (1 argument: coding response message)
-  - submit: Create a submission FHIR message wrapping a FHIR death record (1 argument: FHIR death record)
+  - submit: Create a submission FHIR message wrapping a FHIR death record (1 argument: FHIR death record; many arguments: output directory and FHIR death records)
   - alias: Create an alias FHIR message for a FHIR death record (1 argument: FHIR death record)
   - toMortalityRoster: Create and print a mortality roster bundle from a death record (1 argument: FHIR death record)
   - trx2json: Creates a Cause of Death Coding Bundle from a TRX Message (1 argument: TRX file)
@@ -776,6 +776,27 @@ namespace VRDR.CLI
                 DeathRecordSubmissionMessage message = new DeathRecordSubmissionMessage(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
+                return 0;
+            }
+            else if (args.Length > 2 && args[0] == "submit")
+            {
+                string outputDirectory = args[1];
+                if (!Directory.Exists(outputDirectory))
+                {
+                    Console.WriteLine("Must supply a valid output directory");
+                    return (1);
+                }
+                for (int i = 2; i < args.Length; i++)
+                {
+                    string outputFilename = args[i].Replace(".json", "_submission.json");
+                    DeathRecord record = new DeathRecord(File.ReadAllText(args[i]));
+                    DeathRecordSubmissionMessage message = new DeathRecordSubmissionMessage(record);
+                    message.MessageSource = "http://mitre.org/vrdr";
+                    Console.WriteLine($"Writing record to {outputFilename}");
+                    StreamWriter sw = new StreamWriter(outputFilename);
+                    sw.WriteLine(message.ToJSON(true));
+                    sw.Flush();
+                }
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "alias")

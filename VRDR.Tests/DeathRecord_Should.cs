@@ -918,7 +918,7 @@ namespace VRDR.Tests
             string bundle = File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"));
             FhirJsonParser parser = new FhirJsonParser(parserSettings);
             Bundle b = parser.Parse<Bundle>(bundle);
-            var compositionEntry = b.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Composition);
+            var compositionEntry = b.Entry.FirstOrDefault(entry => entry.Resource is Composition);
             var covered = false;
             if (compositionEntry != null)
             {
@@ -956,7 +956,7 @@ namespace VRDR.Tests
             string bundle = File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"));
             FhirXmlParser parser = new FhirXmlParser(parserSettings);
             Bundle b = parser.Parse<Bundle>(bundle);
-            var compositionEntry = b.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Composition);
+            var compositionEntry = b.Entry.FirstOrDefault(entry => entry.Resource is Composition);
             var covered = false;
             if (compositionEntry != null)
             {

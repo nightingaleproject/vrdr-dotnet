@@ -41,25 +41,24 @@ namespace VRDR
             }
 
             // Find Header
-            Header = findEntry<MessageHeader>(ResourceType.MessageHeader, ignoreMissingEntries);
+            Header = findEntry<MessageHeader>(ignoreMissingEntries);
 
             // Find Parameters
-            Record = findEntry<Parameters>(ResourceType.Parameters, ignoreMissingEntries);
+            Record = findEntry<Parameters>(ignoreMissingEntries);
         }
 
         /// <summary>
         /// Find the first Entry within the message Bundle that contains a Resource of the specified type and return that resource.
         /// </summary>
-        /// <param name="type">the type of FHIR resource to look for</param>
         /// <param name="ignoreMissingEntries">if true, then missing entries will not result in an exception</param>
         /// <typeparam name="T">the class of the FHIR resource to return, must match with specified type:</typeparam>
         /// <returns>The first matching Bundle entry</returns>
-        protected T findEntry<T>(ResourceType type, bool ignoreMissingEntries = false) where T : Resource
+        protected T findEntry<T>(bool ignoreMissingEntries = false) where T : Resource
         {
-            var typedEntry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == type );
+            var typedEntry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource is T);
             if (typedEntry == null && !ignoreMissingEntries)
             {
-                throw new System.ArgumentException($"Failed to find a Bundle Entry containing a Resource of type {type.ToString()}");
+                throw new System.ArgumentException($"Failed to find a Bundle Entry containing a Resource of type {typeof(T).FullName}");
             }
             return (T)typedEntry?.Resource;
         }

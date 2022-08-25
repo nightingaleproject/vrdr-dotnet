@@ -124,7 +124,7 @@ namespace VRDR
         /// </summary>
         protected void UpdateMessageBundleRecord()
         {
-            MessageBundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Bundle );
+            MessageBundle.Entry.RemoveAll( entry => entry.Resource is Bundle);
             Header.Focus.Clear();
             Bundle newBundle = MessageBundleRecord;
             if (newBundle != null)
@@ -216,7 +216,7 @@ namespace VRDR
             set
             {
                 Header.Id = value;
-                MessageBundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.MessageHeader );
+                MessageBundle.Entry.RemoveAll( entry => entry.Resource is MessageHeader );
                 MessageBundle.AddResourceEntry(Header, "urn:uuid:" + Header.Id);
             }
         }

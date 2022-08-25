@@ -1727,7 +1727,7 @@ namespace VRDR
             set
             {
                 // clear all existing eac
-                Bundle.Entry.RemoveAll(entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80356-9"));
+                Bundle.Entry.RemoveAll(entry => entry.Resource is Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80356-9"));
                 if (EntityAxisCauseOfDeathObsList != null)
                 {
                     EntityAxisCauseOfDeathObsList.Clear();
@@ -1822,7 +1822,7 @@ namespace VRDR
             set
             {
                 // clear all existing eac
-                Bundle.Entry.RemoveAll(entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80357-7"));
+                Bundle.Entry.RemoveAll(entry => entry.Resource is Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80357-7"));
                 if (RecordAxisCauseOfDeathObsList != null)
                 {
                     RecordAxisCauseOfDeathObsList.Clear();

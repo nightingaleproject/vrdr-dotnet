@@ -47,10 +47,10 @@ public class Client
             }
         }
 
-        var response = await client.GetAsync(address).Result;
+        var response = await client.GetAsync(address);
 
         // check if the token expired, refresh and try again
-        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        if (!response.IsSuccessStatusCode)
         {
             HttpResponseMessage authRetry = await RefreshAccessTokenAsync();
             // return authentication error
@@ -58,7 +58,7 @@ public class Client
             {
                 return authRetry;
             }
-            response = await client.GetAsync(this.Url).Result;
+            response = await client.GetAsync(this.Url);
         }
         
         return response;
@@ -86,7 +86,7 @@ public class Client
         var response = client.PostAsync(this.Url, data).Result;
 
         // check if the token expired, refresh and try again
-        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        if (!response.IsSuccessStatusCode)
         {
             HttpResponseMessage authRetry = await RefreshAccessTokenAsync();
             // return authentication error
@@ -101,10 +101,10 @@ public class Client
     }
 
     private async Task<HttpResponseMessage> RefreshAccessTokenAsync(){
-        // clear the authentication headers
-        client.DefaultRequestHeaders.Authorization = null;
+    // clear the authentication headers
+    client.DefaultRequestHeaders.Authorization = null;
 
-        HttpResponseMessage response = await GetAuthorizeTokenAsync();
+    HttpResponseMessage response = await GetAuthorizeTokenAsync();
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();

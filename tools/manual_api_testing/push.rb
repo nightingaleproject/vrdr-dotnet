@@ -37,8 +37,8 @@ client = OAuth2::Client.new(client_id,
 
 token = client.password.get_token(username, password)
 
-# Submit the files in chunks of 10
-files.each_slice(10).each do |slice|
+# Submit the files in chunks of 20
+files.each_slice(20).each do |slice|
 
   puts "Sending files:"
   slice.each { |s| puts "  #{s[:filename]}" }
@@ -56,5 +56,8 @@ files.each_slice(10).each do |slice|
                         body: body)
 
   puts "Server response: #{response.status}"
+  JSON.parse(response.body)['entry'].each do |entry|
+    puts "  Record response: #{entry['response']['status']}"
+  end
 
 end

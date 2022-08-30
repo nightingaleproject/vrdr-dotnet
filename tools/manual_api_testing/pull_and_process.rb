@@ -6,6 +6,12 @@ require 'oauth2'
 require 'active_support/time'
 require 'tempfile'
 
+CLI_PATH = '../../VRDR.CLI/bin/Debug/netcoreapp6.0/DeathRecord.CLI.dll'
+if (!File.exists?(CLI_PATH))
+  puts "Cannot find the CLI application at #{CLI_PATH}, you may need to build it"
+  exit
+end
+
 jurisdiction = ARGV.shift
 if jurisdiction.nil? || !jurisdiction.match(/^[A-Z][A-Z]$/)
   puts "You must provide the jurisdiction code (e.g., MA) as the first argument"
@@ -71,7 +77,7 @@ searchset['entry'].each do |entry|
       puts "Found an extraction error message for message #{header['response']['identifier']} for certificate #{identifier}, acknowledging"
       message_filename = "#{identifier}_extraction_error.json"
       File.write(message_filename, message.to_json)
-      ack = `dotnet run --project /Users/krautscheid/git/vrdr-dotnet/VRDR.CLI ack #{message_filename}`
+      ack = `dotnet #{CLI_PATH} ack #{message_filename}`
       File.write("#{identifier}_extraction_error_acknowledgement.json", ack)
       response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
                             headers: { 'Content-Type' => 'application/json' },
@@ -82,7 +88,7 @@ searchset['entry'].each do |entry|
       puts "Found a coding response message of type #{header['eventUri']} with ID #{id} for certificate #{identifier}, acknowledging"
       message_filename = "#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_coding.json"
       File.write(message_filename, message.to_json)
-      ack = `dotnet run --project /Users/krautscheid/git/vrdr-dotnet/VRDR.CLI ack #{message_filename}`
+      ack = `dotnet #{CLI_PATH} ack #{message_filename}`
       File.write("#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_coding_acknowledgement.json", ack)
       response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
                             headers: { 'Content-Type' => 'application/json' },

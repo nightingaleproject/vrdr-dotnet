@@ -837,6 +837,26 @@ namespace VRDR.CLI
                 Console.WriteLine(ackMessage.ToJSON(true));
                 return 0;
             }
+            else if (args.Length > 2 && args[0] == "ack")
+            {
+                string outputDirectory = args[1];
+                if (!Directory.Exists(outputDirectory))
+                {
+                    Console.WriteLine("Must supply a valid output directory");
+                    return (1);
+                }
+                for (int i = 2; i < args.Length; i++)
+                {
+                    string outputFilename = args[i].Replace(".json", "_acknowledgement.json");
+                    BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[i]));
+                    AcknowledgementMessage ackMessage = new AcknowledgementMessage(message);
+                    Console.WriteLine($"Writing acknowledgement to {outputFilename}");
+                    StreamWriter sw = new StreamWriter(outputFilename);
+                    sw.WriteLine(ackMessage.ToJSON(true));
+                    sw.Flush();
+                }
+                return 0;
+            }
             else if (args[0] == "trx2json")
             {
                 if (args.Length == 2)

@@ -162,11 +162,293 @@
             HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
             http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
             </summary>
-            <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
-            Record. This class was designed to help consume and produce death records that follow the
-            HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
-            http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
+        </member>
+        <member name="M:VRDR.DeathRecord.#ctor">
+            <summary>Default constructor that creates a new, empty DeathRecord.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.#ctor(System.String,System.Boolean)">
+            <summary>Constructor that takes a string that represents a FHIR Death Record in either XML or JSON format.</summary>
+            <param name="record">represents a FHIR Death Record in either XML or JSON format.</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <exception cref="T:System.ArgumentException">Record is neither valid XML nor JSON.</exception>
+        </member>
+        <member name="M:VRDR.DeathRecord.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>Constructor that takes a FHIR Bundle that represents a FHIR Death Record.</summary>
+            <param name="bundle">represents a FHIR Bundle.</param>
+            <exception cref="T:System.ArgumentException">Record is invalid.</exception>
+        </member>
+        <member name="M:VRDR.DeathRecord.ToXML">
+            <summary>Helper method to return a XML string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in XML format</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.ToXml">
+            <summary>Helper method to return a XML string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in XML format</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.ToJSON">
+            <summary>Helper method to return a JSON string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in JSON format</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.ToJson">
+            <summary>Helper method to return a JSON string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in JSON format</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetITypedElement">
+            <summary>Helper method to return an ITypedElement of the record bundle.</summary>
+            <returns>an ITypedElement of the record bundle</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetBundle">
+            <summary>Helper method to return a the bundle.</summary>
+            <returns>a FHIR Bundle</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetDeathCertificateDocumentBundle">
+            <summary>
+            Helper method to return the bundle that makes up a CauseOfDeathCodedContent bundle. This is actually
+            the complete DeathRecord Bundle accessible via a method name that aligns with the other specific
+            GetBundle methods (GetCauseOfDeathCodedContentBundle and GetDemographicCodedContentBundle).
             </summary>
+            <returns>a FHIR Bundle</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetCauseOfDeathCodedContentBundle">
+            <summary>Helper method to return the subset of this record that makes up a CauseOfDeathCodedContent bundle.</summary>
+            <returns>a new FHIR Bundle</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetDemographicCodedContentBundle">
+            <summary>Helper method to return the subset of this record that makes up a DemographicCodedContent bundle.</summary>
+            <returns>a new FHIR Bundle</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetMortalityRosterBundle(System.Boolean)">
+            <summary>Helper method to return the subset of this record that makes up a Mortality Roster bundle.</summary>
+            <returns>a new FHIR Bundle</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.AddReferenceToComposition(System.String,System.String)">
+            <summary>Add a reference to the Death Record Composition.</summary>
+            <param name="reference">a reference.</param>
+            <param name="code">the code for the section to add to.</param>
+            The sections are from : CodeSystems.DocumentSections
+                          DecedentDemographics
+                          DeathInvestigation
+                          DeathCertification
+                          DecedentDisposition
+                          CodedContent
+        </member>
+        <member name="M:VRDR.DeathRecord.RemoveReferenceFromComposition(System.String,System.String)">
+            <summary>Remove a reference from the Death Record Composition.</summary>
+            <param name="reference">a reference.</param>
+            <param name="code">a code for the section to modify.</param>
+        </member>
+        <member name="M:VRDR.DeathRecord.RestoreReferences">
+            <summary>Restores class references from a newly parsed record.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.BlankPlaceholder">
+            <summary>String to represent a blank value when an empty string is not allowed</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.MortalityData">
+            <summary>Mortality data for code translations.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Navigator">
+            <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Bundle">
+            <summary>Bundle that contains the death record.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Composition">
+            <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Decedent">
+            <summary>The Decedent.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.InputRaceAndEthnicityObs">
+            <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateInputRaceEthnicityObs">
+            <summary> Create Input Race and Ethnicity </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Certifier">
+            <summary>The Certifier.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateCertifier">
+            <summary>Create Certifier.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DeathCertification">
+            <summary>The Certification.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateDeathCertification">
+            <summary>Create Death Certification.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.MannerOfDeath">
+            <summary>The Manner of Death Observation.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.ConditionContributingToDeath">
+            <summary>Condition Contributing to Death.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionA">
+            <summary>Cause Of Death Condition Line A (#1).</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionB">
+            <summary>Cause Of Death Condition Line B (#2).</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionC">
+            <summary>Cause Of Death Condition Line C (#3).</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionD">
+            <summary>Cause Of Death Condition Line D (#4).</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CauseOfDeathCondition(System.Int32)">
+            <summary>Create a Cause Of Death Condition.   Used to create CauseOfDeathConditionA-D </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Father">
+            <summary>Decedent's Father.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateFather">
+            <summary>Create Spouse.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Mother">
+            <summary>Decedent's Mother.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateMother">
+            <summary>Create Mother.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.Spouse">
+            <summary>Decedent's Spouse.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateSpouse">
+            <summary>Create Spouse.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DecedentEducationLevel">
+            <summary>Decedent Education Level.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateEducationLevelObs">
+            <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.BirthRecordIdentifier">
+            <summary>Birth Record Identifier.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateBirthRecordIdentifier">
+            <summary>Create an empty BirthRecordIdentifier Observation.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.EmergingIssues">
+            <summary>Emerging Issues.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CodingStatusValues">
+            <summary> Coding Status </summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateCodingStatusValues">
+            <summary>Create an empty Coding Status Value Parameters.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.UsualWork">
+            <summary>Usual Work.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateUsualWork">
+            <summary>Create Usual Work.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.MilitaryServiceObs">
+            <summary>Whether the decedent served in the military</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.FuneralHome">
+            <summary>The Funeral Home.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateFuneralHome">
+            <summary>Create Funeral Home.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DispositionLocation">
+            <summary>Disposition Location.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateDispositionLocation">
+            <summary>Create Disposition Location.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DispositionMethod">
+            <summary>Disposition Method.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.AutopsyPerformed">
+            <summary>Autopsy Performed.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateAutopsyPerformed">
+            <summary>Create Autopsy Performed </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.AgeAtDeathObs">
+            <summary>Age At Death.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateAgeAtDeathObs">
+            <summary>Create Age At Death Obs</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.PregnancyObs">
+            <summary>Decedent Pregnancy Status.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreatePregnancyObs">
+            <summary> Create Pregnancy Status. </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.ExaminerContactedObs">
+            <summary>Examiner Contacted.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.TobaccoUseObs">
+            <summary>Tobacco Use Contributed To Death.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.InjuryLocationLoc">
+            <summary>Injury Location.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateInjuryLocationLoc">
+            <summary>Create Injury Location.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.InjuryIncidentObs">
+            <summary>Injury Incident.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateInjuryIncidentObs">
+            <summary>Create Injury Incident.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DeathLocationLoc">
+            <summary>Death Location.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateDeathLocation">
+            <summary>Create Death Location </summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.DeathDateObs">
+            <summary>Date Of Death.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateDeathDateObs">
+            <summary>Create Death Date Observation.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.SurgeryDateObs">
+            <summary>Date Of Surgery.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateSurgeryDateObs">
+            <summary>Create Surgery Date Observation.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.ActivityAtTimeOfDeathObs">
+            <summary> Activity at Time of Death </summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateActivityAtTimeOfDeathObs">
+            <summary>Create an empty ActivityAtTimeOfDeathObs, to be populated in ActivityAtDeath.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.AutomatedUnderlyingCauseOfDeathObs">
+            <summary> Automated Underlying Cause of Death </summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateAutomatedUnderlyingCauseOfDeathObs">
+            <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.ManualUnderlyingCauseOfDeathObs">
+            <summary> Manual Underlying Cause of Death </summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateManualUnderlyingCauseOfDeathObs">
+            <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.PlaceOfInjuryObs">
+            <summary> Place Of Injury </summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreatePlaceOfInjuryObs">
+            <summary>Create an empty PlaceOfInjuryObs, to be populated in PlaceOfInjury.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.CodedRaceAndEthnicityObs">
+            <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateCodedRaceAndEthnicityObs">
+            <summary>Create an empty CodedRaceAndEthnicityObs, to be populated in Various Methods.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.EntityAxisCauseOfDeathObsList">
+            <summary>Entity Axis Cause of Death</summary>
+        </member>
+        <member name="F:VRDR.DeathRecord.RecordAxisCauseOfDeathObsList">
+            <summary>Record Axis Cause of Death</summary>
         </member>
         <member name="P:VRDR.DeathRecord.ActivityAtDeath">
             <summary>Activity at Time of Death.</summary>
@@ -953,287 +1235,6 @@
             <para>// Getter:</para>
             <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.TransaxConversionHelper}");</para>
             </example>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateInputRaceEthnicityObs">
-            <summary> Create Input Race and Ethnicity </summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateCertifier">
-            <summary>Create Certifier.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateDeathCertification">
-            <summary>Create Death Certification.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CauseOfDeathCondition(System.Int32)">
-            <summary>Create a Cause Of Death Condition </summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateFather">
-            <summary>Create Spouse.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateMother">
-            <summary>Create Mother.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateSpouse">
-            <summary>Create Spouse.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateEducationLevelObs">
-            <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateUsualWork">
-            <summary>Create Usual Work.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateFuneralHome">
-            <summary>Create Funeral Home.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateDispositionLocation">
-            <summary>Create Disposition Location.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateAutopsyPerformed">
-            <summary>Create Autopsy Performed </summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateAgeAtDeathObs">
-            <summary>Create Age At Death Obs</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateDeathDateObs">
-            <summary>Create Death Date Observation.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateSurgeryDateObs">
-            <summary>Create Surgery Date Observation.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreatePregnancyObs">
-            <summary> Create Pregnancy Status. </summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateInjuryLocationLoc">
-            <summary>Create Injury Location.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateInjuryIncidentObs">
-            <summary>Create Injury Incident.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateDeathLocation">
-            <summary>Create Death Location </summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateActivityAtTimeOfDeathObs">
-            <summary>Create an empty ActivityAtTimeOfDeathObs, to be populated in ActivityAtDeath.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateAutomatedUnderlyingCauseOfDeathObs">
-            <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateManualUnderlyingCauseOfDeathObs">
-            <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreatePlaceOfInjuryObs">
-            <summary>Create an empty PlaceOfInjuryObs, to be populated in PlaceOfInjury.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.CreateCodedRaceAndEthnicityObs">
-            <summary>Create an empty CodedRaceAndEthnicityObs, to be populated in Various Methods.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.#ctor">
-            <summary>Default constructor that creates a new, empty DeathRecord.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.#ctor(System.String,System.Boolean)">
-            <summary>Constructor that takes a string that represents a FHIR Death Record in either XML or JSON format.</summary>
-            <param name="record">represents a FHIR Death Record in either XML or JSON format.</param>
-            <param name="permissive">if the parser should be permissive when parsing the given string</param>
-            <exception cref="T:System.ArgumentException">Record is neither valid XML nor JSON.</exception>
-        </member>
-        <member name="M:VRDR.DeathRecord.#ctor(Hl7.Fhir.Model.Bundle)">
-            <summary>Constructor that takes a FHIR Bundle that represents a FHIR Death Record.</summary>
-            <param name="bundle">represents a FHIR Bundle.</param>
-            <exception cref="T:System.ArgumentException">Record is invalid.</exception>
-        </member>
-        <member name="M:VRDR.DeathRecord.ToXML">
-            <summary>Helper method to return a XML string representation of this Death Record.</summary>
-            <returns>a string representation of this Death Record in XML format</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.ToXml">
-            <summary>Helper method to return a XML string representation of this Death Record.</summary>
-            <returns>a string representation of this Death Record in XML format</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.ToJSON">
-            <summary>Helper method to return a JSON string representation of this Death Record.</summary>
-            <returns>a string representation of this Death Record in JSON format</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.ToJson">
-            <summary>Helper method to return a JSON string representation of this Death Record.</summary>
-            <returns>a string representation of this Death Record in JSON format</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.GetITypedElement">
-            <summary>Helper method to return an ITypedElement of the record bundle.</summary>
-            <returns>an ITypedElement of the record bundle</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.GetBundle">
-            <summary>Helper method to return a the bundle.</summary>
-            <returns>a FHIR Bundle</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.GetDeathCertificateDocumentBundle">
-            <summary>
-            Helper method to return the bundle that makes up a CauseOfDeathCodedContent bundle. This is actually
-            the complete DeathRecord Bundle accessible via a method name that aligns with the other specific
-            GetBundle methods (GetCauseOfDeathCodedContentBundle and GetDemographicCodedContentBundle).
-            </summary>
-            <returns>a FHIR Bundle</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.GetCauseOfDeathCodedContentBundle">
-            <summary>Helper method to return the subset of this record that makes up a CauseOfDeathCodedContent bundle.</summary>
-            <returns>a new FHIR Bundle</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.GetDemographicCodedContentBundle">
-            <summary>Helper method to return the subset of this record that makes up a DemographicCodedContent bundle.</summary>
-            <returns>a new FHIR Bundle</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.GetMortalityRosterBundle(System.Boolean)">
-            <summary>Helper method to return the subset of this record that makes up a Mortality Roster bundle.</summary>
-            <returns>a new FHIR Bundle</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.AddReferenceToComposition(System.String,System.String)">
-            <summary>Add a reference to the Death Record Composition.</summary>
-            <param name="reference">a reference.</param>
-            <param name="code">the code for the section to add to.</param>
-            The sections are from : CodeSystems.DocumentSections
-                          DecedentDemographics
-                          DeathInvestigation
-                          DeathCertification
-                          DecedentDisposition
-                          CodedContent
-        </member>
-        <member name="M:VRDR.DeathRecord.RemoveReferenceFromComposition(System.String,System.String)">
-            <summary>Remove a reference from the Death Record Composition.</summary>
-            <param name="reference">a reference.</param>
-            <param name="code">a code for the section to modify.</param>
-        </member>
-        <member name="M:VRDR.DeathRecord.RestoreReferences">
-            <summary>Restores class references from a newly parsed record.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.BlankPlaceholder">
-            <summary>String to represent a blank value when an empty string is not allowed</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.MortalityData">
-            <summary>Mortality data for code translations.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Navigator">
-            <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Bundle">
-            <summary>Bundle that contains the death record.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Composition">
-            <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Decedent">
-            <summary>The Decedent.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.InputRaceAndEthnicityObs">
-            <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Certifier">
-            <summary>The Certifier.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.DeathCertification">
-            <summary>The Certification.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.MannerOfDeath">
-            <summary>The Manner of Death Observation.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.ConditionContributingToDeath">
-            <summary>Condition Contributing to Death.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionA">
-            <summary>Cause Of Death Condition Line A (#1).</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionB">
-            <summary>Cause Of Death Condition Line B (#2).</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionC">
-            <summary>Cause Of Death Condition Line C (#3).</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionD">
-            <summary>Cause Of Death Condition Line D (#4).</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Father">
-            <summary>Decedent's Father.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Mother">
-            <summary>Decedent's Mother.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.Spouse">
-            <summary>Decedent's Spouse.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.DecedentEducationLevel">
-            <summary>Decedent Education Level.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.BirthRecordIdentifier">
-            <summary>Birth Record Identifier.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.EmergingIssues">
-            <summary>Emerging Issues.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CodingStatusValues">
-            <summary> Coding Status </summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.UsualWork">
-            <summary>Usual Work.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.MilitaryServiceObs">
-            <summary>Whether the decedent served in the military</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.FuneralHome">
-            <summary>The Funeral Home.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.DispositionLocation">
-            <summary>Disposition Location.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.DispositionMethod">
-            <summary>Disposition Method.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.AutopsyPerformed">
-            <summary>Autopsy Performed.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.AgeAtDeathObs">
-            <summary>Age At Death.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.PregnancyObs">
-            <summary>Decedent Pregnancy Status.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.ExaminerContactedObs">
-            <summary>Examiner Contacted.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.TobaccoUseObs">
-            <summary>Tobacco Use Contributed To Death.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.InjuryLocationLoc">
-            <summary>Injury Location.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.InjuryIncidentObs">
-            <summary>Injury Incident.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.DeathLocationLoc">
-            <summary>Death Location.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.DeathDateObs">
-            <summary>Date Of Death.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.SurgeryDateObs">
-            <summary>Date Of Surgery.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.ActivityAtTimeOfDeathObs">
-            <summary> Activity at Time of Death </summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.AutomatedUnderlyingCauseOfDeathObs">
-            <summary> Automated Underlying Cause of Death </summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.ManualUnderlyingCauseOfDeathObs">
-            <summary> Manual Underlying Cause of Death </summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.PlaceOfInjuryObs">
-            <summary> Place Of Injury </summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.CodedRaceAndEthnicityObs">
-            <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.EntityAxisCauseOfDeathObsList">
-            <summary>Entity Axis Cause of Death</summary>
-        </member>
-        <member name="F:VRDR.DeathRecord.RecordAxisCauseOfDeathObsList">
-            <summary>Record Axis Cause of Death</summary>
         </member>
         <member name="P:VRDR.DeathRecord.Identifier">
             <summary>Death Record Identifier, Death Certificate Number.</summary>
@@ -3160,6 +3161,9 @@
         </member>
         <member name="M:VRDR.DeathRecord.GetPartialDate(Hl7.Fhir.Model.Extension,System.String)">
             <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.NewBlankPartialDateTimeExtension(System.Boolean)">
+            <summary>NewBlankPartialDateTimeExtension, Build a blank PartialDateTime extension (which means all the data absent reasons are present to note that the data is not in fact present)</summary>
         </member>
         <member name="M:VRDR.DeathRecord.SetPartialDate(Hl7.Fhir.Model.Extension,System.String,System.Nullable{System.UInt32})">
             <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be set in the extension</summary>

@@ -1,3 +1,7 @@
+// DeathRecord_util.cs
+//    Contains utility methods used across the DeathRecords class.
+
+
 using System;
 using System.Linq;
 using System.Collections;
@@ -43,6 +47,28 @@ namespace VRDR
             return null;
         }
 
+        /// <summary>NewBlankPartialDateTimeExtension, Build a blank PartialDateTime extension (which means all the data absent reasons are present to note that the data is not in fact present)</summary>
+        // takes an optional flag to determine if this extension should include the time field, which is not always needed
+        private Extension NewBlankPartialDateTimeExtension(bool includeTime = true)
+        {
+            Extension partialDateTime = new Extension(includeTime ? ExtensionURL.PartialDateTime : ExtensionURL.PartialDate, null);
+            Extension year = new Extension(ExtensionURL.DateYear, null);
+            year.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            partialDateTime.Extension.Add(year);
+            Extension month = new Extension(ExtensionURL.DateMonth, null);
+            month.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            partialDateTime.Extension.Add(month);
+            Extension day = new Extension(ExtensionURL.DateDay, null);
+            day.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            partialDateTime.Extension.Add(day);
+            if (includeTime)
+            {
+                Extension time = new Extension(ExtensionURL.DateTime, null);
+                time.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+                partialDateTime.Extension.Add(time);
+            }
+            return partialDateTime;
+        }
         /// <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be set in the extension</summary>
         private void SetPartialDate(Extension partialDateTime, string partURL, uint? value)
         {
@@ -68,7 +94,7 @@ namespace VRDR
                 if (part != null)
                 {
                     Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-                    if (dataAbsent != null || part.Value == null )
+                    if (dataAbsent != null || part.Value == null)
                     {
                         // There's either a specific claim that there's no data or actually no data, so return null
                         return null;

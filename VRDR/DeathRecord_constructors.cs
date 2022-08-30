@@ -13,6 +13,8 @@ using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Newtonsoft.Json;
 
+// DeathRecord_constructors.cs
+//     Contains constructors and associated methods for the DeathRecords class
 namespace VRDR
 {
     /// <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
@@ -318,8 +320,8 @@ namespace VRDR
             // Use value of alias from argument
             if (!String.IsNullOrWhiteSpace(ReplaceStatusHelper))
             {
-                    Extension replaceExt = new Extension(ExtensionURL.ReplaceStatus , DictToCodeableConcept(ReplaceStatus) );
-                    mortRosterBundle.Meta.Extension.Add(replaceExt);
+                Extension replaceExt = new Extension(ExtensionURL.ReplaceStatus, DictToCodeableConcept(ReplaceStatus));
+                mortRosterBundle.Meta.Extension.Add(replaceExt);
             }
             Extension aliasExt = new Extension(ExtensionURL.AliasStatus, new FhirBoolean(alias));
             mortRosterBundle.Meta.Extension.Add(aliasExt);
@@ -327,7 +329,7 @@ namespace VRDR
         }
 
 
-/////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////
         //
         // Class helper methods useful for building, searching through records.
         //
@@ -347,7 +349,7 @@ namespace VRDR
             // In many of the createXXXXXX methods this gets called as a last step to add a reference to the new instance to the composition.
             // The Composition is present only in the DeathCertificateDocument, and is absent in all of the other bundles.
             // In lieu of putting conditional logic in all of the calling methods, added it here.
-            if(Composition == null)
+            if (Composition == null)
             {
                 return;
             }

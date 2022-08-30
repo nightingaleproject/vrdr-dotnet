@@ -13,6 +13,9 @@ using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Newtonsoft.Json;
 
+// DeathRecord_fieldsAndCreateMethods.cs
+//     Contains field definitions and associated createXXXX methods used to construct a field
+
 namespace VRDR
 {
     /// <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
@@ -22,6 +25,27 @@ namespace VRDR
     /// </summary>
     public partial class DeathRecord
     {
+        /// <summary>String to represent a blank value when an empty string is not allowed</summary>
+        public static string BlankPlaceholder = "BLANK";
+
+        /// <summary>Mortality data for code translations.</summary>
+        private MortalityData MortalityData = MortalityData.Instance;
+
+        /// <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
+        private ITypedElement Navigator;
+
+        /// <summary>Bundle that contains the death record.</summary>
+        private Bundle Bundle;
+
+        /// <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
+        private Composition Composition;
+
+        /// <summary>The Decedent.</summary>
+        private Patient Decedent;
+
+        /// <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        private Observation InputRaceAndEthnicityObs;
+
         /// <summary> Create Input Race and Ethnicity </summary>
 
         private void CreateInputRaceEthnicityObs()
@@ -38,6 +62,9 @@ namespace VRDR
             Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
         }
 
+        /// <summary>The Certifier.</summary>
+        private Practitioner Certifier;
+
         /// <summary>Create Certifier.</summary>
         private void CreateCertifier()
         {
@@ -49,6 +76,9 @@ namespace VRDR
             // Not linked to Composition or inserted in bundle, since this is run before the composition exists.
         }
 
+
+        /// <summary>The Certification.</summary>
+        private Procedure DeathCertification;
         /// <summary>Create Death Certification.</summary>
         private void CreateDeathCertification()
         {
@@ -64,7 +94,25 @@ namespace VRDR
             // Not linked to Composition or inserted in bundle, since this is run before the composition exists.
         }
 
-         /// <summary>Create a Cause Of Death Condition </summary>
+        /// <summary>The Manner of Death Observation.</summary>
+        private Observation MannerOfDeath;
+
+        /// <summary>Condition Contributing to Death.</summary>
+        private Observation ConditionContributingToDeath;
+
+        /// <summary>Cause Of Death Condition Line A (#1).</summary>
+        private Observation CauseOfDeathConditionA;
+
+        /// <summary>Cause Of Death Condition Line B (#2).</summary>
+        private Observation CauseOfDeathConditionB;
+
+        /// <summary>Cause Of Death Condition Line C (#3).</summary>
+        private Observation CauseOfDeathConditionC;
+
+        /// <summary>Cause Of Death Condition Line D (#4).</summary>
+        private Observation CauseOfDeathConditionD;
+
+        /// <summary>Create a Cause Of Death Condition.   Used to create CauseOfDeathConditionA-D </summary>
         private Observation CauseOfDeathCondition(int index)
         {
             Observation CodCondition;
@@ -87,6 +135,8 @@ namespace VRDR
         }
 
 
+        /// <summary>Decedent's Father.</summary>
+        private RelatedPerson Father;
         /// <summary>Create Spouse.</summary>
         private void CreateFather()
         {
@@ -102,6 +152,8 @@ namespace VRDR
             Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
         }
 
+        /// <summary>Decedent's Mother.</summary>
+        private RelatedPerson Mother;
         /// <summary>Create Mother.</summary>
         private void CreateMother()
         {
@@ -117,6 +169,8 @@ namespace VRDR
             Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
         }
 
+        /// <summary>Decedent's Spouse.</summary>
+        private RelatedPerson Spouse;
         /// <summary>Create Spouse.</summary>
         private void CreateSpouse()
         {
@@ -132,8 +186,9 @@ namespace VRDR
             Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
         }
 
-
-         /// <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
+        /// <summary>Decedent Education Level.</summary>
+        private Observation DecedentEducationLevel;
+        /// <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
         private void CreateEducationLevelObs()
         {
             DecedentEducationLevel = new Observation();
@@ -148,20 +203,10 @@ namespace VRDR
             Bundle.AddResourceEntry(DecedentEducationLevel, "urn:uuid:" + DecedentEducationLevel.Id);
         }
 
-        private void CreateCodingStatusValues()
-        {
-            CodingStatusValues = new Parameters();
-            CodingStatusValues.Id = Guid.NewGuid().ToString();
-            CodingStatusValues.Meta = new Meta();
-            string[] profile = { ProfileURL.CodingStatusValues };
-            CodingStatusValues.Meta.Profile = profile;
-            Date date = new Date();
-            date.Extension.Add(NewBlankPartialDateTimeExtension(false));
-            CodingStatusValues.Add("receiptDate", date);
-            AddReferenceToComposition(CodingStatusValues.Id, "CodedContent");
-            Bundle.AddResourceEntry(CodingStatusValues, "urn:uuid:" + CodingStatusValues.Id);
-        }
+        /// <summary>Birth Record Identifier.</summary>
+        private Observation BirthRecordIdentifier;
 
+        /// <summary>Create an empty BirthRecordIdentifier Observation.</summary>
         private void CreateBirthRecordIdentifier()
         {
             BirthRecordIdentifier = new Observation();
@@ -178,7 +223,32 @@ namespace VRDR
             AddReferenceToComposition(BirthRecordIdentifier.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
         }
-         /// <summary>Create Usual Work.</summary>
+
+
+        /// <summary>Emerging Issues.</summary>
+        protected Observation EmergingIssues;
+
+        /// <summary> Coding Status </summary>
+        private Parameters CodingStatusValues;
+
+        /// <summary>Create an empty Coding Status Value Parameters.</summary>
+        private void CreateCodingStatusValues()
+        {
+            CodingStatusValues = new Parameters();
+            CodingStatusValues.Id = Guid.NewGuid().ToString();
+            CodingStatusValues.Meta = new Meta();
+            string[] profile = { ProfileURL.CodingStatusValues };
+            CodingStatusValues.Meta.Profile = profile;
+            Date date = new Date();
+            date.Extension.Add(NewBlankPartialDateTimeExtension(false));
+            CodingStatusValues.Add("receiptDate", date);
+            AddReferenceToComposition(CodingStatusValues.Id, "CodedContent");
+            Bundle.AddResourceEntry(CodingStatusValues, "urn:uuid:" + CodingStatusValues.Id);
+        }
+
+        /// <summary>Usual Work.</summary>
+        private Observation UsualWork;
+        /// <summary>Create Usual Work.</summary>
         private void CreateUsualWork()
         {
             UsualWork = new Observation();
@@ -195,6 +265,12 @@ namespace VRDR
             Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
         }
 
+        /// <summary>Whether the decedent served in the military</summary>
+        private Observation MilitaryServiceObs;
+
+        /// <summary>The Funeral Home.</summary>
+        private Organization FuneralHome;
+
         /// <summary>Create Funeral Home.</summary>
         private void CreateFuneralHome()
         {
@@ -208,6 +284,9 @@ namespace VRDR
             AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
             Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
         }
+
+        /// <summary>Disposition Location.</summary>
+        private Location DispositionLocation;
         /// <summary>Create Disposition Location.</summary>
         private void CreateDispositionLocation()
         {
@@ -225,6 +304,11 @@ namespace VRDR
             Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
         }
 
+        /// <summary>Disposition Method.</summary>
+        private Observation DispositionMethod;
+
+        /// <summary>Autopsy Performed.</summary>
+        private Observation AutopsyPerformed;
         /// <summary>Create Autopsy Performed </summary>
         private void CreateAutopsyPerformed()
         {
@@ -240,6 +324,8 @@ namespace VRDR
             Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
         }
 
+        /// <summary>Age At Death.</summary>
+        private Observation AgeAtDeathObs;
         /// <summary>Create Age At Death Obs</summary>
         private void CreateAgeAtDeathObs()
         {
@@ -257,28 +343,85 @@ namespace VRDR
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
 
-        // Build a blank PartialDateTime extension (which means all the data absent reasons are present to note that the data is not in fact
-        // present); takes an optional flag to determine if this extension should include the time field, which is not always needed
-        private Extension NewBlankPartialDateTimeExtension(bool includeTime = true)
+        /// <summary>Decedent Pregnancy Status.</summary>
+        private Observation PregnancyObs;
+        /// <summary> Create Pregnancy Status. </summary>
+        private void CreatePregnancyObs()
         {
-            Extension partialDateTime = new Extension(includeTime ? ExtensionURL.PartialDateTime : ExtensionURL.PartialDate, null);
-            Extension year = new Extension(ExtensionURL.DateYear, null);
-            year.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
-            partialDateTime.Extension.Add(year);
-            Extension month = new Extension(ExtensionURL.DateMonth, null);
-            month.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
-            partialDateTime.Extension.Add(month);
-            Extension day = new Extension(ExtensionURL.DateDay, null);
-            day.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
-            partialDateTime.Extension.Add(day);
-            if (includeTime)
-            {
-                Extension time = new Extension(ExtensionURL.DateTime, null);
-                time.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
-                partialDateTime.Extension.Add(time);
-            }
-            return partialDateTime;
+            PregnancyObs = new Observation();
+            PregnancyObs.Id = Guid.NewGuid().ToString();
+            PregnancyObs.Meta = new Meta();
+            string[] p_profile = { ProfileURL.DecedentPregnancyStatus };
+            PregnancyObs.Meta.Profile = p_profile;
+            PregnancyObs.Status = ObservationStatus.Final;
+            PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
+            PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(PregnancyObs.Id, "DeathInvestigation");
+            Bundle.AddResourceEntry(PregnancyObs, "urn:uuid:" + PregnancyObs.Id);
         }
+
+        /// <summary>Examiner Contacted.</summary>
+        private Observation ExaminerContactedObs;
+
+        /// <summary>Tobacco Use Contributed To Death.</summary>
+        private Observation TobaccoUseObs;
+
+        /// <summary>Injury Location.</summary>
+        private Location InjuryLocationLoc;
+        /// <summary>Create Injury Location.</summary>
+        private void CreateInjuryLocationLoc()
+        {
+            InjuryLocationLoc = new Location();
+            InjuryLocationLoc.Id = Guid.NewGuid().ToString();
+            InjuryLocationLoc.Meta = new Meta();
+            string[] injurylocation_profile = { ProfileURL.InjuryLocation };
+            InjuryLocationLoc.Meta.Profile = injurylocation_profile;
+            InjuryLocationLoc.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
+            InjuryLocationLoc.Address = DictToAddress(EmptyAddrDict());
+            InjuryLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "injury", "injury location", null));
+            AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
+            Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
+        }
+
+        /// <summary>Injury Incident.</summary>
+        private Observation InjuryIncidentObs;
+        /// <summary>Create Injury Incident.</summary>
+        private void CreateInjuryIncidentObs()
+        {
+            InjuryIncidentObs = new Observation();
+            InjuryIncidentObs.Id = Guid.NewGuid().ToString();
+            InjuryIncidentObs.Meta = new Meta();
+            string[] iio_profile = { ProfileURL.InjuryIncident };
+            InjuryIncidentObs.Meta.Profile = iio_profile;
+            InjuryIncidentObs.Status = ObservationStatus.Final;
+            InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
+            InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            InjuryIncidentObs.Effective = new FhirDateTime();
+            InjuryIncidentObs.Effective.Extension.Add(NewBlankPartialDateTimeExtension(true));
+            AddReferenceToComposition(InjuryIncidentObs.Id, "DeathInvestigation");
+            Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
+        }
+
+        /// <summary>Death Location.</summary>
+        private Location DeathLocationLoc;
+        /// <summary>Create Death Location </summary>
+        private void CreateDeathLocation()
+        {
+            DeathLocationLoc = new Location();
+            DeathLocationLoc.Id = Guid.NewGuid().ToString();
+            DeathLocationLoc.Meta = new Meta();
+            string[] deathlocation_profile = { ProfileURL.DeathLocation };
+            DeathLocationLoc.Meta.Profile = deathlocation_profile;
+            DeathLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "death", "death location", null));
+            DeathLocationLoc.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
+            AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
+            Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+        }
+
+
+
+        /// <summary>Date Of Death.</summary>
+        private Observation DeathDateObs;
         /// <summary>Create Death Date Observation.</summary>
         private void CreateDeathDateObs()
         {
@@ -290,7 +433,7 @@ namespace VRDR
             DeathDateObs.Status = ObservationStatus.Final;
             DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date+time of death", null);
             // Decedent is present in DeathCertificateDocuments, and absent in all other bundles.
-            if(Decedent != null)
+            if (Decedent != null)
             {
                 DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             }
@@ -303,6 +446,9 @@ namespace VRDR
             AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
         }
+
+        /// <summary>Date Of Surgery.</summary>
+        private Observation SurgeryDateObs;
         /// <summary>Create Surgery Date Observation.</summary>
         private void CreateSurgeryDateObs()
         {
@@ -320,68 +466,9 @@ namespace VRDR
             AddReferenceToComposition(SurgeryDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(SurgeryDateObs, "urn:uuid:" + SurgeryDateObs.Id);
         }
-
-        /// <summary> Create Pregnancy Status. </summary>
-        private void CreatePregnancyObs()
-        {
-            PregnancyObs = new Observation();
-            PregnancyObs.Id = Guid.NewGuid().ToString();
-            PregnancyObs.Meta = new Meta();
-            string[] p_profile = { ProfileURL.DecedentPregnancyStatus };
-            PregnancyObs.Meta.Profile = p_profile;
-            PregnancyObs.Status = ObservationStatus.Final;
-            PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
-            PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AddReferenceToComposition(PregnancyObs.Id, "DeathInvestigation");
-            Bundle.AddResourceEntry(PregnancyObs, "urn:uuid:" + PregnancyObs.Id);
-        }
-
-        /// <summary>Create Injury Location.</summary>
-        private void CreateInjuryLocationLoc()
-        {
-            InjuryLocationLoc = new Location();
-            InjuryLocationLoc.Id = Guid.NewGuid().ToString();
-            InjuryLocationLoc.Meta = new Meta();
-            string[] injurylocation_profile = { ProfileURL.InjuryLocation };
-            InjuryLocationLoc.Meta.Profile = injurylocation_profile;
-            InjuryLocationLoc.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
-            InjuryLocationLoc.Address = DictToAddress(EmptyAddrDict());
-            InjuryLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "injury", "injury location", null));
-            AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
-            Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
-        }
-
-        /// <summary>Create Injury Incident.</summary>
-        private void CreateInjuryIncidentObs()
-        {
-            InjuryIncidentObs = new Observation();
-            InjuryIncidentObs.Id = Guid.NewGuid().ToString();
-            InjuryIncidentObs.Meta = new Meta();
-            string[] iio_profile = { ProfileURL.InjuryIncident };
-            InjuryIncidentObs.Meta.Profile = iio_profile;
-            InjuryIncidentObs.Status = ObservationStatus.Final;
-            InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
-            InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            InjuryIncidentObs.Effective = new FhirDateTime();
-            InjuryIncidentObs.Effective.Extension.Add(NewBlankPartialDateTimeExtension(true));
-            AddReferenceToComposition(InjuryIncidentObs.Id, "DeathInvestigation");
-            Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
-        }
-        /// <summary>Create Death Location </summary>
-        private void CreateDeathLocation()
-        {
-            DeathLocationLoc = new Location();
-            DeathLocationLoc.Id = Guid.NewGuid().ToString();
-            DeathLocationLoc.Meta = new Meta();
-            string[] deathlocation_profile = { ProfileURL.DeathLocation };
-            DeathLocationLoc.Meta.Profile = deathlocation_profile;
-            DeathLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "death", "death location", null));
-            DeathLocationLoc.Name = DeathRecord.BlankPlaceholder; // We cannot have a blank string, but the field is required to be present
-            AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
-            Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
-
-        }
-
+        // Coded Observations
+        /// <summary> Activity at Time of Death </summary>
+        private Observation ActivityAtTimeOfDeathObs;
         /// <summary>Create an empty ActivityAtTimeOfDeathObs, to be populated in ActivityAtDeath.</summary>
         private void CreateActivityAtTimeOfDeathObs()
         {
@@ -396,6 +483,8 @@ namespace VRDR
             AddReferenceToComposition(ActivityAtTimeOfDeathObs.Id, "CodedContent");
             Bundle.AddResourceEntry(ActivityAtTimeOfDeathObs, "urn:uuid:" + ActivityAtTimeOfDeathObs.Id);
         }
+        /// <summary> Automated Underlying Cause of Death </summary>
+        private Observation AutomatedUnderlyingCauseOfDeathObs;
         /// <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
         private void CreateAutomatedUnderlyingCauseOfDeathObs()
         {
@@ -410,7 +499,8 @@ namespace VRDR
             AddReferenceToComposition(AutomatedUnderlyingCauseOfDeathObs.Id, "CodedContent");
             Bundle.AddResourceEntry(AutomatedUnderlyingCauseOfDeathObs, "urn:uuid:" + AutomatedUnderlyingCauseOfDeathObs.Id);
         }
-
+        /// <summary> Manual Underlying Cause of Death </summary>
+        private Observation ManualUnderlyingCauseOfDeathObs;
         /// <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
         private void CreateManualUnderlyingCauseOfDeathObs()
         {
@@ -426,6 +516,8 @@ namespace VRDR
             Bundle.AddResourceEntry(ManualUnderlyingCauseOfDeathObs, "urn:uuid:" + ManualUnderlyingCauseOfDeathObs.Id);
         }
 
+        /// <summary> Place Of Injury </summary>
+        private Observation PlaceOfInjuryObs;
         /// <summary>Create an empty PlaceOfInjuryObs, to be populated in PlaceOfInjury.</summary>
         private void CreatePlaceOfInjuryObs()
         {
@@ -441,6 +533,9 @@ namespace VRDR
             Bundle.AddResourceEntry(PlaceOfInjuryObs, "urn:uuid:" + PlaceOfInjuryObs.Id);
         }
 
+        /// <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        private Observation CodedRaceAndEthnicityObs;
+
         /// <summary>Create an empty CodedRaceAndEthnicityObs, to be populated in Various Methods.</summary>
         private void CreateCodedRaceAndEthnicityObs()
         {
@@ -455,6 +550,11 @@ namespace VRDR
             AddReferenceToComposition(CodedRaceAndEthnicityObs.Id, "CodedContent");
             Bundle.AddResourceEntry(CodedRaceAndEthnicityObs, "urn:uuid:" + CodedRaceAndEthnicityObs.Id);
         }
+        /// <summary>Entity Axis Cause of Death</summary>
+        private List<Observation> EntityAxisCauseOfDeathObsList;
+
+        /// <summary>Record Axis Cause of Death</summary>
+        private List<Observation> RecordAxisCauseOfDeathObsList;
 
     }
 }

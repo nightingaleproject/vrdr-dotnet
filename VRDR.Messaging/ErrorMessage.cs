@@ -33,7 +33,7 @@ namespace VRDR
         {
             try
             {
-                details = findEntry<OperationOutcome>(ResourceType.OperationOutcome);
+                details = findEntry<OperationOutcome>();
             }
             catch (System.ArgumentException ex)
             {

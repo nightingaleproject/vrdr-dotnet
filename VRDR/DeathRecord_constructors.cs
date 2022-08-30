@@ -395,7 +395,7 @@ namespace VRDR
             string profile = Bundle.Meta?.Profile?.FirstOrDefault();
             bool fullRecord = VRDR.ProfileURL.DeathCertificateDocument.Equals(profile);
             // Grab Composition
-            var compositionEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Composition);
+            var compositionEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is Composition);
             if (compositionEntry != null)
             {
                 Composition = (Composition)compositionEntry.Resource;
@@ -410,7 +410,7 @@ namespace VRDR
             {
                 throw new System.ArgumentException("The Composition is missing a subject (a reference to the Decedent resource).");
             }
-            var patientEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Patient);
+            var patientEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is Patient);
             if (patientEntry != null)
             {
                 Decedent = (Patient)patientEntry.Resource;
@@ -431,8 +431,7 @@ namespace VRDR
             else
             {  // There is an attester
                 var attesterID = (Composition.Attester.First().Party.Reference).Split('/').Last(); // Practititioner/Certifier-Example1 --> Certifier-Example1.  Trims the type off of the path
-                var practitionerEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference ||
-                (entry.Resource.Id != null && entry.Resource.Id == attesterID)));
+                var practitionerEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference || (entry.Resource.Id != null && entry.Resource.Id == attesterID)));
                 if (practitionerEntry != null)
                 {
                     Certifier = (Practitioner)practitionerEntry.Resource;
@@ -454,7 +453,7 @@ namespace VRDR
             // }
 
             // Grab Death Certification
-            var procedureEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Procedure);
+            var procedureEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is Procedure);
             if (procedureEntry != null)
             {
                 DeathCertification = (Procedure)procedureEntry.Resource;
@@ -468,20 +467,20 @@ namespace VRDR
             // }
 
             // Grab Funeral Home  - Organization with type="funeral"
-            var funeralHome = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Organization &&
+            var funeralHome = Bundle.Entry.FirstOrDefault(entry => entry.Resource is Organization &&
                     ((Organization)entry.Resource).Type.FirstOrDefault() != null && (CodeableConceptToDict(((Organization)entry.Resource).Type.First())["code"] == "funeralhome"));
             if (funeralHome != null)
             {
                 FuneralHome = (Organization)funeralHome.Resource;
             }
             // Grab Coding Status
-            var parameterEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Parameters);
+            var parameterEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is Parameters);
             if (parameterEntry != null)
             {
                 CodingStatusValues = (Parameters)parameterEntry.Resource;
             }
             // Scan through all Observations to make sure they all have codes!
-            foreach (var ob in Bundle.Entry.Where(entry => entry.Resource.ResourceType == ResourceType.Observation))
+            foreach (var ob in Bundle.Entry.Where(entry => entry.Resource is Observation))
             {
                 Observation obs = (Observation)ob.Resource;
                 if (obs.Code == null || obs.Code.Coding == null || obs.Code.Coding.FirstOrDefault() == null || obs.Code.Coding.First().Code == null)
@@ -608,7 +607,7 @@ namespace VRDR
             }
 
             // Scan through all RelatedPerson to make sure they all have relationship codes!
-            foreach (var rp in Bundle.Entry.Where(entry => entry.Resource.ResourceType == ResourceType.RelatedPerson))
+            foreach (var rp in Bundle.Entry.Where(entry => entry.Resource is RelatedPerson))
             {
                 RelatedPerson rpn = (RelatedPerson)rp.Resource;
                 if (rpn.Relationship == null || rpn.Relationship.FirstOrDefault() == null || rpn.Relationship.FirstOrDefault().Coding == null || rpn.Relationship.FirstOrDefault().Coding.FirstOrDefault() == null ||
@@ -632,7 +631,7 @@ namespace VRDR
                         break;
                 }
             }
-            foreach (var rp in Bundle.Entry.Where(entry => entry.Resource.ResourceType == ResourceType.Location))
+            foreach (var rp in Bundle.Entry.Where(entry => entry.Resource is Location))
             {
                 Location lcn = (Location)rp.Resource;
                 if ((lcn.Type.FirstOrDefault() == null) || lcn.Type.FirstOrDefault().Coding == null || lcn.Type.FirstOrDefault().Coding.First().Code == null)

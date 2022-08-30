@@ -100,7 +100,7 @@ namespace VRDR.Tests
             Assert.Null(submission.NCHSIdentifier);
 
             MessageParseException ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/EmptySubmission.json")));
-            Assert.Equal("Error processing DeathRecord entry in the message: Failed to find a Bundle Entry containing a Resource of type Bundle", ex.Message);
+            Assert.Equal("Error processing DeathRecord entry in the message: Failed to find a Bundle Entry containing a Resource of type Hl7.Fhir.Model.Bundle", ex.Message);
             ExtractionErrorMessage errMsg = ex.CreateExtractionErrorMessage();
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", errMsg.MessageSource);
             Assert.Equal("nightingale", errMsg.MessageDestination);

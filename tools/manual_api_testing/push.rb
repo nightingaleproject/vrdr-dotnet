@@ -3,6 +3,9 @@
 
 require 'oauth2'
 require 'active_support/time'
+require 'securerandom'
+require 'time'
+require 'json'
 
 jurisdiction = ARGV.shift
 if jurisdiction.nil? || !jurisdiction.match(/^[A-Z][A-Z]$/)
@@ -20,6 +23,13 @@ client_secret = File.read('clientsecret.txt')
 username = File.read('username.txt')
 password = File.read('password.txt')
 
+# Load all the files into memory first
+files = []
+ARGV.each do |filename|
+  files << { filename: filename, message: File.read(filename) }
+end
+
+# Request the token using the OAuth client
 client = OAuth2::Client.new(client_id,
                             client_secret,
                             site: 'https://apigw.cdc.gov/',
@@ -27,11 +37,19 @@ client = OAuth2::Client.new(client_id,
 
 token = client.password.get_token(username, password)
 
-ARGV.each do |filename|
+# Submit the files in chunks of 10
+files.each_slice(10).each do |slice|
 
-  body = File.read(filename)
+  puts "Sending files:"
+  slice.each { |s| puts "  #{s[:filename]}" }
 
-  puts "Sending #{filename}"
+  # Build the package
+  url = "/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles"
+  messages = slice.map { |s| JSON.parse(s[:message]) }
+  message_entries = messages.map { |message| { id: SecureRandom.uuid, request: { method: 'POST', url: url }, resource: message } }
+  submission = { resourceType: 'Bundle', type: 'batch', id: SecureRandom.uuid, timestamp: Time.now.iso8601, entry: message_entries }
+
+  body = submission.to_json
 
   response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
                         headers: { 'Content-Type' => 'application/json' },

@@ -32,6 +32,12 @@ namespace VRDR
             return (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null);
         }
 
+        ///<summary>Has a Surgery Date Been Set</summary>
+        public bool SurgeryDateSet()
+        {
+            return (SurgeryDateObs != null);
+        }
+
         /// <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
         private uint? GetPartialDate(Extension partialDateTime, string partURL)
         {

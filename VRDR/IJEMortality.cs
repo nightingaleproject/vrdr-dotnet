@@ -2954,7 +2954,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("SUR_MO", "SurgeryMonth");
+                return NumericAllowingUnknown_Get("SUR_MO", "SurgeryMonth", record.SurgeryDateSet());
             }
             set
             {
@@ -2971,7 +2971,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("SUR_DY", "SurgeryDay");
+                return NumericAllowingUnknown_Get("SUR_DY", "SurgeryDay", record.SurgeryDateSet());
             }
             set
             {
@@ -2988,7 +2988,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("SUR_YR", "SurgeryYear");
+                return NumericAllowingUnknown_Get("SUR_YR", "SurgeryYear", record.SurgeryDateSet());
             }
             set
             {

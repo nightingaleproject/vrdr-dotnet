@@ -1297,7 +1297,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value)) // // meed to filter out countries that are excluded as residences because they are defunct, e.g., "UR"
                 {
                     Dictionary_Geo_Set("COUNTRYC", "Residence", "address", "country", true, value); // NVSS-234 -- use 2 letter encoding for country, so no translation.
                 }
@@ -2831,7 +2831,14 @@ namespace VRDR
         {
             get
             {
-                return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime");
+                if(record.InjuryIncidentTimeSet())
+                {
+                    return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime");
+                }
+                else
+                {
+                    return("    ");
+                }
             }
             set
             {

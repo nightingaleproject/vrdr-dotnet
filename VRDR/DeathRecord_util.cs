@@ -26,6 +26,11 @@ namespace VRDR
     /// </summary>
     public partial class DeathRecord
     {
+        ///<summary>Has an InjuryIncident Time Been Set</summary>
+        public bool InjuryIncidentTimeSet()
+        {
+            return(InjuryIncidentObs!= null && InjuryIncidentObs.Effective != null );
+        }
 
         /// <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
         private uint? GetPartialDate(Extension partialDateTime, string partURL)

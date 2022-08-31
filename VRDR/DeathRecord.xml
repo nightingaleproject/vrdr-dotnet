@@ -3159,6 +3159,9 @@
             <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUseHelper}");</para>
             </example>
         </member>
+        <member name="M:VRDR.DeathRecord.InjuryIncidentTimeSet">
+            <summary>Has an InjuryIncident Time Been Set</summary>
+        </member>
         <member name="M:VRDR.DeathRecord.GetPartialDate(Hl7.Fhir.Model.Extension,System.String)">
             <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
         </member>

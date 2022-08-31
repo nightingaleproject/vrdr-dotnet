@@ -387,9 +387,13 @@ namespace VRDR
         }
 
         /// <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
-        private string NumericAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
+        private string NumericAllowingUnknown_Get(string ijeFieldName, string fhirFieldName, bool fieldExists = true)
         {
             IJEField info = FieldInfo(ijeFieldName);
+            if (!fieldExists)
+            {
+                return new String(' ', info.Length);
+            }
             uint? value = (uint?)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             if (value != null)
             {
@@ -421,9 +425,13 @@ namespace VRDR
         }
 
         /// <summary>Get a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
-        private string TimeAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
+        private string TimeAllowingUnknown_Get(string ijeFieldName, string fhirFieldName, bool fieldExists = true)
         {
             IJEField info = FieldInfo(ijeFieldName);
+            if (!fieldExists)
+            {
+                return new String(' ', info.Length);
+            }
             string timeString = (string)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             if (timeString != null)
             {
@@ -602,10 +610,11 @@ namespace VRDR
                 }
             }
 
-            if (geoType == "zip"){  // Remove "-" for zip
+            if (geoType == "zip")
+            {  // Remove "-" for zip
                 current.Replace("-", string.Empty);
             }
-            if (current != null )
+            if (current != null)
             {
                 return Truncate(current, info.Length).PadRight(info.Length, ' ');
             }
@@ -898,9 +907,9 @@ namespace VRDR
         {
             get
             {
-                if(record.StateLocalIdentifier1 == null)
+                if (record.StateLocalIdentifier1 == null)
                 {
-                    return(new String(' ', 12));
+                    return (new String(' ', 12));
                 }
                 return RightJustifiedZeroed_Get("AUXNO", "StateLocalIdentifier1");
             }
@@ -1301,7 +1310,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value)) // // meed to filter out countries that are excluded as residences because they are defunct, e.g., "UR"
+                if (!String.IsNullOrWhiteSpace(value)) // need to filter out countries that are excluded as residences because they are defunct, e.g., "UR"
                 {
                     Dictionary_Geo_Set("COUNTRYC", "Residence", "address", "country", true, value); // NVSS-234 -- use 2 letter encoding for country, so no translation.
                 }
@@ -1318,7 +1327,7 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "LIMITS", "ResidenceWithinCityLimits", value);
                 }
@@ -2793,15 +2802,7 @@ namespace VRDR
         {
             get
             {
-                IJEField info = FieldInfo("DOI_MO");
-                if(record.InjuryIncidentTimeSet())
-                {
-                    return NumericAllowingUnknown_Get("DOI_MO", "InjuryMonth");
-                }
-                else
-                {
-                     return (new String(' ', info.Length));
-                }
+                return NumericAllowingUnknown_Get("DOI_MO", "InjuryMonth", record.InjuryIncidentTimeSet());
             }
             set
             {
@@ -2815,15 +2816,7 @@ namespace VRDR
         {
             get
             {
-                IJEField info = FieldInfo("DOI_DY");
-                if(record.InjuryIncidentTimeSet())
-                {
-                    return NumericAllowingUnknown_Get("DOI_DY", "InjuryDay");
-                }
-                else
-                {
-                     return (new String(' ', info.Length));
-                }
+                return NumericAllowingUnknown_Get("DOI_DY", "InjuryDay", record.InjuryIncidentTimeSet());
             }
             set
             {
@@ -2837,15 +2830,7 @@ namespace VRDR
         {
             get
             {
-                IJEField info = FieldInfo("DOI_YR");
-                if(record.InjuryIncidentTimeSet())
-                {
-                    return NumericAllowingUnknown_Get("DOI_YR", "InjuryYear");
-                }
-                else
-                {
-                     return (new String(' ', info.Length));
-                }
+                return NumericAllowingUnknown_Get("DOI_YR", "InjuryYear", record.InjuryIncidentTimeSet());
             }
             set
             {
@@ -2859,15 +2844,7 @@ namespace VRDR
         {
             get
             {
-                IJEField info = FieldInfo("TOI_HR");
-                if(record.InjuryIncidentTimeSet())
-                {
-                    return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime");
-                }
-                else
-                {
-                     return (new String(' ', info.Length));
-                }
+                return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime", record.InjuryIncidentTimeSet());
             }
             set
             {
@@ -2939,9 +2916,9 @@ namespace VRDR
         {
             get
             {
-                if(record.StateLocalIdentifier2 == null)
+                if (record.StateLocalIdentifier2 == null)
                 {
-                    return(new String(' ', 12));
+                    return (new String(' ', 12));
                 }
                 return RightJustifiedZeroed_Get("AUXNO2", "StateLocalIdentifier2");
             }
@@ -2964,7 +2941,7 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     LeftJustified_Set("STATESP", "StateSpecific", value);
                 }
@@ -2981,7 +2958,7 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     NumericAllowingUnknown_Set("SUR_MO", "SurgeryMonth", value);
                 }
@@ -2998,9 +2975,9 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                        NumericAllowingUnknown_Set("SUR_DY", "SurgeryDay", value);
+                    NumericAllowingUnknown_Set("SUR_DY", "SurgeryDay", value);
                 }
             }
         }
@@ -3015,9 +2992,9 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                        NumericAllowingUnknown_Set("SUR_YR", "SurgeryYear", value);
+                    NumericAllowingUnknown_Set("SUR_YR", "SurgeryYear", value);
                 }
             }
         }
@@ -3028,13 +3005,13 @@ namespace VRDR
         {
             get
             {
-                if(record.InjuryIncidentTimeSet())
+                if (record.InjuryIncidentTimeSet())
                 {
                     return "M"; // Military time
                 }
                 else
                 {
-                     return ""; // Military time
+                    return ""; // Military time
                 }
             }
             set
@@ -3071,7 +3048,7 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "ARMEDF", "MilitaryService", value);
                 }
@@ -3089,7 +3066,7 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     LeftJustified_Set("DINSTI", "DeathLocationName", value);
                 }
@@ -3224,10 +3201,11 @@ namespace VRDR
                 var stateCode = Dictionary_Geo_Get("DSTATE", "DeathLocationAddress", "address", "state", false);
                 //var mortalityData = MortalityData.Instance;
                 string statetextd = dataLookup.StateCodeToStateName(stateCode);
-                if (statetextd == null){
+                if (statetextd == null)
+                {
                     statetextd = " ";
                 }
-                return( Truncate(statetextd, 28).PadRight(28, ' '));
+                return (Truncate(statetextd, 28).PadRight(28, ' '));
             }
             set
             {
@@ -3262,7 +3240,7 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "county", false, value);
                 }
@@ -3279,7 +3257,7 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "cityC", false, value);
                 }
@@ -3330,7 +3308,7 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     Set_MappingIJEToFHIR(Mappings.SpouseAlive.IJEToFHIR, "SPOUSELV", "SpouseAlive", value);
                 }
@@ -3436,12 +3414,13 @@ namespace VRDR
             {
                 // expand STATEC 2 letter code to full name
                 var stateCode = Dictionary_Geo_Get("STATEC", "Residence", "address", "state", false);
- //               var mortalityData = MortalityData.Instance;
+                //               var mortalityData = MortalityData.Instance;
                 string statetextr = dataLookup.StateCodeToStateName(stateCode);
-                if (statetextr == null){
+                if (statetextr == null)
+                {
                     statetextr = " ";
                 }
-                return( Truncate(statetextr, 28).PadRight(28, ' '));
+                return (Truncate(statetextr, 28).PadRight(28, ' '));
             }
             set
             {
@@ -3457,13 +3436,13 @@ namespace VRDR
             {
                 // This is Now just the two letter code.  Need to map it to country name
                 var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false);
-//                var mortalityData = MortalityData.Instance;
+                //                var mortalityData = MortalityData.Instance;
                 string countrytextr = dataLookup.CountryCodeToCountryName(countryCode);
-                if(countrytextr == null)
+                if (countrytextr == null)
                 {
                     countrytextr = " ";
                 }
-                return( Truncate(countrytextr, 28).PadRight(28, ' '));
+                return (Truncate(countrytextr, 28).PadRight(28, ' '));
             }
             set
             {
@@ -4088,7 +4067,7 @@ namespace VRDR
             }
             set
             {
-               if (!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     Set_MappingIJEToFHIR(Mappings.ReplaceStatus.IJEToFHIR, "REPLACE", "ReplaceStatus", value);
                 }
@@ -4451,7 +4430,7 @@ namespace VRDR
             get
             {
                 var stateCode = Dictionary_Geo_Get("DISPSTATECD", "InjuryLocationAddress", "address", "state", false);
-//                var mortalityData = MortalityData.Instance;
+                //                var mortalityData = MortalityData.Instance;
                 return dataLookup.StateCodeToStateName(stateCode);
             }
             set
@@ -4504,7 +4483,7 @@ namespace VRDR
             }
             set
             {
-               if (!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     LeftJustified_Set("FUNFACNAME", "FuneralHomeName", value);
                 }
@@ -4672,12 +4651,13 @@ namespace VRDR
             get
             {
                 var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", false);
-//                var mortalityData = MortalityData.Instance;
+                //                var mortalityData = MortalityData.Instance;
                 string funstate = dataLookup.StateCodeToStateName(stateCode);
-                if (funstate == null){
+                if (funstate == null)
+                {
                     funstate = " ";
                 }
-                return( Truncate(funstate, 28).PadRight(28, ' '));
+                return (Truncate(funstate, 28).PadRight(28, ' '));
             }
             set
             {
@@ -4795,7 +4775,7 @@ namespace VRDR
             }
             set
             {
-               if (!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     LeftJustified_Set("CERTLAST", "CertifierFamilyName", value);
                 }
@@ -4812,7 +4792,7 @@ namespace VRDR
             }
             set
             {
-               if (!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     LeftJustified_Set("CERTSUFFIX", "CertifierSuffix", value);
                 }
@@ -4991,13 +4971,14 @@ namespace VRDR
         {
             get
             {
-                var stateCode =  Dictionary_Get("CERTSTATE", "CertifierAddress", "addressState");
-//                var mortalityData = MortalityData.Instance;
+                var stateCode = Dictionary_Get("CERTSTATE", "CertifierAddress", "addressState");
+                //                var mortalityData = MortalityData.Instance;
                 string certstate = dataLookup.StateCodeToStateName(stateCode);
-                if (certstate == null){
+                if (certstate == null)
+                {
                     certstate = " ";
                 }
-                return( Truncate(certstate, 28).PadRight(28, ' '));
+                return (Truncate(certstate, 28).PadRight(28, ' '));
             }
             set
             {
@@ -5061,12 +5042,13 @@ namespace VRDR
             get
             {
                 var stateCode = Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "state", false);
-//                var mortalityData = MortalityData.Instance;
+                //                var mortalityData = MortalityData.Instance;
                 string stinjury = dataLookup.StateCodeToStateName(stateCode);
-                if (stinjury == null){
+                if (stinjury == null)
+                {
                     stinjury = " ";
                 }
-                return( Truncate(stinjury, 28).PadRight(28, ' '));
+                return (Truncate(stinjury, 28).PadRight(28, ' '));
             }
             set
             {
@@ -5081,12 +5063,13 @@ namespace VRDR
             get
             {
                 var stateCode = Dictionary_Geo_Get("BPLACE_ST", "PlaceOfBirth", "address", "state", false);
-//                var mortalityData = MortalityData.Instance;
+                //                var mortalityData = MortalityData.Instance;
                 string statebth = dataLookup.StateCodeToStateName(stateCode);
-                if (statebth == null){
+                if (statebth == null)
+                {
                     statebth = " ";
                 }
-                return( Truncate(statebth, 28).PadRight(28, ' '));
+                return (Truncate(statebth, 28).PadRight(28, ' '));
 
             }
             set
@@ -5119,13 +5102,13 @@ namespace VRDR
             get
             {
                 var countryCode = Dictionary_Geo_Get("DTHCOUNTRYCD", "Residence", "address", "country", false);
-//                var mortalityData = MortalityData.Instance;
+                //                var mortalityData = MortalityData.Instance;
                 string dthcountry = dataLookup.CountryCodeToCountryName(countryCode);
-                if(dthcountry == null)
+                if (dthcountry == null)
                 {
                     dthcountry = " ";
                 }
-                return( Truncate(dthcountry, 28).PadRight(28, ' '));
+                return (Truncate(dthcountry, 28).PadRight(28, ' '));
             }
             set
             {

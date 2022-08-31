@@ -453,6 +453,10 @@ namespace VRDR
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, 0);
                     typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, timeSpan.ToString(@"hh\:mm"));
                 }
+                else
+                {
+                    validationErrors.Add(ijeFieldName + " value of " + value + " is invalid.");
+                }
             }
         }
 

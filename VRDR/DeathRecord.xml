@@ -3478,13 +3478,13 @@
         <member name="M:VRDR.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
-        <member name="M:VRDR.IJEMortality.NumericAllowingUnknown_Get(System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.NumericAllowingUnknown_Get(System.String,System.String,System.Boolean)">
             <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
         </member>
         <member name="M:VRDR.IJEMortality.NumericAllowingUnknown_Set(System.String,System.String,System.String)">
             <summary>Set a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
         </member>
-        <member name="M:VRDR.IJEMortality.TimeAllowingUnknown_Get(System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.TimeAllowingUnknown_Get(System.String,System.String,System.Boolean)">
             <summary>Get a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
         </member>
         <member name="M:VRDR.IJEMortality.TimeAllowingUnknown_Set(System.String,System.String,System.String)">

@@ -152,13 +152,13 @@ namespace VRDR.Tests
             Assert.Equal("    ", ije1.TOI_HR);
         }
 
-        [Fact]
-        public void SetCOUNTRY_C()
-        {
-            IJEMortality ije1 = new IJEMortality();
-            ije1.COUNTRYC = "UR";  // not a legitimate country of residence, since it is defunct... need to check
-            Assert.Equal("X", ije1.COUNTRYC.Trim());
-        }
+        // [Fact]
+        // public void SetCOUNTRY_C()
+        // {
+        //     IJEMortality ije1 = new IJEMortality();
+        //     ije1.COUNTRYC = "UR";  // not a legitimate country of residence, since it is defunct... need to check
+        //     Assert.Equal("X", ije1.COUNTRYC.Trim());
+        // }
 
         [Fact]
         public void HandleUnknownBirthRecordId()

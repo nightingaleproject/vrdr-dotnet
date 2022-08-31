@@ -2789,7 +2789,15 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("DOI_MO", "InjuryMonth");
+                IJEField info = FieldInfo("DOI_MO");
+                if(record.InjuryIncidentTimeSet())
+                {
+                    return NumericAllowingUnknown_Get("DOI_MO", "InjuryMonth");
+                }
+                else
+                {
+                     return (new String(' ', info.Length));
+                }
             }
             set
             {
@@ -2803,7 +2811,15 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("DOI_DY", "InjuryDay");
+                IJEField info = FieldInfo("DOI_DY");
+                if(record.InjuryIncidentTimeSet())
+                {
+                    return NumericAllowingUnknown_Get("DOI_DY", "InjuryDay");
+                }
+                else
+                {
+                     return (new String(' ', info.Length));
+                }
             }
             set
             {
@@ -2817,7 +2833,15 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("DOI_YR", "InjuryYear");
+                IJEField info = FieldInfo("DOI_YR");
+                if(record.InjuryIncidentTimeSet())
+                {
+                    return NumericAllowingUnknown_Get("DOI_YR", "InjuryYear");
+                }
+                else
+                {
+                     return (new String(' ', info.Length));
+                }
             }
             set
             {
@@ -2831,13 +2855,14 @@ namespace VRDR
         {
             get
             {
+                IJEField info = FieldInfo("TOI_HR");
                 if(record.InjuryIncidentTimeSet())
                 {
                     return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime");
                 }
                 else
                 {
-                    return("    ");
+                     return (new String(' ', info.Length));
                 }
             }
             set
@@ -2999,7 +3024,14 @@ namespace VRDR
         {
             get
             {
-                return "M"; // Military time
+                if(record.InjuryIncidentTimeSet())
+                {
+                    return "M"; // Military time
+                }
+                else
+                {
+                     return ""; // Military time
+                }
             }
             set
             {

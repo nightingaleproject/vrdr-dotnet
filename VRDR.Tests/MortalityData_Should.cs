@@ -146,6 +146,7 @@ namespace VRDR.Tests
         {
             IJEMortality ije1 = new IJEMortality();
             Assert.Equal("    ", ije1.TOI_HR);
+            Assert.Equal("    ", ije1.SUR_YR);
             ije1.TOI_HR = "615";  // should be 4 digits... do we need a check that it is less than 2400?
             Assert.Equal("    ", ije1.TOI_HR);
             ije1.TOI_HR = "5550";  // should be 4 digits... do we need a check that it is less than 2400?

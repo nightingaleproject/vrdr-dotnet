@@ -607,6 +607,7 @@
           ]
         },
         "effectiveDateTime": "2019-11-12",
+        "valueDateTime": "2019-11-12",
         "subject": {
           "reference": "Patient/Decedent-Example1"
         }

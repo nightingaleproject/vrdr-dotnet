@@ -879,7 +879,7 @@ namespace VRDR.CLI
                     ije2.DOD_YR = record2.DeathRecordIdentifier.Substring(0, 4);
                     ije2.DSTATE = record2.DeathRecordIdentifier.Substring(3, 2);
                     ije2.FILENO = record2.DeathRecordIdentifier.Substring(5, 6);
-                    string[] ijeonlyfields = new String[] { "AUXNO2", "POILITRL", "HOWINJ", "TRANSPRT", "COD1A", "INTERVAL1A", "COD1B", "INTERVAL1B", "OTHERCONDITION", "CERTDATE" };
+                    string[] ijeonlyfields = new String[] { "AUXNO2", "POILITRL", "HOWINJ", "TRANSPRT", "COD1A", "INTERVAL1A", "COD1B", "INTERVAL1B", "OTHERCONDITION", "CERTDATE", "SUR_YR", "SUR_MO", "SUR_DY" };
                     return (CompareIJEtoIJE(ije1, ije2, ijeonlyfields));
                 }
                 else

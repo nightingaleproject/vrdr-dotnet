@@ -2996,7 +2996,10 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                if (value != "M" && value != " ")
+                {
+                    validationErrors.Add($"Error: FHIR field TOI_UNIT contains string '{value}' but can only be set to M or blank");
+                }
             }
         }
 

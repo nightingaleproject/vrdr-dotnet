@@ -1045,7 +1045,7 @@ namespace VRDR.Tests
         {
             Assert.Equal("Mædęlyñ", DeathRecord1_JSON.GivenNames[0]);
             Assert.Equal("Middle", DeathRecord1_JSON.GivenNames[1]);
-            Assert.Equal("Madelyn", DeathRecord1_XML.GivenNames[0]);
+            Assert.Equal("Mædęlyñ", DeathRecord1_XML.GivenNames[0]);
             Assert.Equal("Middle", DeathRecord1_XML.GivenNames[1]);
             Assert.Equal("Madelyn", DeathCertificateDocument1_JSON.GivenNames[0]);
             Assert.Single(DeathCertificateDocument1_JSON.GivenNames);
@@ -1062,7 +1062,7 @@ namespace VRDR.Tests
         public void Get_FamilyName()
         {
             Assert.Equal("Pãtêl", DeathRecord1_JSON.FamilyName);
-            Assert.Equal("Patel", DeathRecord1_XML.FamilyName);
+            Assert.Equal("Pãtêl", DeathRecord1_XML.FamilyName);
         }
 
         [Fact]

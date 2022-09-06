@@ -53,6 +53,7 @@ namespace VRDR.CLI
   - showcodes: Extract and show the codes in a coding response message (1 argument: coding response message)
   - submit: Create a submission FHIR message wrapping a FHIR death record (1 argument: FHIR death record; many arguments: output directory and FHIR death records)
   - alias: Create an alias FHIR message for a FHIR death record (1 argument: FHIR death record)
+  - showalias: Read in an alias FHIR message and display the contents (1 argument: FHIR alias message)
   - toMortalityRoster: Create and print a mortality roster bundle from a death record (1 argument: FHIR death record)
   - trx2json: Creates a Cause of Death Coding Bundle from a TRX Message (1 argument: TRX file)
   - void: Creates a Void message for a Death Record (1 argument: FHIR death record)
@@ -805,6 +806,17 @@ namespace VRDR.CLI
                 DeathRecordAliasMessage message = new DeathRecordAliasMessage(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "showalias")
+            {
+                DeathRecordAliasMessage message = BaseMessage.Parse(File.ReadAllText(args[1])) as DeathRecordAliasMessage;
+                Console.WriteLine($"AliasDecedentFirstName: {message.AliasDecedentFirstName}");
+                Console.WriteLine($"AliasDecedentLastName: {message.AliasDecedentLastName}");
+                Console.WriteLine($"AliasDecedentMiddleName: {message.AliasDecedentMiddleName}");
+                Console.WriteLine($"AliasDecedentNameSuffix: {message.AliasDecedentNameSuffix}");
+                Console.WriteLine($"AliasFatherSurname: {message.AliasFatherSurname}");
+                Console.WriteLine($"AliasSocialSecurityNumber: {message.AliasSocialSecurityNumber}");
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "toMortalityRoster")

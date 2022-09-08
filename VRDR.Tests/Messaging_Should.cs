@@ -649,18 +649,39 @@ namespace VRDR.Tests
         [Fact]
         public void CreateStatusMessage()
         {
-            StatusMessage message = new StatusMessage();
-            Assert.Equal("http://nchs.cdc.gov/vrdr_status", message.MessageType);
-            Assert.Null(message.CertNo);
-            message.CertNo = 11;
-            Assert.Equal((uint)11, message.CertNo);
-            Assert.Null(message.StateAuxiliaryId);
-            message.StateAuxiliaryId = "bar";
-            Assert.Equal("bar", message.StateAuxiliaryId);
-            Assert.Null(message.NCHSIdentifier);
-            Assert.Null(message.Status);
-            message.Status = "manualDemographicCoding";
-            Assert.Equal("manualDemographicCoding", message.Status);
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
+            StatusMessage status = new StatusMessage(submission, "manualCauseOfDeathCoding");
+            Assert.Equal("http://nchs.cdc.gov/vrdr_status", status.MessageType);
+            Assert.Equal("manualCauseOfDeathCoding", status.Status);
+            Assert.Equal(submission.MessageId, status.StatusedMessageId);
+            Assert.Equal(submission.MessageSource, status.MessageDestination);
+            Assert.Equal(submission.MessageDestination, status.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, status.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, status.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, status.NCHSIdentifier);
+
+
+            submission = null;
+            status = new StatusMessage(submission, "manualCauseOfDeathCoding");
+            Assert.Equal("http://nchs.cdc.gov/vrdr_status", status.MessageType);
+            Assert.Equal("manualCauseOfDeathCoding", status.Status);
+            Assert.Null(status.StatusedMessageId);
+            Assert.Null(status.MessageDestination);
+            Assert.Null(status.MessageSource);
+            Assert.Null(status.CertNo);
+            Assert.Null(status.StateAuxiliaryId);
+            Assert.Null(status.NCHSIdentifier);
+
+            submission = new DeathRecordSubmissionMessage();
+            status = new StatusMessage(submission, "manualCauseOfDeathCoding");
+            Assert.Equal("http://nchs.cdc.gov/vrdr_status", status.MessageType);
+            Assert.Equal("manualCauseOfDeathCoding", status.Status);
+            Assert.Equal(submission.MessageId, status.StatusedMessageId);
+            Assert.Equal(submission.MessageSource, status.MessageDestination);
+            Assert.Equal(submission.MessageDestination, status.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, status.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, status.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, status.NCHSIdentifier);
         }
 
         [Fact]

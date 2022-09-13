@@ -2995,8 +2995,11 @@ namespace VRDR
                 return "M"; // Military time
             }
             set
-            {
-                // NOOP
+            { // The TOI is persisted as a datetime, so the A/P/M is meaningless.   This set is a NOOP, but generate a diagnostic for A and P
+                if (value != "M" && value != " ")
+                {
+                    validationErrors.Add($"Error: FHIR field TOI_UNIT contains string '{value}' but can only be set to M or blank");
+                }
             }
         }
 

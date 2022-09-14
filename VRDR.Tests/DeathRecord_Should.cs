@@ -3205,7 +3205,7 @@ namespace VRDR.Tests
             Assert.True(racGet.ElementAt(1).Pregnancy);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
-            string fmtRac = "T273 1T275 1".PadRight(100, ' ');
+            string fmtRac = "T2731T2751".PadRight(100, ' ');
             Assert.Equal(fmtRac, ije.RAC);
         }
 

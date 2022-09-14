@@ -142,6 +142,26 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void SetTOI_HR()
+        {
+            IJEMortality ije1 = new IJEMortality();
+            Assert.Equal("    ", ije1.TOI_HR);
+            Assert.Equal("    ", ije1.SUR_YR);
+            ije1.TOI_HR = "615";  // should be 4 digits... creates validation error, and results in blanks
+            Assert.Equal("    ", ije1.TOI_HR);
+            ije1.TOI_HR = "5550";  // should be 2359 or less... creates validation error, and results in blanks
+            Assert.Equal("    ", ije1.TOI_HR);
+        }
+
+        // [Fact]
+        // public void SetCOUNTRY_C()
+        // {
+        //     IJEMortality ije1 = new IJEMortality();
+        //     ije1.COUNTRYC = "UR";  // not a legitimate country of residence, since it is defunct... need to check
+        //     Assert.Equal("X", ije1.COUNTRYC.Trim());
+        // }
+
+        [Fact]
         public void HandleUnknownBirthRecordId()
         {
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/UnknownBirthRecordId.ije")), true);

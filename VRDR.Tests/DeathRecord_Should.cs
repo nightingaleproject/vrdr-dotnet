@@ -138,8 +138,8 @@ namespace VRDR.Tests
         {
             DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
             DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
-            Assert.Equal("Patel", sample1.FamilyName);
-            Assert.Equal("Patel", sample2.FamilyName);
+            Assert.Equal("Pãtêl", sample1.FamilyName);
+            Assert.Equal("Pãtêl", sample2.FamilyName);
             sample1.FamilyName = "1changed2abc";
             sample2.FamilyName = "2changed1xyz";
             Assert.Equal("1changed2abc", sample1.FamilyName);
@@ -1043,9 +1043,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_GivenNames()
         {
-            Assert.Equal("Madelyn", DeathRecord1_JSON.GivenNames[0]);
+            Assert.Equal("Mædęlyñ", DeathRecord1_JSON.GivenNames[0]);
             Assert.Equal("Middle", DeathRecord1_JSON.GivenNames[1]);
-            Assert.Equal("Madelyn", DeathRecord1_XML.GivenNames[0]);
+            Assert.Equal("Mædęlyñ", DeathRecord1_XML.GivenNames[0]);
             Assert.Equal("Middle", DeathRecord1_XML.GivenNames[1]);
             Assert.Equal("Madelyn", DeathCertificateDocument1_JSON.GivenNames[0]);
             Assert.Single(DeathCertificateDocument1_JSON.GivenNames);
@@ -1061,8 +1061,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FamilyName()
         {
-            Assert.Equal("Patel", DeathRecord1_JSON.FamilyName);
-            Assert.Equal("Patel", DeathRecord1_XML.FamilyName);
+            Assert.Equal("Pãtêl", DeathRecord1_JSON.FamilyName);
+            Assert.Equal("Pãtêl", DeathRecord1_XML.FamilyName);
         }
 
         [Fact]

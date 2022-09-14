@@ -24,14 +24,46 @@ namespace VRDR
         internal StatusMessage(Bundle messageBundle) : base(messageBundle)
         {
         }
-
-        /// <summary>Constructor that takes a VRDR.DeathRecord and creates a message to void that record.</summary>
-        /// <param name="record">the VRDR.DeathRecord to create a DeathRecordVoidMessage for.</param>
-        public StatusMessage(DeathRecord record) : this()
+        /// <summary>Constructor that creates a status message for the specified message.</summary>
+        /// <param name="messageToAck">the message to create an acknowledgement for.</param>
+        /// <param name="status"> status value </param>
+        public StatusMessage(BaseMessage messageToAck, string status) : this(messageToAck?.MessageId, messageToAck?.MessageSource, status, messageToAck?.MessageDestination)
         {
-            ExtractBusinessIdentifiers(record);
+            this.CertNo = messageToAck?.CertNo;
+            this.StateAuxiliaryId = messageToAck?.StateAuxiliaryId;
+            this.JurisdictionId = messageToAck?.JurisdictionId;
+            this.DeathYear = messageToAck?.DeathYear;
         }
 
+        /// <summary>Constructor that creates a status message for the specified message.</summary>
+        /// <param name="messageId">the id of the message to create an acknowledgement for.</param>
+        /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
+        /// <param name="status">the status being sent, from http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/ValueSet-VRM-Status-vs.html</param>
+        /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
+
+        public StatusMessage(string messageId, string destination, string status, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
+        {
+            Header.Source.Endpoint = source;
+            this.MessageDestination = destination;
+            MessageHeader.ResponseComponent resp = new MessageHeader.ResponseComponent();
+            resp.Identifier = messageId;
+            resp.Code = MessageHeader.ResponseType.Ok;
+            Header.Response = resp;
+            Status = status;
+        }
+        /// <summary>The id of the message whose status is being reported by this message</summary>
+        /// <value>the message id.</value>
+        public string StatusedMessageId
+        {
+            get
+            {
+                return Header.Response.Identifier;
+            }
+            set
+            {
+                Header.Response.Identifier = value;
+            }
+        }
         /// <summary>ProcessingStatus</summary>
         public string Status
         {
@@ -41,7 +73,7 @@ namespace VRDR
             }
             set
             {
-                // Allowed values are:   manualCauseOfDeathCoding, manualDemographicCoding
+                // Allowed values are:   manualCauseOfDeathCoding, manualDemographicCoding.  need to add CauseOfDeathCodingCanceled, and DemographicCodingCanceled.
                 SetSingleStringValue("status", value);
             }
         }

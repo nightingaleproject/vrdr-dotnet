@@ -1,7 +1,7 @@
 var searchData=
 [
   ['getall_0',['GetAll',['../class_v_r_d_r_1_1_death_record.html#a8c26329ed2071f50d820a955c78107c4',1,'VRDR::DeathRecord']]],
-  ['getauthorizetoken_1',['GetAuthorizeToken',['../class_client.html#aa3535d692ecb29ea1c3dd56b80c270ca',1,'Client']]],
+  ['getauthorizetokenasync_1',['GetAuthorizeTokenAsync',['../class_client.html#af0a59a93c380bb3763006c8347675096',1,'Client']]],
   ['getbundle_2',['GetBundle',['../class_v_r_d_r_1_1_death_record.html#a5b24253082f8f4c0e8bbe898febc2420',1,'VRDR::DeathRecord']]],
   ['getcauseofdeathcodedcontentbundle_3',['GetCauseOfDeathCodedContentBundle',['../class_v_r_d_r_1_1_death_record.html#ae0e502756952456ee094a1e530dcafef',1,'VRDR::DeathRecord']]],
   ['getdeathcertificatedocumentbundle_4',['GetDeathCertificateDocumentBundle',['../class_v_r_d_r_1_1_death_record.html#af9985739042d9e3ac6c06f6f19a2e80f',1,'VRDR::DeathRecord']]],

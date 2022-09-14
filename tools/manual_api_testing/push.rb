@@ -6,6 +6,7 @@ require 'active_support/time'
 require 'securerandom'
 require 'time'
 require 'json'
+require 'parallel'
 
 jurisdiction = ARGV.shift
 if jurisdiction.nil? || !jurisdiction.match(/^[A-Z][A-Z]$/)
@@ -38,10 +39,11 @@ client = OAuth2::Client.new(client_id,
 token = client.password.get_token(username, password)
 
 # Submit the files in chunks of 20
-files.each_slice(20).each do |slice|
+failures = []
+Parallel.each(files.each_slice(20)) do |slice|
 
-  puts "Sending files:"
-  slice.each { |s| puts "  #{s[:filename]}" }
+  output = "Sending files:\n"
+  slice.each { |s| output += "  #{s[:filename]}\n" }
 
   # Build the package
   url = "/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles"
@@ -51,13 +53,26 @@ files.each_slice(20).each do |slice|
 
   body = submission.to_json
 
-  response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
-                        headers: { 'Content-Type' => 'application/json' },
-                        body: body)
-
-  puts "Server response: #{response.status}"
-  JSON.parse(response.body)['entry'].each do |entry|
-    puts "  Record response: #{entry['response']['status']}"
+  begin
+    response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
+                          headers: { 'Content-Type' => 'application/json' },
+                          body: body)
+    output += "Server response for files #{slice.first[:filename]}-#{slice.last[:filename]}: #{response.status}\n"
+    JSON.parse(response.body)['entry'].each do |entry|
+      output += "  Record response: #{entry['response']['status']}\n"
+    end
+  rescue => e
+    output += "Failed to send files in slice #{slice.first[:filename]}-#{slice.last[:filename]}\n"
+    output += e.backtrace
+    output += "\n"
+    failures += slice
+  ensure
+    # We've collected up the output so that different parallel processes are less likely to step on each other's output
+    puts output
   end
+end
 
+if failures.size > 0
+  puts "Failed to send the following #{failures.size} records:"
+  failures.each { |f| puts "  #{f[:filename]}\n" }
 end

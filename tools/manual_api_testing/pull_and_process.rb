@@ -4,7 +4,7 @@
 
 require 'oauth2'
 require 'active_support/time'
-require 'tempfile'
+require 'parallel'
 
 CLI_PATH = '../../VRDR.CLI/bin/Debug/netcoreapp6.0/DeathRecord.CLI.dll'
 if (!File.exists?(CLI_PATH))
@@ -50,7 +50,7 @@ if searchset['entry'].nil?
   exit
 end
 
-searchset['entry'].each do |entry|
+Parallel.each(searchset['entry']) do |entry|
   header = nil
   identifier = nil
   begin
@@ -82,7 +82,7 @@ searchset['entry'].each do |entry|
       response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
                             headers: { 'Content-Type' => 'application/json' },
                             body: ack)
-      puts "Server response: #{response.status}"
+      puts "Server response acknowledging error message for certificate #{identifier}: #{response.status}"
     when 'http://nchs.cdc.gov/vrdr_causeofdeath_coding', 'http://nchs.cdc.gov/vrdr_demographics_coding'
       id = header['id']
       puts "Found a coding response message of type #{header['eventUri']} with ID #{id} for certificate #{identifier}, acknowledging"
@@ -93,7 +93,7 @@ searchset['entry'].each do |entry|
       response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
                             headers: { 'Content-Type' => 'application/json' },
                             body: ack)
-      puts "Server response: #{response.status}"
+      puts "Server response acknowledging #{header['eventUri']} message for certificate #{identifier}: #{response.status}"
     else
       puts "Found a message of type #{header['eventUri']} for certificate #{identifier}, skipping"
     end

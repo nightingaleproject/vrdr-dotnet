@@ -61,8 +61,9 @@ Parallel.each(files.each_slice(20)) do |slice|
     JSON.parse(response.body)['entry'].each do |entry|
       output += "  Record response: #{entry['response']['status']}\n"
     end
-  rescue => e
+  rescue Faraday::Error => e
     output += "Failed to send files in slice #{slice.first[:filename]}-#{slice.last[:filename]}\n"
+    output += e.message
     output += e.backtrace
     output += "\n"
     failures += slice

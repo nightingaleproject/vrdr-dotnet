@@ -3011,7 +3011,7 @@ namespace VRDR
                 }
                 else
                 {
-                    return ""; // Military time
+                    return " "; // Blank = Military time
                 }
             }
             set

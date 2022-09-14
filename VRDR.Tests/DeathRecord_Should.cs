@@ -3143,16 +3143,21 @@ namespace VRDR.Tests
         [Fact]
         public void Set_EntityAxisCodes()
         {
-            SetterDeathRecord.EntityAxisCauseOfDeath = new[] { (LineNumber: 2, Position: 1, Code: "T27.3", ECode: true) };
+            SetterDeathRecord.EntityAxisCauseOfDeath = new[] { (LineNumber: 2, Position: 1, Code: "T27.3", ECode: true),
+                                                               (LineNumber: 2, Position: 3, Code: "K27.10", ECode: false) };
             var eacGet = SetterDeathRecord.EntityAxisCauseOfDeath;
-            Assert.Single(eacGet);
+            Assert.Equal(2,eacGet.Count());
             Assert.Equal(2, eacGet.ElementAt(0).LineNumber);
             Assert.Equal(1, eacGet.ElementAt(0).Position);
             Assert.Equal("T27.3", eacGet.ElementAt(0).Code);
             Assert.True(eacGet.ElementAt(0).ECode);
+            Assert.Equal(2, eacGet.ElementAt(1).LineNumber);
+            Assert.Equal(3, eacGet.ElementAt(1).Position);
+            Assert.Equal("K27.10", eacGet.ElementAt(1).Code);
+            Assert.False(eacGet.ElementAt(1).ECode);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
-            string fmtEac = "21T273 &".PadRight(160, ' ');
+            string fmtEac = "21T273 &23K2710".PadRight(160, ' ');
             Assert.Equal(fmtEac, ije.EAC);
         }
 

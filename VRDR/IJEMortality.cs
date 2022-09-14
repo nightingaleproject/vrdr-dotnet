@@ -777,8 +777,8 @@ namespace VRDR
         /// <summary>NCHS ICD10 to actual ICD10 </summary>
         private string NCHSICD10toActualICD10(string nchsicd10code)
         {
-            Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
-            Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
+            Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");  // ICD10 codes only have one character after the decimal
+            Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,4}$");       // NCHS tacks on an extra character to some ICD10 codes, e.g., K7210 (K27.10)
             string code;
             nchsicd10code = nchsicd10code.Trim();
             if (ICD10rgx.IsMatch(nchsicd10code))
@@ -788,11 +788,10 @@ namespace VRDR
             else
             {
                 code = "";
-                //if(value.Length == 4 && value[value.Length-1] != '.'){
                 if (NCHSICD10rgx.IsMatch(nchsicd10code))
                 {
                     code = nchsicd10code;
-                    if (nchsicd10code.Length == 4)
+                    if (nchsicd10code.Length >= 4)    // codes of length 4 or 5 need to have a decimal inserted
                     {
                         code = nchsicd10code.Insert(3, ".");
                     }
@@ -2636,10 +2635,9 @@ namespace VRDR
                 {
                     string lineNumber = Truncate(entry.LineNumber.ToString(), 1).PadRight(1, ' ');
                     string position = Truncate(entry.Position.ToString(), 1).PadRight(1, ' ');
-                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' '); ;
-                    string reserved = " ";
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 5).PadRight(5, ' '); ;
                     string eCode = entry.ECode ? "&" : " ";
-                    eacStr += lineNumber + position + icdCode + reserved + eCode;
+                    eacStr += lineNumber + position + icdCode + eCode;
                 }
                 string fmtEac = Truncate(eacStr, 160).PadRight(160, ' ');
                 return fmtEac;
@@ -2655,7 +2653,7 @@ namespace VRDR
                     {
                         if (int.TryParse(code.Substring(0, 1), out int lineNumber) && int.TryParse(code.Substring(1, 1), out int position))
                         {
-                            string icdCode = NCHSICD10toActualICD10(code.Substring(2, 4));
+                            string icdCode = NCHSICD10toActualICD10(code.Substring(2, 5));
                             string eCode = code.Substring(7, 1);
                             eac.Add((LineNumber: lineNumber, Position: position, Code: icdCode, ECode: eCode == "&"));
                         }
@@ -2695,7 +2693,7 @@ namespace VRDR
                 foreach ((int Position, string Code, bool Pregnancy) entry in record.RecordAxisCauseOfDeath)
                 {
                     // Position doesn't appear in the IJE/TRX format it's just implicit
-                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' ');
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 5).PadRight(5, ' ');
                     string preg = entry.Pregnancy ? "1" : " ";
                     racStr += icdCode + preg;
                 }

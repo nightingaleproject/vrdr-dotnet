@@ -2693,7 +2693,7 @@ namespace VRDR
                 foreach ((int Position, string Code, bool Pregnancy) entry in record.RecordAxisCauseOfDeath)
                 {
                     // Position doesn't appear in the IJE/TRX format it's just implicit
-                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 5).PadRight(5, ' ');
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' ');
                     string preg = entry.Pregnancy ? "1" : " ";
                     racStr += icdCode + preg;
                 }
@@ -2704,14 +2704,14 @@ namespace VRDR
             {
                 List<(int Position, string Code, bool Pregnancy)> rac = new List<(int Position, string Code, bool Pregnancy)>();
                 string paddedValue = value.PadRight(100); // Accept input that's missing white space padding to the right
-                IEnumerable<string> codes = Enumerable.Range(0, paddedValue.Length / 6).Select(i => paddedValue.Substring(i * 6, 6));
+                IEnumerable<string> codes = Enumerable.Range(0, paddedValue.Length / 5).Select(i => paddedValue.Substring(i * 5, 5));
                 int position = 1;
                 foreach (string code in codes)
                 {
                     if (!String.IsNullOrWhiteSpace(code))
                     {
-                        string icdCode = NCHSICD10toActualICD10(code.Substring(0, 5));
-                        string preg = code.Substring(5, 1);
+                        string icdCode = NCHSICD10toActualICD10(code.Substring(0, 4));
+                        string preg = code.Substring(4, 1);
                         Tuple<string, string, string> entry = Tuple.Create(Convert.ToString(position), icdCode, preg);
                         rac.Add((Position: position, Code: icdCode, Pregnancy: preg == "1"));
                     }

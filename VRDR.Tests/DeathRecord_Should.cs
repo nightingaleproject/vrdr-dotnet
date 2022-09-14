@@ -3291,8 +3291,8 @@ namespace VRDR.Tests
             ije.FILENO = "578660";
             ije.MAN_UC = "I219";
             ije.EAC = "21I219  31I251  61E119  62F179  63I10   64E780  ";
-            ije.RAC = "I219  E119  E780  F179  I10   I251  ";
-            Assert.Equal("I219  E119  E780  F179  I10   I251  ".PadRight(100), ije.RAC);
+            ije.RAC = "I219 E119 E780 F179 I10  I251 ";
+            Assert.Equal("I219 E119 E780 F179 I10  I251 ".PadRight(100), ije.RAC);
             ije.AUXNO = "579927";
             ije.MFILED = "0";
             ije.MANNER = "N";
@@ -3316,7 +3316,7 @@ namespace VRDR.Tests
             Assert.Equal("578660", ije2.FILENO);
             Assert.Equal("I219", ije2.MAN_UC);
             Assert.Equal("21I219  31I251  61E119  62F179  63I10   64E780".PadRight(160), ije2.EAC);
-            Assert.Equal("I219  E119  E780  F179  I10   I251  ".PadRight(100), ije2.RAC);
+            Assert.Equal("I219 E119 E780 F179 I10  I251  ".PadRight(100), ije2.RAC);
             Assert.Equal("579927".PadLeft(12, '0'), ije2.AUXNO);
             Assert.Equal("0", ije2.MFILED);
             Assert.Equal("N", ije2.MANNER);

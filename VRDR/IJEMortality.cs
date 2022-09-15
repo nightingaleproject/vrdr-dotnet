@@ -777,27 +777,28 @@ namespace VRDR
         /// <summary>NCHS ICD10 to actual ICD10 </summary>
         private string NCHSICD10toActualICD10(string nchsicd10code)
         {
-            Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
-            Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
-            string code;
-            nchsicd10code = nchsicd10code.Trim();
-            if (ICD10rgx.IsMatch(nchsicd10code))
+            // ICD-10 diagnosis codes always begin with a letter (except U) followed by a digit.
+            // The third character is usually a digit, but could be an A or B [1].
+            // After the first three characters, there may be a decimal point, and up to three more alphanumeric characters.
+            // These alphanumeric characters are never U. Sometimes the decimal is left out.
+            // Regex ICD10regex = new Regex(@"^[A-TV-Z][0-9][0-9AB].?[0-9A-TV-Z]{0,4}$");
+            // NCHS ICD10 codes are the same as above for the first three characters.
+            // The decimal point is always dropped.
+            // Some codes have a fourth character that reflects an actual ICD10 code.
+            // NCHS tacks on an extra character to some ICD10 codes, e.g., K7210 (K27.10)
+            // Regex NCHSICD10regex = new Regex(@"^[A-TV-Z][0-9][0-9AB][0-9A-TV-Z]{0,2}$");
+            string code = "";
+
+            if (!String.IsNullOrEmpty(nchsicd10code))
             {
-                code = nchsicd10code;
+                code = nchsicd10code.Trim();
             }
-            else
+
+            if (code.Length >= 4)    // codes of length 4 or 5 need to have a decimal inserted
             {
-                code = "";
-                //if(value.Length == 4 && value[value.Length-1] != '.'){
-                if (NCHSICD10rgx.IsMatch(nchsicd10code))
-                {
-                    code = nchsicd10code;
-                    if (nchsicd10code.Length == 4)
-                    {
-                        code = nchsicd10code.Insert(3, ".");
-                    }
-                }
+                code = nchsicd10code.Insert(3, ".");
             }
+
             return (code);
         }
         /// <summary>Actual ICD10 to NCHS ICD10 </summary>
@@ -2636,10 +2637,9 @@ namespace VRDR
                 {
                     string lineNumber = Truncate(entry.LineNumber.ToString(), 1).PadRight(1, ' ');
                     string position = Truncate(entry.Position.ToString(), 1).PadRight(1, ' ');
-                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' '); ;
-                    string reserved = " ";
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 5).PadRight(5, ' '); ;
                     string eCode = entry.ECode ? "&" : " ";
-                    eacStr += lineNumber + position + icdCode + reserved + eCode;
+                    eacStr += lineNumber + position + icdCode + eCode;
                 }
                 string fmtEac = Truncate(eacStr, 160).PadRight(160, ' ');
                 return fmtEac;
@@ -2655,7 +2655,7 @@ namespace VRDR
                     {
                         if (int.TryParse(code.Substring(0, 1), out int lineNumber) && int.TryParse(code.Substring(1, 1), out int position))
                         {
-                            string icdCode = NCHSICD10toActualICD10(code.Substring(2, 4));
+                            string icdCode = NCHSICD10toActualICD10(code.Substring(2, 5));
                             string eCode = code.Substring(7, 1);
                             eac.Add((LineNumber: lineNumber, Position: position, Code: icdCode, ECode: eCode == "&"));
                         }

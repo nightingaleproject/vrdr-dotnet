@@ -1709,7 +1709,7 @@ namespace VRDR
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
                         if (valueCC != null && valueCC.Coding != null && valueCC.Coding.Count() > 0)
                         {
-                            icd10code = valueCC.Coding[0].Code;
+                            icd10code = valueCC.Coding[0].Code.Trim();
                         }
                         Observation.ComponentComponent ecodeComp = ob.Component.Where(c => c.Code.Coding[0].Code == "eCodeIndicator").FirstOrDefault();
                         if (ecodeComp != null && ecodeComp.Value != null)

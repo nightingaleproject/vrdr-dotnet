@@ -3143,16 +3143,21 @@ namespace VRDR.Tests
         [Fact]
         public void Set_EntityAxisCodes()
         {
-            SetterDeathRecord.EntityAxisCauseOfDeath = new[] { (LineNumber: 2, Position: 1, Code: "T27.3", ECode: true) };
+            SetterDeathRecord.EntityAxisCauseOfDeath = new[] { (LineNumber: 2, Position: 1, Code: "T27.3", ECode: true),
+                                                               (LineNumber: 2, Position: 3, Code: "K27.10", ECode: false) };
             var eacGet = SetterDeathRecord.EntityAxisCauseOfDeath;
-            Assert.Single(eacGet);
+            Assert.Equal(2,eacGet.Count());
             Assert.Equal(2, eacGet.ElementAt(0).LineNumber);
             Assert.Equal(1, eacGet.ElementAt(0).Position);
             Assert.Equal("T27.3", eacGet.ElementAt(0).Code);
             Assert.True(eacGet.ElementAt(0).ECode);
+            Assert.Equal(2, eacGet.ElementAt(1).LineNumber);
+            Assert.Equal(3, eacGet.ElementAt(1).Position);
+            Assert.Equal("K27.10", eacGet.ElementAt(1).Code);
+            Assert.False(eacGet.ElementAt(1).ECode);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
-            string fmtEac = "21T273 &".PadRight(160, ' ');
+            string fmtEac = "21T273 &23K2710".PadRight(160, ' ');
             Assert.Equal(fmtEac, ije.EAC);
         }
 
@@ -3285,8 +3290,9 @@ namespace VRDR.Tests
             ije.DSTATE = "MA";
             ije.FILENO = "578660";
             ije.MAN_UC = "I219";
-            ije.EAC = "21I219  31I251  61E119  62F179  63I10   64E780";
-            ije.RAC = "I219 E119 E780 F179 I10  I251";
+            ije.EAC = "21I219  31I251  61E119  62F179  63I10   64E780  ";
+            ije.RAC = "I219 E119 E780 F179 I10  I251 ";
+            Assert.Equal("I219 E119 E780 F179 I10  I251 ".PadRight(100), ije.RAC);
             ije.AUXNO = "579927";
             ije.MFILED = "0";
             ije.MANNER = "N";
@@ -3310,7 +3316,7 @@ namespace VRDR.Tests
             Assert.Equal("578660", ije2.FILENO);
             Assert.Equal("I219", ije2.MAN_UC);
             Assert.Equal("21I219  31I251  61E119  62F179  63I10   64E780".PadRight(160), ije2.EAC);
-            Assert.Equal("I219 E119 E780 F179 I10  I251".PadRight(100), ije2.RAC);
+            Assert.Equal("I219 E119 E780 F179 I10  I251  ".PadRight(100), ije2.RAC);
             Assert.Equal("579927".PadLeft(12, '0'), ije2.AUXNO);
             Assert.Equal("0", ije2.MFILED);
             Assert.Equal("N", ije2.MANNER);

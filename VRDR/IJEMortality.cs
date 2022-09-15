@@ -791,7 +791,7 @@ namespace VRDR
 
             if (!String.IsNullOrEmpty(nchsicd10code))
             {
-                 code = nchsicd10code.Trim();
+                code = nchsicd10code.Trim();
             }
 
             if (code.Length >= 4)    // codes of length 4 or 5 need to have a decimal inserted

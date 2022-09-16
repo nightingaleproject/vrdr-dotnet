@@ -364,10 +364,13 @@ Return Coding Example</h4>
 <div class="ttc" id="aclass_v_r_d_r_1_1_cause_of_death_coding_message_html"><div class="ttname"><a href="class_v_r_d_r_1_1_cause_of_death_coding_message.html">VRDR.CauseOfDeathCodingMessage</a></div><div class="ttdoc">A CauseOfDeathCodingMessage that conveys the coded cause of death information of a decedent.</div><div class="ttdef"><b>Definition:</b> CauseOfDeathCodingMessage.cs:11</div></div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md57"></a>
 VRDR.Tests</h3>
-<p >This directory contains unit and functional tests for the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library.</p>
+<p >This directory contains unit and functional tests for the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library as well as scripts for testing via the CLI and translation microservice.</p>
 <h4><a class="anchor" id="autotoc_md58"></a>
 Usage</h4>
-<p >The tests are automatically run by this repositories Travis CI config, but can be run locally by executing the following command in the root project directory: </p><div class="fragment"><div class="line">dotnet test</div>
+<p >The tests are automatically run by the repository GitHub workflows config, but can be run locally by executing the following command in the root project directory:</p>
+<div class="fragment"><div class="line">./VRDR.Tests/run_tests.sh</div>
+</div><!-- fragment --><p >The C# tests can be run separately from the other tests by executing the following command:</p>
+<div class="fragment"><div class="line">dotnet test</div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md59"></a>
 VRDR.CLI</h3>
 <p >This directory contains a sample command line interface app that uses the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library to do a few different things.</p>

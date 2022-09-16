@@ -25,14 +25,14 @@ namespace VRDR
         {
         }
         /// <summary>Constructor that creates a status message for the specified message.</summary>
-        /// <param name="messageToAck">the message to create an acknowledgement for.</param>
+        /// <param name="messageToStatus">the message to create a status for.</param>
         /// <param name="status"> status value </param>
-        public StatusMessage(BaseMessage messageToAck, string status) : this(messageToAck?.MessageId, messageToAck?.MessageSource, status, messageToAck?.MessageDestination)
+        public StatusMessage(BaseMessage messageToStatus, string status) : this(messageToStatus?.MessageId, messageToStatus?.MessageSource, status, messageToStatus?.MessageDestination)
         {
-            this.CertNo = messageToAck?.CertNo;
-            this.StateAuxiliaryId = messageToAck?.StateAuxiliaryId;
-            this.JurisdictionId = messageToAck?.JurisdictionId;
-            this.DeathYear = messageToAck?.DeathYear;
+            this.CertNo = messageToStatus?.CertNo;
+            this.StateAuxiliaryId = messageToStatus?.StateAuxiliaryId;
+            this.JurisdictionId = messageToStatus?.JurisdictionId;
+            this.DeathYear = messageToStatus?.DeathYear;
         }
 
         /// <summary>Constructor that creates a status message for the specified message.</summary>

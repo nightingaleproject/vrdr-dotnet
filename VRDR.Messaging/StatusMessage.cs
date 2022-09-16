@@ -36,7 +36,7 @@ namespace VRDR
         }
 
         /// <summary>Constructor that creates a status message for the specified message.</summary>
-        /// <param name="messageId">the id of the message to create an acknowledgement for.</param>
+        /// <param name="messageId">the id of the message to create status message for.</param>
         /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
         /// <param name="status">the status being sent, from http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/ValueSet-VRM-Status-vs.html</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>

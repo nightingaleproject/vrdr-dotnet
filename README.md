@@ -345,10 +345,19 @@ string jsonMessage = message.ToJSON();
 ```
 
 ### VRDR.Tests
-This directory contains unit and functional tests for the VRDR library.
+
+This directory contains unit and functional tests for the VRDR library as well as scripts for testing via the CLI and translation microservice.
 
 #### Usage
-The tests are automatically run by this repositories Travis CI config, but can be run locally by executing the following command in the root project directory:
+
+The tests are automatically run by the repository GitHub workflows config, but can be run locally by executing the following command in the root project directory:
+
+```bash
+./VRDR.Tests/run_tests.sh
+```
+
+The C# tests can be run separately from the other tests by executing the following command:
+
 ```bash
 dotnet test
 ```

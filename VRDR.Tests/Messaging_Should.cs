@@ -46,7 +46,7 @@ namespace VRDR.Tests
             Assert.NotNull(submission.DeathRecord);
             Assert.Equal("2019-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
-            Assert.Equal(10,10);
+            Assert.Equal(10, 10);
             Assert.Equal((uint)182, submission.CertNo);
             Assert.Equal((uint)2019, submission.DeathYear);
             Assert.Equal("000000000042", submission.StateAuxiliaryId);
@@ -791,7 +791,7 @@ namespace VRDR.Tests
             Assert.Equal(voidMessage.BlockCount, ack.BlockCount);
         }
 
-       [Fact]
+        [Fact]
         public void CreateAckForStatusMessage()
         {
             StatusMessage statusMessage = BaseMessage.Parse<StatusMessage>(FixtureStream("fixtures/json/StatusMessage.json"));
@@ -1073,52 +1073,52 @@ namespace VRDR.Tests
             Assert.Equal("The message was very old", issues[1].Description);
         }
 
-/*         [Fact]
-        public void BuildEntityAxis()
-        {
-            var builder = new CauseOfDeathEntityAxisBuilder();
-            var list = builder.ToCauseOfDeathEntityAxis();
-            Assert.Empty(list);
-            Exception ex = Assert.Throws<System.ArgumentException>(() => builder.Add("foo", "1", "bar"));
-            Assert.Equal("The value of the line argument must be a number, found: foo", ex.Message);
-            ex = Assert.Throws<System.ArgumentException>(() => builder.Add("1", "baz", "bar"));
-            Assert.Equal("The value of the position argument must be a number, found: baz", ex.Message);
-            Assert.Empty(list);
-            builder.Add("6", "1", "A047");
-            builder.Add("4", "1", "J189");
-            builder.Add("3", "1", "A419");
-            builder.Add("2", "3", "N19");
-            builder.Add("2", "2", "R579");
-            builder.Add("2", "1", "J960");
-            builder.Add("1", "1", "R688");
-            builder.Add("1", "2", "   "); // should be skipped
-            builder.Add("1", "3", ""); // should be skipped
-            builder.Add("1", "4", null); // should be skipped
-            list = builder.ToCauseOfDeathEntityAxis();
-            Assert.Equal(5, list.Count);
-            var entry = list[0];
-            Assert.Equal("1", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("R688", entry.AssignedCodes[0]);
-            entry = list[1];
-            Assert.Equal("2", entry.LineNumber);
-            Assert.Equal(3, (int)entry.AssignedCodes.Count);
-            Assert.Equal("J960", entry.AssignedCodes[0]);
-            Assert.Equal("R579", entry.AssignedCodes[1]);
-            Assert.Equal("N19", entry.AssignedCodes[2]);
-            entry = list[2];
-            Assert.Equal("3", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("A419", entry.AssignedCodes[0]);
-            entry = list[3];
-            Assert.Equal("4", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("J189", entry.AssignedCodes[0]);
-            entry = list[4];
-            Assert.Equal("6", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("A047", entry.AssignedCodes[0]);
-        } */
+        /*         [Fact]
+                public void BuildEntityAxis()
+                {
+                    var builder = new CauseOfDeathEntityAxisBuilder();
+                    var list = builder.ToCauseOfDeathEntityAxis();
+                    Assert.Empty(list);
+                    Exception ex = Assert.Throws<System.ArgumentException>(() => builder.Add("foo", "1", "bar"));
+                    Assert.Equal("The value of the line argument must be a number, found: foo", ex.Message);
+                    ex = Assert.Throws<System.ArgumentException>(() => builder.Add("1", "baz", "bar"));
+                    Assert.Equal("The value of the position argument must be a number, found: baz", ex.Message);
+                    Assert.Empty(list);
+                    builder.Add("6", "1", "A047");
+                    builder.Add("4", "1", "J189");
+                    builder.Add("3", "1", "A419");
+                    builder.Add("2", "3", "N19");
+                    builder.Add("2", "2", "R579");
+                    builder.Add("2", "1", "J960");
+                    builder.Add("1", "1", "R688");
+                    builder.Add("1", "2", "   "); // should be skipped
+                    builder.Add("1", "3", ""); // should be skipped
+                    builder.Add("1", "4", null); // should be skipped
+                    list = builder.ToCauseOfDeathEntityAxis();
+                    Assert.Equal(5, list.Count);
+                    var entry = list[0];
+                    Assert.Equal("1", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("R688", entry.AssignedCodes[0]);
+                    entry = list[1];
+                    Assert.Equal("2", entry.LineNumber);
+                    Assert.Equal(3, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("J960", entry.AssignedCodes[0]);
+                    Assert.Equal("R579", entry.AssignedCodes[1]);
+                    Assert.Equal("N19", entry.AssignedCodes[2]);
+                    entry = list[2];
+                    Assert.Equal("3", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("A419", entry.AssignedCodes[0]);
+                    entry = list[3];
+                    Assert.Equal("4", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("J189", entry.AssignedCodes[0]);
+                    entry = list[4];
+                    Assert.Equal("6", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("A047", entry.AssignedCodes[0]);
+                } */
 
         private string FixturePath(string filePath)
         {

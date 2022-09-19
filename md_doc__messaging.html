@@ -66,11 +66,11 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p >This document describes how to use the VRDR.Messaging library to simplify implementation of <a class="el" href="namespace_v_r_d_r.html">VRDR</a> message exchange flows.</p>
-<h1><a class="anchor" id="autotoc_md26"></a>
+<h1><a class="anchor" id="autotoc_md31"></a>
 Death Record Submission</h1>
 <p >The diagram below illustrates the messages exchanged during submission of a death record and the subsequent return of coded causes of death and race and ethnicity information.</p>
 <p ><img src="submission.png" alt="Message Exchange Pattern for Death Record Submission and Coding Response" class="inline"/></p>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 Submit Death Record</h2>
 <p >A vital records jurisdiction can create a death record submission as follows:</p>
 <div class="fragment"><div class="line"><span class="comment">// Create a DeathRecord</span></div>
@@ -86,7 +86,7 @@ Submit Death Record</h2>
 <div class="line"><span class="comment">// Send the JSON message</span></div>
 <div class="line">...</div>
 </div><!-- fragment --><p >The <code>DeathRecordSubmission</code> constructor will extract information from the supplied <code>DeathRecord</code> to populate the corresponding message property values (<code>StateAuxiliaryIdentifier</code>, <code>CertificateNumber</code>, <code>NCHSIdentifier</code>) automatically.</p>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md33"></a>
 Extract Death Record</h2>
 <p >On receipt of a message, NCHS can parse it, determine the type of the message, and extract a death record using the following steps:</p>
 <div class="fragment"><div class="line"><span class="comment">// Get the message as a stream</span></div>
@@ -105,7 +105,7 @@ Extract Death Record</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md29"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md34"></a>
 Acknowledge Death Record</h2>
 <p >If extraction was succesful, NCHS can generate an acknowledgement message and send it to the submitting jurisdiction. An <code>AckMessage</code> constructor is available that accepts a source message parameter (<code>submission</code> in the example below) and this is used to initialize <code>AckMessage</code> properties:</p>
 <ul>
@@ -143,7 +143,7 @@ Acknowledge Death Record</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md30"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md35"></a>
 Return Coding</h2>
 <p >NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information separately, using the classes <code>CauseofDeathCodingResponseMessage</code> and <code>DemographicsCodingResponseMessage</code>.</p>
 <p >Once NCHS have determined the causes of death they can create a <code>CauseOfDeathCodingResponseMessage</code> to return that information to the jurisdiction:</p>
@@ -270,7 +270,7 @@ Return Coding</h2>
 <div class="line">}</div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_base_message_html"><div class="ttname"><a href="class_v_r_d_r_1_1_base_message.html">VRDR.BaseMessage</a></div><div class="ttdoc">Class BaseMessage is the base class of all messages.</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:13</div></div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_base_message_html_a0d91912a93701d9daaf8e0ab6f3ea0f9"><div class="ttname"><a href="class_v_r_d_r_1_1_base_message.html#a0d91912a93701d9daaf8e0ab6f3ea0f9">VRDR.BaseMessage.Parse</a></div><div class="ttdeci">static BaseMessage Parse(string source, bool permissive=false)</div><div class="ttdoc">Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of BaseMes...</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:441</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md36"></a>
 Acknowledge Coding</h2>
 <p >If extraction of the coding information was successful, the jurisdiction can generate an acknowledgement message and send it to NCHS. As described earlier, the <code>AckMessage</code> constructor initializes properties based on the source coding message.</p>
 <div class="fragment"><div class="line"><span class="comment">// Create the acknowledgement message</span></div>
@@ -301,7 +301,7 @@ Acknowledge Coding</h2>
 <div class="line">    ...</div>
 <div class="line">}</div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_base_message_html_ab7faf369e4d89d044c196a2d1c3394e8"><div class="ttname"><a href="class_v_r_d_r_1_1_base_message.html#ab7faf369e4d89d044c196a2d1c3394e8">VRDR.BaseMessage.NCHSIdentifier</a></div><div class="ttdeci">string NCHSIdentifier</div><div class="ttdoc">NCHS identifier. Format is 4-digit year, two character jurisdiction id, six character/digit certifica...</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:367</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md32"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md37"></a>
 Failed Death Record Submission</h1>
 <p >The diagram below illustrates two message extraction failures:</p>
 <ol type="1">
@@ -310,7 +310,7 @@ Failed Death Record Submission</h1>
 </ol>
 <p ><img src="error.png" alt="Message Exchange Patterns for Failed Message Extraction" class="inline"/></p>
 <p >Use of the API to create the Death Record Submission, Acknowledgement and Coding Response messages is identical to that shown above and is not repeated here.</p>
-<h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 Create an Extraction Error Message</h2>
 <div class="fragment"><div class="line">DeathRecordSubmission submissionMessage = <span class="keyword">null</span>;</div>
 <div class="line"><span class="keywordflow">try</span></div>
@@ -339,12 +339,12 @@ Create an Extraction Error Message</h2>
 <div class="ttc" id="aclass_v_r_d_r_1_1_extraction_error_message_html"><div class="ttname"><a href="class_v_r_d_r_1_1_extraction_error_message.html">VRDR.ExtractionErrorMessage</a></div><div class="ttdoc">Class ExtractionErrorMessage is used to communicate that initial processing of a DeathRecordSubmissio...</div><div class="ttdef"><b>Definition:</b> ErrorMessage.cs:9</div></div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_issue_html"><div class="ttname"><a href="class_v_r_d_r_1_1_issue.html">VRDR.Issue</a></div><div class="ttdoc">Class representing an issue detected during message processing.</div><div class="ttdef"><b>Definition:</b> ErrorMessage.cs:112</div></div>
 </div><!-- fragment --><p >Note that the <code>ExtractionErrorMessage</code> constructor shown above will automatically set the message header properties and copy the business identifier properties (<code>CertificateNumber</code>, <code>StateAuxiliaryIdentifier</code> and <code>NCHSIdentifier</code>) from the supplied <code>DeathRecordSubmission</code>. If the supplied message is <code>null</code> these message properties will need to be set manually instead (not shown).</p>
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md39"></a>
 Voiding a Death Record</h1>
 <p >The diagram below illustrates the sequence of message exchanges between a vital records jurisdiction and NVSS when an initial submission needs to be subsequently voided. Depending on timing, the initial submission may result in a Coding Response or not.</p>
 <p ><img src="void.png" alt="Message Exchange Pattern for Voiding a Prior Submission" class="inline"/></p>
 <p >It is also possible for a jurisdiction to send a <code>VoidMessage</code> to notify NCHS that a particular certificate identifier will not be used in the future. In this case, only the Death Record Void and corresponding Acknowledgement messages from the diagram above are used.</p>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md40"></a>
 Create a Void Messsage</h2>
 <p >There are two ways to create a <code>VoidMessage</code>, the first requires a <code>DeathRecord</code> for the record that will be voided:</p>
 <div class="fragment"><div class="line"><a class="code hl_class" href="class_v_r_d_r_1_1_death_record.html">DeathRecord</a> record = ...;</div>
@@ -359,7 +359,7 @@ Create a Void Messsage</h2>
 <div class="line">voidMsg.NCHSIdentifier = <span class="stringliteral">&quot;2020MA001034&quot;</span>;</div>
 </div><!-- fragment --><p >In both cases the <code>MessageDestination</code> property value is defaulted to <code><a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a></code> which is the value that should be used for messages sent to NCHS. A JSON representation of the message can be obtained as follows:</p>
 <div class="fragment"><div class="line">var jsonVoidMsg = voidMsg.ToJSON();</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md36"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md41"></a>
 Extract Void Information</h2>
 <p >On receipt of a message, NCHS can parse it, determine the type of the message, and extract the void record information using the following steps:</p>
 <div class="fragment"><div class="line"><span class="comment">// Get the message as a stream</span></div>
@@ -379,7 +379,7 @@ Extract Void Information</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md37"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md42"></a>
 Acknowledge Void Message</h2>
 <p >NCHS can generate an acknowledgement message and send it to jurisdiction as follows.</p>
 <div class="fragment"><div class="line"><span class="comment">// Create the acknowledgement message</span></div>
@@ -391,7 +391,7 @@ Acknowledge Void Message</h2>
 <div class="line"><span class="comment">// Send the JSON message</span></div>
 <div class="line">...</div>
 </div><!-- fragment --><p >As described earlier, the <code>AckMessage</code> constructor initializes properties based on the source <code>VoidMessage</code> negating the need to initialize its properties manually.</p>
-<h2><a class="anchor" id="autotoc_md38"></a>
+<h2><a class="anchor" id="autotoc_md43"></a>
 Process Acknowledgement</h2>
 <p >On receipt of the <code>AckMessage</code>, the jurisdiction can parse it, determine the type of the message, and extract the required information using the following steps:</p>
 <div class="fragment"><div class="line"><span class="comment">// Get the message as a stream</span></div>
@@ -412,7 +412,7 @@ Process Acknowledgement</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md39"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md44"></a>
 Retrying Failed Deliveries</h1>
 <p >The diagram below illustrates the case where the vital records jurisdiction does not receive a timely Acknowledgement to a Death Record Submission. To recover, the vital records jurisdiction resends the Death Record Submission.</p>
 <p ><img src="retry.png" alt="Message Exchange Pattern for Voiding a Prior Submission" class="inline"/></p>
@@ -461,7 +461,7 @@ Retrying Failed Deliveries</h1>
 <div class="line"><span class="comment">// Resend the message</span></div>
 <div class="line">...</div>
 </div><!-- fragment --><p >The above two approaches are also applicable to the case where a coding response or update needs to be resent.</p>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md45"></a>
 Error Handling</h1>
 <p >Errors found when parsing messages will be reported either via a <code>System.ArgumentException</code> or a <code><a class="el" href="class_v_r_d_r_1_1_message_parse_exception.html" title="An exception that may be thrown during message parsing">VRDR.MessageParseException</a></code>. A <code>MessageParseException</code> encapsulates information from the message that caused the error. The exception can be used to construct a <code><a class="el" href="class_v_r_d_r_1_1_extraction_error_message.html" title="Class ExtractionErrorMessage is used to communicate that initial processing of a DeathRecordSubmissio...">VRDR.ExtractionErrorMessage</a></code> to report the error to the original sender of the message that caused the error. The code below illustrates this.</p>
 <div class="fragment"><div class="line"><span class="keywordflow">try</span></div>

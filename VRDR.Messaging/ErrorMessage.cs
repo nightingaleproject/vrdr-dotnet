@@ -70,6 +70,11 @@ namespace VRDR
             }
             set
             {
+                if (Header.Response == null)
+                {
+                    Header.Response = new MessageHeader.ResponseComponent();
+                    Header.Response.Code = MessageHeader.ResponseType.FatalError;
+                }
                 Header.Response.Identifier = value;
             }
         }

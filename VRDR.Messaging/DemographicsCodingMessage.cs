@@ -108,8 +108,8 @@ namespace VRDR
                 if (Header.Response == null)
                 {
                     Header.Response = new MessageHeader.ResponseComponent();
+                    Header.Response.Code = MessageHeader.ResponseType.Ok;
                 }
-                Header.Response.Code = MessageHeader.ResponseType.Ok;
                 Header.Response.Identifier = value;
             }
         }

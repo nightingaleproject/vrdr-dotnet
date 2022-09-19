@@ -1,12 +1,23 @@
 # Submit messages to the NVSS API; takes as arguments the jurisdiction to submit for (e.g., MA) and the files
 # to send (must be valid FHIR messages)
 
+require 'yaml'
 require 'oauth2'
 require 'active_support/time'
 require 'securerandom'
 require 'time'
 require 'json'
 require 'parallel'
+
+CONFIG_PATH = File.join(__dir__, 'config.yml')
+if (!File.exists?(CONFIG_PATH))
+  puts "Cannot find the config file at #{CONFIG_PATH}, you may need to create it"
+  puts "It should look something like this (including the ---):"
+  puts ['client_id', 'client_secret', 'username', 'password'].inject({}) { |h, k| h[k] = k ; h }.to_yaml
+  exit
+end
+
+credentials = YAML.load(File.read(CONFIG_PATH))
 
 jurisdiction = ARGV.shift
 if jurisdiction.nil? || !jurisdiction.match(/^[A-Z][A-Z]$/)
@@ -19,11 +30,6 @@ if ARGV.length < 1
   exit
 end
 
-client_id = File.read('clientid.txt')
-client_secret = File.read('clientsecret.txt')
-username = File.read('username.txt')
-password = File.read('password.txt')
-
 # Load all the files into memory first
 files = []
 ARGV.each do |filename|
@@ -31,12 +37,12 @@ ARGV.each do |filename|
 end
 
 # Request the token using the OAuth client
-client = OAuth2::Client.new(client_id,
-                            client_secret,
+client = OAuth2::Client.new(credentials['client_id'],
+                            credentials['client_secret'],
                             site: 'https://apigw.cdc.gov/',
                             token_url: '/auth/oauth/v2/token')
 
-token = client.password.get_token(username, password)
+token = client.password.get_token(credentials['username'], credentials['password'])
 
 # Submit the files in chunks of 20
 failures = []

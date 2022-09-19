@@ -2,15 +2,26 @@
 # an optional number of hours to use with the _since parameter; saves incoming messages to files and sends
 # acks as appropriate (saving those to files as well).
 
+require 'yaml'
 require 'oauth2'
 require 'active_support/time'
 require 'parallel'
 
-CLI_PATH = '../../VRDR.CLI/bin/Debug/netcoreapp6.0/DeathRecord.CLI.dll'
+CLI_PATH = File.join(__dir__, '..', '..', 'VRDR.CLI', 'bin', 'Debug', 'netcoreapp6.0', 'DeathRecord.CLI.dll')
 if (!File.exists?(CLI_PATH))
   puts "Cannot find the CLI application at #{CLI_PATH}, you may need to build it"
   exit
 end
+
+CONFIG_PATH = File.join(__dir__, 'config.yml')
+if (!File.exists?(CONFIG_PATH))
+  puts "Cannot find the config file at #{CONFIG_PATH}, you may need to create it"
+  puts "It should look something like this (including the ---):"
+  puts ['client_id', 'client_secret', 'username', 'password'].inject({}) { |h, k| h[k] = k ; h }.to_yaml
+  exit
+end
+
+credentials = YAML.load(File.read(CONFIG_PATH))
 
 jurisdiction = ARGV.shift
 if jurisdiction.nil? || !jurisdiction.match(/^[A-Z][A-Z]$/)
@@ -23,17 +34,12 @@ if ARGV.length > 0
   last_updated = DateTime.now - hours.hours
 end
 
-client_id = File.read('clientid.txt')
-client_secret = File.read('clientsecret.txt')
-username = File.read('username.txt')
-password = File.read('password.txt')
-
-client = OAuth2::Client.new(client_id,
-                            client_secret,
+client = OAuth2::Client.new(credentials['client_id'],
+                            credentials['client_secret'],
                             site: 'https://apigw.cdc.gov/',
                             token_url: '/auth/oauth/v2/token')
 
-token = client.password.get_token(username, password)
+token = client.password.get_token(credentials['username'], credentials['password'])
 
 request = if last_updated
             "/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles?_since=#{last_updated.to_s}"

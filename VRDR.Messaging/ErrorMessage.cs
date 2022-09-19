@@ -66,7 +66,7 @@ namespace VRDR
         {
             get
             {
-                return Header.Response.Identifier;
+                return Header?.Response?.Identifier;
             }
             set
             {

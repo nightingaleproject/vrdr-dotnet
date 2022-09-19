@@ -47,9 +47,9 @@ This repository includes .NET (C#) code for
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 v1.3</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview9</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview9">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview9"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview9">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview9"> github</a></td>
+<td style="text-align: center;">V4.0.0-preview10</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview10">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview10"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview10">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview10"> github</a></td>
 </tr>
 </tbody>
 </table>
@@ -78,7 +78,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="4.0.0-preview9" />
+  <PackageReference Include="VRDR" Version="4.0.0-preview10" />
   ...
 </ItemGroup>
 ```
@@ -275,7 +275,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="4.0.0-preview9" />
+  <PackageReference Include="VRDR.Messaging" Version="4.0.0-preview10" />
   ...
 </ItemGroup>
 ```
@@ -564,13 +564,22 @@ Finally, merge master into the IG-develop-vx.x.x branch.
 
 #### Publishing a Version
 
-To create a new release of VRDR on NuGet, bump the version of the VRDR and VRDR.Messaging listed in the [Directory.Build.props](Directory.Build.props) file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, [Github Actions](.github/workflows/publish.yml) will automatically build and publish a new version of the package based on the value specified.
+To create a new release of VRDR on NuGet:
 
-When publishing a new version, remember to update all the version number references in this README as well as creating a GitHub release as needed.
+1. Bump the version of the VRDR and VRDR.Messaging listed in the [Directory.Build.props](Directory.Build.props) file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, [Github Actions](.github/workflows/publish.yml) will automatically build and publish a new version of the package based on the value specified.
+1. Update the version numbers listed in this README
+1. Update the CHANGELOG.md file with information on what is changing in the release
+1. Merge the above changes to master, causing the GitHub publishing workflow to fire
+1. Create a GitHub release
+    1. Go to the [Releases page](https://github.com/nightingaleproject/vrdr-dotnet/releases)
+    1. Click on "Draft a new release"
+    1. Enter the release version on the tag and release; this should be the same as in the Directory.Build.props file (e.g., v3.2.0-preview3)
+    1. Copy the information from the CHANGELOG.md file from this version into the release description
+    1. Do not check the "pre-release" button, even for preview releases, since those don't show up on the main GitHub page
 
 ## License
 
-Copyright 2018, 2019, 2020 The MITRE Corporation
+Copyright 2018, 2019, 2020, 2021, 2022 The MITRE Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 

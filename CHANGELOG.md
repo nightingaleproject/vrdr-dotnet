@@ -1,5 +1,45 @@
 ## Changelog
 
+### v4.0.0-preview10 - 2022-09-19
+
+* Fixed date handling to correctly distinguish between unknown and unset
+* Fixed issue in ICD code handling to correctly support 5 character codes
+* Updated Client implementation to increase robustness of token refresh
+* Improved support for Status messages
+* Added support for linking coding response messages to the submission messages that they code
+
+### v4.0.0-preview9 - 2022-08-19
+
+* Added TS as a jurisdiction code for testing purposes
+
+### v4.0.0-preview8 - 2022-08-18
+
+* Fixed bug where injury incident value was encoded as String instead of CodeableConcept text
+* Improved support for Alias messages to allow data to be pulled from a source record
+* Improved error handling in microservice to return JSON errors
+* Added tools in the VRDR.CLI to convert from Coding Content Bundles to and from MRE and TRX formats
+* Added tools in the VRDR.CLI to compare JSON and TRX/MRE formatted data via translation to IJE
+* Added support for DateOfDeathDetermination
+* Updated the Client to stop using the now-unneeded _since parameter
+
+### v4.0.0-preview7 - 2022-08-05
+
+* Fixed credential handling in Client implementation
+* Updated handling of RelatedPerson fields to correctly set Active=True
+
+### v4.0.0-preview6 - 2022-07-22
+
+* Fixed BSTATE issue with connectathon test record
+* Fixed an issue with death age unit handling
+* Fixed an issue with time handling to correctly include seconds
+* Fixed an inconsistent race designator
+* Updated FHIR generation code so that empty observations are not produced
+* Updated pregnancy indicator handling for Record Axis Codes
+* Added TT as a jurisdiction code for testing purposes
+* Added initial approach for mortality roster bundle
+* Added initial support for status messages
+* Improved usability of the command line tool
+
 ### v4.0.0.preview5 - 2022-06-22
 
 * Addressed incorrect conversion of non-string values into strings

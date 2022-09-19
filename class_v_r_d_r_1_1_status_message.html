@@ -93,9 +93,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>StatusMessage</b> ()</td></tr>
 <tr class="memdesc:a56f76eb024af3bc536ff2a42de486623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor that creates a new, empty <a class="el" href="class_v_r_d_r_1_1_death_record_void_message.html" title="Class DeathRecordVoidMessage indicates that a previously submitted DeathRecordSubmissionMessage shoul...">DeathRecordVoidMessage</a>.<br /></td></tr>
 <tr class="separator:a56f76eb024af3bc536ff2a42de486623"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa49d02a3534921baf6da46804abf2f80"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_status_message.html#aa49d02a3534921baf6da46804abf2f80">StatusMessage</a> (<a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a> messageToAck, string status)</td></tr>
-<tr class="memdesc:aa49d02a3534921baf6da46804abf2f80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that creates a status message for the specified message. <a href="class_v_r_d_r_1_1_status_message.html#aa49d02a3534921baf6da46804abf2f80">More...</a><br /></td></tr>
-<tr class="separator:aa49d02a3534921baf6da46804abf2f80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa039b576f884effa93c881f19d8fded"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_status_message.html#aaa039b576f884effa93c881f19d8fded">StatusMessage</a> (<a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a> messageToStatus, string status)</td></tr>
+<tr class="memdesc:aaa039b576f884effa93c881f19d8fded"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that creates a status message for the specified message. <a href="class_v_r_d_r_1_1_status_message.html#aaa039b576f884effa93c881f19d8fded">More...</a><br /></td></tr>
+<tr class="separator:aaa039b576f884effa93c881f19d8fded"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad11bcf612409137c494e21424b023753"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_status_message.html#ad11bcf612409137c494e21424b023753">StatusMessage</a> (string messageId, string destination, string status, string source=&quot;http://nchs.cdc.gov/vrdr_submission&quot;)</td></tr>
 <tr class="memdesc:ad11bcf612409137c494e21424b023753"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that creates a status message for the specified message. <a href="class_v_r_d_r_1_1_status_message.html#ad11bcf612409137c494e21424b023753">More...</a><br /></td></tr>
 <tr class="separator:ad11bcf612409137c494e21424b023753"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -238,8 +238,8 @@ MessageHeader&#160;</td><td class="memItemRight" valign="bottom"><b>Header</b></
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Class <code><a class="el" href="class_v_r_d_r_1_1_death_record_void_message.html" title="Class DeathRecordVoidMessage indicates that a previously submitted DeathRecordSubmissionMessage shoul...">DeathRecordVoidMessage</a></code> indicates that a previously submitted <a class="el" href="class_v_r_d_r_1_1_death_record_submission_message.html" title="Class DeathRecordSubmission supports the submission of VRDR records.">DeathRecordSubmissionMessage</a> should be voided.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aa49d02a3534921baf6da46804abf2f80" name="aa49d02a3534921baf6da46804abf2f80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa49d02a3534921baf6da46804abf2f80">&#9670;&nbsp;</a></span>StatusMessage() <span class="overload">[1/2]</span></h2>
+<a id="aaa039b576f884effa93c881f19d8fded" name="aaa039b576f884effa93c881f19d8fded"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa039b576f884effa93c881f19d8fded">&#9670;&nbsp;</a></span>StatusMessage() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -251,7 +251,7 @@ MessageHeader&#160;</td><td class="memItemRight" valign="bottom"><b>Header</b></
           <td class="memname">VRDR.StatusMessage.StatusMessage </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a>&#160;</td>
-          <td class="paramname"><em>messageToAck</em>, </td>
+          <td class="paramname"><em>messageToStatus</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -275,7 +275,7 @@ MessageHeader&#160;</td><td class="memItemRight" valign="bottom"><b>Header</b></
 <p>Constructor that creates a status message for the specified message.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">messageToAck</td><td>the message to create an acknowledgement for.</td></tr>
+    <tr><td class="paramname">messageToStatus</td><td>the message to create a status for.</td></tr>
     <tr><td class="paramname">status</td><td>status value </td></tr>
   </table>
   </dd>
@@ -332,7 +332,7 @@ MessageHeader&#160;</td><td class="memItemRight" valign="bottom"><b>Header</b></
 <p>Constructor that creates a status message for the specified message.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">messageId</td><td>the id of the message to create an acknowledgement for.</td></tr>
+    <tr><td class="paramname">messageId</td><td>the id of the message to create status message for.</td></tr>
     <tr><td class="paramname">destination</td><td>the endpoint identifier that the ack message will be sent to.</td></tr>
     <tr><td class="paramname">status</td><td>the status being sent, from <a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/ValueSet-VRM-Status-vs.html">http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/ValueSet-VRM-Status-vs.html</a></td></tr>
     <tr><td class="paramname">source</td><td>the endpoint identifier that the ack message will be sent from.</td></tr>

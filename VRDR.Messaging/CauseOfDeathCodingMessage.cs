@@ -99,7 +99,7 @@ namespace VRDR
 
         /// <summary>The id of the death record submission/update message that was coded to produce the content of this message</summary>
         /// <value>the message id.</value>
-        public string SubmittedMessageId
+        public string CodedMessageId
         {
             get
             {

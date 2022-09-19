@@ -27,7 +27,7 @@ namespace VRDR.CLI
   - description: prints a verbose JSON description of the record (in the format used to drive Canary) (1 argument: the path to the death record)
   - 2ije: Read in the FHIR XML or JSON death record and print out as IJE (1 argument: path to death record in JSON or XML format)
   - 2ijecontent: Read in the FHIR XML or JSON death record and dump content  in key/value IJE format (1 argument: path to death record in JSON or XML format)
-  - ack: Create an acknowledgement FHIR message for a submission FHIR message (1 argument: submission FHIR message)
+  - ack: Create an acknowledgement FHIR message for a submission FHIR message (1 argument: submission FHIR message; many arguments: output directory and FHIR messages)
   - checkJson: Read in the given FHIR json (being permissive) and print out the same; useful for doing validation diffs (1 argument: FHIR JSon file)
   - checkXml: Read in the given FHIR xml (being permissive) and print out the same; useful for doing validation diffs (1 argument: FHIR XML file)
   - compare: Compare an IJE record with a FHIR record by each IJE field (2 arguments:  IJE record, FHIR Record)

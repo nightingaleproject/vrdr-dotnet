@@ -46,7 +46,7 @@ namespace VRDR.Tests
             Assert.NotNull(submission.DeathRecord);
             Assert.Equal("2019-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
-            Assert.Equal(10,10);
+            Assert.Equal(10, 10);
             Assert.Equal((uint)182, submission.CertNo);
             Assert.Equal((uint)2019, submission.DeathYear);
             Assert.Equal("000000000042", submission.StateAuxiliaryId);
@@ -238,6 +238,74 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateCODForMessage()
+        {
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
+            CauseOfDeathCodingMessage coding = new CauseOfDeathCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_causeofdeath_coding", coding.MessageType);
+            Assert.Equal(submission.MessageId, coding.SubmittedMessageId);
+            Assert.Equal(submission.MessageSource, coding.MessageDestination);
+            Assert.Equal(submission.MessageDestination, coding.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, coding.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, coding.NCHSIdentifier);
+
+            submission = null;
+            coding = new CauseOfDeathCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_causeofdeath_coding", coding.MessageType);
+            Assert.Null(coding.SubmittedMessageId);
+            Assert.Null(coding.MessageDestination);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", coding.MessageSource);
+            Assert.Null(coding.CertNo);
+            Assert.Null(coding.StateAuxiliaryId);
+            Assert.Null(coding.NCHSIdentifier);
+
+            submission = new DeathRecordSubmissionMessage();
+            coding = new CauseOfDeathCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_causeofdeath_coding", coding.MessageType);
+            Assert.Equal(submission.MessageId, coding.SubmittedMessageId);
+            Assert.Equal(submission.MessageSource, coding.MessageDestination);
+            Assert.Equal(submission.MessageDestination, coding.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, coding.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, coding.NCHSIdentifier);
+        }
+
+        [Fact]
+        public void CreateDemographicForMessage()
+        {
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
+            DemographicsCodingMessage coding = new DemographicsCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_demographics_coding", coding.MessageType);
+            Assert.Equal(submission.MessageId, coding.SubmittedMessageId);
+            Assert.Equal(submission.MessageSource, coding.MessageDestination);
+            Assert.Equal(submission.MessageDestination, coding.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, coding.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, coding.NCHSIdentifier);
+
+            submission = null;
+            coding = new DemographicsCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_demographics_coding", coding.MessageType);
+            Assert.Null(coding.SubmittedMessageId);
+            Assert.Null(coding.MessageDestination);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", coding.MessageSource);
+            Assert.Null(coding.CertNo);
+            Assert.Null(coding.StateAuxiliaryId);
+            Assert.Null(coding.NCHSIdentifier);
+
+            submission = new DeathRecordSubmissionMessage();
+            coding = new DemographicsCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_demographics_coding", coding.MessageType);
+            Assert.Equal(submission.MessageId, coding.SubmittedMessageId);
+            Assert.Equal(submission.MessageSource, coding.MessageDestination);
+            Assert.Equal(submission.MessageDestination, coding.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, coding.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, coding.NCHSIdentifier);
+        }
+
+        [Fact]
         public void CreateAckFromJSON()
         {
             AcknowledgementMessage ack = BaseMessage.Parse<AcknowledgementMessage>(FixtureStream("fixtures/json/AcknowledgementMessage.json"));
@@ -416,6 +484,7 @@ namespace VRDR.Tests
             CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage(ije.ToDeathRecord());
             message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
             message.MessageDestination = "https://example.org/jurisdiction/endpoint";
+            message.SubmittedMessageId = "378888";
             Assert.Equal(CauseOfDeathCodingMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageSource);
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
@@ -423,6 +492,7 @@ namespace VRDR.Tests
             Assert.Equal((uint)2022, message.DeathYear);
             Assert.Equal("500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
+            Assert.Equal("378888", message.SubmittedMessageId);
             Assert.Equal("T27.3", message.DeathRecord.AutomatedUnderlyingCOD);
             var recordAxisCodes = message.DeathRecord.RecordAxisCauseOfDeath;
             Assert.Equal(2, recordAxisCodes.Count());
@@ -721,7 +791,7 @@ namespace VRDR.Tests
             Assert.Equal(voidMessage.BlockCount, ack.BlockCount);
         }
 
-       [Fact]
+        [Fact]
         public void CreateAckForStatusMessage()
         {
             StatusMessage statusMessage = BaseMessage.Parse<StatusMessage>(FixtureStream("fixtures/json/StatusMessage.json"));
@@ -1003,52 +1073,52 @@ namespace VRDR.Tests
             Assert.Equal("The message was very old", issues[1].Description);
         }
 
-/*         [Fact]
-        public void BuildEntityAxis()
-        {
-            var builder = new CauseOfDeathEntityAxisBuilder();
-            var list = builder.ToCauseOfDeathEntityAxis();
-            Assert.Empty(list);
-            Exception ex = Assert.Throws<System.ArgumentException>(() => builder.Add("foo", "1", "bar"));
-            Assert.Equal("The value of the line argument must be a number, found: foo", ex.Message);
-            ex = Assert.Throws<System.ArgumentException>(() => builder.Add("1", "baz", "bar"));
-            Assert.Equal("The value of the position argument must be a number, found: baz", ex.Message);
-            Assert.Empty(list);
-            builder.Add("6", "1", "A047");
-            builder.Add("4", "1", "J189");
-            builder.Add("3", "1", "A419");
-            builder.Add("2", "3", "N19");
-            builder.Add("2", "2", "R579");
-            builder.Add("2", "1", "J960");
-            builder.Add("1", "1", "R688");
-            builder.Add("1", "2", "   "); // should be skipped
-            builder.Add("1", "3", ""); // should be skipped
-            builder.Add("1", "4", null); // should be skipped
-            list = builder.ToCauseOfDeathEntityAxis();
-            Assert.Equal(5, list.Count);
-            var entry = list[0];
-            Assert.Equal("1", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("R688", entry.AssignedCodes[0]);
-            entry = list[1];
-            Assert.Equal("2", entry.LineNumber);
-            Assert.Equal(3, (int)entry.AssignedCodes.Count);
-            Assert.Equal("J960", entry.AssignedCodes[0]);
-            Assert.Equal("R579", entry.AssignedCodes[1]);
-            Assert.Equal("N19", entry.AssignedCodes[2]);
-            entry = list[2];
-            Assert.Equal("3", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("A419", entry.AssignedCodes[0]);
-            entry = list[3];
-            Assert.Equal("4", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("J189", entry.AssignedCodes[0]);
-            entry = list[4];
-            Assert.Equal("6", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("A047", entry.AssignedCodes[0]);
-        } */
+        /*         [Fact]
+                public void BuildEntityAxis()
+                {
+                    var builder = new CauseOfDeathEntityAxisBuilder();
+                    var list = builder.ToCauseOfDeathEntityAxis();
+                    Assert.Empty(list);
+                    Exception ex = Assert.Throws<System.ArgumentException>(() => builder.Add("foo", "1", "bar"));
+                    Assert.Equal("The value of the line argument must be a number, found: foo", ex.Message);
+                    ex = Assert.Throws<System.ArgumentException>(() => builder.Add("1", "baz", "bar"));
+                    Assert.Equal("The value of the position argument must be a number, found: baz", ex.Message);
+                    Assert.Empty(list);
+                    builder.Add("6", "1", "A047");
+                    builder.Add("4", "1", "J189");
+                    builder.Add("3", "1", "A419");
+                    builder.Add("2", "3", "N19");
+                    builder.Add("2", "2", "R579");
+                    builder.Add("2", "1", "J960");
+                    builder.Add("1", "1", "R688");
+                    builder.Add("1", "2", "   "); // should be skipped
+                    builder.Add("1", "3", ""); // should be skipped
+                    builder.Add("1", "4", null); // should be skipped
+                    list = builder.ToCauseOfDeathEntityAxis();
+                    Assert.Equal(5, list.Count);
+                    var entry = list[0];
+                    Assert.Equal("1", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("R688", entry.AssignedCodes[0]);
+                    entry = list[1];
+                    Assert.Equal("2", entry.LineNumber);
+                    Assert.Equal(3, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("J960", entry.AssignedCodes[0]);
+                    Assert.Equal("R579", entry.AssignedCodes[1]);
+                    Assert.Equal("N19", entry.AssignedCodes[2]);
+                    entry = list[2];
+                    Assert.Equal("3", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("A419", entry.AssignedCodes[0]);
+                    entry = list[3];
+                    Assert.Equal("4", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("J189", entry.AssignedCodes[0]);
+                    entry = list[4];
+                    Assert.Equal("6", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("A047", entry.AssignedCodes[0]);
+                } */
 
         private string FixturePath(string filePath)
         {

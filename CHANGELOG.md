@@ -1,5 +1,9 @@
 ## Changelog
 
+### v4.0.0-preview11 - 2022-09-19
+
+* Fixed null object reference issue when retrieving message ID
+
 ### v4.0.0-preview10 - 2022-09-19
 
 * Fixed date handling to correctly distinguish between unknown and unset

@@ -243,7 +243,7 @@ namespace VRDR.Tests
             DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
             CauseOfDeathCodingMessage coding = new CauseOfDeathCodingMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_causeofdeath_coding", coding.MessageType);
-            Assert.Equal(submission.MessageId, coding.SubmittedMessageId);
+            Assert.Equal(submission.MessageId, coding.CodedMessageId);
             Assert.Equal(submission.MessageSource, coding.MessageDestination);
             Assert.Equal(submission.MessageDestination, coding.MessageSource);
             Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
@@ -253,7 +253,7 @@ namespace VRDR.Tests
             submission = null;
             coding = new CauseOfDeathCodingMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_causeofdeath_coding", coding.MessageType);
-            Assert.Null(coding.SubmittedMessageId);
+            Assert.Null(coding.CodedMessageId);
             Assert.Null(coding.MessageDestination);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", coding.MessageSource);
             Assert.Null(coding.CertNo);
@@ -263,7 +263,7 @@ namespace VRDR.Tests
             submission = new DeathRecordSubmissionMessage();
             coding = new CauseOfDeathCodingMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_causeofdeath_coding", coding.MessageType);
-            Assert.Equal(submission.MessageId, coding.SubmittedMessageId);
+            Assert.Equal(submission.MessageId, coding.CodedMessageId);
             Assert.Equal(submission.MessageSource, coding.MessageDestination);
             Assert.Equal(submission.MessageDestination, coding.MessageSource);
             Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
@@ -277,7 +277,7 @@ namespace VRDR.Tests
             DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
             DemographicsCodingMessage coding = new DemographicsCodingMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_demographics_coding", coding.MessageType);
-            Assert.Equal(submission.MessageId, coding.SubmittedMessageId);
+            Assert.Equal(submission.MessageId, coding.CodedMessageId);
             Assert.Equal(submission.MessageSource, coding.MessageDestination);
             Assert.Equal(submission.MessageDestination, coding.MessageSource);
             Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
@@ -287,7 +287,7 @@ namespace VRDR.Tests
             submission = null;
             coding = new DemographicsCodingMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_demographics_coding", coding.MessageType);
-            Assert.Null(coding.SubmittedMessageId);
+            Assert.Null(coding.CodedMessageId);
             Assert.Null(coding.MessageDestination);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", coding.MessageSource);
             Assert.Null(coding.CertNo);
@@ -297,7 +297,7 @@ namespace VRDR.Tests
             submission = new DeathRecordSubmissionMessage();
             coding = new DemographicsCodingMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_demographics_coding", coding.MessageType);
-            Assert.Equal(submission.MessageId, coding.SubmittedMessageId);
+            Assert.Equal(submission.MessageId, coding.CodedMessageId);
             Assert.Equal(submission.MessageSource, coding.MessageDestination);
             Assert.Equal(submission.MessageDestination, coding.MessageSource);
             Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
@@ -484,7 +484,7 @@ namespace VRDR.Tests
             CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage(ije.ToDeathRecord());
             message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
             message.MessageDestination = "https://example.org/jurisdiction/endpoint";
-            message.SubmittedMessageId = "378888";
+            message.CodedMessageId = "378888";
             Assert.Equal(CauseOfDeathCodingMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageSource);
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
@@ -492,7 +492,7 @@ namespace VRDR.Tests
             Assert.Equal((uint)2022, message.DeathYear);
             Assert.Equal("500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
-            Assert.Equal("378888", message.SubmittedMessageId);
+            Assert.Equal("378888", message.CodedMessageId);
             Assert.Equal("T27.3", message.DeathRecord.AutomatedUnderlyingCOD);
             var recordAxisCodes = message.DeathRecord.RecordAxisCauseOfDeath;
             Assert.Equal(2, recordAxisCodes.Count());

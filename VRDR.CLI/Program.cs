@@ -27,7 +27,7 @@ namespace VRDR.CLI
   - description: prints a verbose JSON description of the record (in the format used to drive Canary) (1 argument: the path to the death record)
   - 2ije: Read in the FHIR XML or JSON death record and print out as IJE (1 argument: path to death record in JSON or XML format)
   - 2ijecontent: Read in the FHIR XML or JSON death record and dump content  in key/value IJE format (1 argument: path to death record in JSON or XML format)
-  - ack: Create an acknowledgement FHIR message for a submission FHIR message (1 argument: submission FHIR message)
+  - ack: Create an acknowledgement FHIR message for a submission FHIR message (1 argument: submission FHIR message; many arguments: output directory and FHIR messages)
   - checkJson: Read in the given FHIR json (being permissive) and print out the same; useful for doing validation diffs (1 argument: FHIR JSon file)
   - checkXml: Read in the given FHIR xml (being permissive) and print out the same; useful for doing validation diffs (1 argument: FHIR XML file)
   - compare: Compare an IJE record with a FHIR record by each IJE field (2 arguments:  IJE record, FHIR Record)
@@ -51,8 +51,9 @@ namespace VRDR.CLI
   - roundtrip-all: Convert a record to JSON and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record )
   - roundtrip-ije: Convert a record to IJE and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record)
   - showcodes: Extract and show the codes in a coding response message (1 argument: coding response message)
-  - submit: Create a submission FHIR message wrapping a FHIR death record (1 argument: FHIR death record)
+  - submit: Create a submission FHIR message wrapping a FHIR death record (1 argument: FHIR death record; many arguments: output directory and FHIR death records)
   - alias: Create an alias FHIR message for a FHIR death record (1 argument: FHIR death record)
+  - showalias: Read in an alias FHIR message and display the contents (1 argument: FHIR alias message)
   - toMortalityRoster: Create and print a mortality roster bundle from a death record (1 argument: FHIR death record)
   - trx2json: Creates a Cause of Death Coding Bundle from a TRX Message (1 argument: TRX file)
   - void: Creates a Void message for a Death Record (1 argument: FHIR death record)
@@ -778,12 +779,44 @@ namespace VRDR.CLI
                 Console.WriteLine(message.ToJSON(true));
                 return 0;
             }
+            else if (args.Length > 2 && args[0] == "submit")
+            {
+                string outputDirectory = args[1];
+                if (!Directory.Exists(outputDirectory))
+                {
+                    Console.WriteLine("Must supply a valid output directory");
+                    return (1);
+                }
+                for (int i = 2; i < args.Length; i++)
+                {
+                    string outputFilename = args[i].Replace(".json", "_submission.json");
+                    DeathRecord record = new DeathRecord(File.ReadAllText(args[i]));
+                    DeathRecordSubmissionMessage message = new DeathRecordSubmissionMessage(record);
+                    message.MessageSource = "http://mitre.org/vrdr";
+                    Console.WriteLine($"Writing record to {outputFilename}");
+                    StreamWriter sw = new StreamWriter(outputFilename);
+                    sw.WriteLine(message.ToJSON(true));
+                    sw.Flush();
+                }
+                return 0;
+            }
             else if (args.Length == 2 && args[0] == "alias")
             {
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
                 DeathRecordAliasMessage message = new DeathRecordAliasMessage(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "showalias")
+            {
+                DeathRecordAliasMessage message = BaseMessage.Parse(File.ReadAllText(args[1])) as DeathRecordAliasMessage;
+                Console.WriteLine($"AliasDecedentFirstName: {message.AliasDecedentFirstName}");
+                Console.WriteLine($"AliasDecedentLastName: {message.AliasDecedentLastName}");
+                Console.WriteLine($"AliasDecedentMiddleName: {message.AliasDecedentMiddleName}");
+                Console.WriteLine($"AliasDecedentNameSuffix: {message.AliasDecedentNameSuffix}");
+                Console.WriteLine($"AliasFatherSurname: {message.AliasFatherSurname}");
+                Console.WriteLine($"AliasSocialSecurityNumber: {message.AliasSocialSecurityNumber}");
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "toMortalityRoster")
@@ -814,6 +847,26 @@ namespace VRDR.CLI
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
                 AcknowledgementMessage ackMessage = new AcknowledgementMessage(message);
                 Console.WriteLine(ackMessage.ToJSON(true));
+                return 0;
+            }
+            else if (args.Length > 2 && args[0] == "ack")
+            {
+                string outputDirectory = args[1];
+                if (!Directory.Exists(outputDirectory))
+                {
+                    Console.WriteLine("Must supply a valid output directory");
+                    return (1);
+                }
+                for (int i = 2; i < args.Length; i++)
+                {
+                    string outputFilename = args[i].Replace(".json", "_acknowledgement.json");
+                    BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[i]));
+                    AcknowledgementMessage ackMessage = new AcknowledgementMessage(message);
+                    Console.WriteLine($"Writing acknowledgement to {outputFilename}");
+                    StreamWriter sw = new StreamWriter(outputFilename);
+                    sw.WriteLine(ackMessage.ToJSON(true));
+                    sw.Flush();
+                }
                 return 0;
             }
             else if (args[0] == "trx2json")

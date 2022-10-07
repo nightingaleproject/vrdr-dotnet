@@ -1077,21 +1077,47 @@ namespace VRDR
         [IJEField(15, 191, 9, "Social Security Number", "SSN", 1)]
         public string SSN
         {
+
             get
             {
+                string fhirFieldName = "SSN";
+                string ijeFieldName = "SSN";
+                IJEField info = FieldInfo(ijeFieldName);
                 string ssn = record.SSN;
                 if (!String.IsNullOrWhiteSpace(ssn))
                 {
-                    return ssn.Replace("-", string.Empty);
+                    ssn = ssn.Replace("-", string.Empty);
+                    ssn = ssn.Replace(" ", string.Empty);
+                    if (ssn.Length != info.Length)
+                    {
+                        validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{ssn}' which is not the expected length for IJE field {ijeFieldName} of length {info.Length}");
+                    }
+                    return Truncate(ssn, info.Length).PadRight(info.Length, ' ');
                 }
                 else
                 {
-                    return "";
+                    validationErrors.Add($"Error: FHIR field {fhirFieldName} is missing any data for IJE Field {ijeFieldName}");
+                    return new String(' ', info.Length);
                 }
             }
             set
             {
-                LeftJustified_Set("SSN", "SSN", value);
+                string fhirFieldName = "SSN";
+                string ijeFieldName = "SSN";
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    string ssn = value.Trim();
+                    if (ssn.Contains("-") || ssn.Contains(" "))
+                    {
+                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which cannot contain ` ` or `-` characters for FHIR field {fhirFieldName}.");
+                    }
+                    IJEField info = FieldInfo(ijeFieldName);
+                    if (ssn.Length != info.Length)
+                    {
+                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length for FHIR field {fhirFieldName} of length {info.Length}");
+                    }
+                }
+                LeftJustified_Set(ijeFieldName, fhirFieldName, value);
             }
         }
 

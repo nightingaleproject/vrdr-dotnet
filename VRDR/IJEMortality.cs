@@ -1086,8 +1086,7 @@ namespace VRDR
                 string ssn = record.SSN;
                 if (!String.IsNullOrWhiteSpace(ssn))
                 {
-                    ssn = ssn.Replace("-", string.Empty);
-                    ssn = ssn.Replace(" ", string.Empty);
+                    ssn = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
                     if (ssn.Length != info.Length)
                     {
                         validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{ssn}' which is not the expected length for IJE field {ijeFieldName} of length {info.Length}");
@@ -1096,7 +1095,7 @@ namespace VRDR
                 }
                 else
                 {
-                    validationErrors.Add($"Error: FHIR field {fhirFieldName} is missing any data for IJE Field {ijeFieldName}");
+                    validationErrors.Add($"Error: FHIR field {fhirFieldName} is missing data for IJE Field {ijeFieldName}");
                     return new String(' ', info.Length);
                 }
             }
@@ -1107,12 +1106,13 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     string ssn = value.Trim();
+                    IJEField info = FieldInfo(ijeFieldName);
+                    int requiredLength = info.Length;
                     if (ssn.Contains("-") || ssn.Contains(" "))
                     {
                         validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which cannot contain ` ` or `-` characters for FHIR field {fhirFieldName}.");
                     }
-                    IJEField info = FieldInfo(ijeFieldName);
-                    if (ssn.Length != info.Length)
+                    if (ssn.Length != requiredLength)
                     {
                         validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length for FHIR field {fhirFieldName} of length {info.Length}");
                     }

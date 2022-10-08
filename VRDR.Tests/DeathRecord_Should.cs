@@ -2427,6 +2427,8 @@ namespace VRDR.Tests
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.TransportationRole["system"]);
             Assert.Equal("Passenger", SetterDeathRecord.TransportationRole["display"]);
             SetterDeathRecord.DeathLocationJurisdiction = "MA";
+            // These updates make SSN a required field, is that correct?
+            SetterDeathRecord.SSN = "112223333";
             IJEMortality ije1 = new IJEMortality(SetterDeathRecord);
             Assert.Equal("PA", ije1.TRANSPRT);
             ije1.TRANSPRT = "PAP";
@@ -3308,6 +3310,8 @@ namespace VRDR.Tests
             Assert.Equal("DDDD", ije.CERTL);
             ije.TRANSPRT = "Hover Board Rider";
             ije.INACT = "9";
+            // These updates make SSN a required field, is that correct?
+            ije.SSN = "112223333";
             DeathRecord record = ije.ToDeathRecord();
             DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle());
             IJEMortality ije2 = new IJEMortality(record);

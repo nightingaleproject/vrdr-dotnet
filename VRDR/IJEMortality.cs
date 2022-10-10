@@ -1086,16 +1086,15 @@ namespace VRDR
                 string ssn = record.SSN;
                 if (!String.IsNullOrWhiteSpace(ssn))
                 {
-                    ssn = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
-                    if (ssn.Length != info.Length)
+                    string formattedSSN = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
+                    if (formattedSSN.Length != info.Length)
                     {
-                        validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{ssn}' which is not the expected length for IJE field {ijeFieldName} of length {info.Length}");
+                        validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{ssn}' which is not the expected length (without dashes or spaces) for IJE field {ijeFieldName} of length {info.Length}");
                     }
-                    return Truncate(ssn, info.Length).PadRight(info.Length, ' ');
+                    return Truncate(formattedSSN, info.Length).PadRight(info.Length, ' ');
                 }
                 else
                 {
-                    validationErrors.Add($"Error: FHIR field {fhirFieldName} is missing data for IJE Field {ijeFieldName}");
                     return new String(' ', info.Length);
                 }
             }
@@ -1106,15 +1105,15 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     string ssn = value.Trim();
-                    IJEField info = FieldInfo(ijeFieldName);
-                    int requiredLength = info.Length;
                     if (ssn.Contains("-") || ssn.Contains(" "))
                     {
                         validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which cannot contain ` ` or `-` characters for FHIR field {fhirFieldName}.");
                     }
-                    if (ssn.Length != requiredLength)
+                    IJEField info  = FieldInfo(ijeFieldName);
+                    string formattedSSN = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
+                    if (formattedSSN.Length != info.Length)
                     {
-                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length for FHIR field {fhirFieldName} of length {info.Length}");
+                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length (without dashes or spaces) for FHIR field {fhirFieldName} of length {info.Length}");
                     }
                 }
                 LeftJustified_Set(ijeFieldName, fhirFieldName, value);

@@ -2549,8 +2549,12 @@ namespace VRDR
                         }
                         else
                         {
-                            var race = Tuple.Create(raceCode, component.Value.ToString());
-                            races.Add(race);
+                            // Ignore unless there's a value present
+                            if (component.Value != null)
+                            {
+                                var race = Tuple.Create(raceCode, component.Value.ToString());
+                                races.Add(race);
+                            }
                         }
 
                     }

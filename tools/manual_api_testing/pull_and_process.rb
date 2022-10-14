@@ -79,6 +79,9 @@ Parallel.each(searchset['entry']) do |entry|
     when 'http://nchs.cdc.gov/vrdr_acknowledgement'
       puts "Found an acknowledgement message for message #{header['response']['identifier']} for certificate #{identifier}"
       File.write("#{identifier}_submission_acknowledgement.json", message.to_json)
+    when 'http://nchs.cdc.gov/vrdr_status'
+      puts "Found a status message for message #{header['response']['identifier']} for certificate #{identifier}"
+      File.write("#{identifier}_status.json", message.to_json)
     when 'http://nchs.cdc.gov/vrdr_extraction_error'
       puts "Found an extraction error message for message #{header['response']['identifier']} for certificate #{identifier}, acknowledging"
       message_filename = "#{identifier}_extraction_error.json"

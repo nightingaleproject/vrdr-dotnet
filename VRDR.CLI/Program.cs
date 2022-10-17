@@ -905,8 +905,8 @@ namespace VRDR.CLI
                     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                     IJEMortality ije = new IJEMortality(d, false);
                     ije.DOD_YR = d.DeathRecordIdentifier.Substring(0, 4);
-                    ije.DSTATE = d.DeathRecordIdentifier.Substring(3, 2);
-                    ije.FILENO = d.DeathRecordIdentifier.Substring(5, 6);
+                    ije.DSTATE = d.DeathRecordIdentifier.Substring(4, 2);
+                    ije.FILENO = d.DeathRecordIdentifier.Substring(6, 6);
                     string MREString = ije2mre(ije);
                     Console.WriteLine(MREString);
                 }
@@ -922,8 +922,8 @@ namespace VRDR.CLI
                     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                     IJEMortality ije = new IJEMortality(d, false);
                     ije.DOD_YR = d.DeathRecordIdentifier.Substring(0, 4);
-                    ije.DSTATE = d.DeathRecordIdentifier.Substring(3, 2);
-                    ije.FILENO = d.DeathRecordIdentifier.Substring(5, 6);
+                    ije.DSTATE = d.DeathRecordIdentifier.Substring(4, 2);
+                    ije.FILENO = d.DeathRecordIdentifier.Substring(6, 6);
                     string TRXString = ije2trx(ije);
                     Console.WriteLine(TRXString);
                 }
@@ -1106,8 +1106,8 @@ namespace VRDR.CLI
             string ijeString = ije.ToString();
             string mreString = string.Empty.PadRight(500);
             mreString = mreString.Insert(0, ije.DOD_YR);
-            mreString = mreString.Insert(3, ije.DSTATE);
-            mreString = mreString.Insert(5, ije.FILENO);
+            mreString = mreString.Insert(4, ije.DSTATE);
+            mreString = mreString.Insert(6, ije.FILENO);
             mreString = mreString.Insert(15, ijeString.Substring(246, 324));
             mreString = mreString.Insert(342, ije.DETHNICE);
             mreString = mreString.Insert(345, ije.DETHNIC5C);
@@ -1157,8 +1157,8 @@ namespace VRDR.CLI
             string ijeString = ije.ToString();
             string trxString = string.Empty.PadRight(500);
             trxString = trxString.Insert(0, ije.DOD_YR);
-            trxString = trxString.Insert(3, ije.DSTATE);
-            trxString = trxString.Insert(5, ije.FILENO);
+            trxString = trxString.Insert(4, ije.DSTATE);
+            trxString = trxString.Insert(6, ije.FILENO);
             trxString = trxString.Insert(21, ije.R_MO);
             trxString = trxString.Insert(23, ije.R_DY);
             trxString = trxString.Insert(25, ije.R_YR);

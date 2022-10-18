@@ -56,7 +56,7 @@ namespace VRDR.CLI
   - showalias: Read in an alias FHIR message and display the contents (1 argument: FHIR alias message)
   - toMortalityRoster: Create and print a mortality roster bundle from a death record (1 argument: FHIR death record)
   - trx2json: Creates a Cause of Death Coding Bundle from a TRX Message (1 argument: TRX file)
-  - void: Creates a Void message for a Death Record (1 argument: FHIR death record)
+  - void: Creates a Void message for a Death Record (1 argument: FHIR death record; one optional argument: number of records to void)
   - xml2json: Read in the IJE death record and print out as JSON (1 argument: path to death record in XML format)
   - xml2xml: Read in the IJE death record and print out as XML (1 argument: path to death record in XML format)
 ";
@@ -723,8 +723,8 @@ namespace VRDR.CLI
                     if (field1 != field2)
                     {
                         differences += 1;
-                        Console.WriteLine($"1: {info.Field,-5} {info.Name,-15} {Truncate(info.Contents, 75),-75}: \"{field1 + "\"",-80}");
-                        Console.WriteLine($"2: {info.Field,-5} {info.Name,-15} {Truncate(info.Contents, 75),-75}: \"{field2 + "\"",-80}");
+                        Console.WriteLine($" IJE: {info.Field,-5} {info.Name,-15} {Truncate(info.Contents, 75),-75}: \"{field1 + "\"",-80}");
+                        Console.WriteLine($"FHIR: {info.Field,-5} {info.Name,-15} {Truncate(info.Contents, 75),-75}: \"{field2 + "\"",-80}");
                         Console.WriteLine();
                     }
                 }
@@ -742,6 +742,10 @@ namespace VRDR.CLI
                         Console.WriteLine(record.ToJSON());
                         break;
                     case CauseOfDeathCodingMessage coding:
+                        record = coding.DeathRecord;
+                        Console.WriteLine(record.ToJSON());
+                        break;
+                    case DemographicsCodingMessage coding:
                         record = coding.DeathRecord;
                         Console.WriteLine(record.ToJSON());
                         break;
@@ -842,6 +846,15 @@ namespace VRDR.CLI
                 Console.WriteLine(message.ToJSON(true));
                 return 0;
             }
+            else if (args.Length == 3 && args[0] == "void")
+            {
+                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecordVoidMessage message = new DeathRecordVoidMessage(record);
+                message.BlockCount = UInt32.Parse(args[2]);
+                message.MessageSource = "http://mitre.org/vrdr";
+                Console.WriteLine(message.ToJSON(true));
+                return 0;
+            }
             else if (args.Length == 2 && args[0] == "ack")
             {
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
@@ -892,8 +905,8 @@ namespace VRDR.CLI
                     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                     IJEMortality ije = new IJEMortality(d, false);
                     ije.DOD_YR = d.DeathRecordIdentifier.Substring(0, 4);
-                    ije.DSTATE = d.DeathRecordIdentifier.Substring(3, 2);
-                    ije.FILENO = d.DeathRecordIdentifier.Substring(5, 6);
+                    ije.DSTATE = d.DeathRecordIdentifier.Substring(4, 2);
+                    ije.FILENO = d.DeathRecordIdentifier.Substring(6, 6);
                     string MREString = ije2mre(ije);
                     Console.WriteLine(MREString);
                 }
@@ -909,8 +922,8 @@ namespace VRDR.CLI
                     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                     IJEMortality ije = new IJEMortality(d, false);
                     ije.DOD_YR = d.DeathRecordIdentifier.Substring(0, 4);
-                    ije.DSTATE = d.DeathRecordIdentifier.Substring(3, 2);
-                    ije.FILENO = d.DeathRecordIdentifier.Substring(5, 6);
+                    ije.DSTATE = d.DeathRecordIdentifier.Substring(4, 2);
+                    ije.FILENO = d.DeathRecordIdentifier.Substring(6, 6);
                     string TRXString = ije2trx(ije);
                     Console.WriteLine(TRXString);
                 }
@@ -930,10 +943,10 @@ namespace VRDR.CLI
                     IJEMortality ije2 = new IJEMortality(record2, false);
                     // These data elements aren't populated in a CodedContent bundle, so we pull them from the identifier and stuff them into the ije record
                     ije2.DOD_YR = record2.DeathRecordIdentifier.Substring(0, 4);
-                    ije2.DSTATE = record2.DeathRecordIdentifier.Substring(3, 2);
-                    ije2.FILENO = record2.DeathRecordIdentifier.Substring(5, 6);
+                    ije2.DSTATE = record2.DeathRecordIdentifier.Substring(4, 2);
+                    ije2.FILENO = record2.DeathRecordIdentifier.Substring(6, 6);
                     string[] ijeonlyfields = new String[] { "AUXNO2", "POILITRL", "HOWINJ", "TRANSPRT", "COD1A", "INTERVAL1A", "COD1B", "INTERVAL1B", "OTHERCONDITION", "CERTDATE", "SUR_YR", "SUR_MO", "SUR_DY" };
-                    return (CompareIJEtoIJE(ije1, ije2, ijeonlyfields));
+                    return (CompareIJEtoIJE(ije1, "TRX", ije2, "JSON", ijeonlyfields));
                 }
                 else
                 {
@@ -945,21 +958,21 @@ namespace VRDR.CLI
             {
                 if (args.Length == 3)
                 {
-                    // Read the TRX file and convert to IJE
+                    // Read the MRE file and convert to IJE
                     IJEMortality ije1 = mre2ije(args[1]);
-                    // REad the FHIR JSON file and convert to IJE
+                    // Read the FHIR JSON file and convert to IJE
                     DeathRecord record2 = new DeathRecord(File.ReadAllText(args[2]), false);
                     IJEMortality ije2 = new IJEMortality(record2, false);
                     // These data elements aren't populated in a CodedContent bundle, so we pull them from the identifier and stuff them into the ije record
                     ije2.DOD_YR = record2.DeathRecordIdentifier.Substring(0, 4);
-                    ije2.DSTATE = record2.DeathRecordIdentifier.Substring(3, 2);
-                    ije2.FILENO = record2.DeathRecordIdentifier.Substring(5, 6);
+                    ije2.DSTATE = record2.DeathRecordIdentifier.Substring(4, 2);
+                    ije2.FILENO = record2.DeathRecordIdentifier.Substring(6, 6);
                     string[] ijeonlyfields = new String[] { "AUXNO", "AUXNO2", "OCCUP" };
-                    return (CompareIJEtoIJE(ije1, ije2, ijeonlyfields));
+                    return (CompareIJEtoIJE(ije1, "MRE", ije2, "JSON", ijeonlyfields));
                 }
                 else
                 {
-                    Console.WriteLine("Error: compareTRXtoJSON requires two arguments (a TRX file, and a JSON Coded Cause Of Death Bundle)");
+                    Console.WriteLine("Error: compareMREtoJSON requires two arguments (an MRE file, and a JSON Coded Cause Of Death Bundle)");
                 }
 
             }
@@ -1081,8 +1094,8 @@ namespace VRDR.CLI
             ije = ije.Insert(246, mre.Substring(15, 324));
             IJEMortality ijeRecord = new IJEMortality(ije);
             ijeRecord.DOD_YR = mre.Substring(0, 4);
-            ijeRecord.DSTATE = mre.Substring(3, 2);
-            ijeRecord.FILENO = mre.Substring(5, 6);
+            ijeRecord.DSTATE = mre.Substring(4, 2);
+            ijeRecord.FILENO = mre.Substring(6, 6);
             ijeRecord.DETHNICE = mre.Substring(342, 3);
             ijeRecord.DETHNIC5C = mre.Substring(345, 3);
 
@@ -1093,8 +1106,8 @@ namespace VRDR.CLI
             string ijeString = ije.ToString();
             string mreString = string.Empty.PadRight(500);
             mreString = mreString.Insert(0, ije.DOD_YR);
-            mreString = mreString.Insert(3, ije.DSTATE);
-            mreString = mreString.Insert(5, ije.FILENO);
+            mreString = mreString.Insert(4, ije.DSTATE);
+            mreString = mreString.Insert(6, ije.FILENO);
             mreString = mreString.Insert(15, ijeString.Substring(246, 324));
             mreString = mreString.Insert(342, ije.DETHNICE);
             mreString = mreString.Insert(345, ije.DETHNIC5C);
@@ -1109,8 +1122,8 @@ namespace VRDR.CLI
             string ije = string.Empty.PadRight(5000);
             IJEMortality ijeRecord = new IJEMortality();
             ijeRecord.DOD_YR = trx.Substring(0, 4);
-            ijeRecord.DSTATE = trx.Substring(3, 2);
-            ijeRecord.FILENO = trx.Substring(5, 6);
+            ijeRecord.DSTATE = trx.Substring(4, 2);
+            ijeRecord.FILENO = trx.Substring(6, 6);
             ijeRecord.R_YR = trx.Substring(25, 4);
             ijeRecord.R_DY = trx.Substring(23, 2);
             ijeRecord.R_MO = trx.Substring(21, 2);
@@ -1144,8 +1157,8 @@ namespace VRDR.CLI
             string ijeString = ije.ToString();
             string trxString = string.Empty.PadRight(500);
             trxString = trxString.Insert(0, ije.DOD_YR);
-            trxString = trxString.Insert(3, ije.DSTATE);
-            trxString = trxString.Insert(5, ije.FILENO);
+            trxString = trxString.Insert(4, ije.DSTATE);
+            trxString = trxString.Insert(6, ije.FILENO);
             trxString = trxString.Insert(21, ije.R_MO);
             trxString = trxString.Insert(23, ije.R_DY);
             trxString = trxString.Insert(25, ije.R_YR);
@@ -1176,10 +1189,12 @@ namespace VRDR.CLI
         }
 
 
-        private static int CompareIJEtoIJE(IJEMortality ije1, IJEMortality ije2, string[] excludefields = null)
+        private static int CompareIJEtoIJE(IJEMortality ije1, string ije1name, IJEMortality ije2, string ije2name, string[] excludefields = null)
         {
             string ijeString1 = ije1.ToString();
             string ijeString2 = ije2.ToString();
+
+            int namePadding = ije1name.Length > ije2name.Length ? ije1name.Length : ije2name.Length;
 
             List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Field).ToList();
 
@@ -1197,8 +1212,8 @@ namespace VRDR.CLI
                 if (field1 != field2)
                 {
                     differences += 1;
-                    Console.WriteLine($"1: {info.Field,-5} {info.Name,-15} {Truncate(info.Contents, 75),-75}: \"{field1 + "\"",-80}");
-                    Console.WriteLine($"2: {info.Field,-5} {info.Name,-15} {Truncate(info.Contents, 75),-75}: \"{field2 + "\"",-80}");
+                    Console.WriteLine($"{ije1name.PadLeft(namePadding)}: {info.Field,-5} {info.Name,-15} {Truncate(info.Contents, 75),-75}: \"{field1 + "\"",-80}");
+                    Console.WriteLine($"{ije2name.PadLeft(namePadding)}: {info.Field,-5} {info.Name,-15} {Truncate(info.Contents, 75),-75}: \"{field2 + "\"",-80}");
                     Console.WriteLine();
                 }
             }

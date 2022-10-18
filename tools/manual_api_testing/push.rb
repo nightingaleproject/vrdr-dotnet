@@ -19,6 +19,16 @@ end
 
 credentials = YAML.load(File.read(CONFIG_PATH))
 
+if ARGV.include?('--single')
+  ARGV.delete('--single')
+  single = true
+end
+
+if ARGV.include?('--sequential')
+  ARGV.delete('--sequential')
+  sequential = true
+end
+
 jurisdiction = ARGV.shift
 if jurisdiction.nil? || !jurisdiction.match(/^[A-Z][A-Z]$/)
   puts "You must provide the jurisdiction code (e.g., MA) as the first argument"
@@ -46,16 +56,25 @@ token = client.password.get_token(credentials['username'], credentials['password
 
 # Submit the files in chunks of 20
 failures = []
-Parallel.each(files.each_slice(20)) do |slice|
+options = {}
+if sequential # Don't use parallel processing
+  options[:in_processes] = 0
+end
+slice_size = single ? 1 : 20
+Parallel.each(files.each_slice(slice_size), options) do |slice|
 
   output = "Sending files:\n"
   slice.each { |s| output += "  #{s[:filename]}\n" }
 
   # Build the package
-  url = "/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles"
-  messages = slice.map { |s| JSON.parse(s[:message]) }
-  message_entries = messages.map { |message| { id: SecureRandom.uuid, request: { method: 'POST', url: url }, resource: message } }
-  submission = { resourceType: 'Bundle', type: 'batch', id: SecureRandom.uuid, timestamp: Time.now.iso8601, entry: message_entries }
+  if slice.size > 1
+    url = "/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles"
+    messages = slice.map { |s| JSON.parse(s[:message]) }
+    message_entries = messages.map { |message| { id: SecureRandom.uuid, request: { method: 'POST', url: url }, resource: message } }
+    submission = { resourceType: 'Bundle', type: 'batch', id: SecureRandom.uuid, timestamp: Time.now.iso8601, entry: message_entries }
+  else
+    submission = JSON.parse(slice.first[:message])
+  end
 
   body = submission.to_json
 
@@ -64,13 +83,16 @@ Parallel.each(files.each_slice(20)) do |slice|
                           headers: { 'Content-Type' => 'application/json' },
                           body: body)
     output += "Server response for files #{slice.first[:filename]}-#{slice.last[:filename]}: #{response.status}\n"
-    JSON.parse(response.body)['entry'].each do |entry|
-      output += "  Record response: #{entry['response']['status']}\n"
+    if slice.size > 1
+      File.write("#{slice.first[:filename]}-#{slice.last[:filename]}", response.body)
+      JSON.parse(response.body)['entry'].each do |entry|
+        output += "  Record response: #{entry['response']['status']}\n"
+      end
     end
-  rescue Faraday::Error => e
+  rescue Faraday::Error, OAuth2::Error => e
     output += "Failed to send files in slice #{slice.first[:filename]}-#{slice.last[:filename]}\n"
     output += e.message
-    output += e.backtrace
+    output += e.backtrace.join("\n")
     output += "\n"
     failures += slice
   ensure

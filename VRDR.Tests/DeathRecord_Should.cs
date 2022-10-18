@@ -3340,6 +3340,14 @@ namespace VRDR.Tests
             Assert.Null(dr.DispositionLocationName);
         }
 
+        [Fact]
+        public void Get_EmptyLiteralRaceFields()
+        {
+            // A record with an a literal race field (e.g., AmericanIndianOrAlaskanNativeLiteral1) with no content should parse successfully
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/EmptyRaceLiteral.json")));
+            Assert.DoesNotContain(dr.Race, (t => t.Item1 == "AmericanIndianOrAlaskanNativeLiteral1"));
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

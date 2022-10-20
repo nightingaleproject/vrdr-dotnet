@@ -903,6 +903,11 @@ namespace VRDR.CLI
                 if (args.Length == 2)
                 {
                     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                    if (d.DeathRecordIdentifier == null)
+                    {
+                        Console.WriteLine("Error: command json2mre requires a Coded Demographic Bundle; did you pass in a message?");
+                        return(1);
+                    }
                     IJEMortality ije = new IJEMortality(d, false);
                     ije.DOD_YR = d.DeathRecordIdentifier.Substring(0, 4);
                     ije.DSTATE = d.DeathRecordIdentifier.Substring(4, 2);
@@ -920,6 +925,11 @@ namespace VRDR.CLI
                 if (args.Length == 2)
                 {
                     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                    if (d.DeathRecordIdentifier == null)
+                    {
+                        Console.WriteLine("Error: command json2trx requires a Coded Cause Of Death Bundle; did you pass in a message?");
+                        return(1);
+                    }
                     IJEMortality ije = new IJEMortality(d, false);
                     ije.DOD_YR = d.DeathRecordIdentifier.Substring(0, 4);
                     ije.DSTATE = d.DeathRecordIdentifier.Substring(4, 2);

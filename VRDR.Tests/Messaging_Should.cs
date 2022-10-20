@@ -940,6 +940,19 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateAliasForRecordWithEmptyMiddleNameString()
+        {
+            // This is a regression test for a bug where an empty middle name field led to an empty string in the alias
+            DeathRecord record = new DeathRecord();
+            record.Identifier = "321";
+            record.DeathLocationJurisdiction = "MA";
+            record.DeathYear = 2022;
+            record.GivenNames = new string[] { "Rocket", "" };
+            DeathRecordAliasMessage message = new DeathRecordAliasMessage(record);
+            Assert.Null(message.AliasDecedentMiddleName);
+        }
+
+        [Fact]
         public void SelectMessageType()
         {
             var msg = BaseMessage.Parse(FixtureStream("fixtures/json/AcknowledgementMessage.json"), false);

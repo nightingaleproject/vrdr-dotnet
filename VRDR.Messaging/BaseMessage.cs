@@ -281,7 +281,7 @@ namespace VRDR
         protected void SetSingleStringValue(string key, string value)
         {
             Record.Remove(key);
-            if (value != null)
+            if (!String.IsNullOrWhiteSpace(value))
             {
                 Record.Add(key, new FhirString(value));
             }

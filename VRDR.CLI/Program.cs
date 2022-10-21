@@ -14,6 +14,7 @@ using Hl7.Fhir.Serialization;
 using Hl7.Fhir.ElementModel;
 using Hl7.FhirPath;
 using VRDR;
+using nvssclient.lib;
 
 namespace VRDR.CLI
 {
@@ -59,6 +60,7 @@ namespace VRDR.CLI
   - void: Creates a Void message for a Death Record (1 argument: FHIR death record; one optional argument: number of records to void)
   - xml2json: Read in the IJE death record and print out as JSON (1 argument: path to death record in XML format)
   - xml2xml: Read in the IJE death record and print out as XML (1 argument: path to death record in XML format)
+  - batch: Read in IJE messages and create a batch submission bundle (2+ arguments: submission URL (for inside bundle) and one or more messages)
 ";
         static int Main(string[] args)
         {
@@ -1070,6 +1072,18 @@ namespace VRDR.CLI
                     sw.WriteLine(record.ToJson());
                     sw.Flush();
                 }
+            }
+            else if (args.Length >= 3 && args[0] == "batch")
+            {
+                string url = args[1];
+                List<BaseMessage> messages = new List<BaseMessage>();
+                for (int i = 2; i < args.Length; i++)
+                {
+                    messages.Add(BaseMessage.Parse(File.ReadAllText(args[i])));
+                }
+                string payload = Client.CreateBulkUploadPayload(messages, url, true);
+                Console.WriteLine(payload);
+                return 0;
             }
             else
             {

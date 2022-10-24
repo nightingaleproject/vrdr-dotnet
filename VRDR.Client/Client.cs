@@ -6,7 +6,7 @@ using Hl7.Fhir.Serialization;
 using VRDR;
 
 
-namespace nvssclient.lib;
+namespace VRDR;
 public class Client
 {
     /// <summary>The API url</summary>
@@ -33,7 +33,8 @@ public class Client
         Console.WriteLine($">>> Retrieving new messages from NCHS...");
 
         // if testing against the NVSS FHIR API server, add the authentication token
-        if (!this.LocalTesting){
+        if (!this.LocalTesting)
+        {
             if (String.IsNullOrEmpty(this.Token))
             {
                 HttpResponseMessage authResponse = await RefreshAccessTokenAsync();
@@ -70,7 +71,8 @@ public class Client
         var data = new StringContent(json, Encoding.UTF8, "application/json");
 
         // if testing against the NVSS FHIR API server, add the authentication token
-        if (!this.LocalTesting){
+        if (!this.LocalTesting)
+        {
             if (String.IsNullOrEmpty(this.Token))
             {
                 HttpResponseMessage authResponse = await RefreshAccessTokenAsync();
@@ -104,7 +106,7 @@ public class Client
         payload.Id = Guid.NewGuid().ToString();
         payload.Type = Bundle.BundleType.Batch;
         payload.Timestamp = DateTime.Now;
-        foreach(BaseMessage message in messages)
+        foreach (BaseMessage message in messages)
         {
             Bundle.EntryComponent entry = new Bundle.EntryComponent();
             entry.Resource = (Bundle)message;
@@ -116,21 +118,37 @@ public class Client
         return payload.ToJson(new FhirJsonSerializationSettings { Pretty = prettyPrint, AppendNewLine = prettyPrint });
     }
 
-    // PostMessageAsync POSTS an array message to the NVSS FHIR API server for processing using bulk upload
-    public async Task<HttpResponseMessage[]> PostMessagesAsync(IEnumerable<BaseMessage> messages, string url)
+    // PostMessageAsync POSTS a list of messages to the NVSS FHIR API server for processing using bulk upload
+    public async Task<List<HttpResponseMessage>> PostMessagesAsync(IEnumerable<BaseMessage> messages, int batchSize)
     {
-        string json = CreateBulkUploadPayload(messages, url);
+        List<HttpResponseMessage> responses = new List<HttpResponseMessage>();
+        while(messages.Count() > 0)
+        {
+            IEnumerable<BaseMessage> batch = messages.Take(batchSize);
+            List<HttpResponseMessage> batchResponses = await PostMessagesAsync(batch);
+            responses.AddRange(batchResponses);
+            messages = messages.Skip(batchSize);
+        }
+        return responses;
+    }
+
+    // PostMessageAsync POSTS a list of messages to the NVSS FHIR API server for processing using bulk upload
+    // This method is private because it sends batches of arbirary size, the public method requires a batch size to be set
+    private async Task<List<HttpResponseMessage>> PostMessagesAsync(IEnumerable<BaseMessage> messages)
+    {
+        string json = CreateBulkUploadPayload(messages, this.Url);
         StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
 
         // if testing against the NVSS FHIR API server, add the authentication token
-        if (!this.LocalTesting){
+        if (!this.LocalTesting)
+        {
             if (String.IsNullOrEmpty(this.Token))
             {
                 HttpResponseMessage authResponse = await RefreshAccessTokenAsync();
                 // return authentication error
                 if (!authResponse.IsSuccessStatusCode)
                 {
-                    return Enumerable.Repeat(authResponse, messages.Count()).ToArray();
+                    return Enumerable.Repeat(authResponse, messages.Count()).ToList();
                 }
             }
         }
@@ -143,23 +161,40 @@ public class Client
             // return authentication error
             if (!authRetry.IsSuccessStatusCode)
             {
-                return Enumerable.Repeat(authRetry, messages.Count()).ToArray();
+                return Enumerable.Repeat(authRetry, messages.Count()).ToList();
             }
             response = await client.PostAsync(this.Url, data);
         }
 
-        // At this point we have an overall HTTP response plus, if the request succeeded, one internal response for each
+        // At this point we have an overall HTTP response and, if the request succeeded, one internal response for each
         // message in the bulk submission. To process this we first check for success and, if the request did succeed,
         // break out the internal responses, otherwise return the overall response as the response for each message
-        // TODO NOTFORCHECKIN: Implement this!
-        return Enumerable.Repeat(response, messages.Count()).ToArray();
+        if (response.IsSuccessStatusCode)
+        {
+            // We should have a batch-response Bundle
+            Bundle bundle = BaseMessage.ParseGenericBundle(response.Content.ToString(), true);
+            if (bundle?.Type == Bundle.BundleType.BatchResponse)
+            {
+                List<HttpResponseMessage> httpResponses = new List<HttpResponseMessage>();
+                foreach (var entry in bundle.Entry)
+                {
+                    HttpResponseMessage responseMessage = new HttpResponseMessage();
+                    responseMessage.StatusCode = (System.Net.HttpStatusCode)int.Parse(entry.Response.Status);
+                    httpResponses.Add(responseMessage);
+                }
+                return httpResponses;
+            }
+        }
+        // If we're here we either have a failure response or a response that's not a batch response
+        return Enumerable.Repeat(response, messages.Count()).ToList();
     }
 
-    private async Task<HttpResponseMessage> RefreshAccessTokenAsync(){
-    // clear the authentication headers
-    client.DefaultRequestHeaders.Authorization = null;
+    private async Task<HttpResponseMessage> RefreshAccessTokenAsync()
+    {
+        // clear the authentication headers
+        client.DefaultRequestHeaders.Authorization = null;
 
-    HttpResponseMessage response = await GetAuthorizeTokenAsync();
+        HttpResponseMessage response = await GetAuthorizeTokenAsync();
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
@@ -174,7 +209,8 @@ public class Client
             }
             return response;
         }
-        else {
+        else
+        {
             return response;
         }
     }
@@ -190,7 +226,7 @@ public class Client
         parameters.Add("username", this.Credentials.Username);
         parameters.Add("password", this.Credentials.Pass);
 
-        var request = new HttpRequestMessage(HttpMethod.Post, this.Credentials.Url){Content = new FormUrlEncodedContent(parameters)};
+        var request = new HttpRequestMessage(HttpMethod.Post, this.Credentials.Url) { Content = new FormUrlEncodedContent(parameters) };
         var response = await client.SendAsync(request);
 
         return response;

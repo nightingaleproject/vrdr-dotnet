@@ -14,7 +14,6 @@ using Hl7.Fhir.Serialization;
 using Hl7.Fhir.ElementModel;
 using Hl7.FhirPath;
 using VRDR;
-using nvssclient.lib;
 
 namespace VRDR.CLI
 {

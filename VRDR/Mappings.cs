@@ -3115,9 +3115,6 @@ namespace VRDR
                 { "DR", "236320001" },
                 { "PA", "257500003" },
                 { "PE", "257518000" },
-                { "blank", "NA" },
-                { "blank", "UNK" },
-                { "freetext", "OTH" },
             };
             /// <summary>FHIR -> IJE Mapping for TransportationIncidentRole</summary>
             public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
@@ -3125,9 +3122,6 @@ namespace VRDR
                 { "236320001", "DR" },
                 { "257500003", "PA" },
                 { "257518000", "PE" },
-                { "NA", "blank" },
-                { "UNK", "blank" },
-                { "OTH", "freetext" },
             };
         }
         /// <summary>Mappings for UnitsOfAge</summary>

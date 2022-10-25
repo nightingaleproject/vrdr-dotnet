@@ -55,7 +55,7 @@ namespace VRDR
         /// <summary>Mappings for CertifierTypes</summary>
         public static class CertifierTypes
         {
-            /// <summary>IJE -> FHIR Mapping for CertifierTypes</summary>
+            /// <summary>IJE ->FHIR Mapping for CertifierTypes</summary>
             public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
             {
                 { "D", "434651000124107" },

@@ -61,7 +61,6 @@ namespace VRDR
                 { "D", "434651000124107" },
                 { "P", "434641000124105" },
                 { "M", "455381000124109" },
-                { "freetext", "OTH" },
             };
             /// <summary>FHIR -> IJE Mapping for CertifierTypes</summary>
             public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
@@ -69,7 +68,6 @@ namespace VRDR
                 { "434651000124107", "D" },
                 { "434641000124105", "P" },
                 { "455381000124109", "M" },
-                { "OTH", "freetext" },
             };
         }
         /// <summary>Mappings for ContributoryTobaccoUse</summary>

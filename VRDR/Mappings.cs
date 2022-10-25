@@ -61,6 +61,7 @@ namespace VRDR
                 { "D", "434651000124107" },
                 { "P", "434641000124105" },
                 { "M", "455381000124109" },
+                { "freetext", "OTH" },
             };
             /// <summary>FHIR -> IJE Mapping for CertifierTypes</summary>
             public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
@@ -68,6 +69,7 @@ namespace VRDR
                 { "434651000124107", "D" },
                 { "434641000124105", "P" },
                 { "455381000124109", "M" },
+                { "OTH", "freetext" },
             };
         }
         /// <summary>Mappings for ContributoryTobaccoUse</summary>
@@ -476,20 +478,6 @@ namespace VRDR
                 { "UNK", "U" },
             };
         }
-        /// <summary>Mappings for NotApplicable</summary>
-        public static class NotApplicable
-        {
-            /// <summary>IJE -> FHIR Mapping for NotApplicable</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "X", "NA" },
-            };
-            /// <summary>FHIR -> IJE Mapping for NotApplicable</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "NA", "X" },
-            };
-        }
         /// <summary>Mappings for PlaceOfDeath</summary>
         public static class PlaceOfDeath
         {
@@ -560,6 +548,7 @@ namespace VRDR
                 { "2", "2" },
                 { "3", "3" },
                 { "4", "4" },
+                { "7", "7" },
                 { "9", "9" },
                 { "8", "NA" },
             };
@@ -570,6 +559,7 @@ namespace VRDR
                 { "2", "2" },
                 { "3", "3" },
                 { "4", "4" },
+                { "7", "7" },
                 { "9", "9" },
                 { "NA", "8" },
             };
@@ -648,12 +638,16 @@ namespace VRDR
                 { "403", "403" },
                 { "404", "404" },
                 { "405", "405" },
+                { "410", "410" },
                 { "411", "411" },
                 { "412", "412" },
+                { "420", "420" },
                 { "421", "421" },
                 { "422", "422" },
                 { "423", "423" },
+                { "430", "430" },
                 { "431", "431" },
+                { "440", "440" },
                 { "441", "441" },
                 { "442", "442" },
                 { "443", "443" },
@@ -661,11 +655,11 @@ namespace VRDR
                 { "445", "445" },
                 { "446", "446" },
                 { "447", "447" },
+                { "450", "450" },
                 { "451", "451" },
-                { "461", "461" },
+                { "460", "460" },
                 { "462", "462" },
                 { "463", "463" },
-                { "464", "464" },
                 { "465", "465" },
                 { "466", "466" },
                 { "467", "467" },
@@ -683,13 +677,16 @@ namespace VRDR
                 { "501", "501" },
                 { "502", "502" },
                 { "503", "503" },
+                { "510", "510" },
                 { "511", "511" },
                 { "512", "512" },
                 { "513", "513" },
                 { "514", "514" },
                 { "515", "515" },
+                { "520", "520" },
                 { "521", "521" },
                 { "522", "522" },
+                { "530", "530" },
                 { "531", "531" },
                 { "532", "532" },
                 { "533", "533" },
@@ -708,6 +705,7 @@ namespace VRDR
                 { "546", "546" },
                 { "547", "547" },
                 { "599", "599" },
+                { "600", "600" },
                 { "601", "601" },
                 { "602", "602" },
                 { "604", "604" },
@@ -754,6 +752,8 @@ namespace VRDR
                 { "646", "646" },
                 { "647", "647" },
                 { "648", "648" },
+                { "649", "649" },
+                { "650", "650" },
                 { "651", "651" },
                 { "652", "652" },
                 { "653", "653" },
@@ -791,6 +791,7 @@ namespace VRDR
                 { "686", "686" },
                 { "699", "699" },
                 { "990", "990" },
+                { "995", "995" },
                 { "996", "996" },
                 { "997", "997" },
                 { "998", "998" },
@@ -1810,12 +1811,16 @@ namespace VRDR
                 { "403", "403" },
                 { "404", "404" },
                 { "405", "405" },
+                { "410", "410" },
                 { "411", "411" },
                 { "412", "412" },
+                { "420", "420" },
                 { "421", "421" },
                 { "422", "422" },
                 { "423", "423" },
+                { "430", "430" },
                 { "431", "431" },
+                { "440", "440" },
                 { "441", "441" },
                 { "442", "442" },
                 { "443", "443" },
@@ -1823,11 +1828,11 @@ namespace VRDR
                 { "445", "445" },
                 { "446", "446" },
                 { "447", "447" },
+                { "450", "450" },
                 { "451", "451" },
-                { "461", "461" },
+                { "460", "460" },
                 { "462", "462" },
                 { "463", "463" },
-                { "464", "464" },
                 { "465", "465" },
                 { "466", "466" },
                 { "467", "467" },
@@ -1845,13 +1850,16 @@ namespace VRDR
                 { "501", "501" },
                 { "502", "502" },
                 { "503", "503" },
+                { "510", "510" },
                 { "511", "511" },
                 { "512", "512" },
                 { "513", "513" },
                 { "514", "514" },
                 { "515", "515" },
+                { "520", "520" },
                 { "521", "521" },
                 { "522", "522" },
+                { "530", "530" },
                 { "531", "531" },
                 { "532", "532" },
                 { "533", "533" },
@@ -1870,6 +1878,7 @@ namespace VRDR
                 { "546", "546" },
                 { "547", "547" },
                 { "599", "599" },
+                { "600", "600" },
                 { "601", "601" },
                 { "602", "602" },
                 { "604", "604" },
@@ -1916,6 +1925,8 @@ namespace VRDR
                 { "646", "646" },
                 { "647", "647" },
                 { "648", "648" },
+                { "649", "649" },
+                { "650", "650" },
                 { "651", "651" },
                 { "652", "652" },
                 { "653", "653" },
@@ -1953,6 +1964,7 @@ namespace VRDR
                 { "686", "686" },
                 { "699", "699" },
                 { "990", "990" },
+                { "995", "995" },
                 { "996", "996" },
                 { "997", "997" },
                 { "998", "998" },
@@ -3103,6 +3115,9 @@ namespace VRDR
                 { "DR", "236320001" },
                 { "PA", "257500003" },
                 { "PE", "257518000" },
+                { "blank", "NA" },
+                { "blank", "UNK" },
+                { "freetext", "OTH" },
             };
             /// <summary>FHIR -> IJE Mapping for TransportationIncidentRole</summary>
             public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
@@ -3110,6 +3125,9 @@ namespace VRDR
                 { "236320001", "DR" },
                 { "257500003", "PA" },
                 { "257518000", "PE" },
+                { "NA", "blank" },
+                { "UNK", "blank" },
+                { "OTH", "freetext" },
             };
         }
         /// <summary>Mappings for UnitsOfAge</summary>
@@ -3134,24 +3152,6 @@ namespace VRDR
                 { "h", "5" },
                 { "min", "6" },
                 { "UNK", "9" },
-            };
-        }
-        /// <summary>Mappings for YesNoNotApplicable</summary>
-        public static class YesNoNotApplicable
-        {
-            /// <summary>IJE -> FHIR Mapping for YesNoNotApplicable</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "N", "N" },
-                { "Y", "Y" },
-                { "X", "NA" },
-            };
-            /// <summary>FHIR -> IJE Mapping for YesNoNotApplicable</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "N", "N" },
-                { "Y", "Y" },
-                { "NA", "X" },
             };
         }
         /// <summary>Mappings for YesNoUnknown</summary>

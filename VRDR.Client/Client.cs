@@ -18,9 +18,20 @@ public class Client
     /// <summary>The token to access the API server</summary>
     public string? Token { get; set; }
     /// <summary>Constructor</summary>
-    private HttpClient client = new HttpClient();
+    private HttpClient client;
     public Client(String url, bool local, Credentials credentials)
     {
+        if (local)
+        {
+            // When testing locally we allow for self signed certificates
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            client = new HttpClient(handler);
+        }
+        else
+        {
+            client = new HttpClient();
+        }
         this.Url = url;
         this.LocalTesting = local;
         this.Credentials = credentials;
@@ -29,9 +40,6 @@ public class Client
     // responses
     public async Task<HttpResponseMessage> GetMessageResponsesAsync()
     {
-        var address = this.Url;
-        Console.WriteLine($">>> Retrieving new messages from NCHS...");
-
         // if testing against the NVSS FHIR API server, add the authentication token
         if (!this.LocalTesting)
         {
@@ -46,7 +54,7 @@ public class Client
             }
         }
 
-        var response = await client.GetAsync(address);
+        var response = await client.GetAsync(this.Url);
 
         // check if the token expired, refresh and try again
         if (!response.IsSuccessStatusCode)
@@ -172,7 +180,8 @@ public class Client
         if (response.IsSuccessStatusCode)
         {
             // We should have a batch-response Bundle
-            Bundle bundle = BaseMessage.ParseGenericBundle(response.Content.ToString(), true);
+            string content = response.Content.ReadAsStringAsync().Result;
+            Bundle bundle = BaseMessage.ParseGenericBundle(content, true);
             if (bundle?.Type == Bundle.BundleType.BatchResponse)
             {
                 List<HttpResponseMessage> httpResponses = new List<HttpResponseMessage>();

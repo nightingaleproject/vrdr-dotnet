@@ -2147,7 +2147,7 @@ namespace VRDR
                 Identifier ssn = new Identifier();
                 ssn.Type = new CodeableConcept(CodeSystems.HL7_identifier_type, "SB", "Social Beneficiary Identifier", null);
                 ssn.System = CodeSystems.US_SSN;
-                ssn.Value = value.Replace("-", string.Empty);
+                ssn.Value = value.Replace("-", string.Empty).Replace(" ", string.Empty);
                 Decedent.Identifier.Add(ssn);
             }
         }

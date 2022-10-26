@@ -236,6 +236,72 @@ namespace VRDR.Tests
             Assert.Equal("Tyngsborough", ije1.CITYTEXT_R.Trim());
         }
 
+        [Fact]
+        public void SetSSNValid()
+        {
+            IJEMortality ije = new IJEMortality();
+            ije.SSN = "112223333";
+            Assert.Equal("112223333", ije.SSN);
+            DeathRecord record = ije.ToDeathRecord();
+            Assert.Equal("112223333", record.SSN);
+        }
+
+        [Fact]
+        public void GetSSNValid()
+        {
+            DeathRecord record = new DeathRecord();
+            record.SSN = "112223333";
+            record.DeathLocationJurisdiction = "MA";
+            Assert.Equal("112223333", record.SSN);
+            IJEMortality ije = new IJEMortality(record);
+            Assert.Equal("112223333", ije.SSN);
+
+            record.SSN = "11-222-3333";
+            Assert.Equal("112223333", record.SSN);
+            IJEMortality ije2 = new IJEMortality(record);
+            Assert.Equal("112223333", ije2.SSN);
+
+            record.SSN = "11 222 3333";
+            Assert.Equal("112223333", record.SSN);
+            IJEMortality ije3 = new IJEMortality(record);
+            Assert.Equal("112223333", ije3.SSN);
+        }
+
+        [Fact]
+        public void SetSSNTooShort()
+        {
+            IJEMortality ije1 = new IJEMortality();
+            ije1.SSN = "11222    ";
+            ije1.DSTATE = "MA";
+            DeathRecord record1 = ije1.ToDeathRecord();
+            ArgumentOutOfRangeException ex1 = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record1));
+            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field SSN contains string '11222' which is not the expected length (without dashes or spaces) for IJE field SSN of length 9')", ex1.Message);
+            Assert.Equal("11222    ", ije1.SSN);
+            Assert.Equal("11222", record1.SSN);
+        }
+
+        [Fact]
+        public void GetSSNTooLong()
+        {
+            DeathRecord record = new DeathRecord();
+            record.SSN = "1122233334";
+            record.DeathLocationJurisdiction = "MA";
+            Assert.Equal("1122233334", record.SSN);
+            ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
+            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field SSN contains string '1122233334' which is not the expected length (without dashes or spaces) for IJE field SSN of length 9')", ex.Message);
+        }
+
+        [Fact]
+        public void GetSSNTooShort()
+        {
+            DeathRecord record = new DeathRecord();
+            record.DeathLocationJurisdiction = "MA";
+            record.SSN = "11222333";
+            Assert.Equal("11222333", record.SSN);
+            ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
+            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field SSN contains string '11222333' which is not the expected length (without dashes or spaces) for IJE field SSN of length 9')", ex.Message);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

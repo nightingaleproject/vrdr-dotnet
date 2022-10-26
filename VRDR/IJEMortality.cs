@@ -1077,21 +1077,46 @@ namespace VRDR
         [IJEField(15, 191, 9, "Social Security Number", "SSN", 1)]
         public string SSN
         {
+
             get
             {
+                string fhirFieldName = "SSN";
+                string ijeFieldName = "SSN";
+                int ssnLength = 9;
                 string ssn = record.SSN;
                 if (!String.IsNullOrWhiteSpace(ssn))
                 {
-                    return ssn.Replace("-", string.Empty);
+                    string formattedSSN = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
+                    if (formattedSSN.Length != ssnLength)
+                    {
+                        validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{ssn}' which is not the expected length (without dashes or spaces) for IJE field {ijeFieldName} of length {ssnLength}");
+                    }
+                    return Truncate(formattedSSN, ssnLength).PadRight(ssnLength, ' ');
                 }
                 else
                 {
-                    return "";
+                    return new String(' ', ssnLength);
                 }
             }
             set
             {
-                LeftJustified_Set("SSN", "SSN", value);
+                string fhirFieldName = "SSN";
+                string ijeFieldName = "SSN";
+                int ssnLength = 9;
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    string ssn = value.Trim();
+                    if (ssn.Contains("-") || ssn.Contains(" "))
+                    {
+                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which cannot contain ` ` or `-` characters for FHIR field {fhirFieldName}.");
+                    }
+                    string formattedSSN = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
+                    if (formattedSSN.Length != ssnLength)
+                    {
+                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length (without dashes or spaces) for FHIR field {fhirFieldName} of length {ssnLength}");
+                    }
+                }
+                LeftJustified_Set(ijeFieldName, fhirFieldName, value);
             }
         }
 

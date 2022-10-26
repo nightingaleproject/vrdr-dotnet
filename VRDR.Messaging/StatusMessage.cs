@@ -3,23 +3,23 @@ using Hl7.Fhir.Model;
 
 namespace VRDR
 {
-    /// <summary>Class <c>DeathRecordVoidMessage</c> indicates that a previously submitted DeathRecordSubmissionMessage should be voided.</summary>
+    /// <summary>Class <c>StatusMessage</c> provides a status update to a jurisdiction about a previously submitted message.</summary>
     public class StatusMessage : BaseMessage
     {
         /// <summary>
-        /// The Event URI for DeathRecordVoidMessage
+        /// The Event URI for StatusMessage
         /// </summary>
         public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_status";
 
-        /// <summary>Default constructor that creates a new, empty DeathRecordVoidMessage.</summary>
+        /// <summary>Default constructor that creates a new, empty StatusMessage.</summary>
         public StatusMessage() : base(MESSAGE_TYPE)
         {
         }
 
         /// <summary>
-        /// Construct a DeathRecordVoidMessage from a FHIR Bundle.
+        /// Construct a StatusMessage from a FHIR Bundle.
         /// </summary>
-        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordVoidMessage</param>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the StatusMessage</param>
         /// <returns></returns>
         internal StatusMessage(Bundle messageBundle) : base(messageBundle)
         {

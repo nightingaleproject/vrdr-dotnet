@@ -1191,11 +1191,11 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.EditBypass01.FHIRToIJE, "AgeAtDeathEditFlag", "AGE");
+                return Get_MappingFHIRToIJE(Mappings.EditBypass01.FHIRToIJE, "AgeAtDeathEditFlag", "AGE_BYPASS");
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.EditBypass01.IJEToFHIR, "AGE", "AgeAtDeathEditFlag", value);
+                Set_MappingIJEToFHIR(Mappings.EditBypass01.IJEToFHIR, "AGE_BYPASS", "AgeAtDeathEditFlag", value);
             }
         }
 

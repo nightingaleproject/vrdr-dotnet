@@ -104,11 +104,14 @@ namespace VRDR.Tests
             Assert.Equal("YC", ije3.DSTATE);
             ije3.AGE = "010";
             ije3.AGETYPE = "2";
+            ije3.AGE_BYPASS = ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified;
+            Assert.Equal(ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified, ije3.AGE_BYPASS);
             DeathRecord dr4 = ije3.ToDeathRecord();
             Assert.Equal("NY", dr4.DeathLocationAddress["addressState"]);
             Assert.Equal("YC", dr4.DeathLocationJurisdiction);
             Assert.Equal("mo", dr4.AgeAtDeath["code"]);
             Assert.Equal("10", dr4.AgeAtDeath["value"]);
+            Assert.Equal(ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified,  dr4.AgeAtDeathEditFlagHelper);
         }
 
         [Fact]

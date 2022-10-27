@@ -7,5 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\VRDR\DeathRecord.csproj" />
     <ProjectReference Include="..\VRDR.Messaging\VRDRMessaging.csproj" />
+    <ProjectReference Include="..\VRDR.Client\VRDRClient.csproj" />
   </ItemGroup>
 </Project>

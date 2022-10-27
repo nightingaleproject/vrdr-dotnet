@@ -1,7 +1,7 @@
 using VRDR;
 using Newtonsoft.Json.Linq;
 
-namespace nvssclient.lib;
+namespace VRDR;
 // The Credentials class includes the values required to authenticate to the API Gateway
 public class Credentials
 {

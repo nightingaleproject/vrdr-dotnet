@@ -493,7 +493,7 @@ POST a FHIR Message to the NVSS API Server with your authenticated client
 ```
   // ... Create a FHIR Message
   BaseMessage msg = new BaseMessage();
-  Boolean success = client.PostMessageAsync(msg);
+  HttpResponseMessage response = client.PostMessageAsync(msg);
   // ... handle success or failure
 ```
 
@@ -504,6 +504,33 @@ GET record responses from the NVSS API Server with your authenticated client
   var content = client.GetMessageResponsesAsync(lastUpdatedStr);
 
   // ...parse the Bundle of Bundles in the content response
+```
+
+Generate a batch Bundle of FHIR Messages for upload to the NVSS API Server
+```
+  // ... Create FHIR Messages and put them into a List
+  List<BaseMessage> messages = new List<BaseMessage>();
+  for (int i = 0; i < 5; i++)
+  {
+    BaseMessage msg = new BaseMessage();
+    messages.Add(msg);
+  }
+  // Create the batch upload JSON
+  string batch = Client.CreateBulkUploadPayload(messages, "/Bundle", true);
+```
+
+POST a batch of FHIR Message to the NVSS API Server with your authenticated client
+```
+  // ... Create FHIR Messages and put them into a List
+  List<BaseMessage> messages = new List<BaseMessage>();
+  for (int i = 0; i < 50; i++)
+  {
+    BaseMessage msg = new BaseMessage();
+    messages.Add(msg);
+  }
+  // POST messages in batches of 20
+  List<HttpResponseMessage> responses = client.PostMessagesAsync(messages, 20);
+  // ... handle success or failure
 ```
 
 ### VRDR.HTTP

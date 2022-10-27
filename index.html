@@ -487,13 +487,32 @@ Example Usage</h4>
 <div class="line">client = new Client(apiUrl, localDev, credentials);</div>
 </div><!-- fragment --><p >POST a FHIR Message to the NVSS API Server with your authenticated client </p><div class="fragment"><div class="line">// ... Create a FHIR Message</div>
 <div class="line">BaseMessage msg = new BaseMessage();</div>
-<div class="line">Boolean success = client.PostMessageAsync(msg);</div>
+<div class="line">HttpResponseMessage response = client.PostMessageAsync(msg);</div>
 <div class="line">// ... handle success or failure</div>
 </div><!-- fragment --><p >GET record responses from the NVSS API Server with your authenticated client </p><div class="fragment"><div class="line">// lastUpdated is a timestamp of the last GET request</div>
 <div class="line">lastUpdatedStr = lastUpdated.ToString(&quot;yyyy-MM-ddTHH:mm:ss.fffffff&quot;);</div>
 <div class="line">var content = client.GetMessageResponsesAsync(lastUpdatedStr);</div>
 <div class="line"> </div>
 <div class="line">// ...parse the Bundle of Bundles in the content response</div>
+</div><!-- fragment --><p >Generate a batch Bundle of FHIR Messages for upload to the NVSS API Server </p><div class="fragment"><div class="line">// ... Create FHIR Messages and put them into a List</div>
+<div class="line">List&lt;BaseMessage&gt; messages = new List&lt;BaseMessage&gt;();</div>
+<div class="line">for (int i = 0; i &lt; 5; i++)</div>
+<div class="line">{</div>
+<div class="line">  BaseMessage msg = new BaseMessage();</div>
+<div class="line">  messages.Add(msg);</div>
+<div class="line">}</div>
+<div class="line">// Create the batch upload JSON</div>
+<div class="line">string batch = Client.CreateBulkUploadPayload(messages, &quot;/Bundle&quot;, true);</div>
+</div><!-- fragment --><p >POST a batch of FHIR Message to the NVSS API Server with your authenticated client </p><div class="fragment"><div class="line">// ... Create FHIR Messages and put them into a List</div>
+<div class="line">List&lt;BaseMessage&gt; messages = new List&lt;BaseMessage&gt;();</div>
+<div class="line">for (int i = 0; i &lt; 50; i++)</div>
+<div class="line">{</div>
+<div class="line">  BaseMessage msg = new BaseMessage();</div>
+<div class="line">  messages.Add(msg);</div>
+<div class="line">}</div>
+<div class="line">// POST messages in batches of 20</div>
+<div class="line">List&lt;HttpResponseMessage&gt; responses = client.PostMessagesAsync(messages, 20);</div>
+<div class="line">// ... handle success or failure</div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md69"></a>
 VRDR.HTTP</h3>
 <p >This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.</p>

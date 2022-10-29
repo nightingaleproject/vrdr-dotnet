@@ -352,6 +352,7 @@ namespace VRDR
                 { "2", "Pregnant at time of death", VRDR.CodeSystems.PregnancyStatus },
                 { "3", "Not pregnant, but pregnant within 42 days of death", VRDR.CodeSystems.PregnancyStatus },
                 { "4", "Not pregnant, but pregnant 43 days to 1 year before death", VRDR.CodeSystems.PregnancyStatus },
+                { "7", "Not reported on certificate", VRDR.CodeSystems.PregnancyStatus },
                 { "9", "Unknown if pregnant within the past year", VRDR.CodeSystems.PregnancyStatus },
                 { "NA", "Not applicable", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
@@ -363,6 +364,8 @@ namespace VRDR
             public static string  Not_Pregnant_But_Pregnant_Within_42_Days_Of_Death = "3";
             /// <summary> Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death </summary>
             public static string  Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death = "4";
+            /// <summary> Not_Reported_On_Certificate </summary>
+            public static string  Not_Reported_On_Certificate = "7";
             /// <summary> Unknown_If_Pregnant_Within_The_Past_Year </summary>
             public static string  Unknown_If_Pregnant_Within_The_Past_Year = "9";
             /// <summary> Not_Applicable </summary>
@@ -519,7 +522,7 @@ namespace VRDR
                 { "133", "BOSNIAN", VRDR.CodeSystems.RaceCode },
                 { "134", "KOSOVIAN", VRDR.CodeSystems.RaceCode },
                 { "199", "Multiple WHITE responses", VRDR.CodeSystems.RaceCode },
-                { "200", "Black or African American", VRDR.CodeSystems.RaceCode },
+                { "200", "Black Checkbox", VRDR.CodeSystems.RaceCode },
                 { "201", "Black", VRDR.CodeSystems.RaceCode },
                 { "202", "African", VRDR.CodeSystems.RaceCode },
                 { "203", "African American", VRDR.CodeSystems.RaceCode },
@@ -543,20 +546,24 @@ namespace VRDR
                 { "226", "ERITREAN", VRDR.CodeSystems.RaceCode },
                 { "227", "TOGOLESE", VRDR.CodeSystems.RaceCode },
                 { "228", "SOMALIAN", VRDR.CodeSystems.RaceCode },
-                { "299", "Multiple BLACK or AFRICAN AMERICAN responses", VRDR.CodeSystems.RaceCode },
+                { "299", "Multiple BLACK  or AFRICAN AMERICAN responses", VRDR.CodeSystems.RaceCode },
                 { "300", "American Indian Checkbox", VRDR.CodeSystems.RaceCode },
-                { "400", "Asian", VRDR.CodeSystems.RaceCode },
+                { "400", "Asian Indian Checkbox", VRDR.CodeSystems.RaceCode },
                 { "401", "Asian Indian", VRDR.CodeSystems.RaceCode },
                 { "402", "Bangladeshi", VRDR.CodeSystems.RaceCode },
                 { "403", "Bhutanese", VRDR.CodeSystems.RaceCode },
                 { "404", "Burmese", VRDR.CodeSystems.RaceCode },
                 { "405", "Cambodian", VRDR.CodeSystems.RaceCode },
+                { "410", "Chinese Checkbox", VRDR.CodeSystems.RaceCode },
                 { "411", "Chinese", VRDR.CodeSystems.RaceCode },
                 { "412", "Taiwanese", VRDR.CodeSystems.RaceCode },
+                { "420", "Filipino Checkbox", VRDR.CodeSystems.RaceCode },
                 { "421", "Filipino", VRDR.CodeSystems.RaceCode },
                 { "422", "Hmong", VRDR.CodeSystems.RaceCode },
                 { "423", "Indonesian", VRDR.CodeSystems.RaceCode },
+                { "430", "Japanese Checkbox", VRDR.CodeSystems.RaceCode },
                 { "431", "Japanese", VRDR.CodeSystems.RaceCode },
+                { "440", "Korean Checkbox", VRDR.CodeSystems.RaceCode },
                 { "441", "Korean", VRDR.CodeSystems.RaceCode },
                 { "442", "Laotian", VRDR.CodeSystems.RaceCode },
                 { "443", "Malaysian", VRDR.CodeSystems.RaceCode },
@@ -564,11 +571,11 @@ namespace VRDR
                 { "445", "Pakistani", VRDR.CodeSystems.RaceCode },
                 { "446", "Sri Lankan", VRDR.CodeSystems.RaceCode },
                 { "447", "Thai", VRDR.CodeSystems.RaceCode },
+                { "450", "Vietnamese Checkbox", VRDR.CodeSystems.RaceCode },
                 { "451", "Vietnamese", VRDR.CodeSystems.RaceCode },
-                { "461", "Amerasian", VRDR.CodeSystems.RaceCode },
-                { "462", "Asian2", VRDR.CodeSystems.RaceCode },
+                { "460", "Other Asian Checkbox", VRDR.CodeSystems.RaceCode },
+                { "462", "Asian", VRDR.CodeSystems.RaceCode },
                 { "463", "Asiatic", VRDR.CodeSystems.RaceCode },
-                { "464", "Eurasian", VRDR.CodeSystems.RaceCode },
                 { "465", "Mongolian", VRDR.CodeSystems.RaceCode },
                 { "466", "Oriental", VRDR.CodeSystems.RaceCode },
                 { "467", "Whello", VRDR.CodeSystems.RaceCode },
@@ -586,13 +593,16 @@ namespace VRDR
                 { "501", "Native Hawaiian", VRDR.CodeSystems.RaceCode },
                 { "502", "Hawaiian", VRDR.CodeSystems.RaceCode },
                 { "503", "Part Hawaiian", VRDR.CodeSystems.RaceCode },
+                { "510", "Samoan Checkbox", VRDR.CodeSystems.RaceCode },
                 { "511", "Samoan", VRDR.CodeSystems.RaceCode },
                 { "512", "Tahitian", VRDR.CodeSystems.RaceCode },
                 { "513", "Tongan", VRDR.CodeSystems.RaceCode },
                 { "514", "Polynesian", VRDR.CodeSystems.RaceCode },
                 { "515", "Tokelauan", VRDR.CodeSystems.RaceCode },
+                { "520", "Guamanian Checkbox", VRDR.CodeSystems.RaceCode },
                 { "521", "Guamanian", VRDR.CodeSystems.RaceCode },
                 { "522", "Chamorro", VRDR.CodeSystems.RaceCode },
+                { "530", "Other Pacific Islander Checkbox", VRDR.CodeSystems.RaceCode },
                 { "531", "Mariana Islander", VRDR.CodeSystems.RaceCode },
                 { "532", "Marshallese", VRDR.CodeSystems.RaceCode },
                 { "533", "Palauan", VRDR.CodeSystems.RaceCode },
@@ -611,6 +621,7 @@ namespace VRDR
                 { "546", "New Hebrides", VRDR.CodeSystems.RaceCode },
                 { "547", "Pacific Islander", VRDR.CodeSystems.RaceCode },
                 { "599", "Multiple NATIVE HAWAIIAN and OTHER PACIFIC ISLANDER responses", VRDR.CodeSystems.RaceCode },
+                { "600", "Other Race Checkbox", VRDR.CodeSystems.RaceCode },
                 { "601", "Argentinean", VRDR.CodeSystems.RaceCode },
                 { "602", "Bolivian", VRDR.CodeSystems.RaceCode },
                 { "604", "Central American", VRDR.CodeSystems.RaceCode },
@@ -657,6 +668,8 @@ namespace VRDR
                 { "646", "Guyanese", VRDR.CodeSystems.RaceCode },
                 { "647", "Surinam", VRDR.CodeSystems.RaceCode },
                 { "648", "Sudanese", VRDR.CodeSystems.RaceCode },
+                { "649", "Amerasian", VRDR.CodeSystems.RaceCode },
+                { "650", "Eurasian", VRDR.CodeSystems.RaceCode },
                 { "651", "Brazilian", VRDR.CodeSystems.RaceCode },
                 { "652", "Brown", VRDR.CodeSystems.RaceCode },
                 { "653", "Bushwacker", VRDR.CodeSystems.RaceCode },
@@ -693,7 +706,8 @@ namespace VRDR
                 { "685", "MALADA", VRDR.CodeSystems.RaceCode },
                 { "686", "OTHER SPANISH", VRDR.CodeSystems.RaceCode },
                 { "699", "OTHER RACE, N.E.C.", VRDR.CodeSystems.RaceCode },
-                { "990", "Multiple SOME OTHER RACE responses 995 American", VRDR.CodeSystems.RaceCode },
+                { "990", "Multiple SOME OTHER RACE responses", VRDR.CodeSystems.RaceCode },
+                { "995", "American", VRDR.CodeSystems.RaceCode },
                 { "996", "Uncodable", VRDR.CodeSystems.RaceCode },
                 { "997", "Deferred", VRDR.CodeSystems.RaceCode },
                 { "998", "UNKNOWN", VRDR.CodeSystems.RaceCode },
@@ -1132,7 +1146,7 @@ namespace VRDR
                 { "H51", "San Felipe", VRDR.CodeSystems.RaceCode },
                 { "H52", "San Ildefonso", VRDR.CodeSystems.RaceCode },
                 { "H53", "San Juan Pueblo", VRDR.CodeSystems.RaceCode },
-                { "H54", "SAN JUAN DE", VRDR.CodeSystems.RaceCode },
+                { "H54", "SAN JUAN DE GUADELUPE", VRDR.CodeSystems.RaceCode },
                 { "H55", "San Juan", VRDR.CodeSystems.RaceCode },
                 { "H56", "Sandia", VRDR.CodeSystems.RaceCode },
                 { "H57", "Santa Ana", VRDR.CodeSystems.RaceCode },
@@ -1423,7 +1437,7 @@ namespace VRDR
                 { "N22", "Village of Venetie", VRDR.CodeSystems.RaceCode },
                 { "N23", "Wiseman", VRDR.CodeSystems.RaceCode },
                 { "N24", "Kenaitze Indian Tribe", VRDR.CodeSystems.RaceCode },
-                { "N27", "TLINGIT HAIDA", VRDR.CodeSystems.RaceCode },
+                { "N27", "TLINGIT-HAIDA", VRDR.CodeSystems.RaceCode },
                 { "N28", "Angoon Community Association", VRDR.CodeSystems.RaceCode },
                 { "N29", "Central Council of the Tlingit and Haida Indian Tribes", VRDR.CodeSystems.RaceCode },
                 { "N30", "Chilkat Indian Village", VRDR.CodeSystems.RaceCode },
@@ -1518,11 +1532,11 @@ namespace VRDR
                 { "P43", "Village of Aniak", VRDR.CodeSystems.RaceCode },
                 { "P44", "Village of Atmautluak", VRDR.CodeSystems.RaceCode },
                 { "P45", "Orutsararmuit Native Village", VRDR.CodeSystems.RaceCode },
-                { "P46", "Village of Bill Moore's Slough Bay", VRDR.CodeSystems.RaceCode },
+                { "P46", "Village of Bill Moore's Slough", VRDR.CodeSystems.RaceCode },
                 { "P47", "Bristol Bay", VRDR.CodeSystems.RaceCode },
                 { "P48", "Calista", VRDR.CodeSystems.RaceCode },
                 { "P49", "Village of Chefomak", VRDR.CodeSystems.RaceCode },
-                { "P50", "Native of Hamilton", VRDR.CodeSystems.RaceCode },
+                { "P50", "Native Village of Hamilton", VRDR.CodeSystems.RaceCode },
                 { "P51", "Native Village of Chuathbaluk", VRDR.CodeSystems.RaceCode },
                 { "P52", "Village of Clark's Point", VRDR.CodeSystems.RaceCode },
                 { "P53", "Village of Crooked Creek", VRDR.CodeSystems.RaceCode },
@@ -1714,8 +1728,8 @@ namespace VRDR
             public static string  Kosovian = "134";
             /// <summary> Multiple_White_Responses </summary>
             public static string  Multiple_White_Responses = "199";
-            /// <summary> Black_Or_African_American </summary>
-            public static string  Black_Or_African_American = "200";
+            /// <summary> Black_Checkbox </summary>
+            public static string  Black_Checkbox = "200";
             /// <summary> Black </summary>
             public static string  Black = "201";
             /// <summary> African </summary>
@@ -1766,8 +1780,8 @@ namespace VRDR
             public static string  Multiple_Black_Or_African_American_Responses = "299";
             /// <summary> American_Indian_Checkbox </summary>
             public static string  American_Indian_Checkbox = "300";
-            /// <summary> Asian </summary>
-            public static string  Asian = "400";
+            /// <summary> Asian_Indian_Checkbox </summary>
+            public static string  Asian_Indian_Checkbox = "400";
             /// <summary> Asian_Indian </summary>
             public static string  Asian_Indian = "401";
             /// <summary> Bangladeshi </summary>
@@ -1778,18 +1792,26 @@ namespace VRDR
             public static string  Burmese = "404";
             /// <summary> Cambodian </summary>
             public static string  Cambodian = "405";
+            /// <summary> Chinese_Checkbox </summary>
+            public static string  Chinese_Checkbox = "410";
             /// <summary> Chinese </summary>
             public static string  Chinese = "411";
             /// <summary> Taiwanese </summary>
             public static string  Taiwanese = "412";
+            /// <summary> Filipino_Checkbox </summary>
+            public static string  Filipino_Checkbox = "420";
             /// <summary> Filipino </summary>
             public static string  Filipino = "421";
             /// <summary> Hmong </summary>
             public static string  Hmong = "422";
             /// <summary> Indonesian </summary>
             public static string  Indonesian = "423";
+            /// <summary> Japanese_Checkbox </summary>
+            public static string  Japanese_Checkbox = "430";
             /// <summary> Japanese </summary>
             public static string  Japanese = "431";
+            /// <summary> Korean_Checkbox </summary>
+            public static string  Korean_Checkbox = "440";
             /// <summary> Korean </summary>
             public static string  Korean = "441";
             /// <summary> Laotian </summary>
@@ -1804,16 +1826,16 @@ namespace VRDR
             public static string  Sri_Lankan = "446";
             /// <summary> Thai </summary>
             public static string  Thai = "447";
+            /// <summary> Vietnamese_Checkbox </summary>
+            public static string  Vietnamese_Checkbox = "450";
             /// <summary> Vietnamese </summary>
             public static string  Vietnamese = "451";
-            /// <summary> Amerasian </summary>
-            public static string  Amerasian = "461";
-            /// <summary> Asian2 </summary>
-            public static string  Asian2 = "462";
+            /// <summary> Other_Asian_Checkbox </summary>
+            public static string  Other_Asian_Checkbox = "460";
+            /// <summary> Asian </summary>
+            public static string  Asian = "462";
             /// <summary> Asiatic </summary>
             public static string  Asiatic = "463";
-            /// <summary> Eurasian </summary>
-            public static string  Eurasian = "464";
             /// <summary> Mongolian </summary>
             public static string  Mongolian = "465";
             /// <summary> Oriental </summary>
@@ -1848,6 +1870,8 @@ namespace VRDR
             public static string  Hawaiian = "502";
             /// <summary> Part_Hawaiian </summary>
             public static string  Part_Hawaiian = "503";
+            /// <summary> Samoan_Checkbox </summary>
+            public static string  Samoan_Checkbox = "510";
             /// <summary> Samoan </summary>
             public static string  Samoan = "511";
             /// <summary> Tahitian </summary>
@@ -1858,10 +1882,14 @@ namespace VRDR
             public static string  Polynesian = "514";
             /// <summary> Tokelauan </summary>
             public static string  Tokelauan = "515";
+            /// <summary> Guamanian_Checkbox </summary>
+            public static string  Guamanian_Checkbox = "520";
             /// <summary> Guamanian </summary>
             public static string  Guamanian = "521";
             /// <summary> Chamorro </summary>
             public static string  Chamorro = "522";
+            /// <summary> Other_Pacific_Islander_Checkbox </summary>
+            public static string  Other_Pacific_Islander_Checkbox = "530";
             /// <summary> Mariana_Islander </summary>
             public static string  Mariana_Islander = "531";
             /// <summary> Marshallese </summary>
@@ -1898,6 +1926,8 @@ namespace VRDR
             public static string  Pacific_Islander = "547";
             /// <summary> Multiple_Native_Hawaiian_And_Other_Pacific_Islander_Responses </summary>
             public static string  Multiple_Native_Hawaiian_And_Other_Pacific_Islander_Responses = "599";
+            /// <summary> Other_Race_Checkbox </summary>
+            public static string  Other_Race_Checkbox = "600";
             /// <summary> Argentinean </summary>
             public static string  Argentinean = "601";
             /// <summary> Bolivian </summary>
@@ -1990,6 +2020,10 @@ namespace VRDR
             public static string  Surinam = "647";
             /// <summary> Sudanese </summary>
             public static string  Sudanese = "648";
+            /// <summary> Amerasian </summary>
+            public static string  Amerasian = "649";
+            /// <summary> Eurasian </summary>
+            public static string  Eurasian = "650";
             /// <summary> Brazilian </summary>
             public static string  Brazilian = "651";
             /// <summary> Brown </summary>
@@ -2062,8 +2096,10 @@ namespace VRDR
             public static string  Other_Spanish = "686";
             /// <summary> Other_Race_N_E_C </summary>
             public static string  Other_Race_N_E_C = "699";
-            /// <summary> Multiple_Some_Other_Race_Responses_995_American </summary>
-            public static string  Multiple_Some_Other_Race_Responses_995_American = "990";
+            /// <summary> Multiple_Some_Other_Race_Responses </summary>
+            public static string  Multiple_Some_Other_Race_Responses = "990";
+            /// <summary> American </summary>
+            public static string  American = "995";
             /// <summary> Uncodable </summary>
             public static string  Uncodable = "996";
             /// <summary> Deferred </summary>
@@ -2940,8 +2976,8 @@ namespace VRDR
             public static string  San_Ildefonso = "H52";
             /// <summary> San_Juan_Pueblo </summary>
             public static string  San_Juan_Pueblo = "H53";
-            /// <summary> San_Juan_De </summary>
-            public static string  San_Juan_De = "H54";
+            /// <summary> San_Juan_De_Guadelupe </summary>
+            public static string  San_Juan_De_Guadelupe = "H54";
             /// <summary> San_Juan </summary>
             public static string  San_Juan = "H55";
             /// <summary> Sandia </summary>
@@ -3712,16 +3748,16 @@ namespace VRDR
             public static string  Village_Of_Atmautluak = "P44";
             /// <summary> Orutsararmuit_Native_Village </summary>
             public static string  Orutsararmuit_Native_Village = "P45";
-            /// <summary> Village_Of_Bill_Moores_Slough_Bay </summary>
-            public static string  Village_Of_Bill_Moores_Slough_Bay = "P46";
+            /// <summary> Village_Of_Bill_Moores_Slough </summary>
+            public static string  Village_Of_Bill_Moores_Slough = "P46";
             /// <summary> Bristol_Bay </summary>
             public static string  Bristol_Bay = "P47";
             /// <summary> Calista </summary>
             public static string  Calista = "P48";
             /// <summary> Village_Of_Chefomak </summary>
             public static string  Village_Of_Chefomak = "P49";
-            /// <summary> Native_Of_Hamilton </summary>
-            public static string  Native_Of_Hamilton = "P50";
+            /// <summary> Native_Village_Of_Hamilton </summary>
+            public static string  Native_Village_Of_Hamilton = "P50";
             /// <summary> Native_Village_Of_Chuathbaluk </summary>
             public static string  Native_Village_Of_Chuathbaluk = "P51";
             /// <summary> Village_Of_Clarks_Point </summary>
@@ -4092,7 +4128,6 @@ namespace VRDR
         public static class HispanicOrigin {
             /// <summary> Codes </summary>
             public static string[,] Codes = {
-                { "100", "Not Hispanic", VRDR.CodeSystems.HispanicOrigin },
                 { "200", "Spaniard", VRDR.CodeSystems.HispanicOrigin },
                 { "201", "Andalusian", VRDR.CodeSystems.HispanicOrigin },
                 { "202", "Asturian", VRDR.CodeSystems.HispanicOrigin },
@@ -4103,14 +4138,14 @@ namespace VRDR
                 { "207", "Valencian", VRDR.CodeSystems.HispanicOrigin },
                 { "208", "Canarian", VRDR.CodeSystems.HispanicOrigin },
                 { "209", "Spanish Basque", VRDR.CodeSystems.HispanicOrigin },
-                { "210", "Mexican", VRDR.CodeSystems.HispanicOrigin },
-                { "211", "Mexican-2", VRDR.CodeSystems.HispanicOrigin },
+                { "210", "Mexican Checkbox", VRDR.CodeSystems.HispanicOrigin },
+                { "211", "Mexican", VRDR.CodeSystems.HispanicOrigin },
                 { "212", "Mexican American", VRDR.CodeSystems.HispanicOrigin },
                 { "213", "Mexicano", VRDR.CodeSystems.HispanicOrigin },
                 { "214", "Chicano", VRDR.CodeSystems.HispanicOrigin },
                 { "215", "La Raza", VRDR.CodeSystems.HispanicOrigin },
                 { "216", "Mexican American Indian", VRDR.CodeSystems.HispanicOrigin },
-                { "217", "Caribbean", VRDR.CodeSystems.HispanicOrigin },
+                { "217", "Caribbean (Reassigned to 290)", VRDR.CodeSystems.HispanicOrigin },
                 { "218", "Mexico", VRDR.CodeSystems.HispanicOrigin },
                 { "220", "Central and South America", VRDR.CodeSystems.HispanicOrigin },
                 { "221", "Costa Rican", VRDR.CodeSystems.HispanicOrigin },
@@ -4137,12 +4172,12 @@ namespace VRDR
                 { "250", "Latin American", VRDR.CodeSystems.HispanicOrigin },
                 { "251", "Latin", VRDR.CodeSystems.HispanicOrigin },
                 { "252", "Latino", VRDR.CodeSystems.HispanicOrigin },
-                { "260", "Puerto Rican", VRDR.CodeSystems.HispanicOrigin },
-                { "261", "Puerto Rican-2", VRDR.CodeSystems.HispanicOrigin },
-                { "270", "Cuban", VRDR.CodeSystems.HispanicOrigin },
-                { "271", "Cuban-2", VRDR.CodeSystems.HispanicOrigin },
+                { "260", "Puerto Rican Checkbox", VRDR.CodeSystems.HispanicOrigin },
+                { "261", "Puerto Rican", VRDR.CodeSystems.HispanicOrigin },
+                { "270", "Cuban Checkbox", VRDR.CodeSystems.HispanicOrigin },
+                { "271", "Cuban", VRDR.CodeSystems.HispanicOrigin },
                 { "275", "Dominican", VRDR.CodeSystems.HispanicOrigin },
-                { "280", "Other Spanish", VRDR.CodeSystems.HispanicOrigin },
+                { "280", "Other Spanish Checkbox", VRDR.CodeSystems.HispanicOrigin },
                 { "281", "Hispanic", VRDR.CodeSystems.HispanicOrigin },
                 { "282", "Spanish", VRDR.CodeSystems.HispanicOrigin },
                 { "283", "Californio", VRDR.CodeSystems.HispanicOrigin },
@@ -4152,15 +4187,14 @@ namespace VRDR
                 { "287", "Spanish American Indian", VRDR.CodeSystems.HispanicOrigin },
                 { "288", "Meso American Indian", VRDR.CodeSystems.HispanicOrigin },
                 { "289", "Mestizo", VRDR.CodeSystems.HispanicOrigin },
+                { "290", "Caribbean", VRDR.CodeSystems.HispanicOrigin },
                 { "291", "Multiple Hispanic Responses", VRDR.CodeSystems.HispanicOrigin },
-                { "299", "Other Spanish 2", VRDR.CodeSystems.HispanicOrigin },
+                { "299", "Other Spanish", VRDR.CodeSystems.HispanicOrigin },
                 { "996", "Uncodable", VRDR.CodeSystems.HispanicOrigin },
                 { "997", "Deferred", VRDR.CodeSystems.HispanicOrigin },
                 { "998", "Unknown", VRDR.CodeSystems.HispanicOrigin },
                 { "999", "First Pass Reject", VRDR.CodeSystems.HispanicOrigin }
             };
-            /// <summary> Not_Hispanic </summary>
-            public static string  Not_Hispanic = "100";
             /// <summary> Spaniard </summary>
             public static string  Spaniard = "200";
             /// <summary> Andalusian </summary>
@@ -4181,10 +4215,10 @@ namespace VRDR
             public static string  Canarian = "208";
             /// <summary> Spanish_Basque </summary>
             public static string  Spanish_Basque = "209";
+            /// <summary> Mexican_Checkbox </summary>
+            public static string  Mexican_Checkbox = "210";
             /// <summary> Mexican </summary>
-            public static string  Mexican = "210";
-            /// <summary> Mexican_2 </summary>
-            public static string  Mexican_2 = "211";
+            public static string  Mexican = "211";
             /// <summary> Mexican_American </summary>
             public static string  Mexican_American = "212";
             /// <summary> Mexicano </summary>
@@ -4195,8 +4229,8 @@ namespace VRDR
             public static string  La_Raza = "215";
             /// <summary> Mexican_American_Indian </summary>
             public static string  Mexican_American_Indian = "216";
-            /// <summary> Caribbean </summary>
-            public static string  Caribbean = "217";
+            /// <summary> Caribbean_Reassigned_To_290 </summary>
+            public static string  Caribbean_Reassigned_To_290 = "217";
             /// <summary> Mexico </summary>
             public static string  Mexico = "218";
             /// <summary> Central_And_South_America </summary>
@@ -4249,18 +4283,18 @@ namespace VRDR
             public static string  Latin = "251";
             /// <summary> Latino </summary>
             public static string  Latino = "252";
+            /// <summary> Puerto_Rican_Checkbox </summary>
+            public static string  Puerto_Rican_Checkbox = "260";
             /// <summary> Puerto_Rican </summary>
-            public static string  Puerto_Rican = "260";
-            /// <summary> Puerto_Rican_2 </summary>
-            public static string  Puerto_Rican_2 = "261";
+            public static string  Puerto_Rican = "261";
+            /// <summary> Cuban_Checkbox </summary>
+            public static string  Cuban_Checkbox = "270";
             /// <summary> Cuban </summary>
-            public static string  Cuban = "270";
-            /// <summary> Cuban_2 </summary>
-            public static string  Cuban_2 = "271";
+            public static string  Cuban = "271";
             /// <summary> Dominican </summary>
             public static string  Dominican = "275";
-            /// <summary> Other_Spanish </summary>
-            public static string  Other_Spanish = "280";
+            /// <summary> Other_Spanish_Checkbox </summary>
+            public static string  Other_Spanish_Checkbox = "280";
             /// <summary> Hispanic </summary>
             public static string  Hispanic = "281";
             /// <summary> Spanish </summary>
@@ -4279,10 +4313,12 @@ namespace VRDR
             public static string  Meso_American_Indian = "288";
             /// <summary> Mestizo </summary>
             public static string  Mestizo = "289";
+            /// <summary> Caribbean </summary>
+            public static string  Caribbean = "290";
             /// <summary> Multiple_Hispanic_Responses </summary>
             public static string  Multiple_Hispanic_Responses = "291";
-            /// <summary> Other_Spanish_2 </summary>
-            public static string  Other_Spanish_2 = "299";
+            /// <summary> Other_Spanish </summary>
+            public static string  Other_Spanish = "299";
             /// <summary> Uncodable </summary>
             public static string  Uncodable = "996";
             /// <summary> Deferred </summary>

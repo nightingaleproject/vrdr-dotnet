@@ -1,5 +1,12 @@
 ## Changelog
 
+### v4.0.0-preview12 - 2022-10-31
+
+*  Added support for creating and submitting batch messages to the API
+*  Fixed SSN length validation
+*  Updated value mappings after corrections to the VRDR IG
+*  Fixed CLI MRE/TRX conversion bug 
+
 ### v4.0.0-preview11 - 2022-09-19
 
 * Fixed null object reference issue when retrieving message ID

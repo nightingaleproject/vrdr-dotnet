@@ -1,5 +1,15 @@
 ## Changelog
 
+### v4.0.0-preview12 - 2022-10-31
+
+* Added support for creating and submitting batch messages to the API
+* Fixed SSN length validation
+* Updated value mappings after corrections to the VRDR IG
+* Fixed CLI MRE/TRX conversion bug
+* Fixed issue with parsing empty literal race fields
+* Fixed issue that allowed empty strings in alias message fields
+* Fixed incorrect error for AgeAtDeathEditFlag
+
 ### v4.0.0-preview11 - 2022-09-19
 
 * Fixed null object reference issue when retrieving message ID

@@ -1,0 +1,295 @@
+{
+  "DOD_YR": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Date of Death year",
+    "ije_loc": {
+      "location": 1,
+      "length": 4
+    }
+  },
+  "DSTATE": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Death State",
+    "ije_loc": {
+      "location": 5,
+      "length": 2
+    }
+  },
+  "FILENO": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "State file number",
+    "ije_loc": {
+      "location": 7,
+      "length": 6
+    },
+    "alignment": "right"
+  },
+  "VOID": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 13,
+      "length": 1
+    }
+  },
+  "AUXNO": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Local File Number",
+    "ije_loc": {
+      "location": 14,
+      "length": 12
+    },
+    "alignment": "right"
+  },
+  "MFILED": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 26,
+      "length": 1
+    }
+  },
+  "GNAME": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 27,
+      "length": 50
+    }
+  },
+  "MNAME": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 77,
+      "length": 1
+    }
+  },
+  "LNAME": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 78,
+      "length": 50
+    }
+  },
+  "SUFF": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 128,
+      "length": 10
+    }
+  },
+  "ALIAS": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 138,
+      "length": 1
+    }
+  },
+  "FLNAME": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 139,
+      "length": 50
+    }
+  },
+  "SEX": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Sex",
+    "ije_loc": {
+      "location": 189,
+      "length": 1 
+    }
+  },
+  "SEX_BYPASS": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 189,
+      "length": 1
+    }
+  },
+  "SSN": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 191,
+      "length": 9
+    },
+    "required_length": 9
+  },
+  "AGETYPE": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Age Unit",
+    "ije_loc": {
+      "location": 200,
+      "length": 1
+    }
+  },
+  "AGE": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Age",
+    "ije_loc": {
+      "location": 201,
+      "length": 3
+    }
+  },
+  "AGE_BYPASS": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 204,
+      "length": 1
+    }
+  },
+  "DOB_YR": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Date of Birth year",
+    "ije_loc": {
+      "location": 205,
+      "length": 4
+    }
+  },
+  "DOB_MO": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Date of Birth month",
+    "ije_loc": {
+      "location": 209,
+      "length": 2
+    }
+  },
+  "DOB_DY": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Date of Birth day",
+    "ije_loc": {
+      "location": 211,
+      "length": 2
+    }
+  },
+  "BPLACE_CNT": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Birthplace Country",
+    "ije_loc": {
+      "location": 213,
+      "length": 2
+    },
+    "notes": "The country format is full name, not 2-character abbreviation."
+  },
+  "BPLACE_ST": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "State of birth code",
+    "ije_loc": {
+      "location": 215,
+      "length": 2
+    }
+  },
+  "CITYC": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 217,
+      "length": 5
+    }
+  },
+  "COUNTYC": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Residence County FIPS code",
+    "ije_loc": {
+      "location": 222,
+      "length": 3
+    }
+  },
+  "STATEC": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Residence state FIPS code",
+    "ije_loc": {
+      "location": 225,
+      "length": 2
+    }
+  },
+  "COUNTRYC": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Residence state FIPS code",
+    "ije_loc": {
+      "location": 227,
+      "length": 2
+    }
+  },
+  "LIMITS": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Residence City Limits",
+    "ije_loc": {
+      "location": 229,
+      "length": 1
+    }
+  },
+  "MARITAL": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Marital",
+    "ije_loc": {
+      "location": 230,
+      "length": 1
+    }
+  },
+  "MARITAL_BYPASS": {
+    "file" : "?",
+    "infile_header": "?",
+    "ije_loc": {
+      "location": 231,
+      "length": 1
+    }
+  },
+  "DPLACE": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Place of Death type",
+    "ije_loc": {
+      "location": 232,
+      "length": 1
+    }
+  },
+  "COD": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Death County",
+    "ije_loc": {
+      "location": 233,
+      "length": 3
+    },
+    "notes": "This could also be Death County WA Code."
+  },
+  "DISP": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Disposition",
+    "ije_loc": {
+      "location": 236,
+      "length": 1
+    }
+  },
+  "DOD_MO": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Date of Death month",
+    "ije_loc": {
+      "location": 237,
+      "length": 2
+    }
+  },
+  "DOD_DY": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": "Date of Death day",
+    "ije_loc": {
+      "location": 239,
+      "length": 2
+    }
+  },
+  "TOD": {
+    "file" : "DeathStatFxxxx.xlsx",
+    "infile_header": ["Time of Death hour", "Time of Death minute"],
+    "ije_loc": {
+      "location": 241,
+      "length": 4
+    }
+  }
+}

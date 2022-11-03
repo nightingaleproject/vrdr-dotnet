@@ -4350,7 +4350,7 @@
             <summary>Mappings for CertifierTypes</summary>
         </member>
         <member name="F:VRDR.Mappings.CertifierTypes.IJEToFHIR">
-            <summary>IJE -> FHIR Mapping for CertifierTypes</summary>
+            <summary>IJE ->FHIR Mapping for CertifierTypes</summary>
         </member>
         <member name="F:VRDR.Mappings.CertifierTypes.FHIRToIJE">
             <summary>FHIR -> IJE Mapping for CertifierTypes</summary>
@@ -9334,6 +9334,9 @@
         </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Codes">
             <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.HispanicOrigin.Non_Hispanic">
+            <summary> Non_Hispanic </summary>
         </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Spaniard">
             <summary> Spaniard </summary>

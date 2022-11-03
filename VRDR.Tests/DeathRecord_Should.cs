@@ -1750,6 +1750,7 @@ namespace VRDR.Tests
             SetterDeathRecord.FirstOtherRaceCodeHelper = ValueSets.RaceCode.Lebanese;
             SetterDeathRecord.SecondOtherRaceCodeHelper = ValueSets.RaceCode.Palestinian;
             SetterDeathRecord.HispanicCodeForLiteralHelper = ValueSets.HispanicOrigin.Canal_Zone;
+            SetterDeathRecord.HispanicCodeHelper = ValueSets.HispanicOrigin.Non_Hispanic; // test code 100...
             SetterDeathRecord.HispanicCodeHelper = ValueSets.HispanicOrigin.Cuban;
             SetterDeathRecord.RaceRecode40Helper = ValueSets.RaceRecode40.Aian_And_Asian;
             Assert.Equal(ValueSets.RaceCode.African, SetterDeathRecord.FirstEditedRaceCodeHelper);

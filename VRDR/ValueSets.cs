@@ -4128,6 +4128,7 @@ namespace VRDR
         public static class HispanicOrigin {
             /// <summary> Codes </summary>
             public static string[,] Codes = {
+                { "100", "Non-Hispanic", VRDR.CodeSystems.HispanicOrigin },
                 { "200", "Spaniard", VRDR.CodeSystems.HispanicOrigin },
                 { "201", "Andalusian", VRDR.CodeSystems.HispanicOrigin },
                 { "202", "Asturian", VRDR.CodeSystems.HispanicOrigin },
@@ -4195,6 +4196,8 @@ namespace VRDR
                 { "998", "Unknown", VRDR.CodeSystems.HispanicOrigin },
                 { "999", "First Pass Reject", VRDR.CodeSystems.HispanicOrigin }
             };
+            /// <summary> Non_Hispanic </summary>
+            public static string  Non_Hispanic = "100";
             /// <summary> Spaniard </summary>
             public static string  Spaniard = "200";
             /// <summary> Andalusian </summary>

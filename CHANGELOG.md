@@ -1,5 +1,9 @@
 ## Changelog
 
+### v4.0.0-preview13 - 2022-11-03
+
+* Added missing value for Non-Hispanic to HispanicOrigin value set
+
 ### v4.0.0-preview12 - 2022-10-31
 
 * Added support for creating and submitting batch messages to the API

@@ -511,6 +511,26 @@ namespace VRDR.CLI
                 Console.WriteLine(d.ToJSON());
                 return 0;
             }
+            else if (args.Length > 2 && args[0] == "ije2json")
+            {
+              string outputDirectory = args[1];
+              if (!Directory.Exists(outputDirectory))
+              {
+                  Console.WriteLine("Must supply a valid output directory");
+                  return (1);
+              }
+              for (int i = 2; i < args.Length; i++)
+              {
+                  string ijeRawRecord = args[i];
+                  string outputFilename = outputDirectory + ijeRawRecord.Substring(0, 12) + ".json";
+                  IJEMortality ije = new IJEMortality(ijeRawRecord);
+                  DeathRecord d = ije.ToDeathRecord();
+                  StreamWriter sw = new StreamWriter(outputFilename);
+                  sw.WriteLine(d.ToJSON());
+                  sw.Flush();
+              }
+              return 0;
+            }
             else if (args.Length == 2 && args[0] == "json2xml")
             {
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));

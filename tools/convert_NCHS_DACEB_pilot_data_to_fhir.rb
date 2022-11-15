@@ -30,14 +30,13 @@ def extract_ije_records(sheet, first_data_row, record_count)
     values.map! { |v| v == '␢' ? '' : v }
     # puts "#{length} #{values.join(',')}"
     record_count.times do |record_number|
-      # Truncate data if needed (and inform user)
       data = values[record_number]
+      # Truncate data if needed (and inform user)
       if data.length > length
-        puts "Note: Record #{ije_records[record_number][0,12]} contains an overlong data field #{row_values[3]}"
+        puts "Note: Record #{ije_records[record_number][0,12]} contains an overlong data field #{row_values[3]}, you'll have to rewrite the JSON to contain #{data}"
         data = data[0,length]
       end
       # Append data, padded with correct amount of space before (based on offset) and after (based on length)
-      require 'byebug' ; debugger if (offset - ije_records[record_number].length) < 0
       ije_records[record_number] += ' ' * (offset - ije_records[record_number].length)
       ije_records[record_number] << "%-#{length}s" % data
     end

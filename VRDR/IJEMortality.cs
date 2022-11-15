@@ -1144,7 +1144,10 @@ namespace VRDR
                     string formattedSSN = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
                     if (formattedSSN.Length != ssnLength)
                     {
-                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length (without dashes or spaces) for FHIR field {fhirFieldName} of length {ssnLength}");
+                        // validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length (without dashes or spaces) for FHIR field {fhirFieldName} of length {ssnLength}");
+                        // NOTFORCHECKIN: DON'T EVER MERGE THIS TO MASTER
+                        Console.Error.WriteLine($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length (without dashes or spaces) for FHIR field {fhirFieldName} of length {ssnLength}");
+                        Console.Error.WriteLine($"WORKAROUND! Putting {value} into field {fhirFieldName} anyway");
                     }
                 }
                 LeftJustified_Set(ijeFieldName, fhirFieldName, value);
@@ -1172,7 +1175,15 @@ namespace VRDR
                 if (!Mappings.UnitsOfAge.IJEToFHIR.TryGetValue(value, out string fhirValue))
                 {
                     // We have an invalid code, map it to unknown
-                    fhirValue = ValueSets.UnitsOfAge.Unknown;
+                    // NOTFORCHECKIN: DON'T EVER MERGE THIS TO MASTER
+                    Console.Error.WriteLine($"Error: Invalid code '{value}' for AGETYPE");
+                    Console.Error.WriteLine($"WORKAROUND! Putting {value} into code and unit fields of AgeAtDeath anyway");
+                    Dictionary<string, string> dict = new Dictionary<string, string>();
+                    dict.Add("code", value);
+                    dict.Add("unit", value);
+                    dict.Add("system", VRDR.CodeSystems.UnitsOfMeasure);
+                    typeof(DeathRecord).GetProperty("AgeAtDeath").SetValue(this.record, dict);
+                    return;
                 }
                 // We have the code, now we need the corresponding unit and system
                 // Iterate over the allowed options and see if the code supplies is one of them

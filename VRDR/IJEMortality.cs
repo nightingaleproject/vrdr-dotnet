@@ -767,7 +767,19 @@ namespace VRDR
                 }
                 catch (KeyNotFoundException)
                 {
-                    validationErrors.Add($"Error: Unable to find FHIR {fhirField} mapping for IJE {ijeField} field value '{value}'");
+                    // validationErrors.Add($"Error: Unable to find FHIR {fhirField} mapping for IJE {ijeField} field value '{value}'");
+                    // NOTFORCHECKIN: DON'T EVER MERGE THIS TO MASTER
+                    Console.Error.WriteLine($"Error: Unable to find FHIR {fhirField} mapping for IJE {ijeField} field value '{value}'");
+                    Console.Error.WriteLine($"WORKAROUND! Putting {value} into field {fhirField} anyway");
+                    // Start by setting to the first valid value just to get a valid coding
+                    PropertyInfo helperProperty = typeof(DeathRecord).GetProperty($"{fhirField}Helper");
+                    helperProperty.SetValue(this.record, mapping.First().Value);
+                    // Then just overwrite the code with whatever's in the IJE
+                    helperProperty = typeof(DeathRecord).GetProperty(fhirField);
+                    Dictionary<string, string> codedValue = (Dictionary<string, string>) helperProperty.GetValue(this.record);
+                    codedValue["code"] = value;
+                    codedValue["display"] = value;
+                    helperProperty.SetValue(this.record, codedValue);
                 }
             }
         }

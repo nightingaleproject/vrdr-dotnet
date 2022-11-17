@@ -83,15 +83,15 @@ Parallel.each(searchset['entry']) do |entry|
       puts "Found a status message for message #{header['response']['identifier']} for certificate #{identifier}"
       File.write("#{identifier}_status.json", message.to_json)
     when 'http://nchs.cdc.gov/vrdr_extraction_error'
-      puts "Found an extraction error message for message #{header['response']['identifier']} for certificate #{identifier}, acknowledging"
+      puts "Found an extraction error message for message #{header['response']['identifier']} for certificate #{identifier}, NOT acknowledging"
       message_filename = "#{identifier}_extraction_error.json"
       File.write(message_filename, message.to_json)
-      ack = `dotnet #{CLI_PATH} ack #{message_filename}`
-      File.write("#{identifier}_extraction_error_acknowledgement.json", ack)
-      response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
-                            headers: { 'Content-Type' => 'application/json' },
-                            body: ack)
-      puts "Server response acknowledging error message for certificate #{identifier}: #{response.status}"
+      #ack = `dotnet #{CLI_PATH} ack #{message_filename}`
+      #File.write("#{identifier}_extraction_error_acknowledgement.json", ack)
+      #response = token.post("/OSELS/NCHS/NVSSFHIRAPI/#{jurisdiction}/Bundles",
+      #                      headers: { 'Content-Type' => 'application/json' },
+      #                      body: ack)
+      #puts "Server response acknowledging error message for certificate #{identifier}: #{response.status}"
     when 'http://nchs.cdc.gov/vrdr_causeofdeath_coding', 'http://nchs.cdc.gov/vrdr_demographics_coding'
       id = header['id']
       puts "Found a coding response message of type #{header['eventUri']} with ID #{id} for certificate #{identifier}, acknowledging"

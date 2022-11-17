@@ -387,13 +387,14 @@ namespace VRDR
         }
 
         /// <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
-        private string NumericAllowingUnknown_Get(string ijeFieldName, string fhirFieldName, bool fieldExists = true)
+        private string NumericAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            if (!fieldExists)
-            {
-                return new String(' ', info.Length);
-            }
+            // TODO: Handle different between null and -1
+            //if (!fieldExists)
+            //{
+            //    return new String(' ', info.Length);
+            //}
             uint? value = (uint?)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             if (value != null)
             {
@@ -414,6 +415,7 @@ namespace VRDR
         private void NumericAllowingUnknown_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
+            // TODO: Handle different between null and -1
             if (value == new string('9', info.Length) || value == new string(' ', info.Length))
             {
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, null);
@@ -425,13 +427,14 @@ namespace VRDR
         }
 
         /// <summary>Get a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
-        private string TimeAllowingUnknown_Get(string ijeFieldName, string fhirFieldName, bool fieldExists = true)
+        private string TimeAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            if (!fieldExists)
-            {
-                return new String(' ', info.Length);
-            }
+            // TODO: Handle different between null and -1?
+            //if (!fieldExists)
+            //{
+            //    return new String(' ', info.Length);
+            //}
             string timeString = (string)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             if (timeString != null)
             {
@@ -449,6 +452,7 @@ namespace VRDR
         private void TimeAllowingUnknown_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
+            // TODO: Handle different between null and -1?
             if (value == new string('9', info.Length) || value == new string(' ', info.Length))
             {
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, null);
@@ -2827,7 +2831,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("DOI_MO", "InjuryMonth", record.InjuryIncidentTimeSet());
+                return NumericAllowingUnknown_Get("DOI_MO", "InjuryMonth");
             }
             set
             {
@@ -2841,7 +2845,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("DOI_DY", "InjuryDay", record.InjuryIncidentTimeSet());
+                return NumericAllowingUnknown_Get("DOI_DY", "InjuryDay");
             }
             set
             {
@@ -2855,7 +2859,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("DOI_YR", "InjuryYear", record.InjuryIncidentTimeSet());
+                return NumericAllowingUnknown_Get("DOI_YR", "InjuryYear");
             }
             set
             {
@@ -2869,7 +2873,7 @@ namespace VRDR
         {
             get
             {
-                return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime", record.InjuryIncidentTimeSet());
+                return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime");
             }
             set
             {
@@ -2979,7 +2983,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("SUR_MO", "SurgeryMonth", record.SurgeryDateSet());
+                return NumericAllowingUnknown_Get("SUR_MO", "SurgeryMonth");
             }
             set
             {
@@ -2996,7 +3000,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("SUR_DY", "SurgeryDay", record.SurgeryDateSet());
+                return NumericAllowingUnknown_Get("SUR_DY", "SurgeryDay");
             }
             set
             {
@@ -3013,7 +3017,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("SUR_YR", "SurgeryYear", record.SurgeryDateSet());
+                return NumericAllowingUnknown_Get("SUR_YR", "SurgeryYear");
             }
             set
             {
@@ -3030,7 +3034,8 @@ namespace VRDR
         {
             get
             {
-                if (record.InjuryIncidentTimeSet())
+                // TODO: How do we want to handle this?
+                if (DOI_YR == "9999" || DOI_YR == "    ") // was "if record.InjuryIncidentTimeSet()"
                 {
                     return "M"; // Military time
                 }

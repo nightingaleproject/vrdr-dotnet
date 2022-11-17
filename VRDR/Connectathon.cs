@@ -37,7 +37,7 @@ namespace VRDR
 
             if (record != null && year != null)
             {
-                record.DeathYear = (uint)year;
+                record.DeathYear = year;
             }
 
             return record;

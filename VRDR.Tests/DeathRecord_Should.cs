@@ -2901,15 +2901,45 @@ namespace VRDR.Tests
             //Tuple<string, string>[] datePart = { Tuple.Create("date-year", "2021"), Tuple.Create("date-month", "5"), Tuple.Create("day-absent-reason", "asked-unknown")};
             SetterDeathRecord.DeathYear = 2021;
             SetterDeathRecord.DeathMonth = 5;
-            SetterDeathRecord.DeathDay = null;
+            SetterDeathRecord.DeathDay = -1;
             SetterDeathRecord.DeathTime = "10:00:00";
             IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
+            Assert.Equal("2021", ije1.DOD_YR);
+            Assert.Equal("05", ije1.DOD_MO);
+            Assert.Equal("99", ije1.DOD_DY);
             Assert.Equal("1000", ije1.TOD);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal(2021, (int)dr2.DeathYear);
-            Assert.Equal(5, (int)dr2.DeathMonth);
-            Assert.Null(dr2.DeathDay);
+            Assert.Equal(2021, dr2.DeathYear);
+            Assert.Equal(5, dr2.DeathMonth);
+            Assert.Equal(-1, dr2.DeathDay);
             Assert.Equal("10:00:00", dr2.DeathTime);
+        }
+
+        [Fact]
+        public void Set_DateOfDeath_Unknown_Partial_Date()
+        {
+            // Test ability to set dates and times diferentiating between explicitly unknown and unspecified
+            DeathRecord d = new DeathRecord();
+            Assert.Null(d.DeathYear);
+            Assert.Null(d.DeathMonth);
+            Assert.Null(d.DeathDay);
+            Assert.Null(d.DeathTime);
+            d.DeathYear = 2022;
+            Assert.Equal(2022, d.DeathYear);
+            Assert.Null(d.DeathMonth);
+            Assert.Null(d.DeathDay);
+            Assert.Null(d.DeathTime);
+            d.DeathMonth = -1;
+            d.DeathTime = "-1";
+            Assert.Equal(2022, d.DeathYear);
+            Assert.Equal(-1, d.DeathMonth);
+            Assert.Null(d.DeathDay);
+            Assert.Equal("-1", d.DeathTime);
+            IJEMortality ije = new IJEMortality(d, false);
+            Assert.Equal("2022", ije.DOD_YR);
+            Assert.Equal("99", ije.DOD_MO);
+            Assert.Equal("  ", ije.DOD_DY);
+            Assert.Equal("9999", ije.TOD);
         }
 
         [Fact]

@@ -101,7 +101,7 @@ namespace VRDR.Tests
             DeathRecord first = DeathRecord2_JSON;
             IJEMortality firstije = new IJEMortality(first);
             Assert.Null(first.DateOfDeath);   // Record has an unknown death day, the DeathDate should be null
-            Assert.Null(first.DeathDay);
+            Assert.Equal(-1, first.DeathDay); // Since it's explicitly unknown the DeathDay should be -1
             Assert.Equal("French", firstije.RACE22);
         }
         [Fact]
@@ -1264,8 +1264,8 @@ namespace VRDR.Tests
             Assert.Equal("99", ije1.DOB_MO);
             Assert.Equal("24", ije1.DOB_DY);
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Null(dr1.BirthYear);
-            Assert.Null(dr1.BirthMonth);
+            Assert.Equal(-1, dr1.BirthYear);
+            Assert.Equal(-1, dr1.BirthMonth);
             Assert.Equal(24, (int)dr1.BirthDay);
             Assert.Null(dr1.DateOfBirth);
         }
@@ -2918,7 +2918,7 @@ namespace VRDR.Tests
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
             Assert.Equal(2021, (int)dr.DeathYear);
             Assert.Equal(2, (int)dr.DeathMonth);
-            Assert.Null(dr.DeathDay);
+            Assert.Equal(-1, dr.DeathDay);
         }
 
         [Fact]

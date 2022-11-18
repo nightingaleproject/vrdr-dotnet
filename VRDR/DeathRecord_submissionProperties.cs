@@ -1959,7 +1959,7 @@ namespace VRDR
             get
             {
                 // We support this legacy API entrypoint via the new partial date entrypoints
-                if (BirthYear != null && BirthMonth != null && BirthDay != null)
+                if (BirthYear != null && BirthYear != -1 && BirthMonth != null && BirthMonth != -1 && BirthDay != null && BirthDay != -1)
                 {
                     Date result = new Date((int)BirthYear, (int)BirthMonth, (int)BirthDay);
                     return result.ToString();
@@ -4701,7 +4701,7 @@ namespace VRDR
             get
             {
                 // We support this legacy API entrypoint via the new partial date and time entrypoints
-                if (DeathYear != null && DeathMonth != null && DeathDay != null && DeathTime != null)
+                if (DeathYear != null && DeathYear != -1 && DeathMonth != null && DeathMonth != -1 && DeathDay != null && DeathDay != -1 && DeathTime != null && DeathTime != "-1")
                 {
                     DateTimeOffset parsedTime;
                     if (DateTimeOffset.TryParse(DeathTime, out parsedTime))
@@ -4710,7 +4710,7 @@ namespace VRDR
                         return result.ToString("s");
                     }
                 }
-                else if (DeathYear != null && DeathMonth != null && DeathDay != null)
+                else if (DeathYear != null && DeathYear != -1 && DeathMonth != null && DeathMonth != -1 && DeathDay != null && DeathDay != -1)
                 {
                     DateTime result = new DateTime((int)DeathYear, (int)DeathMonth, (int)DeathDay);
                     return result.ToString("s");
@@ -4888,7 +4888,7 @@ namespace VRDR
             get
             {
                 // We support this legacy-style API entrypoint via the new partial date and time entrypoints
-                if (SurgeryYear != null && SurgeryMonth != null && SurgeryDay != null)
+                if (SurgeryYear != null && SurgeryYear != -1 && SurgeryMonth != null && SurgeryMonth != -1 && SurgeryDay != null && SurgeryDay != -1)
                 {
                     Date result = new Date((int)SurgeryYear, (int)SurgeryMonth, (int)SurgeryDay);
                     return result.ToString();
@@ -6348,7 +6348,7 @@ namespace VRDR
             get
             {
                 // We support this legacy API entrypoint via the new partial date and time entrypoints
-                if (InjuryYear != null && InjuryMonth != null && InjuryDay != null && InjuryTime != null)
+                if (InjuryYear != null && InjuryYear != -1 && InjuryMonth != null && InjuryMonth != -1 && InjuryDay != null && InjuryDay != -1 && InjuryTime != null && InjuryTime != "-1")
                 {
                     DateTimeOffset parsedTime;
                     if (DateTimeOffset.TryParse(InjuryTime, out parsedTime))
@@ -6357,7 +6357,7 @@ namespace VRDR
                         return result.ToString("s");
                     }
                 }
-                else if (InjuryYear != null && InjuryMonth != null && InjuryDay != null)
+                else if (InjuryYear != null && InjuryYear != -1 && InjuryMonth != null && InjuryMonth != -1 && InjuryDay != null && InjuryDay != -1)
                 {
                     DateTime result = new DateTime((int)InjuryYear, (int)InjuryMonth, (int)InjuryDay);
                     return result.ToString("s");

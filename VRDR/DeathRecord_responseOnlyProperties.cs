@@ -1971,7 +1971,7 @@ namespace VRDR
             get
             {
                 // We support this legacy-style API entrypoint via the new partial date and time entrypoints
-                if (ReceiptYear != null && ReceiptMonth != null && ReceiptDay != null)
+                if (ReceiptYear != null && ReceiptYear != -1 && ReceiptMonth != null && ReceiptMonth != -1 && ReceiptDay != null && ReceiptDay != -1)
                 {
                     Date result = new Date((int)ReceiptYear, (int)ReceiptMonth, (int)ReceiptDay);
                     return result.ToString();

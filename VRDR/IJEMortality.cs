@@ -386,43 +386,38 @@ namespace VRDR
             }
         }
 
-        /// <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
+        /// <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and -1 on the
+        /// FHIR side to represent'unknown' and blank on the IJE side and null on the FHIR side to represent unspecified</summary>
         private string NumericAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            // TODO: Handle different between null and -1
-            //if (!fieldExists)
-            //{
-            //    return new String(' ', info.Length);
-            //}
-            uint? value = (uint?)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (value != null)
+            int? value = (int?)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (value == null) return new String(' ', info.Length); // No value specified
+            if (value == -1) return new String('9', info.Length); // Explicitly set to unknown
+            string valueString = Convert.ToString(value);
+            if (valueString.Length > info.Length)
             {
-                string valueString = Convert.ToString(value);
-                if (valueString.Length > info.Length)
-                {
-                    validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{valueString}' that's not the expected length for IJE field {ijeFieldName} of length {info.Length}");
-                }
-                return Truncate(valueString, info.Length).PadLeft(info.Length, '0');
+                validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{valueString}' that's not the expected length for IJE field {ijeFieldName} of length {info.Length}");
             }
-            else
-            {
-                return new String('9', info.Length);
-            }
+            return Truncate(valueString, info.Length).PadLeft(info.Length, '0');
         }
 
-        /// <summary>Set a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
+        /// <summary>Set a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and -1 on the
+        /// FHIR side to represent'unknown' and blank on the IJE side and null on the FHIR side to represent unspecified</summary>
         private void NumericAllowingUnknown_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            // TODO: Handle different between null and -1
-            if (value == new string('9', info.Length) || value == new string(' ', info.Length))
+            if (value == new string(' ', info.Length))
             {
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, null);
             }
+            else if (value == new string('9', info.Length))
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, -1);
+            }
             else
             {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, Convert.ToUInt32(value));
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, Convert.ToInt32(value));
             }
         }
 

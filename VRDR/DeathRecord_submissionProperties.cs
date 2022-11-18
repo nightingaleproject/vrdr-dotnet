@@ -4617,7 +4617,7 @@ namespace VRDR
             }
         }
         /// <summary>Decedent's Time of Death.</summary>
-        /// <value>the decedent's time of death</value>
+        /// <value>the decedent's time of death, or "-1" if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.DeathTime = "07:15";</para>
@@ -6300,7 +6300,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Time of Injury.</summary>
-        /// <value>the decedent's time of injury</value>
+        /// <value>the decedent's time of injury, or "-1" if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.InjuryTime = "07:15";</para>

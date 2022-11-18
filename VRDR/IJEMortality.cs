@@ -425,32 +425,31 @@ namespace VRDR
         private string TimeAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            // TODO: Handle different between null and -1?
-            //if (!fieldExists)
-            //{
-            //    return new String(' ', info.Length);
-            //}
             string timeString = (string)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (timeString != null)
+            if (timeString == null) return new String(' ', info.Length); // No value specified
+            if (timeString == "-1") return new String('9', info.Length); // Explicitly set to unknown
+            DateTimeOffset parsedTime;
+            if (DateTimeOffset.TryParse(timeString, out parsedTime))
             {
-                DateTimeOffset parsedTime;
-                if (DateTimeOffset.TryParse(timeString, out parsedTime))
-                {
-                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
-                    return timeSpan.ToString(@"hhmm");
-                }
+                TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                return timeSpan.ToString(@"hhmm");
             }
-            return new String('9', info.Length);
+            // No valid date found
+            validationErrors.Add($"Error: FHIR field {fhirFieldName} contains value '{timeString}' that cannot be parsed into a time for IJE field {ijeFieldName}");
+            return new String(' ', info.Length);
         }
 
         /// <summary>Set a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
         private void TimeAllowingUnknown_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            // TODO: Handle different between null and -1?
-            if (value == new string('9', info.Length) || value == new string(' ', info.Length))
+            if (value == new string(' ', info.Length))
             {
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, null);
+            }
+            else if (value == new string('9', info.Length))
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, "-1");
             }
             else
             {

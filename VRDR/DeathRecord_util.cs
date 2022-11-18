@@ -41,7 +41,7 @@ namespace VRDR
             if (dataAbsent != null)
             {
                 // The data absent reason is either a placeholder that a field hasen't been set yet (data absent reason of 'temp-unknown') or
-                // a claim that there's no data (any other data absent reason, e.g., 'unknown'); retur null for the former and -1 for the latter
+                // a claim that there's no data (any other data absent reason, e.g., 'unknown'); return null for the former and -1 for the latter
                 string code = ((Code)dataAbsent.Value).Value;
                 if (code == "temp-unknown") return null; else return -1;
             }
@@ -95,21 +95,21 @@ namespace VRDR
         /// <summary>Getter helper for anything that uses PartialDateTime, allowing the time to be read from the extension</summary>
         private string GetPartialTime(Extension partialDateTime)
         {
-            if (partialDateTime != null)
+            Extension part = partialDateTime?.Extension?.Find(ext => ext.Url == ExtensionURL.DateTime);
+            // If we have a value, return it
+            if (part?.Value != null)
             {
-                Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
-                if (part != null)
-                {
-                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-                    if (dataAbsent != null || part.Value == null)
-                    {
-                        // There's either a specific claim that there's no data or actually no data, so return null
-                        // TODO: Do we need to handle this specially as we do using -1 for the integer fields as well?
-                        return null;
-                    }
-                    return part.Value.ToString();
-                }
+                return part.Value.ToString();
             }
+            Extension dataAbsent = part?.Extension?.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            if (dataAbsent != null)
+            {
+                // The data absent reason is either a placeholder that a field hasen't been set yet (data absent reason of 'temp-unknown') or
+                // a claim that there's no data (any other data absent reason, e.g., 'unknown'); return null for the former and "-1" for the latter
+                string code = ((Code)dataAbsent.Value).Value;
+                if (code == "temp-unknown") return null; else return "-1";
+            }
+            // No data present at all, return null
             return null;
         }
 
@@ -118,15 +118,15 @@ namespace VRDR
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
             part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-            if (value != null)
+            if (value != null && value != "-1")
             {
                 part.Value = new Time(value);
             }
             else
             {
                 part.Value = null;
-                // TODO: Do we need to handle this specially as we do using -1 for the integer fields as well?
-                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+                // Determine which data absent reason to use based on whether the value is unknown or -1
+                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code(value == "-1" ? "unknown" : "temp-unknown")));
             }
         }
 

@@ -3028,8 +3028,7 @@ namespace VRDR
         {
             get
             {
-                // TODO: How do we want to handle this?
-                if (DOI_YR == "9999" || DOI_YR == "    ") // was "if record.InjuryIncidentTimeSet()"
+                if (DOI_YR != "9999" && DOI_YR != "    ")
                 {
                     return "M"; // Military time
                 }

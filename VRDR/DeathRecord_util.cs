@@ -30,23 +30,22 @@ namespace VRDR
         /// from the extension. Returns either a numeric date part, or -1 meaning explicitly unknown, or null meaning not specified.</summary>
         private int? GetPartialDate(Extension partialDateTime, string partURL)
         {
-            if (partialDateTime != null)
+            Extension part = partialDateTime?.Extension?.Find(ext => ext.Url == partURL);
+            // If we have a value, return it
+            if (part?.Value != null)
             {
-                Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
-                if (part != null && part.Value != null)
-                {
-                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-                    if (dataAbsent != null)
-                    {
-                        // The data absent reason is either a placeholder that a field hasen't been set yet (data absent reason of 'temp-unknown')
-                        // or a claim that there's no data (any other data absent reason, e.g., 'unknown')
-                        // TODO: Look in the field and return -1 instead of null if it's not 'temp-unknown'
-                        return null;
-                    }
-                    return (int?)((Integer)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into an int
-                }
+                return (int?)((UnsignedInt)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into an int
             }
-            // No data present, return null
+            // If there's no value, but there is a data absent reason, return the appropriate status
+            Extension dataAbsent = part?.Extension?.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            if (dataAbsent != null)
+            {
+                // The data absent reason is either a placeholder that a field hasen't been set yet (data absent reason of 'temp-unknown') or
+                // a claim that there's no data (any other data absent reason, e.g., 'unknown'); retur null for the former and -1 for the latter
+                string code = ((Code)dataAbsent.Value).Value;
+                if (code == "temp-unknown") return null; else return -1;
+            }
+            // No data present at all, return null
             return null;
         }
 

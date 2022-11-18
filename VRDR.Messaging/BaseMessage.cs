@@ -112,7 +112,7 @@ namespace VRDR
             }
             if (from?.DeathYear != null)
             {
-                this.DeathYear = from.DeathYear;
+                this.DeathYear = (uint)from.DeathYear;
             }
             this.JurisdictionId = from?.DeathLocationJurisdiction;
         }

@@ -1238,14 +1238,19 @@ namespace VRDR.Tests
             Assert.Equal(1950, (int)SetterDeathRecord.BirthYear);
             Assert.Null(SetterDeathRecord.BirthMonth);
             Assert.Null(SetterDeathRecord.BirthDay);
+            SetterDeathRecord.BirthMonth = -1;
+            SetterDeathRecord.BirthDay = -1;
+            Assert.Equal(1950, (int)SetterDeathRecord.BirthYear);
+            Assert.Equal(-1, SetterDeathRecord.BirthMonth);
+            Assert.Equal(-1, SetterDeathRecord.BirthDay);
         }
 
         [Fact]
         public void Get_BirthDate_Partial_Date()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
-            Assert.Null(dr.BirthYear);
-            Assert.Null(dr.BirthMonth);
+            Assert.Equal(-1, dr.BirthYear);
+            Assert.Equal(-1, dr.BirthMonth);
             Assert.Equal(24, (int)dr.BirthDay);
         }
 
@@ -2868,12 +2873,12 @@ namespace VRDR.Tests
         {
             Assert.Null(DeathCertificateDocument2_JSON.DateOfDeath);
             Assert.Null(DeathCertificateDocument2_JSON.DeathDay);
-            Assert.Equal((uint)2020, (DeathCertificateDocument2_JSON.DeathYear));
+            Assert.Equal(2020, (DeathCertificateDocument2_JSON.DeathYear));
             Assert.Equal("2020-11-12T00:00:00", DeathCertificateDocument1_JSON.DateOfDeath);
-            Assert.Equal((uint)2020, (DeathCertificateDocument1_JSON.DeathYear));
+            Assert.Equal(2020, (DeathCertificateDocument1_JSON.DeathYear));
             Assert.Null(DeathCertificateDocument1_JSON.DeathTime);
             Assert.Equal("2019-02-19T16:48:06", DeathRecord1_XML.DateOfDeath);
-            Assert.Equal((uint)2019, (DeathRecord1_JSON.DeathYear));
+            Assert.Equal(2019, (DeathRecord1_JSON.DeathYear));
         }
 
         [Fact]

@@ -153,6 +153,24 @@ Console.WriteLine($"Date/Time of Death: {deathRecord.DateOfDeath}");
 Console.WriteLine($"Cause of Death Part I, Line a: {deathRecord.COD1A}");
 Console.WriteLine($"Cause of Death Part I Interval, Line a: {deathRecord.INTERVAL1A}");
 ```
+#### Specifying that a date or time is explicitly unknown
+
+When specifying a date or time it is important to be able to differentiate between "we explicitly
+don't know the date, and we're telling you that we don't know it" and just not setting a date
+property at all. For this reason the date and time properties on the DeathRecord class support the
+special value of -1 (for properties that expect an integer) or "-1" (for properties that expect a
+string) in order to specify that the data is explicitly unknown. This is equivalent to using a value
+of "9999" in IJE.
+
+Example:
+
+```
+DeathRecord deathRecord = new DeathRecord();
+deathRecord.DeathYear = 2022;
+deathRecord.DeathMonth = 2;
+deathRecord.DeathDay = -1;
+deathRecord.DeathTime = "-1";
+```
 
 #### Helper Methods for Value Sets
 

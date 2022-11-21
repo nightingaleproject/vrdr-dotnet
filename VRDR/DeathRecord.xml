@@ -1084,7 +1084,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.ReceiptYear">
             <summary>The year NCHS received the death record.</summary>
-            <value>year</value>
+            <value>year, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.ReceiptYear = 2022 </para>
@@ -1097,7 +1097,7 @@
             The month NCHS received the death record.
             </summary>
             <summary>The month NCHS received the death record.</summary>
-            <value>month</value>
+            <value>month, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.ReceiptMonth = 11 </para>
@@ -1107,7 +1107,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.ReceiptDay">
             <summary>The day NCHS received the death record.</summary>
-            <value>month</value>
+            <value>day, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.ReceiptDay = 13 </para>
@@ -1681,7 +1681,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.BirthYear">
             <summary>Decedent's Year of Birth.</summary>
-            <value>the decedent's year of birth</value>
+            <value>the decedent's year of birth, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.BirthYear = 1928;</para>
@@ -1691,7 +1691,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.BirthMonth">
             <summary>Decedent's Month of Birth.</summary>
-            <value>the decedent's month of birth</value>
+            <value>the decedent's month of birth, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.BirthMonth = 11;</para>
@@ -1701,7 +1701,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.BirthDay">
             <summary>Decedent's Day of Birth.</summary>
-            <value>the decedent's dau of birth</value>
+            <value>the decedent's day of birth, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.BirthDay = 11;</para>
@@ -2466,7 +2466,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.DeathYear">
             <summary>Decedent's Year of Death.</summary>
-            <value>the decedent's year of death</value>
+            <value>the decedent's year of death, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.DeathYear = 2018;</para>
@@ -2476,7 +2476,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.DeathMonth">
             <summary>Decedent's Month of Death.</summary>
-            <value>the decedent's month of death</value>
+            <value>the decedent's month of death, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.DeathMonth = 6;</para>
@@ -2486,7 +2486,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.DeathDay">
             <summary>Decedent's Day of Death.</summary>
-            <value>the decedent's day of death</value>
+            <value>the decedent's day of death, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.DeathDay = 16;</para>
@@ -2496,7 +2496,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.DeathTime">
             <summary>Decedent's Time of Death.</summary>
-            <value>the decedent's time of death</value>
+            <value>the decedent's time of death, or "-1" if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.DeathTime = "07:15";</para>
@@ -2544,7 +2544,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.SurgeryYear">
             <summary>Decedent's Year of Surgery.</summary>
-            <value>the decedent's year of surgery</value>
+            <value>the decedent's year of surgery, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.SurgeryYear = 2018;</para>
@@ -2554,7 +2554,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.SurgeryMonth">
             <summary>Decedent's Month of Surgery.</summary>
-            <value>the decedent's month of surgery</value>
+            <value>the decedent's month of surgery, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.SurgeryMonth = 6;</para>
@@ -2564,7 +2564,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.SurgeryDay">
             <summary>Decedent's Day of Surgery.</summary>
-            <value>the decedent's day of surgery</value>
+            <value>the decedent's day of surgery, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.SurgeryDay = 16;</para>
@@ -3005,7 +3005,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryYear">
             <summary>Decedent's Year of Injury.</summary>
-            <value>the decedent's year of injury</value>
+            <value>the decedent's year of injury, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.InjuryYear = 2018;</para>
@@ -3015,7 +3015,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryMonth">
             <summary>Decedent's Month of Injury.</summary>
-            <value>the decedent's month of injury</value>
+            <value>the decedent's month of injury, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.InjuryMonth = 7;</para>
@@ -3025,7 +3025,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryDay">
             <summary>Decedent's Day of Injury.</summary>
-            <value>the decedent's day of injury</value>
+            <value>the decedent's day of injury, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.InjuryDay = 22;</para>
@@ -3035,7 +3035,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryTime">
             <summary>Decedent's Time of Injury.</summary>
-            <value>the decedent's time of injury</value>
+            <value>the decedent's time of injury, or "-1" if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.InjuryTime = "07:15";</para>
@@ -3159,20 +3159,20 @@
             <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUseHelper}");</para>
             </example>
         </member>
-        <member name="M:VRDR.DeathRecord.InjuryIncidentTimeSet">
-            <summary>Has an InjuryIncident Time Been Set</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.SurgeryDateSet">
-            <summary>Has a Surgery Date Been Set</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.GetPartialDate(Hl7.Fhir.Model.Extension,System.String)">
-            <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
+            <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read
+            from the extension. Returns either a numeric date part, or -1 meaning explicitly unknown, or null meaning not specified.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.NewBlankPartialDateTimeExtension(System.Boolean)">
-            <summary>NewBlankPartialDateTimeExtension, Build a blank PartialDateTime extension (which means all the data absent reasons are present to note that the data is not in fact present)</summary>
+            <summary>NewBlankPartialDateTimeExtension, Build a blank PartialDateTime extension (which means all the placeholder data absent
+            reasons are present to note that the data is not in fact present). This method takes an optional flag to determine if this extension
+            should include the time field, which is not always needed</summary>
         </member>
-        <member name="M:VRDR.DeathRecord.SetPartialDate(Hl7.Fhir.Model.Extension,System.String,System.Nullable{System.UInt32})">
-            <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be set in the extension</summary>
+        <member name="M:VRDR.DeathRecord.SetPartialDate(Hl7.Fhir.Model.Extension,System.String,System.Nullable{System.Int32})">
+            <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be
+            set in the extension. Arguments are the extension to poplulate, the part of the URL to populate, and the value to specify.
+            The value can be a positive number for an actual value, a -1 meaning that the value is explicitly unknown, or null meaning
+            the data has not been specified.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.GetPartialTime(Hl7.Fhir.Model.Extension)">
             <summary>Getter helper for anything that uses PartialDateTime, allowing the time to be read from the extension</summary>
@@ -3325,7 +3325,7 @@
         <member name="F:VRDR.Property.Types.TupleCOD">
             <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
         </member>
-        <member name="F:VRDR.Property.Types.UInt32">
+        <member name="F:VRDR.Property.Types.Int32">
             <summary>Parameter is an unsigned integer.</summary>
         </member>
         <member name="F:VRDR.Property.Types.Tuple4Arr">
@@ -3481,13 +3481,15 @@
         <member name="M:VRDR.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
-        <member name="M:VRDR.IJEMortality.NumericAllowingUnknown_Get(System.String,System.String,System.Boolean)">
-            <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
+        <member name="M:VRDR.IJEMortality.NumericAllowingUnknown_Get(System.String,System.String)">
+            <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and -1 on the
+            FHIR side to represent'unknown' and blank on the IJE side and null on the FHIR side to represent unspecified</summary>
         </member>
         <member name="M:VRDR.IJEMortality.NumericAllowingUnknown_Set(System.String,System.String,System.String)">
-            <summary>Set a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
+            <summary>Set a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and -1 on the
+            FHIR side to represent'unknown' and blank on the IJE side and null on the FHIR side to represent unspecified</summary>
         </member>
-        <member name="M:VRDR.IJEMortality.TimeAllowingUnknown_Get(System.String,System.String,System.Boolean)">
+        <member name="M:VRDR.IJEMortality.TimeAllowingUnknown_Get(System.String,System.String)">
             <summary>Get a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
         </member>
         <member name="M:VRDR.IJEMortality.TimeAllowingUnknown_Set(System.String,System.String,System.String)">

@@ -26,93 +26,90 @@ namespace VRDR
     /// </summary>
     public partial class DeathRecord
     {
-        ///<summary>Has an InjuryIncident Time Been Set</summary>
-        public bool InjuryIncidentTimeSet()
+        /// <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read
+        /// from the extension. Returns either a numeric date part, or -1 meaning explicitly unknown, or null meaning not specified.</summary>
+        private int? GetPartialDate(Extension partialDateTime, string partURL)
         {
-            return (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null);
-        }
-
-        ///<summary>Has a Surgery Date Been Set</summary>
-        public bool SurgeryDateSet()
-        {
-            return (SurgeryDateObs != null);
-        }
-
-        /// <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
-        private uint? GetPartialDate(Extension partialDateTime, string partURL)
-        {
-            if (partialDateTime != null)
+            Extension part = partialDateTime?.Extension?.Find(ext => ext.Url == partURL);
+            // If we have a value, return it
+            if (part?.Value != null)
             {
-                Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
-                if (part != null)
-                {
-                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-                    if (dataAbsent != null || part.Value == null)
-                    {
-                        // There's either a specific claim that there's no data or actually no data, so return null
-                        return null;
-                    }
-                    return (uint?)((UnsignedInt)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into a uint
-                }
+                return (int?)((UnsignedInt)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into an int
             }
+            // If there's no value, but there is a data absent reason, return the appropriate status
+            Extension dataAbsent = part?.Extension?.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            if (dataAbsent != null)
+            {
+                // The data absent reason is either a placeholder that a field hasen't been set yet (data absent reason of 'temp-unknown') or
+                // a claim that there's no data (any other data absent reason, e.g., 'unknown'); return null for the former and -1 for the latter
+                string code = ((Code)dataAbsent.Value).Value;
+                if (code == "temp-unknown") return null; else return -1;
+            }
+            // No data present at all, return null
             return null;
         }
 
-        /// <summary>NewBlankPartialDateTimeExtension, Build a blank PartialDateTime extension (which means all the data absent reasons are present to note that the data is not in fact present)</summary>
-        // takes an optional flag to determine if this extension should include the time field, which is not always needed
+        /// <summary>NewBlankPartialDateTimeExtension, Build a blank PartialDateTime extension (which means all the placeholder data absent
+        /// reasons are present to note that the data is not in fact present). This method takes an optional flag to determine if this extension
+        /// should include the time field, which is not always needed</summary>
         private Extension NewBlankPartialDateTimeExtension(bool includeTime = true)
         {
             Extension partialDateTime = new Extension(includeTime ? ExtensionURL.PartialDateTime : ExtensionURL.PartialDate, null);
             Extension year = new Extension(ExtensionURL.DateYear, null);
-            year.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            year.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("temp-unknown")));
             partialDateTime.Extension.Add(year);
             Extension month = new Extension(ExtensionURL.DateMonth, null);
-            month.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            month.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("temp-unknown")));
             partialDateTime.Extension.Add(month);
             Extension day = new Extension(ExtensionURL.DateDay, null);
-            day.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            day.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("temp-unknown")));
             partialDateTime.Extension.Add(day);
             if (includeTime)
             {
                 Extension time = new Extension(ExtensionURL.DateTime, null);
-                time.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+                time.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("temp-unknown")));
                 partialDateTime.Extension.Add(time);
             }
             return partialDateTime;
         }
-        /// <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be set in the extension</summary>
-        private void SetPartialDate(Extension partialDateTime, string partURL, uint? value)
+        /// <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be
+        /// set in the extension. Arguments are the extension to poplulate, the part of the URL to populate, and the value to specify.
+        /// The value can be a positive number for an actual value, a -1 meaning that the value is explicitly unknown, or null meaning
+        /// the data has not been specified.</summary>
+        private void SetPartialDate(Extension partialDateTime, string partURL, int? value)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
             part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-            if (value != null)
+            if (value != null && value != -1)
             {
                 part.Value = new UnsignedInt((int)value);
             }
             else
             {
                 part.Value = null;
-                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+                // Determine which data absent reason to use based on whether the value is unknown or -1
+                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code(value == -1 ? "unknown" : "temp-unknown")));
             }
         }
 
         /// <summary>Getter helper for anything that uses PartialDateTime, allowing the time to be read from the extension</summary>
         private string GetPartialTime(Extension partialDateTime)
         {
-            if (partialDateTime != null)
+            Extension part = partialDateTime?.Extension?.Find(ext => ext.Url == ExtensionURL.DateTime);
+            // If we have a value, return it
+            if (part?.Value != null)
             {
-                Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
-                if (part != null)
-                {
-                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-                    if (dataAbsent != null || part.Value == null)
-                    {
-                        // There's either a specific claim that there's no data or actually no data, so return null
-                        return null;
-                    }
-                    return part.Value.ToString();
-                }
+                return part.Value.ToString();
             }
+            Extension dataAbsent = part?.Extension?.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            if (dataAbsent != null)
+            {
+                // The data absent reason is either a placeholder that a field hasen't been set yet (data absent reason of 'temp-unknown') or
+                // a claim that there's no data (any other data absent reason, e.g., 'unknown'); return null for the former and "-1" for the latter
+                string code = ((Code)dataAbsent.Value).Value;
+                if (code == "temp-unknown") return null; else return "-1";
+            }
+            // No data present at all, return null
             return null;
         }
 
@@ -121,20 +118,21 @@ namespace VRDR
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
             part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-            if (value != null)
+            if (value != null && value != "-1")
             {
                 part.Value = new Time(value);
             }
             else
             {
                 part.Value = null;
-                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+                // Determine which data absent reason to use based on whether the value is unknown or -1
+                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code(value == "-1" ? "unknown" : "temp-unknown")));
             }
         }
 
         /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
         /// field (year, month, or day) to be read from either the value or the extension</summary>
-        private uint? GetDateFragmentOrPartialDate(Element value, string partURL)
+        private int? GetDateFragmentOrPartialDate(Element value, string partURL)
         {
             if (value == null)
             {
@@ -155,11 +153,11 @@ namespace VRDR
                 switch (partURL)
                 {
                     case ExtensionURL.DateYear:
-                        return (uint?)((DateTimeOffset)dateTimeOffset).Year;
+                        return ((DateTimeOffset)dateTimeOffset).Year;
                     case ExtensionURL.DateMonth:
-                        return (uint?)((DateTimeOffset)dateTimeOffset).Month;
+                        return ((DateTimeOffset)dateTimeOffset).Month;
                     case ExtensionURL.DateDay:
-                        return (uint?)((DateTimeOffset)dateTimeOffset).Day;
+                        return ((DateTimeOffset)dateTimeOffset).Day;
                     default:
                         throw new ArgumentException("GetDateFragmentOrPartialDate called with unsupported PartialDateTime segment");
                 }
@@ -1014,7 +1012,7 @@ namespace VRDR
             /// <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
             TupleCOD,
             /// <summary>Parameter is an unsigned integer.</summary>
-            UInt32,
+            Int32,
             /// <summary>Parameter is an array of 4-Tuples, specifically for entity axis codes.</summary>
             Tuple4Arr
         };

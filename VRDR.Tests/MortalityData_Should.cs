@@ -181,9 +181,9 @@ namespace VRDR.Tests
             Assert.Equal("06", ije1.DOB_MO);
             Assert.Equal("02", ije1.DOB_DY);
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Null(dr1.BirthYear);
-            Assert.Equal(6, (int)dr1.BirthMonth);
-            Assert.Equal(2, (int)dr1.BirthDay);
+            Assert.Equal(-1, dr1.BirthYear);
+            Assert.Equal(6, dr1.BirthMonth);
+            Assert.Equal(2, dr1.BirthDay);
             Assert.Null(dr1.DateOfBirth);
         }
 
@@ -195,9 +195,9 @@ namespace VRDR.Tests
             Assert.Equal("99", ije1.DOB_MO);
             Assert.Equal("99", ije1.DOB_DY);
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Null(dr1.BirthYear);
-            Assert.Null(dr1.BirthMonth);
-            Assert.Null(dr1.BirthDay);
+            Assert.Equal(-1, dr1.BirthYear);
+            Assert.Equal(-1, dr1.BirthMonth);
+            Assert.Equal(-1, dr1.BirthDay);
             Assert.Null(dr1.DateOfBirth);
         }
 

@@ -101,7 +101,7 @@ namespace VRDR.Tests
             DeathRecord first = DeathRecord2_JSON;
             IJEMortality firstije = new IJEMortality(first);
             Assert.Null(first.DateOfDeath);   // Record has an unknown death day, the DeathDate should be null
-            Assert.Null(first.DeathDay);
+            Assert.Equal(-1, first.DeathDay); // Since it's explicitly unknown the DeathDay should be -1
             Assert.Equal("French", firstije.RACE22);
         }
         [Fact]
@@ -1238,14 +1238,19 @@ namespace VRDR.Tests
             Assert.Equal(1950, (int)SetterDeathRecord.BirthYear);
             Assert.Null(SetterDeathRecord.BirthMonth);
             Assert.Null(SetterDeathRecord.BirthDay);
+            SetterDeathRecord.BirthMonth = -1;
+            SetterDeathRecord.BirthDay = -1;
+            Assert.Equal(1950, (int)SetterDeathRecord.BirthYear);
+            Assert.Equal(-1, SetterDeathRecord.BirthMonth);
+            Assert.Equal(-1, SetterDeathRecord.BirthDay);
         }
 
         [Fact]
         public void Get_BirthDate_Partial_Date()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
-            Assert.Null(dr.BirthYear);
-            Assert.Null(dr.BirthMonth);
+            Assert.Equal(-1, dr.BirthYear);
+            Assert.Equal(-1, dr.BirthMonth);
             Assert.Equal(24, (int)dr.BirthDay);
         }
 
@@ -1259,8 +1264,8 @@ namespace VRDR.Tests
             Assert.Equal("99", ije1.DOB_MO);
             Assert.Equal("24", ije1.DOB_DY);
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Null(dr1.BirthYear);
-            Assert.Null(dr1.BirthMonth);
+            Assert.Equal(-1, dr1.BirthYear);
+            Assert.Equal(-1, dr1.BirthMonth);
             Assert.Equal(24, (int)dr1.BirthDay);
             Assert.Null(dr1.DateOfBirth);
         }
@@ -2868,12 +2873,12 @@ namespace VRDR.Tests
         {
             Assert.Null(DeathCertificateDocument2_JSON.DateOfDeath);
             Assert.Null(DeathCertificateDocument2_JSON.DeathDay);
-            Assert.Equal((uint)2020, (DeathCertificateDocument2_JSON.DeathYear));
+            Assert.Equal(2020, (DeathCertificateDocument2_JSON.DeathYear));
             Assert.Equal("2020-11-12T00:00:00", DeathCertificateDocument1_JSON.DateOfDeath);
-            Assert.Equal((uint)2020, (DeathCertificateDocument1_JSON.DeathYear));
+            Assert.Equal(2020, (DeathCertificateDocument1_JSON.DeathYear));
             Assert.Null(DeathCertificateDocument1_JSON.DeathTime);
             Assert.Equal("2019-02-19T16:48:06", DeathRecord1_XML.DateOfDeath);
-            Assert.Equal((uint)2019, (DeathRecord1_JSON.DeathYear));
+            Assert.Equal(2019, (DeathRecord1_JSON.DeathYear));
         }
 
         [Fact]
@@ -2896,15 +2901,45 @@ namespace VRDR.Tests
             //Tuple<string, string>[] datePart = { Tuple.Create("date-year", "2021"), Tuple.Create("date-month", "5"), Tuple.Create("day-absent-reason", "asked-unknown")};
             SetterDeathRecord.DeathYear = 2021;
             SetterDeathRecord.DeathMonth = 5;
-            SetterDeathRecord.DeathDay = null;
+            SetterDeathRecord.DeathDay = -1;
             SetterDeathRecord.DeathTime = "10:00:00";
             IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
+            Assert.Equal("2021", ije1.DOD_YR);
+            Assert.Equal("05", ije1.DOD_MO);
+            Assert.Equal("99", ije1.DOD_DY);
             Assert.Equal("1000", ije1.TOD);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal(2021, (int)dr2.DeathYear);
-            Assert.Equal(5, (int)dr2.DeathMonth);
-            Assert.Null(dr2.DeathDay);
+            Assert.Equal(2021, dr2.DeathYear);
+            Assert.Equal(5, dr2.DeathMonth);
+            Assert.Equal(-1, dr2.DeathDay);
             Assert.Equal("10:00:00", dr2.DeathTime);
+        }
+
+        [Fact]
+        public void Set_DateOfDeath_Unknown_Partial_Date()
+        {
+            // Test ability to set dates and times diferentiating between explicitly unknown and unspecified
+            DeathRecord d = new DeathRecord();
+            Assert.Null(d.DeathYear);
+            Assert.Null(d.DeathMonth);
+            Assert.Null(d.DeathDay);
+            Assert.Null(d.DeathTime);
+            d.DeathYear = 2022;
+            Assert.Equal(2022, d.DeathYear);
+            Assert.Null(d.DeathMonth);
+            Assert.Null(d.DeathDay);
+            Assert.Null(d.DeathTime);
+            d.DeathMonth = -1;
+            d.DeathTime = "-1";
+            Assert.Equal(2022, d.DeathYear);
+            Assert.Equal(-1, d.DeathMonth);
+            Assert.Null(d.DeathDay);
+            Assert.Equal("-1", d.DeathTime);
+            IJEMortality ije = new IJEMortality(d, false);
+            Assert.Equal("2022", ije.DOD_YR);
+            Assert.Equal("99", ije.DOD_MO);
+            Assert.Equal("  ", ije.DOD_DY);
+            Assert.Equal("9999", ije.TOD);
         }
 
         [Fact]
@@ -2913,7 +2948,7 @@ namespace VRDR.Tests
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
             Assert.Equal(2021, (int)dr.DeathYear);
             Assert.Equal(2, (int)dr.DeathMonth);
-            Assert.Null(dr.DeathDay);
+            Assert.Equal(-1, dr.DeathDay);
         }
 
         [Fact]

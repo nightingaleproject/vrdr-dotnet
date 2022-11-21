@@ -1870,16 +1870,16 @@ namespace VRDR
 
 
         /// <summary>The year NCHS received the death record.</summary>
-        /// <value>year</value>
+        /// <value>year, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.ReceiptYear = 2022 </para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Receipt Year: {ExampleDeathRecord.ReceiptYear}");</para>
         /// </example>
-        [Property("ReceiptYear", Property.Types.UInt32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("ReceiptYear", Property.Types.Int32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
-        public uint? ReceiptYear
+        public int? ReceiptYear
         {
             get
             {
@@ -1901,16 +1901,16 @@ namespace VRDR
         /// The month NCHS received the death record.
         /// </summary>
         /// <summary>The month NCHS received the death record.</summary>
-        /// <value>month</value>
+        /// <value>month, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.ReceiptMonth = 11 </para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Receipt Month: {ExampleDeathRecord.ReceiptMonth}");</para>
         /// </example>
-        [Property("ReceiptMonth", Property.Types.UInt32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("ReceiptMonth", Property.Types.Int32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
-        public uint? ReceiptMonth
+        public int? ReceiptMonth
         {
             get
             {
@@ -1929,16 +1929,16 @@ namespace VRDR
         }
 
         /// <summary>The day NCHS received the death record.</summary>
-        /// <value>month</value>
+        /// <value>day, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.ReceiptDay = 13 </para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Receipt Day: {ExampleDeathRecord.ReceiptDay}");</para>
         /// </example>
-        [Property("ReceiptDay", Property.Types.UInt32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("ReceiptDay", Property.Types.Int32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
-        public uint? ReceiptDay
+        public int? ReceiptDay
         {
             get
             {
@@ -1971,7 +1971,7 @@ namespace VRDR
             get
             {
                 // We support this legacy-style API entrypoint via the new partial date and time entrypoints
-                if (ReceiptYear != null && ReceiptMonth != null && ReceiptDay != null)
+                if (ReceiptYear != null && ReceiptYear != -1 && ReceiptMonth != null && ReceiptMonth != -1 && ReceiptDay != null && ReceiptDay != -1)
                 {
                     Date result = new Date((int)ReceiptYear, (int)ReceiptMonth, (int)ReceiptDay);
                     return result.ToString();
@@ -1984,9 +1984,9 @@ namespace VRDR
                 DateTimeOffset parsedDate;
                 if (DateTimeOffset.TryParse(value, out parsedDate))
                 {
-                    ReceiptYear = (uint?)parsedDate.Year;
-                    ReceiptMonth = (uint?)parsedDate.Month;
-                    ReceiptDay = (uint?)parsedDate.Day;
+                    ReceiptYear = parsedDate.Year;
+                    ReceiptMonth = parsedDate.Month;
+                    ReceiptDay = parsedDate.Day;
                 }
             }
         }
@@ -2002,7 +2002,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Coder STatus {ExampleDeathRecord.CoderStatus}");</para>
         /// </example>
-        [Property("CoderStatus", Property.Types.UInt32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, false)]
+        [Property("CoderStatus", Property.Types.Int32, "Coded Content", "Coding Status", true, IGURL.CodingStatusValues, false)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public int? CoderStatus
         {

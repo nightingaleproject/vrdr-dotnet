@@ -1,12 +1,12 @@
 var searchData=
 [
   ['bcno_0',['BCNO',['../class_v_r_d_r_1_1_i_j_e_mortality.html#ae0a428e49207a60a6d2979a0a69e6fe8',1,'VRDR::IJEMortality']]],
-  ['birthday_1',['BirthDay',['../class_v_r_d_r_1_1_death_record.html#a66932b216c9d37d6cd54fd53e39c78a1',1,'VRDR::DeathRecord']]],
-  ['birthmonth_2',['BirthMonth',['../class_v_r_d_r_1_1_death_record.html#a56ea69e0833550c65d8ad8f3a1a5186a',1,'VRDR::DeathRecord']]],
+  ['birthday_1',['BirthDay',['../class_v_r_d_r_1_1_death_record.html#acc9c70401de54ea899855b1e0196e46c',1,'VRDR::DeathRecord']]],
+  ['birthmonth_2',['BirthMonth',['../class_v_r_d_r_1_1_death_record.html#a8d57ae25e11d68bddd9183eb89d06b85',1,'VRDR::DeathRecord']]],
   ['birthrecordid_3',['BirthRecordId',['../class_v_r_d_r_1_1_death_record.html#a85027c659863afa0610a757e68d5749a',1,'VRDR::DeathRecord']]],
   ['birthrecordstate_4',['BirthRecordState',['../class_v_r_d_r_1_1_death_record.html#a02fccd67c9c9f28560a59c11dc78f858',1,'VRDR::DeathRecord']]],
   ['birthrecordyear_5',['BirthRecordYear',['../class_v_r_d_r_1_1_death_record.html#ae4a2fdb8bc6214f3c5438eea906fddd0',1,'VRDR::DeathRecord']]],
-  ['birthyear_6',['BirthYear',['../class_v_r_d_r_1_1_death_record.html#aa74776d79486156cd045b38ab92f8a50',1,'VRDR::DeathRecord']]],
+  ['birthyear_6',['BirthYear',['../class_v_r_d_r_1_1_death_record.html#af9679c737eb3bf97a7ebfb6329fb0fc6',1,'VRDR::DeathRecord']]],
   ['blank1_7',['BLANK1',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a1ecbfe5d5ed1035a753ad63faae7f27c',1,'VRDR::IJEMortality']]],
   ['blank2_8',['BLANK2',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a1d275b6ff59bcb3bb04beeefa6f7f3f2',1,'VRDR::IJEMortality']]],
   ['blank3_9',['BLANK3',['../class_v_r_d_r_1_1_i_j_e_mortality.html#adfadcdea16f1f0df6f996d58c013b986',1,'VRDR::IJEMortality']]],

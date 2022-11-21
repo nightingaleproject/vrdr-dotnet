@@ -204,7 +204,17 @@ Consuming Example</h4>
 <div class="line"> </div>
 <div class="line">Console.WriteLine($<span class="stringliteral">&quot;Cause of Death Part I, Line a: {deathRecord.COD1A}&quot;</span>);</div>
 <div class="line">Console.WriteLine($<span class="stringliteral">&quot;Cause of Death Part I Interval, Line a: {deathRecord.INTERVAL1A}&quot;</span>);</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md60"></a>
+</div><!-- fragment --> <h4><a class="anchor" id="autotoc_md60"></a>
+Specifying that a date or time is explicitly unknown</h4>
+<p >When specifying a date or time it is important to be able to differentiate between "we explicitly
+don't know the date, and we're telling you that we don't know it" and just not setting a date property at all. For this reason the date and time properties on the DeathRecord class support the special value of -1 (for properties that expect an integer) or "-1" (for properties that expect a string) in order to specify that the data is explicitly unknown. This is equivalent to using a value of "9999" in IJE.</p>
+<p >Example:</p>
+<div class="fragment"><div class="line">DeathRecord deathRecord = new DeathRecord();</div>
+<div class="line">deathRecord.DeathYear = 2022;</div>
+<div class="line">deathRecord.DeathMonth = 2;</div>
+<div class="line">deathRecord.DeathDay = -1;</div>
+<div class="line">deathRecord.DeathTime = &quot;-1&quot;;</div>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md61"></a>
 Helper Methods for Value Sets</h4>
 <p >For fields that contain coded values it can involve some extra effort to provide the code, the code system, and the display text. The <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library includes some helper methods to make this easier. For example, here's how to specify the pregnancy status using the long form specifying each of the three necessary values:</p>
 <div class="fragment"><div class="line">// Add PregnancyStatus</div>
@@ -270,7 +280,7 @@ Helper Methods for Value Sets</h4>
 <li>AcmeSystemRejectHelper</li>
 <li>TransaxConversionHelper</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md61"></a>
+<h4><a class="anchor" id="autotoc_md62"></a>
 FHIR VRDR record to/from IJE Mortality format</h4>
 <p >An example of converting a <a class="el" href="namespace_v_r_d_r.html">VRDR</a> FHIR Death Record to an IJE string: </p><div class="fragment"><div class="line"><span class="keyword">using </span><a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
 <div class="line"> </div>
@@ -299,10 +309,10 @@ FHIR VRDR record to/from IJE Mortality format</h4>
 <div class="line"><span class="comment">// Print out the converted FHIR DeathRecord as a JSON string</span></div>
 <div class="line">Console.WriteLine(deathRecord.<a class="code hl_function" href="class_v_r_d_r_1_1_death_record.html#ad6754479d0b9f0d0af10b86cf2956aab">ToJSON</a>());</div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_i_j_e_mortality_html_a5e7144755845cac83d704a7917014ad5"><div class="ttname"><a href="class_v_r_d_r_1_1_i_j_e_mortality.html#a5e7144755845cac83d704a7917014ad5">VRDR.IJEMortality.ToDeathRecord</a></div><div class="ttdeci">DeathRecord ToDeathRecord()</div><div class="ttdoc">Returns the corresponding DeathRecord for this IJE string.</div><div class="ttdef"><b>Definition:</b> IJEMortality.cs:210</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md62"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md63"></a>
 VRDR.Messaging</h3>
 <p >This directory contains classes to create and parse FHIR messages used for Vital Records Death Reporting.</p>
-<h4><a class="anchor" id="autotoc_md63"></a>
+<h4><a class="anchor" id="autotoc_md64"></a>
 Usage</h4>
 <p >This package is published on NuGet, so including it is as easy as: </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">  ...</div>
@@ -319,7 +329,7 @@ Usage</h4>
 <div class="line">  &lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">&lt;/<span class="keywordtype">Project</span>&gt;</div>
 </div><!-- fragment --><p >Use of the VRDR.Messaging library to support various message exchange scenarios is described in <a class="el" href="md_doc__messaging.html">`doc/Messaging.md`</a>.</p>
-<h4><a class="anchor" id="autotoc_md64"></a>
+<h4><a class="anchor" id="autotoc_md65"></a>
 Return Coding Example</h4>
 <p >An example of producing a <code>CauseOfDeathCodingResponseMessage</code> for handling the returned message from NCHS containing coded causes. For convenience we can create the record either using IJE-style properties on an IJEMortality record (demonstrated below) or using FHIR IG properties on a DeathRecord record. For a complete example, <a href="doc/Messaging.md#return-coding">click here</a>.</p>
 <div class="fragment"><div class="line"><span class="keyword">using </span><a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
@@ -362,19 +372,19 @@ Return Coding Example</h4>
 <div class="line"><span class="keywordtype">string</span> jsonMessage = message.<a class="code hl_function" href="class_v_r_d_r_1_1_base_message.html#ad93e5924c25c3b1eb29c316a47e25f1d">ToJSON</a>();</div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_base_message_html_ad93e5924c25c3b1eb29c316a47e25f1d"><div class="ttname"><a href="class_v_r_d_r_1_1_base_message.html#ad93e5924c25c3b1eb29c316a47e25f1d">VRDR.BaseMessage.ToJSON</a></div><div class="ttdeci">string ToJSON(bool prettyPrint=false)</div><div class="ttdoc">Helper method to return a JSON string representation of this DeathRecordSubmissionMessage.</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:162</div></div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_cause_of_death_coding_message_html"><div class="ttname"><a href="class_v_r_d_r_1_1_cause_of_death_coding_message.html">VRDR.CauseOfDeathCodingMessage</a></div><div class="ttdoc">A CauseOfDeathCodingMessage that conveys the coded cause of death information of a decedent.</div><div class="ttdef"><b>Definition:</b> CauseOfDeathCodingMessage.cs:11</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md65"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md66"></a>
 VRDR.Tests</h3>
 <p >This directory contains unit and functional tests for the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library as well as scripts for testing via the CLI and translation microservice.</p>
-<h4><a class="anchor" id="autotoc_md66"></a>
+<h4><a class="anchor" id="autotoc_md67"></a>
 Usage</h4>
 <p >The tests are automatically run by the repository GitHub workflows config, but can be run locally by executing the following command in the root project directory:</p>
 <div class="fragment"><div class="line">./VRDR.Tests/run_tests.sh</div>
 </div><!-- fragment --><p >The C# tests can be run separately from the other tests by executing the following command:</p>
 <div class="fragment"><div class="line">dotnet test</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md67"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md68"></a>
 VRDR.CLI</h3>
 <p >This directory contains a sample command line interface app that uses the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library to do a few different things.</p>
-<h4><a class="anchor" id="autotoc_md68"></a>
+<h4><a class="anchor" id="autotoc_md69"></a>
 Example Usages</h4>
 <div class="fragment"><div class="line"># Prints CLI Help</div>
 <div class="line">dotnet run -- project VRDR.CLI help</div>
@@ -458,7 +468,7 @@ Example Usages</h4>
 <div class="line"> </div>
 <div class="line"># Extract and show the codes in a coding response message</div>
 <div class="line">dotnet run --project VRDR.CLI showcodes VRDR.CLI/1coding.json</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md69"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md70"></a>
 VRDR.Client</h3>
 <p >This directory contains classes and functions to connect to the <a href="https://github.com/nightingaleproject/Reference-NCHS-API">NVSS API server</a>, authenticate, manage authentication tokens, post records, and retrieve responses. For a full implementation of a client service that uses this library, see the <a href="https://github.com/nightingaleproject/Reference-Client-API">Reference Client Implementation</a>.</p>
 <p ><em>This package is not yet published on NuGet.</em></p>
@@ -471,7 +481,7 @@ VRDR.Client</h3>
 <div class="line">    ...</div>
 <div class="line">  &lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">&lt;/<span class="keywordtype">Project</span>&gt;</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md70"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md71"></a>
 Example Usage</h4>
 <p >Authenticate to the NVSS API Server </p><div class="fragment"><div class="line">// Example SAMS credentials</div>
 <div class="line">string authUrl = &quot;https://&lt;authServerUrl&gt;.gov/auth/oauth/v2/token&quot;;</div>
@@ -513,14 +523,14 @@ Example Usage</h4>
 <div class="line">// POST messages in batches of 20</div>
 <div class="line">List&lt;HttpResponseMessage&gt; responses = client.PostMessagesAsync(messages, 20);</div>
 <div class="line">// ... handle success or failure</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md71"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md72"></a>
 VRDR.HTTP</h3>
 <p >This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.</p>
 <p >The current available endpoints to <code>POST</code> to are: </p><div class="fragment"><div class="line">http://&lt;server&gt;:8080/xml   &lt;- For requesting a record as FHIR in XML format</div>
 <div class="line">http://&lt;server&gt;:8080/json  &lt;- For requesting a record as FHIR in JSON format</div>
 <div class="line">http://&lt;server&gt;:8080/ije   &lt;- For requesting a record as IJE</div>
 </div><!-- fragment --><p >Include a <code>Content-Type</code> header indicating what format the record is represented as in the body of the message (e.g. <code>application/fhir+json</code>, <code>application/fhir+xml</code>, or <code>application/ije</code>.).</p>
-<h4><a class="anchor" id="autotoc_md72"></a>
+<h4><a class="anchor" id="autotoc_md73"></a>
 Running</h4>
 <p >To build a Dockerized version from scratch (from source), you can do so by running (inside the project root directory):</p>
 <div class="fragment"><div class="line">dotnet publish</div>
@@ -529,10 +539,10 @@ Running</h4>
 </div><!-- fragment --><p >If you prefer not to use Docker, you can run it from the root project directory using <a href="https://dotnet.microsoft.com/download">.NET Core</a>:</p>
 <div class="fragment"><div class="line">dotnet run --project VRDR.HTTP</div>
 </div><!-- fragment --><p >The service will be listening locally at <code><a href="http://localhost:8080">http://localhost:8080</a></code>.</p>
-<h4><a class="anchor" id="autotoc_md73"></a>
+<h4><a class="anchor" id="autotoc_md74"></a>
 Contributing</h4>
 <p >Changes related to an upcoming IG version should be merged to the IG-develop-vx.x.x branch. Bug fixes related to the current version should be merged to the master branch and a new release should be created.</p>
-<p ><a class="anchor" id="autotoc_md74"></a> </p><h5>Create a branch for IG changes:</h5>
+<p ><a class="anchor" id="autotoc_md75"></a> </p><h5>Create a branch for IG changes:</h5>
 <div class="fragment"><div class="line">git fetch origin</div>
 <div class="line">git checkout IG-develop-vx.x.x</div>
 <div class="line">git pull origin IG-develop-vx.x.x</div>
@@ -541,14 +551,14 @@ Contributing</h4>
 <div class="line">&lt;test-with-changes-from-master&gt;</div>
 <div class="line">git push origin &lt;your-ticketnumber-branch-name&gt;</div>
 </div><!-- fragment --><p> Create merge request to the IG-develop-vx.x.x branch.</p>
-<p ><a class="anchor" id="autotoc_md75"></a> </p><h5>Create a branch for bug fixes in master</h5>
+<p ><a class="anchor" id="autotoc_md76"></a> </p><h5>Create a branch for bug fixes in master</h5>
 <div class="fragment"><div class="line">git checkout master</div>
 <div class="line">git pull origin master</div>
 <div class="line">git checkout -b &lt;your-ticketnumber-branch-name&gt;</div>
 <div class="line">&lt;commit-bug-related-changes&gt;</div>
 <div class="line">git push origin &lt;your-ticketnumber-branch-name&gt;</div>
 </div><!-- fragment --><p> Create a merge request to the master branch. Finally, merge master into the IG-develop-vx.x.x branch.</p>
-<h4><a class="anchor" id="autotoc_md76"></a>
+<h4><a class="anchor" id="autotoc_md77"></a>
 Publishing a Version</h4>
 <p >To create a new release of <a class="el" href="namespace_v_r_d_r.html">VRDR</a> on NuGet:</p>
 <ol type="1">
@@ -581,13 +591,13 @@ Publishing a Version</h4>
 </ol>
 </li>
 </ol>
-<h2><a class="anchor" id="autotoc_md77"></a>
+<h2><a class="anchor" id="autotoc_md78"></a>
 License</h2>
 <p >Copyright 2018, 2019, 2020, 2021, 2022 The MITRE Corporation</p>
 <p >Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
 <div class="fragment"><div class="line">http://www.apache.org/licenses/LICENSE-2.0</div>
 </div><!-- fragment --><p >Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
-<h3><a class="anchor" id="autotoc_md78"></a>
+<h3><a class="anchor" id="autotoc_md79"></a>
 Contact Information</h3>
 <p >For questions or comments about vrdr-dotnet, please send email to </p><pre class="fragment">cdc-nvss-feedback-list@lists.mitre.org
 </pre> </div></div><!-- PageDoc -->

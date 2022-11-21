@@ -63,8 +63,8 @@ var searchData=
   ['sur_5fmo_60',['SUR_MO',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aa984b2d10aa9fe4ed96ec6155edb0197',1,'VRDR::IJEMortality']]],
   ['sur_5fyr_61',['SUR_YR',['../class_v_r_d_r_1_1_i_j_e_mortality.html#ab59912a374911c6aa8309e67b28005d0',1,'VRDR::IJEMortality']]],
   ['surgerydate_62',['SurgeryDate',['../class_v_r_d_r_1_1_death_record.html#a2bca76540018c5570e2c96b8120e07ee',1,'VRDR::DeathRecord']]],
-  ['surgeryday_63',['SurgeryDay',['../class_v_r_d_r_1_1_death_record.html#ac48944a9bb0b1f152028444e68eb6a1b',1,'VRDR::DeathRecord']]],
-  ['surgerymonth_64',['SurgeryMonth',['../class_v_r_d_r_1_1_death_record.html#aead5952ab82400d70c309e87c2a4c9a9',1,'VRDR::DeathRecord']]],
-  ['surgeryyear_65',['SurgeryYear',['../class_v_r_d_r_1_1_death_record.html#a8e76402b77e00d4386d92eb48209b4f0',1,'VRDR::DeathRecord']]],
+  ['surgeryday_63',['SurgeryDay',['../class_v_r_d_r_1_1_death_record.html#a1efd210b38fa0a8908f6da55895ba83c',1,'VRDR::DeathRecord']]],
+  ['surgerymonth_64',['SurgeryMonth',['../class_v_r_d_r_1_1_death_record.html#ab62b58e28e9ff5099594cdf039dc3e51',1,'VRDR::DeathRecord']]],
+  ['surgeryyear_65',['SurgeryYear',['../class_v_r_d_r_1_1_death_record.html#a0046a12cb8c1a3304cfb22c0675fcc85',1,'VRDR::DeathRecord']]],
   ['sys_5frej_66',['SYS_REJ',['../class_v_r_d_r_1_1_i_j_e_mortality.html#adbb693253bf5f0e5c3e4016f1fb6377d',1,'VRDR::IJEMortality']]]
 ];

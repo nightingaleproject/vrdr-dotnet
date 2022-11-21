@@ -69,7 +69,7 @@ namespace VRDR.Tests
             Assert.Equal("MA", ije1.DSTATE);
             Assert.Equal("4", ije1.DPLACE);
             DeathRecord dr = ije1.ToDeathRecord();
-            Dictionary<string,string> age = new Dictionary<string,string>();
+            Dictionary<string, string> age = new Dictionary<string, string>();
             age.Add("value", "10");
             age.Add("unit", "Months");
             age.Add("code", "mo");
@@ -79,7 +79,7 @@ namespace VRDR.Tests
             Assert.Equal("mo", dr.AgeAtDeath["code"]);
             Assert.Equal("mo", ije1rt.ToDeathRecord().AgeAtDeath["code"]);
             Assert.Equal("2", ije1rt.AGETYPE);
-            Assert.Equal("010",ije1rt.AGE);
+            Assert.Equal("010", ije1rt.AGE);
             Assert.Equal("4", ije1rt.DPLACE);
             ije1.DSTATE = "YC";
             ije1.AUXNO = "000000000001";
@@ -111,7 +111,7 @@ namespace VRDR.Tests
             Assert.Equal("YC", dr4.DeathLocationJurisdiction);
             Assert.Equal("mo", dr4.AgeAtDeath["code"]);
             Assert.Equal("10", dr4.AgeAtDeath["value"]);
-            Assert.Equal(ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified,  dr4.AgeAtDeathEditFlagHelper);
+            Assert.Equal(ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified, dr4.AgeAtDeathEditFlagHelper);
         }
 
         [Fact]
@@ -303,6 +303,27 @@ namespace VRDR.Tests
             Assert.Equal("11222333", record.SSN);
             ArgumentOutOfRangeException ex = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
             Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field SSN contains string '11222333' which is not the expected length (without dashes or spaces) for IJE field SSN of length 9')", ex.Message);
+        }
+
+        [Fact]
+        public void AddressDoesNotStompCityLimits()
+        {
+            // Regression test: make sure that setting an address field does not erase the WithinCityLimits data
+            IJEMortality ije = new IJEMortality();
+            ije.LIMITS = "Y";
+            ije.STNUM_R = "4437";
+            ije.PREDIR_R = "North";
+            ije.STNAME_R = "Charles";
+            ije.STDESIG_R = "Avenue";
+            ije.POSTDIR_R = "Southeast";
+            ije.UNITNUM_R = "Apt 2B";
+            ije.CITYTEXT_R = "Hartford";
+            ije.ZIP9_R = "06107";
+            ije.COUNTYTEXT_R = "Hartford";
+            ije.STATETEXT_R = "Connecticut";
+            ije.COUNTRYTEXT_R = "United States";
+            ije.ADDRESS_R = "4437 North Charles Avenue Southeast Apt 2B";
+            Assert.Equal("Y", ije.LIMITS);
         }
 
         private string FixturePath(string filePath)

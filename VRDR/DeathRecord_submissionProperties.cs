@@ -2031,9 +2031,11 @@ namespace VRDR
                 {
                     Decedent.Address = new List<Address>();
                 }
+                // Clear out the address since we're replacing it completely, except we need to keep the "WithinCityLimits" extension if present
+                Extension withinCityLimits = Decedent.Address?.FirstOrDefault()?.Extension?.Where(ext => ext.Url == ExtensionURL.WithinCityLimitsIndicator)?.FirstOrDefault();
                 Decedent.Address.Clear();
                 Decedent.Address.Add(DictToAddress(value));
-
+                if (withinCityLimits != null) Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
 
                 // Now encode -
                 //        Address.Country as PH_Country_GEC

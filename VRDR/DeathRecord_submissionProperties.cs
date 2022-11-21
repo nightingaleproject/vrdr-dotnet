@@ -2534,6 +2534,12 @@ namespace VRDR
                         // convert boolean race codes to strings
                         if (booleanRaceCodes.Contains(raceCode))
                         {
+                            if (component.Value == null) {
+                              // If there is no value given, set the race to blank.
+                              var race = Tuple.Create(raceCode, "");
+                              races.Add(race);
+                              continue;
+                            }
 
                             // Todo Find conversion from FhirBoolean to bool
                             string raceBool = ((FhirBoolean)component.Value).ToString();

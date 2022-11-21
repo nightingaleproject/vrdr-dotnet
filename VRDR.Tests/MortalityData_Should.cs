@@ -306,7 +306,7 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void AddressDoesNotStompCityLimits()
+        public void AddressDoesNotOverwriteCityLimits()
         {
             // Regression test: make sure that setting an address field does not erase the WithinCityLimits data
             IJEMortality ije = new IJEMortality();
@@ -324,6 +324,84 @@ namespace VRDR.Tests
             ije.COUNTRYTEXT_R = "United States";
             ije.ADDRESS_R = "4437 North Charles Avenue Southeast Apt 2B";
             Assert.Equal("Y", ije.LIMITS);
+        }
+
+        // FHIR manages names in a way that there is a fundamental incompatibility with IJE: the "middle name" is the second element in
+        // an array of given names. That means that it's not possible to set a middle name without first having a first name. The library
+        // handles this by 1) raising an exception if a middle name is set before a first name and 2) resetting the middle name if the first
+        // name is set again. If a user sets the first name and then the middle name then no problems will occur.
+
+        [Fact]
+        public void SettingMiddleNameFirstRaisesException()
+        {
+            IJEMortality ije = new IJEMortality();
+            Exception ex = Assert.Throws<System.ArgumentException>(() => ije.MNAME = "M");
+            Assert.Equal("Middle name cannot be set before first name", ex.Message);
+            ex = Assert.Throws<System.ArgumentException>(() => ije.DMIDDLE = "M");
+            Assert.Equal("Middle name cannot be set before first name", ex.Message);
+            ex = Assert.Throws<System.ArgumentException>(() => ije.DDADMID = "M");
+            Assert.Equal("Middle name cannot be set before first name", ex.Message);
+            ex = Assert.Throws<System.ArgumentException>(() => ije.DMOMMID = "M");
+            Assert.Equal("Middle name cannot be set before first name", ex.Message);
+            ex = Assert.Throws<System.ArgumentException>(() => ije.SPOUSEMIDNAME = "M");
+            Assert.Equal("Middle name cannot be set before first name", ex.Message);
+            ex = Assert.Throws<System.ArgumentException>(() => ije.CERTMIDDLE = "M");
+            Assert.Equal("Middle name cannot be set before first name", ex.Message);
+        }
+
+        [Fact]
+        public void GivenNameOverwritesMiddleName()
+        {
+            IJEMortality ije = new IJEMortality();
+            ije.GNAME = "Given";
+            ije.MNAME = "M";
+            ije.GNAME = "Given2";
+            Assert.Equal("", ije.MNAME.Trim());
+            ije = new IJEMortality();
+            ije.GNAME = "Given";
+            ije.DMIDDLE = "M";
+            ije.GNAME = "Given2";
+            Assert.Equal("", ije.DMIDDLE.Trim());
+            ije = new IJEMortality();
+            ije.DDADF = "Given";
+            ije.DDADMID = "M";
+            ije.DDADF = "Given2";
+            Assert.Equal("", ije.DDADMID.Trim());
+            ije = new IJEMortality();
+            ije.DMOMF = "Given";
+            ije.DMOMMID = "M";
+            ije.DMOMF = "Given2";
+            Assert.Equal("", ije.DMOMMID.Trim());
+            ije = new IJEMortality();
+            ije.SPOUSEF = "Given";
+            ije.SPOUSEMIDNAME = "M";
+            ije.SPOUSEF = "Given2";
+            Assert.Equal("", ije.SPOUSEMIDNAME.Trim());
+            ije = new IJEMortality();
+            ije.CERTFIRST = "Given";
+            ije.CERTMIDDLE = "M";
+            ije.CERTFIRST = "Given2";
+            Assert.Equal("", ije.CERTMIDDLE.Trim());
+        }
+
+        // There are two middle name fields, one for just the initial and one for the full middle name; setting the initial should not
+        // overwrite the full name if present, but setting the full name should overwrite the initial
+
+        [Fact]
+        public void MiddleNameOverwriteRules()
+        {
+            IJEMortality ije = new IJEMortality();
+            ije.GNAME = "Given";
+            ije.DMIDDLE = "Dmiddle";
+            ije.MNAME = "M";
+            Assert.Equal("D", ije.MNAME.Trim());
+            Assert.Equal("Dmiddle", ije.DMIDDLE.Trim());
+            ije = new IJEMortality();
+            ije.GNAME = "Given";
+            ije.MNAME = "M";
+            ije.DMIDDLE = "Dmiddle";
+            Assert.Equal("D", ije.MNAME.Trim());
+            Assert.Equal("Dmiddle", ije.DMIDDLE.Trim());
         }
 
         private string FixturePath(string filePath)

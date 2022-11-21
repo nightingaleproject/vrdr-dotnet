@@ -477,7 +477,7 @@ namespace VRDR.CLI
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 IJEMortality ije1 = new IJEMortality(d, false);
                 // Loop over every property (these are the fields); Order by priority
-                List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Priority).ToList();
+                List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Location).ToList();
                 foreach (PropertyInfo property in properties)
                 {
                     // Grab the field attributes
@@ -485,7 +485,7 @@ namespace VRDR.CLI
                     // Grab the field value
                     string field = Convert.ToString(property.GetValue(ije1, null));
                     // Print the key/value pair to console
-                    Console.WriteLine(info.Name + ": " + field);
+                    Console.WriteLine($"{info.Name}: {field.Trim()}");
                 }
 
                 return 0;
@@ -762,7 +762,7 @@ namespace VRDR.CLI
                         var d = submission.DeathRecord;
                         IJEMortality ije1 = new IJEMortality(d, false);
                         // Loop over every property (these are the fields); Order by priority
-                        List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Priority).ToList();
+                        List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Location).ToList();
                         foreach (PropertyInfo property in properties)
                         {
                             // Grab the field attributes
@@ -770,7 +770,7 @@ namespace VRDR.CLI
                             // Grab the field value
                             string field = Convert.ToString(property.GetValue(ije1, null));
                             // Print the key/value pair to console
-                            Console.WriteLine(info.Name + ": " + field);
+                            Console.WriteLine($"{info.Name}: {field.Trim()}");
                         }
                         break;
                 }

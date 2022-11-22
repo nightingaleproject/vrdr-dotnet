@@ -1,38 +1,43 @@
 # coding: utf-8
 
+# This script takes statistical and literal tabular death datasets and converts them to IJE using an input file that defines
+# the mappings of IJE fields to the dataset headers. It then converts the IJE records to FHIR using the vrdr-dotnet CLI ije2json.
+
 require 'creek'
 require 'csv'
 require 'faker'
 
-# Files:
-# - DeathLitx201x.csv = Literal Strings
-# - DeathStatx201x.csv = Statistical Data
+### CLI Arguments.
+# ARG1: The tabular data to IJE mappings file.
+ije_data_mappings_file = ARGV.shift
+# ARG2: The statistical death data tabular records file (Excel).
+death_stat_file = ARGV.shift
+# ARG3: The literal death data tabular records file (CSV).
+death_lit_file = ARGV.shift
+# ARG4: The number of records to convert.
+num_records = ARGV.shift
+# ARG5: The output directory.
+output_dir = ARGV.shift
+### Example CLI command with WA tabular dataset:
+# ruby convert_tabular_data_to_fhir-death-record.rb IJE_File_Layouts_Input_Mapping_WA_Version_2021.xlsx wa_state/DeathStat2017Q3.xlsx wa_state/DeathLit2017Q3.csv 50 ./wa_output/
 
-$year = 'F2016'
-# $year = '2017Q3'
-death_stat_file = "./wa_state/DeathStat#{$year}.xlsx"
-death_lit_file = "./wa_state/DeathLit#{$year}.csv"
-ije_data_mappings_file = './IJE_File_Layouts_Input_Mapping_WA_Version_2021.xlsx'
-$output_dir = './wa_output/'
-puts($output_dir)
-
-$file_no_start = 7
-file_no_len = 6
-$file_no_end = $file_no_start + file_no_len
-
+# Import IJE to tabular data headers mapping file.
+ije_data_mappings = Creek::Book.new ije_data_mappings_file, with_headers: true
+# Import statistical Excel file.
 data = Creek::Book.new death_stat_file, with_headers: true
+# Import literal CSV file.
 csv_file = File.read(death_lit_file)
 # Remove invalid non utf-8 characters such as †. 
 csv_file = csv_file.scrub('')
 data_lit = CSV.parse(csv_file, headers: true, encoding: 'windows-1251:utf-8')
-ije_data_mappings = Creek::Book.new ije_data_mappings_file, with_headers: true
 
-Faker::Name.unique.clear # Clears used values for Faker::Name
+# Initialize the Faker generators.
 Faker::UniqueGenerator.clear # Clears used values for all generators
 
-# Checks for and returns generated faked data. Mostly used for fake identifying attributes that have been removed from the input dataset.
-def gen_faked_value(ije_header)
-  case ije_header
+# Checks for and returns generated faked data based on the given ije key.
+# Mostly used for fake identifying attributes that have been removed from the input dataset.
+def generate_faked_value(ije_key)
+  case ije_key
     # Faked identifying fields.
   when 'SSN'
     return Faker::Number.number(digits: 9).to_s
@@ -76,23 +81,30 @@ def parse_ije_field(data_row, header, ije_key, field_properties)
     return ije_field_string
   end
   ije_field_string = data_row[header].to_s
+  # Catch and convert any potential invalid IJE fields.
+  ije_field_string = catch_invalid_values(ije_key, ije_field_string, field_properties)
+  return ije_field_string
+end
+
+# Catches invalid IJE values for certain headers and converts them to a valid format.
+def catch_invalid_values(ije_key, ije_field_string, field_properties)
   if ije_field_string == nil
     # If there is no data for this data value, set it to blank.
-    # puts("Record `#{data_row['State file number']}` is missing data for IJE Field `#{ije_key}` with infile header `#{header}`.")
     ije_field_string = ''
   elsif field_properties['special value mapping'] == 'ethnicity'
-    ije_field_string = map_ethnicity_value(data_row[header])
+    ethncitiy_mapping = { 'N' => 'N', 'Y' => 'H' }
+    ethncitiy_mapping.default = 'U'
+    ije_field_string = ethncitiy_mapping[ije_field_string]
   elsif ije_key == 'INJPL' && ije_field_string != ""
     # Injury Place is in a full-phrase and inconsistent format. IJE is expecting a one-character value. Setting to '9' for unknown.
     ije_field_string = "9"
   elsif ije_key == 'TOI_HR' && ije_field_string == "99"
-    # The wa input unknown time of injury hour is "99" but IJE expects a 4-digit value.
+    # The WA data input unknown "Time of Injury Hour" is "99" but IJE expects a 4-digit value.
     ije_field_string = "9999"
   elsif ije_key == 'TOI_HR' && ije_field_string.include?(":")
-    # Convert any hour data that contains a colon.
+    # Convert hour data that contains a colon.
     ije_field_string = ije_field_string.split(":")[0]
     ije_field_string = ije_field_string[ije_field_string.length()-2, ije_field_string.length()]
-    puts(ije_field_string)
   elsif ije_key == 'MARITAL' && ije_field_string == "P"
     # "P" is not a valid IJE MARITAL value. Set to "U" for unknown.
     ije_field_string = "U"
@@ -105,74 +117,35 @@ def parse_ije_field(data_row, header, ije_key, field_properties)
   elsif ije_key == 'DISP' && ije_field_string == "N"
     # "N" is not a valid IJE DISP value. Set to "U" for unknown.
     ije_field_string = "U"
-  elsif ije_key == 'DOI_MO' && ije_field_string.include?("/")
-    # Sometimes there's a malformed date, just set it to "99" for unknown. We could just remove the "/" but there are cases where the dates are further malformed so this is safer.
-    ije_field_string = "99"
-  elsif ije_key == 'DOI_DY' && ije_field_string.include?("/")
-    # Sometimes there's a malformed date, just set it to "99" for unknown. We could just remove the "/" but there are cases where the dates are further malformed so this is safer.
+  elsif (ije_key == 'DOI_DY' || ije_key == 'DOI_MO') && ije_field_string.include?("/")
+    # Sometimes there's a malformed date, set it to "99" for unknown.
+    # We could remove the "/" but there are cases where the dates are further malformed so this is safer.
     ije_field_string = "99"
   elsif ije_key == 'DOI_MO' && !is_number?(ije_field_string) && ije_field_string != ""
-    # Sometimes the date of month is in the form "Ap", "Ma". Need to take the full `Injury date` field to get the proper month data.
-    ije_field_string = convert_month_str(data_row['Injury date'])
+    # Sometimes "Date of Injury Month" is in a 2-char form "Ap", "Ma", etc rather than a number.
+    # Use the first 3 chars of the `Injury date` field to convert that month data to valid integer.
+    ije_field_string = Date::ABBR_MONTHNAMES.index(data_row['Injury date'][0..4])
+  elsif ije_key == 'TOD' && ije_field_string == "2400"
+    # "2400" is not a valid IJE TOD value. Set to "2359" for one minute previous.
+    ije_field_string = "2359"
   elsif ije_key == 'DSTATE' && ije_field_string == ""
-    # Towards the end of the dataset, they stopped including DSTATE for some reason. I'm adding back as "WA".
+    # Towards the end of the dataset, it stops including DSTATE.
+    # Add it back as "WA"
     ije_field_string = "WA"
   end
   return ije_field_string
 end
 
-# Converts a 2-char month string to a number. Obviously, there are overalapping months but that's how it is in the data.
-def convert_month_str(string)
-  if string.include?("Jan")
-    return "1"
-  elsif string.include?("Feb")
-    return "2"
-  elsif string.include?("Mar")
-    return "3"
-  elsif string.include?("Apr")
-    return "4"
-  elsif string.include?("May")
-    return "5"
-  elsif string.include?("Jun")
-    return "6"
-  elsif string.include?("Jul")
-    return "7"
-  elsif string.include?("Aug")
-    return "8"
-  elsif string.include?("Sep")
-    return "9"
-  elsif string.include?("Oct")
-    return "10"
-  elsif string.include?("Nov")
-    return "11"
-  elsif string.include?("Dec")
-    return "12"
-  end
-end
-
-# Maps the ethncitiy value to an IJE-accepted format.
-def map_ethnicity_value(value)
-  if value == 'N'
-    return 'N'
-  elsif value == 'Y'
-    return 'H'
-  end
-  return 'U'
-end
-
-# Returns whether a given string is numeric.
-def is_number?(string)
-  true if Float(string) rescue false
-end
-
-# Formats the given ije data based on the length and whether it is a number or text.
+# Formats the given ije data based on length and whether it is a number or text.
 def format_ije_data(ije_field_string, ije_length)
   # Truncate and warn of overlong IJE field values.
   if ije_field_string.length > ije_length
     # puts "Record `#{data_row['State file number']}` contains an overlong data field `#{ije_field_string}` for `#{ije_key}`. Expected `#{ije_length}`. Truncating."
+    # Truncate an overlong IJE data field.
     ije_field_string = ije_field_string[0,ije_length]
   end
   if ije_field_string == "."
+    # In some cases, the datasets contain "." for blank fields. Convert them to blank.
     ije_field_string = ""
   end
   # Add padding spaces to the of the string according to its length.
@@ -181,43 +154,40 @@ def format_ije_data(ije_field_string, ije_length)
     ije_field_string = ije_field_string.rjust(ije_length, '0')
   else
     # Strings are left justified.
-    # But it should be automatic, no need to manually do this.
+    # But it should be automatic, no need to manual;y do this.
     ije_field_string = ije_field_string.ljust(ije_length, ' ')
   end
 end
 
-# Converts an input data sheet into IJE records based on the given mappings of IJE->datafile_headers.
-def convert_ije_records(data_sheet, ije_data_mappings, data_lit)
+# Returns whether a given string is numeric.
+def is_number?(string)
+  true if Float(string) rescue false
+end
 
-  # Only so many records at a time can be export via the vrdr CLI.
-  records_before_export = 15
+# Converts an input data sheet into IJE records based on the given mappings of IJE->datafile_headers.
+# ije_data_mappings: The file with the mappings of IJE records to input dataset headers. Includes IJE lengths and locations.
+# data_stat_sheet: Input statistical tabular dataset. Expects Excel.
+# data_lit: Input literal tabular dataset. Expects CSV.
+# num_records: The number of records to convert and export.
+def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_records)
 
   # Array of IJE record strings.
   ije_records = Array.new { '' }
   # Skip column headers row flag.
   skip_headers = true
   # Iterate over the input data sheet which contains all the excel-based death records.
-  data_sheet.simple_rows.each do |data_row|
-
-    if ije_records.length() > records_before_export
-      export_records(ije_records)
-      ije_records = Array.new { '' }
-    end
+  data_stat_sheet.simple_rows.each do |data_row|
     # Skip column headers row.
     if skip_headers
       skip_headers = false
       next
     end
 
-    # Check if this file has already been exported:
-    file_no = data_row['State file number']
-    file_name = '2022' + 'WA' + file_no[4..12]
-    if File.exists?($output_dir + file_name + '.json')
-      # puts("Aready exported, skipping " + file_name)
-      next
+    if ije_records.length() > (num_records-1)
+      # Generated the requested number of records, stop generating more.
+      break;
     end
 
-    # puts(data_row)
     skip_mappings_headers = true
     # Initialize this record's IJE record.
     ije_record_string = ' ' * 5000
@@ -228,24 +198,23 @@ def convert_ije_records(data_sheet, ije_data_mappings, data_lit)
         next
       end
       if mapping_row['Input Data Field Name'] == '?' && mapping_row['default'] == 'blank'
-        # puts("Skipped #{mapping_row['Input Data Field Name']}")
+        # Skip this mapping since there's no IJE-data mapping and there is no default value.
         next
       end
+      # The IJE field key/header.
       ije_key = mapping_row['IJE Field Name']
-      if ije_key == nil
-        next
-      end
       # Initialize this IJE field string.
       ije_field_string = nil
       if mapping_row['Input Data Field Name'] == 'faker'
         # If this is a faked case, set the ije field string to a faked value.
-        ije_field_string = gen_faked_value(ije_key)
+        ije_field_string = generate_faked_value(ije_key)
       else
         if !mapping_row.key?('Input Data Field Name')
           puts("ERROR: IJE Field `#{ije_key}` has not defined an input data header to map to.")
         end
         datafile_header = mapping_row['Input Data Field Name']
         if mapping_row['file'] == 'stat'
+          # Perform the mapping for this ije key using the stat dataset.
           if datafile_header.start_with?('[')
             # If this input has multiple mappings, iterate over and append it for this IJE field value.
             ije_field_string = ''
@@ -259,19 +228,16 @@ def convert_ije_records(data_sheet, ije_data_mappings, data_lit)
               end
               ije_field_string = ije_field_string + format_ije_data(raw_ije, length)
             end
-            if ije_key == 'TOD' && ije_field_string == "2400"
-              # "2400" is not a valid IJE TOD value. Set to "2359" for one minute previous.
-              ije_field_string = "2359"
-            end
+            ije_field_string = catch_invalid_values(ije_key, ije_field_string, mapping_row)
           else
             # If it does not have multiple mappings, treat it as a single mapping.
             ije_field_string = parse_ije_field(data_row, datafile_header, ije_key, mapping_row)
           end
         elsif mapping_row['file'] == 'lit'
+          # Perform the mapping for this ije key using the literal dataset.
           # Since this data is in the literal data file, get the record number and extract the relevant row from the literal data.
           record_num = data_row['State file number']
           lit_data_row = data_lit.select { |row| row['State File Number'] == record_num }[0]
-          # puts("Literal Row: `#{lit_data_row}` for IJE Field `#{ije_key}`")
           ije_field_string = parse_ije_field(lit_data_row, datafile_header, ije_key, mapping_row)
         elsif datafile_header == '?' && mapping_row['default'] != nil
           # If there is a default value due to a lack of mapping in the file, use it.
@@ -300,25 +266,33 @@ def convert_ije_records(data_sheet, ije_data_mappings, data_lit)
     ije_record_string = ije_record_string.gsub("`", " ")
     ije_record_string = ije_record_string.gsub("\"", " ")
     ije_records.push(ije_record_string)
-    # puts(ije_record_string)
     puts("Parsed Record " + ije_record_string[0..11])
   end
   return ije_records
 end
 
-def export_records(ije_records)
-  puts("Starting export and conversion to FHIR.")
+# Exports the given IJE records to the given output directory.
+def export_records(ije_records, output_dir)
+  puts("Starting conversion and export to FHIR to directory #{output_dir} for #{ije_records.length()} records.")
   cli_path = File.expand_path(File.join(__dir__, '..', 'VRDR.CLI'))
-  output_dir = "./wa_output/"
-  ije_args = ije_records.join("\" \"")
-  command = "dotnet run --project #{cli_path} ije2json #{output_dir} \"#{ije_args}\""
-  # puts(command)
-  system(command)
-  puts("Finished export set.")
+  # Split the ije records into chunks of size 15 for vrdr to handle easier.
+  export_size = 15
+  ije_record_subsets = ije_records.each_slice(export_size).to_a
+  # Export and convert to FHIR each chunk of ije records using vrdr ije2json.
+  ije_record_subsets.each do |ije_records_to_export|
+    # Split the array into raw ije record strings seperated by quotation marks
+    raw_ije_args = ije_records_to_export.join("\" \"")
+    # Execute the vrdr ije2json command.
+    command = "dotnet run --project #{cli_path} ije2json #{output_dir} \"#{raw_ije_args}\""
+    # puts(command)
+    system(command)
+    puts("Finished export set.")
+  end
 end
 
 puts("Starting data parsing and converting...")
-ije_records = convert_ije_records(data.sheets[0], ije_data_mappings.sheets[0], data_lit)
-export_records(ije_records)
-
+# Convert records to IJE.
+ije_records = convert_ije_records(ije_data_mappings.sheets[0], data.sheets[0], data_lit, num_records.to_i)
+# Export records to FHIR.
+export_records(ije_records, output_dir)
 puts("Conversion and exporting complete.")

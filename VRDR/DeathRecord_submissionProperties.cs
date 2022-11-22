@@ -2489,6 +2489,7 @@ namespace VRDR
             }
             set
             {
+                // TODO: This setter should not do anything if the value is null or an empty string
                 if (InputRaceAndEthnicityObs == null)
                 {
                     CreateInputRaceEthnicityObs();
@@ -5160,6 +5161,7 @@ namespace VRDR
             }
             set
             {
+                // TODO: This setter should not do anything if the value is null or an empty string
                 if (DeathLocationLoc == null)
                 {
                     CreateDeathLocation();

@@ -944,9 +944,9 @@ namespace VRDR
                 string[] names = record.GivenNames;
                 if (names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -966,20 +966,21 @@ namespace VRDR
                 string[] names = record.GivenNames;
                 if (names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 1).PadRight(1, ' ');
                 }
-                return "";
+                return " ";
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(GNAME)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (String.IsNullOrWhiteSpace(DMIDDLE))
                     {
                         if (record.GivenNames != null)
                         {
                             List<string> names = record.GivenNames.ToList();
-                            names.Add(value.Trim());
+                            if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                             record.GivenNames = names.ToArray();
                         }
                     }
@@ -3348,9 +3349,9 @@ namespace VRDR
                 string[] names = record.SpouseGivenNames;
                 if (names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -3730,18 +3731,19 @@ namespace VRDR
                 string[] names = record.GivenNames;
                 if (names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(GNAME)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.GivenNames != null)
                     {
                         List<string> names = record.GivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.GivenNames = names.ToArray();
                     }
                 }
@@ -3757,9 +3759,9 @@ namespace VRDR
                 string[] names = record.FatherGivenNames;
                 if (names != null && names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -3779,18 +3781,19 @@ namespace VRDR
                 string[] names = record.FatherGivenNames;
                 if (names != null && names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(DDADF)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.FatherGivenNames != null)
                     {
                         List<string> names = record.FatherGivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.FatherGivenNames = names.ToArray();
                     }
                 }
@@ -3806,9 +3809,9 @@ namespace VRDR
                 string[] names = record.MotherGivenNames;
                 if (names != null && names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -3828,18 +3831,19 @@ namespace VRDR
                 string[] names = record.MotherGivenNames;
                 if (names != null && names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(DMOMF)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.MotherGivenNames != null)
                     {
                         List<string> names = record.MotherGivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.MotherGivenNames = names.ToArray();
                     }
                 }
@@ -4362,18 +4366,19 @@ namespace VRDR
                 string[] names = record.SpouseGivenNames;
                 if (names != null && names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(SPOUSEF)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.SpouseGivenNames != null)
                     {
                         List<string> names = record.SpouseGivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.SpouseGivenNames = names.ToArray();
                     }
                 }
@@ -4749,9 +4754,9 @@ namespace VRDR
                 string[] names = record.CertifierGivenNames;
                 if (names != null && names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -4771,18 +4776,19 @@ namespace VRDR
                 string[] names = record.CertifierGivenNames;
                 if (names != null && names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(CERTFIRST)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.GivenNames != null)
                     {
                         List<string> names = record.CertifierGivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.CertifierGivenNames = names.ToArray();
                     }
                 }

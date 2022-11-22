@@ -172,6 +172,19 @@ deathRecord.DeathDay = -1;
 deathRecord.DeathTime = "-1";
 ```
 
+#### Names in FHIR
+
+FHIR manages names in a way that there is a fundamental incompatibility with IJE: in FHIR the
+"middle name" is stored as the second element in an array of given names. That means that it's not
+possible to set a middle name without first setting a first name. The library handles this by
+
+1. Requiring the entire given name (first name and any middle names) to be set all at once when
+using the DeathRecord class
+2. Raising an exception if a middle name is set before a first name when using the IJEMortality
+class
+3. Resetting the middle name if the first name is set again when using the IJEMortality class;
+setting the first name and then the middle name ensures no issues will occur.
+
 #### Helper Methods for Value Sets
 
 For fields that contain coded values it can involve some extra effort to provide the code, the code

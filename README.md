@@ -16,6 +16,7 @@ This repository includes .NET (C#) code for
 [Doxygen Docs](https://nightingaleproject.github.io/vrdr-dotnet/)
 
 ## Versions
+Interactions with NCHS are governed by the CI build version of the VRDR and Vital Records Messaging IGs, and should use the latest, supported releases of the VRDR .NET software and Canary.
 
 <table class="versionTable" border="3">
 <tbody>
@@ -27,13 +28,30 @@ This repository includes .NET (C#) code for
 <td style="text-align: center;"><strong>VRDR</strong></td>
 <td style="text-align: center;"><strong>VRDR.Messaging</strong></td>
 </tr>
+</tr>
 <tr>
-<td style="text-align: center;">STU1</td>
-<td style="text-align: center;">N/A</td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 CI build version</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V3.1.1</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.1"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
+<td style="text-align: center;">V4.0.0-preview14</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview14">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview14"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview14">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview14"> github</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2/">STU2 Published</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
+<td style="text-align: center;">R4</td>
+<td style="text-align: center;">V4.0.0-preview13</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview13">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview13"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview13">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview13"> github</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 v1.3</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9</a></td>
+<td style="text-align: center;">R4</td>
+<td style="text-align: center;">V4.0.0-preview13</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview13">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview13"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview13">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview13"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;">STU2 Ballot</td>
@@ -44,13 +62,14 @@ This repository includes .NET (C#) code for
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
 <tr>
-<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 v1.3</a></td>
-<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9</a></td>
+<td style="text-align: center;">STU1</td>
+<td style="text-align: center;">N/A</td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview13</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview13">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview13"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview13">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview13"> github</a></td>
+<td style="text-align: center;">V3.1.1</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.1"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
+
 </tbody>
 </table>
 

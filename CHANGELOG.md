@@ -1,5 +1,14 @@
 ## Changelog
 
+### v4.0.0-preview14 - 2022-11-22
+
+* Fixed issue with WithinCityLimits field getting overwritten when setting address properties
+* Update date and time fields to differentiate between no data provided and explicitly unknown (see https://github.com/nightingaleproject/vrdr-dotnet#specifying-that-a-date-or-time-is-explicitly-unknown)
+* Fixed an issue in handling blank race value fields
+* Updated handling of middle name properties in IJEMortality class to account for mismatches between the FHIR standard and IJE (see https://github.com/nightingaleproject/vrdr-dotnet#names-in-fhir)
+    - The library raises an exception if a middle name is set before a first name when using IJEMortality
+    - The IJEMortality class returns middle name fields of the correct length
+
 ### v4.0.0-preview13 - 2022-11-03
 
 * Added missing value for Non-Hispanic to HispanicOrigin value set

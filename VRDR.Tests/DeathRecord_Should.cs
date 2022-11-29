@@ -3686,6 +3686,21 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void GetShouldNotReturnEmptyString()
+        {
+            // An empty string field should never return an empty string to mean no value, should return null
+            DeathRecord blank = new DeathRecord();
+            List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.PropertyType.ToString() == "System.String")
+                {
+                    Assert.Null(property.GetValue(blank));
+                }
+            }
+        }
+
+        [Fact]
         public void EmptyRecordRoundTrip()
         {
             // If we have an empty record and copy it over to a new empty record we shouldn't wind up with any blank strings

@@ -2724,11 +2724,15 @@
             <para>"value" - the quantity value, structured as valueQuantity.value</para>
             <para>"code" - the unit a PHIN VADS code set UnitsOfAge, structed as valueQuantity.code
               USE: http://hl7.org/fhir/us/vrdr/STU2/StructureDefinition-vrdr-decedent-age.html </para>
+            <para>"system" - OPTIONAL: from the example page http://hl7.org/fhir/us/vrdr/Observation-DecedentAge-Example1.json.html</para>
+            <para>"unit" - OPTIONAL: from the example page http://hl7.org/fhir/us/vrdr/Observation-DecedentAge-Example1.json.html</para>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
             <para>age.Add("value", "100");</para>
             <para>age.Add("code", "a"); // e.g. "min" = minutes, "d" = days, "h" = hours, "mo" = months, "a" = years, "UNK" = unknown</para>
+            <para>age.Add("system", "http://unitsofmeasure.org");</para>
+            <para>age.Add("unit", "years");</para>
             <para>ExampleDeathRecord.AgeAtDeath = age;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['value']} years");</para>

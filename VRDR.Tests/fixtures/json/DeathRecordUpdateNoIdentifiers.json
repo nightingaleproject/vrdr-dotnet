@@ -777,7 +777,7 @@
                             "subject": {"reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"},
                             "valueQuantity": {
                                 "value": 79,
-                                "unit": "a"
+                                "code": "a"
                             }
                         }
                     },

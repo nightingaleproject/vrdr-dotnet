@@ -71,7 +71,6 @@ namespace VRDR.Tests
             DeathRecord dr = ije1.ToDeathRecord();
             Dictionary<string, string> age = new Dictionary<string, string>();
             age.Add("value", "10");
-            age.Add("unit", "Months");
             age.Add("code", "mo");
             dr.AgeAtDeath = age;
             Assert.Equal("mo", dr.AgeAtDeath["code"]);

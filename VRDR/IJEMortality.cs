@@ -1125,9 +1125,9 @@ namespace VRDR
         {
             get
             {
-                // Pull unit from coded unit.   "unit" field is descriptive only, and is not required by VRDR IG
-                string unit = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
-                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(unit, out string ijeValue);
+                // Pull code from coded unit.   "code" field is not required by VRDR IG
+                string code = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
+                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(code, out string ijeValue);
                 return ijeValue ?? "9";
             }
             set
@@ -1153,8 +1153,6 @@ namespace VRDR
                         // using the supplied options and return
                         Dictionary<string, string> dict = new Dictionary<string, string>();
                         dict.Add("code", fhirValue);
-                        dict.Add("unit", ValueSets.UnitsOfAge.Codes[i, 1]);
-                        dict.Add("system", ValueSets.UnitsOfAge.Codes[i, 2]);
                         typeof(DeathRecord).GetProperty("AgeAtDeath").SetValue(this.record, dict);
                         return;
                     }

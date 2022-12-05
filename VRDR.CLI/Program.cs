@@ -433,7 +433,7 @@ namespace VRDR.CLI
 
                 // AgeAtDeath
                 Dictionary<string, string> aad = new Dictionary<string, string>();
-                aad.Add("unit", "a");
+                aad.Add("code", "a");
                 aad.Add("value", "79");
                 deathRecord.AgeAtDeath = aad;
 

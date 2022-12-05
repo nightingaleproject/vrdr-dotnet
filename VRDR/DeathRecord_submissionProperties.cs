@@ -5351,22 +5351,23 @@ namespace VRDR
         }
 
         /// <summary>Age At Death.</summary>
-        /// <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
-        /// <para>"value" - the quantity value</para>
-        /// <para>"system" - the quantity unit</para>
-        /// </value>
+        /// <value>decedent's age at time of death. A Dictionary representing a length of time,
+        /// containing the following key/value pairs: </value>
+        /// <para>"value" - the quantity value, structured as valueQuantity.value</para>
+        /// <para>"code" - the unit a PHIN VADS code set UnitsOfAge, structed as valueQuantity.code
+        ///   USE: http://hl7.org/fhir/us/vrdr/STU2/StructureDefinition-vrdr-decedent-age.html </para>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
         /// <para>age.Add("value", "100");</para>
-        /// <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-units-of-age-vs </para>
+        /// <para>age.Add("code", "a"); // e.g. "min" = minutes, "d" = days, "h" = hours, "mo" = months, "a" = years, "UNK" = unknown</para>
         /// <para>ExampleDeathRecord.AgeAtDeath = age;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['value']} years");</para>
         /// </example>
         [Property("Age At Death", Property.Types.Dictionary, "Decedent Demographics", "Age At Death.", true, IGURL.DecedentAge, true, 2)]
-        [PropertyParam("value", "The unit type, from UnitsOfAge ValueSet.")]
-        [PropertyParam("unit", "The quantity value.")]
+        [PropertyParam("value", "The quantity value.")]
+        [PropertyParam("code", "The unit type, from UnitsOfAge ValueSet.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
         public Dictionary<string, string> AgeAtDeath
         {
@@ -5377,20 +5378,16 @@ namespace VRDR
                     Dictionary<string, string> age = new Dictionary<string, string>();
                     Quantity quantity = (Quantity)AgeAtDeathObs.Value;
                     age.Add("value", quantity.Value == null ? "" : Convert.ToString(quantity.Value));
-                    age.Add("unit", quantity.Unit == null ? "" : quantity.Unit);
                     age.Add("code", quantity.Code == null ? "" : quantity.Code);
-                    age.Add("system", quantity.System == null ? "" : quantity.System);
                     return age;
                 }
-                return new Dictionary<string, string>() { { "value", "" }, { "unit", "" }, { "code", "" }, { "system", "" } };
+                return new Dictionary<string, string>() { { "value", "" }, { "code", "" } };
             }
             set
             {
                 string extractedValue = GetValue(value, "value");
-                string extractedCode = GetValue(value, "code"); ;
-                string extractedUnit = GetValue(value, "unit");
-                string extractedSystem = GetValue(value, "system");
-                if ((extractedValue == null && extractedCode == null && extractedUnit == null && extractedSystem == null)) // if there is nothing to do, do nothing.
+                string extractedCode = GetValue(value, "code");
+                if (extractedValue == null && extractedCode == null) // if there is nothing to do, do nothing.
                 {
                     return;
                 }
@@ -5404,43 +5401,197 @@ namespace VRDR
                 {
                     quantity.Value = Convert.ToDecimal(extractedValue);
                 }
-                if (extractedUnit != null)
-                {
-                    quantity.Unit = extractedUnit;
-                }
                 if (extractedCode != null)
                 {
                     quantity.Code = extractedCode;
-                }
-                if (extractedSystem != null)
-                {
-                    quantity.System = extractedSystem;
                 }
                 AgeAtDeathObs.Value = (Quantity)quantity;
             }
         }
 
+        /// <summary>Age At Death Years Helper</summary>
+        /// <value>Set decedent's age at time of death in years.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathYears = 100;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathYears} years");</para>
+        /// </example>
+        [Property("Age At Death Years Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Years.", true, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int AgeAtDeathYears
+        {
+            get {
+                if (AgeAtDeathObs?.Value != null)
+                {
+                    Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                    if (quantity.Code == "a")
+                    {
+                        return Convert.ToInt32(quantity.Value);
+                    }
+                }
+                return 0; // not sure how to best handle this case
+            }
+            set
+            {
+                AgeAtDeath = new Dictionary<string, string>() {
+                    { "value", Convert.ToString(value) },
+                    { "code", "a" }
+                };
+            }
+        }
+
+        /// <summary>Age At Death Months Helper</summary>
+        /// <value>Set decedent's age at time of death in months.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathMonths = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMonths} months");</para>
+        /// </example>
+        [Property("Age At Death Months Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Months.", true, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int AgeAtDeathMonths
+        {
+            get {
+                if (AgeAtDeathObs?.Value != null)
+                {
+                    Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                    if (quantity.Code == "mo")
+                    {
+                        return Convert.ToInt32(quantity.Value);
+                    }
+                }
+                return 0; // not sure how to best handle this case
+            }
+            set
+            {
+                AgeAtDeath = new Dictionary<string, string>() {
+                    { "value", Convert.ToString(value) },
+                    { "code", "mo" }
+                };
+            }
+        }
+
+        /// <summary>Age At Death Days Helper</summary>
+        /// <value>Set decedent's age at time of death in days.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathDays = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathDays} days");</para>
+        /// </example>
+        [Property("Age At Death Days Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Days.", true, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int AgeAtDeathDays
+        {
+            get {
+                if (AgeAtDeathObs?.Value != null)
+                {
+                    Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                    if (quantity.Code == "d")
+                    {
+                        return Convert.ToInt32(quantity.Value);
+                    }
+                }
+                return 0; // not sure how to best handle this case
+            }
+            set
+            {
+                AgeAtDeath = new Dictionary<string, string>() {
+                    { "value", Convert.ToString(value) },
+                    { "code", "d" }
+                };
+            }
+        }
+
+        /// <summary>Age At Death Hours Helper</summary>
+        /// <value>Set decedent's age at time of death in hours.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathHours = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathHours} hours");</para>
+        /// </example>
+        [Property("Age At Death Hours Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Hours.", true, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int AgeAtDeathHours
+        {
+            get {
+                if (AgeAtDeathObs?.Value != null)
+                {
+                    Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                    if (quantity.Code == "h")
+                    {
+                        return Convert.ToInt32(quantity.Value);
+                    }
+                }
+                return 0; // not sure how to best handle this case
+            }
+            set
+            {
+                AgeAtDeath = new Dictionary<string, string>() {
+                    { "value", Convert.ToString(value) },
+                    { "code", "h" }
+                };
+            }
+        }
+
+        /// <summary>Age At Death Minutes Helper</summary>
+        /// <value>Set decedent's age at time of death in minutes.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathMinutes = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMinutes} minutes");</para>
+        /// </example>
+        [Property("Age At Death Minutes Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Minutes.", true, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int AgeAtDeathMinutes
+        {
+            get {
+                if (AgeAtDeathObs?.Value != null)
+                {
+                    Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                    if (quantity.Code == "min")
+                    {
+                        return Convert.ToInt32(quantity.Value);
+                    }
+                }
+                return 0; // not sure how to best handle this case
+            }
+            set
+            {
+                AgeAtDeath = new Dictionary<string, string>() {
+                    { "value", Convert.ToString(value) },
+                    { "code", "min" }
+                };
+            }
+        }
+
         /// <summary>Decedent's Age At Death Edit Flag.</summary>
-        /// <value>the decedent's age at death edit flag. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
+        /// <value>the decedent's age at death edit flag, lets you override the default UnitsOfAge value set handling
+        /// with a custom CodeableConcept. A Dictionary representing a code, containing the following key/value pairs:</value>
+        /// <para>"system" - the code system this code belongs to, such as SNOMED CT</para>
+        /// <para>"code" - the code, such as 397659008 (obsolete Age code for SNOMED CT)</para>
+        /// <para>"display" - a human readable meaning of the code, such as Age</para>
+        /// <para>"text" - if there is no coding system avalable, use this freeform text field</para>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; ageEdit = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>ageEdit.Add("code", "0");</para>
-        /// <para>ageEdit.Add("system", CodeSystems.BypassEditFlag);</para>
-        /// <para>ageEdit.Add("display", "Edit Passed");</para>
+        /// <para>ageEdit.Add("system", "http://snomed.info/sct"); // SNOMED CT</para>
+        /// <para>ageEdit.Add("code", "397659008"); // OBSOLETE SNOMED CT Age code - for example purposes only</para>
+        /// <para>ageEdit.Add("display", "Age");</para>
+        /// <para>ageEdit.Add("text", "The age of the patient as best as can be determined at time of observation");</para>
         /// <para>ExampleDeathRecord.AgeAtDeathEditFlag = ageEdit;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death Edit Flag: {ExampleDeathRecord.AgeAtDeathEditFlag['display']}");</para>
         /// </example>
         [Property("Age At Death Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Age At Death Edit Flag.", true, IGURL.DecedentAge, true, 2)]
-        [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
+        [PropertyParam("text", "Freeform text description, only used in place of coded values if no code is otherwise available.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').value.extension", "")]
         public Dictionary<string, string> AgeAtDeathEditFlag
         {

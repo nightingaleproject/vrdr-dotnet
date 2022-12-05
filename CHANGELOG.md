@@ -1,4 +1,8 @@
 ## Changelog
+### v4.0.0.preview15 - 2022-12-05
+
+* Aligned with IG updates
+    - Updated AgeAtDeath property to expect a dictionary with "value" and "code" rather than "value" and "unit" to match the FHIR IG
 
 ### v4.0.0-preview14 - 2022-11-22
 

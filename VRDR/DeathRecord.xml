@@ -2719,33 +2719,86 @@
         </member>
         <member name="P:VRDR.DeathRecord.AgeAtDeath">
             <summary>Age At Death.</summary>
-            <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
-            <para>"value" - the quantity value</para>
-            <para>"system" - the quantity unit</para>
-            </value>
+            <value>decedent's age at time of death. A Dictionary representing a length of time,
+            containing the following key/value pairs: </value>
+            <para>"value" - the quantity value, structured as valueQuantity.value</para>
+            <para>"code" - the unit a PHIN VADS code set UnitsOfAge, structed as valueQuantity.code
+              USE: http://hl7.org/fhir/us/vrdr/STU2/StructureDefinition-vrdr-decedent-age.html </para>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
             <para>age.Add("value", "100");</para>
-            <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-units-of-age-vs </para>
+            <para>age.Add("code", "a"); // e.g. "min" = minutes, "d" = days, "h" = hours, "mo" = months, "a" = years, "UNK" = unknown</para>
             <para>ExampleDeathRecord.AgeAtDeath = age;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['value']} years");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathYears">
+            <summary>Age At Death Years Helper</summary>
+            <value>Set decedent's age at time of death in years.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathYears = 100;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathYears} years");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathMonths">
+            <summary>Age At Death Months Helper</summary>
+            <value>Set decedent's age at time of death in months.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathMonths = 11;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMonths} months");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathDays">
+            <summary>Age At Death Days Helper</summary>
+            <value>Set decedent's age at time of death in days.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathDays = 11;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathDays} days");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathHours">
+            <summary>Age At Death Hours Helper</summary>
+            <value>Set decedent's age at time of death in hours.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathHours = 11;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathHours} hours");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathMinutes">
+            <summary>Age At Death Minutes Helper</summary>
+            <value>Set decedent's age at time of death in minutes.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathMinutes = 11;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMinutes} minutes");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.AgeAtDeathEditFlag">
             <summary>Decedent's Age At Death Edit Flag.</summary>
-            <value>the decedent's age at death edit flag. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
+            <value>the decedent's age at death edit flag, lets you override the default UnitsOfAge value set handling
+            with a custom CodeableConcept. A Dictionary representing a code, containing the following key/value pairs:</value>
+            <para>"system" - the code system this code belongs to, such as SNOMED CT</para>
+            <para>"code" - the code, such as 397659008 (obsolete Age code for SNOMED CT)</para>
+            <para>"display" - a human readable meaning of the code, such as Age</para>
+            <para>"text" - if there is no coding system avalable, use this freeform text field</para>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; ageEdit = new Dictionary&lt;string, string&gt;();</para>
-            <para>ageEdit.Add("code", "0");</para>
-            <para>ageEdit.Add("system", CodeSystems.BypassEditFlag);</para>
-            <para>ageEdit.Add("display", "Edit Passed");</para>
+            <para>ageEdit.Add("system", "http://snomed.info/sct"); // SNOMED CT</para>
+            <para>ageEdit.Add("code", "397659008"); // OBSOLETE SNOMED CT Age code - for example purposes only</para>
+            <para>ageEdit.Add("display", "Age");</para>
+            <para>ageEdit.Add("text", "The age of the patient as best as can be determined at time of observation");</para>
             <para>ExampleDeathRecord.AgeAtDeathEditFlag = ageEdit;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Age At Death Edit Flag: {ExampleDeathRecord.AgeAtDeathEditFlag['display']}");</para>

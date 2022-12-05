@@ -273,21 +273,23 @@ end
 
 # Exports the given IJE records to the given output directory.
 def export_records(ije_records, output_dir)
-  puts("Starting conversion and export to FHIR to directory #{output_dir} for #{ije_records.length()} records.")
+  # VRDR CLI path.
   cli_path = File.expand_path(File.join(__dir__, '..', 'VRDR.CLI'))
-  # Split the ije records into chunks of size 15 for vrdr to handle easier.
-  export_size = 15
-  ije_record_subsets = ije_records.each_slice(export_size).to_a
-  # Export and convert to FHIR each chunk of ije records using vrdr ije2json.
-  ije_record_subsets.each do |ije_records_to_export|
-    # Split the array into raw ije record strings seperated by quotation marks
-    raw_ije_args = ije_records_to_export.join("\" \"")
-    # Execute the vrdr ije2json command.
-    command = "dotnet run --project #{cli_path} ije2json #{output_dir} \"#{raw_ije_args}\""
-    # puts(command)
-    system(command)
-    puts("Finished export set.")
+  # Beginning of VRDR command which will be appended with ije string file names.
+  vrdr_command = "dotnet run --project #{cli_path} ije2json"
+  puts("Starting export of IJE strings to IJE files for #{ije_records.length()} records.")
+  ije_records.each do |ije_record|
+    record_num = ije_record[0..11]
+    ije_file_name = "#{output_dir}#{record_num}.ije"
+    File.write(ije_file_name, ije_record)
+    vrdr_command = vrdr_command + " " + ije_file_name
   end
+  puts("IJE record exporting complete.")
+  puts("Starting conversion and export of IJE files to FHIR JSONs to directory #{output_dir}.")
+  # Export and convert to FHIR ije record file using vrdr ije2json.
+  # Execute the vrdr ije2json command.
+  system(vrdr_command)
+  puts("Finished converting and exporting tabular data to FHIR Death Records.")
 end
 
 puts("Starting data parsing and converting...")

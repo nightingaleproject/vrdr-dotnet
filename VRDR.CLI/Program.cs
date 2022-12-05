@@ -513,18 +513,14 @@ namespace VRDR.CLI
             }
             else if (args.Length > 2 && args[0] == "ije2json")
             {
-              string outputDirectory = args[1];
-              if (!Directory.Exists(outputDirectory))
+              // This command will export the files to the same directory they were imported from.
+              for (int i = 1; i < args.Length; i++)
               {
-                  Console.WriteLine("Must supply a valid output directory");
-                  return (1);
-              }
-              for (int i = 2; i < args.Length; i++)
-              {
-                  string ijeRawRecord = args[i];
-                  string outputFilename = outputDirectory + ijeRawRecord.Substring(0, 12) + ".json";
+                  string ijeFile = args[i];
+                  string ijeRawRecord = File.ReadAllText(ijeFile);
                   IJEMortality ije = new IJEMortality(ijeRawRecord);
                   DeathRecord d = ije.ToDeathRecord();
+                  string outputFilename = ijeFile.Replace(".ije", ".json");
                   StreamWriter sw = new StreamWriter(outputFilename);
                   sw.WriteLine(d.ToJSON());
                   sw.Flush();

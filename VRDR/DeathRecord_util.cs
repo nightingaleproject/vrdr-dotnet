@@ -142,7 +142,8 @@ namespace VRDR
             DateTimeOffset? dateTimeOffset = null;
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
             {
-                dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(TimeSpan.Zero);
+                // Note: We can't just call ToDateTimeOffset() on the FhirDateTime because want the datetime in whatever local time zone was provided
+                dateTimeOffset = DateTimeOffset.Parse(((FhirDateTime)value).Value);
             }
             else if (value is Date && ((Date)value).Value != null)
             {

@@ -14,7 +14,6 @@ namespace VRDR
         /// <summary>Whether the client is running locally</summary>
         public bool LocalTesting { get; }
         /// <summary>The credentials to access the API server</summary>
-        /// <summary>The credentials to access the API server</summary>
         public Credentials Credentials { get; }
         /// <summary>The token to access the API server</summary>
         public string? Token { get; set; }

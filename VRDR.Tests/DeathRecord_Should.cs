@@ -2962,6 +2962,14 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Get_DateOfDeath_Timezone()
+        {
+            // The timezone of the death datetime should not impact the date due to timezone conversion
+            DeathRecord record = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathTimeZone.json")));
+            Assert.Equal(17, record.DeathDay);
+        }
+
+        [Fact]
         public void Set_DateOfDeathPronouncement()
         {
             SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.498822-05:00";

@@ -132,12 +132,13 @@ Requirements</h2>
 <h3><a class="anchor" id="autotoc_md54"></a>
 Development &amp; CLI Requirements</h3>
 <ul>
-<li>This repository is built using .NET Core 3.1, download <a href="https://dotnet.microsoft.com/download">here</a> </li>
+<li>This repository is built using .NET Core 6.0, download <a href="https://dotnet.microsoft.com/download">here</a> </li>
 </ul>
 <h3><a class="anchor" id="autotoc_md55"></a>
 Library Usage</h3>
 <ul>
-<li>The <a class="el" href="namespace_v_r_d_r.html">VRDR</a> or VRDR.Messaging libraries target .NET Standard 2.0</li>
+<li>The <a class="el" href="namespace_v_r_d_r.html">VRDR</a> and VRDR.Messaging libraries target .NET Standard 2.0</li>
+<li>The <a class="el" href="class_v_r_d_r_1_1_client.html" title="Client library for interacting with the NVSS FHIR API">VRDR.Client</a> library targets .NET Core 3.1 and .NET Framework 4.8</li>
 <li>To check whether your .NET version supports a release, refer to <a href="https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support">the .NET matrix</a>.<ul>
 <li>Note whether you are using .NET Core or .NET Framework - see <a href="https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard">here</a> for distinctions between the .NET implementation options.</li>
 <li>Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version.<ul>
@@ -501,7 +502,7 @@ Example Usages</h4>
 VRDR.Client</h3>
 <p >This directory contains classes and functions to connect to the <a href="https://github.com/nightingaleproject/Reference-NCHS-API">NVSS API server</a>, authenticate, manage authentication tokens, post records, and retrieve responses. For a full implementation of a client service that uses this library, see the <a href="https://github.com/nightingaleproject/Reference-Client-API">Reference Client Implementation</a>.</p>
 <p ><em>This package is not yet published on NuGet.</em></p>
-<p >Note that the <a class="el" href="class_v_r_d_r_1_1_client.html">VRDR.Client</a> package automatically includes the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> package and the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> Messaging package, a project file should not reference both.</p>
+<p >Note that the <a class="el" href="class_v_r_d_r_1_1_client.html" title="Client library for interacting with the NVSS FHIR API">VRDR.Client</a> package automatically includes the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> package and the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> Messaging package, a project file should not reference both.</p>
 <p >You can include a locally downloaded copy of the library instead of the NuGet version by referencing <code>VRDRClient.csproj</code> in your project configuration, for example:</p>
 <div class="fragment"><div class="line">&lt;<span class="keywordtype">Project</span> <span class="keyword">Sdk</span>=<span class="stringliteral">&quot;Microsoft.NET.Sdk&quot;</span>&gt;</div>
 <div class="line">  ...</div>

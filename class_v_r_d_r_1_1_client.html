@@ -81,20 +81,27 @@ $(function() {
   <div class="headertitle"><div class="title">VRDR.Client Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="class_v_r_d_r_1_1_client.html" title="Client library for interacting with the NVSS FHIR API">Client</a> library for interacting with the NVSS FHIR API  
+ <a href="class_v_r_d_r_1_1_client.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a20320d5f2a23488f0aae0949824137b4"><td class="memItemLeft" align="right" valign="top"><a id="a20320d5f2a23488f0aae0949824137b4" name="a20320d5f2a23488f0aae0949824137b4"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Client</b> (String url, bool local, <a class="el" href="class_v_r_d_r_1_1_credentials.html">Credentials</a> credentials)</td></tr>
+<tr class="memdesc:a20320d5f2a23488f0aae0949824137b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiate a new instance of the <a class="el" href="class_v_r_d_r_1_1_client.html" title="Client library for interacting with the NVSS FHIR API">Client</a> <br /></td></tr>
 <tr class="separator:a20320d5f2a23488f0aae0949824137b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6bd39ea26087937279709b49c3e9719"><td class="memItemLeft" align="right" valign="top"><a id="aa6bd39ea26087937279709b49c3e9719" name="aa6bd39ea26087937279709b49c3e9719"></a>
 async Task&lt; HttpResponseMessage &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetMessageResponsesAsync</b> ()</td></tr>
+<tr class="memdesc:aa6bd39ea26087937279709b49c3e9719"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetMessageResponsesAsync makes a GET request to the NVSS FHIR API server for any new messages responses <br /></td></tr>
 <tr class="separator:aa6bd39ea26087937279709b49c3e9719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae572acc0d1d09885db1beca1bb1db9ed"><td class="memItemLeft" align="right" valign="top"><a id="ae572acc0d1d09885db1beca1bb1db9ed" name="ae572acc0d1d09885db1beca1bb1db9ed"></a>
 async Task&lt; HttpResponseMessage &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>PostMessageAsync</b> (<a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a> message)</td></tr>
+<tr class="memdesc:ae572acc0d1d09885db1beca1bb1db9ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">PostMessageAsync POSTS a single message to the NVSS FHIR API server for processing <br /></td></tr>
 <tr class="separator:ae572acc0d1d09885db1beca1bb1db9ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad40223b6e1672eaecf519c1a8b7f5969"><td class="memItemLeft" align="right" valign="top"><a id="ad40223b6e1672eaecf519c1a8b7f5969" name="ad40223b6e1672eaecf519c1a8b7f5969"></a>
 async Task&lt; List&lt; HttpResponseMessage &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>PostMessagesAsync</b> (IEnumerable&lt; <a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a> &gt; messages, int batchSize)</td></tr>
+<tr class="memdesc:ad40223b6e1672eaecf519c1a8b7f5969"><td class="mdescLeft">&#160;</td><td class="mdescRight">PostMessageAsync POSTS a list of messages to the NVSS FHIR API server for processing using bulk upload <br /></td></tr>
 <tr class="separator:ad40223b6e1672eaecf519c1a8b7f5969"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c996466c736124300808cdcfcc2f1fd"><td class="memItemLeft" align="right" valign="top"><a id="a5c996466c736124300808cdcfcc2f1fd" name="a5c996466c736124300808cdcfcc2f1fd"></a>
 async Task&lt; HttpResponseMessage &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetAuthorizeTokenAsync</b> ()</td></tr>
@@ -105,6 +112,7 @@ async Task&lt; HttpResponseMessage &gt;&#160;</td><td class="memItemRight" valig
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a9e26753445f598e32fa2eb978d5db040"><td class="memItemLeft" align="right" valign="top"><a id="a9e26753445f598e32fa2eb978d5db040" name="a9e26753445f598e32fa2eb978d5db040"></a>
 static string&#160;</td><td class="memItemRight" valign="bottom"><b>CreateBulkUploadPayload</b> (IEnumerable&lt; <a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a> &gt; messages, string url, bool prettyPrint=false)</td></tr>
+<tr class="memdesc:a9e26753445f598e32fa2eb978d5db040"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the payload for submission to the NVSS FHIR API for bulk upload <br /></td></tr>
 <tr class="separator:a9e26753445f598e32fa2eb978d5db040"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
@@ -126,7 +134,9 @@ string?&#160;</td><td class="memItemRight" valign="bottom"><b>Token</b><code> [g
 <tr class="memdesc:a2ece4091b8c8944a0e350f617fc235a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The token to access the API server <br /></td></tr>
 <tr class="separator:a2ece4091b8c8944a0e350f617fc235a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p ><a class="el" href="class_v_r_d_r_1_1_client.html" title="Client library for interacting with the NVSS FHIR API">Client</a> library for interacting with the NVSS FHIR API </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>VRDR.Client/Client.cs</li>
 </ul>
 </div><!-- contents -->

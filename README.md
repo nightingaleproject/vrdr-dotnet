@@ -76,9 +76,10 @@ Interactions with NCHS are governed by the CI build version of the VRDR and Vita
 ## Requirements
 
 ### Development & CLI Requirements
-- This repository is built using .NET Core 3.1, download [here](https://dotnet.microsoft.com/download)
+- This repository is built using .NET Core 6.0, download [here](https://dotnet.microsoft.com/download)
 ### Library Usage
-- The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
+- The VRDR and VRDR.Messaging libraries target .NET Standard 2.0
+- The VRDR.Client library targets .NET Core 3.1 and .NET Framework 4.8
 - To check whether your .NET version supports a release, refer to [the .NET matrix](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support).
   - Note whether you are using .NET Core or .NET Framework - see [here](https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard) for distinctions between the .NET implementation options.
   - Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version.

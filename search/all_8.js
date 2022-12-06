@@ -25,14 +25,13 @@ var searchData=
   ['injurytime_22',['InjuryTime',['../class_v_r_d_r_1_1_death_record.html#a999461e34a12523856858985a7d697ae',1,'VRDR::DeathRecord']]],
   ['injuryyear_23',['InjuryYear',['../class_v_r_d_r_1_1_death_record.html#a407e7efb499720a2ad56071cd91549f9',1,'VRDR::DeathRecord']]],
   ['instance_24',['Instance',['../class_v_r_d_r_1_1_mortality_data.html#a819135a01c97411ee3687cae927b1f70',1,'VRDR::MortalityData']]],
-  ['int32_25',['Int32',['../class_v_r_d_r_1_1_property.html#a9b589a8914f04c543d399a46c02cdc53ac06129f6e6e15c09328365e553f1dc31',1,'VRDR::Property']]],
-  ['int_5frej_26',['INT_REJ',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a5896705f3e22bc896547c7baf16f63f5',1,'VRDR::IJEMortality']]],
-  ['intentionalreject_27',['IntentionalReject',['../class_v_r_d_r_1_1_death_record.html#a42245d70c90e201493a122ee3c71fb3e',1,'VRDR::DeathRecord']]],
-  ['intentionalrejecthelper_28',['IntentionalRejectHelper',['../class_v_r_d_r_1_1_death_record.html#a4e257571e36ab2784062ded6cf5de0d4',1,'VRDR::DeathRecord']]],
-  ['interval1a_29',['INTERVAL1A',['../class_v_r_d_r_1_1_death_record.html#aa5991dc7f43c1207dca322175b0f647d',1,'VRDR.DeathRecord.INTERVAL1A()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a2e4058ffe45711c7cd07740ffe3cd150',1,'VRDR.IJEMortality.INTERVAL1A()']]],
-  ['interval1b_30',['INTERVAL1B',['../class_v_r_d_r_1_1_death_record.html#a0e66b8d297f9974a8cba3d6d76537577',1,'VRDR.DeathRecord.INTERVAL1B()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a10569c0693aebf94fe55be8d4e23d450',1,'VRDR.IJEMortality.INTERVAL1B()']]],
-  ['interval1c_31',['INTERVAL1C',['../class_v_r_d_r_1_1_death_record.html#ab6a4f92d06f25016f5cd5d12799f04f6',1,'VRDR.DeathRecord.INTERVAL1C()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a90d3f1069607b591e378e5c6ba9cb6a2',1,'VRDR.IJEMortality.INTERVAL1C()']]],
-  ['interval1d_32',['INTERVAL1D',['../class_v_r_d_r_1_1_death_record.html#af02e58ed415f1354fd64b0f74d1af2ff',1,'VRDR.DeathRecord.INTERVAL1D()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a7d29bf2677d813c81050d976e2035037',1,'VRDR.IJEMortality.INTERVAL1D()']]],
-  ['issue_33',['Issue',['../class_v_r_d_r_1_1_issue.html#aa4a6938ce1ae1db991c8456b545dcac4',1,'VRDR.Issue.Issue()'],['../class_v_r_d_r_1_1_issue.html',1,'VRDR.Issue']]],
-  ['issues_34',['Issues',['../class_v_r_d_r_1_1_extraction_error_message.html#abf7883c3c165eee6e37b4c31a75b2b50',1,'VRDR::ExtractionErrorMessage']]]
+  ['int_5frej_25',['INT_REJ',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a5896705f3e22bc896547c7baf16f63f5',1,'VRDR::IJEMortality']]],
+  ['intentionalreject_26',['IntentionalReject',['../class_v_r_d_r_1_1_death_record.html#a42245d70c90e201493a122ee3c71fb3e',1,'VRDR::DeathRecord']]],
+  ['intentionalrejecthelper_27',['IntentionalRejectHelper',['../class_v_r_d_r_1_1_death_record.html#a4e257571e36ab2784062ded6cf5de0d4',1,'VRDR::DeathRecord']]],
+  ['interval1a_28',['INTERVAL1A',['../class_v_r_d_r_1_1_death_record.html#aa5991dc7f43c1207dca322175b0f647d',1,'VRDR.DeathRecord.INTERVAL1A()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a2e4058ffe45711c7cd07740ffe3cd150',1,'VRDR.IJEMortality.INTERVAL1A()']]],
+  ['interval1b_29',['INTERVAL1B',['../class_v_r_d_r_1_1_death_record.html#a0e66b8d297f9974a8cba3d6d76537577',1,'VRDR.DeathRecord.INTERVAL1B()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a10569c0693aebf94fe55be8d4e23d450',1,'VRDR.IJEMortality.INTERVAL1B()']]],
+  ['interval1c_30',['INTERVAL1C',['../class_v_r_d_r_1_1_death_record.html#ab6a4f92d06f25016f5cd5d12799f04f6',1,'VRDR.DeathRecord.INTERVAL1C()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a90d3f1069607b591e378e5c6ba9cb6a2',1,'VRDR.IJEMortality.INTERVAL1C()']]],
+  ['interval1d_31',['INTERVAL1D',['../class_v_r_d_r_1_1_death_record.html#af02e58ed415f1354fd64b0f74d1af2ff',1,'VRDR.DeathRecord.INTERVAL1D()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a7d29bf2677d813c81050d976e2035037',1,'VRDR.IJEMortality.INTERVAL1D()']]],
+  ['issue_32',['Issue',['../class_v_r_d_r_1_1_issue.html#aa4a6938ce1ae1db991c8456b545dcac4',1,'VRDR.Issue.Issue()'],['../class_v_r_d_r_1_1_issue.html',1,'VRDR.Issue']]],
+  ['issues_33',['Issues',['../class_v_r_d_r_1_1_extraction_error_message.html#abf7883c3c165eee6e37b4c31a75b2b50',1,'VRDR::ExtractionErrorMessage']]]
 ];

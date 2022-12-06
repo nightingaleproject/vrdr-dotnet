@@ -5,5 +5,5 @@ var searchData=
   ['countrycodetocountryname_2',['CountryCodeToCountryName',['../class_v_r_d_r_1_1_mortality_data.html#ad7efdd226ad1a37d8ef417f60399bb11',1,'VRDR::MortalityData']]],
   ['countrynametocountrycode_3',['CountryNameToCountryCode',['../class_v_r_d_r_1_1_mortality_data.html#a58e69f802dfeb8134c0fca2aeae9fbec',1,'VRDR::MortalityData']]],
   ['createextractionerrormessage_4',['CreateExtractionErrorMessage',['../class_v_r_d_r_1_1_message_parse_exception.html#aa6f04574e28a209480aca03a4d804198',1,'VRDR::MessageParseException']]],
-  ['credentials_5',['Credentials',['../class_credentials.html#ae48f8ba5d18d7206287379d62e2cfba1',1,'Credentials']]]
+  ['credentials_5',['Credentials',['../class_v_r_d_r_1_1_credentials.html#a9bcfb6e37c095e8e30fe5adb00792242',1,'VRDR::Credentials']]]
 ];

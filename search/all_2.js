@@ -39,9 +39,9 @@ var searchData=
   ['citytext_5fd_36',['CITYTEXT_D',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a31a436b27e831296ab3af362677f6b48',1,'VRDR::IJEMortality']]],
   ['citytext_5fi_37',['CITYTEXT_I',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a7472ae8bea3cca658df8e5de136ab7db',1,'VRDR::IJEMortality']]],
   ['citytext_5fr_38',['CITYTEXT_R',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a95cafaf2524b6fcd89749334ca2f8fd7',1,'VRDR::IJEMortality']]],
-  ['client_39',['Client',['../class_client.html',1,'']]],
-  ['clientid_40',['ClientId',['../class_credentials.html#a749d42f1fd3d570cae1c8c40c80f1d03',1,'Credentials']]],
-  ['clientsecret_41',['ClientSecret',['../class_credentials.html#a34bdf34087552643b2556d6b15d143ef',1,'Credentials']]],
+  ['client_39',['Client',['../class_v_r_d_r_1_1_client.html',1,'VRDR']]],
+  ['clientid_40',['ClientId',['../class_v_r_d_r_1_1_credentials.html#a73b487dd820b711f2a4fa96ccf660bb2',1,'VRDR::Credentials']]],
+  ['clientsecret_41',['ClientSecret',['../class_v_r_d_r_1_1_credentials.html#ab0761157b162826257f329e867d42ced',1,'VRDR::Credentials']]],
   ['cod_42',['COD',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a9cf2890339653ff379d26e6e23839715',1,'VRDR::IJEMortality']]],
   ['cod1a_43',['COD1A',['../class_v_r_d_r_1_1_death_record.html#a2983fd9d673d0e481e8c3b087f13c413',1,'VRDR.DeathRecord.COD1A()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a72ea75167f81690454af677097182856',1,'VRDR.IJEMortality.COD1A()']]],
   ['cod1b_44',['COD1B',['../class_v_r_d_r_1_1_death_record.html#a0e792a80031be9155d514656ab9934b2',1,'VRDR.DeathRecord.COD1B()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a8a6a0ae664f1c5f85a73555cfba1ed06',1,'VRDR.IJEMortality.COD1B()']]],
@@ -67,6 +67,6 @@ var searchData=
   ['countytext_5fi_64',['COUNTYTEXT_I',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a269bfda3d997e91263a7bbfae9ce0719',1,'VRDR::IJEMortality']]],
   ['countytext_5fr_65',['COUNTYTEXT_R',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a3a51d5caf09681d4497baeaae572217d',1,'VRDR::IJEMortality']]],
   ['createextractionerrormessage_66',['CreateExtractionErrorMessage',['../class_v_r_d_r_1_1_message_parse_exception.html#aa6f04574e28a209480aca03a4d804198',1,'VRDR::MessageParseException']]],
-  ['credentials_67',['Credentials',['../class_client.html#a82ddd0ecbe173373cb751f001c80d48b',1,'Client.Credentials()'],['../class_credentials.html#ae48f8ba5d18d7206287379d62e2cfba1',1,'Credentials.Credentials()'],['../class_credentials.html',1,'Credentials']]],
+  ['credentials_67',['Credentials',['../class_v_r_d_r_1_1_client.html#a93e6201997bac052c57ce7d1cc7dde87',1,'VRDR.Client.Credentials()'],['../class_v_r_d_r_1_1_credentials.html#a9bcfb6e37c095e8e30fe5adb00792242',1,'VRDR.Credentials.Credentials()'],['../class_v_r_d_r_1_1_credentials.html',1,'VRDR.Credentials']]],
   ['cs_68',['CS',['../class_v_r_d_r_1_1_i_j_e_mortality_1_1_t_r_x_helper.html#aa4bf714edcced8c909cfb7245001c1c9',1,'VRDR::IJEMortality::TRXHelper']]]
 ];

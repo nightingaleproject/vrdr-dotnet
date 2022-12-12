@@ -150,7 +150,7 @@ namespace VRDR
             {
                 if (ManualUnderlyingCauseOfDeathObs != null && ManualUnderlyingCauseOfDeathObs.Value != null && ManualUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
                 {
-                    string codeableConceptValueCode = CodeableConceptToDict((CodeableConcept)AutomatedUnderlyingCauseOfDeathObs.Value)["code"];
+                    string codeableConceptValueCode = CodeableConceptToDict((CodeableConcept)ManualUnderlyingCauseOfDeathObs.Value)["code"];
                     if(String.IsNullOrEmpty(codeableConceptValueCode)){
                       return null;
                     }

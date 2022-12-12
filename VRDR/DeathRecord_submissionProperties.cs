@@ -327,7 +327,10 @@ namespace VRDR
             }
             set
             {
-                Composition.Date = value;
+                if (!String.IsNullOrEmpty(value))
+                {
+                    Composition.Date = value;
+                }
             }
         }
 
@@ -348,7 +351,8 @@ namespace VRDR
                 if (Composition != null)
                 {
                     Extension stateSpecificData = Composition.Extension.Where(ext => ext.Url == ExtensionURL.StateSpecificField).FirstOrDefault();
-                    if (stateSpecificData != null && stateSpecificData.Value as FhirString != null)
+                    // Console.WriteLine("KLKL" + stateSpecificData.Value.ToString());
+                    if (stateSpecificData != null && stateSpecificData.Value as FhirString != null /*&& !String.IsNullOrEmpty((stateSpecificData.Value as FhirString).ToString())*/)
                     {
                         return stateSpecificData.Value.ToString();
                     }
@@ -1571,18 +1575,25 @@ namespace VRDR
             }
             set
             {
-                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null)
+                // Remove any blank or null values.
+                value = value.Where(v => !String.IsNullOrEmpty(v)).ToArray();
+                // Set names if there are any non-blank values.
+                if (value.Length > 0)
                 {
-                    name.Given = value;
+                  HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                  if (name != null)
+                  {
+                      name.Given = value;
+                  }
+                  else
+                  {
+                      name = new HumanName();
+                      name.Use = HumanName.NameUse.Official;
+                      name.Given = value;
+                      Decedent.Name.Add(name);
+                  }
                 }
-                else
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = value;
-                    Decedent.Name.Add(name);
-                }
+
             }
         }
 
@@ -5164,7 +5175,7 @@ namespace VRDR
                 {
                     DeathLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (value != null)
+                if (!String.IsNullOrEmpty(value))
                 {
                     DeathLocationLoc.Position.Latitude = Convert.ToDecimal(value);
                 }
@@ -5202,7 +5213,7 @@ namespace VRDR
                 {
                     DeathLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (value != null)
+                if (!String.IsNullOrEmpty(value))
                 {
                     DeathLocationLoc.Position.Longitude = Convert.ToDecimal(value);
                 }
@@ -5944,7 +5955,7 @@ namespace VRDR
                 {
                     InjuryLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (value != null)
+                if (!String.IsNullOrEmpty(value))
                 {
                     InjuryLocationLoc.Position.Latitude = Convert.ToDecimal(value);
                 }
@@ -5986,7 +5997,7 @@ namespace VRDR
                 {
                     InjuryLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (value != null)
+                if (!String.IsNullOrEmpty(value))
                 {
                     InjuryLocationLoc.Position.Longitude = Convert.ToDecimal(value);
                 }

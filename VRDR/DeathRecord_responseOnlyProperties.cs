@@ -111,10 +111,14 @@ namespace VRDR
             {
                 if (AutomatedUnderlyingCauseOfDeathObs != null && AutomatedUnderlyingCauseOfDeathObs.Value != null && AutomatedUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
                 {
-
-                    return CodeableConceptToDict((CodeableConcept)AutomatedUnderlyingCauseOfDeathObs.Value)["code"];
+                    string codeableConceptValueCode = CodeableConceptToDict((CodeableConcept)AutomatedUnderlyingCauseOfDeathObs.Value)["code"];
+                    if (String.IsNullOrEmpty(codeableConceptValueCode))
+                    {
+                      return null;
+                    }
+                    return codeableConceptValueCode;
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -122,7 +126,10 @@ namespace VRDR
                 {
                     CreateAutomatedUnderlyingCauseOfDeathObs();
                 }
-                AutomatedUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
+                if (!String.IsNullOrEmpty(value))
+                {
+                    AutomatedUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
+                }
             }
         }
 
@@ -143,10 +150,13 @@ namespace VRDR
             {
                 if (ManualUnderlyingCauseOfDeathObs != null && ManualUnderlyingCauseOfDeathObs.Value != null && ManualUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
                 {
-
-                    return CodeableConceptToDict((CodeableConcept)ManualUnderlyingCauseOfDeathObs.Value)["code"];
+                    string codeableConceptValueCode = CodeableConceptToDict((CodeableConcept)AutomatedUnderlyingCauseOfDeathObs.Value)["code"];
+                    if(String.IsNullOrEmpty(codeableConceptValueCode)){
+                      return null;
+                    }
+                    return codeableConceptValueCode;
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -154,7 +164,10 @@ namespace VRDR
                 {
                     CreateManualUnderlyingCauseOfDeathObs();
                 }
-                ManualUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
+                if (!String.IsNullOrEmpty(value))
+                {
+                    ManualUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
+                }
             }
         }
 

@@ -184,6 +184,72 @@ namespace VRDR
             {"TS","STEVE Test Jurisdiction"} // This should only be used for STEVE testing with NCHS.
         };
 
+        /// <summary>Jurisdiction Endpoints</summary>
+        // JurisdictionEndpoints uses IJE-defined two-character string as key, and provides the jurisdiction's source endpoint.
+        // all codes are USPS Postal codes except for YC
+         public Dictionary<string, string> JurisdictionEndpoints = new Dictionary<string, string>
+        {
+            {"AL","https://example.com/AL/message/endpoint"},
+            {"AK","https://example.com/AK/message/endpoint"},
+            {"AS","https://example.com/AS/message/endpoint"},
+            {"AZ","https://example.com/AZ/message/endpoint"},
+            {"AR","https://example.com/AR/message/endpoint"},
+            {"CA","https://example.com/CA/message/endpoint"},
+            {"CO","https://example.com/CO/message/endpoint"},
+            {"CT","http://vitalcheck.org/CT"},
+            {"DE","http://rivers.rihosting-by-genesis.com/vrdr-submission"},
+            {"DC","https://www.dcvsims.com/auth/login"},
+            {"FL","https://qavrstest.netsmartcloud.com"},
+            {"GA","https://example.com/GA/message/endpoint"},
+            {"GU","https://example.com/GU/message/endpoint"},
+            {"HI","https://localhost.ehawaii.gov:12985/edr"},
+            {"ID","https://example.com/ID/message/endpoint"},
+            {"IL","https://example.com/IL/message/endpoint"},
+            {"IN","https://example.com/IN/message/endpoint"},
+            {"IA","https://example.com/IA/message/endpoint"},
+            {"KS","https://dev.vrvweb.com/vrv/fhir"},
+            {"KY","https://apigw.cdc.gov/OSELS/NCHS/NVSSFHIRAPI/KY/Bundles"},
+            {"LA","https://leersfhir.dbsapps.com/api/message/endpoint"},
+            {"ME","https://example.com/ME/message/endpoint"},
+            {"MD","https://example.com/MD/message/endpoint"},
+            {"MA","https://example.com/MA/message/endpoint"},
+            {"MI","http://mitre.org/vrdr"},
+            {"MN","https://example.com/MN/message/endpoint"},
+            {"MS","https://vita.chcc.health/auth/login"},
+            {"MO","https://example.com/MO/message/endpoint"},
+            {"MT","https://example.com/MT/message/endpoint"},
+            {"NE","https://example.com/NE/message/endpoint"},
+            {"NV","https://example.com/NV/message/endpoint"},
+            {"NH","https://ecodnationaldev.sos.nh.gov/Public/FHIRService/FHIRService.svc/GetEDRSMessage"},
+            {"NJ","https://example.com/NJ/message/endpoint"},
+            {"NM","https://example.com/NM/message/endpoint"},
+            {"NY","https://sos.nh.gov/vitalrecords"},
+            {"NC","https://example.com/NC/message/endpoint"},
+            {"ND","https://example.com/ND/message/endpoint"},
+            {"MP","https://example.com/MP/message/endpoint"},
+            {"OH","https://example.com/OH/message/endpoint"},
+            {"OK","https://example.com/OK/message/endpoint"},
+            {"OR","https://example.com/or/message/endpoint"},
+            {"PA","https://evitals.health.beta.pa.gov"},
+            {"PR","https://uspr.vitalrecords.axiell.com"},
+            {"RI","http://rivers.rihosting-by-genesis.com/vrdr-submission"},
+            {"SC","https://example.com/SC/message/endpoint"},
+            {"SD","https://example.com/SD/message/endpoint"},
+            {"TN","https://example.com/TN/message/endpoint"},
+            {"TX","https://example.com/TX/message/endpoint"},
+            {"UT","https://utah.gov/VRDR/fhir/message/endpoint"},
+            {"VT","https://example.com/VT/message/endpoint"},
+            {"VI","https://vita.chcc.health/auth/login"},
+            {"VA","http://mitre.org/vrdr"},
+            {"WA","https://example.com/WA/message/endpoint"},
+            {"WV","https://example.com/WV/message/endpoint"},
+            {"WI","https://example.com/WI/message/endpoint"},
+            {"WY","https://wyovsstest.gannettpeaktech.com/API/FHIR/message"},
+            {"YC","https://DOHMH.BVS.Health.NYC.gov"},
+            {"TT","https://example.com/TT/message/endpoint"}, // This should only be used for testing with NCHS.
+            {"TS","https://example.com/TS/message/endpoint"} // This should only be used for STEVE testing with NCHS.
+        };
+
         /// <summary>State and Territory Province Codes</summary>
         public Dictionary<string, string> StateTerritoryProvinceCodes = new Dictionary<string, string>()
         {

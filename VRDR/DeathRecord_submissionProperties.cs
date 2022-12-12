@@ -323,7 +323,7 @@ namespace VRDR
                 {
                     return Composition.Date;
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -353,7 +353,7 @@ namespace VRDR
                         return stateSpecificData.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -1093,7 +1093,7 @@ namespace VRDR
                         return intervalComp.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -1106,7 +1106,6 @@ namespace VRDR
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
                 if (intervalComp != null)
                 {
-
                     ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                 }
                 else
@@ -1220,7 +1219,7 @@ namespace VRDR
                         return intervalComp.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -1233,7 +1232,6 @@ namespace VRDR
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
                 if (intervalComp != null)
                 {
-
                     ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                 }
                 else
@@ -1320,9 +1318,7 @@ namespace VRDR
                 {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
-
                 CauseOfDeathConditionC.Value = new CodeableConcept(null, null, null, value);
-
             }
         }
 
@@ -1348,7 +1344,7 @@ namespace VRDR
                         return intervalComp.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -1361,7 +1357,6 @@ namespace VRDR
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
                 if (intervalComp != null)
                 {
-
                     ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                 }
                 else
@@ -1474,7 +1469,7 @@ namespace VRDR
                         return intervalComp.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -1487,7 +1482,6 @@ namespace VRDR
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
                 if (intervalComp != null)
                 {
-
                     ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                 }
                 else
@@ -2485,7 +2479,7 @@ namespace VRDR
                         return ethnicity.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -2956,7 +2950,7 @@ namespace VRDR
                 {
                     return Decedent.MaritalStatus.Text;
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -3690,7 +3684,7 @@ namespace VRDR
                         return (Convert.ToString(stateComp.Value));
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -3794,7 +3788,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict((CodeableConcept)UsualWork.Value)["text"];
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -3833,7 +3827,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)component.Value)["text"];
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -6565,7 +6559,7 @@ namespace VRDR
                         }
                     }
                 }
-                return "";
+                return null;
             }
             set
             {

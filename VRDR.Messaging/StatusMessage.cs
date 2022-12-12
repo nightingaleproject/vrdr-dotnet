@@ -49,7 +49,7 @@ namespace VRDR
             resp.Identifier = messageId;
             resp.Code = MessageHeader.ResponseType.Ok;
             Header.Response = resp;
-            Status = status;
+            Status = status; // This should be a value from http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/ValueSet-VRM-Status-vs.html
         }
         /// <summary>The id of the message whose status is being reported by this message</summary>
         /// <value>the message id.</value>

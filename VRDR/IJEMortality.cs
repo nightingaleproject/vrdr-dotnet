@@ -910,13 +910,13 @@ namespace VRDR
                 {
                     return (new String(' ', 12));
                 }
-                return RightJustifiedZeroed_Get("AUXNO", "StateLocalIdentifier1");
+                return LeftJustified_Get("AUXNO", "StateLocalIdentifier1");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AUXNO", "StateLocalIdentifier1", value);
+                    LeftJustified_Set("AUXNO", "StateLocalIdentifier1", value);
                 }
             }
         }
@@ -2944,13 +2944,13 @@ namespace VRDR
                 {
                     return (new String(' ', 12));
                 }
-                return RightJustifiedZeroed_Get("AUXNO2", "StateLocalIdentifier2");
+                return LeftJustified_Get("AUXNO2", "StateLocalIdentifier2");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AUXNO2", "StateLocalIdentifier2", value);
+                    LeftJustified_Set("AUXNO2", "StateLocalIdentifier2", value);
                 }
             }
         }

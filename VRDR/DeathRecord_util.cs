@@ -989,6 +989,32 @@ namespace VRDR
             }
             return record;
         }
+
+        /// <summary>Helper method to create a HumanName from a list of strings.</summary>
+        /// <param name="value">A list of strings to be converted into a name.</param>
+        /// <param name="names">The current list of HumanName attributes for the person.</param>
+        public static void updateGivenHumanName(string[] value, List<HumanName> names)
+        {
+            // Remove any blank or null values.
+            value = value.Where(v => !String.IsNullOrEmpty(v)).ToArray();
+            // Set names only if there are non-blank values.
+            if (value.Length < 1)
+            {
+              return;
+            }
+            HumanName name = names.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+            if (name != null)
+            {
+                name.Given = value;
+            }
+            else
+            {
+                name = new HumanName();
+                name.Use = HumanName.NameUse.Official;
+                name.Given = value;
+                names.Add(name);
+            }
+        }
     }
 
     /// <summary>Property attribute used to describe a DeathRecord property.</summary>

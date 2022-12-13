@@ -1763,8 +1763,10 @@ namespace VRDR
                     AddReferenceToComposition(ob.Id, "CodedContent");
 
                     ob.Effective = new FhirDateTime();
-                    ob.Value = new CodeableConcept(CodeSystems.ICD10, eac.Code, null, null);
-
+                    if(!String.IsNullOrEmpty(eac.Code))
+                    {
+                        ob.Value = new CodeableConcept(CodeSystems.ICD10, eac.Code, null, null);
+                    }
                     Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
                     lineNumComp.Value = new Integer(eac.LineNumber);
                     lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
@@ -2063,7 +2065,7 @@ namespace VRDR
                     CreateCodingStatusValues();
                 }
                 CodingStatusValues.Remove("shipmentNumber");
-                if (value != null)
+                if (!String.IsNullOrEmpty(value))
                 {
                     CodingStatusValues.Add("shipmentNumber", new FhirString(value));
                 }

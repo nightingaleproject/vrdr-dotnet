@@ -957,7 +957,10 @@ namespace VRDR
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
                     ConditionContributingToDeath.Status = ObservationStatus.Final;
                     ConditionContributingToDeath.Code = (new CodeableConcept(CodeSystems.LOINC, "69441-4", "Other significant causes or conditions of death", null));
-                    ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
+                    if (!String.IsNullOrEmpty(value))
+                    {
+                       ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
+                    }
                     AddReferenceToComposition(ConditionContributingToDeath.Id, "DeathCertification");
                     Bundle.AddResourceEntry(ConditionContributingToDeath, "urn:uuid:" + ConditionContributingToDeath.Id);
                 }
@@ -2963,7 +2966,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("MaritalStatusEditFlag", value, VRDR.ValueSets.EditBypass0124.Codes);
+                if (!String.IsNullOrEmpty(value))
+                {
+                    SetCodeValue("MaritalStatusEditFlag", value, VRDR.ValueSets.EditBypass0124.Codes);
+                }
             }
         }
 
@@ -2996,7 +3002,10 @@ namespace VRDR
                 {
                     Decedent.MaritalStatus = new CodeableConcept();
                 }
-                Decedent.MaritalStatus.Text = value;
+                if (!String.IsNullOrEmpty(value))
+                {
+                    Decedent.MaritalStatus.Text = value;
+                }
             }
         }
 
@@ -3800,7 +3809,11 @@ namespace VRDR
             {
                 if (UsualWork != null && UsualWork.Value != null && UsualWork.Value as CodeableConcept != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)UsualWork.Value)["text"];
+                    Dictionary<string, string> dict = CodeableConceptToDict((CodeableConcept)UsualWork.Value);
+                    if (dict.ContainsKey("text"))
+                    {
+                        return dict["text"];
+                    }
                 }
                 return null;
             }
@@ -4366,7 +4379,7 @@ namespace VRDR
                 {
                     CreateDispositionLocation();
                 }
-                if (value != null && !String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     DispositionLocation.Name = value;
                 }
@@ -6054,7 +6067,7 @@ namespace VRDR
                     CreateInjuryLocationLoc();
                     // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                 }
-                if (value != null && !String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     InjuryLocationLoc.Name = value;
                 }

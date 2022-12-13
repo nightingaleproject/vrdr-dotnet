@@ -1860,8 +1860,10 @@ namespace VRDR
                     AddReferenceToComposition(ob.Id, "CodedContent");
 
                     ob.Effective = new FhirDateTime();
-                    ob.Value = new CodeableConcept(CodeSystems.ICD10, rac.Code, null, null);
-
+                    if(!String.IsNullOrEmpty(rac.Code))
+                    {
+                      ob.Value = new CodeableConcept(CodeSystems.ICD10, rac.Code, null, null);
+                    }
                     Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
                     positionComp.Value = new Integer(rac.Position);
                     positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);

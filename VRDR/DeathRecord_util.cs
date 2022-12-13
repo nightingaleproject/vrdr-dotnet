@@ -258,7 +258,7 @@ namespace VRDR
             CodeableConcept codeableConcept = new CodeableConcept();
             Coding coding = DictToCoding(dict);
             codeableConcept.Coding.Add(coding);
-            if (dict != null && dict.ContainsKey("text") && dict["text"] != null && dict["text"].Length > 0)
+            if (dict != null && dict.ContainsKey("text") && !String.IsNullOrEmpty(dict["text"]))
             {
                 codeableConcept.Text = dict["text"];
             }
@@ -306,13 +306,9 @@ namespace VRDR
             {
                 Coding coding = codeableConcept.Coding.FirstOrDefault();
                 var codeDict = CodingToDict(coding);
-                if (codeableConcept != null && codeableConcept.Text != null && codeableConcept.Text.Length > 0)
+                if (codeableConcept != null && !String.IsNullOrEmpty(codeableConcept.Text))
                 {
                     codeDict["text"] = codeableConcept.Text;
-                }
-                else
-                {
-                    codeDict["text"] = "";
                 }
                 return codeDict;
             }

@@ -82,7 +82,7 @@ namespace VRDR
         {
             get
             {
-                if (ActivityAtDeath.ContainsKey("code"))
+                if (ActivityAtDeath.ContainsKey("code") && !String.IsNullOrWhiteSpace(ActivityAtDeath["code"]))
                 {
                     return ActivityAtDeath["code"];
                 }
@@ -90,7 +90,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ActivityAtDeath", value, VRDR.ValueSets.ActivityAtTimeOfDeath.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ActivityAtDeath", value, VRDR.ValueSets.ActivityAtTimeOfDeath.Codes);
+                }
             }
         }
 
@@ -112,11 +115,11 @@ namespace VRDR
                 if (AutomatedUnderlyingCauseOfDeathObs != null && AutomatedUnderlyingCauseOfDeathObs.Value != null && AutomatedUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
                 {
                     string codeableConceptValueCode = CodeableConceptToDict((CodeableConcept)AutomatedUnderlyingCauseOfDeathObs.Value)["code"];
-                    if (String.IsNullOrEmpty(codeableConceptValueCode))
+                    if (!String.IsNullOrWhiteSpace(codeableConceptValueCode))
                     {
-                      return null;
+                      return codeableConceptValueCode;
                     }
-                    return codeableConceptValueCode;
+                    return null;
                 }
                 return null;
             }
@@ -126,7 +129,7 @@ namespace VRDR
                 {
                     CreateAutomatedUnderlyingCauseOfDeathObs();
                 }
-                if (!String.IsNullOrEmpty(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     AutomatedUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
                 }
@@ -151,7 +154,7 @@ namespace VRDR
                 if (ManualUnderlyingCauseOfDeathObs != null && ManualUnderlyingCauseOfDeathObs.Value != null && ManualUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
                 {
                     string codeableConceptValueCode = CodeableConceptToDict((CodeableConcept)ManualUnderlyingCauseOfDeathObs.Value)["code"];
-                    if(String.IsNullOrEmpty(codeableConceptValueCode)){
+                    if(String.IsNullOrWhiteSpace(codeableConceptValueCode)){
                       return null;
                     }
                     return codeableConceptValueCode;
@@ -164,7 +167,7 @@ namespace VRDR
                 {
                     CreateManualUnderlyingCauseOfDeathObs();
                 }
-                if (!String.IsNullOrEmpty(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     ManualUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
                 }
@@ -227,7 +230,7 @@ namespace VRDR
         {
             get
             {
-                if (PlaceOfInjury.ContainsKey("code"))
+                if (PlaceOfInjury.ContainsKey("code") && !String.IsNullOrWhiteSpace(PlaceOfInjury["code"]))
                 {
                     return PlaceOfInjury["code"];
                 }
@@ -235,7 +238,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("PlaceOfInjury", value, VRDR.ValueSets.PlaceOfInjury.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("PlaceOfInjury", value, VRDR.ValueSets.PlaceOfInjury.Codes);
+                }
             }
         }
 
@@ -303,7 +309,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstEditedRaceCode.ContainsKey("code"))
+                if (FirstEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstEditedRaceCode["code"]))
                 {
                     return FirstEditedRaceCode["code"];
                 }
@@ -311,7 +317,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -379,7 +388,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondEditedRaceCode.ContainsKey("code"))
+                if (SecondEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondEditedRaceCode["code"]))
                 {
                     return SecondEditedRaceCode["code"];
                 }
@@ -387,7 +396,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -455,7 +467,7 @@ namespace VRDR
         {
             get
             {
-                if (ThirdEditedRaceCode.ContainsKey("code"))
+                if (ThirdEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(ThirdEditedRaceCode["code"]))
                 {
                     return ThirdEditedRaceCode["code"];
                 }
@@ -463,7 +475,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ThirdEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ThirdEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -531,7 +546,7 @@ namespace VRDR
         {
             get
             {
-                if (FourthEditedRaceCode.ContainsKey("code"))
+                if (FourthEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FourthEditedRaceCode["code"]))
                 {
                     return FourthEditedRaceCode["code"];
                 }
@@ -539,7 +554,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FourthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FourthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -607,7 +625,7 @@ namespace VRDR
         {
             get
             {
-                if (FifthEditedRaceCode.ContainsKey("code"))
+                if (FifthEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FifthEditedRaceCode["code"]))
                 {
                     return FifthEditedRaceCode["code"];
                 }
@@ -615,7 +633,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FifthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FifthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -683,7 +704,7 @@ namespace VRDR
         {
             get
             {
-                if (SixthEditedRaceCode.ContainsKey("code"))
+                if (SixthEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SixthEditedRaceCode["code"]))
                 {
                     return SixthEditedRaceCode["code"];
                 }
@@ -691,7 +712,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SixthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SixthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -759,7 +783,7 @@ namespace VRDR
         {
             get
             {
-                if (SeventhEditedRaceCode.ContainsKey("code"))
+                if (SeventhEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SeventhEditedRaceCode["code"]))
                 {
                     return SeventhEditedRaceCode["code"];
                 }
@@ -767,7 +791,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SeventhEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SeventhEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -835,7 +862,7 @@ namespace VRDR
         {
             get
             {
-                if (EighthEditedRaceCode.ContainsKey("code"))
+                if (EighthEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(EighthEditedRaceCode["code"]))
                 {
                     return EighthEditedRaceCode["code"];
                 }
@@ -843,7 +870,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("EighthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("EighthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -911,7 +941,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstAmericanIndianRaceCode.ContainsKey("code"))
+                if (FirstAmericanIndianRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstAmericanIndianRaceCode["code"]))
                 {
                     return FirstAmericanIndianRaceCode["code"];
                 }
@@ -919,7 +949,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -987,7 +1020,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondAmericanIndianRaceCode.ContainsKey("code"))
+                if (SecondAmericanIndianRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondAmericanIndianRaceCode["code"]))
                 {
                     return SecondAmericanIndianRaceCode["code"];
                 }
@@ -995,7 +1028,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1063,7 +1099,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstOtherAsianRaceCode.ContainsKey("code"))
+                if (FirstOtherAsianRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstOtherAsianRaceCode["code"]))
                 {
                     return FirstOtherAsianRaceCode["code"];
                 }
@@ -1071,7 +1107,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1139,7 +1178,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondOtherAsianRaceCode.ContainsKey("code"))
+                if (SecondOtherAsianRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondOtherAsianRaceCode["code"]))
                 {
                     return SecondOtherAsianRaceCode["code"];
                 }
@@ -1147,7 +1186,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1215,7 +1257,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstOtherPacificIslanderRaceCode.ContainsKey("code"))
+                if (FirstOtherPacificIslanderRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstOtherPacificIslanderRaceCode["code"]))
                 {
                     return FirstOtherPacificIslanderRaceCode["code"];
                 }
@@ -1223,7 +1265,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1291,7 +1336,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondOtherPacificIslanderRaceCode.ContainsKey("code"))
+                if (SecondOtherPacificIslanderRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondOtherPacificIslanderRaceCode["code"]))
                 {
                     return SecondOtherPacificIslanderRaceCode["code"];
                 }
@@ -1299,7 +1344,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1367,7 +1415,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstOtherRaceCode.ContainsKey("code"))
+                if (FirstOtherRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstOtherRaceCode["code"]))
                 {
                     return FirstOtherRaceCode["code"];
                 }
@@ -1375,7 +1423,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1443,7 +1494,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondOtherRaceCode.ContainsKey("code"))
+                if (SecondOtherRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondOtherRaceCode["code"]))
                 {
                     return SecondOtherRaceCode["code"];
                 }
@@ -1451,7 +1502,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1519,7 +1573,7 @@ namespace VRDR
         {
             get
             {
-                if (HispanicCode.ContainsKey("code"))
+                if (HispanicCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(HispanicCode["code"]))
                 {
                     return HispanicCode["code"];
                 }
@@ -1527,7 +1581,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("HispanicCode", value, VRDR.ValueSets.HispanicOrigin.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("HispanicCode", value, VRDR.ValueSets.HispanicOrigin.Codes);
+                }
             }
         }
 
@@ -1595,7 +1652,7 @@ namespace VRDR
         {
             get
             {
-                if (HispanicCodeForLiteral.ContainsKey("code"))
+                if (HispanicCodeForLiteral.ContainsKey("code") && !String.IsNullOrWhiteSpace(HispanicCodeForLiteral["code"]))
                 {
                     return HispanicCodeForLiteral["code"];
                 }
@@ -1603,7 +1660,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("HispanicCodeForLiteral", value, VRDR.ValueSets.HispanicOrigin.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("HispanicCodeForLiteral", value, VRDR.ValueSets.HispanicOrigin.Codes);
+                }
             }
         }
 
@@ -1671,7 +1731,7 @@ namespace VRDR
         {
             get
             {
-                if (RaceRecode40.ContainsKey("code"))
+                if (RaceRecode40.ContainsKey("code") && !String.IsNullOrWhiteSpace(RaceRecode40["code"]))
                 {
                     return RaceRecode40["code"];
                 }
@@ -1679,7 +1739,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("RaceRecode40", value, VRDR.ValueSets.RaceRecode40.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("RaceRecode40", value, VRDR.ValueSets.RaceRecode40.Codes);
+                }
             }
         }
 
@@ -2135,7 +2198,7 @@ namespace VRDR
         {
             get
             {
-                if (IntentionalReject.ContainsKey("code"))
+                if (IntentionalReject.ContainsKey("code") && !String.IsNullOrWhiteSpace(IntentionalReject["code"]))
                 {
                     return IntentionalReject["code"];
                 }
@@ -2143,7 +2206,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("IntentionalReject", value, VRDR.ValueSets.IntentionalReject.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("IntentionalReject", value, VRDR.ValueSets.IntentionalReject.Codes);
+                }
             }
         }
 
@@ -2209,7 +2275,7 @@ namespace VRDR
         {
             get
             {
-                if (AcmeSystemReject.ContainsKey("code"))
+                if (AcmeSystemReject.ContainsKey("code") && !String.IsNullOrWhiteSpace(AcmeSystemReject["code"]))
                 {
                     return AcmeSystemReject["code"];
                 }
@@ -2217,7 +2283,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("AcmeSystemReject", value, VRDR.ValueSets.AcmeSystemReject.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("AcmeSystemReject", value, VRDR.ValueSets.AcmeSystemReject.Codes);
+                }
             }
         }
 
@@ -2283,7 +2352,7 @@ namespace VRDR
         {
             get
             {
-                if (TransaxConversion.ContainsKey("code"))
+                if (TransaxConversion.ContainsKey("code") && !String.IsNullOrWhiteSpace(TransaxConversion["code"]))
                 {
                     return TransaxConversion["code"];
                 }
@@ -2291,7 +2360,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("TransaxConversion", value, VRDR.ValueSets.TransaxConversion.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("TransaxConversion", value, VRDR.ValueSets.TransaxConversion.Codes);
+                }
             }
         }
 

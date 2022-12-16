@@ -3361,6 +3361,11 @@
             <param name="contents">string that represents </param>
             <returns>a new DeathRecord that corresponds to the given descriptive format</returns>
         </member>
+        <member name="M:VRDR.DeathRecord.updateGivenHumanName(System.String[],System.Collections.Generic.List{Hl7.Fhir.Model.HumanName})">
+            <summary>Helper method to create a HumanName from a list of strings.</summary>
+            <param name="value">A list of strings to be converted into a name.</param>
+            <param name="names">The current list of HumanName attributes for the person.</param>
+        </member>
         <member name="T:VRDR.Property">
             <summary>Property attribute used to describe a DeathRecord property.</summary>
         </member>

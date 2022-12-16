@@ -295,7 +295,7 @@ namespace VRDR
         {
             get
             {
-                if (FilingFormat.ContainsKey("code"))
+                if (FilingFormat.ContainsKey("code") && !String.IsNullOrWhiteSpace(FilingFormat["code"]))
                 {
                     return FilingFormat["code"];
                 }
@@ -303,7 +303,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FilingFormat", value, VRDR.ValueSets.FilingFormat.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FilingFormat", value, VRDR.ValueSets.FilingFormat.Codes);
+                }
             }
         }
 
@@ -435,7 +438,7 @@ namespace VRDR
         {
             get
             {
-                if (ReplaceStatus.ContainsKey("code"))
+                if (ReplaceStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(ReplaceStatus["code"]))
                 {
                     return ReplaceStatus["code"];
                 }
@@ -443,7 +446,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ReplaceStatus", value, VRDR.ValueSets.ReplaceStatus.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ReplaceStatus", value, VRDR.ValueSets.ReplaceStatus.Codes);
+                }
             }
         }
 
@@ -520,13 +526,13 @@ namespace VRDR
                     string code = CertificationRole["code"];
                     if (code == "OTH")
                     {
-                        if (CertificationRole.ContainsKey("text"))
+                        if (CertificationRole.ContainsKey("text") && !String.IsNullOrWhiteSpace(CertificationRole["text"]))
                         {
                             return (CertificationRole["text"]);
                         }
                         return ("Other");
                     }
-                    else
+                    else if (!String.IsNullOrWhiteSpace(code))
                     {
                         return code;
                     }
@@ -628,7 +634,7 @@ namespace VRDR
         {
             get
             {
-                if (MannerOfDeathType.ContainsKey("code"))
+                if (MannerOfDeathType.ContainsKey("code") && !String.IsNullOrWhiteSpace(MannerOfDeathType["code"]))
                 {
                     return MannerOfDeathType["code"];
                 }
@@ -636,7 +642,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("MannerOfDeathType", value, VRDR.ValueSets.MannerOfDeath.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("MannerOfDeathType", value, VRDR.ValueSets.MannerOfDeath.Codes);
+                }
             }
         }
 
@@ -1834,7 +1843,7 @@ namespace VRDR
         {
             get
             {
-                if (SexAtDeath.ContainsKey("code"))
+                if (SexAtDeath.ContainsKey("code") && !String.IsNullOrWhiteSpace(SexAtDeath["code"]))
                 {
                     return SexAtDeath["code"];
                 }
@@ -1842,7 +1851,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SexAtDeath", value, VRDR.ValueSets.AdministrativeGender.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SexAtDeath", value, VRDR.ValueSets.AdministrativeGender.Codes);
+                }
             }
         }
 
@@ -2124,6 +2136,11 @@ namespace VRDR
                     Extension withinCityLimits = new Extension();
                     withinCityLimits.Url = ExtensionURL.WithinCityLimitsIndicator;
                     withinCityLimits.Value = DictToCoding(value);
+                    // Coding coding = DictToCoding(value);
+                    // if (coding != null)
+                    // {
+                    //     withinCityLimits.Value = coding;
+                    // }
                     Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
                 }
             }
@@ -2144,7 +2161,7 @@ namespace VRDR
         {
             get
             {
-                if (ResidenceWithinCityLimits.ContainsKey("code"))
+                if (ResidenceWithinCityLimits.ContainsKey("code") && !String.IsNullOrWhiteSpace(ResidenceWithinCityLimits["code"]))
                 {
                     return ResidenceWithinCityLimits["code"];
                 }
@@ -2152,7 +2169,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ResidenceWithinCityLimits", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ResidenceWithinCityLimits", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                }
             }
         }
 
@@ -2251,7 +2271,7 @@ namespace VRDR
         {
             get
             {
-                if (Ethnicity1.ContainsKey("code"))
+                if (Ethnicity1.ContainsKey("code") && !String.IsNullOrWhiteSpace(Ethnicity1["code"]))
                 {
                     return Ethnicity1["code"];
                 }
@@ -2259,7 +2279,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity1", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("Ethnicity1", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                }
             }
         }
 
@@ -2327,7 +2350,7 @@ namespace VRDR
         {
             get
             {
-                if (Ethnicity2.ContainsKey("code"))
+                if (Ethnicity2.ContainsKey("code") && !String.IsNullOrWhiteSpace(Ethnicity2["code"]))
                 {
                     return Ethnicity2["code"];
                 }
@@ -2335,7 +2358,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity2", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("Ethnicity2", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                }
             }
         }
 
@@ -2403,7 +2429,7 @@ namespace VRDR
         {
             get
             {
-                if (Ethnicity3.ContainsKey("code"))
+                if (Ethnicity3.ContainsKey("code") && !String.IsNullOrWhiteSpace(Ethnicity3["code"]))
                 {
                     return Ethnicity3["code"];
                 }
@@ -2411,7 +2437,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity3", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("Ethnicity3", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                }
             }
         }
 
@@ -2479,7 +2508,7 @@ namespace VRDR
         {
             get
             {
-                if (Ethnicity4.ContainsKey("code"))
+                if (Ethnicity4.ContainsKey("code") && !String.IsNullOrWhiteSpace(Ethnicity4["code"]))
                 {
                     return Ethnicity4["code"];
                 }
@@ -2487,7 +2516,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity4", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("Ethnicity4", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                }
             }
         }
 
@@ -2703,7 +2735,7 @@ namespace VRDR
         {
             get
             {
-                if (RaceMissingValueReason.ContainsKey("code"))
+                if (RaceMissingValueReason.ContainsKey("code") && !String.IsNullOrWhiteSpace(RaceMissingValueReason["code"]))
                 {
                     return RaceMissingValueReason["code"];
                 }
@@ -2711,7 +2743,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("RaceMissingValueReason", value, VRDR.ValueSets.RaceMissingValueReason.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("RaceMissingValueReason", value, VRDR.ValueSets.RaceMissingValueReason.Codes);
+                }
             }
         }
 
@@ -2929,7 +2964,7 @@ namespace VRDR
         {
             get
             {
-                if (MaritalStatus.ContainsKey("code"))
+                if (MaritalStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(MaritalStatus["code"]))
                 {
                     return MaritalStatus["code"];
                 }
@@ -2937,7 +2972,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("MaritalStatus", value, VRDR.ValueSets.MaritalStatus.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("MaritalStatus", value, VRDR.ValueSets.MaritalStatus.Codes);
+                }
             }
         }
 
@@ -2958,7 +2996,7 @@ namespace VRDR
         {
             get
             {
-                if (MaritalStatusEditFlag.ContainsKey("code"))
+                if (MaritalStatusEditFlag.ContainsKey("code") && !String.IsNullOrWhiteSpace(MaritalStatusEditFlag["code"]))
                 {
                     return MaritalStatusEditFlag["code"];
                 }
@@ -3453,7 +3491,7 @@ namespace VRDR
         {
             get
             {
-                if (SpouseAlive.ContainsKey("code"))
+                if (SpouseAlive.ContainsKey("code") && !String.IsNullOrWhiteSpace(SpouseAlive["code"]))
                 {
                     return SpouseAlive["code"];
                 }
@@ -3461,7 +3499,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SpouseAlive", value, VRDR.ValueSets.SpouseAlive.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SpouseAlive", value, VRDR.ValueSets.SpouseAlive.Codes);
+                }
             }
         }
 
@@ -3533,7 +3574,7 @@ namespace VRDR
         {
             get
             {
-                if (EducationLevel.ContainsKey("code"))
+                if (EducationLevel.ContainsKey("code") && !String.IsNullOrWhiteSpace(EducationLevel["code"]))
                 {
                     return EducationLevel["code"];
                 }
@@ -3541,7 +3582,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("EducationLevel", value, VRDR.ValueSets.EducationLevel.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("EducationLevel", value, VRDR.ValueSets.EducationLevel.Codes);
+                }
             }
         }
 
@@ -3615,7 +3659,7 @@ namespace VRDR
         {
             get
             {
-                if (EducationLevelEditFlag.ContainsKey("code"))
+                if (EducationLevelEditFlag.ContainsKey("code") && !String.IsNullOrWhiteSpace(EducationLevelEditFlag["code"]))
                 {
                     return EducationLevelEditFlag["code"];
                 }
@@ -3623,7 +3667,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("EducationLevelEditFlag", value, VRDR.ValueSets.EditBypass01234.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                   SetCodeValue("EducationLevelEditFlag", value, VRDR.ValueSets.EditBypass01234.Codes);
+                }
             }
         }
 
@@ -3949,7 +3996,7 @@ namespace VRDR
         {
             get
             {
-                if (MilitaryService.ContainsKey("code"))
+                if (MilitaryService.ContainsKey("code") && !String.IsNullOrWhiteSpace(MilitaryService["code"]))
                 {
                     return (MilitaryService["code"]);
                 }
@@ -3957,7 +4004,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("MilitaryService", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("MilitaryService", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                }
             }
         }
 
@@ -4462,7 +4512,7 @@ namespace VRDR
         {
             get
             {
-                if (DecedentDispositionMethod.ContainsKey("code"))
+                if (DecedentDispositionMethod.ContainsKey("code") && !String.IsNullOrWhiteSpace(DecedentDispositionMethod["code"]))
                 {
                     return DecedentDispositionMethod["code"];
                 }
@@ -4470,7 +4520,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodOfDisposition.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodOfDisposition.Codes);
+                }
             }
         }
 
@@ -4540,7 +4593,7 @@ namespace VRDR
         {
             get
             {
-                if (AutopsyPerformedIndicator.ContainsKey("code"))
+                if (AutopsyPerformedIndicator.ContainsKey("code") && !String.IsNullOrWhiteSpace(AutopsyPerformedIndicator["code"]))
                 {
                     return AutopsyPerformedIndicator["code"];
                 }
@@ -4548,7 +4601,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("AutopsyPerformedIndicator", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("AutopsyPerformedIndicator", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                }
             }
         }
         // The idea here is that we have getters and setters for each of the parts of the death datetime, which get used in IJEMortality.cs
@@ -5017,7 +5073,7 @@ namespace VRDR
         {
             get
             {
-                if (AutopsyResultsAvailable.ContainsKey("code"))
+                if (AutopsyResultsAvailable.ContainsKey("code") && !String.IsNullOrWhiteSpace(AutopsyResultsAvailable["code"]))
                 {
                     return AutopsyResultsAvailable["code"];
                 }
@@ -5025,7 +5081,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("AutopsyResultsAvailable", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("AutopsyResultsAvailable", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+                }
             }
         }
 
@@ -5374,7 +5433,7 @@ namespace VRDR
         {
             get
             {
-                if (DeathLocationType != null && DeathLocationType.ContainsKey("code"))
+                if (DeathLocationType != null && DeathLocationType.ContainsKey("code") && !String.IsNullOrWhiteSpace(DeathLocationType["code"]))
                 {
                     return DeathLocationType["code"];
                 }
@@ -5382,7 +5441,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("DeathLocationType", value, VRDR.ValueSets.PlaceOfDeath.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("DeathLocationType", value, VRDR.ValueSets.PlaceOfDeath.Codes);
+                }
             }
         }
 
@@ -5629,11 +5691,14 @@ namespace VRDR
         {
             get
             {
-                return AgeAtDeathEditFlag.ContainsKey("code") ? AgeAtDeathEditFlag["code"] : null;
+                return AgeAtDeathEditFlag.ContainsKey("code") && !String.IsNullOrWhiteSpace(AgeAtDeathEditFlag["code"]) ? AgeAtDeathEditFlag["code"] : null;
             }
             set
             {
-                SetCodeValue("AgeAtDeathEditFlag", value, VRDR.ValueSets.EditBypass01.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("AgeAtDeathEditFlag", value, VRDR.ValueSets.EditBypass01.Codes);
+                }
             }
         }
 
@@ -5707,7 +5772,7 @@ namespace VRDR
         {
             get
             {
-                if (PregnancyStatus.ContainsKey("code"))
+                if (PregnancyStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(PregnancyStatus["code"]))
                 {
                     return PregnancyStatus["code"];
                 }
@@ -5715,7 +5780,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("PregnancyStatus", value, VRDR.ValueSets.PregnancyStatus.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("PregnancyStatus", value, VRDR.ValueSets.PregnancyStatus.Codes);
+                }
             }
         }
         /// <summary>Decedent's Pregnancy Status at Death Edit Flag.</summary>
@@ -5791,7 +5859,7 @@ namespace VRDR
         {
             get
             {
-                if (PregnancyStatusEditFlag.ContainsKey("code"))
+                if (PregnancyStatusEditFlag.ContainsKey("code") && !String.IsNullOrWhiteSpace(PregnancyStatusEditFlag["code"]))
                 {
                     return PregnancyStatusEditFlag["code"];
                 }
@@ -5799,7 +5867,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("PregnancyStatusEditFlag", value, VRDR.ValueSets.EditBypass012.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("PregnancyStatusEditFlag", value, VRDR.ValueSets.EditBypass012.Codes);
+                }
             }
         }
 
@@ -5874,7 +5945,7 @@ namespace VRDR
         {
             get
             {
-                if (ExaminerContacted.ContainsKey("code"))
+                if (ExaminerContacted.ContainsKey("code") && !String.IsNullOrWhiteSpace(ExaminerContacted["code"]))
                 {
                     return ExaminerContacted["code"];
                 }
@@ -5882,7 +5953,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ExaminerContacted", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ExaminerContacted", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                }
             }
         }
 
@@ -6145,7 +6219,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_1", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_1", value);
+                }
             }
         }
 
@@ -6167,7 +6244,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_2", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_2", value);
+                }
             }
         }
 
@@ -6190,7 +6270,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_3", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_3", value);
+                }
             }
         }
 
@@ -6213,7 +6296,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_4", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_4", value);
+                }
             }
         }
 
@@ -6236,7 +6322,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_5", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_5", value);
+                }
             }
         }
 
@@ -6259,7 +6348,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_6", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_6", value);
+                }
             }
         }
 
@@ -6282,7 +6374,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue8_1", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue8_1", value);
+                }
             }
         }
 
@@ -6305,7 +6400,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue8_2", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue8_2", value);
+                }
             }
         }
 
@@ -6328,7 +6426,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue8_3", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue8_3", value);
+                }
             }
         }
 
@@ -6351,7 +6452,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue20", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue20", value);
+                }
             }
         }
 
@@ -6710,7 +6814,7 @@ namespace VRDR
         {
             get
             {
-                if (InjuryAtWork.ContainsKey("code"))
+                if (InjuryAtWork.ContainsKey("code") && !String.IsNullOrWhiteSpace(InjuryAtWork["code"]))
                 {
                     return InjuryAtWork["code"];
                 }
@@ -6718,7 +6822,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("InjuryAtWork", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("InjuryAtWork", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+                }
             }
         }
 
@@ -6813,7 +6920,7 @@ namespace VRDR
                         }
                         return ("Other");
                     }
-                    else
+                    else if (!String.IsNullOrWhiteSpace(code))
                     {
                         return code;
                     }
@@ -6919,7 +7026,7 @@ namespace VRDR
         {
             get
             {
-                if (TobaccoUse.ContainsKey("code"))
+                if (TobaccoUse.ContainsKey("code") && !String.IsNullOrWhiteSpace(TobaccoUse["code"]))
                 {
                     return TobaccoUse["code"];
                 }
@@ -6927,7 +7034,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("TobaccoUse", value, VRDR.ValueSets.ContributoryTobaccoUse.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("TobaccoUse", value, VRDR.ValueSets.ContributoryTobaccoUse.Codes);
+                }
             }
         }
 

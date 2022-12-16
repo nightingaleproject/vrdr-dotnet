@@ -3432,7 +3432,7 @@ namespace VRDR.Tests
             Assert.Equal("000000000042", mortalityrosterbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", mortalityrosterbundle.StateLocalIdentifier2);
             Assert.Equal("", mortalityrosterbundle.CertificationRole["code"]); // should be empty
-            Assert.Equal("", mortalityrosterbundle.PregnancyStatusHelper); // should be missing
+            Assert.Equal(null, mortalityrosterbundle.PregnancyStatusHelper); // should be missing
             // TODO: Fill out tests
         }
         [Fact]
@@ -3689,13 +3689,22 @@ namespace VRDR.Tests
         public void GetShouldNotReturnEmptyString()
         {
             // An empty string field should never return an empty string to mean no value, should return null
+            Console.WriteLine("Running test");
             DeathRecord blank = new DeathRecord();
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
             {
                 if (property.PropertyType.ToString() == "System.String")
                 {
-                    Assert.Null(property.GetValue(blank));
+                    object value = property.GetValue(blank);
+                    if(value != null){
+                        if (property.Name == "DeathRecordIdentifier") {
+                            Assert.Equal(value, "0000XX000000");
+                        } else {
+                          Console.Write("Expected null for " + property.Name + " but got '" + value + "'.");
+                          Assert.Null(value);
+                        }
+                    }
                 }
             }
         }

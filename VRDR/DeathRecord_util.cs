@@ -246,8 +246,9 @@ namespace VRDR
                 {
                     coding.Display = dict["display"];
                 }
+                return coding;
             }
-            return coding;
+            return null;
         }
 
         /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>

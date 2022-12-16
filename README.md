@@ -205,7 +205,7 @@ class
 3. Resetting the middle name if the first name is set again when using the IJEMortality class;
 setting the first name and then the middle name ensures no issues will occur.
 
-#### Helper Methods for Value Sets
+#### Helper Properties for Value Sets
 
 For fields that contain coded values it can involve some extra effort to provide the code, the code
 system, and the display text. The VRDR library includes some helper methods to make this easier. For
@@ -283,7 +283,36 @@ are available to simplify setting coded values:
 * AcmeSystemRejectHelper
 * TransaxConversionHelper
 
+#### Helper Properties for Age at Death
+
+In addition to the standard set of coded value fields there are also helper properties for setting
+Age at Death. For example, here's how to specify Age at Death using the long form:
+
+```
+// Set AgeAtDeath
+Dictionary<string, string> age = new Dictionary<string, string>();
+age.Add("value", "100");
+age.Add("code", "a");
+deathRecord.AgeAtDeath = age;
+```
+
+Here's a simpler way to accomplish the same thing by using `AgeAtDeathYears`:
+
+```
+deathRecord.AgeAtDeathYears = 100;
+```
+
+This helper property automatically sets the correct code. The following helper properties are
+available to simplify setting Age at Death:
+
+* AgeAtDeathYears
+* AgeAtDeathMonths
+* AgeAtDeathDays
+* AgeAtDeathHours
+* AgeAtDeathMinutes
+
 #### FHIR VRDR record to/from IJE Mortality format
+
 An example of converting a VRDR FHIR Death Record to an IJE string:
 ```cs
 using VRDR;

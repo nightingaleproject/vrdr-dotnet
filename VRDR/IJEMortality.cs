@@ -843,7 +843,11 @@ namespace VRDR
             get
             {
                 string value = LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
-                if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    validationErrors.Add("DSTATE field is missing.");
+                }
+                else if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
                 {
                     validationErrors.Add("DSTATE value of " + value + " is invalid.");
                 }

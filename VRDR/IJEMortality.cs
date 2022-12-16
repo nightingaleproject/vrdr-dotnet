@@ -958,7 +958,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Legal Name--Middle</summary>
-        [IJEField(8, 77, 1, "Decedent's Legal Name--Middle", "MNAME", 3)]
+        [IJEField(8, 77, 1, "Decedent's Legal Name--Middle", "MNAME", 2)]
         public string MNAME
         {
             get
@@ -3723,7 +3723,7 @@ namespace VRDR
         }
 
         /// <summary>Middle Name of Decedent</summary>
-        [IJEField(166, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 2)]
+        [IJEField(166, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 3)]
         public string DMIDDLE
         {
             get

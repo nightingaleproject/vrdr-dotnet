@@ -511,6 +511,22 @@ namespace VRDR.CLI
                 Console.WriteLine(d.ToJSON());
                 return 0;
             }
+            else if (args.Length > 2 && args[0] == "ije2json")
+            {
+              // This command will export the files to the same directory they were imported from.
+              for (int i = 1; i < args.Length; i++)
+              {
+                  string ijeFile = args[i];
+                  string ijeRawRecord = File.ReadAllText(ijeFile);
+                  IJEMortality ije = new IJEMortality(ijeRawRecord);
+                  DeathRecord d = ije.ToDeathRecord();
+                  string outputFilename = ijeFile.Replace(".ije", ".json");
+                  StreamWriter sw = new StreamWriter(outputFilename);
+                  sw.WriteLine(d.ToJSON());
+                  sw.Flush();
+              }
+              return 0;
+            }
             else if (args.Length == 2 && args[0] == "json2xml")
             {
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));

@@ -1139,9 +1139,14 @@ namespace VRDR
                     string ssn = value.Trim();
                     if (ssn.Contains("-") || ssn.Contains(" "))
                     {
-                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which cannot contain ` ` or `-` characters for FHIR field {fhirFieldName}.");
+                        //validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which cannot contain ` ` or `-` characters for FHIR field {fhirFieldName}.");
+                        // NOTFORCHECKIN: DON'T EVER MERGE THIS TO MASTER
+                        Console.Error.WriteLine($"Error: IJE field {ijeFieldName} contains string '{value}' which cannot contain ` ` or `-` characters for FHIR field {fhirFieldName}.");
+                        Console.Error.WriteLine($"WORKAROUND! Putting {value} into field {fhirFieldName} anyway");
                     }
-                    string formattedSSN = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
+                    //string formattedSSN = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
+                    // NOTFORCHECKIN: DON'T EVER MERGE THIS TO MASTER
+                    string formattedSSN = ssn;
                     if (formattedSSN.Length != ssnLength)
                     {
                         // validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length (without dashes or spaces) for FHIR field {fhirFieldName} of length {ssnLength}");

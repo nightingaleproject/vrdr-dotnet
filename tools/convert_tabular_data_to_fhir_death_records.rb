@@ -50,11 +50,11 @@ def generate_faked_value(ije_key)
     # Faked identifying fields.
   when 'SSN'
     return Faker::Number.number(digits: 9).to_s
-  when 'GNAME', 'DDADF', 'DMOMF', 'CERTFIRST'
+  when 'GNAME', 'SPOUSEF', 'DDADF', 'DMOMF', 'CERTFIRST'
     return Faker::Name.first_name
   when 'MNAME', 'DMIDDLE', 'DDADMID', 'DMOMMID', 'SPOUSEMIDNAME', 'CERTMIDDLE'
     return Faker::Name.middle_name
-  when 'LNAME', 'DMOMMDN', 'CERTLAST'
+  when 'LNAME', 'SPOUSEL', 'DMOMMDN', 'CERTLAST'
     return Faker::Name.last_name
   when 'SUFF', 'SPOUSESUFFIX', 'FATHERSUFFIX', 'MOTHERSSUFFIX', 'CERTSUFFIX'
     return Faker::Name.suffix

@@ -63,13 +63,23 @@ def write_record(record, annotation)
 end
 
 # Two sheets; sheet one is good records (10 total), sheet two is bad records (10 total)
-good_ije_records = extract_ije_records(data.sheets[0], 1, 10)
-bad_ije_records = extract_ije_records(data.sheets[1], 1, 10)
 
-10.times do |i|
-  write_record(good_ije_records[i], "good")
+#  Only if the first sheet is present and has the right number of records...
+if data.sheets.length > 0 && data.sheets[0].rows.count > 9
+  good_ije_records = extract_ije_records(data.sheets[0], 1, 10)
+  10.times do |i|
+    write_record(good_ije_records[i], "good")
+  end
+else
+  puts "No 'good' records processed"
 end
 
-10.times do |i|
-  write_record(bad_ije_records[i], "bad")
+#  Only if the second sheet is present and has the right number of records...
+if data.sheets.length > 1 && data.sheets[1].rows.count > 9
+  bad_ije_records = extract_ije_records(data.sheets[1], 2, 10) # First row of data is 2
+  10.times do |i|
+    write_record(bad_ije_records[i], "bad")
+  end
+else
+  puts "No 'bad' records processed"
 end

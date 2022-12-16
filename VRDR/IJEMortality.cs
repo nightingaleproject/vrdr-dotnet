@@ -1129,9 +1129,9 @@ namespace VRDR
         {
             get
             {
-                // Pull unit from coded unit.   "unit" field is descriptive only, and is not required by VRDR IG
-                string unit = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
-                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(unit, out string ijeValue);
+                // Pull code from coded unit.   "code" field is not required by VRDR IG
+                string code = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
+                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(code, out string ijeValue);
                 return ijeValue ?? "9";
             }
             set

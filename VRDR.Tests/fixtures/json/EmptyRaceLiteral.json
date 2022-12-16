@@ -879,8 +879,6 @@
             }
           ],
           "value": 20,
-          "unit": "Year",
-          "system": "http://unitsofmeasure.org",
           "code": "a"
         }
       }

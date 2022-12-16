@@ -570,7 +570,7 @@
             }
           ],
           "value": 42,
-          "unit": "a"
+          "code": "a"
         },
         "subject": {
           "reference": "Patient/Decedent-Example1"

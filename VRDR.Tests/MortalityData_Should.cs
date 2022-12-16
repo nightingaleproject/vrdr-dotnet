@@ -404,6 +404,19 @@ namespace VRDR.Tests
             Assert.Equal("Dmiddle", ije.DMIDDLE.Trim());
         }
 
+        // If the DSTATE is not set we should get a different message from it being set to an invalid value
+        [Fact]
+        public void DSTATE_Errors()
+        {
+            DeathRecord record = new DeathRecord();
+            record.DeathLocationJurisdiction = ""; // No jurisdiction code
+            ArgumentOutOfRangeException e = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
+            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nDSTATE field is missing.')", e.Message);
+            record.DeathLocationJurisdiction = "QQ"; // Not a valid jurisdiction code
+            e = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
+            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nDSTATE value of QQ is invalid.')", e.Message);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

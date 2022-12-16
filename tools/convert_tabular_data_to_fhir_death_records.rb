@@ -18,8 +18,8 @@ death_lit_file = ARGV.shift
 num_records = ARGV.shift
 # ARG5: The output directory.
 output_dir = ARGV.shift
-### Example CLI command with WA tabular dataset:
-# ruby convert_tabular_data_to_fhir-death-record.rb IJE_File_Layouts_Input_Mapping_WA_Version_2021.xlsx wa_state/DeathStat2017Q3.xlsx wa_state/DeathLit2017Q3.csv 50 ./wa_output/
+### Example CLI command with tabular dataset:
+# ruby convert_tabular_data_to_fhir_death_records.rb IJE_File_Layouts_Tabular_Input_Mapping_Version_2021.xlsx state/DeathStat2017Q3.xlsx state/DeathLit2017Q3.csv 50 ./output/
 
 # Import IJE to tabular data headers mapping file.
 ije_data_mappings = Creek::Book.new ije_data_mappings_file, with_headers: true

@@ -18,8 +18,17 @@ death_lit_file = ARGV.shift
 num_records = ARGV.shift
 # ARG5: The output directory.
 output_dir = ARGV.shift
+# ARG6: Optional, the data year to submit
+data_year = ARGV.shift
+# ARG7: Optional, the input record number number to start with
+jurisdiction = ARGV.shift
+# ARG8: Optional, the input record number number to start with
+first_record_number = ARGV.shift&.to_i
+# ARG9: Optional, the output certificate number to start with
+first_cert_number = ARGV.shift&.to_i
+
 ### Example CLI command with tabular dataset:
-# ruby convert_tabular_data_to_fhir_death_records.rb IJE_File_Layouts_Tabular_Input_Mapping_Version_2021.xlsx state/DeathStat2017Q3.xlsx state/DeathLit2017Q3.csv 50 ./output/
+# ruby convert_tabular_data_to_fhir_death_records.rb IJE_File_Layouts_Tabular_Input_Mapping_Version_2021.xlsx state/DeathStat2017Q3.xlsx state/DeathLit2017Q3.csv 50 ./output/ TT 100 200
 
 # Import IJE to tabular data headers mapping file.
 ije_data_mappings = Creek::Book.new ije_data_mappings_file, with_headers: true
@@ -29,7 +38,7 @@ data = Creek::Book.new death_stat_file, with_headers: true
 csv_file = File.read(death_lit_file)
 # Remove invalid non utf-8 characters such as †. 
 csv_file = csv_file.scrub('')
-data_lit = CSV.parse(csv_file, headers: true, encoding: 'windows-1251:utf-8')
+data_lit = CSV.parse(csv_file, headers: true, encoding: 'ISO-8859-1')
 
 # Initialize the Faker generators.
 Faker::UniqueGenerator.clear # Clears used values for all generators
@@ -169,21 +178,27 @@ end
 # data_stat_sheet: Input statistical tabular dataset. Expects Excel.
 # data_lit: Input literal tabular dataset. Expects CSV.
 # num_records: The number of records to convert and export.
-def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_records)
+def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_records, data_year, jurisdiction, first_cert_number, first_record_number)
 
   # Array of IJE record strings.
   ije_records = Array.new { '' }
   # Skip column headers row flag.
   skip_headers = true
   # Iterate over the input data sheet which contains all the excel-based death records.
-  data_stat_sheet.simple_rows.each do |data_row|
+  data_stat_sheet.simple_rows.each_with_index do |data_row, index|
     # Skip column headers row.
     if skip_headers
       skip_headers = false
       next
     end
 
-    if ije_records.length() > (num_records-1)
+    # Skip appropriate number of rows if we're not starting at the first record number
+    if first_record_number && index < first_record_number
+      puts "SKIPPING ROW #{index}"
+      next
+    end
+
+    if ije_records.length >= num_records
       # Generated the requested number of records, stop generating more.
       break;
     end
@@ -265,8 +280,21 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_record
     # Escape any invalid characters.
     ije_record_string = ije_record_string.gsub("`", " ")
     ije_record_string = ije_record_string.gsub("\"", " ")
+    original_record_identifier = ije_record_string[0..11]
+    # Use specified data year, jurisdiction, and starting certificate number if provided
+    if data_year
+      ije_record_string[0..3] = data_year[0,4]
+    end
+    if jurisdiction
+      ije_record_string[4..5] = jurisdiction[0,2]
+    end
+    if first_cert_number
+      ije_record_string[6..11] = '%06d' % (index + first_cert_number - first_record_number)
+    end
+    # Pad the string to the required 5000 characters
+    ije_record_string = ije_record_string.ljust(5000)
+    puts("Parsed Record #{original_record_identifier} recorded as #{ije_record_string[0..11]}")
     ije_records.push(ije_record_string)
-    puts("Parsed Record " + ije_record_string[0..11])
   end
   return ije_records
 end
@@ -294,7 +322,7 @@ end
 
 puts("Starting data parsing and converting...")
 # Convert records to IJE.
-ije_records = convert_ije_records(ije_data_mappings.sheets[0], data.sheets[0], data_lit, num_records.to_i)
+ije_records = convert_ije_records(ije_data_mappings.sheets[0], data.sheets[0], data_lit, num_records.to_i, data_year, jurisdiction, first_cert_number, first_record_number)
 # Export records to FHIR.
 export_records(ije_records, output_dir)
 puts("Conversion and exporting complete.")

@@ -3689,7 +3689,6 @@ namespace VRDR.Tests
         public void GetShouldNotReturnEmptyString()
         {
             // An empty string field should never return an empty string to mean no value, should return null
-            Console.WriteLine("Running test");
             DeathRecord blank = new DeathRecord();
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
@@ -3697,13 +3696,10 @@ namespace VRDR.Tests
                 if (property.PropertyType.ToString() == "System.String")
                 {
                     object value = property.GetValue(blank);
-                    if(value != null){
-                        if (property.Name == "DeathRecordIdentifier") {
-                            Assert.Equal(value, "0000XX000000");
-                        } else {
-                          Console.Write("Expected null for " + property.Name + " but got '" + value + "'.");
-                          Assert.Null(value);
-                        }
+                    if (property.Name == "DeathRecordIdentifier") {
+                        Assert.Equal(value, "0000XX000000");
+                    } else {
+                      Assert.Null(value);
                     }
                 }
             }

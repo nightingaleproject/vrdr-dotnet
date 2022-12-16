@@ -461,7 +461,7 @@ namespace VRDR
                 }
                 else
                 {
-                    validationErrors.Add(ijeFieldName + " value of " + value + " is invalid.");
+                    validationErrors.Add($"Error: FHIR field {fhirFieldName} value of '{value}' is invalid for IJE field {ijeFieldName}");
                 }
             }
         }
@@ -845,11 +845,11 @@ namespace VRDR
                 string value = LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
                 if (String.IsNullOrWhiteSpace(value))
                 {
-                    validationErrors.Add("DSTATE field is missing.");
+                    validationErrors.Add($"Error: FHIR field DeathLocationJurisdiction is blank, which is invalid for IJE field DSTATE.");
                 }
                 else if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
                 {
-                    validationErrors.Add("DSTATE value of " + value + " is invalid.");
+                    validationErrors.Add($"Error: FHIR field DeathLocationJurisdiction has value '{value}', which is invalid for IJE field DSTATE.");
                 }
                 return value;
             }
@@ -3047,7 +3047,7 @@ namespace VRDR
             { // The TOI is persisted as a datetime, so the A/P/M is meaningless.   This set is a NOOP, but generate a diagnostic for A and P
                 if (value != "M" && value != " ")
                 {
-                    validationErrors.Add($"Error: FHIR field TOI_UNIT contains string '{value}' but can only be set to M or blank");
+                    validationErrors.Add($"Error: IJE field TOI_UNIT contains string '{value}' but can only be set to M or blank");
                 }
             }
         }

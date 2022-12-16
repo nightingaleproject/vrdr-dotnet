@@ -410,10 +410,10 @@ namespace VRDR.Tests
             DeathRecord record = new DeathRecord();
             record.DeathLocationJurisdiction = ""; // No jurisdiction code
             ArgumentOutOfRangeException e = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
-            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nDSTATE field is missing.')", e.Message);
+            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field DeathLocationJurisdiction is blank, which is invalid for IJE field DSTATE.')", e.Message);
             record.DeathLocationJurisdiction = "QQ"; // Not a valid jurisdiction code
             e = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
-            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nDSTATE value of QQ is invalid.')", e.Message);
+            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field DeathLocationJurisdiction has value 'QQ', which is invalid for IJE field DSTATE.')", e.Message);
         }
 
         private string FixturePath(string filePath)

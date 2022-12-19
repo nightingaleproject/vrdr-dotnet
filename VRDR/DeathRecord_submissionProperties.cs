@@ -2136,11 +2136,6 @@ namespace VRDR
                     Extension withinCityLimits = new Extension();
                     withinCityLimits.Url = ExtensionURL.WithinCityLimitsIndicator;
                     withinCityLimits.Value = DictToCoding(value);
-                    // Coding coding = DictToCoding(value);
-                    // if (coding != null)
-                    // {
-                    //     withinCityLimits.Value = coding;
-                    // }
                     Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
                 }
             }

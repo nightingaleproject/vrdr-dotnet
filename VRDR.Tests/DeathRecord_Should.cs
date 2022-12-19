@@ -3432,7 +3432,7 @@ namespace VRDR.Tests
             Assert.Equal("000000000042", mortalityrosterbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", mortalityrosterbundle.StateLocalIdentifier2);
             Assert.Equal("", mortalityrosterbundle.CertificationRole["code"]); // should be empty
-            Assert.Equal(null, mortalityrosterbundle.PregnancyStatusHelper); // should be missing
+            Assert.Null(mortalityrosterbundle.PregnancyStatusHelper); // should be missing
             // TODO: Fill out tests
         }
         [Fact]

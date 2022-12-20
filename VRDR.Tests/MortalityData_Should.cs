@@ -432,10 +432,10 @@ namespace VRDR.Tests
             ije.EAC = "11T27   21T27  &";
             Assert.Equal("11T27   21T27  &", ije.EAC.Trim());
             ije.ACME_UC = "T273";
-            Assert.Equal("T273",ije.ACME_UC);
+            Assert.Equal("T273", ije.ACME_UC);
             ArgumentException e2 = Assert.Throws<ArgumentException>(() => ije.ACME_UC = "T27.3");
             ije.MAN_UC = "T273";
-            Assert.Equal("T273",ije.MAN_UC);
+            Assert.Equal("T273", ije.MAN_UC);
             ArgumentException e3 = Assert.Throws<ArgumentException>(() => ije.MAN_UC = "T27.3");
             ije.RAC = "T27  T27 1";
             Assert.Equal("T27  T27 1", ije.RAC.Trim());

@@ -660,7 +660,7 @@ Dictionary<string, string> age = new Dictionary<string, string>();
 
 age.Add("value", "100");
 
-age.Add("unit", "a"); // USE: http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-units-of-age-vs
+age.Add("code", "a"); // USE: http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-units-of-age-vs
 
 ExampleDeathRecord.AgeAtDeath = age;
 

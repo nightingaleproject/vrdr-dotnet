@@ -1,5 +1,15 @@
 ## Changelog
 
+### v4.0.0.preview16 - 2022-12-05
+
+* Updated AgeAtDeath property to expect a dictionary with "value" and "code" rather than "value" and "unit" to match the FHIR IG
+* Added helper properties for AgeAtDeath to make it easier to set: AgeAtDeathYears, AgeAtDeathMonths, AgeAtDeathDays, AgeAtDeathHours, and AgeAtDeathMinutes
+
+### v4.0.0-preview15 - 2022-12-06
+
+* Fixed an issue where timezone conversion was causing an incorrect day of death to be returned
+* Expanded TargetFrameworks for the VRDR.Client library to include .NET Core 3.1 and .NET Framework 4.8
+
 ### v4.0.0-preview14 - 2022-11-22
 
 * Fixed issue with WithinCityLimits field getting overwritten when setting address properties

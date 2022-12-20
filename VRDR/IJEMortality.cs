@@ -461,7 +461,7 @@ namespace VRDR
                 }
                 else
                 {
-                    validationErrors.Add(ijeFieldName + " value of " + value + " is invalid.");
+                    validationErrors.Add($"Error: FHIR field {fhirFieldName} value of '{value}' is invalid for IJE field {ijeFieldName}");
                 }
             }
         }
@@ -843,9 +843,13 @@ namespace VRDR
             get
             {
                 string value = LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
-                if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
+                if (String.IsNullOrWhiteSpace(value))
                 {
-                    validationErrors.Add("DSTATE value of " + value + " is invalid.");
+                    validationErrors.Add($"Error: FHIR field DeathLocationJurisdiction is blank, which is invalid for IJE field DSTATE.");
+                }
+                else if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
+                {
+                    validationErrors.Add($"Error: FHIR field DeathLocationJurisdiction has value '{value}', which is invalid for IJE field DSTATE.");
                 }
                 return value;
             }
@@ -958,7 +962,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Legal Name--Middle</summary>
-        [IJEField(8, 77, 1, "Decedent's Legal Name--Middle", "MNAME", 3)]
+        [IJEField(8, 77, 1, "Decedent's Legal Name--Middle", "MNAME", 2)]
         public string MNAME
         {
             get
@@ -1125,9 +1129,9 @@ namespace VRDR
         {
             get
             {
-                // Pull unit from coded unit.   "unit" field is descriptive only, and is not required by VRDR IG
-                string unit = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
-                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(unit, out string ijeValue);
+                // Pull code from coded unit.   "code" field is not required by VRDR IG
+                string code = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
+                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(code, out string ijeValue);
                 return ijeValue ?? "9";
             }
             set
@@ -3043,7 +3047,7 @@ namespace VRDR
             { // The TOI is persisted as a datetime, so the A/P/M is meaningless.   This set is a NOOP, but generate a diagnostic for A and P
                 if (value != "M" && value != " ")
                 {
-                    validationErrors.Add($"Error: FHIR field TOI_UNIT contains string '{value}' but can only be set to M or blank");
+                    validationErrors.Add($"Error: IJE field TOI_UNIT contains string '{value}' but can only be set to M or blank");
                 }
             }
         }
@@ -3723,7 +3727,7 @@ namespace VRDR
         }
 
         /// <summary>Middle Name of Decedent</summary>
-        [IJEField(166, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 2)]
+        [IJEField(166, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 3)]
         public string DMIDDLE
         {
             get

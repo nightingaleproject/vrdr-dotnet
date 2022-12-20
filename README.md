@@ -33,9 +33,9 @@ Interactions with NCHS are governed by the CI build version of the VRDR and Vita
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 CI build version</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview14</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview14">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview14"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview14">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview14"> github</a></td>
+<td style="text-align: center;">V4.0.0-preview15</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview15">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview15"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview15">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview15"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2/">STU2 Published</a></td>
@@ -49,17 +49,17 @@ Interactions with NCHS are governed by the CI build version of the VRDR and Vita
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 v1.3</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview14</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview14">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview14"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview14">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview14"> github</a></td>
+<td style="text-align: center;">V4.0.0-preview15</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview15">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview15"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview15">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview15"> github</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">STU2 Ballot</td>
-<td style="text-align: center;">N/A</td>
+<td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2/">STU2 Published</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V3.3.1</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.1"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
+<td style="text-align: center;">V4.0.0-preview13</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview13">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview13"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview13">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview13"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;">STU1</td>
@@ -76,9 +76,10 @@ Interactions with NCHS are governed by the CI build version of the VRDR and Vita
 ## Requirements
 
 ### Development & CLI Requirements
-- This repository is built using .NET Core 3.1, download [here](https://dotnet.microsoft.com/download)
+- This repository is built using .NET Core 6.0, download [here](https://dotnet.microsoft.com/download)
 ### Library Usage
-- The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
+- The VRDR and VRDR.Messaging libraries target .NET Standard 2.0
+- The VRDR.Client library targets .NET Core 3.1 and .NET Framework 4.8
 - To check whether your .NET version supports a release, refer to [the .NET matrix](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support).
   - Note whether you are using .NET Core or .NET Framework - see [here](https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard) for distinctions between the .NET implementation options.
   - Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version.
@@ -97,7 +98,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="4.0.0-preview14" />
+  <PackageReference Include="VRDR" Version="4.0.0-preview15" />
   ...
 </ItemGroup>
 ```
@@ -204,7 +205,7 @@ class
 3. Resetting the middle name if the first name is set again when using the IJEMortality class;
 setting the first name and then the middle name ensures no issues will occur.
 
-#### Helper Methods for Value Sets
+#### Helper Properties for Value Sets
 
 For fields that contain coded values it can involve some extra effort to provide the code, the code
 system, and the display text. The VRDR library includes some helper methods to make this easier. For
@@ -282,7 +283,36 @@ are available to simplify setting coded values:
 * AcmeSystemRejectHelper
 * TransaxConversionHelper
 
+#### Helper Properties for Age at Death
+
+In addition to the standard set of coded value fields there are also helper properties for setting
+Age at Death. For example, here's how to specify Age at Death using the long form:
+
+```
+// Set AgeAtDeath
+Dictionary<string, string> age = new Dictionary<string, string>();
+age.Add("value", "100");
+age.Add("code", "a");
+deathRecord.AgeAtDeath = age;
+```
+
+Here's a simpler way to accomplish the same thing by using `AgeAtDeathYears`:
+
+```
+deathRecord.AgeAtDeathYears = 100;
+```
+
+This helper property automatically sets the correct code. The following helper properties are
+available to simplify setting Age at Death:
+
+* AgeAtDeathYears
+* AgeAtDeathMonths
+* AgeAtDeathDays
+* AgeAtDeathHours
+* AgeAtDeathMinutes
+
 #### FHIR VRDR record to/from IJE Mortality format
+
 An example of converting a VRDR FHIR Death Record to an IJE string:
 ```cs
 using VRDR;
@@ -325,7 +355,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="4.0.0-preview14" />
+  <PackageReference Include="VRDR.Messaging" Version="4.0.0-preview15" />
   ...
 </ItemGroup>
 ```

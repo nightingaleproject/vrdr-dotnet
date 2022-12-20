@@ -580,8 +580,9 @@
             }
           ],
           "value": 42,
-          "unit": "years",
-          "code": "a"
+          "code": "a",
+          "system": "http://unitsofmeasure.org",
+          "unit": "years"
         },
         "subject": {
           "reference": "Patient/Decedent-Example1"

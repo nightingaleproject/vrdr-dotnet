@@ -433,7 +433,7 @@ namespace VRDR.CLI
 
                 // AgeAtDeath
                 Dictionary<string, string> aad = new Dictionary<string, string>();
-                aad.Add("unit", "a");
+                aad.Add("code", "a");
                 aad.Add("value", "79");
                 deathRecord.AgeAtDeath = aad;
 
@@ -510,6 +510,22 @@ namespace VRDR.CLI
                 DeathRecord d = ije1.ToDeathRecord();
                 Console.WriteLine(d.ToJSON());
                 return 0;
+            }
+            else if (args.Length > 2 && args[0] == "ije2json")
+            {
+              // This command will export the files to the same directory they were imported from.
+              for (int i = 1; i < args.Length; i++)
+              {
+                  string ijeFile = args[i];
+                  string ijeRawRecord = File.ReadAllText(ijeFile);
+                  IJEMortality ije = new IJEMortality(ijeRawRecord);
+                  DeathRecord d = ije.ToDeathRecord();
+                  string outputFilename = ijeFile.Replace(".ije", ".json");
+                  StreamWriter sw = new StreamWriter(outputFilename);
+                  sw.WriteLine(d.ToJSON());
+                  sw.Flush();
+              }
+              return 0;
             }
             else if (args.Length == 2 && args[0] == "json2xml")
             {
@@ -612,9 +628,10 @@ namespace VRDR.CLI
                 DeathRecord d2 = new DeathRecord(d1.ToJSON());
                 DeathRecord d3 = new DeathRecord();
                 List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+                HashSet<string> skipPropertyNames = new HashSet<string>() { "CausesOfDeath", "AgeAtDeathYears", "AgeAtDeathMonths", "AgeAtDeathDays", "AgeAtDeathHours", "AgeAtDeathMinutes" };
                 foreach (PropertyInfo property in properties)
                 {
-                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("Boolean"))
+                    if (skipPropertyNames.Contains(property.Name))
                     {
                         continue;
                     }
@@ -626,7 +643,7 @@ namespace VRDR.CLI
 
                 foreach (PropertyInfo property in properties)
                 {
-                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("Boolean"))
+                    if (skipPropertyNames.Contains(property.Name))
                     {
                         continue;
                     }

@@ -2268,6 +2268,12 @@ namespace VRDR.Tests
             SetterDeathRecord.AgeAtDeath = aad;
             Assert.Equal("mo", SetterDeathRecord.AgeAtDeath["code"]);
             Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+            // optional fields
+            aad.Add("system", "http://unitsofmeasure.org");
+            aad.Add("unit", "years");
+            SetterDeathRecord.AgeAtDeath = aad;
+            Assert.Equal("http://unitsofmeasure.org", (SetterDeathRecord.AgeAtDeath["system"]));
+            Assert.Equal("years", (SetterDeathRecord.AgeAtDeath["unit"]));
         }
 
         [Fact]
@@ -2287,6 +2293,108 @@ namespace VRDR.Tests
             Assert.Equal("11", (dr2.AgeAtDeath["value"]));
             Assert.Equal("a", DeathRecord1_XML.AgeAtDeath["code"]);
             Assert.Equal("79", DeathRecord1_XML.AgeAtDeath["value"]);
+            // optional fields
+            Assert.Equal("http://unitsofmeasure.org", DeathCertificateDocument2_JSON.AgeAtDeath["system"]);
+            Assert.Equal("years", DeathCertificateDocument2_JSON.AgeAtDeath["unit"]);
+            Assert.Equal("http://unitsofmeasure.org", dr2.AgeAtDeath["system"]);
+            Assert.Equal("years", dr2.AgeAtDeath["unit"]);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathYears()
+        {
+            SetterDeathRecord.AgeAtDeathYears = 11;
+            Assert.Equal("a", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathYears()
+        {
+            Assert.Equal(42, DeathCertificateDocument2_JSON.AgeAtDeathYears);
+            Assert.Equal(79, DeathRecord1_XML.AgeAtDeathYears);
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "a"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathYears);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathMonths()
+        {
+            SetterDeathRecord.AgeAtDeathMonths = 11;
+            Assert.Equal("mo", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathMonths()
+        {
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "mo"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathMonths);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathDays()
+        {
+            SetterDeathRecord.AgeAtDeathDays = 11;
+            Assert.Equal("d", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathDays()
+        {
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "d"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathDays);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathHours()
+        {
+            SetterDeathRecord.AgeAtDeathHours = 11;
+            Assert.Equal("h", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathHours()
+        {
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "h"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathHours);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathMinutes()
+        {
+            SetterDeathRecord.AgeAtDeathMinutes = 11;
+            Assert.Equal("min", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathMinutes()
+        {
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "min"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathMinutes);
         }
 
         [Fact]
@@ -2307,7 +2415,7 @@ namespace VRDR.Tests
             Assert.Equal("999", ije.AGE);
             Assert.Equal("9", ije.AGETYPE);
             DeathRecord dr2 = ije.ToDeathRecord();
-            Assert.Equal("", dr2.AgeAtDeath["unit"]);
+            Assert.Equal("", dr2.AgeAtDeath["code"]);
             Assert.Equal("", dr2.AgeAtDeath["value"]);
         }
 
@@ -2959,6 +3067,14 @@ namespace VRDR.Tests
             Assert.Equal("2021", ije1.DOD_YR);
             Assert.Equal("02", ije1.DOD_MO);
             Assert.Equal("99", ije1.DOD_DY);
+        }
+
+        [Fact]
+        public void Get_DateOfDeath_Timezone()
+        {
+            // The timezone of the death datetime should not impact the date due to timezone conversion
+            DeathRecord record = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathTimeZone.json")));
+            Assert.Equal(17, record.DeathDay);
         }
 
         [Fact]

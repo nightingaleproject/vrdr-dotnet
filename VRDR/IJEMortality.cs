@@ -824,7 +824,7 @@ namespace VRDR
             // NCHS tacks on an extra character to some ICD10 codes, e.g., K7210 (K27.10)
             Regex NCHSICD10regex = new Regex(@"^[A-TV-Z][0-9][0-9AB][0-9A-TV-Z]{0,2}$");
 
-            return (!String.IsNullOrEmpty(nchsicd10code) &&
+            return (String.IsNullOrEmpty(nchsicd10code) ||
                  NCHSICD10regex.Match(nchsicd10code).Success);
         }
 

@@ -28,7 +28,7 @@ first_record_number = ARGV.shift&.to_i
 first_cert_number = ARGV.shift&.to_i
 
 ### Example CLI command with tabular dataset:
-# ruby convert_tabular_data_to_fhir_death_records.rb IJE_File_Layouts_Tabular_Input_Mapping_Version_2021.xlsx state/DeathStat2017Q3.xlsx state/DeathLit2017Q3.csv 50 ./output/ TT 100 200
+# ruby convert_tabular_data_to_fhir_death_records.rb IJE_File_Layouts_Tabular_Input_Mapping_Version_2021.xlsx state/DeathStat2017Q3.xlsx state/DeathLit2017Q3.csv 50 ./output/ 2022 WA 100 200
 
 # Import IJE to tabular data headers mapping file.
 ije_data_mappings = Creek::Book.new ije_data_mappings_file, with_headers: true
@@ -39,6 +39,12 @@ csv_file = File.read(death_lit_file)
 # Remove invalid non utf-8 characters such as †. 
 csv_file = csv_file.scrub('')
 data_lit = CSV.parse(csv_file, headers: true, encoding: 'ISO-8859-1')
+
+# Intiailize the state abbreviation to full name mappings.
+$state_abbr_to_name = {
+  'AL' => 'Alabama', 'AK' => 'Alaska', 'AS' => 'America Samoa', 'AZ' => 'Arizona', 'AR' => 'Arkansas', 'CA' => 'California', 'CO' => 'Colorado', 'CT' => 'Connecticut', 'DE' => 'Delaware', 'DC' => 'District of Columbia', 'FM' => 'Federated States Of Micronesia', 'FL' => 'Florida', 'GA' => 'Georgia', 'GU' => 'Guam', 'HI' => 'Hawaii', 'ID' => 'Idaho', 'IL' => 'Illinois', 'IN' => 'Indiana', 'IA' => 'Iowa', 'KS' => 'Kansas', 'KY' => 'Kentucky', 'LA' => 'Louisiana', 'ME' => 'Maine', 'MH' => 'Marshall Islands', 'MD' => 'Maryland', 'MA' => 'Massachusetts', 'MI' => 'Michigan', 'MN' => 'Minnesota', 'MS' => 'Mississippi', 'MO' => 'Missouri', 'MT' => 'Montana', 'NE' => 'Nebraska', 'NV' => 'Nevada', 'NH' => 'New Hampshire', 'NJ' => 'New Jersey', 'NM' => 'New Mexico', 'NY' => 'New York', 'NC' => 'North Carolina', 'ND' => 'North Dakota', 'OH' => 'Ohio', 'OK' => 'Oklahoma', 'OR' => 'Oregon', 'PW' => 'Palau', 'PA' => 'Pennsylvania', 'PR' => 'Puerto Rico', 'RI' => 'Rhode Island', 'SC' => 'South Carolina', 'SD' => 'South Dakota', 'TN' => 'Tennessee', 'TX' => 'Texas', 'UT' => 'Utah', 'VT' => 'Vermont', 'VI' => 'Virgin Island', 'VA' => 'Virginia', 'WA' => 'Washington', 'WV' => 'West Virginia', 'WI' => 'Wisconsin', 'WY' => 'Wyoming'
+}
+$state_abbr_to_name.default = ''
 
 # Initialize the Faker generators.
 Faker::UniqueGenerator.clear # Clears used values for all generators
@@ -104,6 +110,20 @@ def catch_invalid_values(ije_key, ije_field_string, field_properties)
     ethncitiy_mapping = { 'N' => 'N', 'Y' => 'H' }
     ethncitiy_mapping.default = 'U'
     ije_field_string = ethncitiy_mapping[ije_field_string]
+  elsif field_properties['special value mapping'] == 'toi_unit_modifier'
+    if ije_field_string == 'U' || ije_field_string == 'A' || ije_field_string == 'P'
+      # 'U' is not a valid TOI_UNIT value.
+      # VRDR only accepts "M" and "" even though "P" and "A" are valid via IJE.
+      ije_field_string = ''
+    end
+  elsif field_properties['special value mapping'] == 'two_digit_country'
+    if ije_field_string.downcase() == 'united states' || ije_field_string.downcase() == 'US'
+      ije_field_string = 'US';
+    else
+      ije_field_string = ''
+    end
+  elsif field_properties['special value mapping'] == 'full_state_name'
+    ije_field_string = $state_abbr_to_name[ije_field_string]
   elsif ije_key == 'INJPL' && ije_field_string != ""
     # Injury Place is in a full-phrase and inconsistent format. IJE is expecting a one-character value. Setting to '9' for unknown.
     ije_field_string = "9"
@@ -149,7 +169,7 @@ end
 def format_ije_data(ije_field_string, ije_length)
   # Truncate and warn of overlong IJE field values.
   if ije_field_string.length > ije_length
-    # puts "Record `#{data_row['State file number']}` contains an overlong data field `#{ije_field_string}` for `#{ije_key}`. Expected `#{ije_length}`. Truncating."
+    # puts "Record contains an overlong data field `#{ije_field_string}`. Expected `#{ije_length}`. Truncating."
     # Truncate an overlong IJE data field.
     ije_field_string = ije_field_string[0,ije_length]
   end
@@ -157,13 +177,12 @@ def format_ije_data(ije_field_string, ije_length)
     # In some cases, the datasets contain "." for blank fields. Convert them to blank.
     ije_field_string = ""
   end
-  # Add padding spaces to the of the string according to its length.
+  # Add padding spaces to the string according to its length.
   if is_number?(ije_field_string)
     # Numbers are right justified with 0s.
     ije_field_string = ije_field_string.rjust(ije_length, '0')
   else
     # Strings are left justified.
-    # But it should be automatic, no need to manual;y do this.
     ije_field_string = ije_field_string.ljust(ije_length, ' ')
   end
 end
@@ -206,6 +225,8 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_record
     skip_mappings_headers = true
     # Initialize this record's IJE record.
     ije_record_string = ' ' * 5000
+    # Track this record's middle name.
+    middle_name = nil
     ije_data_mappings.simple_rows.each do |mapping_row|
       # Skip column headers row.
       if skip_mappings_headers
@@ -213,7 +234,7 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_record
         next
       end
       if mapping_row['Input Data Field Name'] == '?' && mapping_row['default'] == 'blank'
-        # Skip this mapping since there's no IJE-data mapping and there is no default value.
+        # Skip this mapping since there's no IJE-data mapping and no default value.
         next
       end
       # The IJE field key/header.
@@ -268,6 +289,14 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_record
       if ije_key == 'FILENO'
         # Remove the first 4 digits which are the year.
         ije_field_string = ije_field_string[4, ije_field_string.length]
+      end
+      # Account for consistent middle name.
+      if ije_key == 'MNAME' || ije_key == 'DMIDDLE'
+        if middle_name == nil
+          middle_name = ije_field_string
+        else
+          ije_field_string = middle_name
+        end
       end
       ije_length = mapping_row['Length'].to_i()
       ije_field_string = format_ije_data(ije_field_string, ije_length)

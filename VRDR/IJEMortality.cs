@@ -3052,11 +3052,13 @@ namespace VRDR
             {
                 if (DOI_YR != "9999" && DOI_YR != "    ")
                 {
-                    return "M"; // Military time
+                    // Military time since that's the form the datetime object VRDR stores the time of injury as.
+                    return "M";
                 }
                 else
                 {
-                    return " "; // Blank = Military time
+                    // Blank since there is no time of injury.
+                    return " ";
 
                 }
             }

@@ -99,12 +99,12 @@ def parse_ije_field(data_row, header, ije_key, field_properties, county_mappings
   end
   ije_field_string = data_row[header].to_s
   # Catch and convert any potential invalid IJE fields.
-  ije_field_string = catch_invalid_values(ije_key, ije_field_string, field_properties, county_mappings, data_row['Residence state FIPS code'], ije_string)
+  ije_field_string = catch_invalid_values(ije_key, ije_field_string, field_properties, data_row, county_mappings, ije_string)
   return ije_field_string
 end
 
 # Catches invalid IJE values for certain headers and converts them to a valid format.
-def catch_invalid_values(ije_key, ije_field_string, field_properties, county_mappings, residence_state_fips, ije_string)
+def catch_invalid_values(ije_key, ije_field_string, field_properties, data_row, county_mappings, ije_string)
   if ije_field_string == nil
     # If there is no data for this data value, set it to blank.
     ije_field_string = ''
@@ -116,6 +116,11 @@ def catch_invalid_values(ije_key, ije_field_string, field_properties, county_map
     ije_field_string = ije_field_string.split('-')[1]
   elsif field_properties['special value mapping'] == 'extract_day'
     ije_field_string = ije_field_string.split('-')[2]
+  elsif field_properties['special value mapping'] == 'military_time'
+    # If the time type is "P" (PM), then add 12 hours to the hour for military time.
+    if data_row['Time of Injury Modifier'] == "P"
+      ije_field_string = (ije_field_string.to_i() + 12).to_s()
+    end
   elsif field_properties['special value mapping'] == 'capitalize_first_letter'
     ije_field_string = ije_field_string.downcase()
     ije_field_string[0] = ije_field_string[0].capitalize()
@@ -125,11 +130,13 @@ def catch_invalid_values(ije_key, ije_field_string, field_properties, county_map
   elsif field_properties['special value mapping'] == 'reuse_certstatecd'
     state_abbr = ije_string[4215..4216]
     ije_field_string = $state_abbr_to_name[state_abbr]
-  elsif field_properties['special value mapping'] == 'toi_unit_modifier'
-    if ije_field_string == 'U' || ije_field_string == 'A' || ije_field_string == 'P'
-      # 'U' is not a valid TOI_UNIT value.
-      # VRDR only accepts "M" and "" even though "P" and "A" are valid via IJE.
-      ije_field_string = 'M'
+  elsif field_properties['special value mapping'] == 'reuse_certstatecd'
+    state_abbr = ije_string[4215..4216]
+    ije_field_string = $state_abbr_to_name[state_abbr]
+  elsif field_properties['special value mapping'] == 'use_2022_if_no_injury'
+    # If there is time of injury data, set it to 2022.
+    if ije_string[981..982].empty?() && ije_string[983..984].empty?()
+      ije_field_string = '2022'
     end
   elsif field_properties['special value mapping'] == 'two_digit_country'
     if ije_field_string.downcase() == 'united states' || ije_field_string.downcase() == 'US'
@@ -140,6 +147,7 @@ def catch_invalid_values(ije_key, ije_field_string, field_properties, county_map
   elsif field_properties['special value mapping'] == 'full_state_name'
     ije_field_string = $state_abbr_to_name[ije_field_string]
   elsif field_properties['special value mapping'] == 'county_code_to_name'
+    residence_state_fips = data_row['Residence state FIPS code']
     county_row = county_mappings.select { |row| row["county_fips"][row["county_fips"].length-3, row["county_fips"].length] == ije_field_string.rjust(3, '0') && row["state_abbr"] == residence_state_fips }[0]
     if county_row == nil
       puts("ERROR: Missing a county name mapping for State #{residence_state_fips} and County Code #{ije_field_string.rjust(3, '0')}.")
@@ -285,7 +293,7 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, county_map
               end
               ije_field_string = ije_field_string + format_ije_data(raw_ije, length)
             end
-            ije_field_string = catch_invalid_values(ije_key, ije_field_string, mapping_row, county_mappings, data_row['Residence state FIPS code'], ije_record_string)
+            ije_field_string = catch_invalid_values(ije_key, ije_field_string, mapping_row, data_row, county_mappings, ije_record_string)
           else
             # If it does not have multiple mappings, treat it as a single mapping.
             ije_field_string = parse_ije_field(data_row, datafile_header, ije_key, mapping_row, county_mappings, ije_record_string)
@@ -303,7 +311,7 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, county_map
             ije_field_string = ''
           end
         elsif mapping_row['special value mapping'] != nil
-          ije_field_string = catch_invalid_values(ije_key, '', mapping_row, county_mappings, data_row['Residence state FIPS code'], ije_record_string)
+          ije_field_string = catch_invalid_values(ije_key, '', mapping_row, data_row, county_mappings, ije_record_string)
         else
           puts("ERROR: IJE Field mapping `#{ije_key}` does not include a file to map to and has no default value.")
         end

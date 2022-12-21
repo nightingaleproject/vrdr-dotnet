@@ -415,6 +415,34 @@ namespace VRDR.Tests
             e = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
             Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field DeathLocationJurisdiction has value 'QQ', which is invalid for IJE field DSTATE.')", e.Message);
         }
+        // NCHS has quirky ICD10 codes.  If someone tries to use an actual ICD10 code with periods it should throw an exception
+        [Fact]
+        public void ICD10_Errors()
+        {
+            // Create an empty IJE Mortality record
+            IJEMortality ije = new IJEMortality();
+            // Populate the IJE fields
+            ije.DOD_YR = "2022";
+            ije.DSTATE = "YC";
+            ije.FILENO = "123";
+            ije.AUXNO = "500";
+            ArgumentException e1 = Assert.Throws<ArgumentException>(() => ije.RAC = "T27.3T27.0");
+            ije.EAC = "11T273  21T270 &";
+            Assert.Equal("11T273  21T270 &", ije.EAC.Trim());
+            ije.EAC = "11T27   21T27  &";
+            Assert.Equal("11T27   21T27  &", ije.EAC.Trim());
+            ije.ACME_UC = "T273";
+            Assert.Equal("T273", ije.ACME_UC);
+            ArgumentException e2 = Assert.Throws<ArgumentException>(() => ije.ACME_UC = "T27.3");
+            ije.MAN_UC = "T273";
+            Assert.Equal("T273", ije.MAN_UC);
+            ArgumentException e3 = Assert.Throws<ArgumentException>(() => ije.MAN_UC = "T27.3");
+            ije.RAC = "T27  T27 1";
+            Assert.Equal("T27  T27 1", ije.RAC.Trim());
+            ije.RAC = "T273 T2701";
+            Assert.Equal("T273 T2701", ije.RAC.Trim());
+            ArgumentException e4 = Assert.Throws<ArgumentException>(() => ije.EAC = "11T27.321T27.0&");
+        }
 
         private string FixturePath(string filePath)
         {

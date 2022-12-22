@@ -3052,11 +3052,13 @@ namespace VRDR
             {
                 if (DOI_YR != "9999" && DOI_YR != "    ")
                 {
-                    return "M"; // Military time
+                    // Military time since that's the form the datetime object VRDR stores the time of injury as.
+                    return "M";
                 }
                 else
                 {
-                    return " "; // Blank = Military time
+                    // Blank since there is no time of injury.
+                    return " ";
 
                 }
             }
@@ -4580,13 +4582,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("FUNFACSTNUM", "FuneralHomeAddress", "address", "stname", true);
+                return Dictionary_Geo_Get("FUNFACSTRNAME", "FuneralHomeAddress", "address", "stname", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("FUNFACSTNUM", "FuneralHomeAddress", "address", "stname", false, value);
+                    Dictionary_Geo_Set("FUNFACSTRNAME", "FuneralHomeAddress", "address", "stname", false, value);
                 }
             }
         }
@@ -4683,13 +4685,13 @@ namespace VRDR
             get
             {
 
-                return Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", true);
+                return Dictionary_Geo_Get("FUNSTATECD", "FuneralHomeAddress", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "state", value);
+                    Dictionary_Geo_Set("FUNSTATECD", "FuneralHomeAddress", "address", "state", true, value);
                 }
             }
         }
@@ -4700,7 +4702,7 @@ namespace VRDR
         {
             get
             {
-                var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("FUNSTATE", "FuneralHomeAddress", "address", "state", false);
                 //                var mortalityData = MortalityData.Instance;
                 string funstate = dataLookup.StateCodeToStateName(stateCode);
                 if (funstate == null)

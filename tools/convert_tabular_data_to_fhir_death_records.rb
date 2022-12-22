@@ -20,7 +20,7 @@ num_records = ARGV.shift
 output_dir = ARGV.shift
 # ARG6: Optional, the data year to submit
 data_year = ARGV.shift
-# ARG7: Optional, the input record number number to start with
+# ARG7: Optional, the jurisdiction
 jurisdiction = ARGV.shift
 # ARG8: Optional, the input record number number to start with
 first_record_number = ARGV.shift&.to_i
@@ -28,7 +28,7 @@ first_record_number = ARGV.shift&.to_i
 first_cert_number = ARGV.shift&.to_i
 
 ### Example CLI command with tabular dataset:
-# ruby convert_tabular_data_to_fhir_death_records.rb IJE_File_Layouts_Tabular_Input_Mapping_Version_2021.xlsx state/DeathStat2017Q3.xlsx state/DeathLit2017Q3.csv 50 ./output/ TT 100 200
+# ruby convert_tabular_data_to_fhir_death_records.rb IJE_File_Layouts_Tabular_Input_Mapping_Version_2021.xlsx state/DeathStat2017Q3.xlsx state/DeathLit2017Q3.csv 1 ./output/ 2022 WA 1 1
 
 # Import IJE to tabular data headers mapping file.
 ije_data_mappings = Creek::Book.new ije_data_mappings_file, with_headers: true
@@ -39,6 +39,16 @@ csv_file = File.read(death_lit_file)
 # Remove invalid non utf-8 characters such as †. 
 csv_file = csv_file.scrub('')
 data_lit = CSV.parse(csv_file, headers: true, encoding: 'ISO-8859-1')
+# Import county name mappings CSV file.
+county_csv_file = File.read("./state_county_codes.csv")
+county_mappings = CSV.parse(county_csv_file, headers: true, encoding: 'ISO-8859-1')
+
+
+# Intiailize the state abbreviation to full name mappings.
+$state_abbr_to_name = {
+  'AL' => 'Alabama', 'AK' => 'Alaska', 'AS' => 'America Samoa', 'AZ' => 'Arizona', 'AR' => 'Arkansas', 'CA' => 'California', 'CO' => 'Colorado', 'CT' => 'Connecticut', 'DE' => 'Delaware', 'DC' => 'District of Columbia', 'FM' => 'Federated States Of Micronesia', 'FL' => 'Florida', 'GA' => 'Georgia', 'GU' => 'Guam', 'HI' => 'Hawaii', 'ID' => 'Idaho', 'IL' => 'Illinois', 'IN' => 'Indiana', 'IA' => 'Iowa', 'KS' => 'Kansas', 'KY' => 'Kentucky', 'LA' => 'Louisiana', 'ME' => 'Maine', 'MH' => 'Marshall Islands', 'MD' => 'Maryland', 'MA' => 'Massachusetts', 'MI' => 'Michigan', 'MN' => 'Minnesota', 'MS' => 'Mississippi', 'MO' => 'Missouri', 'MT' => 'Montana', 'NE' => 'Nebraska', 'NV' => 'Nevada', 'NH' => 'New Hampshire', 'NJ' => 'New Jersey', 'NM' => 'New Mexico', 'NY' => 'New York', 'NC' => 'North Carolina', 'ND' => 'North Dakota', 'OH' => 'Ohio', 'OK' => 'Oklahoma', 'OR' => 'Oregon', 'PW' => 'Palau', 'PA' => 'Pennsylvania', 'PR' => 'Puerto Rico', 'RI' => 'Rhode Island', 'SC' => 'South Carolina', 'SD' => 'South Dakota', 'TN' => 'Tennessee', 'TX' => 'Texas', 'UT' => 'Utah', 'VT' => 'Vermont', 'VI' => 'Virgin Island', 'VA' => 'Virginia', 'WA' => 'Washington', 'WV' => 'West Virginia', 'WI' => 'Wisconsin', 'WY' => 'Wyoming'
+}
+$state_abbr_to_name.default = ''
 
 # Initialize the Faker generators.
 Faker::UniqueGenerator.clear # Clears used values for all generators
@@ -74,8 +84,6 @@ def generate_faked_value(ije_key)
     return Faker::Address.full_address
   when 'FUNSTATECD', 'CERTSTATECD'
     return Faker::Address.state_abbr
-  when 'FUNSTATE', 'CERTSTATE'
-    return Faker::Address.state
   when 'FUNZIP', 'CERTZIP'
     return Faker::Address.zip_code
   end
@@ -83,7 +91,7 @@ def generate_faked_value(ije_key)
 end
 
 # Parses a single IJE field from a data row with the given header.
-def parse_ije_field(data_row, header, ije_key, field_properties)
+def parse_ije_field(data_row, header, ije_key, field_properties, county_mappings, ije_string)
   if !data_row.key?(header) && field_properties['default'] == nil
     puts("ERROR: IJE Field `#{ije_key}` does not map to any input data file headers.")
     ije_field_string = ''
@@ -91,12 +99,12 @@ def parse_ije_field(data_row, header, ije_key, field_properties)
   end
   ije_field_string = data_row[header].to_s
   # Catch and convert any potential invalid IJE fields.
-  ije_field_string = catch_invalid_values(ije_key, ije_field_string, field_properties)
+  ije_field_string = catch_invalid_values(ije_key, ije_field_string, field_properties, data_row, county_mappings, ije_string)
   return ije_field_string
 end
 
 # Catches invalid IJE values for certain headers and converts them to a valid format.
-def catch_invalid_values(ije_key, ije_field_string, field_properties)
+def catch_invalid_values(ije_key, ije_field_string, field_properties, data_row, county_mappings, ije_string)
   if ije_field_string == nil
     # If there is no data for this data value, set it to blank.
     ije_field_string = ''
@@ -104,6 +112,47 @@ def catch_invalid_values(ije_key, ije_field_string, field_properties)
     ethncitiy_mapping = { 'N' => 'N', 'Y' => 'H' }
     ethncitiy_mapping.default = 'U'
     ije_field_string = ethncitiy_mapping[ije_field_string]
+  elsif field_properties['special value mapping'] == 'extract_month'
+    ije_field_string = ije_field_string.split('-')[1]
+  elsif field_properties['special value mapping'] == 'extract_day'
+    ije_field_string = ije_field_string.split('-')[2]
+  elsif field_properties['special value mapping'] == 'military_time'
+    # If the time type is "P" (PM), then add 12 hours to the hour for military time.
+    if data_row['Time of Injury Modifier'] == "P"
+      ije_field_string = (ije_field_string.to_i() + 12).to_s()
+    end
+  elsif field_properties['special value mapping'] == 'capitalize_first_letter'
+    ije_field_string = ije_field_string.downcase()
+    ije_field_string[0] = ije_field_string[0].capitalize()
+  elsif field_properties['special value mapping'] == 'reuse_funstatecd'
+    state_abbr = ije_string[3851..3852]
+    ije_field_string = $state_abbr_to_name[state_abbr]
+  elsif field_properties['special value mapping'] == 'reuse_certstatecd'
+    state_abbr = ije_string[4215..4216]
+    ije_field_string = $state_abbr_to_name[state_abbr]
+  elsif field_properties['special value mapping'] == 'reuse_certstatecd'
+    state_abbr = ije_string[4215..4216]
+    ije_field_string = $state_abbr_to_name[state_abbr]
+  elsif field_properties['special value mapping'] == 'use_2022_if_no_injury'
+    # If there is time of injury data, set it to 2022.
+    if ije_string[981..982].empty?() && ije_string[983..984].empty?()
+      ije_field_string = '2022'
+    end
+  elsif field_properties['special value mapping'] == 'two_digit_country'
+    if ije_field_string.downcase() == 'united states' || ije_field_string.downcase() == 'US'
+      ije_field_string = 'US';
+    else
+      ije_field_string = ''
+    end
+  elsif field_properties['special value mapping'] == 'full_state_name'
+    ije_field_string = $state_abbr_to_name[ije_field_string]
+  elsif field_properties['special value mapping'] == 'county_code_to_name'
+    residence_state_fips = data_row['Residence state FIPS code']
+    county_row = county_mappings.select { |row| row["county_fips"][row["county_fips"].length-3, row["county_fips"].length] == ije_field_string.rjust(3, '0') && row["state_abbr"] == residence_state_fips }[0]
+    if county_row == nil
+      puts("ERROR: Missing a county name mapping for State #{residence_state_fips} and County Code #{ije_field_string.rjust(3, '0')}.")
+    end
+    ije_field_string = county_row["county_name"]
   elsif ije_key == 'INJPL' && ije_field_string != ""
     # Injury Place is in a full-phrase and inconsistent format. IJE is expecting a one-character value. Setting to '9' for unknown.
     ije_field_string = "9"
@@ -149,7 +198,7 @@ end
 def format_ije_data(ije_field_string, ije_length)
   # Truncate and warn of overlong IJE field values.
   if ije_field_string.length > ije_length
-    # puts "Record `#{data_row['State file number']}` contains an overlong data field `#{ije_field_string}` for `#{ije_key}`. Expected `#{ije_length}`. Truncating."
+    # puts "Record contains an overlong data field `#{ije_field_string}`. Expected `#{ije_length}`. Truncating."
     # Truncate an overlong IJE data field.
     ije_field_string = ije_field_string[0,ije_length]
   end
@@ -157,13 +206,12 @@ def format_ije_data(ije_field_string, ije_length)
     # In some cases, the datasets contain "." for blank fields. Convert them to blank.
     ije_field_string = ""
   end
-  # Add padding spaces to the of the string according to its length.
+  # Add padding spaces to the string according to its length.
   if is_number?(ije_field_string)
     # Numbers are right justified with 0s.
     ije_field_string = ije_field_string.rjust(ije_length, '0')
   else
     # Strings are left justified.
-    # But it should be automatic, no need to manual;y do this.
     ije_field_string = ije_field_string.ljust(ije_length, ' ')
   end
 end
@@ -178,7 +226,7 @@ end
 # data_stat_sheet: Input statistical tabular dataset. Expects Excel.
 # data_lit: Input literal tabular dataset. Expects CSV.
 # num_records: The number of records to convert and export.
-def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_records, data_year, jurisdiction, first_cert_number, first_record_number)
+def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, county_mappings, num_records, data_year, jurisdiction, first_cert_number, first_record_number)
 
   # Array of IJE record strings.
   ije_records = Array.new { '' }
@@ -206,6 +254,8 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_record
     skip_mappings_headers = true
     # Initialize this record's IJE record.
     ije_record_string = ' ' * 5000
+    # Track this record's middle name.
+    middle_name = nil
     ije_data_mappings.simple_rows.each do |mapping_row|
       # Skip column headers row.
       if skip_mappings_headers
@@ -213,7 +263,7 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_record
         next
       end
       if mapping_row['Input Data Field Name'] == '?' && mapping_row['default'] == 'blank'
-        # Skip this mapping since there's no IJE-data mapping and there is no default value.
+        # Skip this mapping since there's no IJE-data mapping and no default value.
         next
       end
       # The IJE field key/header.
@@ -236,30 +286,32 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_record
             datafile_header = datafile_header.tr('[]', '')
             datafile_header.split(',').each do |header|
               ije_length = mapping_row['Length'].to_i()
-              raw_ije = parse_ije_field(data_row, header, ije_key, mapping_row)
+              raw_ije = parse_ije_field(data_row, header, ije_key, mapping_row, county_mappings, ije_record_string)
               length = raw_ije.length()
               if ije_key == "TOD"
                 length = 2
               end
               ije_field_string = ije_field_string + format_ije_data(raw_ije, length)
             end
-            ije_field_string = catch_invalid_values(ije_key, ije_field_string, mapping_row)
+            ije_field_string = catch_invalid_values(ije_key, ije_field_string, mapping_row, data_row, county_mappings, ije_record_string)
           else
             # If it does not have multiple mappings, treat it as a single mapping.
-            ije_field_string = parse_ije_field(data_row, datafile_header, ije_key, mapping_row)
+            ije_field_string = parse_ije_field(data_row, datafile_header, ije_key, mapping_row, county_mappings, ije_record_string)
           end
         elsif mapping_row['file'] == 'lit'
           # Perform the mapping for this ije key using the literal dataset.
           # Since this data is in the literal data file, get the record number and extract the relevant row from the literal data.
           record_num = data_row['State file number']
           lit_data_row = data_lit.select { |row| row['State File Number'] == record_num }[0]
-          ije_field_string = parse_ije_field(lit_data_row, datafile_header, ije_key, mapping_row)
+          ije_field_string = parse_ije_field(lit_data_row, datafile_header, ije_key, mapping_row, county_mappings, ije_record_string)
         elsif datafile_header == '?' && mapping_row['default'] != nil
           # If there is a default value due to a lack of mapping in the file, use it.
           ije_field_string = mapping_row['default']
           if ije_field_string == 'blank'
             ije_field_string = ''
           end
+        elsif mapping_row['special value mapping'] != nil
+          ije_field_string = catch_invalid_values(ije_key, '', mapping_row, data_row, county_mappings, ije_record_string)
         else
           puts("ERROR: IJE Field mapping `#{ije_key}` does not include a file to map to and has no default value.")
         end
@@ -268,6 +320,14 @@ def convert_ije_records(ije_data_mappings, data_stat_sheet, data_lit, num_record
       if ije_key == 'FILENO'
         # Remove the first 4 digits which are the year.
         ije_field_string = ije_field_string[4, ije_field_string.length]
+      end
+      # Account for consistent middle name.
+      if ije_key == 'MNAME' || ije_key == 'DMIDDLE'
+        if middle_name == nil
+          middle_name = ije_field_string
+        else
+          ije_field_string = middle_name
+        end
       end
       ije_length = mapping_row['Length'].to_i()
       ije_field_string = format_ije_data(ije_field_string, ije_length)
@@ -322,7 +382,7 @@ end
 
 puts("Starting data parsing and converting...")
 # Convert records to IJE.
-ije_records = convert_ije_records(ije_data_mappings.sheets[0], data.sheets[0], data_lit, num_records.to_i, data_year, jurisdiction, first_cert_number, first_record_number)
+ije_records = convert_ije_records(ije_data_mappings.sheets[0], data.sheets[0], data_lit, county_mappings, num_records.to_i, data_year, jurisdiction, first_cert_number, first_record_number)
 # Export records to FHIR.
 export_records(ije_records, output_dir)
 puts("Conversion and exporting complete.")

@@ -926,7 +926,7 @@
         "effectiveDateTime": "2021-08-11",
         "valueQuantity": {
           "value": 80,
-          "unit": "a"
+          "code": "a"
         }
       }
     },

@@ -461,7 +461,7 @@ namespace VRDR
                 }
                 else
                 {
-                    validationErrors.Add(ijeFieldName + " value of " + value + " is invalid.");
+                    validationErrors.Add($"Error: FHIR field {fhirFieldName} value of '{value}' is invalid for IJE field {ijeFieldName}");
                 }
             }
         }
@@ -775,21 +775,19 @@ namespace VRDR
         /// <summary>NCHS ICD10 to actual ICD10 </summary>
         private string NCHSICD10toActualICD10(string nchsicd10code)
         {
-            // ICD-10 diagnosis codes always begin with a letter (except U) followed by a digit.
-            // The third character is usually a digit, but could be an A or B [1].
-            // After the first three characters, there may be a decimal point, and up to three more alphanumeric characters.
-            // These alphanumeric characters are never U. Sometimes the decimal is left out.
-            // Regex ICD10regex = new Regex(@"^[A-TV-Z][0-9][0-9AB].?[0-9A-TV-Z]{0,4}$");
-            // NCHS ICD10 codes are the same as above for the first three characters.
-            // The decimal point is always dropped.
-            // Some codes have a fourth character that reflects an actual ICD10 code.
-            // NCHS tacks on an extra character to some ICD10 codes, e.g., K7210 (K27.10)
-            // Regex NCHSICD10regex = new Regex(@"^[A-TV-Z][0-9][0-9AB][0-9A-TV-Z]{0,2}$");
             string code = "";
 
             if (!String.IsNullOrEmpty(nchsicd10code))
             {
-                code = nchsicd10code.Trim();
+                if (ValidNCHSICD10(nchsicd10code.Trim()))
+                {
+                    code = nchsicd10code.Trim();
+                }
+                else
+                {
+                    throw new ArgumentException($"NCHS ICD10 code {nchsicd10code} is invalid.");
+                }
+
             }
 
             if (code.Length >= 4)    // codes of length 4 or 5 need to have a decimal inserted
@@ -811,6 +809,25 @@ namespace VRDR
                 return "";
             }
         }
+
+        /// <summary>Actual ICD10 to NCHS ICD10 </summary>
+        private bool ValidNCHSICD10(string nchsicd10code)
+        {
+            // ICD-10 diagnosis codes always begin with a letter (except U) followed by a digit.
+            // The third character is usually a digit, but could be an A or B [1].
+            // After the first three characters, there may be a decimal point, and up to three more alphanumeric characters.
+            // These alphanumeric characters are never U. Sometimes the decimal is left out.
+            // Regex ICD10regex = new Regex(@"^[A-TV-Z][0-9][0-9AB].?[0-9A-TV-Z]{0,4}$");
+            // NCHS ICD10 codes are the same as above for the first three characters.
+            // The decimal point is always dropped.
+            // Some codes have a fourth character that reflects an actual ICD10 code.
+            // NCHS tacks on an extra character to some ICD10 codes, e.g., K7210 (K27.10)
+            Regex NCHSICD10regex = new Regex(@"^[A-TV-Z][0-9][0-9AB][0-9A-TV-Z]{0,2}$");
+
+            return (String.IsNullOrEmpty(nchsicd10code) ||
+                 NCHSICD10regex.Match(nchsicd10code).Success);
+        }
+
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -843,9 +860,13 @@ namespace VRDR
             get
             {
                 string value = LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
-                if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
+                if (String.IsNullOrWhiteSpace(value))
                 {
-                    validationErrors.Add("DSTATE value of " + value + " is invalid.");
+                    validationErrors.Add($"Error: FHIR field DeathLocationJurisdiction is blank, which is invalid for IJE field DSTATE.");
+                }
+                else if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
+                {
+                    validationErrors.Add($"Error: FHIR field DeathLocationJurisdiction has value '{value}', which is invalid for IJE field DSTATE.");
                 }
                 return value;
             }
@@ -910,13 +931,13 @@ namespace VRDR
                 {
                     return (new String(' ', 12));
                 }
-                return RightJustifiedZeroed_Get("AUXNO", "StateLocalIdentifier1");
+                return LeftJustified_Get("AUXNO", "StateLocalIdentifier1");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AUXNO", "StateLocalIdentifier1", value);
+                    LeftJustified_Set("AUXNO", "StateLocalIdentifier1", value);
                 }
             }
         }
@@ -958,7 +979,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Legal Name--Middle</summary>
-        [IJEField(8, 77, 1, "Decedent's Legal Name--Middle", "MNAME", 3)]
+        [IJEField(8, 77, 1, "Decedent's Legal Name--Middle", "MNAME", 2)]
         public string MNAME
         {
             get
@@ -1125,9 +1146,9 @@ namespace VRDR
         {
             get
             {
-                // Pull unit from coded unit.   "unit" field is descriptive only, and is not required by VRDR IG
-                string unit = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
-                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(unit, out string ijeValue);
+                // Pull code from coded unit.   "code" field is not required by VRDR IG
+                string code = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
+                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(code, out string ijeValue);
                 return ijeValue ?? "9";
             }
             set
@@ -2944,13 +2965,13 @@ namespace VRDR
                 {
                     return (new String(' ', 12));
                 }
-                return RightJustifiedZeroed_Get("AUXNO2", "StateLocalIdentifier2");
+                return LeftJustified_Get("AUXNO2", "StateLocalIdentifier2");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AUXNO2", "StateLocalIdentifier2", value);
+                    LeftJustified_Set("AUXNO2", "StateLocalIdentifier2", value);
                 }
             }
         }
@@ -3031,11 +3052,13 @@ namespace VRDR
             {
                 if (DOI_YR != "9999" && DOI_YR != "    ")
                 {
-                    return "M"; // Military time
+                    // Military time since that's the form the datetime object VRDR stores the time of injury as.
+                    return "M";
                 }
                 else
                 {
-                    return " "; // Blank = Military time
+                    // Blank since there is no time of injury.
+                    return " ";
 
                 }
             }
@@ -3043,7 +3066,7 @@ namespace VRDR
             { // The TOI is persisted as a datetime, so the A/P/M is meaningless.   This set is a NOOP, but generate a diagnostic for A and P
                 if (value != "M" && value != " ")
                 {
-                    validationErrors.Add($"Error: FHIR field TOI_UNIT contains string '{value}' but can only be set to M or blank");
+                    validationErrors.Add($"Error: IJE field TOI_UNIT contains string '{value}' but can only be set to M or blank");
                 }
             }
         }
@@ -3723,7 +3746,7 @@ namespace VRDR
         }
 
         /// <summary>Middle Name of Decedent</summary>
-        [IJEField(166, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 2)]
+        [IJEField(166, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 3)]
         public string DMIDDLE
         {
             get
@@ -4559,13 +4582,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("FUNFACSTNUM", "FuneralHomeAddress", "address", "stname", true);
+                return Dictionary_Geo_Get("FUNFACSTRNAME", "FuneralHomeAddress", "address", "stname", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("FUNFACSTNUM", "FuneralHomeAddress", "address", "stname", false, value);
+                    Dictionary_Geo_Set("FUNFACSTRNAME", "FuneralHomeAddress", "address", "stname", false, value);
                 }
             }
         }
@@ -4662,13 +4685,13 @@ namespace VRDR
             get
             {
 
-                return Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", true);
+                return Dictionary_Geo_Get("FUNSTATECD", "FuneralHomeAddress", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "state", value);
+                    Dictionary_Geo_Set("FUNSTATECD", "FuneralHomeAddress", "address", "state", true, value);
                 }
             }
         }
@@ -4679,7 +4702,7 @@ namespace VRDR
         {
             get
             {
-                var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("FUNSTATE", "FuneralHomeAddress", "address", "state", false);
                 //                var mortalityData = MortalityData.Instance;
                 string funstate = dataLookup.StateCodeToStateName(stateCode);
                 if (funstate == null)

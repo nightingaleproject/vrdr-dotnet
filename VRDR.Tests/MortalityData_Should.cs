@@ -71,7 +71,6 @@ namespace VRDR.Tests
             DeathRecord dr = ije1.ToDeathRecord();
             Dictionary<string, string> age = new Dictionary<string, string>();
             age.Add("value", "10");
-            age.Add("unit", "Months");
             age.Add("code", "mo");
             dr.AgeAtDeath = age;
             Assert.Equal("mo", dr.AgeAtDeath["code"]);
@@ -88,16 +87,16 @@ namespace VRDR.Tests
             Assert.Equal("000000000001", ije1.AUXNO);
             Assert.Equal("000000000002", ije1.AUXNO2);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal("1", dr2.StateLocalIdentifier1);
-            Assert.Equal("2", dr2.StateLocalIdentifier2);
+            Assert.Equal("000000000001", dr2.StateLocalIdentifier1);
+            Assert.Equal("000000000002", dr2.StateLocalIdentifier2);
             Assert.Equal("NY", dr2.DeathLocationAddress["addressState"]);
             Assert.Equal("YC", dr2.DeathLocationJurisdiction);
             IJEMortality ije1rt2 = new IJEMortality(dr2);
             DeathRecord dr3 = ije1rt2.ToDeathRecord();
             Assert.Equal("NY", dr3.DeathLocationAddress["addressState"]);
             Assert.Equal("YC", dr3.DeathLocationJurisdiction);
-            Assert.Equal("1", dr3.StateLocalIdentifier1);
-            Assert.Equal("2", dr3.StateLocalIdentifier2);
+            Assert.Equal("000000000001", dr3.StateLocalIdentifier1);
+            Assert.Equal("000000000002", dr3.StateLocalIdentifier2);
             IJEMortality ije3 = new IJEMortality(ije1.ToString());
             Assert.Equal("000000000001", ije3.AUXNO);
             Assert.Equal("000000000002", ije3.AUXNO2);
@@ -402,6 +401,47 @@ namespace VRDR.Tests
             ije.DMIDDLE = "Dmiddle";
             Assert.Equal("D", ije.MNAME.Trim());
             Assert.Equal("Dmiddle", ije.DMIDDLE.Trim());
+        }
+
+        // If the DSTATE is not set we should get a different message from it being set to an invalid value
+        [Fact]
+        public void DSTATE_Errors()
+        {
+            DeathRecord record = new DeathRecord();
+            record.DeathLocationJurisdiction = ""; // No jurisdiction code
+            ArgumentOutOfRangeException e = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
+            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field DeathLocationJurisdiction is blank, which is invalid for IJE field DSTATE.')", e.Message);
+            record.DeathLocationJurisdiction = "QQ"; // Not a valid jurisdiction code
+            e = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
+            Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field DeathLocationJurisdiction has value 'QQ', which is invalid for IJE field DSTATE.')", e.Message);
+        }
+        // NCHS has quirky ICD10 codes.  If someone tries to use an actual ICD10 code with periods it should throw an exception
+        [Fact]
+        public void ICD10_Errors()
+        {
+            // Create an empty IJE Mortality record
+            IJEMortality ije = new IJEMortality();
+            // Populate the IJE fields
+            ije.DOD_YR = "2022";
+            ije.DSTATE = "YC";
+            ije.FILENO = "123";
+            ije.AUXNO = "500";
+            ArgumentException e1 = Assert.Throws<ArgumentException>(() => ije.RAC = "T27.3T27.0");
+            ije.EAC = "11T273  21T270 &";
+            Assert.Equal("11T273  21T270 &", ije.EAC.Trim());
+            ije.EAC = "11T27   21T27  &";
+            Assert.Equal("11T27   21T27  &", ije.EAC.Trim());
+            ije.ACME_UC = "T273";
+            Assert.Equal("T273", ije.ACME_UC);
+            ArgumentException e2 = Assert.Throws<ArgumentException>(() => ije.ACME_UC = "T27.3");
+            ije.MAN_UC = "T273";
+            Assert.Equal("T273", ije.MAN_UC);
+            ArgumentException e3 = Assert.Throws<ArgumentException>(() => ije.MAN_UC = "T27.3");
+            ije.RAC = "T27  T27 1";
+            Assert.Equal("T27  T27 1", ije.RAC.Trim());
+            ije.RAC = "T273 T2701";
+            Assert.Equal("T273 T2701", ije.RAC.Trim());
+            ArgumentException e4 = Assert.Throws<ArgumentException>(() => ije.EAC = "11T27.321T27.0&");
         }
 
         private string FixturePath(string filePath)

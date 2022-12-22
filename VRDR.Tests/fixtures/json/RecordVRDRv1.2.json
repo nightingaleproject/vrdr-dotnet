@@ -574,7 +574,7 @@
         },
         "valueQuantity": {
           "value": 72,
-          "unit": "a"
+          "code": "a"
         }
       }
     },

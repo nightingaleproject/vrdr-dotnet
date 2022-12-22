@@ -5351,22 +5351,29 @@ namespace VRDR
         }
 
         /// <summary>Age At Death.</summary>
-        /// <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
-        /// <para>"value" - the quantity value</para>
-        /// <para>"system" - the quantity unit</para>
-        /// </value>
+        /// <value>decedent's age at time of death. A Dictionary representing a length of time,
+        /// containing the following key/value pairs: </value>
+        /// <para>"value" - the quantity value, structured as valueQuantity.value</para>
+        /// <para>"code" - the unit a PHIN VADS code set UnitsOfAge, structed as valueQuantity.code
+        ///   USE: http://hl7.org/fhir/us/vrdr/STU2/StructureDefinition-vrdr-decedent-age.html </para>
+        /// <para>"system" - OPTIONAL: from the example page http://hl7.org/fhir/us/vrdr/Observation-DecedentAge-Example1.json.html</para>
+        /// <para>"unit" - OPTIONAL: from the example page http://hl7.org/fhir/us/vrdr/Observation-DecedentAge-Example1.json.html</para>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
         /// <para>age.Add("value", "100");</para>
-        /// <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-units-of-age-vs </para>
+        /// <para>age.Add("code", "a"); // e.g. "min" = minutes, "d" = days, "h" = hours, "mo" = months, "a" = years, "UNK" = unknown</para>
+        /// <para>age.Add("system", "http://unitsofmeasure.org");</para>
+        /// <para>age.Add("unit", "years");</para>
         /// <para>ExampleDeathRecord.AgeAtDeath = age;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['value']} years");</para>
         /// </example>
         [Property("Age At Death", Property.Types.Dictionary, "Decedent Demographics", "Age At Death.", true, IGURL.DecedentAge, true, 2)]
-        [PropertyParam("value", "The unit type, from UnitsOfAge ValueSet.")]
-        [PropertyParam("unit", "The quantity value.")]
+        [PropertyParam("value", "The quantity value.")]
+        [PropertyParam("code", "The unit type, from UnitsOfAge ValueSet.")]
+        [PropertyParam("system", "OPTIONAL: The coding system.")]
+        [PropertyParam("unit", "OPTIONAL: The unit description.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
         public Dictionary<string, string> AgeAtDeath
         {
@@ -5377,19 +5384,19 @@ namespace VRDR
                     Dictionary<string, string> age = new Dictionary<string, string>();
                     Quantity quantity = (Quantity)AgeAtDeathObs.Value;
                     age.Add("value", quantity.Value == null ? "" : Convert.ToString(quantity.Value));
-                    age.Add("unit", quantity.Unit == null ? "" : quantity.Unit);
                     age.Add("code", quantity.Code == null ? "" : quantity.Code);
                     age.Add("system", quantity.System == null ? "" : quantity.System);
+                    age.Add("unit", quantity.Unit== null ? "" : quantity.Unit);
                     return age;
                 }
-                return new Dictionary<string, string>() { { "value", "" }, { "unit", "" }, { "code", "" }, { "system", "" } };
+                return new Dictionary<string, string>() { { "value", "" }, { "code", "" }, { "system", null }, { "unit", null} };
             }
             set
             {
                 string extractedValue = GetValue(value, "value");
                 string extractedCode = GetValue(value, "code"); ;
-                string extractedUnit = GetValue(value, "unit");
                 string extractedSystem = GetValue(value, "system");
+                string extractedUnit = GetValue(value, "unit");
                 if ((extractedValue == null && extractedCode == null && extractedUnit == null && extractedSystem == null)) // if there is nothing to do, do nothing.
                 {
                     return;
@@ -5404,10 +5411,6 @@ namespace VRDR
                 {
                     quantity.Value = Convert.ToDecimal(extractedValue);
                 }
-                if (extractedUnit != null)
-                {
-                    quantity.Unit = extractedUnit;
-                }
                 if (extractedCode != null)
                 {
                     quantity.Code = extractedCode;
@@ -5416,8 +5419,119 @@ namespace VRDR
                 {
                     quantity.System = extractedSystem;
                 }
+                if (extractedUnit != null)
+                {
+                    quantity.Unit = extractedUnit;
+                }
                 AgeAtDeathObs.Value = (Quantity)quantity;
             }
+        }
+
+        /// <summary>Get Age At Death For Code</summary>
+        /// <value>Private helper method to get the age at death for a given code.</value>
+        private int? _getAgeAtDeathForCode(string code)
+        {
+            if (AgeAtDeath["code"] == code && AgeAtDeath["value"] != null)
+            {
+                return Convert.ToInt32(AgeAtDeath["value"]);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>Set Age At Death For Code</summary>
+        /// <value>Private helper method to set the age at death for a given code and value.</value>
+        private void _setAgeAtDeathForCode(string code, int? value)
+        {
+            if (value != null)
+            {
+                AgeAtDeath = new Dictionary<string, string>() {
+                    { "value", Convert.ToString(value) },
+                    { "code", code }
+                };
+            }
+        }
+
+        /// <summary>Age At Death Years Helper</summary>
+        /// <value>Set decedent's age at time of death in years.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathYears = 100;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathYears} years");</para>
+        /// </example>
+        [Property("Age At Death Years Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Years.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathYears
+        {
+            get => _getAgeAtDeathForCode("a");
+            set => _setAgeAtDeathForCode("a", value);
+        }
+
+        /// <summary>Age At Death Months Helper</summary>
+        /// <value>Set decedent's age at time of death in months.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathMonths = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMonths} months");</para>
+        /// </example>
+        [Property("Age At Death Months Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Months.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathMonths
+        {
+            get => _getAgeAtDeathForCode("mo");
+            set => _setAgeAtDeathForCode("mo", value);
+        }
+
+        /// <summary>Age At Death Days Helper</summary>
+        /// <value>Set decedent's age at time of death in days.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathDays = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathDays} days");</para>
+        /// </example>
+        [Property("Age At Death Days Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Days.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathDays
+        {
+            get => _getAgeAtDeathForCode("d");
+            set => _setAgeAtDeathForCode("d", value);
+        }
+
+        /// <summary>Age At Death Hours Helper</summary>
+        /// <value>Set decedent's age at time of death in hours.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathHours = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathHours} hours");</para>
+        /// </example>
+        [Property("Age At Death Hours Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Hours.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathHours
+        {
+            get => _getAgeAtDeathForCode("h");
+            set => _setAgeAtDeathForCode("h", value);
+        }
+
+        /// <summary>Age At Death Minutes Helper</summary>
+        /// <value>Set decedent's age at time of death in minutes.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathMinutes = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMinutes} minutes");</para>
+        /// </example>
+        [Property("Age At Death Minutes Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Minutes.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathMinutes
+        {
+            get => _getAgeAtDeathForCode("min");
+            set => _setAgeAtDeathForCode("min", value);
         }
 
         /// <summary>Decedent's Age At Death Edit Flag.</summary>

@@ -103,60 +103,77 @@ def parse_ije_field(data_row, header, ije_key, field_properties, county_mappings
   return ije_field_string
 end
 
-# Catches invalid IJE values for certain headers and converts them to a valid format.
-def catch_invalid_values(ije_key, ije_field_string, field_properties, data_row, county_mappings, ije_string)
-  if ije_field_string == nil
-    # If there is no data for this data value, set it to blank.
-    ije_field_string = ''
-  elsif field_properties['special value mapping'] == 'ethnicity'
+# Maps fields with a a special case mapping.
+def check_special_mappings(ije_field_string, field_properties, data_row, county_mappings, ije_string)
+  case field_properties['special value mapping']
+  when'ethnicity'
     ethncitiy_mapping = { 'N' => 'N', 'Y' => 'H' }
     ethncitiy_mapping.default = 'U'
     ije_field_string = ethncitiy_mapping[ije_field_string]
-  elsif field_properties['special value mapping'] == 'extract_month'
+  when 'extract_month'
     ije_field_string = ije_field_string.split('-')[1]
-  elsif field_properties['special value mapping'] == 'extract_day'
+  when 'extract_day'
     ije_field_string = ije_field_string.split('-')[2]
-  elsif field_properties['special value mapping'] == 'military_time'
+  when 'military_time'
     # If the time type is "P" (PM), then add 12 hours to the hour for military time.
     if data_row['Time of Injury Modifier'] == "P"
       ije_field_string = (ije_field_string.to_i() + 12).to_s()
     end
-  elsif field_properties['special value mapping'] == 'capitalize_first_letter'
+  when 'capitalize_first_letter'
     ije_field_string = ije_field_string.downcase()
     ije_field_string[0] = ije_field_string[0].capitalize()
-  elsif field_properties['special value mapping'] == 'reuse_funstatecd'
+  when 'reuse_funstatecd'
     state_abbr = ije_string[3851..3852]
     ije_field_string = $state_abbr_to_name[state_abbr]
-  elsif field_properties['special value mapping'] == 'reuse_certstatecd'
+  when 'reuse_certstatecd'
     state_abbr = ije_string[4215..4216]
     ije_field_string = $state_abbr_to_name[state_abbr]
-  elsif field_properties['special value mapping'] == 'reuse_certstatecd'
+  when 'reuse_certstatecd'
     state_abbr = ije_string[4215..4216]
     ije_field_string = $state_abbr_to_name[state_abbr]
-  elsif field_properties['special value mapping'] == 'use_2022_if_no_injury'
+  when 'use_2022_if_no_injury'
     # If there is time of injury data, set it to 2022.
     if ije_string[981..982].empty?() && ije_string[983..984].empty?()
       ije_field_string = '2022'
     end
-  elsif field_properties['special value mapping'] == 'two_digit_country'
+  when 'two_digit_country'
     if ije_field_string.downcase() == 'united states' || ije_field_string.downcase() == 'US'
       ije_field_string = 'US';
     else
       ije_field_string = ''
     end
-  elsif field_properties['special value mapping'] == 'full_state_name'
+  when 'full_state_name'
     ije_field_string = $state_abbr_to_name[ije_field_string]
-  elsif field_properties['special value mapping'] == 'county_code_to_name'
+  when 'county_code_to_name'
+    county_code = ije_field_string.rjust(3, '0')
     residence_state_fips = data_row['Residence state FIPS code']
-    county_row = county_mappings.select { |row| row["county_fips"][row["county_fips"].length-3, row["county_fips"].length] == ije_field_string.rjust(3, '0') && row["state_abbr"] == residence_state_fips }[0]
-    if county_row == nil
-      puts("ERROR: Missing a county name mapping for State #{residence_state_fips} and County Code #{ije_field_string.rjust(3, '0')}.")
+    county_row = county_mappings.select { |row| row["county_fips"][row["county_fips"].length-3, row["county_fips"].length] == county_code && row["state_abbr"] == residence_state_fips }[0]
+    if county_row == nil && county_code != "000"
+      puts("ERROR: Missing a county name mapping for State #{residence_state_fips} and County Code #{county_code}.")
     end
-    ije_field_string = county_row["county_name"]
-  elsif ije_key == 'INJPL' && ije_field_string != ""
+    if county_row != nil && county_code != "000"
+      ije_field_string = county_row["county_name"]
+    end
+  when 'toi_unit_modifier'
+    # Time of injury gets coverted to military time.
+    if !ije_field_string.strip.empty?
+      ije_field_string = 'M'
+    end
+  end
+  return ije_field_string
+end
+
+# Catches invalid IJE values for certain headers and converts them to a valid format.
+def catch_invalid_values(ije_key, ije_field_string, field_properties, data_row, county_mappings, ije_string)
+  if ije_field_string == nil
+    # If there is no data for this data value, set it to blank.
+    ije_field_string = ''
+  end
+  ije_field_string = check_special_mappings(ije_field_string, field_properties, data_row, county_mappings, ije_string)
+  if ije_key == 'INJPL' && ije_field_string != ""
     # Injury Place is in a full-phrase and inconsistent format. IJE is expecting a one-character value. Setting to '9' for unknown.
     ije_field_string = "9"
-  elsif ije_key == 'TOI_HR' && ije_field_string == "99"
+  elsif ije_key == 'TOI_HR' && (ije_field_string == "99" || ije_field_string == "0099")
     # The WA data input unknown "Time of Injury Hour" is "99" but IJE expects a 4-digit value.
     ije_field_string = "9999"
   elsif ije_key == 'TOI_HR' && ije_field_string.include?(":")

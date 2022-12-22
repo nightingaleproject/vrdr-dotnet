@@ -145,15 +145,18 @@ def check_special_mappings(ije_field_string, field_properties, data_row, county_
   when 'full_state_name'
     ije_field_string = $state_abbr_to_name[ije_field_string]
   when 'county_code_to_name'
+    county_code = ije_field_string.rjust(3, '0')
     residence_state_fips = data_row['Residence state FIPS code']
-    county_row = county_mappings.select { |row| row["county_fips"][row["county_fips"].length-3, row["county_fips"].length] == ije_field_string.rjust(3, '0') && row["state_abbr"] == residence_state_fips }[0]
-    if county_row == nil
-      puts("ERROR: Missing a county name mapping for State #{residence_state_fips} and County Code #{ije_field_string.rjust(3, '0')}.")
+    county_row = county_mappings.select { |row| row["county_fips"][row["county_fips"].length-3, row["county_fips"].length] == county_code && row["state_abbr"] == residence_state_fips }[0]
+    if county_row == nil && county_code != "000"
+      puts("ERROR: Missing a county name mapping for State #{residence_state_fips} and County Code #{county_code}.")
     end
-    ije_field_string = county_row["county_name"]
+    if county_row != nil && county_code != "000"
+      ije_field_string = county_row["county_name"]
+    end
   when 'toi_unit_modifier'
-    # Time of injury unit is being coverted to military time.
-    if ije_field_string == 'P' || ije_field_string == 'A' || ije_field_string == 'M'
+    # Time of injury gets coverted to military time.
+    if !ije_field_string.strip.empty?
       ije_field_string = 'M'
     end
   end

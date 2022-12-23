@@ -1,9 +1,14 @@
 ## Changelog
 
-### v4.0.0.preview16 - 2022-12-05
+### v4.0.0.preview16 - 2022-12-23
 
 * Updated AgeAtDeath property to expect a dictionary with "value" and "code" rather than "value" and "unit" to match the FHIR IG
 * Added helper properties for AgeAtDeath to make it easier to set: AgeAtDeathYears, AgeAtDeathMonths, AgeAtDeathDays, AgeAtDeathHours, and AgeAtDeathMinutes
+* Added a tabular data to FHIR Death Record Converter for testing
+* Improved errors returned for DSTATE missing vs incorrect
+* Fixed Auxno and Auxno2 formatting during conversion
+* Fixed IJEMortality handling of NCHS-formatted ICD10 codes 
+* Return null instead of empty strings for a blank fields in the death record
 
 ### v4.0.0-preview15 - 2022-12-06
 

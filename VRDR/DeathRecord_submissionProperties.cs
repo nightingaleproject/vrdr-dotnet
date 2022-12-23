@@ -1031,45 +1031,45 @@ namespace VRDR
                 {
                     if (value.Length > 0)
                     {
-                        if (!String.IsNullOrEmpty(value[0].Item1))
+                        if (!String.IsNullOrWhiteSpace(value[0].Item1))
                         {
                             COD1A = value[0].Item1;
                         }
-                        if (!String.IsNullOrEmpty(value[0].Item2))
+                        if (!String.IsNullOrWhiteSpace(value[0].Item2))
                         {
                             INTERVAL1A = value[0].Item2;
                         }
                     }
                     if (value.Length > 1)
                     {
-                        if (!String.IsNullOrEmpty(value[1].Item1))
+                        if (!String.IsNullOrWhiteSpace(value[1].Item1))
                         {
                             COD1B = value[1].Item1;
                         }
-                        if (!String.IsNullOrEmpty(value[1].Item2))
+                        if (!String.IsNullOrWhiteSpace(value[1].Item2))
                         {
                           INTERVAL1B = value[1].Item2;
                         }
                     }
                     if (value.Length > 2)
                     {
-                        if (!String.IsNullOrEmpty(value[2].Item1))
+                        if (!String.IsNullOrWhiteSpace(value[2].Item1))
                         {
                             COD1C = value[2].Item1;
 
                         }
-                        if (!String.IsNullOrEmpty(value[2].Item2))
+                        if (!String.IsNullOrWhiteSpace(value[2].Item2))
                         {
                             INTERVAL1C = value[2].Item2;
                         }
                     }
                     if (value.Length > 3)
                     {
-                        if (!String.IsNullOrEmpty(value[3].Item1))
+                        if (!String.IsNullOrWhiteSpace(value[3].Item1))
                         {
                             COD1D = value[3].Item1;
                         }
-                        if (!String.IsNullOrEmpty(value[3].Item2))
+                        if (!String.IsNullOrWhiteSpace(value[3].Item2))
                         {
                             INTERVAL1D = value[3].Item2;
                         }

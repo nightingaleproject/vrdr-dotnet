@@ -367,11 +367,11 @@ namespace VRDR
             set
             {
                 // TODO: Handle case where Composition == null (either create it or throw exception)
+                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.StateSpecificField);
                 if (String.IsNullOrWhiteSpace(value))
                 {
                     return;
                 }
-                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.StateSpecificField);
                 Extension stateSpecificData = new Extension();
                 stateSpecificData.Url = ExtensionURL.StateSpecificField;
                 stateSpecificData.Value = new FhirString(value);
@@ -1818,11 +1818,11 @@ namespace VRDR
             }
             set
             {
+                Decedent.Extension.RemoveAll(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
                 if (IsDictEmptyOrDefault(value) && Decedent.Extension == null)
                 {
                     return;
                 }
-                Decedent.Extension.RemoveAll(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
                 Extension sex = new Extension();
                 sex.Url = ExtensionURL.NVSSSexAtDeath;
                 sex.Value = DictToCodeableConcept(value);
@@ -2191,11 +2191,11 @@ namespace VRDR
             }
             set
             {
+                Decedent.Identifier.RemoveAll(iden => iden.System == CodeSystems.US_SSN);
                 if (String.IsNullOrWhiteSpace(value))
                 {
                     return;
                 }
-                Decedent.Identifier.RemoveAll(iden => iden.System == CodeSystems.US_SSN);
                 Identifier ssn = new Identifier();
                 ssn.Type = new CodeableConcept(CodeSystems.HL7_identifier_type, "SB", "Social Beneficiary Identifier", null);
                 ssn.System = CodeSystems.US_SSN;
@@ -2551,14 +2551,14 @@ namespace VRDR
             }
             set
             {
-                if (String.IsNullOrWhiteSpace(value)) {
-                    return;
-                }
                 if (InputRaceAndEthnicityObs == null)
                 {
                     CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
                 component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Literal, NvssEthnicity.Literal, null);
                 component.Value = new FhirString(value);
@@ -3897,15 +3897,15 @@ namespace VRDR
             }
             set
             {
-                if ((String.IsNullOrWhiteSpace(value)))
-                {
-                    return;
-                }
                 if (UsualWork == null)
                 {
                     CreateUsualWork();
                 }
                 UsualWork.Component.RemoveAll(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
+                if ((String.IsNullOrWhiteSpace(value)))
+                {
+                    return;
+                }
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
                 component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
                 component.Value = new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "UNK", "unknown", value);     // code is required
@@ -5652,15 +5652,15 @@ namespace VRDR
             }
             set
             {
-                if (IsDictEmptyOrDefault(value) && AgeAtDeathObs == null)
-                {
-                    return;
-                }
                 if (AgeAtDeathObs == null)
                 {
                     CreateAgeAtDeathObs();
                 }
                 AgeAtDeathObs.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                if (IsDictEmptyOrDefault(value) && AgeAtDeathObs == null)
+                {
+                    return;
+                }
                 Extension editFlag = new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value));
                 AgeAtDeathObs.Value.Extension.Add(editFlag);
             }

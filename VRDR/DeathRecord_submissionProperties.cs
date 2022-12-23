@@ -63,8 +63,8 @@ namespace VRDR
                 {
                     Extension ext = new Extension(ExtensionURL.CertificateNumber, new FhirString(value));
                     Bundle.Identifier.Extension.Add(ext);
+                    UpdateDeathRecordIdentifier();
                 }
-                UpdateDeathRecordIdentifier();
             }
         }
 

@@ -246,8 +246,9 @@ namespace VRDR
                 {
                     coding.Display = dict["display"];
                 }
+                return coding;
             }
-            return coding;
+            return null;
         }
 
         /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
@@ -258,7 +259,7 @@ namespace VRDR
             CodeableConcept codeableConcept = new CodeableConcept();
             Coding coding = DictToCoding(dict);
             codeableConcept.Coding.Add(coding);
-            if (dict != null && dict.ContainsKey("text") && dict["text"] != null && dict["text"].Length > 0)
+            if (dict != null && dict.ContainsKey("text") && !String.IsNullOrEmpty(dict["text"]))
             {
                 codeableConcept.Text = dict["text"];
             }
@@ -306,13 +307,9 @@ namespace VRDR
             {
                 Coding coding = codeableConcept.Coding.FirstOrDefault();
                 var codeDict = CodingToDict(coding);
-                if (codeableConcept != null && codeableConcept.Text != null && codeableConcept.Text.Length > 0)
+                if (codeableConcept != null && !String.IsNullOrEmpty(codeableConcept.Text))
                 {
                     codeDict["text"] = codeableConcept.Text;
-                }
-                else
-                {
-                    codeDict["text"] = "";
                 }
                 return codeDict;
             }
@@ -988,6 +985,32 @@ namespace VRDR
                 }
             }
             return record;
+        }
+
+        /// <summary>Helper method to create a HumanName from a list of strings.</summary>
+        /// <param name="value">A list of strings to be converted into a name.</param>
+        /// <param name="names">The current list of HumanName attributes for the person.</param>
+        public static void updateGivenHumanName(string[] value, List<HumanName> names)
+        {
+            // Remove any blank or null values.
+            value = value.Where(v => !String.IsNullOrEmpty(v)).ToArray();
+            // Set names only if there are non-blank values.
+            if (value.Length < 1)
+            {
+              return;
+            }
+            HumanName name = names.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+            if (name != null)
+            {
+                name.Given = value;
+            }
+            else
+            {
+                name = new HumanName();
+                name.Use = HumanName.NameUse.Official;
+                name.Given = value;
+                names.Add(name);
+            }
         }
     }
 

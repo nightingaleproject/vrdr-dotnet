@@ -82,7 +82,7 @@ namespace VRDR
         {
             get
             {
-                if (ActivityAtDeath.ContainsKey("code"))
+                if (ActivityAtDeath.ContainsKey("code") && !String.IsNullOrWhiteSpace(ActivityAtDeath["code"]))
                 {
                     return ActivityAtDeath["code"];
                 }
@@ -90,7 +90,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ActivityAtDeath", value, VRDR.ValueSets.ActivityAtTimeOfDeath.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ActivityAtDeath", value, VRDR.ValueSets.ActivityAtTimeOfDeath.Codes);
+                }
             }
         }
 
@@ -111,13 +114,21 @@ namespace VRDR
             {
                 if (AutomatedUnderlyingCauseOfDeathObs != null && AutomatedUnderlyingCauseOfDeathObs.Value != null && AutomatedUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
                 {
-
-                    return CodeableConceptToDict((CodeableConcept)AutomatedUnderlyingCauseOfDeathObs.Value)["code"];
+                    string codeableConceptValueCode = CodeableConceptToDict((CodeableConcept)AutomatedUnderlyingCauseOfDeathObs.Value)["code"];
+                    if (!String.IsNullOrWhiteSpace(codeableConceptValueCode))
+                    {
+                      return codeableConceptValueCode;
+                    }
+                    return null;
                 }
-                return "";
+                return null;
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (AutomatedUnderlyingCauseOfDeathObs == null)
                 {
                     CreateAutomatedUnderlyingCauseOfDeathObs();
@@ -143,13 +154,20 @@ namespace VRDR
             {
                 if (ManualUnderlyingCauseOfDeathObs != null && ManualUnderlyingCauseOfDeathObs.Value != null && ManualUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
                 {
-
-                    return CodeableConceptToDict((CodeableConcept)ManualUnderlyingCauseOfDeathObs.Value)["code"];
+                    string codeableConceptValueCode = CodeableConceptToDict((CodeableConcept)ManualUnderlyingCauseOfDeathObs.Value)["code"];
+                    if(String.IsNullOrWhiteSpace(codeableConceptValueCode)){
+                      return null;
+                    }
+                    return codeableConceptValueCode;
                 }
-                return "";
+                return null;
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (ManualUnderlyingCauseOfDeathObs == null)
                 {
                     CreateManualUnderlyingCauseOfDeathObs();
@@ -214,7 +232,7 @@ namespace VRDR
         {
             get
             {
-                if (PlaceOfInjury.ContainsKey("code"))
+                if (PlaceOfInjury.ContainsKey("code") && !String.IsNullOrWhiteSpace(PlaceOfInjury["code"]))
                 {
                     return PlaceOfInjury["code"];
                 }
@@ -222,7 +240,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("PlaceOfInjury", value, VRDR.ValueSets.PlaceOfInjury.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("PlaceOfInjury", value, VRDR.ValueSets.PlaceOfInjury.Codes);
+                }
             }
         }
 
@@ -290,7 +311,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstEditedRaceCode.ContainsKey("code"))
+                if (FirstEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstEditedRaceCode["code"]))
                 {
                     return FirstEditedRaceCode["code"];
                 }
@@ -298,7 +319,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -366,7 +390,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondEditedRaceCode.ContainsKey("code"))
+                if (SecondEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondEditedRaceCode["code"]))
                 {
                     return SecondEditedRaceCode["code"];
                 }
@@ -374,7 +398,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -442,7 +469,7 @@ namespace VRDR
         {
             get
             {
-                if (ThirdEditedRaceCode.ContainsKey("code"))
+                if (ThirdEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(ThirdEditedRaceCode["code"]))
                 {
                     return ThirdEditedRaceCode["code"];
                 }
@@ -450,7 +477,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ThirdEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ThirdEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -518,7 +548,7 @@ namespace VRDR
         {
             get
             {
-                if (FourthEditedRaceCode.ContainsKey("code"))
+                if (FourthEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FourthEditedRaceCode["code"]))
                 {
                     return FourthEditedRaceCode["code"];
                 }
@@ -526,7 +556,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FourthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FourthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -594,7 +627,7 @@ namespace VRDR
         {
             get
             {
-                if (FifthEditedRaceCode.ContainsKey("code"))
+                if (FifthEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FifthEditedRaceCode["code"]))
                 {
                     return FifthEditedRaceCode["code"];
                 }
@@ -602,7 +635,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FifthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FifthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -670,7 +706,7 @@ namespace VRDR
         {
             get
             {
-                if (SixthEditedRaceCode.ContainsKey("code"))
+                if (SixthEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SixthEditedRaceCode["code"]))
                 {
                     return SixthEditedRaceCode["code"];
                 }
@@ -678,7 +714,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SixthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SixthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -746,7 +785,7 @@ namespace VRDR
         {
             get
             {
-                if (SeventhEditedRaceCode.ContainsKey("code"))
+                if (SeventhEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SeventhEditedRaceCode["code"]))
                 {
                     return SeventhEditedRaceCode["code"];
                 }
@@ -754,7 +793,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SeventhEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SeventhEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -822,7 +864,7 @@ namespace VRDR
         {
             get
             {
-                if (EighthEditedRaceCode.ContainsKey("code"))
+                if (EighthEditedRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(EighthEditedRaceCode["code"]))
                 {
                     return EighthEditedRaceCode["code"];
                 }
@@ -830,7 +872,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("EighthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("EighthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -898,7 +943,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstAmericanIndianRaceCode.ContainsKey("code"))
+                if (FirstAmericanIndianRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstAmericanIndianRaceCode["code"]))
                 {
                     return FirstAmericanIndianRaceCode["code"];
                 }
@@ -906,7 +951,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -974,7 +1022,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondAmericanIndianRaceCode.ContainsKey("code"))
+                if (SecondAmericanIndianRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondAmericanIndianRaceCode["code"]))
                 {
                     return SecondAmericanIndianRaceCode["code"];
                 }
@@ -982,7 +1030,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1050,7 +1101,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstOtherAsianRaceCode.ContainsKey("code"))
+                if (FirstOtherAsianRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstOtherAsianRaceCode["code"]))
                 {
                     return FirstOtherAsianRaceCode["code"];
                 }
@@ -1058,7 +1109,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1126,7 +1180,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondOtherAsianRaceCode.ContainsKey("code"))
+                if (SecondOtherAsianRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondOtherAsianRaceCode["code"]))
                 {
                     return SecondOtherAsianRaceCode["code"];
                 }
@@ -1134,7 +1188,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1202,7 +1259,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstOtherPacificIslanderRaceCode.ContainsKey("code"))
+                if (FirstOtherPacificIslanderRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstOtherPacificIslanderRaceCode["code"]))
                 {
                     return FirstOtherPacificIslanderRaceCode["code"];
                 }
@@ -1210,7 +1267,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1278,7 +1338,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondOtherPacificIslanderRaceCode.ContainsKey("code"))
+                if (SecondOtherPacificIslanderRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondOtherPacificIslanderRaceCode["code"]))
                 {
                     return SecondOtherPacificIslanderRaceCode["code"];
                 }
@@ -1286,7 +1346,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1354,7 +1417,7 @@ namespace VRDR
         {
             get
             {
-                if (FirstOtherRaceCode.ContainsKey("code"))
+                if (FirstOtherRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(FirstOtherRaceCode["code"]))
                 {
                     return FirstOtherRaceCode["code"];
                 }
@@ -1362,7 +1425,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FirstOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FirstOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1430,7 +1496,7 @@ namespace VRDR
         {
             get
             {
-                if (SecondOtherRaceCode.ContainsKey("code"))
+                if (SecondOtherRaceCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(SecondOtherRaceCode["code"]))
                 {
                     return SecondOtherRaceCode["code"];
                 }
@@ -1438,7 +1504,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SecondOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SecondOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+                }
             }
         }
 
@@ -1506,7 +1575,7 @@ namespace VRDR
         {
             get
             {
-                if (HispanicCode.ContainsKey("code"))
+                if (HispanicCode.ContainsKey("code") && !String.IsNullOrWhiteSpace(HispanicCode["code"]))
                 {
                     return HispanicCode["code"];
                 }
@@ -1514,7 +1583,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("HispanicCode", value, VRDR.ValueSets.HispanicOrigin.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("HispanicCode", value, VRDR.ValueSets.HispanicOrigin.Codes);
+                }
             }
         }
 
@@ -1582,7 +1654,7 @@ namespace VRDR
         {
             get
             {
-                if (HispanicCodeForLiteral.ContainsKey("code"))
+                if (HispanicCodeForLiteral.ContainsKey("code") && !String.IsNullOrWhiteSpace(HispanicCodeForLiteral["code"]))
                 {
                     return HispanicCodeForLiteral["code"];
                 }
@@ -1590,7 +1662,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("HispanicCodeForLiteral", value, VRDR.ValueSets.HispanicOrigin.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("HispanicCodeForLiteral", value, VRDR.ValueSets.HispanicOrigin.Codes);
+                }
             }
         }
 
@@ -1658,7 +1733,7 @@ namespace VRDR
         {
             get
             {
-                if (RaceRecode40.ContainsKey("code"))
+                if (RaceRecode40.ContainsKey("code") && !String.IsNullOrWhiteSpace(RaceRecode40["code"]))
                 {
                     return RaceRecode40["code"];
                 }
@@ -1666,7 +1741,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("RaceRecode40", value, VRDR.ValueSets.RaceRecode40.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("RaceRecode40", value, VRDR.ValueSets.RaceRecode40.Codes);
+                }
             }
         }
 
@@ -1739,36 +1817,38 @@ namespace VRDR
                 // Rebuild the list of observations
                 foreach ((int LineNumber, int Position, string Code, bool ECode) eac in value)
                 {
-                    Observation ob = new Observation();
-                    ob.Id = Guid.NewGuid().ToString();
-                    ob.Meta = new Meta();
-                    string[] entityAxis_profile = { ProfileURL.EntityAxisCauseOfDeath };
-                    ob.Meta.Profile = entityAxis_profile;
-                    ob.Status = ObservationStatus.Final;
-                    ob.Code = new CodeableConcept(CodeSystems.LOINC, "80356-9", "Cause of death entity axis code [Automated]", null);
-                    ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    AddReferenceToComposition(ob.Id, "CodedContent");
+                    if(!String.IsNullOrEmpty(eac.Code))
+                    {
+                        Observation ob = new Observation();
+                        ob.Id = Guid.NewGuid().ToString();
+                        ob.Meta = new Meta();
+                        string[] entityAxis_profile = { ProfileURL.EntityAxisCauseOfDeath };
+                        ob.Meta.Profile = entityAxis_profile;
+                        ob.Status = ObservationStatus.Final;
+                        ob.Code = new CodeableConcept(CodeSystems.LOINC, "80356-9", "Cause of death entity axis code [Automated]", null);
+                        ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                        AddReferenceToComposition(ob.Id, "CodedContent");
 
-                    ob.Effective = new FhirDateTime();
-                    ob.Value = new CodeableConcept(CodeSystems.ICD10, eac.Code, null, null);
+                        ob.Effective = new FhirDateTime();
+                        ob.Value = new CodeableConcept(CodeSystems.ICD10, eac.Code, null, null);
+                        Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
+                        lineNumComp.Value = new Integer(eac.LineNumber);
+                        lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
+                        ob.Component.Add(lineNumComp);
 
-                    Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
-                    lineNumComp.Value = new Integer(eac.LineNumber);
-                    lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
-                    ob.Component.Add(lineNumComp);
+                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                        positionComp.Value = new Integer(eac.Position);
+                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                        ob.Component.Add(positionComp);
 
-                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                    positionComp.Value = new Integer(eac.Position);
-                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
-                    ob.Component.Add(positionComp);
+                        Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
+                        eCodeComp.Value = new FhirBoolean(eac.ECode);
+                        eCodeComp.Code = new CodeableConcept(CodeSystems.Component, "eCodeIndicator", "eCodeIndicator", null);
+                        ob.Component.Add(eCodeComp);
 
-                    Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
-                    eCodeComp.Value = new FhirBoolean(eac.ECode);
-                    eCodeComp.Code = new CodeableConcept(CodeSystems.Component, "eCodeIndicator", "eCodeIndicator", null);
-                    ob.Component.Add(eCodeComp);
-
-                    Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
-                    EntityAxisCauseOfDeathObsList.Add(ob);
+                        Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
+                        EntityAxisCauseOfDeathObsList.Add(ob);
+                    }
                 }
             }
         }
@@ -1834,36 +1914,37 @@ namespace VRDR
                 // Rebuild the list of observations
                 foreach ((int Position, string Code, bool Pregnancy) rac in value)
                 {
-                    Observation ob = new Observation();
-                    ob.Id = Guid.NewGuid().ToString();
-                    ob.Meta = new Meta();
-                    string[] recordAxis_profile = { ProfileURL.RecordAxisCauseOfDeath };
-                    ob.Meta.Profile = recordAxis_profile;
-                    ob.Status = ObservationStatus.Final;
-                    ob.Code = new CodeableConcept(CodeSystems.LOINC, "80357-7", "Cause of death record axis code [Automated]", null);
-                    ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    AddReferenceToComposition(ob.Id, "CodedContent");
-
-                    ob.Effective = new FhirDateTime();
-                    ob.Value = new CodeableConcept(CodeSystems.ICD10, rac.Code, null, null);
-
-                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                    positionComp.Value = new Integer(rac.Position);
-                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
-                    ob.Component.Add(positionComp);
-
-                    // Record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
-                    // http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage
-                    if (rac.Pregnancy)
+                    if(!String.IsNullOrEmpty(rac.Code))
                     {
-                        Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
-                        pregComp.Value = new FhirBoolean(true);
-                        pregComp.Code = new CodeableConcept(CodeSystems.Component, "wouldBeUnderlyingCauseOfDeathWithoutPregnancy", "Would be underlying cause of death without pregnancy, if true");
-                        ob.Component.Add(pregComp);
-                    }
+                        Observation ob = new Observation();
+                        ob.Id = Guid.NewGuid().ToString();
+                        ob.Meta = new Meta();
+                        string[] recordAxis_profile = { ProfileURL.RecordAxisCauseOfDeath };
+                        ob.Meta.Profile = recordAxis_profile;
+                        ob.Status = ObservationStatus.Final;
+                        ob.Code = new CodeableConcept(CodeSystems.LOINC, "80357-7", "Cause of death record axis code [Automated]", null);
+                        ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                        AddReferenceToComposition(ob.Id, "CodedContent");
+                        ob.Effective = new FhirDateTime();
+                        ob.Value = new CodeableConcept(CodeSystems.ICD10, rac.Code, null, null);
+                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                        positionComp.Value = new Integer(rac.Position);
+                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                        ob.Component.Add(positionComp);
 
-                    Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
-                    RecordAxisCauseOfDeathObsList.Add(ob);
+                        // Record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
+                        // http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage
+                        if (rac.Pregnancy)
+                        {
+                            Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
+                            pregComp.Value = new FhirBoolean(true);
+                            pregComp.Code = new CodeableConcept(CodeSystems.Component, "wouldBeUnderlyingCauseOfDeathWithoutPregnancy", "Would be underlying cause of death without pregnancy, if true");
+                            ob.Component.Add(pregComp);
+                        }
+
+                        Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
+                        RecordAxisCauseOfDeathObsList.Add(ob);
+                    }
                 }
             }
         }
@@ -2045,15 +2126,16 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (CodingStatusValues == null)
                 {
                     CreateCodingStatusValues();
                 }
                 CodingStatusValues.Remove("shipmentNumber");
-                if (value != null)
-                {
-                    CodingStatusValues.Add("shipmentNumber", new FhirString(value));
-                }
+                CodingStatusValues.Add("shipmentNumber", new FhirString(value));
             }
         }
         /// <summary>
@@ -2118,7 +2200,7 @@ namespace VRDR
         {
             get
             {
-                if (IntentionalReject.ContainsKey("code"))
+                if (IntentionalReject.ContainsKey("code") && !String.IsNullOrWhiteSpace(IntentionalReject["code"]))
                 {
                     return IntentionalReject["code"];
                 }
@@ -2126,7 +2208,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("IntentionalReject", value, VRDR.ValueSets.IntentionalReject.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("IntentionalReject", value, VRDR.ValueSets.IntentionalReject.Codes);
+                }
             }
         }
 
@@ -2192,7 +2277,7 @@ namespace VRDR
         {
             get
             {
-                if (AcmeSystemReject.ContainsKey("code"))
+                if (AcmeSystemReject.ContainsKey("code") && !String.IsNullOrWhiteSpace(AcmeSystemReject["code"]))
                 {
                     return AcmeSystemReject["code"];
                 }
@@ -2200,7 +2285,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("AcmeSystemReject", value, VRDR.ValueSets.AcmeSystemReject.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("AcmeSystemReject", value, VRDR.ValueSets.AcmeSystemReject.Codes);
+                }
             }
         }
 
@@ -2266,7 +2354,7 @@ namespace VRDR
         {
             get
             {
-                if (TransaxConversion.ContainsKey("code"))
+                if (TransaxConversion.ContainsKey("code") && !String.IsNullOrWhiteSpace(TransaxConversion["code"]))
                 {
                     return TransaxConversion["code"];
                 }
@@ -2274,7 +2362,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("TransaxConversion", value, VRDR.ValueSets.TransaxConversion.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("TransaxConversion", value, VRDR.ValueSets.TransaxConversion.Codes);
+                }
             }
         }
 

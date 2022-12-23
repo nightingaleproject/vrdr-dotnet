@@ -2918,7 +2918,7 @@ namespace VRDR
             get
             {
                 var ret = record.CertificationRoleHelper;
-                if (Mappings.CertifierTypes.FHIRToIJE.ContainsKey(ret))
+                if (ret != null && Mappings.CertifierTypes.FHIRToIJE.ContainsKey(ret))
                 {
                     return Get_MappingFHIRToIJE(Mappings.CertifierTypes.FHIRToIJE, "CertificationRole", "CERTL");
                 }
@@ -3949,7 +3949,7 @@ namespace VRDR
             get
             {
                 var ret = record.TransportationRoleHelper;
-                if (Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(ret))
+                if (ret != null && Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(ret))
                 {
                     return Get_MappingFHIRToIJE(Mappings.TransportationIncidentRole.FHIRToIJE, "TransportationRole", "TRANSPRT");
                 }

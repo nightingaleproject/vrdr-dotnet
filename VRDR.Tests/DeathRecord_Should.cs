@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
+using System.Text.RegularExpressions;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Xunit;
@@ -3431,7 +3432,7 @@ namespace VRDR.Tests
             Assert.Equal("000000000042", mortalityrosterbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", mortalityrosterbundle.StateLocalIdentifier2);
             Assert.Equal("", mortalityrosterbundle.CertificationRole["code"]); // should be empty
-            Assert.Equal("", mortalityrosterbundle.PregnancyStatusHelper); // should be missing
+            Assert.Null(mortalityrosterbundle.PregnancyStatusHelper); // should be missing
             // TODO: Fill out tests
         }
         [Fact]
@@ -3682,6 +3683,81 @@ namespace VRDR.Tests
                 }
                 Assert.Equal(value, ((string)property.GetValue(ije)).Trim());
             }
+        }
+
+        [Fact]
+        public void GetShouldNotReturnEmptyString()
+        {
+            // An empty string field should never return an empty string to mean no value, should return null
+            DeathRecord blank = new DeathRecord();
+            List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.PropertyType.ToString() == "System.String")
+                {
+                    object value = property.GetValue(blank);
+                    if (property.Name == "DeathRecordIdentifier") {
+                        Assert.Equal(value, "0000XX000000");
+                    } else {
+                      Assert.Null(value);
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public void EmptyRecordRoundTrip()
+        {
+            // If we have an empty record and copy it over to a new empty record we shouldn't wind up with any blank strings
+            DeathRecord blank = new DeathRecord();
+            DeathRecord copy = new DeathRecord();
+            List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                property.SetValue(copy, property.GetValue(blank));
+            }
+            Assert.DoesNotContain("\"\"", blank.ToJson());
+            Assert.DoesNotContain("\"\"", copy.ToJson());
+        }
+
+        [Fact]
+        public void SetWithEmptyStrings()
+        {
+            // Starting with an empty record and setting all fields with the "empty" version of the field (e.g., for strings use "")
+            // should not actually set any fields to empty strings in the resulting JSON
+            DeathRecord blank = new DeathRecord();
+            List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                switch (property.PropertyType.ToString())
+                {
+                    case "System.String":
+                        property.SetValue(blank, "");
+                        break;
+                    case "System.String[]":
+                        property.SetValue(blank, new string[] { "", "" });
+                        break;
+                    case "System.Collections.Generic.Dictionary`2[System.String,System.String]":
+                        property.SetValue(blank, new Dictionary<string, string> { { "code", "" }, { "system", ""}, { "display", "" } });
+                        break;
+                    case "System.Collections.Generic.IEnumerable`1[System.ValueTuple`4[System.Int32,System.Int32,System.String,System.Boolean]]":
+                        property.SetValue(blank, new[] { (LineNumber: 1, Position: 1, Code: "", ECode: false) });
+                        break;
+                    case "System.Collections.Generic.IEnumerable`1[System.ValueTuple`3[System.Int32,System.String,System.Boolean]]":
+                        property.SetValue(blank, new[] { (Position: 1, Code: "", Pregnancy: false) });
+                        break;
+                    case "System.Tuple`2[System.String,System.String][]":
+                        property.SetValue(blank, new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "") });
+                        break;
+                    default:
+                        // Make sure we're not missing any string types in the test
+                        if (property.Name.ToString() == "CausesOfDeath") continue; // This is a convenience method that we don't need to test
+                        if (property.PropertyType.ToString().Contains("String")) Console.WriteLine($"Missing string type {property.PropertyType} for property {property.Name}");
+                        Assert.DoesNotContain("String", property.PropertyType.ToString()); // Make sure we're not missing any string types
+                        break;
+                }
+            }
+            Assert.DoesNotContain("\"\"", blank.ToJson());
         }
 
         private string FixturePath(string filePath)

@@ -125,14 +125,15 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                if (String.IsNullOrWhiteSpace(value))
                 {
-                    if (AutomatedUnderlyingCauseOfDeathObs == null)
-                    {
-                        CreateAutomatedUnderlyingCauseOfDeathObs();
-                    }
-                    AutomatedUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
+                    return;
                 }
+                if (AutomatedUnderlyingCauseOfDeathObs == null)
+                {
+                    CreateAutomatedUnderlyingCauseOfDeathObs();
+                }
+                AutomatedUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
             }
         }
 
@@ -163,14 +164,15 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                if (String.IsNullOrWhiteSpace(value))
                 {
-                    if (ManualUnderlyingCauseOfDeathObs == null)
-                    {
-                        CreateManualUnderlyingCauseOfDeathObs();
-                    }
-                    ManualUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
+                    return;
                 }
+                if (ManualUnderlyingCauseOfDeathObs == null)
+                {
+                    CreateManualUnderlyingCauseOfDeathObs();
+                }
+                ManualUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
             }
         }
 
@@ -2124,15 +2126,16 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrEmpty(value))
+                if (String.IsNullOrWhiteSpace(value))
                 {
-                    if (CodingStatusValues == null)
-                    {
-                        CreateCodingStatusValues();
-                    }
-                    CodingStatusValues.Remove("shipmentNumber");
-                    CodingStatusValues.Add("shipmentNumber", new FhirString(value));
+                    return;
                 }
+                if (CodingStatusValues == null)
+                {
+                    CreateCodingStatusValues();
+                }
+                CodingStatusValues.Remove("shipmentNumber");
+                CodingStatusValues.Add("shipmentNumber", new FhirString(value));
             }
         }
         /// <summary>

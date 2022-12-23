@@ -125,12 +125,12 @@ namespace VRDR
             }
             set
             {
-                if (AutomatedUnderlyingCauseOfDeathObs == null)
-                {
-                    CreateAutomatedUnderlyingCauseOfDeathObs();
-                }
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (AutomatedUnderlyingCauseOfDeathObs == null)
+                    {
+                        CreateAutomatedUnderlyingCauseOfDeathObs();
+                    }
                     AutomatedUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
                 }
             }
@@ -163,12 +163,12 @@ namespace VRDR
             }
             set
             {
-                if (ManualUnderlyingCauseOfDeathObs == null)
-                {
-                    CreateManualUnderlyingCauseOfDeathObs();
-                }
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (ManualUnderlyingCauseOfDeathObs == null)
+                    {
+                        CreateManualUnderlyingCauseOfDeathObs();
+                    }
                     ManualUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
                 }
             }
@@ -1815,38 +1815,38 @@ namespace VRDR
                 // Rebuild the list of observations
                 foreach ((int LineNumber, int Position, string Code, bool ECode) eac in value)
                 {
-                    Observation ob = new Observation();
-                    ob.Id = Guid.NewGuid().ToString();
-                    ob.Meta = new Meta();
-                    string[] entityAxis_profile = { ProfileURL.EntityAxisCauseOfDeath };
-                    ob.Meta.Profile = entityAxis_profile;
-                    ob.Status = ObservationStatus.Final;
-                    ob.Code = new CodeableConcept(CodeSystems.LOINC, "80356-9", "Cause of death entity axis code [Automated]", null);
-                    ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    AddReferenceToComposition(ob.Id, "CodedContent");
-
-                    ob.Effective = new FhirDateTime();
                     if(!String.IsNullOrEmpty(eac.Code))
                     {
+                        Observation ob = new Observation();
+                        ob.Id = Guid.NewGuid().ToString();
+                        ob.Meta = new Meta();
+                        string[] entityAxis_profile = { ProfileURL.EntityAxisCauseOfDeath };
+                        ob.Meta.Profile = entityAxis_profile;
+                        ob.Status = ObservationStatus.Final;
+                        ob.Code = new CodeableConcept(CodeSystems.LOINC, "80356-9", "Cause of death entity axis code [Automated]", null);
+                        ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                        AddReferenceToComposition(ob.Id, "CodedContent");
+
+                        ob.Effective = new FhirDateTime();
                         ob.Value = new CodeableConcept(CodeSystems.ICD10, eac.Code, null, null);
+                        Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
+                        lineNumComp.Value = new Integer(eac.LineNumber);
+                        lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
+                        ob.Component.Add(lineNumComp);
+
+                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                        positionComp.Value = new Integer(eac.Position);
+                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                        ob.Component.Add(positionComp);
+
+                        Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
+                        eCodeComp.Value = new FhirBoolean(eac.ECode);
+                        eCodeComp.Code = new CodeableConcept(CodeSystems.Component, "eCodeIndicator", "eCodeIndicator", null);
+                        ob.Component.Add(eCodeComp);
+
+                        Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
+                        EntityAxisCauseOfDeathObsList.Add(ob);
                     }
-                    Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
-                    lineNumComp.Value = new Integer(eac.LineNumber);
-                    lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
-                    ob.Component.Add(lineNumComp);
-
-                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                    positionComp.Value = new Integer(eac.Position);
-                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
-                    ob.Component.Add(positionComp);
-
-                    Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
-                    eCodeComp.Value = new FhirBoolean(eac.ECode);
-                    eCodeComp.Code = new CodeableConcept(CodeSystems.Component, "eCodeIndicator", "eCodeIndicator", null);
-                    ob.Component.Add(eCodeComp);
-
-                    Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
-                    EntityAxisCauseOfDeathObsList.Add(ob);
                 }
             }
         }
@@ -1912,38 +1912,37 @@ namespace VRDR
                 // Rebuild the list of observations
                 foreach ((int Position, string Code, bool Pregnancy) rac in value)
                 {
-                    Observation ob = new Observation();
-                    ob.Id = Guid.NewGuid().ToString();
-                    ob.Meta = new Meta();
-                    string[] recordAxis_profile = { ProfileURL.RecordAxisCauseOfDeath };
-                    ob.Meta.Profile = recordAxis_profile;
-                    ob.Status = ObservationStatus.Final;
-                    ob.Code = new CodeableConcept(CodeSystems.LOINC, "80357-7", "Cause of death record axis code [Automated]", null);
-                    ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    AddReferenceToComposition(ob.Id, "CodedContent");
-
-                    ob.Effective = new FhirDateTime();
                     if(!String.IsNullOrEmpty(rac.Code))
                     {
-                      ob.Value = new CodeableConcept(CodeSystems.ICD10, rac.Code, null, null);
-                    }
-                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                    positionComp.Value = new Integer(rac.Position);
-                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
-                    ob.Component.Add(positionComp);
+                        Observation ob = new Observation();
+                        ob.Id = Guid.NewGuid().ToString();
+                        ob.Meta = new Meta();
+                        string[] recordAxis_profile = { ProfileURL.RecordAxisCauseOfDeath };
+                        ob.Meta.Profile = recordAxis_profile;
+                        ob.Status = ObservationStatus.Final;
+                        ob.Code = new CodeableConcept(CodeSystems.LOINC, "80357-7", "Cause of death record axis code [Automated]", null);
+                        ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                        AddReferenceToComposition(ob.Id, "CodedContent");
+                        ob.Effective = new FhirDateTime();
+                        ob.Value = new CodeableConcept(CodeSystems.ICD10, rac.Code, null, null);
+                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                        positionComp.Value = new Integer(rac.Position);
+                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                        ob.Component.Add(positionComp);
 
-                    // Record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
-                    // http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage
-                    if (rac.Pregnancy)
-                    {
-                        Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
-                        pregComp.Value = new FhirBoolean(true);
-                        pregComp.Code = new CodeableConcept(CodeSystems.Component, "wouldBeUnderlyingCauseOfDeathWithoutPregnancy", "Would be underlying cause of death without pregnancy, if true");
-                        ob.Component.Add(pregComp);
-                    }
+                        // Record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
+                        // http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage
+                        if (rac.Pregnancy)
+                        {
+                            Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
+                            pregComp.Value = new FhirBoolean(true);
+                            pregComp.Code = new CodeableConcept(CodeSystems.Component, "wouldBeUnderlyingCauseOfDeathWithoutPregnancy", "Would be underlying cause of death without pregnancy, if true");
+                            ob.Component.Add(pregComp);
+                        }
 
-                    Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
-                    RecordAxisCauseOfDeathObsList.Add(ob);
+                        Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
+                        RecordAxisCauseOfDeathObsList.Add(ob);
+                    }
                 }
             }
         }
@@ -2125,13 +2124,13 @@ namespace VRDR
             }
             set
             {
-                if (CodingStatusValues == null)
-                {
-                    CreateCodingStatusValues();
-                }
-                CodingStatusValues.Remove("shipmentNumber");
                 if (!String.IsNullOrEmpty(value))
                 {
+                    if (CodingStatusValues == null)
+                    {
+                        CreateCodingStatusValues();
+                    }
+                    CodingStatusValues.Remove("shipmentNumber");
                     CodingStatusValues.Add("shipmentNumber", new FhirString(value));
                 }
             }

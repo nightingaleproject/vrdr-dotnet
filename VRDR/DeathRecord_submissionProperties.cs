@@ -5652,15 +5652,15 @@ namespace VRDR
             }
             set
             {
+                if (IsDictEmptyOrDefault(value))
+                {
+                    return;
+                }
                 if (AgeAtDeathObs == null)
                 {
                     CreateAgeAtDeathObs();
                 }
                 AgeAtDeathObs.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
-                if (IsDictEmptyOrDefault(value) && AgeAtDeathObs == null)
-                {
-                    return;
-                }
                 Extension editFlag = new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value));
                 AgeAtDeathObs.Value.Extension.Add(editFlag);
             }

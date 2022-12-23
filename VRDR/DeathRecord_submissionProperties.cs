@@ -220,12 +220,12 @@ namespace VRDR
             }
             set
             {
-                if (DeathCertification == null)
+               if(!String.IsNullOrEmpty(value))
                 {
-                    CreateDeathCertification();
-                }
-                if(!String.IsNullOrEmpty(value))
-                {
+                    if (DeathCertification == null)
+                    {
+                        CreateDeathCertification();
+                    }
                     Composition.Attester.First().Time = value;
                     DeathCertification.Performed = new FhirDateTime(value);
                 }
@@ -356,8 +356,7 @@ namespace VRDR
                 if (Composition != null)
                 {
                     Extension stateSpecificData = Composition.Extension.Where(ext => ext.Url == ExtensionURL.StateSpecificField).FirstOrDefault();
-                    // Console.WriteLine("KLKL" + stateSpecificData.Value.ToString());
-                    if (stateSpecificData != null && stateSpecificData.Value as FhirString != null /*&& !String.IsNullOrEmpty((stateSpecificData.Value as FhirString).ToString())*/)
+                    if (stateSpecificData != null && stateSpecificData.Value as FhirString != null)
                     {
                         return stateSpecificData.Value.ToString();
                     }
@@ -367,14 +366,14 @@ namespace VRDR
             set
             {
                 // TODO: Handle case where Composition == null (either create it or throw exception)
-                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.StateSpecificField);
-                Extension stateSpecificData = new Extension();
-                stateSpecificData.Url = ExtensionURL.StateSpecificField;
                 if (!String.IsNullOrEmpty(value))
                 {
+                    Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.StateSpecificField);
+                    Extension stateSpecificData = new Extension();
+                    stateSpecificData.Url = ExtensionURL.StateSpecificField;
                     stateSpecificData.Value = new FhirString(value);
+                    Composition.Extension.Add(stateSpecificData);
                 }
-                Composition.Extension.Add(stateSpecificData);
             }
         }
 
@@ -548,7 +547,6 @@ namespace VRDR
                 }
                 if (!VRDR.Mappings.CertifierTypes.FHIRToIJE.ContainsKey(value))
                 { //other
-
                     CertificationRole = CodeableConceptToDict(new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value));
                 }
                 else
@@ -951,27 +949,27 @@ namespace VRDR
             }
             set
             {
-                if (ConditionContributingToDeath != null)
+                if (!String.IsNullOrEmpty(value))
                 {
-                    ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
-                }
-                else
-                {
-                    ConditionContributingToDeath = new Observation();
-                    ConditionContributingToDeath.Id = Guid.NewGuid().ToString();
-                    ConditionContributingToDeath.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    ConditionContributingToDeath.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
-                    ConditionContributingToDeath.Meta = new Meta();
-                    string[] condition_profile = { ProfileURL.CauseOfDeathPart2 };
-                    ConditionContributingToDeath.Meta.Profile = condition_profile;
-                    ConditionContributingToDeath.Status = ObservationStatus.Final;
-                    ConditionContributingToDeath.Code = (new CodeableConcept(CodeSystems.LOINC, "69441-4", "Other significant causes or conditions of death", null));
-                    if (!String.IsNullOrEmpty(value))
+                    if (ConditionContributingToDeath != null)
                     {
-                       ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
+                        ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
                     }
-                    AddReferenceToComposition(ConditionContributingToDeath.Id, "DeathCertification");
-                    Bundle.AddResourceEntry(ConditionContributingToDeath, "urn:uuid:" + ConditionContributingToDeath.Id);
+                    else
+                    {
+                        ConditionContributingToDeath = new Observation();
+                        ConditionContributingToDeath.Id = Guid.NewGuid().ToString();
+                        ConditionContributingToDeath.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                        ConditionContributingToDeath.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
+                        ConditionContributingToDeath.Meta = new Meta();
+                        string[] condition_profile = { ProfileURL.CauseOfDeathPart2 };
+                        ConditionContributingToDeath.Meta.Profile = condition_profile;
+                        ConditionContributingToDeath.Status = ObservationStatus.Final;
+                        ConditionContributingToDeath.Code = (new CodeableConcept(CodeSystems.LOINC, "69441-4", "Other significant causes or conditions of death", null));
+                        ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
+                        AddReferenceToComposition(ConditionContributingToDeath.Id, "DeathCertification");
+                        Bundle.AddResourceEntry(ConditionContributingToDeath, "urn:uuid:" + ConditionContributingToDeath.Id);
+                    }
                 }
             }
         }
@@ -1098,12 +1096,12 @@ namespace VRDR
             }
             set
             {
-                if (CauseOfDeathConditionA == null)
-                {
-                    CauseOfDeathConditionA = CauseOfDeathCondition(0);
-                }
                 if (!String.IsNullOrEmpty(value))
                 {
+                    if (CauseOfDeathConditionA == null)
+                    {
+                        CauseOfDeathConditionA = CauseOfDeathCondition(0);
+                    }
                     CauseOfDeathConditionA.Value = new CodeableConcept(null, null, null, value);
                 }
             }
@@ -1135,6 +1133,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrEmpty(value)) {
+                  return;
+                }
                 if (CauseOfDeathConditionA == null)
                 {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
@@ -1142,18 +1143,15 @@ namespace VRDR
                 // Find correct component; if doesn't exist add another
                 var intervalComp = CauseOfDeathConditionA.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
-                if (intervalComp != null && !String.IsNullOrEmpty(value))
+                if (intervalComp != null)
                 {
                     ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                 }
-                else
+                else 
                 {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
-                    if (!String.IsNullOrEmpty(value))
-                    {
-                        component.Value = new FhirString(value);
-                    }
+                    component.Value = new FhirString(value);
                     CauseOfDeathConditionA.Component.Add(component);
                 }
             }
@@ -1230,14 +1228,14 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionB == null)
                 {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
-                if (!String.IsNullOrEmpty(value))
-                {
-                    CauseOfDeathConditionB.Value = new CodeableConcept(null, null, null, value);
-                }
+                CauseOfDeathConditionB.Value = new CodeableConcept(null, null, null, value);
             }
         }
 
@@ -1267,6 +1265,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionB == null)
                 {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
@@ -1282,10 +1283,7 @@ namespace VRDR
                 {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
-                    if (!String.IsNullOrEmpty(value))
-                    {
-                        component.Value = new FhirString(value);
-                    }
+                    component.Value = new FhirString(value);
                     CauseOfDeathConditionB.Component.Add(component);
                 }
             }
@@ -1361,14 +1359,14 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionC == null)
                 {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
-                if (!String.IsNullOrEmpty(value))
-                {
-                    CauseOfDeathConditionC.Value = new CodeableConcept(null, null, null, value);
-                }
+                CauseOfDeathConditionC.Value = new CodeableConcept(null, null, null, value);
             }
         }
 
@@ -1398,6 +1396,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionC == null)
                 {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
@@ -1413,10 +1414,7 @@ namespace VRDR
                 {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
-                    if (!String.IsNullOrEmpty(value))
-                    {
-                        component.Value = new FhirString(value);
-                    }
+                    component.Value = new FhirString(value);
                     CauseOfDeathConditionC.Component.Add(component);
                 }
             }
@@ -1492,14 +1490,14 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionD == null)
                 {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
                 }
-                if (!String.IsNullOrEmpty(value))
-                {
-                    CauseOfDeathConditionD.Value = new CodeableConcept(null, null, null, value);
-                }
+                CauseOfDeathConditionD.Value = new CodeableConcept(null, null, null, value);
             }
         }
 
@@ -1529,6 +1527,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionD == null)
                 {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
@@ -1544,10 +1545,7 @@ namespace VRDR
                 {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
-                    if (!String.IsNullOrEmpty(value))
-                    {
-                        component.Value = new FhirString(value);
-                    }
+                    component.Value = new FhirString(value);
                     CauseOfDeathConditionD.Component.Add(component);
                 }
             }
@@ -2549,6 +2547,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (InputRaceAndEthnicityObs == null)
                 {
                     CreateInputRaceEthnicityObs();
@@ -2556,10 +2557,7 @@ namespace VRDR
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
                 component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Literal, NvssEthnicity.Literal, null);
-                if (!String.IsNullOrEmpty(value))
-                {
-                    component.Value = new FhirString(value);
-                }
+                component.Value = new FhirString(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
         }
@@ -3741,6 +3739,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 //    CodeableConcept state = DictToCodeableConcept(value);
                 if (BirthRecordIdentifier == null)
                 {
@@ -3756,19 +3757,13 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0");
                     if (stateComp != null)
                     {
-                        if (!String.IsNullOrEmpty(value))
-                        {
-                          ((Observation.ComponentComponent)stateComp).Value = new FhirString(value);
-                        }
+                        ((Observation.ComponentComponent)stateComp).Value = new FhirString(value);
                     }
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
                         component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
-                        if (!String.IsNullOrEmpty(value))
-                        {
-                            component.Value = new FhirString(value);
-                        }
+                        component.Value = new FhirString(value);
                         BirthRecordIdentifier.Component.Add(component);
                     }
                 }
@@ -3802,6 +3797,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (BirthRecordIdentifier == null)
                 {
                     CreateBirthRecordIdentifier();
@@ -3816,19 +3814,13 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80904-6");
                     if (stateComp != null)
                     {
-                        if (!String.IsNullOrEmpty(value))
-                        {
-                            ((Observation.ComponentComponent)stateComp).Value = new FhirDateTime(value);
-                        }
+                        ((Observation.ComponentComponent)stateComp).Value = new FhirDateTime(value);
                     }
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
                         component.Code = new CodeableConcept(CodeSystems.LOINC, "80904-6", "Birth year", null);
-                        if (!String.IsNullOrEmpty(value))
-                        {
-                            component.Value = new FhirDateTime(value);
-                        }
+                        component.Value = new FhirDateTime(value);
                         BirthRecordIdentifier.Component.Add(component);
                     }
                 }
@@ -3861,7 +3853,7 @@ namespace VRDR
             }
             set
             {
-                if ((String.IsNullOrEmpty(value)))
+                if ((String.IsNullOrWhiteSpace(value)))
                 {
                     return;
                 }
@@ -3900,7 +3892,7 @@ namespace VRDR
             }
             set
             {
-                if ((String.IsNullOrEmpty(value)))
+                if ((String.IsNullOrWhiteSpace(value)))
                 {
                     return;
                 }
@@ -3908,7 +3900,6 @@ namespace VRDR
                 {
                     CreateUsualWork();
                 }
-
                 UsualWork.Component.RemoveAll(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
                 component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
@@ -4278,14 +4269,14 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (FuneralHome == null)
                 {
                     CreateFuneralHome();
                 }
-                if (!String.IsNullOrEmpty(value))
-                {
-                    FuneralHome.Name = value;
-                }
+                FuneralHome.Name = value;
             }
         }
 
@@ -4720,14 +4711,14 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (DeathDateObs == null)
                 {
                     CreateDeathDateObs();
                 }
-                if(!String.IsNullOrEmpty(value))
-                {
-                    SetPartialTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
-                }
+                SetPartialTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
             }
         }
 
@@ -4844,34 +4835,28 @@ namespace VRDR
             }
             set
             {
-
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (DeathDateObs == null)
                 {
                     CreateDeathDateObs(); // Create it
                 }
-
                 // Find correct component; if doesn't exist add another
                 var pronComp = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
                          && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6");
                 if (pronComp != null)
                 {
-                    if (!String.IsNullOrEmpty(value))
-                    {
-                        ((Observation.ComponentComponent)pronComp).Value = new FhirDateTime(value);
-                    }
+                    ((Observation.ComponentComponent)pronComp).Value = new FhirDateTime(value);
                 }
                 else
                 {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
-                    if (!String.IsNullOrEmpty(value))
-                    {
-                        component.Value = new FhirDateTime(value);
-                    }
+                    component.Value = new FhirDateTime(value);
                     DeathDateObs.Component.Add(component);
                 }
             }
-
         }
 
         /// <summary>Decedent's Year of Surgery.</summary>
@@ -5248,6 +5233,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (DeathLocationLoc == null)
                 {
                     CreateDeathLocation();
@@ -5256,10 +5244,7 @@ namespace VRDR
                 {
                     DeathLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (!String.IsNullOrEmpty(value))
-                {
-                    DeathLocationLoc.Position.Latitude = Convert.ToDecimal(value);
-                }
+                DeathLocationLoc.Position.Latitude = Convert.ToDecimal(value);
             }
         }
 
@@ -5324,6 +5309,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (DeathLocationLoc == null)
                 {
                     DeathLocationLoc = new Location();
@@ -5331,16 +5319,13 @@ namespace VRDR
                     DeathLocationLoc.Meta = new Meta();
                     string[] deathlocation_profile = { ProfileURL.DeathLocation };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
-                    if (!String.IsNullOrEmpty(value))
-                    {
-                        DeathLocationLoc.Description = value;
-                    }
+                    DeathLocationLoc.Description = value;
                     DeathLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "death", "death location", null));
                     // LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
                 }
-                else if (!String.IsNullOrEmpty(value))
+                else
                 {
                     DeathLocationLoc.Description = value;
                 }
@@ -6041,6 +6026,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (value == null && InjuryLocationLoc == null)
                 {
                     return;
@@ -6053,11 +6041,7 @@ namespace VRDR
                 {
                     InjuryLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (!String.IsNullOrEmpty(value))
-                {
-                    InjuryLocationLoc.Position.Latitude = Convert.ToDecimal(value);
-                }
-
+                InjuryLocationLoc.Position.Latitude = Convert.ToDecimal(value);
             }
         }
 
@@ -6083,6 +6067,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (value == null && InjuryLocationLoc == null)
                 {
                     return;
@@ -6095,12 +6082,7 @@ namespace VRDR
                 {
                     InjuryLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (!String.IsNullOrEmpty(value))
-                {
-                    InjuryLocationLoc.Position.Longitude = Convert.ToDecimal(value);
-                }
-
-
+                InjuryLocationLoc.Position.Longitude = Convert.ToDecimal(value);
             }
         }
 
@@ -6127,7 +6109,7 @@ namespace VRDR
             }
             set
             {
-                if (value == null && InjuryLocationLoc == null)
+                if ((value == null && InjuryLocationLoc == null) || String.IsNullOrWhiteSpace(value))
                 {
                     return;
                 }

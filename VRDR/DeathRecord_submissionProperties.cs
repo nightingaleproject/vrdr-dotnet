@@ -6109,7 +6109,7 @@ namespace VRDR
             }
             set
             {
-                if ((value == null && InjuryLocationLoc == null) || String.IsNullOrWhiteSpace(value))
+                if (String.IsNullOrWhiteSpace(value) && InjuryLocationLoc == null)
                 {
                     return;
                 }

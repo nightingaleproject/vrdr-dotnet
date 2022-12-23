@@ -333,7 +333,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrEmpty(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     Composition.Date = value;
                 }

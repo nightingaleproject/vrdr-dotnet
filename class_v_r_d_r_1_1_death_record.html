@@ -147,6 +147,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ad495b43246933a339d77bb3d5b9cff26"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_v_r_d_r_1_1_death_record.html">DeathRecord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#ad495b43246933a339d77bb3d5b9cff26">FromDescription</a> (string contents)</td></tr>
 <tr class="memdesc:ad495b43246933a339d77bb3d5b9cff26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to return a JSON string representation of this Death Record.  <a href="class_v_r_d_r_1_1_death_record.html#ad495b43246933a339d77bb3d5b9cff26">More...</a><br /></td></tr>
 <tr class="separator:ad495b43246933a339d77bb3d5b9cff26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec87893df7ca5bfb6614c48a1b3523f3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#aec87893df7ca5bfb6614c48a1b3523f3">updateGivenHumanName</a> (string[] value, List&lt; HumanName &gt; names)</td></tr>
+<tr class="memdesc:aec87893df7ca5bfb6614c48a1b3523f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to create a HumanName from a list of strings.  <a href="class_v_r_d_r_1_1_death_record.html#aec87893df7ca5bfb6614c48a1b3523f3">More...</a><br /></td></tr>
+<tr class="separator:aec87893df7ca5bfb6614c48a1b3523f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -1349,6 +1352,51 @@ String&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlagH
 
 <p>Helper method to return a XML string representation of this Death Record. </p>
 <dl class="section return"><dt>Returns</dt><dd>a string representation of this Death Record in XML format</dd></dl>
+
+</div>
+</div>
+<a id="aec87893df7ca5bfb6614c48a1b3523f3" name="aec87893df7ca5bfb6614c48a1b3523f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec87893df7ca5bfb6614c48a1b3523f3">&#9670;&#160;</a></span>updateGivenHumanName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void VRDR.DeathRecord.updateGivenHumanName </td>
+          <td>(</td>
+          <td class="paramtype">string[]&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">List&lt; HumanName &gt;&#160;</td>
+          <td class="paramname"><em>names</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Helper method to create a HumanName from a list of strings. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>A list of strings to be converted into a name.</td></tr>
+    <tr><td class="paramname">names</td><td>The current list of HumanName attributes for the person.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

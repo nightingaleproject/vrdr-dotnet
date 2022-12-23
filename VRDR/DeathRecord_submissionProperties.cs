@@ -115,6 +115,10 @@ namespace VRDR
             // The setter is private because the value is derived so should never be set directly
             private set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (Bundle.Identifier == null)
                 {
                     Bundle.Identifier = new Identifier();

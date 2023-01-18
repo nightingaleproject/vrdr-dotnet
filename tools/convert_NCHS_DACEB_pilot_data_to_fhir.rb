@@ -83,3 +83,13 @@ if data.sheets.length > 1 && data.sheets[1].rows.count > 9
 else
   puts "No 'bad' records processed"
 end
+
+#  Only if the third sheet is present and has the right number of records...
+if data.sheets.length > 2 && data.sheets[2].rows.count > 9
+  bad_ije_records = extract_ije_records(data.sheets[2], 3, 10) # First row of data is 3
+  10.times do |i|
+    write_record(bad_ije_records[i], "change")
+  end
+else
+  puts "No 'change' records processed"
+end

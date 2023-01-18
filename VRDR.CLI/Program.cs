@@ -47,7 +47,7 @@ namespace VRDR.CLI
   - json2trx: Read in the FHIR JSON COded Cause of Death Bundle, write TRX file (1 argument: FHIR JSON Coded Cause Of Death Bundle)
   - json2xml: Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR XML (1 argument: FHIR JSON Death Record)
   - mre2json: Creates a Demographic Coding Bundle from a MRE Message (1 argument: TRX file)
-  - resubmit: Create an update FHIR message wrapping a FHIR death record (1 argument:  FHIR death record)
+  - resubmit: Create an update FHIR message wrapping a FHIR death record (1 argument:  FHIR death record; many arguments: output directory and FHIR death records)
   - roundtrip-all: Convert a record to JSON and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record )
   - roundtrip-ije: Convert a record to IJE and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record)
   - showcodes: Extract and show the codes in a coding response message (1 argument: coding response message)
@@ -517,6 +517,7 @@ namespace VRDR.CLI
               for (int i = 1; i < args.Length; i++)
               {
                   string ijeFile = args[i];
+                  Console.WriteLine($"Converting file {ijeFile}");
                   string ijeRawRecord = File.ReadAllText(ijeFile);
                   IJEMortality ije = new IJEMortality(ijeRawRecord);
                   DeathRecord d = ije.ToDeathRecord();
@@ -854,6 +855,27 @@ namespace VRDR.CLI
                 DeathRecordUpdateMessage message = new DeathRecordUpdateMessage(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
+                return 0;
+            }
+            else if (args.Length > 2 && args[0] == "resubmit")
+            {
+                string outputDirectory = args[1];
+                if (!Directory.Exists(outputDirectory))
+                {
+                    Console.WriteLine("Must supply a valid output directory");
+                    return (1);
+                }
+                for (int i = 2; i < args.Length; i++)
+                {
+                    string outputFilename = args[i].Replace(".json", "_update.json");
+                    DeathRecord record = new DeathRecord(File.ReadAllText(args[i]));
+                    DeathRecordSubmissionMessage message = new DeathRecordUpdateMessage(record);
+                    message.MessageSource = "http://mitre.org/vrdr";
+                    Console.WriteLine($"Writing record to {outputFilename}");
+                    StreamWriter sw = new StreamWriter(outputFilename);
+                    sw.WriteLine(message.ToJSON(true));
+                    sw.Flush();
+                }
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "void")

@@ -92,10 +92,10 @@ Parallel.each(searchset['entry']) do |entry|
       #                      headers: { 'Content-Type' => 'application/json' },
       #                      body: ack)
       #puts "Server response acknowledging error message for certificate #{identifier}: #{response.status}"
-    when 'http://nchs.cdc.gov/vrdr_causeofdeath_coding', 'http://nchs.cdc.gov/vrdr_demographics_coding'
+    when 'http://nchs.cdc.gov/vrdr_causeofdeath_coding', 'http://nchs.cdc.gov/vrdr_causeofdeath_coding_update', 'http://nchs.cdc.gov/vrdr_demographics_coding', 'http://nchs.cdc.gov/vrdr_demographics_coding_update'
       id = header['id']
       puts "Found a coding response message of type #{header['eventUri']} with ID #{id} for certificate #{identifier}, acknowledging"
-      message_filename = "#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_coding.json"
+      message_filename = "#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' || header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding_update' ? 'cause_of_death' : 'demographics'}_coding.json"
       File.write(message_filename, message.to_json)
       ack = `dotnet #{CLI_PATH} ack #{message_filename}`
       File.write("#{identifier}_#{header['eventUri'] == 'http://nchs.cdc.gov/vrdr_causeofdeath_coding' ? 'cause_of_death' : 'demographics'}_coding_acknowledgement.json", ack)

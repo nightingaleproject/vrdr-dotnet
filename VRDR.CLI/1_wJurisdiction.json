@@ -630,7 +630,7 @@
                 {
                   "system": "http://snomed.info/sct",
                   "code": "434641000124105",
-                  "display": "Pronouncing & Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated."
+                  "display": "Death certification and verification by physician (procedure)"
                 }
               ]
             }
@@ -678,7 +678,7 @@
                 {
                   "system": "http://snomed.info/sct",
                   "code": "434641000124105",
-                  "display": "Pronouncing & Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated."
+                  "display": "Death certification and verification by physician (procedure)"
                 }
               ]
             },

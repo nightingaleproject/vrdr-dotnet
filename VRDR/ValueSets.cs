@@ -90,17 +90,17 @@ namespace VRDR
         public static class CertifierTypes {
             /// <summary> Codes </summary>
             public static string[,] Codes = {
-                { "455381000124109", "Medical Examiner/Coroner-On the basis of examination, and/or investigation, in my opinion, death occurred at the time, date, and place, and due to the cause(s) and manner stated.", VRDR.CodeSystems.SCT },
-                { "434641000124105", "Pronouncing & Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated.", VRDR.CodeSystems.SCT },
-                { "434651000124107", "Certifying physician-To the best of my knowledge, death occurred due to the cause(s) and manner stated.", VRDR.CodeSystems.SCT },
+                { "455381000124109", "Death certification by medical examiner or coroner (procedure)", VRDR.CodeSystems.SCT },
+                { "434641000124105", "Death certification and verification by physician (procedure)", VRDR.CodeSystems.SCT },
+                { "434651000124107", "Death certification by physician (procedure)", VRDR.CodeSystems.SCT },
                 { "OTH", "Other (Specify)", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
-            /// <summary> Medical_Examiner_Coroner </summary>
-            public static string  Medical_Examiner_Coroner = "455381000124109";
-            /// <summary> Pronouncing_Certifying_Physician </summary>
-            public static string  Pronouncing_Certifying_Physician = "434641000124105";
-            /// <summary> Certifying_Physician </summary>
-            public static string  Certifying_Physician = "434651000124107";
+            /// <summary> Death_Certification_By_Medical_Examiner_Or_Coroner_Procedure </summary>
+            public static string  Death_Certification_By_Medical_Examiner_Or_Coroner_Procedure = "455381000124109";
+            /// <summary> Death_Certification_And_Verification_By_Physician_Procedure </summary>
+            public static string  Death_Certification_And_Verification_By_Physician_Procedure = "434641000124105";
+            /// <summary> Death_Certification_By_Physician_Procedure </summary>
+            public static string  Death_Certification_By_Physician_Procedure = "434651000124107";
             /// <summary> Other_Specify </summary>
             public static string  Other_Specify = "OTH";
         };

@@ -500,7 +500,7 @@
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
-              <display value="Pronouncing &amp; Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated." />
+              <display value="Death certification and verification by physician (procedure)" />
             </coding>
           </code>
         </qualification>
@@ -583,7 +583,7 @@
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
-              <display value="Pronouncing &amp; Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated." />
+              <display value="Death certification and verification by physician (procedure)" />
             </coding>
           </function>
           <actor>

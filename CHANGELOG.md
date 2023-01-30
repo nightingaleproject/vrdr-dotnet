@@ -1,5 +1,9 @@
 ## Changelog
 
+### v4.0.0.preview17 - 2023-01-30
+
+* Updated display text for the death record certifier types to align with IG
+
 ### v4.0.0.preview16 - 2022-12-23
 
 * Updated AgeAtDeath property to expect a dictionary with "value" and "code" rather than "value" and "unit" to match the FHIR IG

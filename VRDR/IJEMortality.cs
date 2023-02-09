@@ -811,18 +811,17 @@ namespace VRDR
         }
 
         /// <summary>Actual ICD10 to NCHS ICD10 </summary>
-        private bool ValidNCHSICD10(string nchsicd10code)
+        public static bool ValidNCHSICD10(string nchsicd10code)
         {
-            // ICD-10 diagnosis codes always begin with a letter (except U) followed by a digit.
+            // ICD-10 diagnosis codes always begin with a letter followed by a digit.
             // The third character is usually a digit, but could be an A or B [1].
             // After the first three characters, there may be a decimal point, and up to three more alphanumeric characters.
-            // These alphanumeric characters are never U. Sometimes the decimal is left out.
-            // Regex ICD10regex = new Regex(@"^[A-TV-Z][0-9][0-9AB].?[0-9A-TV-Z]{0,4}$");
+            // Sometimes the decimal is left out.
             // NCHS ICD10 codes are the same as above for the first three characters.
             // The decimal point is always dropped.
             // Some codes have a fourth character that reflects an actual ICD10 code.
             // NCHS tacks on an extra character to some ICD10 codes, e.g., K7210 (K27.10)
-            Regex NCHSICD10regex = new Regex(@"^[A-TV-Z][0-9][0-9AB][0-9A-TV-Z]{0,2}$");
+            Regex NCHSICD10regex = new Regex(@"^[A-Z][0-9][0-9AB][0-9A-Z]{0,2}$");
 
             return (String.IsNullOrEmpty(nchsicd10code) ||
                  NCHSICD10regex.Match(nchsicd10code).Success);

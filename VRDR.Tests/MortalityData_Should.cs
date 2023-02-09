@@ -444,6 +444,21 @@ namespace VRDR.Tests
             ArgumentException e4 = Assert.Throws<ArgumentException>(() => ije.EAC = "11T27.321T27.0&");
         }
 
+        [Fact]
+        public void IDC10_Valid_Codes()
+        {
+            Assert.True(IJEMortality.ValidNCHSICD10("U071"));
+            Assert.True(IJEMortality.ValidNCHSICD10("A379"));
+            Assert.True(IJEMortality.ValidNCHSICD10("G309"));
+            Assert.True(IJEMortality.ValidNCHSICD10("J189"));
+            Assert.True(IJEMortality.ValidNCHSICD10("K2710"));
+            Assert.True(IJEMortality.ValidNCHSICD10("A1B00"));
+
+            Assert.False(IJEMortality.ValidNCHSICD10("A1C00"));
+            Assert.False(IJEMortality.ValidNCHSICD10("1234"));
+            Assert.False(IJEMortality.ValidNCHSICD10("Q101234"));
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

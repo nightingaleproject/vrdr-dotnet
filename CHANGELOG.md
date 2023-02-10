@@ -1,5 +1,17 @@
 ## Changelog
 
+### v4.0.0.preview18 - 2023-02-10
+
+* Connectathon test record fixes
+* DateOfDeath valueTime formatting correction
+* Certifier allowed to be empty
+* LOINC code display value corrected to "Location of Death"
+* NVSS Race and Ethnicity display values corrected
+* Test methods added to verify each of the above
+* Corrected time values
+* Fixed IJE classes to post values to time in format of 00:00:00.
+* Updated ICD-10 code verification to support codes such as U071
+
 ### v4.0.0.preview17 - 2023-01-30
 
 * Updated display text for the death record certifier types to align with IG

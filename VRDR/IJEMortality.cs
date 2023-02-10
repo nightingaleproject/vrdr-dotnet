@@ -457,7 +457,7 @@ namespace VRDR
                 if (DateTimeOffset.TryParseExact(value, "HHmm", null, DateTimeStyles.None, out parsedTime))
                 {
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, 0);
-                    typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, timeSpan.ToString(@"hh\:mm"));
+                    typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, timeSpan.ToString(@"hh\:mm\:ss"));
                 }
                 else
                 {
@@ -1510,7 +1510,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    TimeAllowingUnknown_Set("TOD", "DeathTime", value);
+                   TimeAllowingUnknown_Set("TOD", "DeathTime", value);
                 }
             }
         }

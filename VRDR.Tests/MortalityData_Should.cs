@@ -459,6 +459,33 @@ namespace VRDR.Tests
             Assert.False(IJEMortality.ValidNCHSICD10("Q101234"));
         }
 
+        [Fact]
+        public void TestTimeValues()
+        {
+            IJEMortality ijem;
+            string deathTime;
+
+            ijem = new IJEMortality();
+            ijem.TOD = "1239";
+            deathTime = ijem.ToDeathRecord().DeathTime;
+            Assert.Matches("^\\d{2}:\\d{2}:\\d{2}$", deathTime);
+
+            ijem = new IJEMortality();
+            ijem.TOD = "0255";
+            deathTime = ijem.ToDeathRecord().DeathTime;
+            Assert.Matches("^\\d{2}:\\d{2}:\\d{2}$", deathTime);
+
+            ijem = new IJEMortality();
+            ijem.TOD = "0299";
+            deathTime = ijem.ToDeathRecord().DeathTime;
+            Assert.DoesNotMatch("^\\d{2}:\\d{2}:\\d{2}$", deathTime);
+
+            ijem = new IJEMortality();
+            ijem.TOD = "not a valid date";
+            deathTime = ijem.ToDeathRecord().DeathTime;
+            Assert.DoesNotMatch("^\\d{2}:\\d{2}:\\d{2}$", deathTime);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

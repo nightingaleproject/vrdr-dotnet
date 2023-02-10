@@ -405,7 +405,7 @@
               "coding" : [
                 {
                   "code" : "BlackOrAfricanAmerican",
-                  "display" : "BlackOrAfricanAmerican"
+                  "display" : "Black Or African American"
                 }
               ]
             },
@@ -416,7 +416,7 @@
               "coding" : [
                 {
                   "code" : "AmericanIndianOrAlaskaNative",
-                  "display" : "AmericanIndianOrAlaskaNative"
+                  "display" : "American Indian Or Alaska Native"
                 }
               ]
             },
@@ -427,7 +427,7 @@
               "coding" : [
                 {
                   "code" : "AsianIndian",
-                  "display" : "AsianIndian"
+                  "display" : "Asian Indian"
                 }
               ]
             },
@@ -493,7 +493,7 @@
               "coding" : [
                 {
                   "code" : "OtherAsian",
-                  "display" : "OtherAsian"
+                  "display" : "Other Asian"
                 }
               ]
             },
@@ -504,7 +504,7 @@
               "coding" : [
                 {
                   "code" : "NativeHawaiian",
-                  "display" : "NativeHawaiian"
+                  "display" : "Native Hawaiian"
                 }
               ]
             },
@@ -515,7 +515,7 @@
               "coding" : [
                 {
                   "code" : "GuamanianOrChamorro",
-                  "display" : "GuamanianOrChamorro"
+                  "display" : "Guamanian Or Chamorro"
                 }
               ]
             },
@@ -537,7 +537,7 @@
               "coding" : [
                 {
                   "code" : "OtherPacificIslander",
-                  "display" : "OtherPacificIslander"
+                  "display" : "Other Pacific Islander"
                 }
               ]
             },
@@ -548,7 +548,7 @@
               "coding" : [
                 {
                   "code" : "OtherRace",
-                  "display" : "OtherRace"
+                  "display" : "Other Race"
                 }
               ]
             },
@@ -559,7 +559,7 @@
               "coding" : [
                 {
                   "code" : "HispanicMexican",
-                  "display" : "HispanicMexican"
+                  "display" : "Hispanic Mexican"
                 }
               ]
             },

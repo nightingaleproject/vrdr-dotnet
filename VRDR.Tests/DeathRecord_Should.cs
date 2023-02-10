@@ -3380,6 +3380,62 @@ namespace VRDR.Tests
         [Fact]
         public void CheckConnectathonRecord1()
         {
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            Assert.Equal("20", dr1.AgeAtDeath["value"]);
+            Assert.Equal("female", dr1.SexAtDeath["code"]);
+            Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
+            IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
+            Assert.Equal("020", ije.AGE);
+            Assert.Equal("F", ije.SEX);
+            Assert.Equal("531869507", ije.SSN);
+            Assert.Equal("Cardiopulmonary arrest", ije.COD1A.Trim());
+            Assert.Equal("N", ije.DETHNIC1);
+        }
+
+        [Fact]
+        public void CheckConnectathonRecord1DeathDatePartialTime()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            Assert.Equal("10:00:00", dr1.DeathTime);
+        }
+        [Fact]
+        public void CheckConnectathonRecordLocationOfDeath()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            String dr1Str = dr1.ToJson();
+            Assert.Contains("Location of death", dr1Str);
+            Assert.False(dr1Str.Contains("Place of death"), dr1Str);
+        }
+
+        [Fact]
+        public void CheckConnectathonRecordHispanicDisplayValue()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            String dr1Str = dr1.ToJson();
+            Assert.Contains("Hispanic Mexican", dr1Str);
+            Assert.Contains("Hispanic Puerto Rican", dr1Str);
+            Assert.Contains("Hispanic Cuban", dr1Str);
+            Assert.Contains("Hispanic Other", dr1Str);
+        }
+
+        [Fact]
+        public void CheckConnectathonRecordRaceDisplayValue()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            String dr1Str = dr1.ToJson();
+            Assert.Contains("Black Or African American", dr1Str);
+            Assert.Contains("American Indian Or Alaskan Native", dr1Str);
+            Assert.Contains("Asian Indian", dr1Str);
+            Assert.Contains("Other Asian", dr1Str);
+            Assert.Contains("Native Hawaiian", dr1Str);
+            Assert.Contains("Guamanian Or Chamorro", dr1Str);
+            Assert.Contains("Other Pacific Islander", dr1Str);
+            Assert.Contains("Other Race", dr1Str);
+        }
+
+        [Fact]
+        public void CheckConnectathonRecord2()
+        {
             DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
             Assert.Equal("62", dr1.AgeAtDeath["value"]);
             Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary

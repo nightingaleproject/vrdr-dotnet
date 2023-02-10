@@ -2251,7 +2251,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Mexican, NvssEthnicity.Mexican, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Mexican, NvssEthnicity.MexicanDisplay, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2330,7 +2330,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.PuertoRican, NvssEthnicity.PuertoRican, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.PuertoRican, NvssEthnicity.PuertoRicanDisplay, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2409,7 +2409,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Cuban, NvssEthnicity.Cuban, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Cuban, NvssEthnicity.CubanDisplay, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2488,7 +2488,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Other); ;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Other, NvssEthnicity.Other, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Other, NvssEthnicity.OtherDisplay, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2564,7 +2564,7 @@ namespace VRDR
                     return;
                 }
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Literal, NvssEthnicity.Literal, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Literal, NvssEthnicity.LiteralDisplay, null);
                 component.Value = new FhirString(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2650,7 +2650,8 @@ namespace VRDR
                 {
                     InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == element.Item1);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.ComponentCode, element.Item1, element.Item1, null);
+                    String displayValue = NvssRace.GetDisplayValueForCode(element.Item1);
+                    component.Code = new CodeableConcept(CodeSystems.ComponentCode, element.Item1, displayValue, null);
                     if (booleanRaceCodes.Contains(element.Item1))
                     {
                         if (element.Item2 == "Y")
@@ -5399,7 +5400,7 @@ namespace VRDR
                 else
                 {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "58332-8", "Place of death", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "58332-8", "Location of death", null);
                     component.Value = DictToCodeableConcept(value);
                     DeathDateObs.Component.Add(component);
                 }

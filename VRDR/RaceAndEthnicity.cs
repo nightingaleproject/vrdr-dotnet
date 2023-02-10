@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Hl7.Fhir.ElementModel.Types;
+
 namespace VRDR
 {
     /// <summary> String representations of IJE Race fields </summary>
@@ -72,6 +74,29 @@ namespace VRDR
             booleanRaceCodes.Add(NvssRace.OtherRace);
             return booleanRaceCodes;
         }
+        /// <summary> GetDisplayValueForCode returns the display value for a race code, or the code itself if none exists</summary>
+        public static string GetDisplayValueForCode(string code) {
+            switch (code) {
+                case BlackOrAfricanAmerican:
+                    return "Black Or African American";
+                case AmericanIndianOrAlaskanNative:
+                    return "American Indian Or Alaskan Native";
+                case AsianIndian:
+                    return "Asian Indian";
+                case OtherAsian:
+                    return "Other Asian";
+                case NativeHawaiian:
+                    return "Native Hawaiian";
+                case GuamanianOrChamorro:
+                    return "Guamanian Or Chamorro";
+                case OtherPacificIslander:
+                    return "Other Pacific Islander";
+                case OtherRace:
+                    return "Other Race";
+                default:
+                    return code;
+            }
+        }
         /// <summary> GetLiteralRaceCodes Returns a list of the literal Race Codes</summary>
         public static List<string> GetLiteralRaceCodes()
         {
@@ -91,14 +116,24 @@ namespace VRDR
     public static class NvssEthnicity {
         /// <summary> Mexican </summary>
         public const string Mexican = "HispanicMexican";
-        /// <summary> PuertoRican </summary>
+        /// <summary> Hispanic Mexican </summary>
+        public const string MexicanDisplay = "Hispanic Mexican";
+        /// <summary> Puerto Rican </summary>
         public const string PuertoRican = "HispanicPuertoRican";
+        /// <summary> Hispanic Puerto Rican </summary>
+        public const string PuertoRicanDisplay = "Hispanic Puerto Rican";
         /// <summary> Cuban </summary>
         public const string Cuban = "HispanicCuban";
+        /// <summary> Hispanic Cuban </summary>
+        public const string CubanDisplay = "Hispanic Cuban";
         /// <summary> Other </summary>
         public const string Other = "HispanicOther";
+        /// <summary> Hispanic Other </summary>
+        public const string OtherDisplay = "Hispanic Other";
         /// <summary> Literal </summary>
         public const string Literal = "HispanicLiteral";
+        /// <summary> Hispanic Literal </summary>
+        public const string LiteralDisplay = "Hispanic Literal";
     }
 
 

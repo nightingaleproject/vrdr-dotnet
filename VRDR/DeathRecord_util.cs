@@ -16,6 +16,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Newtonsoft.Json;
+using Hl7.Fhir.Utility;
 
 namespace VRDR
 {
@@ -120,6 +121,12 @@ namespace VRDR
             part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
             if (value != null && value != "-1")
             {
+                // we need to force it to be 00:00:00 format to be compliant with the IG because the FHIR class doesn't
+                if (value.Length < 8)
+                {
+                    value += ":";
+                    value = value.PadRight(8, '0');
+                }
                 part.Value = new Time(value);
             }
             else

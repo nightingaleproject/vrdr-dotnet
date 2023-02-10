@@ -76,7 +76,6 @@ namespace VRDR
             // Not linked to Composition or inserted in bundle, since this is run before the composition exists.
         }
 
-
         /// <summary>The Certification.</summary>
         private Procedure DeathCertification;
         /// <summary>Create Death Certification.</summary>

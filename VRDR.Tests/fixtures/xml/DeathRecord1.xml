@@ -497,7 +497,7 @@
           <code>
             <coding>
               <code value="BlackOrAfricanAmerican"/>
-              <display value="BlackOrAfricanAmerican"/>
+              <display value="Black Or African American"/>
             </coding>
           </code>
           <valueBoolean value="false"/>
@@ -506,7 +506,7 @@
           <code>
             <coding>
               <code value="AmericanIndianOrAlaskanNative"/>
-              <display value="AmericanIndianOrAlaskanNative"/>
+              <display value="American Indian Or Alaskan Native"/>
             </coding>
           </code>
           <valueBoolean value="false"/>
@@ -515,7 +515,7 @@
           <code>
             <coding>
               <code value="AsianIndian"/>
-              <display value="AsianIndian"/>
+              <display value="Asian Indian"/>
             </coding>
           </code>
           <valueBoolean value="false"/>
@@ -569,7 +569,7 @@
           <code>
             <coding>
               <code value="OtherAsian"/>
-              <display value="OtherAsian"/>
+              <display value="Other Asian"/>
             </coding>
           </code>
           <valueBoolean value="false"/>
@@ -578,7 +578,7 @@
           <code>
             <coding>
               <code value="NativeHawaiian"/>
-              <display value="NativeHawaiian"/>
+              <display value="Native Hawaiian"/>
             </coding>
           </code>
           <valueBoolean value="false"/>
@@ -587,7 +587,7 @@
           <code>
             <coding>
               <code value="GuamanianOrChamorro"/>
-              <display value="GuamanianOrChamorro"/>
+              <display value="Guamanian Or Chamorro"/>
             </coding>
           </code>
           <valueBoolean value="false"/>
@@ -605,7 +605,7 @@
           <code>
             <coding>
               <code value="OtherPacificIslander"/>
-              <display value="OtherPacificIslander"/>
+              <display value="Other Pacific Islander"/>
             </coding>
           </code>
           <valueBoolean value="false"/>
@@ -614,7 +614,7 @@
           <code>
             <coding>
               <code value="OtherRace"/>
-              <display value="OtherRace"/>
+              <display value="Other Race"/>
             </coding>
           </code>
           <valueBoolean value="false"/>
@@ -623,7 +623,7 @@
           <code>
             <coding>
               <code value="HispanicMexican"/>
-              <display value="HispanicMexican"/>
+              <display value="Hispanic Mexican"/>
             </coding>
           </code>
           <valueCodeableConcept>

@@ -3526,7 +3526,7 @@
             <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
         </member>
         <member name="M:VRDR.IJEMortality.#ctor">
-            <summary>Constructor that creates a completely empty record for constructing records using the IJE properties.</summary>
+            <summary>Constructor that creates an empty record for constructing records using the IJE properties.</summary>
         </member>
         <member name="M:VRDR.IJEMortality.ToString">
             <summary>Converts the internal <c>DeathRecord</c> into an IJE string.</summary>
@@ -4845,6 +4845,9 @@
         <member name="M:VRDR.NvssRace.GetBooleanRaceCodes">
             <summary> GetBooleanRaceCodes Returns a list of the Boolean Race Codes, Y or N values </summary>
         </member>
+        <member name="M:VRDR.NvssRace.GetDisplayValueForCode(System.String)">
+            <summary> GetDisplayValueForCode returns the display value for a race code, or the code itself if none exists</summary>
+        </member>
         <member name="M:VRDR.NvssRace.GetLiteralRaceCodes">
             <summary> GetLiteralRaceCodes Returns a list of the literal Race Codes</summary>
         </member>
@@ -4854,17 +4857,32 @@
         <member name="F:VRDR.NvssEthnicity.Mexican">
             <summary> Mexican </summary>
         </member>
+        <member name="F:VRDR.NvssEthnicity.MexicanDisplay">
+            <summary> Hispanic Mexican </summary>
+        </member>
         <member name="F:VRDR.NvssEthnicity.PuertoRican">
-            <summary> PuertoRican </summary>
+            <summary> Puerto Rican </summary>
+        </member>
+        <member name="F:VRDR.NvssEthnicity.PuertoRicanDisplay">
+            <summary> Hispanic Puerto Rican </summary>
         </member>
         <member name="F:VRDR.NvssEthnicity.Cuban">
             <summary> Cuban </summary>
         </member>
+        <member name="F:VRDR.NvssEthnicity.CubanDisplay">
+            <summary> Hispanic Cuban </summary>
+        </member>
         <member name="F:VRDR.NvssEthnicity.Other">
             <summary> Other </summary>
         </member>
+        <member name="F:VRDR.NvssEthnicity.OtherDisplay">
+            <summary> Hispanic Other </summary>
+        </member>
         <member name="F:VRDR.NvssEthnicity.Literal">
             <summary> Literal </summary>
+        </member>
+        <member name="F:VRDR.NvssEthnicity.LiteralDisplay">
+            <summary> Hispanic Literal </summary>
         </member>
         <member name="T:VRDR.ProfileURL">
             <summary>Profile URLs</summary>

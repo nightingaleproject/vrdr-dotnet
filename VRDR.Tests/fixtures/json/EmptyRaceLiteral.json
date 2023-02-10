@@ -811,7 +811,7 @@
                 {
                   "system": "http://loinc.org",
                   "code": "58332-8",
-                  "display": "Place of death"
+                  "display": "Location of death"
                 }
               ]
             },
@@ -1307,7 +1307,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "HispanicMexican",
-                  "display": "HispanicMexican"
+                  "display": "Hispanic Mexican"
                 }
               ]
             },
@@ -1327,7 +1327,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "HispanicPuertoRican",
-                  "display": "HispanicPuertoRican"
+                  "display": "Hispanic Puerto Rican"
                 }
               ]
             },
@@ -1347,7 +1347,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "HispanicCuban",
-                  "display": "HispanicCuban"
+                  "display": "Hispanic Cuban"
                 }
               ]
             },
@@ -1367,7 +1367,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "HispanicOther",
-                  "display": "HispanicOther"
+                  "display": "Hispanic Other"
                 }
               ]
             },
@@ -1387,7 +1387,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "HispanicLiteral",
-                  "display": "HispanicLiteral"
+                  "display": "Hispanic Literal"
                 }
               ]
             }
@@ -1410,7 +1410,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "BlackOrAfricanAmerican",
-                  "display": "BlackOrAfricanAmerican"
+                  "display" : "Black Or African American"
                 }
               ]
             },
@@ -1434,7 +1434,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "AsianIndian",
-                  "display": "AsianIndian"
+                  "display" : "Asian Indian"
                 }
               ]
             },
@@ -1506,7 +1506,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "OtherAsian",
-                  "display": "OtherAsian"
+                  "display" : "Other Asian"
                 }
               ]
             },
@@ -1518,7 +1518,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "NativeHawaiian",
-                  "display": "NativeHawaiian"
+                  "display" : "Native Hawaiian"
                 }
               ]
             },
@@ -1530,7 +1530,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "GuamanianOrChamorro",
-                  "display": "GuamanianOrChamorro"
+                  "display" : "Guamanian Or Chamorro"
                 }
               ]
             },
@@ -1554,7 +1554,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "OtherPacificIslander",
-                  "display": "OtherPacificIslander"
+                  "display" : "Other Pacific Islander"
                 }
               ]
             },
@@ -1566,7 +1566,7 @@
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
                   "code": "OtherRace",
-                  "display": "OtherRace"
+                  "display" : "Other Race"
                 }
               ]
             },

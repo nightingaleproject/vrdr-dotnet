@@ -173,7 +173,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Constructor that creates a completely empty record for constructing records using the IJE properties.</summary>
+        /// <summary>Constructor that creates an empty record for constructing records using the IJE properties.</summary>
         public IJEMortality()
         {
             this.record = new DeathRecord();

@@ -4,7 +4,6 @@
 
 * Connectathon test record fixes
 * DateOfDeath valueTime formatting correction
-* Certifier allowed to be empty
 * LOINC code display value corrected to "Location of Death"
 * NVSS Race and Ethnicity display values corrected
 * Test methods added to verify each of the above

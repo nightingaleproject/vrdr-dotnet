@@ -5661,6 +5661,9 @@
         <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Reported_On_Certificate">
             <summary> Not_Reported_On_Certificate </summary>
         </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Applicable_Computer_Generated">
+            <summary> Not applicable: Computer generated </summary>
+        </member>
         <member name="F:VRDR.ValueSets.PregnancyStatus.Unknown_If_Pregnant_Within_The_Past_Year">
             <summary> Unknown_If_Pregnant_Within_The_Past_Year </summary>
         </member>

@@ -8,6 +8,7 @@ using Hl7.Fhir.Serialization;
 using Xunit;
 
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace VRDR.Tests
 {
@@ -3814,6 +3815,21 @@ namespace VRDR.Tests
                 }
             }
             Assert.DoesNotContain("\"\"", blank.ToJson());
+        }
+
+        [Fact]
+        public void TestPregnancyCodes()
+        {
+            DeathRecord testRecord = new DeathRecord();
+            string currentStatus = testRecord.PregnancyStatusHelper;
+            Assert.Null(currentStatus);
+            testRecord.PregnancyStatusHelper = "3";
+            Assert.Equal("3", testRecord.PregnancyStatusHelper);
+
+            Exception ex = Assert.Throws<System.ArgumentException>(() => testRecord.PregnancyStatusHelper = "10");
+
+            testRecord.PregnancyStatusHelper = "8";
+            Assert.Equal("8", testRecord.PregnancyStatusHelper);
         }
 
         private string FixturePath(string filePath)

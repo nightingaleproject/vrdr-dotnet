@@ -3837,27 +3837,22 @@ namespace VRDR.Tests
         {
             var testRecord = new DeathRecord();
             Composition composition = testRecord.GetComposition();
-            bool covered = false;
 
-            int[] beforeCounts = new int[composition.Section.Count];
+            int beforeCounts = 0;
+            int afterCounts = 0;
 
-            for(int i = 0; i < beforeCounts.Length; i++)
+            foreach(var s in composition.Section)
             {
-                beforeCounts[i] = composition.Section[i].Entry.Count;
+                beforeCounts += s.Entry.Count;
             }
 
             testRecord.EducationLevelHelper = "HS";
 
-            // Verify we added a section entry with the above statement
-            for (int i = 0; i < beforeCounts.Length; i++)
+            foreach (var s in composition.Section)
             {
-                if(beforeCounts[i]+1 == composition.Section[i].Entry.Count)
-                {
-                    covered = true;
-                }
+                afterCounts += s.Entry.Count;
             }
-
-            Assert.True(covered);
+            Assert.Equal(beforeCounts + 1, afterCounts);
         }
 
         [Fact]

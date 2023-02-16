@@ -221,7 +221,7 @@
             <summary>Helper method to return the subset of this record that makes up a Mortality Roster bundle.</summary>
             <returns>a new FHIR Bundle</returns>
         </member>
-        <member name="M:VRDR.DeathRecord.ReturnCompositionForTesting">
+        <member name="M:VRDR.DeathRecord.GetComposition">
             <summary>Return a reference to the Composition object for unit testing.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.AddReferenceToComposition(System.String,System.String)">

@@ -3836,12 +3836,12 @@ namespace VRDR.Tests
         public void TestEducationLevelObs()
         {
             var testRecord = new DeathRecord();
-            Composition composition = testRecord.ReturnCompositionForTesting();
+            Composition composition = testRecord.GetComposition();
             bool covered = false;
 
             int[] beforeCounts = new int[composition.Section.Count];
 
-            for(int i=0;i<beforeCounts.Length;i++)
+            for(int i = 0; i < beforeCounts.Length; i++)
             {
                 beforeCounts[i] = composition.Section[i].Entry.Count;
             }
@@ -3859,7 +3859,8 @@ namespace VRDR.Tests
 
             Assert.True(covered);
         }
-        
+
+        [Fact]
         public void TestAutopsyAvailableCodes()
         {
             IJEMortality ije = new IJEMortality();

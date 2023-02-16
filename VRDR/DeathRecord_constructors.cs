@@ -336,7 +336,7 @@ namespace VRDR
         /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>Return a reference to the Composition object for unit testing.</summary>
-        public Composition ReturnCompositionForTesting()
+        public Composition GetComposition()
         {
             return Composition;
         }

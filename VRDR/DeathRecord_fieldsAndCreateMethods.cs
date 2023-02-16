@@ -198,7 +198,7 @@ namespace VRDR
             DecedentEducationLevel.Status = ObservationStatus.Final;
             DecedentEducationLevel.Code = new CodeableConcept(CodeSystems.LOINC, "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
             DecedentEducationLevel.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AddReferenceToComposition(DecedentEducationLevel.Id, "DecedentDemographic");
+            AddReferenceToComposition(DecedentEducationLevel.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(DecedentEducationLevel, "urn:uuid:" + DecedentEducationLevel.Id);
         }
 

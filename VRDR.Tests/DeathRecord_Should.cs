@@ -3833,6 +3833,29 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void TestEducationLevelObs()
+        {
+            var testRecord = new DeathRecord();
+            Composition composition = testRecord.GetComposition();
+
+            int beforeCounts = 0;
+            int afterCounts = 0;
+
+            foreach(var s in composition.Section)
+            {
+                beforeCounts += s.Entry.Count;
+            }
+
+            testRecord.EducationLevelHelper = "HS";
+
+            foreach (var s in composition.Section)
+            {
+                afterCounts += s.Entry.Count;
+            }
+            Assert.Equal(beforeCounts + 1, afterCounts);
+        }
+
+        [Fact]
         public void TestAutopsyAvailableCodes()
         {
             IJEMortality ije = new IJEMortality();

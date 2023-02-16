@@ -3832,6 +3832,34 @@ namespace VRDR.Tests
             Assert.Equal("8", testRecord.PregnancyStatusHelper);
         }
 
+        [Fact]
+        public void TestEducationLevelObs()
+        {
+            var testRecord = new DeathRecord();
+            Composition composition = testRecord.ReturnCompositionForTesting();
+            bool covered = false;
+
+            int[] beforeCounts = new int[composition.Section.Count];
+
+            for(int i=0;i<beforeCounts.Length;i++)
+            {
+                beforeCounts[i] = composition.Section[i].Entry.Count;
+            }
+
+            testRecord.EducationLevelHelper = "HS";
+
+            // Verify we added a section entry with the above statement
+            for (int i = 0; i < beforeCounts.Length; i++)
+            {
+                if(beforeCounts[i]+1 == composition.Section[i].Entry.Count)
+                {
+                    covered = true;
+                }
+            }
+
+            Assert.True(covered);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

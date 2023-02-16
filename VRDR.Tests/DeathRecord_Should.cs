@@ -3832,6 +3832,53 @@ namespace VRDR.Tests
             Assert.Equal("8", testRecord.PregnancyStatusHelper);
         }
 
+        [Fact]
+        public void TestAutopsyAvailableCodes()
+        {
+            IJEMortality ije = new IJEMortality();
+            ije.DOD_YR = "2021";
+            ije.DSTATE = "MA";
+            ije.FILENO = "578660";
+            ije.MAN_UC = "I219";
+            ije.EAC = "21I219  31I251  61E119  62F179  63I10   64E780  ";
+            ije.RAC = "I219 E119 E780 F179 I10  I251 ";
+            ije.AUXNO = "579927".PadRight(12, ' ');
+            ije.MFILED = "0";
+            ije.MANNER = "N";
+            ije.trx.CS = "1";
+            ije.trx.SHIP = "497";
+            ije.AUTOP = "Y";
+            ije.AUTOPF = "Y";
+            ije.TOBAC = "Y";
+            ije.PREG = "8";
+            ije.CERTL = "D";
+            ije.CERTL = "DDDD";
+            ije.TRANSPRT = "Hover Board Rider";
+            ije.INACT = "9";
+            DeathRecord record = ije.ToDeathRecord();
+            IJEMortality ije2 = new IJEMortality(record);
+            Assert.Equal("Y", record.AutopsyResultsAvailableHelper);
+            Assert.Equal("Y", ije2.AUTOPF);
+
+            ije.AUTOPF = "N";
+            record = ije.ToDeathRecord();
+            ije2 = new IJEMortality(record);
+            Assert.Equal("N", record.AutopsyResultsAvailableHelper);
+            Assert.Equal("N", ije2.AUTOPF);
+
+            ije.AUTOPF = "U";
+            record = ije.ToDeathRecord();
+            ije2 = new IJEMortality(record);
+            Assert.Equal("UNK", record.AutopsyResultsAvailableHelper);
+            Assert.Equal("U", ije2.AUTOPF);
+
+            ije.AUTOPF = "X";
+            record = ije.ToDeathRecord();
+            ije2 = new IJEMortality(record);
+            Assert.Equal("NA", record.AutopsyResultsAvailableHelper);
+            Assert.Equal("X", ije2.AUTOPF);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

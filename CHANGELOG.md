@@ -1,5 +1,11 @@
 ## Changelog
 
+### v4.0.0.preview19 - 2023-02-17
+
+* Additional tests for autopsy performed and results cases
+* Fixed decedent education level handling for demographics
+* Added handling for pregnancy code 8 - computer generated
+
 ### v4.0.0.preview18 - 2023-02-10
 
 * Connectathon test record fixes

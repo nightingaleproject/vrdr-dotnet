@@ -7,6 +7,8 @@ require 'creek'
 require 'csv'
 require 'faker'
 
+# TODO: We could try to map the source "Certifier Designation" to the CERTL field
+
 ### CLI Arguments.
 # ARG1: The tabular data to IJE mappings file.
 ije_data_mappings_file = ARGV.shift
@@ -107,9 +109,9 @@ end
 def check_special_mappings(ije_field_string, field_properties, data_row, county_mappings, ije_string)
   case field_properties['special value mapping']
   when'ethnicity'
-    ethncitiy_mapping = { 'N' => 'N', 'Y' => 'H' }
-    ethncitiy_mapping.default = 'U'
-    ije_field_string = ethncitiy_mapping[ije_field_string]
+    ethnicity_mapping = { 'N' => 'N', 'Y' => 'H', 'H', => 'H' }
+    ethnicity_mapping.default = 'U'
+    ije_field_string = ethnicity_mapping[ije_field_string]
   when 'extract_month'
     ije_field_string = ije_field_string.split('-')[1]
   when 'extract_day'
@@ -137,6 +139,7 @@ def check_special_mappings(ije_field_string, field_properties, data_row, county_
       ije_field_string = '2022'
     end
   when 'two_digit_country'
+    # TODO: Add country mappings for at least a handful of countries
     if ije_field_string.downcase() == 'united states' || ije_field_string.downcase() == 'US'
       ije_field_string = 'US';
     else

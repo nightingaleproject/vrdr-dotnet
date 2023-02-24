@@ -8,6 +8,8 @@ This directory contains tools for manually interacting with a VRDR FHIR API.
 
 Both files require OAuth credentials to be in local txt files: clientsecret.txt, clientid.txt, username.txt, and password.txt
 
+* status.rb - after running pull_and_process.rb this script analyzes the results
+
 ## Typical usage patterns
 
 ### Simple API test

@@ -3,10 +3,23 @@
 This directory contains tools for manually interacting with a VRDR FHIR API.
 
 * push.rb - submit one or more messages to the NVSS API
+    * Takes a flag --single that means use a single process rather than running multiple submitter processes
+    * Takes a flag --sequential that means send individual messages rather than using the bulk upload feature
 
 * pull_and_process.rb - pull messages from the NVSS API and process them
 
-Both files require OAuth credentials to be in local txt files: clientsecret.txt, clientid.txt, username.txt, and password.txt
+Both files require OAuth credentials to be in a local YAML file called config.yml with the following
+format:
+
+```yaml
+---
+client_id: <client-id>
+client_secret: <client-secret>
+username: <username>
+password: <password>
+```
+
+Note: if any of these fields have special characters they can be enclosed in single quotes.
 
 * status.rb - after running pull_and_process.rb this script analyzes the results
 

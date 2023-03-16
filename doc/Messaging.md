@@ -4,7 +4,8 @@ This document describes how to use the VRDR.Messaging library to simplify implem
 
 ## Death Record Submission
 
-The diagram below illustrates the messages exchanged during submission of a death record and the subsequent return of coded causes of death and race and ethnicity information.
+The diagram below illustrates the messages exchanged during submission of a death record and the subsequent return of
+coded causes of death and race and ethnicity information.
 
 ![Message Exchange Pattern for Death Record Submission and Coding Response](submission.png)
 
@@ -27,11 +28,13 @@ string jsonMessage = message.ToJSON();
 ...
 ```
 
-The `DeathRecordSubmission` constructor will extract information from the supplied `DeathRecord` to populate the corresponding message property values (`StateAuxiliaryIdentifier`, `CertificateNumber`, `NCHSIdentifier`) automatically.
+The `DeathRecordSubmission` constructor will extract information from the supplied `DeathRecord` to populate the
+corresponding message property values (`StateAuxiliaryIdentifier`, `CertificateNumber`, `NCHSIdentifier`) automatically.
 
 ### Extract Death Record
 
-On receipt of a message, NCHS can parse it, determine the type of the message, and extract a death record using the following steps:
+On receipt of a message, NCHS can parse it, determine the type of the message, and extract a death record using the
+following steps:
 
 ```cs
 // Get the message as a stream
@@ -54,7 +57,9 @@ switch(message)
 
 ### Acknowledge Death Record
 
-If extraction was succesful, NCHS can generate an acknowledgement message and send it to the submitting jurisdiction. An `AckMessage` constructor is available that accepts a source message parameter (`submission` in the example below) and this is used to initialize `AckMessage` properties:
+If extraction was succesful, NCHS can generate an acknowledgement message and send it to the submitting jurisdiction.
+An `AckMessage` constructor is available that accepts a source message parameter (`submission` in the example below) and
+this is used to initialize `AckMessage` properties:
 
 - `AckMessage.MessageDestination` will be assigned the value of `source.MessageSource`
 - `AckMessage.MessageSource` will be assigned the value of `source.MessageDestination`
@@ -74,7 +79,8 @@ string ackMsgJson = ackMsg.ToJSON();
 ...
 ```
 
-On receipt of the `AckMessage`, the jurisdiction can parse it, determine the type of the message, and extract the required information using the following steps:
+On receipt of the `AckMessage`, the jurisdiction can parse it, determine the type of the message, and extract the
+required information using the following steps:
 
 ```cs
 // Get the message as a stream
@@ -99,9 +105,12 @@ switch(message)
 
 ### Return Coding
 
-NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information separately, using the classes `CauseofDeathCodingResponseMessage` and `DemographicsCodingResponseMessage`.
+NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning
+these two types of information separately, using the classes `CauseofDeathCodingResponseMessage`
+and `DemographicsCodingResponseMessage`.
 
-Once NCHS have determined the causes of death they can create a `CauseOfDeathCodingResponseMessage` to return that information to the jurisdiction:
+Once NCHS have determined the causes of death they can create a `CauseOfDeathCodingResponseMessage` to return that
+information to the jurisdiction:
 
 ```cs
 using VRDR;
@@ -147,7 +156,8 @@ string jsonMessage = message.ToJSON();
 ...
 ```
 
-Similarly, NCHS can create a `DemographicsCodingResponseMessage` to convey coding information about the decedent's demographics.
+Similarly, NCHS can create a `DemographicsCodingResponseMessage` to convey coding information about the decedent's
+demographics.
 
 ```cs
 using VRDR;
@@ -185,10 +195,14 @@ string jsonMessage = message.ToJSON();
 ...
 ```
 
-Note that the `CauseOfDeathCodingUpdateMessage` and `DemographicsCodingUpdateMessage` classes support the same constructor and properties as their corresponding initial coding response classes. If a second coding message is needed to return causes of death coding or race and ethnicity coding, then the same code as above can be used substituting `CauseOfDeathCodingUpdateMessage` for `CauseOfDeathCodingResponseMessage` or `DemographicsCodingUpdateMessage` for `DemographicsCodingResponseMessage`.
+Note that the `CauseOfDeathCodingUpdateMessage` and `DemographicsCodingUpdateMessage` classes support the same
+constructor and properties as their corresponding initial coding response classes. If a second coding message is needed
+to return causes of death coding or race and ethnicity coding, then the same code as above can be used
+substituting `CauseOfDeathCodingUpdateMessage` for `CauseOfDeathCodingResponseMessage`
+or `DemographicsCodingUpdateMessage` for `DemographicsCodingResponseMessage`.
 
-
-On receipt of the `CodingResponseMessage`, the jurisdiction can parse it, determine the type of the message, and extract the required information using the following steps:
+On receipt of the `CodingResponseMessage`, the jurisdiction can parse it, determine the type of the message, and extract
+the required information using the following steps:
 
 ```cs
 // Get the message as a stream
@@ -233,7 +247,9 @@ switch(message)
 
 ### Acknowledge Coding
 
-If extraction of the coding information was successful, the jurisdiction can generate an acknowledgement message and send it to NCHS. As described earlier, the `AckMessage` constructor initializes properties based on the source coding message.
+If extraction of the coding information was successful, the jurisdiction can generate an acknowledgement message and
+send it to NCHS. As described earlier, the `AckMessage` constructor initializes properties based on the source coding
+message.
 
 ```cs
 // Create the acknowledgement message
@@ -246,7 +262,8 @@ string ackMsgJson = ackMsg.ToJSON();
 ...
 ```
 
-On receipt of the `AckMessage`, NCHS can parse it, determine the type of the message, and extract the required information using the following steps:
+On receipt of the `AckMessage`, NCHS can parse it, determine the type of the message, and extract the required
+information using the following steps:
 
 ```cs
 // Get the message as a stream
@@ -273,12 +290,15 @@ switch(message)
 
 The diagram below illustrates two message extraction failures:
 
-1. A Death Record Submission could not be extracted from the message and an Extraction Error Response is returned instead of an Acknowledgement.
-2. A Coding Response could not be extracted from the message and an Extraction Error Response is returned instead of an acknowledgement.
+1. A Death Record Submission could not be extracted from the message and an Extraction Error Response is returned
+   instead of an Acknowledgement.
+2. A Coding Response could not be extracted from the message and an Extraction Error Response is returned instead of an
+   acknowledgement.
 
 ![Message Exchange Patterns for Failed Message Extraction](error.png)
 
-Use of the API to create the Death Record Submission, Acknowledgement and Coding Response messages is identical to that shown above and is not repeated here.
+Use of the API to create the Death Record Submission, Acknowledgement and Coding Response messages is identical to that
+shown above and is not repeated here.
 
 ### Create an Extraction Error Message
 
@@ -309,15 +329,22 @@ catch (Exception ex)
 }
 ```
 
-Note that the `ExtractionErrorMessage` constructor shown above will automatically set the message header properties and copy the business identifier properties (`CertificateNumber`, `StateAuxiliaryIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecordSubmission`. If the supplied message is `null` these message properties will need to be set manually instead (not shown).
+Note that the `ExtractionErrorMessage` constructor shown above will automatically set the message header properties and
+copy the business identifier properties (`CertificateNumber`, `StateAuxiliaryIdentifier` and `NCHSIdentifier`) from the
+supplied `DeathRecordSubmission`. If the supplied message is `null` these message properties will need to be set
+manually instead (not shown).
 
 ## Voiding a Death Record
 
-The diagram below illustrates the sequence of message exchanges between a vital records jurisdiction and NVSS when an initial submission needs to be subsequently voided. Depending on timing, the initial submission may result in a Coding Response or not.
+The diagram below illustrates the sequence of message exchanges between a vital records jurisdiction and NVSS when an
+initial submission needs to be subsequently voided. Depending on timing, the initial submission may result in a Coding
+Response or not.
 
 ![Message Exchange Pattern for Voiding a Prior Submission](void.png)
 
-It is also possible for a jurisdiction to send a `VoidMessage` to notify NCHS that a particular certificate identifier will not be used in the future. In this case, only the Death Record Void and corresponding Acknowledgement messages from the diagram above are used.
+It is also possible for a jurisdiction to send a `VoidMessage` to notify NCHS that a particular certificate identifier
+will not be used in the future. In this case, only the Death Record Void and corresponding Acknowledgement messages from
+the diagram above are used.
 
 ### Create a Void Messsage
 
@@ -339,7 +366,8 @@ voidMsg.StateAuxiliaryIdentifier = "A10F3";
 voidMsg.NCHSIdentifier = "2020MA001034";
 ```
 
-In both cases the `MessageDestination` property value is defaulted to `http://nchs.cdc.gov/vrdr_submission` which is the value that should be used for messages sent to NCHS. A JSON representation of the message can be obtained as follows:
+In both cases the `MessageDestination` property value is defaulted to `http://nchs.cdc.gov/vrdr_submission` which is the
+value that should be used for messages sent to NCHS. A JSON representation of the message can be obtained as follows:
 
 ```cs
 var jsonVoidMsg = voidMsg.ToJSON();
@@ -347,7 +375,8 @@ var jsonVoidMsg = voidMsg.ToJSON();
 
 ### Extract Void Information
 
-On receipt of a message, NCHS can parse it, determine the type of the message, and extract the void record information using the following steps:
+On receipt of a message, NCHS can parse it, determine the type of the message, and extract the void record information
+using the following steps:
 
 ```cs
 // Get the message as a stream
@@ -384,11 +413,13 @@ string ackMsgJson = ackMsg.ToJSON();
 ...
 ```
 
-As described earlier, the `AckMessage` constructor initializes properties based on the source `VoidMessage` negating the need to initialize its properties manually.
+As described earlier, the `AckMessage` constructor initializes properties based on the source `VoidMessage` negating the
+need to initialize its properties manually.
 
 ### Process Acknowledgement
 
-On receipt of the `AckMessage`, the jurisdiction can parse it, determine the type of the message, and extract the required information using the following steps:
+On receipt of the `AckMessage`, the jurisdiction can parse it, determine the type of the message, and extract the
+required information using the following steps:
 
 ```cs
 // Get the message as a stream
@@ -413,13 +444,16 @@ switch(message)
 
 ## Retrying Failed Deliveries
 
-The diagram below illustrates the case where the vital records jurisdiction does not receive a timely Acknowledgement to a Death Record Submission. To recover, the vital records jurisdiction resends the Death Record Submission.
+The diagram below illustrates the case where the vital records jurisdiction does not receive a timely Acknowledgement to
+a Death Record Submission. To recover, the vital records jurisdiction resends the Death Record Submission.
 
 ![Message Exchange Pattern for Voiding a Prior Submission](retry.png)
 
-In order to identify whether a message has been received previously, NVSS can compare the message id to those of previously received messages. For this mechanism to work, resent messages must have the same message id as the original.
+In order to identify whether a message has been received previously, NVSS can compare the message id to those of
+previously received messages. For this mechanism to work, resent messages must have the same message id as the original.
 
-There are two approaches to creating a message with the same id as a previous message. In the first example below, the id of the original message is saved and then used to set the id of the resent message.
+There are two approaches to creating a message with the same id as a previous message. In the first example below, the
+id of the original message is saved and then used to set the id of the resent message.
 
 ```cs
 // Create a DeathRecord
@@ -445,7 +479,8 @@ messageResend.MessageId = RetrieveSentMessageId();
 ...
 ```
 
-One challenge with the above approach is ensuring that the same death record is sent in both the original and resent message. An alternative, that avoids this challenge, is to save the entire message as illustrated below:
+One challenge with the above approach is ensuring that the same death record is sent in both the original and resent
+message. An alternative, that avoids this challenge, is to save the entire message as illustrated below:
 
 ```cs
 // Create a DeathRecord
@@ -474,7 +509,10 @@ The above two approaches are also applicable to the case where a coding response
 
 ## Error Handling
 
-Errors found when parsing messages will be reported either via a `System.ArgumentException` or a `VRDR.MessageParseException`. A `MessageParseException` encapsulates information from the message that caused the error. The exception can be used to construct a `VRDR.ExtractionErrorMessage` to report the error to the original sender of the message that caused the error. The code below illustrates this.
+Errors found when parsing messages will be reported either via a `System.ArgumentException` or
+a `VRDR.MessageParseException`. A `MessageParseException` encapsulates information from the message that caused the
+error. The exception can be used to construct a `VRDR.ExtractionErrorMessage` to report the error to the original sender
+of the message that caused the error. The code below illustrates this.
 
 ```cs
 try
@@ -498,4 +536,6 @@ catch (MessageParseException ex)
 }
 ```
 
-Note that only those properties that could be extracted from the original message will be used to populate the header fields of the error message, implementations should ensure that the error message header information is complete before sending.
+Note that only those properties that could be extracted from the original message will be used to populate the header
+fields of the error message, implementations should ensure that the error message header information is complete before
+sending.

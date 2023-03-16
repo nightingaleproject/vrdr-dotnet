@@ -1,5 +1,12 @@
 ## Changelog
 
+### v4.0.0.preview19-with-filtering - 2023-03-16
+
+* Added filtering logic
+* Added CLI to allow filtering of a single file
+* Added mulitple tests to test issues we've experienced and testing different filters
+* Added documentation for CLI and brief descriptions for each test case
+
 ### v4.0.0.preview19 - 2023-02-17
 
 * Additional tests for autopsy performed and results cases

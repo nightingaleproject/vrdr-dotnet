@@ -1110,7 +1110,7 @@ namespace VRDR.CLI
 
                 BaseMessage baseMessage = BaseMessage.Parse(File.ReadAllText(args[1]));
                 
-                FilterService FilterService = new FilterService("./VRDR.CLI/NCHSIJEFilter.json", "./VRDR.CLI/IJEToFHIRMapping.json");
+                FilterService FilterService = new FilterService("./VRDR.Filter/NCHSIJEFilter.json", "./VRDR.Filter/IJEToFHIRMapping.json");
 
                 string filteredFile;
                 
@@ -1120,7 +1120,7 @@ namespace VRDR.CLI
                     BaseMessage.Parse(filteredFile);
                     Console.WriteLine($"File successfully filtered");
                     
-                    string filteredFilePath = "./VRDR.CLI/filteredFile.json";
+                    string filteredFilePath = "./VRDR.Filter/filteredFile.json";
                     File.WriteAllText(filteredFilePath, filteredFile);
                 }
                 catch (Exception e)

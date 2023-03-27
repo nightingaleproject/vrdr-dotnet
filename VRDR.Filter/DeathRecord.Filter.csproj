@@ -4,6 +4,6 @@
         <RootNamespace>VRDR.Filter</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1"/>
+      <ProjectReference Include="..\VRDR.Messaging\VRDRMessaging.csproj" />
     </ItemGroup>
 </Project>

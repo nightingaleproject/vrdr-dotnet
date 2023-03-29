@@ -13,6 +13,7 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VRDR.Filter\DeathRecord.Filter.csproj" />
     <ProjectReference Include="..\VRDR\DeathRecord.csproj" />
     <ProjectReference Include="..\VRDR.Messaging\VRDRMessaging.csproj" />
   </ItemGroup>
@@ -82,5 +83,15 @@
     <None Update="fixtures/ije/EthnicityPlusOtherCase.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/UnknownBirthRecordId.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/DOBPartsAllUnknown.ije" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/Pre-filtered-file.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/NCHSIJEFilter.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/AllFieldsIJEFilter.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/NoFieldsIJEFilter.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/JurisdictionFieldsIJEFilter.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/IJEToFHIRMapping.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/ADDRESS_D-test.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/LIMITS-test_1.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/LIMITS-test_2.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/filter/Filtering+Parsing_1.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

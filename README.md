@@ -442,6 +442,27 @@ The C# tests can be run separately from the other tests by executing the followi
 dotnet test
 ```
 
+#### Filtering tests
+Tests have been added to test the filtering process as well as the parsing of filtered files to ensure a valid file is generated from filtering.
+These tests will run with the above commands.
+
+##### Filtering tests description
+
+**ADDRESS_DShouldEqual**: Tests that the `DeathLocationAddress` field isn't filtered out.  
+**LIMITSShouldEqual_1**: Tests that the `ResidenceWithinCityLimits` field isn't filtered out. [Related to ticket: https://ruvos.atlassian.net/browse/STEVESD-2582]  
+**LIMITSShouldEqual_2**: Tests that the `ResidenceWithinCityLimits` field isn't filtered out. [Related to ticket: https://ruvos.atlassian.net/browse/STEVESD-2582]  
+**PreFilteredFileEqualsFilteredFile**: Tests that filtering through all fields in a file results in all fields being the same before and after filtering.  
+**FilteringNoFields**: Tests filtering no fields results in a valid Death Record.  
+**FilteringPlusParsingTest_1**: Tests filtering results in a valid Death Record.  
+**FilteringPlusParsingTest_2**: Tests filtering results in a valid Death Record.  
+**FilteringPlusParsingTest_3**: Tests filtering results in a valid Death Record.  
+**FilteringPlusParsingTest_4**: Tests filtering results in a valid Death Record.  
+**FilteringPlusParsingTest_5**: Tests filtering results in a valid Death Record.  
+**FilterAllFields_1**: Tests filtering all fields results in a valid Death Record.  
+**FilterAllFields_2**: Tests filtering all fields results in a valid Death Record.  
+**FilterAllFields_3**: Tests filtering all fields results in a valid Death Record.  
+**FilterFilePerJurisdictionFilters**: Tests that each jurisdictions filter results in a valid Death Record.  
+
 ### VRDR.CLI
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
 
@@ -530,6 +551,9 @@ dotnet run --project VRDR.CLI ack VRDR.CLI/1submit.json
 
 # Extract and show the codes in a coding response message
 dotnet run --project VRDR.CLI showcodes VRDR.CLI/1coding.json
+
+# Filter file and write output as `filteredFile.json`
+dotnet run --project VRDR.CLI filter VRDR.CLI/1coding.json
 ```
 
 ### VRDR.Client

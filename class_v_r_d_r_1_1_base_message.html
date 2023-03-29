@@ -147,6 +147,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a80f070ca02d6c17876f762d78be064ce"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#a80f070ca02d6c17876f762d78be064ce">Parse</a> (StreamReader source, bool permissive=false)</td></tr>
 <tr class="memdesc:a80f070ca02d6c17876f762d78be064ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of <a class="el" href="class_v_r_d_r_1_1_base_message.html" title="Class BaseMessage is the base class of all messages.">BaseMessage</a>. Clients can use the typeof operator to determine the type of message object returned.   <a href="class_v_r_d_r_1_1_base_message.html#a80f070ca02d6c17876f762d78be064ce">More...</a><br /></td></tr>
 <tr class="separator:a80f070ca02d6c17876f762d78be064ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bdb5e46ee7dc54615c998f5df5dfe67"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_v_r_d_r_1_1_death_record.html">DeathRecord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#a9bdb5e46ee7dc54615c998f5df5dfe67">GetDeathRecordFromMessage</a> (<a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a> message)</td></tr>
+<tr class="memdesc:a9bdb5e46ee7dc54615c998f5df5dfe67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert message to message type and extract the death record   <a href="class_v_r_d_r_1_1_base_message.html#a9bdb5e46ee7dc54615c998f5df5dfe67">More...</a><br /></td></tr>
+<tr class="separator:a9bdb5e46ee7dc54615c998f5df5dfe67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -364,6 +367,41 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>NCHSIdentifier</b><
 </dd>
 </dl>
 </div>
+
+</div>
+</div>
+<a id="a9bdb5e46ee7dc54615c998f5df5dfe67" name="a9bdb5e46ee7dc54615c998f5df5dfe67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bdb5e46ee7dc54615c998f5df5dfe67">&#9670;&#160;</a></span>GetDeathRecordFromMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="class_v_r_d_r_1_1_death_record.html">DeathRecord</a> VRDR.BaseMessage.GetDeathRecordFromMessage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a>&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert message to message type and extract the death record  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>base message</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The death record inside the base message</dd></dl>
 
 </div>
 </div>

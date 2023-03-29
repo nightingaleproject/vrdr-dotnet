@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>VRDR .NET: Class Members</title>
+<title>VRDR .NET: Using the VRDR.Filter Library</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -46,7 +46,6 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,27 +67,38 @@ $(function() {
 </div>
 </div>
 
+</div><!-- top -->
+<div><div class="header">
+  <div class="headertitle"><div class="title">Using the VRDR.Filter Library </div></div>
+</div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
-
-<h3><a id="index_g" name="index_g"></a>- g -</h3><ul>
-<li>GetAll()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#a8c26329ed2071f50d820a955c78107c4">VRDR.DeathRecord</a></li>
-<li>GetAuthorizeTokenAsync()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_client.html#a5c996466c736124300808cdcfcc2f1fd">VRDR.Client</a></li>
-<li>GetBundle()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#a5b24253082f8f4c0e8bbe898febc2420">VRDR.DeathRecord</a></li>
-<li>GetCauseOfDeathCodedContentBundle()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#ae0e502756952456ee094a1e530dcafef">VRDR.DeathRecord</a></li>
-<li>GetComposition()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#a73607d76f91f78315915e9ec933dff9e">VRDR.DeathRecord</a></li>
-<li>GetDeathCertificateDocumentBundle()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#af9985739042d9e3ac6c06f6f19a2e80f">VRDR.DeathRecord</a></li>
-<li>GetDeathRecordFromMessage()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_base_message.html#a9bdb5e46ee7dc54615c998f5df5dfe67">VRDR.BaseMessage</a></li>
-<li>GetDemographicCodedContentBundle()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#af2aa66beaeb8ef80aaae0b24b730af77">VRDR.DeathRecord</a></li>
-<li>GetFirst()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#aa52277443735efe7ddadd9c0a50fb889">VRDR.DeathRecord</a></li>
-<li>GetITypedElement()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#a14d009a92d42937e26e47ba8c324e97a">VRDR.DeathRecord</a></li>
-<li>GetLast()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#aced32110e46501fbc5a8693605befb5a">VRDR.DeathRecord</a></li>
-<li>GetMessageResponsesAsync()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_client.html#aa6bd39ea26087937279709b49c3e9719">VRDR.Client</a></li>
-<li>GetMortalityRosterBundle()&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#adc5285ddb7527891c4f1bbee87dd5104">VRDR.DeathRecord</a></li>
-<li>GivenNames&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_death_record.html#a478852f212fc67cfab62983820498292">VRDR.DeathRecord</a></li>
-<li>GNAME&#160;:&#160;<a class="el" href="class_v_r_d_r_1_1_i_j_e_mortality.html#aa2b7e77640aa8f79b56f19a561ace75f">VRDR.IJEMortality</a></li>
-</ul>
-</div><!-- contents -->
+<div class="textblock"><p >This document describes how to use the VRDR.Filter library.</p>
+<h1><a class="anchor" id="autotoc_md41"></a>
+Instantiating the filter class</h1>
+<p >Before the filter class can be used, we need to instantiate an instance of the class with 3 arguments.</p>
+<h3><a class="anchor" id="autotoc_md42"></a>
+Argument 1:</h3>
+<p ><code>nchsIjeFilterFileLocation</code>: This is the location of the filter file. This file will contain an array of IJE fields that we want in the filtered file. </p><div class="fragment"><div class="line">[&quot;DOD_YR&quot;,&quot;DSTATE&quot;,&quot;FILENO&quot;,&quot;VOID&quot;,&quot;AUXNO&quot;,&quot;MFILED&quot;...]</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md43"></a>
+Argument 2:</h3>
+<p ><code>ijeToFhirMappingFileLocation</code>: This is the location of the IJE to FHIR fields mapping file. This file will contain an object with IJE keys and FHIR array objects. We need this mapping so know which FHIR fields to exclude when filtering out an IJE field. In the future we will only have an array for FHIR fields to filter. </p><div class="fragment"><div class="line">{</div>
+<div class="line">  &quot;DOD_YR&quot;: [</div>
+<div class="line">    &quot;DeathRecordIdentifier&quot;,</div>
+<div class="line">    &quot;DeathYear&quot;</div>
+<div class="line">  ],</div>
+<div class="line">  &quot;DSTATE&quot;: [</div>
+<div class="line">    &quot;DeathRecordIdentifier&quot;,</div>
+<div class="line">    &quot;DeathLocationJurisdiction&quot;,</div>
+<div class="line">    &quot;DeathLocationAddress.addressState&quot;,</div>
+<div class="line">    &quot;DeathLocationAddress.addressJurisdiction&quot;</div>
+<div class="line">  ],</div>
+<div class="line">  ...</div>
+<div class="line">}</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md44"></a>
+Argument 3:</h3>
+<p ><code>filterIsFile</code>: This field indicates if the first argument is a file location or a string representation of the filter array. It is defaulted to true. </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5

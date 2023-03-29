@@ -4,21 +4,32 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace VRDR.Tests
 {
     public class Filtering_Should
     {
-        
+        private readonly ITestOutputHelper _testOutputHelper;
+
         FilterService noFieldsFilterService = new FilterService("./fixtures/filter/NoFieldsIJEFilter.json", "./fixtures/filter/IJEToFHIRMapping.json");
         FilterService allFieldsFilterService = new FilterService("./fixtures/filter/AllFieldsIJEFilter.json", "./fixtures/filter/IJEToFHIRMapping.json");
         FilterService NCHSFilterService = new FilterService("./fixtures/filter/NCHSIJEFilter.json", "./fixtures/filter/IJEToFHIRMapping.json");
+
+        public Filtering_Should(ITestOutputHelper testOutputHelper)
+        {
+            _testOutputHelper = testOutputHelper;
+        }
 
         [Fact]
         public void ADDRESS_DShouldEqual()
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/ADDRESS_D-test.json"));
             BaseMessage postFilteredBaseMessage;
+            
+            _testOutputHelper.WriteLine(preFilteredBaseMessage.GetType().Name);
+            _testOutputHelper.WriteLine("DeathRecordSubmissionMessage");
+            _testOutputHelper.WriteLine(preFilteredBaseMessage.GetType().Name.Equals("DeathRecordSubmissionMessage").ToString());
             
             try
             {
@@ -30,8 +41,8 @@ namespace VRDR.Tests
                 throw new Exception(e.Message);
             }
             
-            DeathRecord preFilteredDeathRecord = getDeathRecordFromMessage(preFilteredBaseMessage);
-            DeathRecord postFilteredDeathRecord = getDeathRecordFromMessage(postFilteredBaseMessage);
+            DeathRecord preFilteredDeathRecord = BaseMessage.GetDeathRecordFromMessage(preFilteredBaseMessage);
+            DeathRecord postFilteredDeathRecord = BaseMessage.GetDeathRecordFromMessage(postFilteredBaseMessage);
             
             Assert.Equal(preFilteredDeathRecord.DeathLocationAddress, postFilteredDeathRecord.DeathLocationAddress);
         }
@@ -52,8 +63,8 @@ namespace VRDR.Tests
                 throw new Exception(e.Message);
             }
             
-            DeathRecord preFilteredDeathRecord = getDeathRecordFromMessage(preFilteredBaseMessage);
-            DeathRecord postFilteredDeathRecord = getDeathRecordFromMessage(postFilteredBaseMessage);
+            DeathRecord preFilteredDeathRecord = BaseMessage.GetDeathRecordFromMessage(preFilteredBaseMessage);
+            DeathRecord postFilteredDeathRecord = BaseMessage.GetDeathRecordFromMessage(postFilteredBaseMessage);
             
             Assert.Equal(preFilteredDeathRecord.ResidenceWithinCityLimits, postFilteredDeathRecord.ResidenceWithinCityLimits);
         }
@@ -74,8 +85,8 @@ namespace VRDR.Tests
                 throw new Exception(e.Message);
             }
             
-            DeathRecord preFilteredDeathRecord = getDeathRecordFromMessage(preFilteredBaseMessage);
-            DeathRecord postFilteredDeathRecord = getDeathRecordFromMessage(postFilteredBaseMessage);
+            DeathRecord preFilteredDeathRecord = BaseMessage.GetDeathRecordFromMessage(preFilteredBaseMessage);
+            DeathRecord postFilteredDeathRecord = BaseMessage.GetDeathRecordFromMessage(postFilteredBaseMessage);
             
             Assert.Equal(preFilteredDeathRecord.ResidenceWithinCityLimits, postFilteredDeathRecord.ResidenceWithinCityLimits);
         }
@@ -99,8 +110,8 @@ namespace VRDR.Tests
                 throw new Exception(e.Message);
             }
 
-            DeathRecord preFilteredDeathRecord = getDeathRecordFromMessage(preFilteredBaseMessage);
-            DeathRecord postFilteredDeathRecord = getDeathRecordFromMessage(postFilteredBaseMessage);
+            DeathRecord preFilteredDeathRecord = BaseMessage.GetDeathRecordFromMessage(preFilteredBaseMessage);
+            DeathRecord postFilteredDeathRecord = BaseMessage.GetDeathRecordFromMessage(postFilteredBaseMessage);
             
             foreach (var property in typeof(DeathRecord).GetProperties())
             {
@@ -125,26 +136,29 @@ namespace VRDR.Tests
                     // Console.WriteLine(postFilteredObject);
                 }
             }
+
+            _testOutputHelper.WriteLine("=============Field filtering test=============");
+            _testOutputHelper.WriteLine($"Passed field count = {passedFields.Count} ({JsonConvert.SerializeObject(passedFields)})");
+            _testOutputHelper.WriteLine($"Failed field count = {failedFields.Count} ({JsonConvert.SerializeObject(failedFields)})");
             
-            Console.WriteLine("=============Field filtering test=============");
-            Console.WriteLine($"Passed field count = {passedFields.Count} ({JsonConvert.SerializeObject(passedFields)})");
-            Console.WriteLine($"Failed field count = {failedFields.Count} ({JsonConvert.SerializeObject(failedFields)})");
+            Assert.Empty(failedFields);
         }
 
         [Fact]
         public void FilteringNoFields()
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/Pre-filtered-file.json"));
-
-            try
-            {
-                string postFilteredBaseMessage = allFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
-                BaseMessage.Parse(postFilteredBaseMessage);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            
+            string postFilteredBaseMessage = allFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
+            DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
+            
+            Assert.Null(parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
+            Assert.Equal("2023NV000026", parsedBaseMessage.NCHSIdentifier);
+            Assert.Equal((uint)000026, parsedBaseMessage.CertNo);
+            Assert.Equal((uint)2023, parsedBaseMessage.DeathYear);
+            Assert.Null(parsedBaseMessage.StateAuxiliaryId);
+            Assert.Equal("Y", parsedBaseMessage.DeathRecord.EmergingIssue1_1);
         }
         
         [Fact]
@@ -152,15 +166,16 @@ namespace VRDR.Tests
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/Filtering+Parsing_1.json"));
 
-            try
-            {
-                string postFilteredBaseMessage = NCHSFilterService.filterMessage(preFilteredBaseMessage).ToJson();
-                BaseMessage.Parse(postFilteredBaseMessage);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            string postFilteredBaseMessage = allFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
+            DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
+            
+            Assert.Equal("2022-09-23T09:09:00+00:00", parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
+            Assert.Equal("2022KS000230", parsedBaseMessage.NCHSIdentifier);
+            Assert.Equal((uint)000230, parsedBaseMessage.CertNo);
+            Assert.Equal((uint)2022, parsedBaseMessage.DeathYear);
+            Assert.Equal("202204000230", parsedBaseMessage.StateAuxiliaryId);
+            Assert.Null(parsedBaseMessage.DeathRecord.EmergingIssue1_1);
         }
         
         [Fact]
@@ -168,15 +183,16 @@ namespace VRDR.Tests
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/LIMITS-test_1.json"));
 
-            try
-            {
-                string postFilteredBaseMessage = NCHSFilterService.filterMessage(preFilteredBaseMessage).ToJson();
-                BaseMessage.Parse(postFilteredBaseMessage);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            string postFilteredBaseMessage = allFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
+            DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
+            
+            Assert.Null(parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
+            Assert.Equal("2023NV000026", parsedBaseMessage.NCHSIdentifier);
+            Assert.Equal((uint)000026, parsedBaseMessage.CertNo);
+            Assert.Equal((uint)2023, parsedBaseMessage.DeathYear);
+            Assert.Null(parsedBaseMessage.StateAuxiliaryId);
+            Assert.Equal("Y", parsedBaseMessage.DeathRecord.EmergingIssue1_1);
         }
         
         [Fact]
@@ -184,15 +200,16 @@ namespace VRDR.Tests
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/LIMITS-test_2.json"));
 
-            try
-            {
-                string postFilteredBaseMessage = NCHSFilterService.filterMessage(preFilteredBaseMessage).ToJson();
-                BaseMessage.Parse(postFilteredBaseMessage);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            string postFilteredBaseMessage = allFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
+            DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
+            
+            Assert.Null(parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
+            Assert.Equal("2023NV000031", parsedBaseMessage.NCHSIdentifier);
+            Assert.Equal((uint)000031, parsedBaseMessage.CertNo);
+            Assert.Equal((uint)2023, parsedBaseMessage.DeathYear);
+            Assert.Null(parsedBaseMessage.StateAuxiliaryId);
+            Assert.Null(parsedBaseMessage.DeathRecord.EmergingIssue1_1);
         }
         
         [Fact]
@@ -200,15 +217,16 @@ namespace VRDR.Tests
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/ADDRESS_D-test.json"));
 
-            try
-            {
-                string postFilteredBaseMessage = NCHSFilterService.filterMessage(preFilteredBaseMessage).ToJson();
-                BaseMessage.Parse(postFilteredBaseMessage);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            string postFilteredBaseMessage = allFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
+            DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
+            
+            Assert.Null(parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
+            Assert.Equal("2022TS000532", parsedBaseMessage.NCHSIdentifier);
+            Assert.Equal((uint)000532, parsedBaseMessage.CertNo);
+            Assert.Equal((uint)2022, parsedBaseMessage.DeathYear);
+            Assert.Null(parsedBaseMessage.StateAuxiliaryId);
+            Assert.Equal("Y", parsedBaseMessage.DeathRecord.EmergingIssue1_1);
         }
         
         [Fact]
@@ -216,15 +234,16 @@ namespace VRDR.Tests
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/Pre-filtered-file.json"));
 
-            try
-            {
-                string postFilteredBaseMessage = NCHSFilterService.filterMessage(preFilteredBaseMessage).ToJson();
-                BaseMessage.Parse(postFilteredBaseMessage);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            string postFilteredBaseMessage = allFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
+            DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
+            
+            Assert.Null(parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
+            Assert.Equal("2023NV000026", parsedBaseMessage.NCHSIdentifier);
+            Assert.Equal((uint)000026, parsedBaseMessage.CertNo);
+            Assert.Equal((uint)2023, parsedBaseMessage.DeathYear);
+            Assert.Null(parsedBaseMessage.StateAuxiliaryId);
+            Assert.Equal("Y", parsedBaseMessage.DeathRecord.EmergingIssue1_1);
         }
 
         [Fact]
@@ -232,15 +251,16 @@ namespace VRDR.Tests
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/Pre-filtered-file.json"));
 
-            try
-            {
-                string postFilteredBaseMessage = noFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
-                BaseMessage.Parse(postFilteredBaseMessage);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            string postFilteredBaseMessage = noFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
+            DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
+            
+            Assert.Null(parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
+            Assert.Equal("2023NV000026", parsedBaseMessage.NCHSIdentifier);
+            Assert.Equal((uint)000026, parsedBaseMessage.CertNo);
+            Assert.Equal((uint)2023, parsedBaseMessage.DeathYear);
+            Assert.Null(parsedBaseMessage.StateAuxiliaryId);
+            Assert.Null(parsedBaseMessage.DeathRecord.EmergingIssue1_1);
         }
         
         [Fact]
@@ -248,15 +268,16 @@ namespace VRDR.Tests
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/ADDRESS_D-test.json"));
 
-            try
-            {
-                string postFilteredBaseMessage = noFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
-                BaseMessage.Parse(postFilteredBaseMessage);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            string postFilteredBaseMessage = noFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
+            DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
+            
+            Assert.Null(parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
+            Assert.Equal("2022TS000532", parsedBaseMessage.NCHSIdentifier);
+            Assert.Equal((uint)000532, parsedBaseMessage.CertNo);
+            Assert.Equal((uint)2022, parsedBaseMessage.DeathYear);
+            Assert.Null(parsedBaseMessage.StateAuxiliaryId);
+            Assert.Null(parsedBaseMessage.DeathRecord.EmergingIssue1_1);
         }
         
         [Fact]
@@ -264,15 +285,16 @@ namespace VRDR.Tests
         {
             BaseMessage preFilteredBaseMessage = BaseMessage.Parse(File.ReadAllText("./fixtures/filter/LIMITS-test_1.json"));
 
-            try
-            {
-                string postFilteredBaseMessage = noFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
-                BaseMessage.Parse(postFilteredBaseMessage);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            string postFilteredBaseMessage = noFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
+            DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
+            
+            Assert.Null(parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
+            Assert.Equal("2023NV000026", parsedBaseMessage.NCHSIdentifier);
+            Assert.Equal((uint)000026, parsedBaseMessage.CertNo);
+            Assert.Equal((uint)2023, parsedBaseMessage.DeathYear);
+            Assert.Null(parsedBaseMessage.StateAuxiliaryId);
+            Assert.Null(parsedBaseMessage.DeathRecord.EmergingIssue1_1);
         }
 
         [Fact]
@@ -306,36 +328,11 @@ namespace VRDR.Tests
                 }
             }
             
-            Console.WriteLine("=============Jurisdiction filtering test=============");
-            Console.WriteLine($"Passed jurisdiction count = {passedJurisdictions.Count} ({JsonConvert.SerializeObject(passedJurisdictions)})");
-            Console.WriteLine($"Failed jurisdiction count = {failedJurisdictions.Count} ({JsonConvert.SerializeObject(failedJurisdictions)})");
-        }
-        
-        private static DeathRecord getDeathRecordFromMessage(BaseMessage message)
-        {
-                
-            Type messageType = message.GetType();
-
-            // Get the original deathrecord from 
-            // DeathRecordSubmissionMessage or DeathRecordUpdateMessage
-
-            DeathRecord dr = null;
-            if (messageType == typeof(DeathRecordSubmissionMessage))
-            {
-                var drsm = message as DeathRecordSubmissionMessage;
-                dr = drsm?.DeathRecord;
-            }
-            else if (messageType == typeof(DeathRecordUpdateMessage))
-            {
-                var drum = message as DeathRecordUpdateMessage;
-                dr = drum?.DeathRecord;
-            }
-            else
-            {
-                return dr;
-            }
-
-            return dr;
+            _testOutputHelper.WriteLine("=============Jurisdiction filtering test=============");
+            _testOutputHelper.WriteLine($"Passed jurisdiction count = {passedJurisdictions.Count} ({JsonConvert.SerializeObject(passedJurisdictions)})");
+            _testOutputHelper.WriteLine($"Failed jurisdiction count = {failedJurisdictions.Count} ({JsonConvert.SerializeObject(failedJurisdictions)})");
+            
+            Assert.Empty(failedJurisdictions);
         }
     }
 }

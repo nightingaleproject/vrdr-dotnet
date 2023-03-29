@@ -556,6 +556,61 @@ namespace VRDR
             return Parse(content, permissive);
         }
 
+        /// <summary>
+        /// Convert message to message type and extract the death record
+        /// </summary>
+        /// <param name="message">base message</param>
+        /// <returns>The death record inside the base message</returns>
+        public static DeathRecord GetDeathRecordFromMessage(BaseMessage message)
+        {
+                
+            Type messageType = message.GetType();
+
+            DeathRecord dr = null;
+
+            switch (messageType.Name)
+            {
+                case "DeathRecordSubmissionMessage":
+                {
+                    var drsm = message as DeathRecordSubmissionMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "DeathRecordUpdateMessage":
+                {
+                    var drsm = message as DeathRecordUpdateMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "CauseOfDeathCodingMessage":
+                {
+                    var drsm = message as CauseOfDeathCodingMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "CauseOfDeathCodingUpdateMessage":
+                {
+                    var drsm = message as CauseOfDeathCodingUpdateMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "DemographicsCodingMessage":
+                {
+                    var drsm = message as DemographicsCodingMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "DemographicsCodingUpdateMessage":
+                {
+                    var drsm = message as DemographicsCodingUpdateMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+            }
+
+            return dr;
+        }
+        
         private static ParserSettings GetParserSettings(bool permissive)
         {
             return new ParserSettings { AcceptUnknownMembers = permissive,

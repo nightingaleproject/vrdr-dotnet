@@ -9,12 +9,17 @@ namespace VRDR;
 
 public class FilterService
 {
+    
+    /// <summary>The filter array.</summary>
     private string[] nchsIjeFilterArray;
 
+    /// <summary>The FHIR fields that should be passed through.</summary>
     private string[] passthroughDeathRecordProperties;
 
+    /// <summary>The mapping between IJE fields and FHIR fields.</summary>
     private Dictionary<string, string[]> ijeToFhirMappingDictionary;
 
+    /// <summary>A class that takes a Death Record and removes the fields that are not present in the filter array.</summary>
     public FilterService(string nchsIjeFilterFileLocation, string ijeToFhirMappingFileLocation, bool filterIsFile = true)
     {
         // The passthrough fields
@@ -50,6 +55,11 @@ public class FilterService
         passthroughDeathRecordProperties = deathRecordProperties.Distinct().ToArray();
     }
 
+    /// <summary>
+    /// The method that performs that actual filtering. This is called after an instance of this class is made
+    /// </summary>
+    /// <param name="message">base message to be filtered</param>
+    /// <returns>The filtered base message</returns>
     public BaseMessage filterMessage(BaseMessage message)
     {
         Type messageType = message.GetType();

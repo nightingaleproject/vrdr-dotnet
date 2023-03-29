@@ -1104,7 +1104,7 @@ namespace VRDR.CLI
                 Console.WriteLine(payload);
                 return 0;
             }
-            else if (args.Length == 2 && args[0] == "filter")
+            else if (args.Length == 3 && args[0] == "filter")
             {
                 Console.WriteLine($"Filtering file {args[1]}");
 
@@ -1112,21 +1112,11 @@ namespace VRDR.CLI
                 
                 FilterService FilterService = new FilterService("./VRDR.Filter/NCHSIJEFilter.json", "./VRDR.Filter/IJEToFHIRMapping.json");
 
-                string filteredFile;
-                
-                try
-                {
-                    filteredFile = FilterService.filterMessage(baseMessage).ToJson();
-                    BaseMessage.Parse(filteredFile);
-                    Console.WriteLine($"File successfully filtered");
+                var filteredFile = FilterService.filterMessage(baseMessage).ToJson();
+                BaseMessage.Parse(filteredFile);
+                Console.WriteLine($"File successfully filtered and saved to {args[2]}");
                     
-                    string filteredFilePath = "./VRDR.Filter/filteredFile.json";
-                    File.WriteAllText(filteredFilePath, filteredFile);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error occured while filtering file ({e})");
-                }
+                File.WriteAllText(args[2], filteredFile);
                 
                 return 0;
             }

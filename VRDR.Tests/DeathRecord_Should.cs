@@ -3076,20 +3076,106 @@ namespace VRDR.Tests
             Assert.Equal(17, record.DeathDay);
         }
 
+/* START DATE OF DEATH PRONOUNCEMENT */
         [Fact]
         public void Set_DateOfDeathPronouncement()
         {
             SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.498822-05:00";
-            Assert.Equal("2019-01-31T17:48:07.498822-05:00", SetterDeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2019-01-31T17:48:07", SetterDeathRecord.DateOfDeathPronouncement);
         }
 
         [Fact]
         public void Get_DateOfDeathPronouncement()
         {
-            Assert.Equal("2018-02-20T16:48:06-05:00", DeathRecord1_JSON.DateOfDeathPronouncement);
-            Assert.Equal("2020-11-13T16:39:40-05:00", DeathCertificateDocument2_JSON.DateOfDeathPronouncement);
-            Assert.Equal("2019-02-20T16:48:06-05:00", DeathRecord1_XML.DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06", DeathRecord1_JSON.DateOfDeathPronouncement);
+            Assert.Equal("2020-11-13T16:39:40", DeathCertificateDocument2_JSON.DateOfDeathPronouncement);
+            Assert.Equal("2019-02-20T16:48:06", DeathRecord1_XML.DateOfDeathPronouncement);
         }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_Roundtrip()
+        {
+            IJEMortality ije1 = new IJEMortality(DeathRecord1_JSON);
+            Assert.Equal("02202018", ije1.PPDATESIGNED);
+            Assert.Equal("1648", ije1.PPTIME); // automtically adjusts time zone, seems wrong?
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("2019-02-19T16:48:06", dr2.DateOfDeathPronouncement);
+            Assert.Equal(2019, (int)dr2.DateOfDeathPronouncementYear);
+            Assert.Equal(02, (int)dr2.DateOfDeathPronouncementMonth);
+            Assert.Equal(19, (int)dr2.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:06", dr2.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Set_DateOfDeathPronouncement_Partial_Date()
+        {
+            SetterDeathRecord.DateOfDeathPronouncementYear = 2021;
+            SetterDeathRecord.DateOfDeathPronouncementMonth = 5;
+            SetterDeathRecord.DateOfDeathPronouncementDay = -1;
+            SetterDeathRecord.DateOfDeathPronouncementTime= "10:00:00";
+            IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
+            Assert.Equal("05992021", ije1.PPDATESIGNED);
+            Assert.Equal("1000", ije1.PPTIME);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal(2021, dr2.DateOfDeathPronouncementYear);
+            Assert.Equal(5, dr2.DateOfDeathPronouncementMonth);
+            Assert.Equal(-1, dr2.DateOfDeathPronouncementDay);
+            Assert.Equal("10:00:00", dr2.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Set_DateOfDeathPronouncement_Unknown_Partial_Date()
+        {
+            // Test ability to set dates and times diferentiating between explicitly unknown and unspecified
+            DeathRecord d = new DeathRecord();
+            Assert.Null(d.DateOfDeathPronouncementYear);
+            Assert.Null(d.DateOfDeathPronouncementMonth);
+            Assert.Null(d.DateOfDeathPronouncementDay);
+            Assert.Null(d.DateOfDeathPronouncementTime);
+            d.DateOfDeathPronouncementYear = 2022;
+            Assert.Equal(2022, d.DateOfDeathPronouncementYear);
+            Assert.Null(d.DateOfDeathPronouncementMonth);
+            Assert.Null(d.DateOfDeathPronouncementDay);
+            Assert.Null(d.DateOfDeathPronouncementTime);
+            d.DateOfDeathPronouncementMonth = -1;
+            d.DateOfDeathPronouncementTime = "-1";
+            Assert.Equal(2022, d.DateOfDeathPronouncementYear);
+            Assert.Equal(-1, d.DateOfDeathPronouncementMonth);
+            Assert.Null(d.DateOfDeathPronouncementDay);
+            Assert.Equal("-1", d.DateOfDeathPronouncementTime);
+            IJEMortality ije = new IJEMortality(d, false);
+            Assert.Equal("99992022", ije.PPDATESIGNED);
+            Assert.Equal("9999", ije.PPTIME);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_Partial_Date()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
+            Assert.Equal(2021, (int)dr.DateOfDeathPronouncementYear);
+            Assert.Equal(3, (int)dr.DateOfDeathPronouncementMonth);
+            Assert.Equal(-1, dr.DateOfDeathPronouncementDay);
+            Assert.Equal("-1", dr.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_Partial_Date_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("03992021", ije1.PPDATESIGNED);
+            Assert.Equal("9999", ije1.PPTIME);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_Timezone()
+        {
+            // The timezone of the death datetime should not impact the date due to timezone conversion
+            DeathRecord record = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathTimeZone.json")));
+            Assert.Equal(18, record.DateOfDeathPronouncementDay);
+        }
+
+/* END DATE OF DEATH PRONOUCMENT */
 
         [Fact]
         public void Set_SurgeryDate()
@@ -3790,6 +3876,7 @@ namespace VRDR.Tests
                     PropertyInfo overwriteProperty = typeof(IJEMortality).GetProperty(overwriteField);
                     overwriteProperty.SetValue(ije, overwriteValue);
                 }
+                Console.WriteLine($"Testing {field} with value {value}");
                 Assert.Equal(value, ((string)property.GetValue(ije)).Trim());
             }
         }

@@ -1635,7 +1635,41 @@
                 }
               ]
             },
-            "valueDateTime": "2018-02-20T16:48:06-05:00"
+            "_valueDateTime": {
+              "extension": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
+                      "valueUnsignedInt": 2021
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
+                      "valueUnsignedInt": 3
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                          "valueCode": "unknown"
+                        }
+                      ],
+                      "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                          "valueCode": "unknown"
+                        }
+                      ],
+                      "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"
+                    }
+                  ],
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
+                }
+              ]
+            }
           }
         ]
       }

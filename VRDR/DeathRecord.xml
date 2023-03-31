@@ -411,6 +411,9 @@
         <member name="M:VRDR.DeathRecord.CreateDeathDateObs">
             <summary>Create Death Date Observation.</summary>
         </member>
+        <member name="M:VRDR.DeathRecord.CreateDateOfDeathPronouncementObs">
+            <summary>Create Death Date Pronouncement Observation Component Component.</summary>
+        </member>
         <member name="F:VRDR.DeathRecord.SurgeryDateObs">
             <summary>Date Of Surgery.</summary>
         </member>
@@ -2507,6 +2510,46 @@
             <para>Console.WriteLine($"Decedent Time of Death: {ExampleDeathRecord.DeathTime}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementYear">
+            <summary>Decedent's Pronouncement Year of Death.</summary>
+            <value>the decedent's pronouncement year of death, or -1 if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DeathPronouncementYear = 2018;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Pronouncement Year of Death: {ExampleDeathRecord.DateOfDeathPronouncementYear}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementMonth">
+            <summary>Decedent's Pronouncement Month of Death.</summary>
+            <value>the decedent's pronouncement month of death, or -1 if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncementMonth = 6;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Pronouncement Month of Death: {ExampleDeathRecord.DateOfDeathPronouncementMonth}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementDay">
+            <summary>Decedent's Pronouncement Day of Death.</summary>
+            <value>the decedent's pronouncement day of death, or -1 if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncementDay = 16;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Prounecement Day of Death: {ExampleDeathRecord.DateOfDeathPronouncementDay}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementTime">
+            <summary>Decedent's Pronouncement Time of Death.</summary>
+            <value>the decedent's pronouncement time of death, or "-1" if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncementTime = "07:15:00";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Pronouncement Time of Death: {ExampleDeathRecord.DateOfDeathPronouncementTime}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.DateOfDeathDeterminationMethod">
             <summary>DateOfDeathDeterminationMethod.</summary>
             <value>method. A Dictionary representing a code, containing the following key/value pairs:
@@ -2534,6 +2577,10 @@
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
             </example>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetDateOfDeathPronouncementObs">
+            <summary>Decedent's Date/Time of Death Pronouncement as a component.</summary>
+            <value>the decedent's date and time of death pronouncement observation component</value>
         </member>
         <member name="P:VRDR.DeathRecord.DateOfDeathPronouncement">
             <summary>Decedent's Date/Time of Death Pronouncement.</summary>

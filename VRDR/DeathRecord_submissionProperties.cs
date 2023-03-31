@@ -4738,6 +4738,139 @@ namespace VRDR
             }
         }
 
+        /* START datetimePronouncedDead */
+        /// <summary>Decedent's Pronouncement Year of Death.</summary>
+        /// <value>the decedent's pronouncement year of death, or -1 if explicitly unknown, or null if never specified</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathPronouncementYear = 2018;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Pronouncement Year of Death: {ExampleDeathRecord.DateOfDeathPronouncementYear}");</para>
+        /// </example>
+        [Property("DateOfDeathPronouncementYear", Property.Types.Int32, "Death Investigation", "Decedent's Pronouncement Year of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public int? DateOfDeathPronouncementYear
+        {
+            get
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(pronouncementDateObs.Value, ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs == null)
+                {
+                    pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+                }
+                SetPartialDate(pronouncementDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                UpdateDeathRecordIdentifier();
+            }
+        }
+
+        /// <summary>Decedent's Pronouncement Month of Death.</summary>
+        /// <value>the decedent's pronouncement month of death, or -1 if explicitly unknown, or null if never specified</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeathPronouncementMonth = 6;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Pronouncement Month of Death: {ExampleDeathRecord.DateOfDeathPronouncementMonth}");</para>
+        /// </example>
+        [Property("DeathMonth", Property.Types.Int32, "Death Investigation", "Decedent's Pronouncement Month of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public int? DateOfDeathPronouncementMonth
+        {
+            get
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(pronouncementDateObs.Value, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs == null)
+                {
+                    pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+                }
+                SetPartialDate(pronouncementDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+            }
+        }
+
+        /// <summary>Decedent's Pronouncement Day of Death.</summary>
+        /// <value>the decedent's pronouncement day of death, or -1 if explicitly unknown, or null if never specified</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeathPronouncementDay = 16;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Prounecement Day of Death: {ExampleDeathRecord.DateOfDeathPronouncementDay}");</para>
+        /// </example>
+        [Property("DeathDay", Property.Types.Int32, "Death Investigation", "Decedent's Pronouncement Day of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public int? DateOfDeathPronouncementDay
+        {
+            get
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(pronouncementDateObs.Value, ExtensionURL.DateDay);
+                }
+                return null;
+            }
+            set
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs == null)
+                {
+                    pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+                }
+                SetPartialDate(pronouncementDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+            }
+        }
+        /// <summary>Decedent's Pronouncement Time of Death.</summary>
+        /// <value>the decedent's pronouncement time of death, or "-1" if explicitly unknown, or null if never specified</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeathPronouncementTime = "07:15:00";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Pronouncement Time of Death: {ExampleDeathRecord.DateOfDeathPronouncementTime}");</para>
+        /// </example>
+        [Property("DeathTime", Property.Types.String, "Death Investigation", "Decedent's Pronoucement Time of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public string DateOfDeathPronouncementTime
+        {
+            get
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null)
+                {
+                    return GetTimeFragmentOrPartialTime(pronouncementDateObs.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs == null)
+                {
+                    pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+                }
+                SetPartialTime(pronouncementDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
+            }
+        }
+        /* END datetimePronouncedDead */
+
         /// <summary>DateOfDeathDeterminationMethod.</summary>
         /// <value>method. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -4824,6 +4957,21 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Date/Time of Death Pronouncement as a component.</summary>
+        /// <value>the decedent's date and time of death pronouncement observation component</value>
+         public Observation.ComponentComponent GetDateOfDeathPronouncementObs() {
+            if (DeathDateObs != null && DeathDateObs.Component.Count > 0) // if there is a value for death pronouncement type, return it
+            {
+                var pronComp = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
+                        && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6");
+                if (pronComp != null && pronComp.Value != null)
+                {
+                    return pronComp;
+                }
+            }
+            return null;
+        }
+
         /// <summary>Decedent's Date/Time of Death Pronouncement.</summary>
         /// <value>the decedent's date and time of death pronouncement</value>
         /// <example>
@@ -4836,41 +4984,35 @@ namespace VRDR
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5').component.where(code.coding.code='80616-6')", "")]
         public string DateOfDeathPronouncement
         {
-            get
-            {
-                if (DeathDateObs != null && DeathDateObs.Component.Count > 0) // if there is a value for death location type, return it
+            get {
+               // We support this legacy API entrypoint via the new partial date and time entrypoints
+                if (DateOfDeathPronouncementYear != null && DateOfDeathPronouncementYear != -1 && DateOfDeathPronouncementMonth != null && DateOfDeathPronouncementMonth != -1 && DateOfDeathPronouncementDay != null && DateOfDeathPronouncementDay != -1 && DateOfDeathPronouncementTime != null && DateOfDeathPronouncementTime != "-1")
                 {
-                    var pronComp = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
-                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6");
-                    if (pronComp != null && pronComp.Value != null)
+                    DateTimeOffset parsedTime;
+                    if (DateTimeOffset.TryParse(DateOfDeathPronouncementTime, out parsedTime))
                     {
-                        return Convert.ToString(pronComp.Value);
+                        DateTimeOffset result = new DateTimeOffset((int)DateOfDeathPronouncementYear, (int)DateOfDeathPronouncementMonth, (int)DateOfDeathPronouncementDay, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
+                        return result.ToString("s");
                     }
+                }
+                else if (DateOfDeathPronouncementYear != null && DateOfDeathPronouncementYear != -1 && DateOfDeathPronouncementMonth != null && DateOfDeathPronouncementMonth != -1 && DateOfDeathPronouncementDay != null && DateOfDeathPronouncementDay != -1)
+                {
+                    DateTime result = new DateTime((int)DateOfDeathPronouncementYear, (int)DateOfDeathPronouncementMonth, (int)DateOfDeathPronouncementDay);
+                    return result.ToString("s");
                 }
                 return null;
             }
             set
             {
-                if (String.IsNullOrWhiteSpace(value)) {
-                    return;
-                }
-                if (DeathDateObs == null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedTime;
+                if (DateTimeOffset.TryParse(value, out parsedTime))
                 {
-                    CreateDeathDateObs(); // Create it
-                }
-                // Find correct component; if doesn't exist add another
-                var pronComp = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
-                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6");
-                if (pronComp != null)
-                {
-                    ((Observation.ComponentComponent)pronComp).Value = new FhirDateTime(value);
-                }
-                else
-                {
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
-                    component.Value = new FhirDateTime(value);
-                    DeathDateObs.Component.Add(component);
+                    DateOfDeathPronouncementYear = parsedTime.Year;
+                    DateOfDeathPronouncementMonth = parsedTime.Month;
+                    DateOfDeathPronouncementDay = parsedTime.Day;
+                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                    DateOfDeathPronouncementTime = timeSpan.ToString(@"hh\:mm\:ss");
                 }
             }
         }
@@ -5301,7 +5443,6 @@ namespace VRDR
                 DeathLocationLoc.Position.Longitude = Convert.ToDecimal(value);
             }
         }
-
 
         /// <summary>Description of Death Location.</summary>
         /// <value>the death location description.</value>

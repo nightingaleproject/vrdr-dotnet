@@ -3893,9 +3893,14 @@ namespace VRDR
                 if (UsualWork != null)
                 {
                     Observation.ComponentComponent component = UsualWork.Component.FirstOrDefault(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
-                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
+                    if (component != null && component.Value != null && component.Value as CodeableConcept != null
+                        && CodeableConceptToDict((CodeableConcept)component.Value).ContainsKey("text"))
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value)["text"];
+                    }
+                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
+                    {
+                        return "unknown"; // if no text is defined, value is unknown
                     }
                 }
                 return null;

@@ -390,6 +390,46 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateCauseOfDeathCodingAcknowledgementFromJSON()
+        {
+            // parse the message generically, without assuming type
+            BaseMessage message = BaseMessage.Parse<BaseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingMessage2.json"));
+
+            switch (message)
+            {
+                // use C# pattern matching to cast message type
+                case CauseOfDeathCodingMessage codCodeMsg:
+                    Assert.NotNull(codCodeMsg);
+                    Assert.Equal(CauseOfDeathCodingMessage.MESSAGE_TYPE, message.MessageType);
+                    Assert.Equal("https://apigw.cdc.gov/OSELS/NCHS/NVSSFHIRAPI/KY/Bundles?_since=2023-03-21T16:18:29.7258392-05:00", message.MessageDestination);
+                    Assert.Equal((uint)8928, message.CertNo);
+                    Assert.Equal("KY", message.JurisdictionId);
+                    Assert.Equal((uint)2023, message.DeathYear);
+                    Assert.Equal("230410164027", message.StateAuxiliaryId);
+
+                    // now create an acknowledgement message for the cause of death coding message
+                    var ackMessage = new AcknowledgementMessage(codCodeMsg);
+                    Assert.Equal("KY", ackMessage.JurisdictionId);
+
+                    // test serialization of the message to JSON
+                    var ackMessageStr = ackMessage.ToJSON();
+                    Assert.Contains("\"resourceType\":\"Bundle\"", ackMessageStr);
+                    Assert.Contains("\"name\":\"jurisdiction_id\",\"valueString\":\"KY\"", ackMessageStr);
+
+                    // re-parse the message to make sure it's still valid
+                    var ackMessageParsed = BaseMessage.Parse<AcknowledgementMessage>(ackMessageStr);
+                    Assert.NotNull(ackMessageParsed);
+                    Assert.Equal("KY", ackMessageParsed.JurisdictionId);
+
+                    break;
+                default:
+                    Assert.True(false, "Message was not a CauseOfDeathCodingMessage");
+                    break;
+            }
+        }
+
+
+        [Fact]
         public void CreateCauseOfDeathCodingResponseFromSubmissionBundle()
         {
             CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage((DeathRecord)JSONRecords[0]);

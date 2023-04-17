@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hl7.Fhir.Model;
 
 namespace VRDR
@@ -12,7 +13,7 @@ namespace VRDR
 
         /// <summary>Constructor that creates an acknowledgement for the specified message.</summary>
         /// <param name="messageToAck">the message to create an acknowledgement for.</param>
-        public AcknowledgementMessage(BaseMessage messageToAck) : this(messageToAck?.MessageId, messageToAck?.MessageSource, messageToAck?.MessageDestination)
+        public AcknowledgementMessage(BaseMessage messageToAck) : this(messageToAck?.MessageId, messageToAck?.MessageDestinations, messageToAck?.MessageSource)
         {
             this.CertNo = messageToAck?.CertNo;
             this.StateAuxiliaryId = messageToAck?.StateAuxiliaryId;
@@ -38,12 +39,12 @@ namespace VRDR
 
         /// <summary>Constructor that creates an acknowledgement for the specified message.</summary>
         /// <param name="messageId">the id of the message to create an acknowledgement for.</param>
-        /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
+        /// <param name="destinations">the endpoint identifiers that the ack message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
-        public AcknowledgementMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
+        public AcknowledgementMessage(string messageId, List<string> destinations, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
-            this.MessageDestination = destination;
+            this.MessageDestinations = destinations;
             MessageHeader.ResponseComponent resp = new MessageHeader.ResponseComponent();
             resp.Identifier = messageId;
             resp.Code = MessageHeader.ResponseType.Ok;

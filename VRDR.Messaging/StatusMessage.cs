@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Hl7.Fhir.Model;
 
 namespace VRDR
@@ -27,7 +28,7 @@ namespace VRDR
         /// <summary>Constructor that creates a status message for the specified message.</summary>
         /// <param name="messageToStatus">the message to create a status for.</param>
         /// <param name="status"> status value </param>
-        public StatusMessage(BaseMessage messageToStatus, string status) : this(messageToStatus?.MessageId, messageToStatus?.MessageSource, status, messageToStatus?.MessageDestination)
+        public StatusMessage(BaseMessage messageToStatus, string status) : this(messageToStatus?.MessageId, messageToStatus?.MessageDestinations, status, messageToStatus?.MessageSource)
         {
             this.CertNo = messageToStatus?.CertNo;
             this.StateAuxiliaryId = messageToStatus?.StateAuxiliaryId;
@@ -37,14 +38,14 @@ namespace VRDR
 
         /// <summary>Constructor that creates a status message for the specified message.</summary>
         /// <param name="messageId">the id of the message to create status message for.</param>
-        /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
+        /// <param name="destinations">the endpoint identifier that the ack message will be sent to.</param>
         /// <param name="status">the status being sent, from http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/ValueSet-VRM-Status-vs.html</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
 
-        public StatusMessage(string messageId, string destination, string status, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
+        public StatusMessage(string messageId, List<string> destinations, string status, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
-            this.MessageDestination = destination;
+            this.MessageDestinations = destinations;
             MessageHeader.ResponseComponent resp = new MessageHeader.ResponseComponent();
             resp.Identifier = messageId;
             resp.Code = MessageHeader.ResponseType.Ok;

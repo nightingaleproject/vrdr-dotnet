@@ -262,18 +262,20 @@ namespace VRDR
 
         /// <summary>Message Destination</summary>
         /// <value>the message destination.</value>
-        public string MessageDestination
+        public List<string> MessageDestinations
         {
             get
             {
-                return Header?.Destination?.FirstOrDefault()?.Endpoint;
+                return Header?.Destination?.Select( dest => dest.Endpoint).ToList();
             }
             set
             {
                 Header.Destination.Clear();
-                MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
-                dest.Endpoint = value;
-                Header.Destination.Add(dest);
+                foreach (string val in value) {
+                    MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
+                    dest.Endpoint = val;
+                    Header.Destination.Add(dest);
+                }
             }
         }
 

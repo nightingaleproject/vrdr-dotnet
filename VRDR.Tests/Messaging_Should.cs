@@ -1140,8 +1140,8 @@ namespace VRDR.Tests
             Assert.Equal("Drowning", submission.DeathRecord.COD1A);
             Assert.Equal("sad", submission.DeathRecord.ContributingConditions);
             Assert.Equal("DO", submission.DeathRecord.CertificationRoleHelper);
-            Assert.Equal("asdfsa", submission.DeathRecord.UsualOccupation);
-            Assert.Equal("unknown", submission.DeathRecord.UsualIndustry);
+            Assert.Null(submission.DeathRecord.UsualOccupation);
+            Assert.Null(submission.DeathRecord.UsualIndustry);
         }
 
 

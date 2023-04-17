@@ -3898,10 +3898,6 @@ namespace VRDR
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value)["text"];
                     }
-                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
-                    {
-                        return "unknown"; // if no text is defined, value is unknown
-                    }
                 }
                 return null;
             }

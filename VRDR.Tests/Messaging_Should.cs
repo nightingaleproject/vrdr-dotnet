@@ -1173,6 +1173,18 @@ namespace VRDR.Tests
                     Assert.Equal("A047", entry.AssignedCodes[0]);
                 } */
 
+        [Fact]
+        public void CreateSubmissionFromJSONWithValueCodeableConceptText()
+        {
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordValueCodeableConceptText.json"));
+            Assert.Equal("Drowning", submission.DeathRecord.COD1A);
+            Assert.Equal("sad", submission.DeathRecord.ContributingConditions);
+            Assert.Equal("DO", submission.DeathRecord.CertificationRoleHelper);
+            Assert.Null(submission.DeathRecord.UsualOccupation);
+            Assert.Null(submission.DeathRecord.UsualIndustry);
+        }
+
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

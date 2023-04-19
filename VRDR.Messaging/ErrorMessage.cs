@@ -16,7 +16,7 @@ namespace VRDR
 
         /// <summary>Constructor that creates an extraction error for the specified message.</summary>
         /// <param name="sourceMessage">the message that could not be processed.</param>
-        public ExtractionErrorMessage(BaseMessage sourceMessage) : this(sourceMessage?.MessageId, sourceMessage?.MessageDestinations, sourceMessage?.MessageSource)
+        public ExtractionErrorMessage(BaseMessage sourceMessage) : this(sourceMessage?.MessageId, sourceMessage?.MessageDestination, sourceMessage?.MessageSource)
         {
             this.CertNo = sourceMessage?.CertNo;
             this.StateAuxiliaryId = sourceMessage?.StateAuxiliaryId;
@@ -43,12 +43,12 @@ namespace VRDR
 
         /// <summary>Constructor that creates an extraction error message for the specified message.</summary>
         /// <param name="messageId">the id of the message to create an extraction error for.</param>
-        /// <param name="destinations">the endpoint identifier that the extraction error message will be sent to.</param>
+        /// <param name="destination">the endpoint identifier that the extraction error message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the extraction error message will be sent from.</param>
-        public ExtractionErrorMessage(string messageId, List<string> destinations, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
+        public ExtractionErrorMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
-            this.MessageDestinations = destinations;
+            this.MessageDestination = destination;
             MessageHeader.ResponseComponent resp = new MessageHeader.ResponseComponent();
             resp.Identifier = messageId;
             resp.Code = MessageHeader.ResponseType.FatalError;

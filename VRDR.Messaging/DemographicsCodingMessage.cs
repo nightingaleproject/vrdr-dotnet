@@ -47,7 +47,7 @@ namespace VRDR
         }
         /// <summary>Constructor that creates an DemographicsCodingMessage for the specified submitted death record message.</summary>
         /// <param name="messageToCode">the message to create coding response for.</param>
-        public DemographicsCodingMessage(BaseMessage messageToCode) : this(messageToCode?.MessageId, messageToCode?.MessageDestinations, messageToCode?.MessageSource)
+        public DemographicsCodingMessage(BaseMessage messageToCode) : this(messageToCode?.MessageId, messageToCode?.MessageDestination, messageToCode?.MessageSource)
         {
             this.CertNo = messageToCode?.CertNo;
             this.StateAuxiliaryId = messageToCode?.StateAuxiliaryId;
@@ -57,13 +57,13 @@ namespace VRDR
 
         /// <summary>Constructor that creates a DemographicsCodingMessage for the specified message.</summary>
         /// <param name="messageId">the id of the message to code.</param>
-        /// <param name="destinations">the endpoint identifier that the ack message will be sent to.</param>
+        /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
 
-        public DemographicsCodingMessage(string messageId, List<string> destinations, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
+        public DemographicsCodingMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
-            this.MessageDestinations = destinations;
+            this.MessageDestination = destination;
             MessageHeader.ResponseComponent resp = new MessageHeader.ResponseComponent();
             resp.Identifier = messageId;
             resp.Code = MessageHeader.ResponseType.Ok;

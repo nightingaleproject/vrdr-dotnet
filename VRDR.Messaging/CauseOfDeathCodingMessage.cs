@@ -48,7 +48,7 @@ namespace VRDR
 
         /// <summary>Constructor that creates an CauseOfDeathCodingMessage for the specified submitted death record message.</summary>
         /// <param name="messageToCode">the message to create coding response for.</param>
-        public CauseOfDeathCodingMessage(BaseMessage messageToCode) : this(messageToCode?.MessageId, messageToCode?.MessageDestinations, messageToCode?.MessageSource)
+        public CauseOfDeathCodingMessage(BaseMessage messageToCode) : this(messageToCode?.MessageId, messageToCode?.MessageDestination, messageToCode?.MessageSource)
         {
             this.CertNo = messageToCode?.CertNo;
             this.StateAuxiliaryId = messageToCode?.StateAuxiliaryId;
@@ -58,13 +58,13 @@ namespace VRDR
 
         /// <summary>Constructor that creates a CauseOfDeathCoding message for the specified message.</summary>
         /// <param name="messageId">the id of the message to code.</param>
-        /// <param name="destinations">the endpoint identifiers that the ack message will be sent to.</param>
+        /// <param name="destination">the endpoint identifiers that the ack message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
 
-        public CauseOfDeathCodingMessage(string messageId, List<string> destinations, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
+        public CauseOfDeathCodingMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
-            this.MessageDestinations = destinations;
+            this.MessageDestination = destination;
             MessageHeader.ResponseComponent resp = new MessageHeader.ResponseComponent();
             resp.Identifier = messageId;
             resp.Code = MessageHeader.ResponseType.Ok;

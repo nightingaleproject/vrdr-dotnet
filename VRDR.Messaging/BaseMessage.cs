@@ -261,17 +261,17 @@ namespace VRDR
         }
 
         /// <summary>Message Destination</summary>
-        /// <value>the message destination.</value>
-        public List<string> MessageDestinations
+        /// <value>the message destinations in a comma seperated string.</value>
+        public string MessageDestination
         {
             get
             {
-                return Header?.Destination?.Select( dest => dest.Endpoint).ToList();
+                return String.Join(",", Header?.Destination?.Select( dest => dest.Endpoint));
             }
             set
             {
                 Header.Destination.Clear();
-                foreach (string val in value) {
+                foreach (string val in value.Split(',')) {
                     MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
                     dest.Endpoint = val;
                     Header.Destination.Add(dest);

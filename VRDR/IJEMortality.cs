@@ -1961,13 +1961,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral1);
+                return Get_Race(NvssRace.FirstAmericanIndianOrAlaskanNativeLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral1, value);
+                    Set_Race(NvssRace.FirstAmericanIndianOrAlaskanNativeLiteral, value);
                 }
             }
         }
@@ -1978,13 +1978,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral2);
+                return Get_Race(NvssRace.SecondAmericanIndianOrAlaskanNativeLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral2, value);
+                    Set_Race(NvssRace.SecondAmericanIndianOrAlaskanNativeLiteral, value);
                 }
             }
         }
@@ -1995,13 +1995,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherAsianLiteral1);
+                return Get_Race(NvssRace.FirstOtherAsianLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherAsianLiteral1, value);
+                    Set_Race(NvssRace.FirstOtherAsianLiteral, value);
                 }
             }
         }
@@ -2012,13 +2012,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherAsianLiteral2);
+                return Get_Race(NvssRace.SecondOtherAsianLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherAsianLiteral2, value);
+                    Set_Race(NvssRace.SecondOtherAsianLiteral, value);
                 }
             }
         }
@@ -2029,13 +2029,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherPacificIslandLiteral1);
+                return Get_Race(NvssRace.FirstOtherPacificIslandLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherPacificIslandLiteral1, value);
+                    Set_Race(NvssRace.FirstOtherPacificIslandLiteral, value);
                 }
             }
         }
@@ -2046,13 +2046,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherPacificIslandLiteral2);
+                return Get_Race(NvssRace.SecondOtherPacificIslandLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherPacificIslandLiteral2, value);
+                    Set_Race(NvssRace.SecondOtherPacificIslandLiteral, value);
                 }
             }
         }
@@ -2063,13 +2063,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherRaceLiteral1);
+                return Get_Race(NvssRace.FirstOtherRaceLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherRaceLiteral1, value);
+                    Set_Race(NvssRace.FirstOtherRaceLiteral, value);
                 }
             }
         }
@@ -2080,13 +2080,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherRaceLiteral2);
+                return Get_Race(NvssRace.SecondOtherRaceLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherRaceLiteral2, value);
+                    Set_Race(NvssRace.SecondOtherRaceLiteral, value);
                 }
             }
         }

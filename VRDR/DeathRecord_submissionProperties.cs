@@ -2646,6 +2646,7 @@ namespace VRDR
                     CreateInputRaceEthnicityObs();
                 }
                 var booleanRaceCodes = NvssRace.GetBooleanRaceCodes();
+                var literalRaceCodes = NvssRace.GetLiteralRaceCodes();
                 foreach (Tuple<string, string> element in value)
                 {
                     InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == element.Item1);
@@ -2663,9 +2664,13 @@ namespace VRDR
                             component.Value = new FhirBoolean(false);
                         }
                     }
-                    else
+                    else if (literalRaceCodes.Contains(element.Item1))
                     {
                         component.Value = new FhirString(element.Item2);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid race literal code found: " + element.Item1 + " with value: " + element.Item2);
                     }
                     InputRaceAndEthnicityObs.Component.Add(component);
                 }

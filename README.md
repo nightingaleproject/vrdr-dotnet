@@ -33,33 +33,33 @@ Interactions with NCHS are governed by the CI build version of the VRDR and Vita
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2.1 CI build version</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview20</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview20">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview20"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview20">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview20"> github</a></td>
+<td style="text-align: center;">V4.0.0-preview21</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview21">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview21"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview21">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview21"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2.1/">STU2.1 Published</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview20</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview20">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview20"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview20">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview20"> github</a></td>
+<td style="text-align: center;">V4.0.0-preview21</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview21">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview21"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview21">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview21"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2/">STU2 Published</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview20</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview20">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview20"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview20">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview20"> github</a></td>
+<td style="text-align: center;">V4.0.0-preview21</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview21">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview21"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview21">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview21"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 v1.3</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview20</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview20">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview20"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview20">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview20"> github</a></td>
+<td style="text-align: center;">V4.0.0-preview21</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview21">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview21"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview21">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview21"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;">STU1</td>
@@ -98,7 +98,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="4.0.0-preview20" />
+  <PackageReference Include="VRDR" Version="4.0.0-preview21" />
   ...
 </ItemGroup>
 ```
@@ -355,7 +355,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="4.0.0-preview20" />
+  <PackageReference Include="VRDR.Messaging" Version="4.0.0-preview21" />
   ...
 </ItemGroup>
 ```

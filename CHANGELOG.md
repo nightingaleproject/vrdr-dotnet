@@ -1,6 +1,10 @@
 ## Changelog
 
-### v4.0.0.preview20 - 2023-04-20
+### v4.0.0.preview21 - 2023-04-20
+
+* Adds support for multiple message destinations. It implemented this with a comma separated string of endpoints in the MessageDestination attribute. 
+
+*### v4.0.0.preview20 - 2023-04-20
 
 * Corrected race literals in code, tests and example json, added component name check on setting race literals to be in sync with IG
 * Updated test case to include missing usual occupation text, also made usual industry return null on unknown just as does usual occupation

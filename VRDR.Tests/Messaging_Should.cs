@@ -81,6 +81,13 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateMultipleDestinationsRecord()
+        {
+            BaseMessage multipleDestinations = BaseMessage.Parse(FixtureStream("fixtures/json/MultipleDestinationsMessage.json"));
+            Assert.Equal("test_one,test_two", multipleDestinations.MessageDestination);
+        }
+
+        [Fact]
         public void CreateSubmissionFromJSON()
         {
             DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));

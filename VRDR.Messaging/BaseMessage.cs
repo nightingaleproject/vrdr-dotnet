@@ -261,7 +261,7 @@ namespace VRDR
         }
 
         /// <summary>Message Destination</summary>
-        /// <value>the message destinations, in csv format.</value>
+        /// <value>the message destinations, in csv format to support multiple endpoints while maintaining backwards compatability.</value>
         public string MessageDestination
         {
             get

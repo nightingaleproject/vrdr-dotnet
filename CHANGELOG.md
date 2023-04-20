@@ -1,5 +1,12 @@
 ## Changelog
 
+### v4.0.0.preview20 - 2023-04-20
+
+* Corrected race literals in code, tests and example json, added component name check on setting race literals to be in sync with IG
+* Updated test case to include missing usual occputation text, also made usual industry return null on unknown just as does usual occupation
+* Fixed bug where calling UsualIndustry would crash if no text key was provided such as happens in the unknown case
+* Incorporates preview19-with-filtering changes
+
 ### v4.0.0.preview19-with-filtering - 2023-03-16
 
 * Added filtering logic

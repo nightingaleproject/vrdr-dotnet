@@ -405,8 +405,8 @@
                   "code": {
                     "coding": [
                       {
-                        "code": "AmericanIndianOrAlaskanNativeLiteral1",
-                        "display": "AmericanIndianOrAlaskanNativeLiteral1"
+                        "code": "FirstAmericanIndianOrAlaskanNativeLiteral",
+                        "display": "FirstAmericanIndianOrAlaskanNativeLiteral"
                       }
                     ]
                   },

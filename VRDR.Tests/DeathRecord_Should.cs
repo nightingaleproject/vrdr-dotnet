@@ -2,13 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
-using System.Text.RegularExpressions;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Xunit;
-
 using System.Linq;
-using System.Reflection.Metadata;
 
 namespace VRDR.Tests
 {
@@ -1275,7 +1272,7 @@ namespace VRDR.Tests
         [Fact]
         public void Set_Race()
         {
-            Tuple<string, string>[] race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslandLiteral1, "White, Native Hawaiian or Other Pacific Islander") };
+            Tuple<string, string>[] race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.FirstOtherPacificIslandLiteral, "White, Native Hawaiian or Other Pacific Islander") };
             SetterDeathRecord.Race = race;
             Assert.Equal(race[0], SetterDeathRecord.Race[0]);
             Assert.Equal(race[1], SetterDeathRecord.Race[1]);
@@ -3540,6 +3537,61 @@ namespace VRDR.Tests
             Assert.Equal("Hover Board Rider", ije2.TRANSPRT);
             Assert.Equal("9", ije2.INACT);
         }
+        [Fact]
+        public void TestRaceLiteralRoundTrip()
+        {
+            // setup race literals in an IJE record
+            var ije = new IJEMortality();
+            ije.DOD_YR = "2021";
+            ije.DSTATE = "MA";
+            ije.FILENO = "578660";
+            ije.RACE16 = "Apache";
+            ije.RACE17 = "Lipan Apache";
+            ije.RACE18 = "Taiwanese";
+            ije.RACE19 = "Gaoshan";
+            ije.RACE20 = "Maori";
+            ije.RACE21 = "Waikato";
+            ije.RACE22 = "Vulcan";
+            ije.RACE23 = "Hgrtcha";
+            
+            // convert to a DeathRecord and check race literals
+            var record = ije.ToDeathRecord();
+            var race = record.Race.ToList().ToDictionary(x => x.Item1, x => x.Item2);
+            Assert.Equal(2021, record.DeathYear);
+            Assert.Equal("MA", record.DeathLocationJurisdiction);
+            Assert.Equal("578660", record.Identifier);
+            Assert.Equal("Apache", race.GetValueOrDefault("FirstAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Lipan Apache", race.GetValueOrDefault("SecondAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Taiwanese", race.GetValueOrDefault("FirstOtherAsianLiteral"));
+            Assert.Equal("Gaoshan", race.GetValueOrDefault("SecondOtherAsianLiteral"));
+            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslandLiteral"));
+            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslandLiteral"));
+            Assert.Equal("Vulcan", race.GetValueOrDefault("FirstOtherRaceLiteral"));
+            Assert.Equal("Hgrtcha", race.GetValueOrDefault("SecondOtherRaceLiteral"));
+
+            // convert back to an IJE record and check race literals for roundtrip
+            var ije2 = new IJEMortality(record);
+            Assert.Equal("2021", ije2.DOD_YR);
+            Assert.Equal("MA", ije2.DSTATE);
+            Assert.Equal("578660", ije2.FILENO);
+            Assert.Equal("Apache", ije.RACE16);
+            Assert.Equal("Lipan Apache", ije.RACE17);
+            Assert.Equal("Taiwanese", ije.RACE18);
+            Assert.Equal("Gaoshan", ije.RACE19);
+            Assert.Equal("Maori", ije.RACE20);
+            Assert.Equal("Waikato", ije.RACE21);
+            Assert.Equal("Vulcan", ije.RACE22);
+            Assert.Equal("Hgrtcha", ije.RACE23);
+        }
+
+        [Fact]
+        public void TestInvalidRaceLiteralThrowsException() {
+            var record = new DeathRecord();
+            var race = record.Race.ToList();
+            race.Add(Tuple.Create("InvalidRaceLiteral", "Foo"));
+            var raceArray = race.Distinct().ToArray();
+            Assert.Throws<System.ArgumentException>(() => record.Race = raceArray);
+        }
 
         [Fact]
         public void Get_BlankLocationNames()
@@ -3553,9 +3605,9 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EmptyLiteralRaceFields()
         {
-            // A record with an a literal race field (e.g., AmericanIndianOrAlaskanNativeLiteral1) with no content should parse successfully
+            // A record with an a literal race field (e.g., FirstAmericanIndianOrAlaskanNativeLiteral) with no content should parse successfully
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/EmptyRaceLiteral.json")));
-            Assert.DoesNotContain(dr.Race, (t => t.Item1 == "AmericanIndianOrAlaskanNativeLiteral1"));
+            Assert.DoesNotContain(dr.Race, (t => t.Item1 == "FirstAmericanIndianOrAlaskanNativeLiteral"));
         }
 
         [Fact]

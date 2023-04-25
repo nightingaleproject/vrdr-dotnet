@@ -290,6 +290,25 @@ namespace VRDR
             }
         }
 
+        /// <summary>Message Destinations</summary>
+        /// <value>the message destinations in list-based format.</value>
+        public List<string> MessageDestinations
+        {
+            get
+            {
+                return Header?.Destination?.Select(dest => dest.Endpoint).ToList();
+            }
+            set
+            {
+                Header.Destination.Clear();
+                foreach (string endpoint in value) {
+                    MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
+                    dest.Endpoint = endpoint;
+                    Header.Destination.Add(dest);
+                }
+            }
+        }
+
         /// <summary>Helper method to set a single string value on the Record portion of the Message</summary>
         protected void SetSingleStringValue(string key, string value)
         {

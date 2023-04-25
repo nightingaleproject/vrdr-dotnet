@@ -85,6 +85,16 @@ namespace VRDR.Tests
         {
             BaseMessage multipleDestinations = BaseMessage.Parse(FixtureStream("fixtures/json/MultipleDestinationsMessage.json"));
             Assert.Equal("test_one,test_two", multipleDestinations.MessageDestination);
+            Assert.Equal((new string[] {"test_one", "test_two"}).ToList(), multipleDestinations.MessageDestinations);
+            multipleDestinations.MessageDestination = "test_three,test_four";
+            Assert.Equal("test_three,test_four", multipleDestinations.MessageDestination);
+            Assert.Equal((new string[] {"test_three", "test_four"}).ToList(), multipleDestinations.MessageDestinations);
+            multipleDestinations.MessageDestinations = (new string[] {"test_five", "test_six"}).ToList();
+            Assert.Equal("test_five,test_six", multipleDestinations.MessageDestination);
+            Assert.Equal((new string[] {"test_five", "test_six"}).ToList(), multipleDestinations.MessageDestinations);
+            multipleDestinations.MessageDestination = "test_seven";
+            Assert.Equal("test_seven", multipleDestinations.MessageDestination);
+            Assert.Equal((new string[] {"test_seven"}).ToList(), multipleDestinations.MessageDestinations);
         }
 
         [Fact]

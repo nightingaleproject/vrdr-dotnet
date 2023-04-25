@@ -261,32 +261,20 @@ namespace VRDR
         }
 
         /// <summary>Message Destination</summary>
-        /// <value>the message destinations, in csv format to support multiple endpoints while maintaining backwards compatability.</value>
+        /// <value>the message destinations, in csv format to support multiple endpoints. Acts as a wrapper for MessageDestinations while still maintaining backwards compatibility.</value>
         public string MessageDestination
         {
             get
             {
-                if (Header?.Destination == null || Header.Destination.Count() <= 1) {
-                    return Header?.Destination?.FirstOrDefault()?.Endpoint;
+                List<string> destinations = this.MessageDestinations;
+                if (destinations == null || (destinations.Count() == 1 && destinations[0] == null) || destinations.Count() < 1) {
+                    return null;
                 }
-                return String.Join(",", Header?.Destination?.Select(dest => dest.Endpoint));
+                return String.Join(",", this.MessageDestinations);
             }
             set
             {
-                Header.Destination.Clear();
-                if (value == null)
-                {
-                    MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
-                    dest.Endpoint = value;
-                    Header.Destination.Add(dest);
-                    return;
-                }
-                foreach (string val in value.Split(','))
-                {
-                    MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
-                    dest.Endpoint = val;
-                    Header.Destination.Add(dest);
-                }
+                this.MessageDestinations = value != null ? value.Split(',').ToList() : null;
             }
         }
 
@@ -301,6 +289,13 @@ namespace VRDR
             set
             {
                 Header.Destination.Clear();
+                if (value == null)
+                {
+                    MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
+                    dest.Endpoint = null;
+                    Header.Destination.Add(dest);
+                    return;
+                }
                 foreach (string endpoint in value) {
                     MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
                     dest.Endpoint = endpoint;

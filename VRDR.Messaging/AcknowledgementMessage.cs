@@ -13,7 +13,7 @@ namespace VRDR
 
         /// <summary>Constructor that creates an acknowledgement for the specified message.</summary>
         /// <param name="messageToAck">the message to create an acknowledgement for.</param>
-        public AcknowledgementMessage(BaseMessage messageToAck) : this(messageToAck?.MessageId, messageToAck?.MessageSource, messageToAck?.MessageDestinations, messageToAck?.MessageDestination)
+        public AcknowledgementMessage(BaseMessage messageToAck) : this(messageToAck?.MessageId, messageToAck?.MessageSource, messageToAck?.MessageDestination)
         {
             this.CertNo = messageToAck?.CertNo;
             this.StateAuxiliaryId = messageToAck?.StateAuxiliaryId;
@@ -40,19 +40,11 @@ namespace VRDR
         /// <summary>Constructor that creates an acknowledgement for the specified message.</summary>
         /// <param name="messageId">the id of the message to create an acknowledgement for.</param>
         /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
-        /// <param name="destinations">the list of endpoint identifiers that the ack message will be sent to if a destination is not given.</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
-        public AcknowledgementMessage(string messageId, string destination, List<string> destinations, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
+        public AcknowledgementMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
             this.MessageDestination = destination;
-            // if (destination.Equals(destinations[0]) && destinations.Count == 1) {
-            //     System.Console.WriteLine("hi");
-            //     this.MessageDestination = destination;
-            // } else {
-            //     System.Console.WriteLine("bye");
-            //     this.MessageDestinations = destinations;
-            // }
             MessageHeader.ResponseComponent resp = new MessageHeader.ResponseComponent();
             resp.Identifier = messageId;
             resp.Code = MessageHeader.ResponseType.Ok;

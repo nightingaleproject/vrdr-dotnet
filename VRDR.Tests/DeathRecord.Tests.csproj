@@ -35,6 +35,8 @@
     <None Update="fixtures/json/CodingUpdateMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathLocationType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/BirthAndDeathDateDataAbsent.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/BirthAndDeathDateDateOnly.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/BirthAndDeathDateTimeOnly.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/BlankLocationNames.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordBirthRecordDataAbsent.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordSubmissionMessage.json" CopyToOutputDirectory="PreserveNewest" />

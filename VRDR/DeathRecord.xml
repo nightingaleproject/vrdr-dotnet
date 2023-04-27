@@ -2505,14 +2505,14 @@
             <value>the decedent's time of death, or "-1" if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.DeathTime = "07:15";</para>
+            <para>ExampleDeathRecord.DeathTime = "07:15:00";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Time of Death: {ExampleDeathRecord.DeathTime}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementYear">
             <summary>Decedent's Pronouncement Year of Death.</summary>
-            <value>the decedent's pronouncement year of death, or -1 if explicitly unknown, or null if never specified</value>
+            <value>the decedent's pronouncement year of death, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.DeathPronouncementYear = 2018;</para>
@@ -2581,6 +2581,10 @@
         <member name="M:VRDR.DeathRecord.GetDateOfDeathPronouncementObs">
             <summary>Decedent's Date/Time of Death Pronouncement as a component.</summary>
             <value>the decedent's date and time of death pronouncement observation component</value>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetOrCreateDateOfDeathPronouncementObs">
+            <summary>Get or Create Decedent's Date/Time of Death Pronouncement as a component.</summary>
+            <value>the decedent's date and time of death pronouncement observation component, if not present create it, return it in either case</value>
         </member>
         <member name="P:VRDR.DeathRecord.DateOfDeathPronouncement">
             <summary>Decedent's Date/Time of Death Pronouncement.</summary>
@@ -3296,6 +3300,9 @@
         <member name="M:VRDR.DeathRecord.GetDateFragmentOrPartialDate(Hl7.Fhir.Model.Element,System.String)">
             <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
             field (year, month, or day) to be read from either the value or the extension</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetTimeFragment(Hl7.Fhir.Model.Element)">
+            <summary>Getter helper for anything that can have a regular FHIR date/time, allowing the time to be read from the value</summary>
         </member>
         <member name="M:VRDR.DeathRecord.GetTimeFragmentOrPartialTime(Hl7.Fhir.Model.Element)">
             <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read

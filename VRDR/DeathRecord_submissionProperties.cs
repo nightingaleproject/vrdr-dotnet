@@ -4709,7 +4709,7 @@ namespace VRDR
         /// <value>the decedent's time of death, or "-1" if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DeathTime = "07:15";</para>
+        /// <para>ExampleDeathRecord.DeathTime = "07:15:00";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Time of Death: {ExampleDeathRecord.DeathTime}");</para>
         /// </example>
@@ -4740,7 +4740,7 @@ namespace VRDR
 
         /* START datetimePronouncedDead */
         /// <summary>Decedent's Pronouncement Year of Death.</summary>
-        /// <value>the decedent's pronouncement year of death, or -1 if explicitly unknown, or null if never specified</value>
+        /// <value>the decedent's pronouncement year of death, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.DeathPronouncementYear = 2018;</para>
@@ -4754,21 +4754,33 @@ namespace VRDR
             get
             {
                 Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
-                if (pronouncementDateObs != null && pronouncementDateObs.Value != null)
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
                 {
-                    return GetDateFragmentOrPartialDate(pronouncementDateObs.Value, ExtensionURL.DateYear);
+                    var fdt = (FhirDateTime)pronouncementDateObs.Value;
+                    var dt = fdt.ToDateTimeOffset(TimeSpan.Zero);
+                    return dt.Year;
                 }
                 return null;
             }
             set
             {
-                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
-                if (pronouncementDateObs == null)
-                {
-                    pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+                if (value == null || !value.HasValue) {
+                    return;
                 }
-                SetPartialDate(pronouncementDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
-                UpdateDeathRecordIdentifier();
+                Observation.ComponentComponent pronouncementDateObs = GetOrCreateDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is Time)
+                {
+                    // we need to convert to a FhirDateTime
+                    pronouncementDateObs.Value = ConvertFhirTimeToFhirDateTime((Time)pronouncementDateObs.Value);
+                }
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    // we need to update the year
+                    var fdt = (FhirDateTime)pronouncementDateObs.Value;
+                    var dt = fdt.ToDateTimeOffset(TimeSpan.Zero);
+                    var newFdt = new FhirDateTime(value.Value, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, TimeSpan.Zero);
+                    pronouncementDateObs.Value = newFdt;
+                }
             }
         }
 
@@ -4787,21 +4799,35 @@ namespace VRDR
             get
             {
                 Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
-                if (pronouncementDateObs != null && pronouncementDateObs.Value != null)
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
                 {
-                    return GetDateFragmentOrPartialDate(pronouncementDateObs.Value, ExtensionURL.DateMonth);
+                    var fdt = (FhirDateTime)pronouncementDateObs.Value;
+                    var dt = fdt.ToDateTimeOffset(TimeSpan.Zero);
+                    return dt.Month;
                 }
                 return null;
             }
             set
             {
-                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
-                if (pronouncementDateObs == null)
-                {
-                    pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+                if (value == null || !value.HasValue) {
+                    return;
                 }
-                SetPartialDate(pronouncementDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+                Observation.ComponentComponent pronouncementDateObs = GetOrCreateDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is Time)
+                {
+                    // we need to convert to a FhirDateTime
+                    pronouncementDateObs.Value = ConvertFhirTimeToFhirDateTime((Time)pronouncementDateObs.Value);
+                }
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    // we need to update the month
+                    var fdt = (FhirDateTime)pronouncementDateObs.Value;
+                    var dt = fdt.ToDateTimeOffset(TimeSpan.Zero);
+                    var newFdt = new FhirDateTime(dt.Year, value.Value, dt.Day, dt.Hour, dt.Minute, dt.Second, TimeSpan.Zero);
+                    pronouncementDateObs.Value = newFdt;
+                }
             }
+
         }
 
         /// <summary>Decedent's Pronouncement Day of Death.</summary>
@@ -4819,22 +4845,36 @@ namespace VRDR
             get
             {
                 Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
-                if (pronouncementDateObs != null && pronouncementDateObs.Value != null)
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
                 {
-                    return GetDateFragmentOrPartialDate(pronouncementDateObs.Value, ExtensionURL.DateDay);
+                    var fdt = (FhirDateTime)pronouncementDateObs.Value;
+                    var dt = fdt.ToDateTimeOffset(TimeSpan.Zero);
+                    return dt.Day;
                 }
                 return null;
             }
             set
             {
-                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
-                if (pronouncementDateObs == null)
-                {
-                    pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+                if (value == null || !value.HasValue) {
+                    return;
                 }
-                SetPartialDate(pronouncementDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+                Observation.ComponentComponent pronouncementDateObs = GetOrCreateDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is Time)
+                {
+                    // we need to convert to a FhirDateTime
+                    pronouncementDateObs.Value = ConvertFhirTimeToFhirDateTime((Time)pronouncementDateObs.Value);
+                }
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    // we need to update the year
+                    var fdt = (FhirDateTime)pronouncementDateObs.Value;
+                    var dt = fdt.ToDateTimeOffset(TimeSpan.Zero);
+                    var newFdt = new FhirDateTime(dt.Year, dt.Month, value.Value, dt.Hour, dt.Minute, dt.Second, TimeSpan.Zero);
+                    pronouncementDateObs.Value = newFdt;
+                }
             }
         }
+
         /// <summary>Decedent's Pronouncement Time of Death.</summary>
         /// <value>the decedent's pronouncement time of death, or "-1" if explicitly unknown, or null if never specified</value>
         /// <example>
@@ -4852,21 +4892,42 @@ namespace VRDR
                 Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
                 if (pronouncementDateObs != null && pronouncementDateObs.Value != null)
                 {
-                    return GetTimeFragmentOrPartialTime(pronouncementDateObs.Value);
+                    string time = GetTimeFragment(pronouncementDateObs.Value);
+                    if (time != null)
+                    {
+                        return time;
+                    }
+                    if (pronouncementDateObs.Value != null && pronouncementDateObs.Value is Time)
+                    {
+                        return pronouncementDateObs.Value.ToString();
+                    }
                 }
                 return null;
             }
             set
             {
-                if (String.IsNullOrWhiteSpace(value)) {
+                if (String.IsNullOrWhiteSpace(value) || value == "-1") {
                     return;
                 }
-                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
-                if (pronouncementDateObs == null)
+                // we need to force it to be 00:00:00 format to be compliant with the IG because the FHIR class doesn't
+                if (value.Length < 8)
                 {
-                    pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+                    value += ":";
+                    value = value.PadRight(8, '0');
                 }
-                SetPartialTime(pronouncementDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
+                Observation.ComponentComponent pronouncementDateObs = GetOrCreateDateOfDeathPronouncementObs();
+                if (pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime) {
+                    // set time part of FhirDateTime
+                    var ft = new Time(value);
+                    var fdt = (FhirDateTime)pronouncementDateObs.Value;
+                    var dto = fdt.ToDateTimeOffset(TimeSpan.Zero);
+                    var newFdt = new FhirDateTime(dto.Year, dto.Month, dto.Day, FhirTimeHour(ft), FhirTimeMin(ft), FhirTimeSec(ft), TimeSpan.Zero);
+                    pronouncementDateObs.Value = newFdt;
+                }
+                if (pronouncementDateObs.Value != null && pronouncementDateObs.Value is Time) {
+                    // set to FhirTime
+                    pronouncementDateObs.Value = new Time(value);
+                }
             }
         }
         /* END datetimePronouncedDead */
@@ -4972,6 +5033,17 @@ namespace VRDR
             return null;
         }
 
+        /// <summary>Get or Create Decedent's Date/Time of Death Pronouncement as a component.</summary>
+        /// <value>the decedent's date and time of death pronouncement observation component, if not present create it, return it in either case</value>
+        public Observation.ComponentComponent GetOrCreateDateOfDeathPronouncementObs() {
+            Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+            if (pronouncementDateObs == null)
+            {
+                pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+            }
+            return pronouncementDateObs;
+        }
+
         /// <summary>Decedent's Date/Time of Death Pronouncement.</summary>
         /// <value>the decedent's date and time of death pronouncement</value>
         /// <example>
@@ -4985,35 +5057,36 @@ namespace VRDR
         public string DateOfDeathPronouncement
         {
             get {
-               // We support this legacy API entrypoint via the new partial date and time entrypoints
-                if (DateOfDeathPronouncementYear != null && DateOfDeathPronouncementYear != -1 && DateOfDeathPronouncementMonth != null && DateOfDeathPronouncementMonth != -1 && DateOfDeathPronouncementDay != null && DateOfDeathPronouncementDay != -1 && DateOfDeathPronouncementTime != null && DateOfDeathPronouncementTime != "-1")
+                var pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs == null)
                 {
-                    DateTimeOffset parsedTime;
-                    if (DateTimeOffset.TryParse(DateOfDeathPronouncementTime, out parsedTime))
-                    {
-                        DateTimeOffset result = new DateTimeOffset((int)DateOfDeathPronouncementYear, (int)DateOfDeathPronouncementMonth, (int)DateOfDeathPronouncementDay, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
-                        return result.ToString("s");
-                    }
+                    return null;
                 }
-                else if (DateOfDeathPronouncementYear != null && DateOfDeathPronouncementYear != -1 && DateOfDeathPronouncementMonth != null && DateOfDeathPronouncementMonth != -1 && DateOfDeathPronouncementDay != null && DateOfDeathPronouncementDay != -1)
+                if (pronouncementDateObs.Value is FhirDateTime)
                 {
-                    DateTime result = new DateTime((int)DateOfDeathPronouncementYear, (int)DateOfDeathPronouncementMonth, (int)DateOfDeathPronouncementDay);
-                    return result.ToString("s");
+                    return ((FhirDateTime)pronouncementDateObs.Value).ToDateTimeOffset(TimeSpan.Zero).ToString("s");
+                }
+                if (pronouncementDateObs.Value is Time)
+                {
+                    return ((Time)pronouncementDateObs.Value).ToString();
                 }
                 return null;
             }
             set
             {
-                // We support this legacy API entrypoint via the new partial date and time entrypoints
-                DateTimeOffset parsedTime;
-                if (DateTimeOffset.TryParse(value, out parsedTime))
+                var pronouncementDateObs = GetOrCreateDateOfDeathPronouncementObs();
+                pronouncementDateObs.Value = new FhirDateTime(value);
+                /*
+                DateTimeOffset dto;
+                if (DateTimeOffset.TryParse(value, out dto))
                 {
-                    DateOfDeathPronouncementYear = parsedTime.Year;
-                    DateOfDeathPronouncementMonth = parsedTime.Month;
-                    DateOfDeathPronouncementDay = parsedTime.Day;
-                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                    DateOfDeathPronouncementYear = dto.Year;
+                    DateOfDeathPronouncementMonth = dto.Month;
+                    DateOfDeathPronouncementDay = dto.Day;
+                    TimeSpan timeSpan = new TimeSpan(0, dto.Hour, dto.Minute, dto.Second);
                     DateOfDeathPronouncementTime = timeSpan.ToString(@"hh\:mm\:ss");
                 }
+                */
             }
         }
 

@@ -3093,11 +3093,11 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Get_DateOfDeathPronouncement_Roundtrip()
+        public void Get_DateOfDeathPronouncement_PPDATESIGNED_and_PPTIME_Roundtrip()
         {
             IJEMortality ije1 = new IJEMortality(DeathRecord1_JSON);
             Assert.Equal("02202018", ije1.PPDATESIGNED);
-            Assert.Equal("1648", ije1.PPTIME); // automtically adjusts time zone, seems wrong?
+            Assert.Equal("1648", ije1.PPTIME);
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Equal("2019-02-19T16:48:06", dr2.DateOfDeathPronouncement);
             Assert.Equal(2019, (int)dr2.DateOfDeathPronouncementYear);
@@ -3107,22 +3107,36 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Set_DateOfDeathPronouncement_Partial_Date()
+        public void Set_DateOfDeathPronouncement_PPDATESIGNED_Only_Roundtrip()
         {
             SetterDeathRecord.DateOfDeathPronouncementYear = 2021;
             SetterDeathRecord.DateOfDeathPronouncementMonth = 5;
-            SetterDeathRecord.DateOfDeathPronouncementDay = -1;
-            SetterDeathRecord.DateOfDeathPronouncementTime= "10:00:00";
+            SetterDeathRecord.DateOfDeathPronouncementDay = 10;
             IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
-            Assert.Equal("05992021", ije1.PPDATESIGNED);
-            Assert.Equal("1000", ije1.PPTIME);
+            Assert.Equal("05102021", ije1.PPDATESIGNED);
+            Assert.Equal("    ", ije1.PPTIME);
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Equal(2021, dr2.DateOfDeathPronouncementYear);
             Assert.Equal(5, dr2.DateOfDeathPronouncementMonth);
-            Assert.Equal(-1, dr2.DateOfDeathPronouncementDay);
+            Assert.Equal(10, dr2.DateOfDeathPronouncementDay);
+            Assert.Null(dr2.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Set_DateOfDeathPronouncement_PPTIME_Only_Roundtrip()
+        {
+            SetterDeathRecord.DateOfDeathPronouncementTime= "10:00:00";
+            IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
+            Assert.Equal("        ", ije1.PPDATESIGNED);
+            Assert.Equal("1000", ije1.PPTIME);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Null(dr2.DateOfDeathPronouncementYear);
+            Assert.Null(dr2.DateOfDeathPronouncementMonth);
+            Assert.Null(dr2.DateOfDeathPronouncementDay);
             Assert.Equal("10:00:00", dr2.DateOfDeathPronouncementTime);
         }
 
+/*
         [Fact]
         public void Set_DateOfDeathPronouncement_Unknown_Partial_Date()
         {
@@ -3147,15 +3161,35 @@ namespace VRDR.Tests
             Assert.Equal("99992022", ije.PPDATESIGNED);
             Assert.Equal("9999", ije.PPTIME);
         }
-
+*/
         [Fact]
-        public void Get_DateOfDeathPronouncement_Partial_Date()
+        public void Get_DateOfDeathPronouncement_DateTime()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
             Assert.Equal(2021, (int)dr.DateOfDeathPronouncementYear);
             Assert.Equal(3, (int)dr.DateOfDeathPronouncementMonth);
-            Assert.Equal(-1, dr.DateOfDeathPronouncementDay);
-            Assert.Equal("-1", dr.DateOfDeathPronouncementTime);
+            Assert.Equal(10, (int)dr.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:06", dr.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_DateTime_Date_Only()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDateOnly.json")));
+            Assert.Equal(2021, (int)dr.DateOfDeathPronouncementYear);
+            Assert.Equal(3, (int)dr.DateOfDeathPronouncementMonth);
+            Assert.Equal(10, (int)dr.DateOfDeathPronouncementDay);
+            Assert.Null(dr.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_Time_Only()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateTimeOnly.json")));
+            Assert.Null(dr.DateOfDeathPronouncementYear);
+            Assert.Null(dr.DateOfDeathPronouncementMonth);
+            Assert.Null(dr.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:06", dr.DateOfDeathPronouncementTime);
         }
 
         [Fact]

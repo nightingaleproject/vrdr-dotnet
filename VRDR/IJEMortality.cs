@@ -4739,13 +4739,40 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement");
+                //return DateTime_Get("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement");
+                IJEField info = FieldInfo("PPDATESIGNED");
+                DateTimeOffset date;
+                string current = this.record == null ? null : Convert.ToString(typeof(DeathRecord).GetProperty("DateOfDeathPronouncement").GetValue(this.record));
+                if (DateTimeOffset.TryParse(current, out date))
+                {
+                    date = date.ToUniversalTime();
+                    date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    return Truncate(date.ToString("MMddyyyy"), info.Length);
+                }
+                else
+                {
+                    return new String(' ', info.Length);
+                }
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement", value, false, true);
+                    // DateTime_Set("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement", value, false, true);
+                    IJEField info = FieldInfo("PPDATESIGNED");
+                    string current = Convert.ToString(typeof(DeathRecord).GetProperty("DateOfDeathPronouncement").GetValue(this.record));
+                    DateTimeOffset date;
+                    if (current != null && DateTimeOffset.TryParse(current, out date))
+                    {
+                        date = date.ToUniversalTime();
+                        date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                        typeof(DeathRecord).GetProperty("DateOfDeathPronouncement").SetValue(this.record, DateTimeStringHelper(info, value, "MMddyyyy", date, false, true));
+                    }
+                    else
+                    {
+                        date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+                        typeof(DeathRecord).GetProperty("DateOfDeathPronouncement").SetValue(this.record, DateTimeStringHelper(info, value, "MMddyyyy", date, false, true));
+                    }
                 }
             }
         }
@@ -4756,13 +4783,59 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("PPTIME", "HHmm", "DateOfDeathPronouncement");
+                //return DateTime_Get("PPTIME", "HHmm", "DateOfDeathPronouncement");
+                IJEField info = FieldInfo("PPTIME");
+                DateTimeOffset date;
+                string current = this.record == null ? null : Convert.ToString(typeof(DeathRecord).GetProperty("DateOfDeathPronouncement").GetValue(this.record));
+                if (DateTimeOffset.TryParse(current, out date))
+                {
+                    date = date.ToUniversalTime();
+                    date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    return Truncate(date.ToString("HHmm"), info.Length);
+                }
+                else
+                {
+                    return new String(' ', info.Length);
+                }
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    IJEField info = FieldInfo("PPTIME");
+                    string current = Convert.ToString(typeof(DeathRecord).GetProperty("DateOfDeathPronouncement").GetValue(this.record));
+                    DateTimeOffset date;
+                    if (current != null && DateTimeOffset.TryParse(current, out date))
+                    {
+                        date = date.ToUniversalTime();
+                        date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                        typeof(DeathRecord).GetProperty("DateOfDeathPronouncement").SetValue(this.record, DateTimeStringHelper(info, value, "HHmm", date, false, true));
+                    }
+                    else
+                    {
+                        date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+                        typeof(DeathRecord).GetProperty("DateOfDeathPronouncement").SetValue(this.record, DateTimeStringHelper(info, value, "HHmm", date, false, true));
+                    }
+                    /*
                     DateTime_Set("PPTIME", "HHmm", "DateOfDeathPronouncement", value, false, true);
+        private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value, bool dateOnly = false, bool withTimezoneOffset = false)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
+            DateTimeOffset date;
+            if (current != null && DateTimeOffset.TryParse(current, out date))
+            {
+                date = date.ToUniversalTime();
+                date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date, dateOnly, withTimezoneOffset));
+            }
+            else
+            {
+                date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date, dateOnly, withTimezoneOffset));
+            }
+        }
+*/
                 }
             }
         }

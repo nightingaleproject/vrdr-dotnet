@@ -461,17 +461,14 @@ namespace VRDR
             if (pronComp != null)
             {
                 datetimePronouncedDeadComponent = pronComp;
-                pronComp.Value = new FhirDateTime();
-                pronComp.Value.Extension.Add(NewBlankPartialDateTimeExtension(true));
             }
             else
             {
                 datetimePronouncedDeadComponent = new Observation.ComponentComponent();
                 datetimePronouncedDeadComponent.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
-                datetimePronouncedDeadComponent.Value = new FhirDateTime();
-                datetimePronouncedDeadComponent.Value.Extension.Add(NewBlankPartialDateTimeExtension(true));
                 DeathDateObs.Component.Add(datetimePronouncedDeadComponent);
             }
+            datetimePronouncedDeadComponent.Value = null; // will be set to FhirDateTime for full datetime or a Time if only time is present
             return datetimePronouncedDeadComponent;
         }
 

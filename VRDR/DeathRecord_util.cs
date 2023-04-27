@@ -179,11 +179,25 @@ namespace VRDR
             return GetPartialDate(extension, partURL);
         }
 
-        /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
-        /// from either the value or the extension</summary>
-        private string GetTimeFragmentOrPartialTime(Element value)
-        {
-            // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+        private FhirDateTime ConvertFhirTimeToFhirDateTime(Time value) {
+            return new FhirDateTime(DateTimeOffset.MinValue.Year, DateTimeOffset.MinValue.Month, DateTimeOffset.MinValue.Day,
+                FhirTimeHour(value), FhirTimeMin(value), FhirTimeSec(value), TimeSpan.Zero);
+        }
+
+        private int FhirTimeHour(Time value) {
+            return int.Parse(value.ToString().Substring(0, 2));
+        }
+
+        private int FhirTimeMin(Time value) {
+            return int.Parse(value.ToString().Substring(3, 2));
+        }
+
+        private int FhirTimeSec(Time value) {
+            return int.Parse(value.ToString().Substring(6, 2));
+        }
+
+        /// <summary>Getter helper for anything that can have a regular FHIR date/time, allowing the time to be read from the value</summary>
+        private string GetTimeFragment(Element value) {
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
             {
                 // Using FhirDateTime's ToDateTimeOffset doesn't keep the time in the original time zone, so we parse the string representation, first using the appropriate segment of
@@ -196,12 +210,21 @@ namespace VRDR
                     TimeSpan timeSpan = new TimeSpan(0, dateTime.Hour, dateTime.Minute, dateTime.Second);
                     return timeSpan.ToString(@"hh\:mm\:ss");
                 }
-                return null;
+            }
+            return null;
+        }
+
+        /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
+        /// from either the value or the extension</summary>
+        private string GetTimeFragmentOrPartialTime(Element value)
+        {
+            // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+            string time = GetTimeFragment(value);
+            if (time != null) {
+                return time;
             }
             return GetPartialTime(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime));
         }
-
-
 
         /// <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>
         // <param name="field">the field name to set.</param>

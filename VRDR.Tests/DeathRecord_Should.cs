@@ -3136,32 +3136,6 @@ namespace VRDR.Tests
             Assert.Equal("10:00:00", dr2.DateOfDeathPronouncementTime);
         }
 
-/*
-        [Fact]
-        public void Set_DateOfDeathPronouncement_Unknown_Partial_Date()
-        {
-            // Test ability to set dates and times diferentiating between explicitly unknown and unspecified
-            DeathRecord d = new DeathRecord();
-            Assert.Null(d.DateOfDeathPronouncementYear);
-            Assert.Null(d.DateOfDeathPronouncementMonth);
-            Assert.Null(d.DateOfDeathPronouncementDay);
-            Assert.Null(d.DateOfDeathPronouncementTime);
-            d.DateOfDeathPronouncementYear = 2022;
-            Assert.Equal(2022, d.DateOfDeathPronouncementYear);
-            Assert.Null(d.DateOfDeathPronouncementMonth);
-            Assert.Null(d.DateOfDeathPronouncementDay);
-            Assert.Null(d.DateOfDeathPronouncementTime);
-            d.DateOfDeathPronouncementMonth = -1;
-            d.DateOfDeathPronouncementTime = "-1";
-            Assert.Equal(2022, d.DateOfDeathPronouncementYear);
-            Assert.Equal(-1, d.DateOfDeathPronouncementMonth);
-            Assert.Null(d.DateOfDeathPronouncementDay);
-            Assert.Equal("-1", d.DateOfDeathPronouncementTime);
-            IJEMortality ije = new IJEMortality(d, false);
-            Assert.Equal("99992022", ije.PPDATESIGNED);
-            Assert.Equal("9999", ije.PPTIME);
-        }
-*/
         [Fact]
         public void Get_DateOfDeathPronouncement_DateTime()
         {

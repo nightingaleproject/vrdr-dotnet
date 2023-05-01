@@ -261,19 +261,32 @@ namespace VRDR
         }
 
         /// <summary>Message Destination</summary>
-        /// <value>the message destination.</value>
+        /// <value>the message destinations, in csv format to support multiple endpoints while maintaining backwards compatability.</value>
         public string MessageDestination
         {
             get
             {
-                return Header?.Destination?.FirstOrDefault()?.Endpoint;
+                if (Header?.Destination == null || Header.Destination.Count() <= 1) {
+                    return Header?.Destination?.FirstOrDefault()?.Endpoint;
+                }
+                return String.Join(",", Header?.Destination?.Select(dest => dest.Endpoint));
             }
             set
             {
                 Header.Destination.Clear();
-                MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
-                dest.Endpoint = value;
-                Header.Destination.Add(dest);
+                if (value == null)
+                {
+                    MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
+                    dest.Endpoint = value;
+                    Header.Destination.Add(dest);
+                    return;
+                }
+                foreach (string val in value.Split(','))
+                {
+                    MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
+                    dest.Endpoint = val;
+                    Header.Destination.Add(dest);
+                }
             }
         }
 

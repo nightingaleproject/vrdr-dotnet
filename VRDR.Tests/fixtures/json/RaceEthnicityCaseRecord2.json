@@ -499,8 +499,8 @@
             "code" : {
               "coding" : [
                 {
-                  "code" : "OtherAsianLiteral1",
-                  "display" : "OtherAsianLiteral1"
+                  "code" : "FirstOtherAsianLiteral",
+                  "display" : "FirstOtherAsianLiteral"
                 }
               ]
             },

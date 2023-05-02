@@ -3080,7 +3080,7 @@ namespace VRDR.Tests
         [Fact]
         public void Set_DateOfDeathPronouncement()
         {
-            SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.498822-05:00";
+            SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.498822-05:00"; // check that we are ignoring the timezone
             Assert.Equal("2019-01-31T17:48:07", SetterDeathRecord.DateOfDeathPronouncement);
         }
 
@@ -3093,17 +3093,55 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Get_DateOfDeathPronouncement_Parts()
+        {
+            SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.498822-05:00"; // check that we are ignoring the timezone
+            Assert.Equal(2019, (int)SetterDeathRecord.DateOfDeathPronouncementYear);
+            Assert.Equal(01, (int)SetterDeathRecord.DateOfDeathPronouncementMonth);
+            Assert.Equal(31, (int)SetterDeathRecord.DateOfDeathPronouncementDay);
+            Assert.Equal("17:48:07", SetterDeathRecord.DateOfDeathPronouncementTime);
+
+            Assert.Equal(2018, (int)DeathRecord1_JSON.DateOfDeathPronouncementYear);
+            Assert.Equal(02, (int)DeathRecord1_JSON.DateOfDeathPronouncementMonth);
+            Assert.Equal(20, (int)DeathRecord1_JSON.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:06", DeathRecord1_JSON.DateOfDeathPronouncementTime);
+         }
+
+        [Fact]
         public void Get_DateOfDeathPronouncement_PPDATESIGNED_and_PPTIME_Roundtrip()
         {
             IJEMortality ije1 = new IJEMortality(DeathRecord1_JSON);
             Assert.Equal("02202018", ije1.PPDATESIGNED);
             Assert.Equal("1648", ije1.PPTIME);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal("2019-02-19T16:48:06", dr2.DateOfDeathPronouncement);
-            Assert.Equal(2019, (int)dr2.DateOfDeathPronouncementYear);
+            Assert.Equal("2018-02-20T16:48:06", dr2.DateOfDeathPronouncement);
+            Assert.Equal(2018, (int)dr2.DateOfDeathPronouncementYear);
             Assert.Equal(02, (int)dr2.DateOfDeathPronouncementMonth);
-            Assert.Equal(19, (int)dr2.DateOfDeathPronouncementDay);
+            Assert.Equal(20, (int)dr2.DateOfDeathPronouncementDay);
             Assert.Equal("16:48:06", dr2.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_PPTIME_then_PPDATESIGNED_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateNoDatePronounced.json")));
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("        ", ije1.PPDATESIGNED);
+            Assert.Equal("    ", ije1.PPTIME);
+            ije1.PPTIME = "1648";
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("16:48:00", dr2.DateOfDeathPronouncement);
+            Assert.Null(dr2.DateOfDeathPronouncementYear);
+            Assert.Null(dr2.DateOfDeathPronouncementMonth);
+            Assert.Null(dr2.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:00", dr2.DateOfDeathPronouncementTime);
+            ije1.PPDATESIGNED = "02202018";
+            DeathRecord dr3 = ije1.ToDeathRecord();
+            Assert.Equal("2018-02-20T16:48:00", dr3.DateOfDeathPronouncement);
+            Assert.Equal(2018, (int)dr3.DateOfDeathPronouncementYear);
+            Assert.Equal(02, (int)dr3.DateOfDeathPronouncementMonth);
+            Assert.Equal(20, (int)dr3.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:00", dr3.DateOfDeathPronouncementTime);
         }
 
         [Fact]
@@ -3112,20 +3150,21 @@ namespace VRDR.Tests
             SetterDeathRecord.DateOfDeathPronouncementYear = 2021;
             SetterDeathRecord.DateOfDeathPronouncementMonth = 5;
             SetterDeathRecord.DateOfDeathPronouncementDay = 10;
+            SetterDeathRecord.DateOfDeathPronouncementTime = null;
             IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
             Assert.Equal("05102021", ije1.PPDATESIGNED);
-            Assert.Equal("    ", ije1.PPTIME);
+            Assert.Equal("0000", ije1.PPTIME); // null is converted to time 0000 as a fhir time
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Equal(2021, dr2.DateOfDeathPronouncementYear);
             Assert.Equal(5, dr2.DateOfDeathPronouncementMonth);
             Assert.Equal(10, dr2.DateOfDeathPronouncementDay);
-            Assert.Null(dr2.DateOfDeathPronouncementTime);
+            Assert.Equal("00:00:00", dr2.DateOfDeathPronouncementTime);
         }
 
         [Fact]
         public void Set_DateOfDeathPronouncement_PPTIME_Only_Roundtrip()
         {
-            SetterDeathRecord.DateOfDeathPronouncementTime= "10:00:00";
+            SetterDeathRecord.DateOfDeathPronouncementTime = "10:00:00";
             IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
             Assert.Equal("        ", ije1.PPDATESIGNED);
             Assert.Equal("1000", ije1.PPTIME);
@@ -3153,7 +3192,7 @@ namespace VRDR.Tests
             Assert.Equal(2021, (int)dr.DateOfDeathPronouncementYear);
             Assert.Equal(3, (int)dr.DateOfDeathPronouncementMonth);
             Assert.Equal(10, (int)dr.DateOfDeathPronouncementDay);
-            Assert.Null(dr.DateOfDeathPronouncementTime);
+            Assert.Equal("00:00:00", dr.DateOfDeathPronouncementTime);
         }
 
         [Fact]
@@ -3164,15 +3203,6 @@ namespace VRDR.Tests
             Assert.Null(dr.DateOfDeathPronouncementMonth);
             Assert.Null(dr.DateOfDeathPronouncementDay);
             Assert.Equal("16:48:06", dr.DateOfDeathPronouncementTime);
-        }
-
-        [Fact]
-        public void Get_DateOfDeathPronouncement_Partial_Date_Roundtrip()
-        {
-            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
-            IJEMortality ije1 = new IJEMortality(dr);
-            Assert.Equal("03992021", ije1.PPDATESIGNED);
-            Assert.Equal("9999", ije1.PPTIME);
         }
 
         [Fact]

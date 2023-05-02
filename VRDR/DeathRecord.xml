@@ -3297,6 +3297,11 @@
         <member name="M:VRDR.DeathRecord.SetPartialTime(Hl7.Fhir.Model.Extension,System.String)">
             <summary>Setter helper for anything that uses PartialDateTime, allowing the time to be set in the extension</summary>
         </member>
+        <member name="M:VRDR.DeathRecord.GetDateFragment(Hl7.Fhir.Model.Element,System.String)">
+            <summary>Getter helper for anything that can have a regular FHIR date/time
+            field (year, month, or day) to be read the value
+            supports dates and date times but does NOT support extensions</summary>
+        </member>
         <member name="M:VRDR.DeathRecord.GetDateFragmentOrPartialDate(Hl7.Fhir.Model.Element,System.String)">
             <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
             field (year, month, or day) to be read from either the value or the extension</summary>

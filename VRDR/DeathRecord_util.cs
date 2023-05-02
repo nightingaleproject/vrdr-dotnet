@@ -137,6 +137,39 @@ namespace VRDR
             }
         }
 
+        /// <summary>Getter helper for anything that can have a regular FHIR date/time
+        /// field (year, month, or day) to be read the value
+        /// supports dates and date times but does NOT support extensions</summary>
+        private int? GetDateFragment(Element value, string partURL)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+            DateTimeOffset? dateTimeOffset = null;
+            if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
+            {
+                // Note: We can't just call ToDateTimeOffset() on the FhirDateTime because want the datetime in whatever local time zone was provided
+                dateTimeOffset = DateTimeOffset.Parse(((FhirDateTime)value).Value);
+            }
+            if (dateTimeOffset != null)
+            {
+                switch (partURL)
+                {
+                    case ExtensionURL.DateYear:
+                        return ((DateTimeOffset)dateTimeOffset).Year;
+                    case ExtensionURL.DateMonth:
+                        return ((DateTimeOffset)dateTimeOffset).Month;
+                    case ExtensionURL.DateDay:
+                        return ((DateTimeOffset)dateTimeOffset).Day;
+                    default:
+                        throw new ArgumentException("GetDateFragmentOrPartialDate called with unsupported PartialDateTime segment");
+                }
+            }
+            return null;
+        }
+
         /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
         /// field (year, month, or day) to be read from either the value or the extension</summary>
         private int? GetDateFragmentOrPartialDate(Element value, string partURL)

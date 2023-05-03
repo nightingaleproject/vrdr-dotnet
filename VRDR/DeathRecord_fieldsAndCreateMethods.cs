@@ -431,19 +431,45 @@ namespace VRDR
             DeathDateObs.Meta.Profile = deathdate_profile;
             DeathDateObs.Status = ObservationStatus.Final;
             DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date+time of death", null);
+
             // Decedent is present in DeathCertificateDocuments, and absent in all other bundles.
             if (Decedent != null)
             {
                 DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             }
+
             // A DeathDate can be represented either using the PartialDateTime or the valueDateTime; we always prefer
             // the PartialDateTime representation (though we'll correctly read records using valueDateTime) and so we
             // by default set up all the PartialDate extensions with a default state of "data absent"
             DeathDateObs.Value = new FhirDateTime();
             DeathDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(true));
             DeathDateObs.Method = null;
+
             AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
+        }
+
+        /// <summary>Create Death Date Pronouncement Observation Component Component.</summary>
+        private Observation.ComponentComponent CreateDateOfDeathPronouncementObs() {
+            if (DeathDateObs == null)
+            {
+                CreateDeathDateObs(); // Create it
+            }
+            var datetimePronouncedDeadComponent = new Observation.ComponentComponent();
+            var pronComp = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
+                        && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6");
+            if (pronComp != null)
+            {
+                datetimePronouncedDeadComponent = pronComp;
+            }
+            else
+            {
+                datetimePronouncedDeadComponent = new Observation.ComponentComponent();
+                datetimePronouncedDeadComponent.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
+                DeathDateObs.Component.Add(datetimePronouncedDeadComponent);
+            }
+            datetimePronouncedDeadComponent.Value = null; // will be set to FhirDateTime for full datetime or a Time if only time is present
+            return datetimePronouncedDeadComponent;
         }
 
         /// <summary>Date Of Surgery.</summary>

@@ -1589,7 +1589,7 @@
             "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
           }
         ],
-        "_valueDateTime": {
+        "valueDateTime": {
           "extension": [
             {
               "extension": [
@@ -1635,7 +1635,7 @@
                 }
               ]
             },
-            "valueDateTime": "2021-03-10T16:48:06-05:00"
+            "valueDateTime": "2021-03-10"
           }
         ]
       }

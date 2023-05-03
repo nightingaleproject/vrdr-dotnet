@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using ICSharpCode.SharpZipLib;
 
 namespace VRDR
 {
@@ -4739,13 +4740,28 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement");
+                var month = record.DateOfDeathPronouncementMonth;
+                var day = record.DateOfDeathPronouncementDay;
+                var year = record.DateOfDeathPronouncementYear;
+                if (month == null || day == null || year == null)
+                {
+                    return new String(' ', 8);
+                }
+                else
+                {
+                    return String.Format("{0:00}{1:00}{2:0000}", month, day, year);
+                }
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement", value, false, true);
+                    var mm = value.Substring(0, 2);
+                    var dd = value.Substring(2, 2);
+                    var yyyy = value.Substring(4, 4);
+                    record.DateOfDeathPronouncementMonth = int.Parse(mm);
+                    record.DateOfDeathPronouncementDay = int.Parse(dd);
+                    record.DateOfDeathPronouncementYear = int.Parse(yyyy);
                 }
             }
         }
@@ -4756,13 +4772,25 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("PPTIME", "HHmm", "DateOfDeathPronouncement");
+                var fhirTimeStr = record.DateOfDeathPronouncementTime;
+                if (fhirTimeStr == null) {
+                    return "    ";
+                }
+                else {
+                    var HH = fhirTimeStr.Substring(0, 2);
+                    var mm = fhirTimeStr.Substring(3, 2);
+                    var ijeTime = HH + mm;
+                    return ijeTime;
+                }
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("PPTIME", "HHmm", "DateOfDeathPronouncement", value, false, true);
+                    var HH = value.Substring(0, 2);
+                    var mm = value.Substring(2, 2);
+                    var fhirTimeStr = HH + ":" + mm + ":00";
+                    record.DateOfDeathPronouncementTime = fhirTimeStr;
                 }
             }
         }

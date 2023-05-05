@@ -1070,6 +1070,18 @@
                      ],
                      "text":"Inpatient"
                   }
+               },
+               {
+                  "code": {
+                  "coding": [
+                     {
+                        "system": "http://loinc.org",
+                        "code": "80616-6",
+                        "display": "Date and time pronounced dead"
+                     }
+                  ]
+                  },
+                  "valueDateTime":"2022-01-18T18:23:00-10:00"
                }
             ]
          }

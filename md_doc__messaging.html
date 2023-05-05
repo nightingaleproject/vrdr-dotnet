@@ -276,7 +276,7 @@ Return Coding</h2>
 <div class="line">    ...</div>
 <div class="line">}</div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_base_message_html"><div class="ttname"><a href="class_v_r_d_r_1_1_base_message.html">VRDR.BaseMessage</a></div><div class="ttdoc">Class BaseMessage is the base class of all messages.</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:13</div></div>
-<div class="ttc" id="aclass_v_r_d_r_1_1_base_message_html_a0d91912a93701d9daaf8e0ab6f3ea0f9"><div class="ttname"><a href="class_v_r_d_r_1_1_base_message.html#a0d91912a93701d9daaf8e0ab6f3ea0f9">VRDR.BaseMessage.Parse</a></div><div class="ttdeci">static BaseMessage Parse(string source, bool permissive=false)</div><div class="ttdoc">Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of BaseMes...</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:454</div></div>
+<div class="ttc" id="aclass_v_r_d_r_1_1_base_message_html_a0d91912a93701d9daaf8e0ab6f3ea0f9"><div class="ttname"><a href="class_v_r_d_r_1_1_base_message.html#a0d91912a93701d9daaf8e0ab6f3ea0f9">VRDR.BaseMessage.Parse</a></div><div class="ttdeci">static BaseMessage Parse(string source, bool permissive=false)</div><div class="ttdoc">Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of BaseMes...</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:468</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md52"></a>
 Acknowledge Coding</h2>
 <p >If extraction of the coding information was successful, the jurisdiction can generate an acknowledgement message and send it to NCHS. As described earlier, the <code>AckMessage</code> constructor initializes properties based on the source coding message.</p>
@@ -307,7 +307,7 @@ Acknowledge Coding</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-<div class="ttc" id="aclass_v_r_d_r_1_1_base_message_html_ab7faf369e4d89d044c196a2d1c3394e8"><div class="ttname"><a href="class_v_r_d_r_1_1_base_message.html#ab7faf369e4d89d044c196a2d1c3394e8">VRDR.BaseMessage.NCHSIdentifier</a></div><div class="ttdeci">string NCHSIdentifier</div><div class="ttdoc">NCHS identifier. Format is 4-digit year, two character jurisdiction id, six character/digit certifica...</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:380</div></div>
+<div class="ttc" id="aclass_v_r_d_r_1_1_base_message_html_ab7faf369e4d89d044c196a2d1c3394e8"><div class="ttname"><a href="class_v_r_d_r_1_1_base_message.html#ab7faf369e4d89d044c196a2d1c3394e8">VRDR.BaseMessage.NCHSIdentifier</a></div><div class="ttdeci">string NCHSIdentifier</div><div class="ttdoc">NCHS identifier. Format is 4-digit year, two character jurisdiction id, six character/digit certifica...</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:394</div></div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md53"></a>
 Failed Death Record Submission</h1>
 <p >The diagram below illustrates two message extraction failures:</p>
@@ -490,8 +490,8 @@ Error Handling</h1>
 <div class="line">    <span class="comment">// Send the JSON message</span></div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-<div class="ttc" id="aclass_v_r_d_r_1_1_message_parse_exception_html"><div class="ttname"><a href="class_v_r_d_r_1_1_message_parse_exception.html">VRDR.MessageParseException</a></div><div class="ttdoc">An exception that may be thrown during message parsing</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:703</div></div>
-<div class="ttc" id="aclass_v_r_d_r_1_1_message_parse_exception_html_aa6f04574e28a209480aca03a4d804198"><div class="ttname"><a href="class_v_r_d_r_1_1_message_parse_exception.html#aa6f04574e28a209480aca03a4d804198">VRDR.MessageParseException.CreateExtractionErrorMessage</a></div><div class="ttdeci">ExtractionErrorMessage CreateExtractionErrorMessage()</div><div class="ttdoc">Build an ExtractionErrorMessage that conveys the issues reported in this exception.</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:719</div></div>
+<div class="ttc" id="aclass_v_r_d_r_1_1_message_parse_exception_html"><div class="ttname"><a href="class_v_r_d_r_1_1_message_parse_exception.html">VRDR.MessageParseException</a></div><div class="ttdoc">An exception that may be thrown during message parsing</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:717</div></div>
+<div class="ttc" id="aclass_v_r_d_r_1_1_message_parse_exception_html_aa6f04574e28a209480aca03a4d804198"><div class="ttname"><a href="class_v_r_d_r_1_1_message_parse_exception.html#aa6f04574e28a209480aca03a4d804198">VRDR.MessageParseException.CreateExtractionErrorMessage</a></div><div class="ttdeci">ExtractionErrorMessage CreateExtractionErrorMessage()</div><div class="ttdoc">Build an ExtractionErrorMessage that conveys the issues reported in this exception.</div><div class="ttdef"><b>Definition:</b> BaseMessage.cs:733</div></div>
 </div><!-- fragment --><p >Note that only those properties that could be extracted from the original message will be used to populate the header fields of the error message, implementations should ensure that the error message header information is complete before sending. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

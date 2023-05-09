@@ -169,7 +169,7 @@ namespace VRDR.Tests
             string postFilteredBaseMessage = allFieldsFilterService.filterMessage(preFilteredBaseMessage).ToJson();
             DeathRecordSubmissionMessage parsedBaseMessage = BaseMessage.Parse<DeathRecordSubmissionMessage>(postFilteredBaseMessage);
             
-            Assert.Equal("2022-09-23T09:09:00+00:00", parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2022-09-23T09:09:00", parsedBaseMessage.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", parsedBaseMessage.MessageType);
             Assert.Equal("2022KS000230", parsedBaseMessage.NCHSIdentifier);
             Assert.Equal((uint)000230, parsedBaseMessage.CertNo);

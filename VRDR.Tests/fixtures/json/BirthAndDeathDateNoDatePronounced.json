@@ -1623,21 +1623,7 @@
               "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
             }
           ]
-        },
-        "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "80616-6",
-                  "display": "Date and time pronounced dead"
-                }
-              ]
-            },
-            "valueDateTime": "2021-03-10T16:48:06-05:00"
-          }
-        ]
+        }
       }
     },
     {

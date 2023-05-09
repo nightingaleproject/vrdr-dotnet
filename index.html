@@ -533,6 +533,12 @@ Example Usages</h4>
 <div class="line"># Create an acknowledgement FHIR message for a submission FHIR message</div>
 <div class="line">dotnet run --project VRDR.CLI ack VRDR.CLI/1submit.json</div>
 <div class="line"> </div>
+<div class="line"># Create an alias FHIR message for a FHIR death record (1 argument: FHIR death record)</div>
+<div class="line">dotnet run --project VRDR.CLI alias VRDR.Tests/fixtures/json/DeathRecord1.json</div>
+<div class="line"> </div>
+<div class="line"># Creates a void message for a Death Record (1 argument: FHIR death record; one optional argument: number of records to void)</div>
+<div class="line">dotnet run --project VRDR.CLI void VRDR.Tests/fixtures/json/DeathRecord1.json</div>
+<div class="line"> </div>
 <div class="line"># Extract and show the codes in a coding response message</div>
 <div class="line">dotnet run --project VRDR.CLI showcodes VRDR.CLI/1coding.json</div>
 <div class="line"> </div>

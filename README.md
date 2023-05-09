@@ -724,4 +724,4 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 For questions or comments about vrdr-dotnet, please send email to
 
-    cdc-nvss-feedback-list@lists.mitre.org
+    nvssmodernization@cdc.gov

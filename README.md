@@ -549,6 +549,12 @@ dotnet run --project VRDR.CLI resubmit VRDR.CLI/1.json
 # Create an acknowledgement FHIR message for a submission FHIR message
 dotnet run --project VRDR.CLI ack VRDR.CLI/1submit.json
 
+# Create an alias FHIR message for a FHIR death record (1 argument: FHIR death record)
+dotnet run --project VRDR.CLI alias VRDR.Tests/fixtures/json/DeathRecord1.json
+
+# Creates a void message for a Death Record (1 argument: FHIR death record; one optional argument: number of records to void)
+dotnet run --project VRDR.CLI void VRDR.Tests/fixtures/json/DeathRecord1.json
+
 # Extract and show the codes in a coding response message
 dotnet run --project VRDR.CLI showcodes VRDR.CLI/1coding.json
 

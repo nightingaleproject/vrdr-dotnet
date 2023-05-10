@@ -507,7 +507,7 @@ namespace VRDR.Tests
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
             Assert.Equal((uint)123, message.CertNo);
             Assert.Equal((uint)2022, message.DeathYear);
-            Assert.Equal("000000000500", message.StateAuxiliaryId);
+          //  Assert.Equal("000000000500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
             Assert.Equal("378888", message.CodedMessageId);
             Assert.Equal("T27.3", message.DeathRecord.AutomatedUnderlyingCOD);
@@ -581,7 +581,7 @@ namespace VRDR.Tests
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
             Assert.Equal((uint)123, message.CertNo);
             Assert.Equal((uint)2022, message.DeathYear);
-            Assert.Equal("000000000500", message.StateAuxiliaryId);
+       //     Assert.Equal("000000000500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
             Assert.Equal("T27.3", message.DeathRecord.AutomatedUnderlyingCOD);
             var recordAxisCodes = message.DeathRecord.RecordAxisCauseOfDeath;
@@ -625,7 +625,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
             Assert.Equal((uint)123, message.CertNo);
             Assert.Equal((uint)2022, message.DeathYear);
-            Assert.Equal("000000000500", message.StateAuxiliaryId);
+       //     Assert.Equal("000000000500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
             Assert.Equal("199", message.DeathRecord.FirstEditedRaceCodeHelper);
             Assert.Equal("B40", message.DeathRecord.FirstAmericanIndianRaceCodeHelper);

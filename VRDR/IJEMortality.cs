@@ -2972,7 +2972,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    //value = value.PadLeft(12 , '0');
+                    value = value.PadLeft(12 , '0');
                     LeftJustified_Set("AUXNO2", "StateLocalIdentifier2", value);
                 }
             }

@@ -705,7 +705,7 @@ namespace VRDR.Tests
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
             Assert.Equal((uint)123, message.CertNo);
             Assert.Equal((uint)2022, message.DeathYear);
-            Assert.Equal("500", message.StateAuxiliaryId);
+            Assert.Equal("000000000500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
             Assert.Equal(ValueSets.YesNoUnknown.Yes, message.DeathRecord.Ethnicity1Helper);
             Assert.Equal(ValueSets.YesNoUnknown.No, message.DeathRecord.Ethnicity2Helper);

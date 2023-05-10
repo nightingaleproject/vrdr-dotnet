@@ -28,6 +28,7 @@
     <None Update="fixtures/json/DeathRecord1.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/AcknowledgementMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/AllRaceLiterals.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/BadConditions.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/CauseOfDeathCodingMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/CauseOfDeathCodingMessage2.json" CopyToOutputDirectory="PreserveNewest" />

@@ -3709,6 +3709,25 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void TestLoadRaceEthnicityLiteralsFromFHIRJSON() {
+            // confirm that we can read a death record from JSON and each of the race literal records
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/AllRaceLiterals.json")));
+            var race = dr.Race.ToList().ToDictionary(x => x.Item1, x => x.Item2);
+            Assert.Equal(2022, dr.DeathYear);
+            Assert.Equal("ID", dr.DeathLocationJurisdiction);
+            Assert.Equal("000182", dr.Identifier);
+            Assert.Equal("Apache", race.GetValueOrDefault("FirstAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Lipan Apache", race.GetValueOrDefault("SecondAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Taiwanese", race.GetValueOrDefault("FirstOtherAsianLiteral"));
+            Assert.Equal("Gaoshan", race.GetValueOrDefault("SecondOtherAsianLiteral"));
+            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslandLiteral"));
+            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslandLiteral"));
+            Assert.Equal("Vulcan", race.GetValueOrDefault("FirstOtherRaceLiteral"));
+            Assert.Equal("Hgrtcha", race.GetValueOrDefault("SecondOtherRaceLiteral"));
+            Assert.Equal("Panamanian", dr.EthnicityLiteral); // HispanicLiteral
+        }
+
+        [Fact]
         public void TestInvalidRaceLiteralThrowsException() {
             var record = new DeathRecord();
             var race = record.Race.ToList();

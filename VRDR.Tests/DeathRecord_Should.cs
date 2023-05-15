@@ -3560,10 +3560,10 @@ namespace VRDR.Tests
         public void CheckConnectathonRecord2()
         {
             DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
-            Assert.Equal("63", dr1.AgeAtDeath["value"]); //62
+            Assert.Equal("62", dr1.AgeAtDeath["value"]);
             Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
-            Assert.Equal("063", ije.AGE); //62
+            Assert.Equal("062", ije.AGE);
             Assert.Equal("478151044", ije.SSN);
             Debug.WriteLine("test="+ije.HOWINJ.Trim());
             //Assert.Equal(, ije.HOWINJ.Trim()); //Unrestrained ejected driver in rollover motor vehicle accident

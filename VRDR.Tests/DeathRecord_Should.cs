@@ -6,6 +6,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Xunit;
 using System.Linq;
+using System.Diagnostics;
 
 namespace VRDR.Tests
 {

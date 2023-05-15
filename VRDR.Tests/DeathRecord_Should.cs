@@ -6,7 +6,6 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Xunit;
 using System.Linq;
-using System.Diagnostics;
 
 namespace VRDR.Tests
 {
@@ -3565,7 +3564,7 @@ namespace VRDR.Tests
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
             Assert.Equal("062", ije.AGE);
             Assert.Equal("478151044", ije.SSN);
-            Debug.WriteLine("test="+ije.HOWINJ.Trim());
+            Console.WriteLine("*****************test="+ije.HOWINJ.Trim());
             //Assert.Equal(, ije.HOWINJ.Trim()); //Unrestrained ejected driver in rollover motor vehicle accident
             Assert.Equal("H", ije.DETHNIC2);
         }

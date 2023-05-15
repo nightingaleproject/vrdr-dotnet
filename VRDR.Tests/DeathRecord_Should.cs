@@ -3510,7 +3510,7 @@ namespace VRDR.Tests
             Assert.Equal("020", ije.AGE);
             Assert.Equal("F", ije.SEX);
             Assert.Equal("531869507", ije.SSN);
-            Assert.Equal("Hypoxemia", ije.COD1A.Trim()); //Cardiopulmonary arrest
+            Assert.Equal("Hypoxemia", ije.COD1A.Trim());
             Assert.Equal("N", ije.DETHNIC1);
         }
 
@@ -3564,7 +3564,7 @@ namespace VRDR.Tests
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
             Assert.Equal("062", ije.AGE);
             Assert.Equal("478151044", ije.SSN);
-            Assert.Equal("", ije.HOWINJ.Trim()); //Unrestrained ejected driver in rollover motor vehicle accident
+            Assert.Equal("", ije.HOWINJ.Trim());
             Assert.Equal("H", ije.DETHNIC2);
         }
 

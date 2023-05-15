@@ -3511,7 +3511,7 @@ namespace VRDR.Tests
             Assert.Equal("020", ije.AGE);
             Assert.Equal("F", ije.SEX);
             Assert.Equal("531869507", ije.SSN);
-            Assert.Equal("Cardiopulmonary arrest", ije.COD1A.Trim());
+            Assert.Equal("Hypoxemia", ije.COD1A.Trim()); //Cardiopulmonary arrest
             Assert.Equal("N", ije.DETHNIC1);
         }
 

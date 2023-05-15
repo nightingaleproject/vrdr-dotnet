@@ -733,7 +733,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1A()
         {
-            Assert.Equal("Hypoxemia", DeathCertificateDocument2_JSON.COD1A); //Cardiopulmonary arrest
+            Assert.Equal("Cardiopulmonary arrest", DeathCertificateDocument2_JSON.COD1A);
             Assert.Equal("Cardiopulmonary arrest", DeathCertificateDocument2_XML.COD1A);
         }
 

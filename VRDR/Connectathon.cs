@@ -47,7 +47,7 @@ namespace VRDR
         public static DeathRecord TwilaHilty()
         {
             IJEMortality ije = new IJEMortality();
-            ije.DOD_YR = "2022";
+            ije.DOD_YR = "2023"; //"2022";
             ije.DSTATE = "CT";
             ije.FILENO = "000001";
             ije.MFILED = "0";
@@ -106,12 +106,12 @@ namespace VRDR
             ije.AUTOP = "N";
             ije.AUTOPF = "X";
             ije.TOBAC = "U";
-            ije.PREG = "2";
+            ije.PREG = "8";//2";
             ije.PREG_BYPASS = "0";
             ije.CERTL = "D";
-            ije.SUR_MO = "01";
-            ije.SUR_DY = "10";
-            ije.SUR_YR = "2022";
+            ije.SUR_MO;// = "01";
+            ije.SUR_DY;// = "10";
+            ije.SUR_YR;// = "2022";
             ije.STNUM_R = "4437";
             ije.PREDIR_R = "North";
             ije.STNAME_R = "Charles";
@@ -124,10 +124,10 @@ namespace VRDR
             ije.STATETEXT_R = "Connecticut";
             ije.COUNTRYTEXT_R = "United States";
             ije.ADDRESS_R = "4437 North Charles Avenue Southeast Apt 2B";
-            ije.COD1A = "Cardiopulmonary arrest";
-            ije.INTERVAL1A = "4 Hours";
-            ije.COD1B = "Eclampsia";
-            ije.INTERVAL1B = "3 Months";
+            ije.COD1A = "Hypoxemia";//"Cardiopulmonary arrest";
+            ije.INTERVAL1A = "4 Days";//4 Hours";
+            ije.COD1B = "MRSA Pneumonia";//Eclampsia";
+            ije.INTERVAL1B = "4 Days";//3 Months";
             ije.PLACE1_1 = "Y";
             DeathRecord record = ije.ToDeathRecord();
             return record;
@@ -138,7 +138,7 @@ namespace VRDR
         public static DeathRecord FideliaAlsup()
         {
             IJEMortality ije = new IJEMortality();
-            ije.DOD_YR = "2022";
+            ije.DOD_YR = "2023";//2022";
             ije.DSTATE = "CT";
             ije.FILENO = "000002";
             ije.MFILED = "2";
@@ -194,17 +194,17 @@ namespace VRDR
             ije.DOR_YR = "2022";
             ije.DOR_MO = "03";
             ije.DOR_DY = "18";
-            ije.MANNER = "A";
-            ije.AUTOP = "N";
-            ije.AUTOPF = "X";
+            ije.MANNER = "N";//A";
+            ije.AUTOP = "Y";//N";
+            ije.AUTOPF = "Y";//X";
             ije.TOBAC = "U";
-            ije.PREG = "8";
+            ije.PREG = "1";//8";
             ije.PREG_BYPASS = "0";
-            ije.DOI_MO = "03";
-            ije.DOI_DY = "16";
-            ije.DOI_YR = "2022";
-            ije.TOI_HR = "1015";
-            ije.WORKINJ = "Y";
+            ije.DOI_MO;// = "03";
+            ije.DOI_DY;// = "16";
+            ije.DOI_YR;// = "2022";
+            ije.TOI_HR;// = "1015";
+            ije.WORKINJ;// = "Y";
             ije.CERTL = "P";
             ije.STATESP = "20220101";
             ije.STNUM_R = "1829";
@@ -216,16 +216,18 @@ namespace VRDR
             ije.STATETEXT_R = "California";
             ije.COUNTRYTEXT_R = "United States";
             ije.ADDRESS_R = "1829 Main St";
-            ije.POILITRL = "Street";
-            ije.HOWINJ = "Unrestrained ejected driver in rollover motor vehicle accident";
-            ije.TRANSPRT = "DR";
-            ije.COD1A = "Blunt head trauma";
-            ije.INTERVAL1A = "30 Minutes";
-            ije.COD1B = "Automobile accident";
-            ije.INTERVAL1B = "30 Minutes";
-            ije.COD1C = "Epilepsy";
-            ije.INTERVAL1C = "20 Years";
-            ije.OTHERCONDITION = "Hypertension, Depression, Migraine";
+            ije.POILITRL;// = "Street";
+            ije.HOWINJ;// = "Unrestrained ejected driver in rollover motor vehicle accident";
+            ije.TRANSPRT;// = "DR";
+            ije.COD1A = "Hepatorenal Syndrome";//Blunt head trauma";
+            ije.INTERVAL1A = "Days to Weeks";//30 Minutes";
+            ije.COD1B = "Alcoholic Hepatitis";//Automobile accident";
+            ije.INTERVAL1B = "Weeks";//30 Minutes";
+            ije.COD1C = "Acute Liver Failure";//Epilepsy";
+            ije.INTERVAL1C = "Weeks";//20 Years";
+            ije.COD1D = "Hepatic Encephalopathy"; //
+            ije.INTERVAL1D = "Weeks"; //
+            ije.OTHERCONDITION = "Alcoholism"; // "Hypertension, Depression, Migraine";
             ije.PLACE8_1 = "00000033";
             DeathRecord record = ije.ToDeathRecord();
             return record;
@@ -235,7 +237,7 @@ namespace VRDR
         public static DeathRecord DavisLineberry()
         {
             IJEMortality ije = new IJEMortality();
-            ije.DOD_YR = "2022";
+            ije.DOD_YR = "2023";//"2022";
             ije.DSTATE = "CT";
             ije.FILENO = "000003";
             ije.MFILED = "0";

@@ -109,8 +109,8 @@ namespace VRDR
             ije.PREG = "8";//2";
             ije.PREG_BYPASS = "0";
             ije.CERTL = "D";
-            ije.SUR_MO;// = "01";
-            ije.SUR_DY;// = "10";
+            ije.SUR_MO=null;// = "01";
+            ije.SUR_DY="";// = "10";
             ije.SUR_YR;// = "2022";
             ije.STNUM_R = "4437";
             ije.PREDIR_R = "North";

@@ -42,12 +42,12 @@ namespace VRDR
         public const string SecondAmericanIndianOrAlaskanNativeLiteral = "SecondAmericanIndianOrAlaskanNativeLiteral";
         /// <summary> FirstOtherAsianLiteralFirst </summary>
         public const string FirstOtherAsianLiteral = "FirstOtherAsianLiteral";
-        /// <summary> SecondOtherPacificIslandLiteral </summary>
+        /// <summary> SecondOtherPacificIslanderLiteral </summary>
         public const string SecondOtherAsianLiteral = "SecondOtherAsianLiteral";
-        /// <summary> FirstOtherPacificIslandLiteral </summary>
-        public const string FirstOtherPacificIslandLiteral = "FirstOtherPacificIslandLiteral";
-        /// <summary> SecondOtherPacificIslandLiteral </summary>
-        public const string SecondOtherPacificIslandLiteral = "SecondOtherPacificIslandLiteral";
+        /// <summary> FirstOtherPacificIslanderLiteral </summary>
+        public const string FirstOtherPacificIslanderLiteral = "FirstOtherPacificIslanderLiteral";
+        /// <summary> SecondOtherPacificIslanderLiteral </summary>
+        public const string SecondOtherPacificIslanderLiteral = "SecondOtherPacificIslanderLiteral";
         /// <summary> FirstOtherRaceLiteral </summary>
         public const string FirstOtherRaceLiteral = "FirstOtherRaceLiteral";
         /// <summary> SecondOtherRaceLiteral </summary>
@@ -108,8 +108,8 @@ namespace VRDR
             literalRaceCodes.Add(NvssRace.SecondAmericanIndianOrAlaskanNativeLiteral);
             literalRaceCodes.Add(NvssRace.FirstOtherAsianLiteral);
             literalRaceCodes.Add(NvssRace.SecondOtherAsianLiteral);
-            literalRaceCodes.Add(NvssRace.FirstOtherPacificIslandLiteral);
-            literalRaceCodes.Add(NvssRace.SecondOtherPacificIslandLiteral);
+            literalRaceCodes.Add(NvssRace.FirstOtherPacificIslanderLiteral);
+            literalRaceCodes.Add(NvssRace.SecondOtherPacificIslanderLiteral);
             literalRaceCodes.Add(NvssRace.FirstOtherRaceLiteral);
             literalRaceCodes.Add(NvssRace.SecondOtherRaceLiteral);
             return literalRaceCodes;

@@ -2031,13 +2031,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.FirstOtherPacificIslandLiteral);
+                return Get_Race(NvssRace.FirstOtherPacificIslanderLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.FirstOtherPacificIslandLiteral, value);
+                    Set_Race(NvssRace.FirstOtherPacificIslanderLiteral, value);
                 }
             }
         }
@@ -2048,13 +2048,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.SecondOtherPacificIslandLiteral);
+                return Get_Race(NvssRace.SecondOtherPacificIslanderLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.SecondOtherPacificIslandLiteral, value);
+                    Set_Race(NvssRace.SecondOtherPacificIslanderLiteral, value);
                 }
             }
         }

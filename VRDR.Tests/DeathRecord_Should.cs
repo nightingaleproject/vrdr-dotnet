@@ -1272,7 +1272,7 @@ namespace VRDR.Tests
         [Fact]
         public void Set_Race()
         {
-            Tuple<string, string>[] race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.FirstOtherPacificIslandLiteral, "White, Native Hawaiian or Other Pacific Islander") };
+            Tuple<string, string>[] race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.FirstOtherPacificIslanderLiteral, "White, Native Hawaiian or Other Pacific Islander") };
             SetterDeathRecord.Race = race;
             Assert.Equal(race[0], SetterDeathRecord.Race[0]);
             Assert.Equal(race[1], SetterDeathRecord.Race[1]);
@@ -3688,8 +3688,8 @@ namespace VRDR.Tests
             Assert.Equal("Lipan Apache", race.GetValueOrDefault("SecondAmericanIndianOrAlaskanNativeLiteral"));
             Assert.Equal("Taiwanese", race.GetValueOrDefault("FirstOtherAsianLiteral"));
             Assert.Equal("Gaoshan", race.GetValueOrDefault("SecondOtherAsianLiteral"));
-            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslandLiteral"));
-            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslandLiteral"));
+            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslanderLiteral"));
+            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslanderLiteral"));
             Assert.Equal("Vulcan", race.GetValueOrDefault("FirstOtherRaceLiteral"));
             Assert.Equal("Hgrtcha", race.GetValueOrDefault("SecondOtherRaceLiteral"));
 

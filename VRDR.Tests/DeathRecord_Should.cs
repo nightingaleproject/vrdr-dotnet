@@ -3510,7 +3510,7 @@ namespace VRDR.Tests
             Assert.Equal("020", ije.AGE);
             Assert.Equal("F", ije.SEX);
             Assert.Equal("531869507", ije.SSN);
-            Assert.Equal("Cardiopulmonary arrest", ije.COD1A.Trim());
+            Assert.Equal("Hypoxemia", ije.COD1A.Trim());
             Assert.Equal("N", ije.DETHNIC1);
         }
 
@@ -3564,7 +3564,7 @@ namespace VRDR.Tests
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
             Assert.Equal("062", ije.AGE);
             Assert.Equal("478151044", ije.SSN);
-            Assert.Equal("Unrestrained ejected driver in rollover motor vehicle accident", ije.HOWINJ.Trim());
+            Assert.Equal("", ije.HOWINJ.Trim());
             Assert.Equal("H", ije.DETHNIC2);
         }
 
@@ -3766,7 +3766,7 @@ namespace VRDR.Tests
                 // This list of fields is fairly comprehensive, though some have been intentionally left out:
                 // STATETEXT_D, STATEBTH, and FUNSTATE (setting these are a no-ops)
                 // MNAME, DMIDDLE, DDADMID, DMOMMID, SPOUSEMIDNAME, CERTMIDDLE (middle names behave oddly due to how FHIR represents names)
-                { "DOD_YR", "2022" },
+                { "DOD_YR", "2023"}, //2022" },
                 { "DSTATE", "CT" },
                 { "FILENO", "000001" },
                 { "AUXNO", "000000000001" },
@@ -3842,11 +3842,11 @@ namespace VRDR.Tests
                 { "AUTOP", "N" },
                 { "AUTOPF", "X" },
                 { "TOBAC", "U" },
-                { "PREG", "2" },
+                { "PREG", "8"}, //2" },
                 { "PREG_BYPASS", "0" },
-                { "DOI_MO", "11" },
-                { "DOI_DY", "02" },
-                { "DOI_YR", "2019" },
+                { "DOI_MO", "01"}, //11" },
+                { "DOI_DY", "10"}, //02" },
+                { "DOI_YR", "2022"}, //2019" },
                 { "TOI_HR", "1300" },
                 { "WORKINJ", "N" },
                 { "CERTL", "D" },
@@ -3887,10 +3887,10 @@ namespace VRDR.Tests
                 { "COUNTYCODE_I", "000" },
                 { "CITYCODE_I", "00000" },
                 { "REPLACE", "0" },
-                { "COD1A", "Cardiopulmonary arrest" },
-                { "INTERVAL1A", "4 Hours" },
-                { "COD1B", "Eclampsia" },
-                { "INTERVAL1B", "3 Months" },
+                { "COD1A", "Hypoxemia"}, //Cardiopulmonary arrest" },
+                { "INTERVAL1A", "4 Days"}, //4 Hours" },
+                { "COD1B", "MRSA Pneumonia"}, //Eclampsia" },
+                { "INTERVAL1B", "4 Days"}, //3 Months" },
                 { "OTHERCONDITION", "hypertensive heart disease" },
                 { "DBPLACECITY", "Roanoke" },
                 { "SPOUSESUFFIX", "Ss" },

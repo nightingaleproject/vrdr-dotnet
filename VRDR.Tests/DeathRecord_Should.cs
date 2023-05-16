@@ -3510,7 +3510,7 @@ namespace VRDR.Tests
             Assert.Equal("020", ije.AGE);
             Assert.Equal("F", ije.SEX);
             Assert.Equal("531869507", ije.SSN);
-            Assert.Equal("Cardiopulmonary arrest", ije.COD1A.Trim());
+            Assert.Equal("Hypoxemia", ije.COD1A.Trim());
             Assert.Equal("N", ije.DETHNIC1);
         }
 
@@ -3559,12 +3559,12 @@ namespace VRDR.Tests
         public void CheckConnectathonRecord2()
         {
             DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
-            Assert.Equal("63", dr1.AgeAtDeath["value"]); //62
+            Assert.Equal("62", dr1.AgeAtDeath["value"]);
             Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
-            Assert.Equal("063", ije.AGE); //62
+            Assert.Equal("062", ije.AGE);
             Assert.Equal("478151044", ije.SSN);
-            Assert.Equal(, ije.HOWINJ.Trim()); //Unrestrained ejected driver in rollover motor vehicle accident
+            Assert.Equal("", ije.HOWINJ.Trim());
             Assert.Equal("H", ije.DETHNIC2);
         }
 
@@ -3706,6 +3706,25 @@ namespace VRDR.Tests
             Assert.Equal("Waikato", ije.RACE21);
             Assert.Equal("Vulcan", ije.RACE22);
             Assert.Equal("Hgrtcha", ije.RACE23);
+        }
+
+        [Fact]
+        public void TestLoadRaceEthnicityLiteralsFromFHIRJSON() {
+            // confirm that we can read a death record from JSON and each of the race literal records
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/AllRaceLiterals.json")));
+            var race = dr.Race.ToList().ToDictionary(x => x.Item1, x => x.Item2);
+            Assert.Equal(2022, dr.DeathYear);
+            Assert.Equal("ID", dr.DeathLocationJurisdiction);
+            Assert.Equal("000182", dr.Identifier);
+            Assert.Equal("Apache", race.GetValueOrDefault("FirstAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Lipan Apache", race.GetValueOrDefault("SecondAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Taiwanese", race.GetValueOrDefault("FirstOtherAsianLiteral"));
+            Assert.Equal("Gaoshan", race.GetValueOrDefault("SecondOtherAsianLiteral"));
+            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslandLiteral"));
+            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslandLiteral"));
+            Assert.Equal("Vulcan", race.GetValueOrDefault("FirstOtherRaceLiteral"));
+            Assert.Equal("Hgrtcha", race.GetValueOrDefault("SecondOtherRaceLiteral"));
+            Assert.Equal("Panamanian", dr.EthnicityLiteral); // HispanicLiteral
         }
 
         [Fact]

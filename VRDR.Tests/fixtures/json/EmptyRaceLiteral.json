@@ -1621,8 +1621,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "FirstOtherPacificIslandLiteral",
-                  "display": "FirstOtherPacificIslandLiteral"
+                  "code": "FirstOtherPacificIslanderLiteral",
+                  "display": "FirstOtherPacificIslanderLiteral"
                 }
               ]
             }
@@ -1632,8 +1632,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "SecondOtherPacificIslandLiteral",
-                  "display": "SecondOtherPacificIslandLiteral"
+                  "code": "SecondOtherPacificIslanderLiteral",
+                  "display": "SecondOtherPacificIslanderLiteral"
                 }
               ]
             }

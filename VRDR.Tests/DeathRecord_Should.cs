@@ -3720,8 +3720,8 @@ namespace VRDR.Tests
             Assert.Equal("Lipan Apache", race.GetValueOrDefault("SecondAmericanIndianOrAlaskanNativeLiteral"));
             Assert.Equal("Taiwanese", race.GetValueOrDefault("FirstOtherAsianLiteral"));
             Assert.Equal("Gaoshan", race.GetValueOrDefault("SecondOtherAsianLiteral"));
-            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslandLiteral"));
-            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslandLiteral"));
+            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslanderLiteral"));
+            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslanderLiteral"));
             Assert.Equal("Vulcan", race.GetValueOrDefault("FirstOtherRaceLiteral"));
             Assert.Equal("Hgrtcha", race.GetValueOrDefault("SecondOtherRaceLiteral"));
             Assert.Equal("Panamanian", dr.EthnicityLiteral); // HispanicLiteral

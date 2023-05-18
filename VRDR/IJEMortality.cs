@@ -742,7 +742,10 @@ namespace VRDR
             catch (KeyNotFoundException)
             {
                 if (ijeField == "COD") ijeField = "Death County";
-                else if (ijeField == "COD1A" || ijeField == "COD1B" || ijeField == "COD1C" || ijeField == "COD1D") ijeField = "Cause of Death";
+                if (ijeField == "COD1A") ijeField = "Cause of Death-1A";
+                if (ijeField == "COD1B") ijeField = "Cause of Death-1B";
+                if (ijeField == "COD1C") ijeField = "Cause of Death-1C";
+                if (ijeField == "COD1D") ijeField = "Cause of Death-1D";
                 validationErrors.Add($"Error: Unable to find IJE {ijeField} mapping for FHIR {fhirField} field value '{fhirCode}'");
                 return "";
             }

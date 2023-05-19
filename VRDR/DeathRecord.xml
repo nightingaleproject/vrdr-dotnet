@@ -4887,13 +4887,13 @@
             <summary> FirstOtherAsianLiteralFirst </summary>
         </member>
         <member name="F:VRDR.NvssRace.SecondOtherAsianLiteral">
-            <summary> SecondOtherPacificIslandLiteral </summary>
+            <summary> SecondOtherPacificIslanderLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.FirstOtherPacificIslandLiteral">
-            <summary> FirstOtherPacificIslandLiteral </summary>
+        <member name="F:VRDR.NvssRace.FirstOtherPacificIslanderLiteral">
+            <summary> FirstOtherPacificIslanderLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.SecondOtherPacificIslandLiteral">
-            <summary> SecondOtherPacificIslandLiteral </summary>
+        <member name="F:VRDR.NvssRace.SecondOtherPacificIslanderLiteral">
+            <summary> SecondOtherPacificIslanderLiteral </summary>
         </member>
         <member name="F:VRDR.NvssRace.FirstOtherRaceLiteral">
             <summary> FirstOtherRaceLiteral </summary>

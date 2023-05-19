@@ -1,5 +1,11 @@
 ## Changelog
 
+### v4.0.1 - 2023-05-16
+
+* Syncs Connectathon test record generation code and example JSON and XML files with NCHS test plan changes
+* Syncs Race and Ethnicity Literal fields with latest VRDR IG build version and adds additional test cases
+* Add test cases for COD Coding Acknowledegement use case
+
 ### v4.0.0.preview21 - 2023-04-20
 
 * Adds support for multiple message destinations. It implemented this with a comma separated string of endpoints in the MessageDestination attribute. 

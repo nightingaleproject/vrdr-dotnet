@@ -741,6 +741,27 @@ namespace VRDR
             }
             catch (KeyNotFoundException)
             {
+                switch (ijeField)
+                {
+                    case "COD":
+                        ijeField = "County of Death";
+                        break;
+                    case "COD1A":
+                        ijeField = "Cause of Death-1A";
+                        break;
+                    case "COD1B":
+                        ijeField = "Cause of Death-1B";
+                        break;
+                    case "COD1C":
+                        ijeField = "Cause of Death-1C";
+                        break;
+                    case "COD1D":
+                        ijeField = "Cause of Death-1D";
+                        break;
+                    default:
+                        break;
+                }
+                
                 validationErrors.Add($"Error: Unable to find IJE {ijeField} mapping for FHIR {fhirField} field value '{fhirCode}'");
                 return "";
             }
@@ -3940,38 +3961,6 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     LeftJustified_Set("HOWINJ", "InjuryDescription", value);
-                }
-            }
-        }
-
-        /// <summary>If Transportation Accident, Specify</summary>
-        [IJEField(175, 2409, 30, "If Transportation Accident, Specify", "TRANSPRT", 1)]
-        public string TRANSPRT
-        {
-            get
-            {
-                var ret = record.TransportationRoleHelper;
-                if (ret != null && Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(ret))
-                {
-                    return Get_MappingFHIRToIJE(Mappings.TransportationIncidentRole.FHIRToIJE, "TransportationRole", "TRANSPRT");
-                }
-                else
-                {
-                    return ret;  // If the return value is not a code, it is just an arbitrary string, so return it.
-                }
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    if (Mappings.TransportationIncidentRole.IJEToFHIR.ContainsKey(value.Split(' ')[0]))
-                    {
-                        Set_MappingIJEToFHIR(Mappings.TransportationIncidentRole.IJEToFHIR, "TRANSPRT", "TransportationRole", value.Trim());
-                    }
-                    else
-                    {
-                        record.TransportationRoleHelper = value;   // If the value is not a valid code, it is just an arbitrary string.  The helper will deal with it.
-                    }
                 }
             }
         }

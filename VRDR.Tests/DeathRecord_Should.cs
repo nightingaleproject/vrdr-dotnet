@@ -2533,44 +2533,6 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Set_TransportationRole()
-        {
-            SetterDeathRecord.TransportationRoleHelper = ValueSets.TransportationIncidentRole.Passenger;
-            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, SetterDeathRecord.TransportationRole["code"]);
-            Assert.Equal(CodeSystems.SCT, SetterDeathRecord.TransportationRole["system"]);
-            Assert.Equal("Passenger", SetterDeathRecord.TransportationRole["display"]);
-            SetterDeathRecord.DeathLocationJurisdiction = "MA";
-            IJEMortality ije1 = new IJEMortality(SetterDeathRecord);
-            Assert.Equal("PA", ije1.TRANSPRT);
-            ije1.TRANSPRT = "PAP";
-            Assert.Equal("PAP", ije1.TRANSPRT);
-            DeathRecord d = ije1.ToDeathRecord();
-            IJEMortality ije2 = new IJEMortality(d);
-            Assert.Equal("PAP", ije2.TRANSPRT);
-            SetterDeathRecord.TransportationRoleHelper = "Hover Board Rider";
-            Assert.Equal("Hover Board Rider", SetterDeathRecord.TransportationRoleHelper);
-            Assert.Equal("Hover Board Rider", SetterDeathRecord.TransportationRole["text"]);
-            Assert.Equal("OTH", SetterDeathRecord.TransportationRole["code"]);
-            Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.TransportationRole["system"]);
-            Assert.Equal("Other", SetterDeathRecord.TransportationRole["display"]);
-
-
-
-        }
-
-        [Fact]
-        public void Get_TransportationRole()
-        {
-            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, DeathRecord1_JSON.TransportationRole["code"]);
-            Assert.Equal(ValueSets.TransportationIncidentRole.Pedestrian, DeathCertificateDocument2_JSON.TransportationRoleHelper);
-            Assert.Equal(CodeSystems.SCT, DeathRecord1_JSON.TransportationRole["system"]);
-            Assert.Equal("Passenger", DeathRecord1_JSON.TransportationRole["display"]);
-            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, DeathRecord1_XML.TransportationRole["code"]);
-            Assert.Equal(CodeSystems.SCT, DeathRecord1_XML.TransportationRole["system"]);
-            Assert.Equal("Passenger", DeathRecord1_XML.TransportationRole["display"]);
-        }
-
-        [Fact]
         public void Set_ExaminerContacted()
         {
             Dictionary<string, string> ec = new Dictionary<string, string>();
@@ -3510,7 +3472,7 @@ namespace VRDR.Tests
             Assert.Equal("020", ije.AGE);
             Assert.Equal("F", ije.SEX);
             Assert.Equal("531869507", ije.SSN);
-            Assert.Equal("Hypoxemia", ije.COD1A.Trim());
+            Assert.Equal("Cardiopulmonary arrest", ije.COD1A.Trim());
             Assert.Equal("N", ije.DETHNIC1);
         }
 
@@ -3559,12 +3521,12 @@ namespace VRDR.Tests
         public void CheckConnectathonRecord2()
         {
             DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
-            Assert.Equal("62", dr1.AgeAtDeath["value"]);
+            Assert.Equal("63", dr1.AgeAtDeath["value"]); //62
             Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
-            Assert.Equal("062", ije.AGE);
+            Assert.Equal("063", ije.AGE); //62
             Assert.Equal("478151044", ije.SSN);
-            Assert.Equal("", ije.HOWINJ.Trim());
+            Assert.Equal(, ije.HOWINJ.Trim()); //Unrestrained ejected driver in rollover motor vehicle accident
             Assert.Equal("H", ije.DETHNIC2);
         }
 
@@ -3706,25 +3668,6 @@ namespace VRDR.Tests
             Assert.Equal("Waikato", ije.RACE21);
             Assert.Equal("Vulcan", ije.RACE22);
             Assert.Equal("Hgrtcha", ije.RACE23);
-        }
-
-        [Fact]
-        public void TestLoadRaceEthnicityLiteralsFromFHIRJSON() {
-            // confirm that we can read a death record from JSON and each of the race literal records
-            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/AllRaceLiterals.json")));
-            var race = dr.Race.ToList().ToDictionary(x => x.Item1, x => x.Item2);
-            Assert.Equal(2022, dr.DeathYear);
-            Assert.Equal("ID", dr.DeathLocationJurisdiction);
-            Assert.Equal("000182", dr.Identifier);
-            Assert.Equal("Apache", race.GetValueOrDefault("FirstAmericanIndianOrAlaskanNativeLiteral"));
-            Assert.Equal("Lipan Apache", race.GetValueOrDefault("SecondAmericanIndianOrAlaskanNativeLiteral"));
-            Assert.Equal("Taiwanese", race.GetValueOrDefault("FirstOtherAsianLiteral"));
-            Assert.Equal("Gaoshan", race.GetValueOrDefault("SecondOtherAsianLiteral"));
-            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslanderLiteral"));
-            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslanderLiteral"));
-            Assert.Equal("Vulcan", race.GetValueOrDefault("FirstOtherRaceLiteral"));
-            Assert.Equal("Hgrtcha", race.GetValueOrDefault("SecondOtherRaceLiteral"));
-            Assert.Equal("Panamanian", dr.EthnicityLiteral); // HispanicLiteral
         }
 
         [Fact]

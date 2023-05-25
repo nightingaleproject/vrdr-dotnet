@@ -606,7 +606,7 @@
         "id": "urn:uuid:82dee1bb-ee1c-4d7d-8c3f-59afc7141f28",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
           ]
         },
         "name": [

@@ -1382,14 +1382,14 @@
         }
       }
     },
-    {
+   {
       "fullUrl": "urn:uuid:33ab6f94-1f0d-4da4-9a8e-66cc002e6cfe",
       "resource": {
         "resourceType": "Observation",
         "id": "urn:uuid:33ab6f94-1f0d-4da4-9a8e-66cc002e6cfe",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-autopsy-performed-indicator"
           ]
         },
         "status": "final",
@@ -1438,14 +1438,14 @@
         ]
       }
     },
-    {
+   {
       "fullUrl": "urn:uuid:254ef513-f992-4a80-85d3-5d4fd6ed6e52",
       "resource": {
         "resourceType": "Observation",
         "id": "urn:uuid:254ef513-f992-4a80-85d3-5d4fd6ed6e52",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age"
           ]
         },
         "status": "final",
@@ -1467,14 +1467,14 @@
         }
       }
     },
-    {
+     {
       "fullUrl": "urn:uuid:8e0c1eca-9f86-47cd-97d4-3bffbf8e7d71",
       "resource": {
         "resourceType": "Observation",
         "id": "urn:uuid:8e0c1eca-9f86-47cd-97d4-3bffbf8e7d71",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-pregnancy-status"
           ]
         },
         "status": "final",
@@ -1501,7 +1501,6 @@
         }
       }
     },
-
     {
       "fullUrl": "urn:uuid:c496b4ff-e65c-441e-9764-4a48becf3f9f",
       "resource": {
@@ -1509,7 +1508,7 @@
         "id": "urn:uuid:c496b4ff-e65c-441e-9764-4a48becf3f9f",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-examiner-contacted"
           ]
         },
         "status": "final",
@@ -1543,7 +1542,7 @@
         "id": "urn:uuid:35c921c0-b728-4cfc-8884-09f6e2dc8136",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-tobacco-use-contributed-to-death"
           ]
         },
         "status": "final",
@@ -1577,7 +1576,7 @@
         "id": "urn:uuid:d2531642-a25c-40e3-8237-21f9df7b4836",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
         "name": "Example Injury Location Name",
@@ -1602,7 +1601,7 @@
         "id": "urn:uuid:cb7f60b2-a18d-4cc6-8d45-3e8388178956",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-incident"
           ]
         },
         "status": "final",
@@ -1628,7 +1627,7 @@
         "id": "urn:uuid:d1b7c76f-81b4-4f63-bba5-aa4be59a03f5",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location"
           ]
         },
         "name": "Example Death Location Name",
@@ -1653,7 +1652,7 @@
         "id": "urn:uuid:ce378641-d230-4616-a6a5-6a34e3661f5c",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-date"
           ]
         },
         "status": "final",

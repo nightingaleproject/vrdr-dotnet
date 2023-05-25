@@ -274,7 +274,7 @@
                         "resource": {
                             "resourceType": "Practitioner",
                             "id": "84452aa0-fc31-4f4c-848f-b8f1e5bba1c0",
-                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"]},
+                            "meta": {"profile": ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"]},
                             "name": [{
                                 "use": "official",
                                 "family": "Last",
@@ -292,7 +292,7 @@
                         "resource": {
                             "resourceType": "Procedure",
                             "id": "2d71d05b-7f52-4c13-bd19-68a251e3544d",
-                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification"]},
+                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"]},
                             "status": "completed",
                             "category": {"coding": [{
                                 "system": "http://snomed.info/sct",
@@ -320,7 +320,7 @@
                         "resource": {
                             "resourceType": "Organization",
                             "id": "17e6d6c8-deea-464b-a009-d077ceb30af1",
-                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-organization"]},
+                            "meta": {"profile": ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"]},
                             "identifier": [{"value": "1010101"}],
                             "active": true,
                             "type": [{"coding": [{
@@ -371,7 +371,7 @@
                         "resource": {
                             "resourceType": "PractitionerRole",
                             "id": "c834ea74-e93d-4a51-bc02-60466b9e4f14",
-                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"]},
+                            "meta": {"profile": ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"]},
                             "practitioner": {"reference": "urn:uuid:84452aa0-fc31-4f4c-848f-b8f1e5bba1c0"},
                             "organization": {"reference": "urn:uuid:cffcc6e0-7324-4898-b876-9107d275eafa"}
                         }
@@ -857,7 +857,7 @@
                         "resource": {
                             "resourceType": "Observation",
                             "id": "b0e1c9fd-8ec1-4d61-bf29-1ef39d1d4229",
-                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-autopsy-performed-indicator]},
+                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-autopsy-performed-indicator"]},
                             "status": "final",
                             "code": {"coding": [{
                                 "system": "http://loinc.org",

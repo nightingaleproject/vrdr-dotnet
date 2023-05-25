@@ -640,7 +640,7 @@
         "id": "urn:uuid:73303678-90c7-45fe-83ae-c65cc85c6ce6",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
           ]
         },
         "status": "completed",

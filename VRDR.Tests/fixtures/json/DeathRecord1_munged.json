@@ -484,7 +484,7 @@
         "id": "84452aa0-fc31-4f4c-848f-b8f1e5bba1c0",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
           ]
         },
         "identifier": [
@@ -515,7 +515,7 @@
         "id": "a9a45b6c-566c-4ad7-bce7-8c23751b669d",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier"
           ]
         },
         "identifier": [
@@ -546,7 +546,7 @@
         "id": "2d71d05b-7f52-4c13-bd19-68a251e3544d",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification"
           ]
         },
         "identifier": [
@@ -844,7 +844,7 @@
         "id": "c834ea74-e93d-4a51-bc02-60466b9e4f14",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
           ]
         },
         "practitioner": {
@@ -962,7 +962,7 @@
         "id": "64551ae3-51ac-48e6-8d8a-41fd3ad29916",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-manner-of-death"
           ]
         },
         "status": "final",
@@ -1539,7 +1539,7 @@
         "id": "e9b3c71b-fe74-4046-a47d-c085b8f76c63",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-military-service"
           ]
         },
         "status": "final",
@@ -1573,7 +1573,7 @@
         "id": "fc9de024-0fae-4bda-bfbb-04c08c083a43",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-disposition-method"
           ]
         },
         "status": "final",
@@ -1668,7 +1668,7 @@
         "id": "b9a24c57-3f44-4091-b690-2eb4f6748919",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age"
           ]
         },
         "status": "final",
@@ -1697,7 +1697,7 @@
         "id": "19cb645f-c8f9-44fc-9137-6f33b009d355",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-pregnancy"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-pregnancy-status"
           ]
         },
         "status": "final",
@@ -1779,7 +1779,7 @@
         "id": "d15a4ea5-ee1b-4760-b177-fea17fa75c09",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-tobacco-use-contributed-to-death"
           ]
         },
         "status": "final",
@@ -1851,7 +1851,7 @@
         "id": "38070a6e-d934-4a56-ac57-bbba133d6df0",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-incident"
           ]
         },
         "status": "final",
@@ -2023,7 +2023,7 @@
         "id": "81899bd9-0441-45f0-9b89-9d91daa08983",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-date"
           ]
         },
         "status": "final",

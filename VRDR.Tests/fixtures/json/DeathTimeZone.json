@@ -747,7 +747,7 @@
             "id":"d4044469-3a56-456b-809c-0ea1afcf7561",
             "meta":{
                "profile":[
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-Military-Service"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-military-service"
                ]
             },
             "status":"final",
@@ -1348,7 +1348,7 @@
             "id":"6885b57d-9f0d-4509-a535-3fe5e9808161",
             "meta":{
                "profile":[
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-Tobacco-Use-Contributed-To-Death"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-tobacco-use-contributed-to-death"
                ]
             },
             "status":"final",

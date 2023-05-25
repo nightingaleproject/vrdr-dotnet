@@ -3,7 +3,7 @@
   "id": "urn:uuid:5de93219-27c1-407f-ba04-036636aa35b5",
   "meta": {
     "profile": [
-      "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document"
+      "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"
     ]
   },
   "identifier": {
@@ -1652,7 +1652,7 @@
         "id": "urn:uuid:ce378641-d230-4616-a6a5-6a34e3661f5c",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-date"
           ]
         },
         "status": "final",
@@ -1690,5 +1690,7 @@
         ]
       }
     }
+	
+	
   ]
 }

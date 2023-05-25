@@ -731,7 +731,7 @@
         "id": "urn:uuid:c3c6ed7f-03bb-423d-8084-7841f4bfca26",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-funeral-home"
           ]
         },
         "type": [
@@ -767,7 +767,7 @@
         "id": "urn:uuid:e6df1732-99d1-46ae-a869-8f2932ae836f",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
           ]
         },
         "practitioner": {
@@ -831,7 +831,7 @@
         "id": "urn:uuid:b37f20f8-caf3-4515-96a9-a4624dd94d9f",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location"
           ]
         },
         "name": "Bedford Cemetery",
@@ -855,7 +855,7 @@
         "id": "urn:uuid:29b6b89d-bfcb-46f5-9d12-ac372ac9ac7c",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-manner-of-death"
           ]
         },
         "status": "final",

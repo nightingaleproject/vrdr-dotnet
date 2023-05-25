@@ -555,7 +555,7 @@
         "id": "urn:uuid:ce55f2af-0e12-43ea-9507-9116106511c9",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier"
           ]
         },
         "name": [

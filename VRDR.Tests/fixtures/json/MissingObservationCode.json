@@ -9,7 +9,8 @@
   "identifier": {
     "value": "42"
   },
-  "type": "documente
+  "type": "document",
+  "entry": [
     {
       "fullUrl": "urn:uuid:dbe05c7b-2a32-4e4a-ad8d-603aa670d703",
       "resource": {

@@ -886,21 +886,33 @@
         }
       }
     },
-    {
+	{
       "fullUrl": "urn:uuid:fade1bbd-5581-4463-8fa5-60163566c76b",
       "resource": {
-        "resourceType": "Condition",
-        "id": "urn:uuid:fade1bbd-5581-4463-8fa5-60163566c76b",
+        "resourceType": "Observation",
+        "id": "fade1bbd-5581-4463-8fa5-60163566c76b",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part2"
           ]
         },
-        "code": {
+        "valueCodeableConcept": {
           "text": "Example Contributing Conditions"
         },
         "subject": {
-          "reference": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31"
+          "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
+        },
+        "performer": [{
+          "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
+        }],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69441-4",
+              "display": "Other significant causes or conditions of death]"
+            }
+          ]
         }
       }
     },

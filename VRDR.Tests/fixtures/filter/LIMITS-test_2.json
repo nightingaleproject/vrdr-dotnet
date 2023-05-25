@@ -430,7 +430,7 @@
               "id": "0f7f52f1-cbc8-4341-b18c-c3bf3405509d",
               "meta": {
                 "profile": [
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
                 ]
               },
               "status": "completed",

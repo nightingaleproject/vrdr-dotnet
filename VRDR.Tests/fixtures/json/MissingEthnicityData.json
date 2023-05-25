@@ -370,7 +370,7 @@
               "id": "6cbaca63-63ad-42cf-9c27-aeebcb154705",
               "meta": {
                 "profile": [
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
+                  "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
                 ]
               },
               "identifier": [
@@ -396,7 +396,7 @@
               "id": "7bf9a794-f703-499a-a833-04eb6663d6bd",
               "meta": {
                 "profile": [
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
                 ]
               },
               "identifier": [
@@ -443,7 +443,7 @@
               "id": "fb9a4b0f-b4c4-4d51-99b2-7b9dd32645bf",
               "meta": {
                 "profile": [
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-organization"
+                  "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
                 ]
               },
               "active": true,
@@ -506,7 +506,7 @@
               "id": "65602d10-2362-4352-ad55-9f871ff4d0d2",
               "meta": {
                 "profile": [
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
+                  "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
                 ]
               },
               "practitioner": {
@@ -647,7 +647,7 @@
               "id": "b1544b0d-389b-483a-9e0b-739feb596b52",
               "meta": {
                 "profile": [
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-birth-record-identifier"
                 ]
               },
               "status": "final",

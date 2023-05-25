@@ -916,33 +916,57 @@
         }
       }
     },
-    {
-      "fullUrl": "urn:uuid:e7ebc017-4509-444c-b2bc-51f18eec735e",
+   {
+      "fullUrl": "urn:uuid:b0a11639-8fbc-48b5-8e2d-3763bd5e3395",
       "resource": {
-        "resourceType": "Condition",
-        "id": "urn:uuid:e7ebc017-4509-444c-b2bc-51f18eec735e",
+        "resourceType": "Observation",
+        "id": "b0a11639-8fbc-48b5-8e2d-3763bd5e3395",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10",
+              "code": "I21.9",
+              "display": "Acute myocardial infarction, unspecified"
+            }
+          ],
+          "text": "Acute myocardial infarction"
+        },
+        "subject": {
+          "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
         "code": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/sid/icd-10",
-              "code": "I21.0",
-              "display": "Acute transmural myocardial infarction of anterior wall"
+              "system": "http://loinc.org",
+              "code": "69453-9",
+              "display": "Cause of death [US Standard Certificate of Death]"
             }
-          ],
-          "text": "Rupture of myocardium"
+          ]
         },
-        "subject": {
-          "reference": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31"
-        },
-        "onsetString": "minutes",
-        "asserter": {
-          "reference": "urn:uuid:ce55f2af-0e12-43ea-9507-9116106511c9"
-        }
+        "performer": [{
+          "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
+        }],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "69440-6",
+                  "display": "Disease onset to death interval"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "text": "6 days"
+            }
+          }
+        ]
       }
     },
     {

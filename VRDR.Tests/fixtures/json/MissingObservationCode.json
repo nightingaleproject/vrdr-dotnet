@@ -3,7 +3,7 @@
   "id": "urn:uuid:5de93219-27c1-407f-ba04-036636aa35b5",
   "meta": {
     "profile": [
-      "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"
+      "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document"
     ]
   },
   "identifier": {

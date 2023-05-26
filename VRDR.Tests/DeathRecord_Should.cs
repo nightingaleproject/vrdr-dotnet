@@ -37,6 +37,17 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void testA()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RecordVRDRv1.2.json")));
+            IJEMortality ije = new IJEMortality(dr);
+            
+            Console.WriteLine("*** ije DPLACE ***="+ije.DPLACE);
+
+
+        }
+
+        [Fact]
         public void FailInvalidInput()
         {
             Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord("foobar"));

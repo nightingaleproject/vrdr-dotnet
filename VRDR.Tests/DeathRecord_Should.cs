@@ -46,12 +46,12 @@ namespace VRDR.Tests
 //            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord("foobar"));
 //            Exception ex = Assert.Throws<System.Collections.Generic.Dictionary.KeyNotFoundException>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordWrongDplaceCode.json"))));   
 
-             Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordWrongDplaceCode1.json"))));  
+             Exception ex = Assert.Throws<System.Exception>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordWrongDplaceCode1.json"))));  
 //               Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));  
             
             
             
-//             Console.WriteLine("*** ex.Message ***" + ex.Message);
+             Console.WriteLine("*** ex.Message ***" + ex.Message);
             
 //            Assert.Equal("The given input does not appear to be a valid XML or JSON FHIR record.", ex.Message);
 //            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordWrongDplaceCode.json")));

@@ -42,6 +42,7 @@ namespace VRDR.Tests
         public void testA()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            dr.DeathLocationTypeHelper = "badData";
             Console.WriteLine("*** ije.DPLACE2 ***="+new IJEMortality(dr).DPLACE);
             
 //            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord("foobar"));

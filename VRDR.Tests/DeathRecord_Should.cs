@@ -53,7 +53,7 @@ namespace VRDR.Tests
             
           Exception ex = Assert.Throws<System.ArgumentOutOfRangeException>(() => new IJEMortality(dr).DPLACE);
             
-             Console.WriteLine("*** ex.Message length ***" + ex.Message.Length);
+             Console.WriteLine("*** ex.Message ***" + ex.Message.Substring(120));
             
 //            Assert.Equal("The given input does not appear to be a valid XML or JSON FHIR record.", ex.Message);
 //            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordWrongDplaceCode.json")));

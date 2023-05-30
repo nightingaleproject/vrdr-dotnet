@@ -2073,7 +2073,7 @@
               "coding" : [
                 {
                   "system" : "http://snomed.info/sct",
-                  "code" : "440081000124100",
+                  "code" : "440081000124100x",
                   "display": "Death in home"
                 }
               ]

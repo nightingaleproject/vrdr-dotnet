@@ -51,7 +51,7 @@ namespace VRDR.Tests
 //             Exception ex = Assert.Throws<System.Exception>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordWrongDplaceCode1.json"))));  
 //               Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));  
             
-          Exception ex = Assert.Throws<System.Exception>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordWrongDplaceCode1.json")) );
+          Exception ex = Assert.Throws<System.Exception>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordWrongDplaceCode1.json"))) );
             
              Console.WriteLine("*** ex.Message ***" + ex.Message);
             

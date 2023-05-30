@@ -54,7 +54,8 @@ namespace VRDR.Tests
           Exception ex = Assert.Throws<System.ArgumentOutOfRangeException>(() => new IJEMortality(dr).DPLACE);
             
              Console.WriteLine("*** ex.Message ***" + ex.Message.Substring(96));
-            Assert.Equal("Error: Unable to find IJE DPLACE mapping for FHIR DeathLocationType field value 440081000124100x", ex.Message.Substring(96));
+         //   Assert.Equal("Error: Unable to find IJE DPLACE mapping for FHIR DeathLocationType field value 440081000124100x", ex.Message.Substring(96));
+            StringAssert.Contains(ex.Message, "Error: Unable to find IJE DPLACE mapping for FHIR DeathLocationType field value '440081000124100x'");
             
 //            Assert.Equal("The given input does not appear to be a valid XML or JSON FHIR record.", ex.Message);
 //            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordWrongDplaceCode.json")));

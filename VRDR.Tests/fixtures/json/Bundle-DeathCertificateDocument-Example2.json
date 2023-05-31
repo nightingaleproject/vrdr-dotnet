@@ -280,7 +280,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
                 }
               ]
             }
@@ -313,7 +313,7 @@
                 "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator",
                 "valueCoding": {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "Yes"
                 }
               },
@@ -551,7 +551,7 @@
         "id": "DecedentAge-Example1",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age
           ]
         },
         "status": "final",
@@ -808,7 +808,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "Yes"
                 }
               ]
@@ -827,7 +827,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "Yes"
                 }
               ]
@@ -846,7 +846,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "Yes"
                 }
               ]
@@ -865,7 +865,7 @@
               "coding": [
                 {
                   "code": "N",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "No"
                 }
               ]
@@ -991,7 +991,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "display": "Yes"
             }
           ]
@@ -1336,7 +1336,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "display": "Yes"
             }
           ]
@@ -1422,7 +1422,7 @@
         "id": "InjuryLocation-Example1",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+            "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
         "type": [
@@ -1477,7 +1477,7 @@
               "coding": [
                 {
                   "code": "N",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "No"
                 }
               ]
@@ -1495,26 +1495,6 @@
             },
             "valueCodeableConcept": {
               "text": "Home"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "69451-3",
-                  "system": "http://loinc.org",
-                  "display": "Transportation role of decedent"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "257518000",
-                  "system": "http://snomed.info/sct",
-                  "display": "Pedestrian"
-                }
-              ]
             }
           }
         ],
@@ -1934,7 +1914,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "Yes"
                 }
               ]
@@ -1948,7 +1928,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "display": "Yes"
             }
           ]

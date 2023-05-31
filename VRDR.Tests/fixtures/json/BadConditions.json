@@ -3,7 +3,7 @@
   "id": "urn:uuid:37ec2523-8d00-49f5-ac7a-bf2836df4b27",
   "meta": {
     "profile": [
-      "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document"
+      "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"
     ]
   },
   "identifier": {
@@ -18,7 +18,7 @@
         "id": "urn:uuid:a9877737-eba8-4984-bd92-cbd39a0998e8",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
           ]
         },
         "identifier": {
@@ -90,9 +90,6 @@
               },
               {
                 "reference": "urn:uuid:f7da910a-9aee-4229-a99d-1ca5434c1bcb"
-              },
-              {
-                "reference": "urn:uuid:aab3664a-9cac-4f73-b6f3-b266535cc89e"
               },
               {
                 "reference": "urn:uuid:a343c0d5-deed-4e55-b1ac-0a188e09abc5"
@@ -395,7 +392,7 @@
         "id": "urn:uuid:8febaa30-f138-4c7d-bd55-0b23e23b9a38",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
           ]
         },
         "name": [
@@ -477,7 +474,7 @@
         "id": "urn:uuid:c69328fe-3d6c-498a-99ff-d17dfa1056f8",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-organization"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
           ]
         },
         "identifier": [
@@ -556,7 +553,7 @@
         "id": "urn:uuid:f7da910a-9aee-4229-a99d-1ca5434c1bcb",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
           ]
         },
         "practitioner": {
@@ -565,47 +562,6 @@
         "organization": {
           "reference": "urn:uuid:afc1b43a-f35f-46ab-a595-9dc041c1ddde"
         }
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:aab3664a-9cac-4f73-b6f3-b266535cc89e",
-      "resource": {
-        "resourceType": "List",
-        "id": "urn:uuid:aab3664a-9cac-4f73-b6f3-b266535cc89e",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway"
-          ]
-        },
-        "status": "current",
-        "mode": "snapshot",
-        "source": {
-          "reference": "urn:uuid:e6e8758f-cfc3-4147-b9ba-e33f544ab7c8"
-        },
-        "orderedBy": {
-          "coding": [
-            {
-              "code": "priority"
-            }
-          ]
-        },
-        "entry": [
-          {
-            "item": {
-              "reference": "urn:uuid:d884238d-c335-40e8-a572-dab1e33d2aa1"
-            }
-          },
-          {
-            "item": {
-              "reference": "urn:uuid:e1944401-1182-4178-8243-39a7dfe578db"
-            }
-          },
-          {
-            "item": {
-              "reference": "urn:uuid:df627ee8-7dcc-4f99-bccd-a050ea8b7634"
-            }
-          }
-        ]
       }
     },
     {
@@ -1136,7 +1092,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "code": "Y",
               "display": "Yes"
             }
@@ -1217,7 +1173,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "code": "Y",
               "display": "Yes"
             }
@@ -1237,7 +1193,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "code": "Y",
                   "display": "Yes"
                 }
@@ -1254,7 +1210,7 @@
         "id": "urn:uuid:1d6375d4-1920-4c36-ad60-5f5dfba336ae",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age
           ]
         },
         "status": "final",
@@ -1336,7 +1292,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "code": "N",
               "display": "No"
             }
@@ -1370,7 +1326,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "code": "Y",
               "display": "Yes"
             }
@@ -1385,7 +1341,7 @@
         "id": "urn:uuid:62a46c35-e7ea-4cba-aea7-c145522ce173",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+            "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
         "name": "Example Injury Location Name",

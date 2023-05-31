@@ -26,7 +26,7 @@ namespace VRDR
         public static string Data_Absent_Reason_HL7_V3 = "http://terminology.hl7.org/CodeSystem/data-absent-reason";
 
         /// <summary>HL7 Yes No.</summary>
-        public static string YesNo_0136HL7_V2 = "http://terminology.hl7.org/CodeSystem/v2-0136";
+        public static string YesNo_0136HL7_V2 = "http://terminology.hl7.org/ValueSet/v2-0136";
 
 
         /// <summary>PHINVADS Marital Status.</summary>
@@ -62,7 +62,7 @@ namespace VRDR
         public static string UnitsOfMeasure = "http://unitsofmeasure.org";
 
         /// <summary> HL7 Yes No </summary>
-        public static string YesNo = "http://terminology.hl7.org/CodeSystem/v2-0136";
+        public static string YesNo = "http://terminology.hl7.org/ValueSet/v2-0136";
 
         /// <summary> Bypass Edit Flag </summary>
         public static string BypassEditFlag = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs";

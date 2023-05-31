@@ -270,7 +270,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
                 }
               ]
             }
@@ -303,7 +303,7 @@
                 "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator",
                 "valueCoding": {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "Yes"
                 }
               },
@@ -576,7 +576,7 @@
           "reference": "Patient/Decedent-Example1"
         }
       },
-      "fullUrl": "http://www.example.org/fhir/Observation/DecedentAge-Example1"
+      "fullUrl": "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age"
     },
     {
       "resource": {
@@ -796,7 +796,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
                 }
               ]
             }
@@ -814,7 +814,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
                 }
               ]
             }
@@ -832,7 +832,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
                 }
               ]
             }
@@ -850,7 +850,7 @@
               "coding": [
                 {
                   "code": "N",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
                 }
               ]
             }
@@ -975,7 +975,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "display": "Yes"
             }
           ]
@@ -1312,7 +1312,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "display": "Yes"
             }
           ]
@@ -1398,7 +1398,7 @@
         "id": "InjuryLocation-Example1",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+            "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
         "type": [
@@ -1453,7 +1453,7 @@
               "coding": [
                 {
                   "code": "N",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "No"
                 }
               ]
@@ -1471,27 +1471,6 @@
             },
             "valueCodeableConcept": {
               "text": "Home"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "69451-3",
-                  "system": "http://loinc.org",
-                  "display": "Transportation role of decedent"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "OTH",
-                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-                  "display": "Other"
-                }
-              ],
-              "text": "Hoverboard Rider"
             }
           }
         ],
@@ -1911,7 +1890,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "Yes"
                 }
               ]
@@ -1925,7 +1904,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "display": "Yes"
             }
           ]

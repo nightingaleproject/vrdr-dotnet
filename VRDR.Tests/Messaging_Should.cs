@@ -470,6 +470,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateCauseOfDeathCodingUpdateFromJSON()
         {
+            Console.WriteLine("*** 0 ***");
             CauseOfDeathCodingUpdateMessage message = BaseMessage.Parse<CauseOfDeathCodingUpdateMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingUpdateMessage.json"));
             Assert.Equal(CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE, message.MessageType);Console.WriteLine("*** 1 ***");
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);Console.WriteLine("*** 2***");

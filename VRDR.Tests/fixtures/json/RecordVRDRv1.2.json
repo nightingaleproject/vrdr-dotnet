@@ -248,7 +248,7 @@
           {
             "extension": [
               {
-                "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator",
+                "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator",
                 "valueCoding": {
                   "system": "urn:oid:2.16.840.1.113883.12.136",
                   "code": "N",
@@ -336,7 +336,7 @@
         "id": "f1a35325-a246-4fd0-9816-a487f1cbfa54",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
           ]
         },
         "identifier": [
@@ -420,7 +420,7 @@
         "id": "4a5c9160-fe5a-46a5-953f-1c7345d3ee12",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-organization"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
           ]
         },
         "active": true
@@ -469,7 +469,7 @@
         "id": "5ba143cd-3bbe-4486-929e-3e5ea21c3f18",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
           ]
         },
         "practitioner": {
@@ -478,44 +478,6 @@
         "organization": {
           "reference": "urn:uuid:eb9cdf22-879d-42f3-a3ce-21542c703d79"
         }
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:e1e0a2a1-1dd7-4891-822a-a7ecaed72405",
-      "resource": {
-        "resourceType": "List",
-        "id": "e1e0a2a1-1dd7-4891-822a-a7ecaed72405",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway"
-          ]
-        },
-        "status": "current",
-        "mode": "snapshot",
-        "source": {
-          "reference": "urn:uuid:daf3e4f2-5f1f-4378-ba42-5bd983ed5a50"
-        },
-        "orderedBy": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/list-order",
-              "code": "priority",
-              "display": "Sorted by Priority"
-            }
-          ]
-        },
-        "entry": [
-          {
-            "item": {
-              "reference": "urn:uuid:4fe99993-2ed9-4bce-8e87-06b118b1706c"
-            }
-          },
-          {
-            "item": {
-              "reference": "urn:uuid:d566f0b6-d7c0-44e8-914e-dfe62fee03ca"
-            }
-          }
-        ]
       }
     },
     {
@@ -585,7 +547,7 @@
         "id": "93cf94b8-9db4-4285-b1b4-36c214a50323",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-birth-record-identifier"
           ]
         },
         "status": "final",
@@ -733,7 +695,7 @@
         "id": "4340fd03-06b7-43cc-9e93-83689dace401",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-usual-work"
           ]
         },
         "status": "final",

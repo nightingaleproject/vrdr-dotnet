@@ -262,7 +262,7 @@
                      {
                         "url":"http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator",
                         "valueCoding":{
-                           "system":"http://terminology.hl7.org/CodeSystem/v2-0136",
+                           "system":"http://terminology.hl7.org/ValueSet/v2-0136",
                            "code":"Y",
                            "display":"Yes"
                         }
@@ -359,7 +359,7 @@
                   "valueCodeableConcept":{
                      "coding":[
                         {
-                           "system":"http://terminology.hl7.org/CodeSystem/v2-0136",
+                           "system":"http://terminology.hl7.org/ValueSet/v2-0136",
                            "code":"N",
                            "display":"No"
                         }
@@ -378,7 +378,7 @@
                   "valueCodeableConcept":{
                      "coding":[
                         {
-                           "system":"http://terminology.hl7.org/CodeSystem/v2-0136",
+                           "system":"http://terminology.hl7.org/ValueSet/v2-0136",
                            "code":"N",
                            "display":"No"
                         }
@@ -397,7 +397,7 @@
                   "valueCodeableConcept":{
                      "coding":[
                         {
-                           "system":"http://terminology.hl7.org/CodeSystem/v2-0136",
+                           "system":"http://terminology.hl7.org/ValueSet/v2-0136",
                            "code":"N",
                            "display":"No"
                         }
@@ -416,7 +416,7 @@
                   "valueCodeableConcept":{
                      "coding":[
                         {
-                           "system":"http://terminology.hl7.org/CodeSystem/v2-0136",
+                           "system":"http://terminology.hl7.org/ValueSet/v2-0136",
                            "code":"N",
                            "display":"No"
                         }
@@ -647,7 +647,7 @@
             "id":"64a919f2-1895-49a6-9fa2-73bafdcb0d28",
             "meta":{
                "profile":[
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-BirthRecordIdentifier"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-birth-record-identifier"
                ]
             },
             "status":"final",
@@ -1112,7 +1112,7 @@
             "valueCodeableConcept":{
                "coding":[
                   {
-                     "system":"http://terminology.hl7.org/CodeSystem/v2-0136",
+                     "system":"http://terminology.hl7.org/ValueSet/v2-0136",
                      "code":"N",
                      "display":"No"
                   }

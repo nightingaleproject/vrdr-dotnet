@@ -804,7 +804,7 @@
                             "id": "618a633d-d36a-4fac-be63-0ac2d33216ac",
                             "meta": {
                                 "profile": [
-                                    "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age
+                                    "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age"
                                 ]
                             },
                             "status": "final",

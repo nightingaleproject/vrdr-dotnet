@@ -3599,7 +3599,6 @@ namespace VRDR.Tests
             Assert.Equal("D", ije.CERTL);
             ije.CERTL = "DDDD";
             Assert.Equal("DDDD", ije.CERTL);
-            ije.TRANSPRT = "Hover Board Rider";
             ije.INACT = "9";
             DeathRecord record = ije.ToDeathRecord();
             DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle());
@@ -3620,7 +3619,6 @@ namespace VRDR.Tests
             Assert.Equal("Y", ije2.TOBAC);
             Assert.Equal("8", ije2.PREG);
             Assert.Equal("DDDD", ije2.CERTL);
-            Assert.Equal("Hover Board Rider", ije2.TRANSPRT);
             Assert.Equal("9", ije2.INACT);
         }
         [Fact]
@@ -3845,7 +3843,6 @@ namespace VRDR.Tests
                 { "REFERRED", "Y" },
                 { "POILITRL", "Home" },
                 { "HOWINJ", "drug toxicity" },
-                { "TRANSPRT", "PE" },
                 { "COUNTYCODE_I", "000" },
                 { "CITYCODE_I", "00000" },
                 { "REPLACE", "0" },
@@ -4034,7 +4031,6 @@ namespace VRDR.Tests
             ije.PREG = "8";
             ije.CERTL = "D";
             ije.CERTL = "DDDD";
-            ije.TRANSPRT = "Hover Board Rider";
             ije.INACT = "9";
             DeathRecord record = ije.ToDeathRecord();
             IJEMortality ije2 = new IJEMortality(record);

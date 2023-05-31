@@ -90,7 +90,7 @@ namespace VRDR
         public const string DeathCertificateDocument = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document";
 
         /// <summary>URL for InjuryLocation</summary>
-        public const string InjuryLocation = "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location";
+        public const string InjuryLocation = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location";
 
         /// <summary>URL for DeathCertification</summary>
         public const string DeathCertification = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification";

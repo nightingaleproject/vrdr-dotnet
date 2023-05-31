@@ -931,7 +931,7 @@ namespace VRDR.Tests
                 Assert.Equal(8, investigation.Entry.Count);
 
                 Composition.SectionComponent certification = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathCertification").First();
-                Assert.Equal(9, certification.Entry.Count);
+                Assert.Equal(8, certification.Entry.Count);
 
                 Composition.SectionComponent disposition = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDisposition").First();
                 Assert.Equal(4, disposition.Entry.Count);
@@ -969,7 +969,7 @@ namespace VRDR.Tests
                 Assert.Equal(8, investigation.Entry.Count);
 
                 Composition.SectionComponent certification = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathCertification").First();
-                Assert.Equal(8, certification.Entry.Count);
+                Assert.Equal(7, certification.Entry.Count);
 
                 Composition.SectionComponent disposition = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDisposition").First();
                 Assert.Equal(4, disposition.Entry.Count);

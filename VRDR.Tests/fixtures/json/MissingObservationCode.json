@@ -1223,6 +1223,67 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:9acfe2a3-2bca-4a86-904c-9340ea83f2c6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "urn:uuid:9acfe2a3-2bca-4a86-904c-9340ea83f2c6",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History"
+          ]
+        },
+        "status": "final",
+        "code": {
+          "coding": []
+        },
+        "subject": {
+          "reference": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31"
+        },
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "21847-9",
+                  "display": "Usual occupation"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010",
+                  "code": "1340",
+                  "display": "Biomedical engineers"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "21844-6",
+                  "display": "Usual industry"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/ValueSet/industry-cdc-census-2010",
+                  "code": "7280",
+                  "display": "Accounting, tax preparation, bookkeeping, and payroll services"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "urn:uuid:0de05a69-9bf1-45e2-9609-776cd0983fde",
       "resource": {
         "resourceType": "Observation",

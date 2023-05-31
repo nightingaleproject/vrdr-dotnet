@@ -584,6 +584,8 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "roundtrip-ije")
             {
                 // Console.WriteLine("Converting FHIR to IJE...\n");
+				Console.WriteLine("********** args[0] ="+args[0]);
+				Console.WriteLine("********** args[1] ="+args[1]);
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 IJEMortality ije1, ije2, ije3;
                 try

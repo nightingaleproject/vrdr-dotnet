@@ -1063,7 +1063,7 @@
       <Location>
         <id value="InjuryLocation-Example1" />
         <meta>
-          <profile value="	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location" />
         </meta>
         <name value="Home" />
         <description value="5590 Lockwood Drive 20621 US" />

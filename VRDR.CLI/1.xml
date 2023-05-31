@@ -1412,7 +1412,7 @@
       <Location>
         <id value="14bca771-7c7c-4c62-9faa-b7dccbbc1690" />
         <meta>
-          <profile value="	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location" />
         </meta>
         <name value="Example Injury Location Name" />
         <description value="Example Injury Location Description" />

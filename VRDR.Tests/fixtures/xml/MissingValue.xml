@@ -918,7 +918,7 @@
       <Location>
         <id value="urn:uuid:9ab9c3da-b19f-482f-a47b-90ea3073229a" />
         <meta>
-          <profile value="	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location" />
         </meta>
         <name value="Example Injury Location Name" />
         <description value="Example Injury Location Description" />

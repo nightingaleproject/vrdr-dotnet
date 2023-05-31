@@ -220,7 +220,7 @@
         <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/SpouseAlive">
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
               <code value="Y" />
             </coding>
           </valueCodeableConcept>
@@ -274,7 +274,7 @@
         <address>
           <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator">
             <valueCoding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
               <code value="Y" />
               <display value="Yes" />
             </valueCoding>
@@ -620,7 +620,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
               <code value="Y" />
             </coding>
           </valueCodeableConcept>
@@ -722,7 +722,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -989,7 +989,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -1063,7 +1063,7 @@
       <Location>
         <id value="InjuryLocation-Example1" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location" />
+          <profile value="	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location" />
         </meta>
         <name value="Home" />
         <description value="5590 Lockwood Drive 20621 US" />
@@ -1112,7 +1112,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
               <code value="N" />
               <display value="No" />
             </coding>
@@ -1128,23 +1128,6 @@
           </code>
           <valueCodeableConcept>
             <text value="Home" />
-          </valueCodeableConcept>
-        </component>
-        <component>
-          <code>
-            <coding>
-              <system value="http://loinc.org" />
-              <code value="69451-3" />
-              <display value="Transportation role of decedent" />
-            </coding>
-          </code>
-          <valueCodeableConcept>
-            <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v3-NullFlavor" />
-              <code value="OTH" />
-              <display value="Other" />
-            </coding>
-            <text value="Hoverboard Rider" />
           </valueCodeableConcept>
         </component>
       </Observation>
@@ -1558,7 +1541,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -1573,7 +1556,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
               <code value="Y" />
               <display value="Yes" />
             </coding>

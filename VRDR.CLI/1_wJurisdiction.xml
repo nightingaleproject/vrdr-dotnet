@@ -1293,7 +1293,7 @@
       <Observation>
         <id value="8094a2a5-5725-4c97-9b0e-86bcc6388cdd" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age" />
         </meta>
         <status value="final" />
         <code>

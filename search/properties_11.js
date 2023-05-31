@@ -11,8 +11,5 @@ var searchData=
   ['token_8',['Token',['../class_v_r_d_r_1_1_client.html#a2ece4091b8c8944a0e350f617fc235a3',1,'VRDR::Client']]],
   ['transaxconversion_9',['TransaxConversion',['../class_v_r_d_r_1_1_death_record.html#ae68615e9b574d0e213e6d4b2cfd3a9c5',1,'VRDR::DeathRecord']]],
   ['transaxconversionhelper_10',['TransaxConversionHelper',['../class_v_r_d_r_1_1_death_record.html#ad26d3de0f4ec1e33201151d1e8b76f3f',1,'VRDR::DeathRecord']]],
-  ['transportationrole_11',['TransportationRole',['../class_v_r_d_r_1_1_death_record.html#a92fba0d2393a352e9e85c35ef6758f74',1,'VRDR::DeathRecord']]],
-  ['transportationrolehelper_12',['TransportationRoleHelper',['../class_v_r_d_r_1_1_death_record.html#a6a759480bb8bed087edf0a68dad66566',1,'VRDR::DeathRecord']]],
-  ['transprt_13',['TRANSPRT',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a3000ac387f6945647dd4bf30c132b639',1,'VRDR::IJEMortality']]],
-  ['trx_5fflg_14',['TRX_FLG',['../class_v_r_d_r_1_1_i_j_e_mortality.html#ab09a8b02f266015994968972f74e6db1',1,'VRDR::IJEMortality']]]
+  ['trx_5fflg_11',['TRX_FLG',['../class_v_r_d_r_1_1_i_j_e_mortality.html#ab09a8b02f266015994968972f74e6db1',1,'VRDR::IJEMortality']]]
 ];

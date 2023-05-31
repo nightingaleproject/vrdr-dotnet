@@ -92,9 +92,6 @@
                 "reference": "urn:uuid:e6df1732-99d1-46ae-a869-8f2932ae836f"
               },
               {
-                "reference": "urn:uuid:82049be9-8716-4dc8-98cf-b372c20def51"
-              },
-              {
                 "reference": "urn:uuid:b37f20f8-caf3-4515-96a9-a4624dd94d9f"
               },
               {
@@ -776,52 +773,6 @@
         "organization": {
           "reference": "urn:uuid:c3c6ed7f-03bb-423d-8084-7841f4bfca26"
         }
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:82049be9-8716-4dc8-98cf-b372c20def51",
-      "resource": {
-        "resourceType": "List",
-        "id": "urn:uuid:82049be9-8716-4dc8-98cf-b372c20def51",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway"
-          ]
-        },
-        "status": "current",
-        "mode": "snapshot",
-        "source": {
-          "reference": "urn:uuid:ce55f2af-0e12-43ea-9507-9116106511c9"
-        },
-        "orderedBy": {
-          "coding": [
-            {
-              "code": "priority"
-            }
-          ]
-        },
-        "entry": [
-          {
-            "item": {
-              "reference": "urn:uuid:e7ebc017-4509-444c-b2bc-51f18eec735e"
-            }
-          },
-          {
-            "item": {
-              "reference": "urn:uuid:b0a11639-8fbc-48b5-8e2d-3763bd5e3395"
-            }
-          },
-          {
-            "item": {
-              "reference": "urn:uuid:c8e9f0ef-3013-4e5f-93f1-f8a9c18746b8"
-            }
-          },
-          {
-            "item": {
-              "reference": "urn:uuid:bb33fa44-a9e8-4787-9bdd-6c040f897237"
-            }
-          }
-        ]
       }
     },
     {

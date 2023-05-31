@@ -588,7 +588,7 @@
           "reference": "Patient/Decedent-Example1"
         }
       },
-      "fullUrl": "http://www.example.org/fhir/Observation/DecedentAge-Example1"
+      "fullUrl": "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age"
     },
     {
       "resource": {

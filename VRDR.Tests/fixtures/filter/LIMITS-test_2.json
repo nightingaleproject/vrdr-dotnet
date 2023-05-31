@@ -620,7 +620,7 @@
               "id": "9c22cf50-9ca1-4e23-a948-6b357d5f420e",
               "meta": {
                 "profile": [
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age"
                 ]
               },
               "status": "final",

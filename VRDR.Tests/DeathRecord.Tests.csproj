@@ -18,6 +18,7 @@
     <ProjectReference Include="..\VRDR.Messaging\VRDRMessaging.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="fixtures/json/DeathRecordBadDplaceCode.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/RecordVRDRv1.2.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/2022CT000008_record.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/Bundle-DeathCertificateDocument-Example2.json" CopyToOutputDirectory="PreserveNewest" />

@@ -217,8 +217,6 @@ Some editing is required.
   - [TobaccoUseHelper](#P-VRDR-DeathRecord-TobaccoUseHelper 'VRDR.DeathRecord.TobaccoUseHelper')
   - [TransaxConversion](#P-VRDR-DeathRecord-TransaxConversion 'VRDR.DeathRecord.TransaxConversion')
   - [TransaxConversionHelper](#P-VRDR-DeathRecord-TransaxConversionHelper 'VRDR.DeathRecord.TransaxConversionHelper')
-  - [TransportationRole](#P-VRDR-DeathRecord-TransportationRole 'VRDR.DeathRecord.TransportationRole')
-  - [TransportationRoleHelper](#P-VRDR-DeathRecord-TransportationRoleHelper 'VRDR.DeathRecord.TransportationRoleHelper')
   - [UsualIndustry](#P-VRDR-DeathRecord-UsualIndustry 'VRDR.DeathRecord.UsualIndustry')
   - [UsualOccupation](#P-VRDR-DeathRecord-UsualOccupation 'VRDR.DeathRecord.UsualOccupation')
   - [ToDescription()](#M-VRDR-DeathRecord-ToDescription 'VRDR.DeathRecord.ToDescription')
@@ -4265,7 +4263,7 @@ Dictionary<string, string> code = new Dictionary<string, string>();
 
 code.Add("code", "Y");
 
-code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+code.Add("system", "http://terminology.hl7.org/ValueSet/v2-0136");
 
 code.Add("display", "Yes");
 
@@ -4623,48 +4621,6 @@ ExampleDeathRecord.TransaxConversionHelper = ValueSets.TransaxConversion.Convers
 // Getter:
 
 Console.WriteLine($"Filing Format: {ExampleDeathRecord.TransaxConversionHelper}");
-
-<a name='P-VRDR-DeathRecord-TransportationRole'></a>
-### TransportationRole `property`
-
-##### Summary
-
-Transportation Role in death.
-
-##### Example
-
-// Setter:
-
-Dictionary<string, string> code = new Dictionary<string, string>();
-
-code.Add("code", "257500003");
-
-code.Add("system", CodeSystems.SCT);
-
-code.Add("display", "Passenger");
-
-ExampleDeathRecord.TransportationRole = code;
-
-// Getter:
-
-Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");
-
-<a name='P-VRDR-DeathRecord-TransportationRoleHelper'></a>
-### TransportationRoleHelper `property`
-
-##### Summary
-
-Transportation Role in death helper.
-
-##### Example
-
-// Setter:
-
-ExampleDeathRecord.TransportationRoleHelper = VRDR.TransportationRoles.Passenger;
-
-// Getter:
-
-Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRoleHelper");
 
 <a name='P-VRDR-DeathRecord-UsualIndustry'></a>
 ### UsualIndustry `property`

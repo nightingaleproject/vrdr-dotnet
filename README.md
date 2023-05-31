@@ -256,7 +256,6 @@ are available to simplify setting coded values:
 * PregnancyStatusEditFlagHelper
 * ExaminerContactedHelper
 * InjuryAtWorkHelper
-* TransportationRoleHelper
 * TobaccoUseHelper
 * ActivityAtDeathHelper
 * PlaceOfInjuryHelper

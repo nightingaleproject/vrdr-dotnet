@@ -35,6 +35,14 @@ namespace VRDR.Tests
 
             SetterDeathRecord = new DeathRecord();
         }
+        
+        [Fact]
+        public void FailBadDplaceCode()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBadDplaceCode.json")));
+            Exception ex = Assert.Throws<System.ArgumentOutOfRangeException>(() => new IJEMortality(dr).DPLACE);
+            Assert.Equal("Error: Unable to find IJE DPLACE mapping for FHIR DeathLocationType field value '440081000124100x'", ex.Message.Substring(96, 98));
+        }
 
         [Fact]
         public void FailInvalidInput()

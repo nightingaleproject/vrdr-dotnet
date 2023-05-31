@@ -54,7 +54,7 @@
         "id": "c593f782-7f64-450a-8aca-aea4f8130217",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-demographic-coded-content-bundle"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-demographic-coded-bundle"
           ]
         },
         "identifier": {
@@ -172,7 +172,7 @@
                   "valueCodeableConcept": {
                     "coding": [
                       {
-                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                         "code": "N",
                         "display": "No"
                       }
@@ -191,7 +191,7 @@
                   "valueCodeableConcept": {
                     "coding": [
                       {
-                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                         "code": "N",
                         "display": "No"
                       }
@@ -210,7 +210,7 @@
                   "valueCodeableConcept": {
                     "coding": [
                       {
-                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                         "code": "N",
                         "display": "No"
                       }
@@ -229,7 +229,7 @@
                   "valueCodeableConcept": {
                     "coding": [
                       {
-                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                         "code": "N",
                         "display": "No"
                       }

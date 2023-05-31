@@ -470,13 +470,14 @@ namespace VRDR.Tests
         [Fact]
         public void CreateCauseOfDeathCodingUpdateFromJSON()
         {
+            Console.WriteLine("*** 0 ***");
             CauseOfDeathCodingUpdateMessage message = BaseMessage.Parse<CauseOfDeathCodingUpdateMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingUpdateMessage.json"));
-            Assert.Equal(CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE, message.MessageType);
-            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
-            Assert.Equal((uint)100000, message.CertNo);
-            Assert.Equal((uint)2019, message.DeathYear);
-            Assert.Null(message.StateAuxiliaryId);
-            Assert.Equal("2019AK100000", message.NCHSIdentifier);
+            Assert.Equal(CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE, message.MessageType);Console.WriteLine("*** 1 ***");
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);Console.WriteLine("*** 2***");
+            Assert.Equal((uint)100000, message.CertNo);Console.WriteLine("*** 3 ***");
+            Assert.Equal((uint)2019, message.DeathYear);Console.WriteLine("*** 4 ***");
+            Assert.Null(message.StateAuxiliaryId);Console.WriteLine("*** 5 ***");
+            Assert.Equal("2019AK100000", message.NCHSIdentifier);Console.WriteLine("*** 6 ***");
 
             Assert.Equal("I25.1", message.DeathRecord.AutomatedUnderlyingCOD);
             var recordAxisCodes = message.DeathRecord.RecordAxisCauseOfDeath;

@@ -59,7 +59,7 @@ namespace VRDR
             ije.SEX = "F";
             ije.SSN = "531869507";
             ije.AGETYPE = "1";
-            ije.AGE = "020";
+            ije.AGE = "021";
             ije.AGE_BYPASS = "0";
             ije.DOB_YR = "2002";
             ije.DOB_MO = "01";
@@ -145,7 +145,7 @@ namespace VRDR
             ije.SEX = "F";
             ije.SSN = "478151044";
             ije.AGETYPE = "1";
-            ije.AGE = "62";
+            ije.AGE = "063";
             ije.AGE_BYPASS = "0";
             ije.DOB_YR = "1960";
             ije.DOB_MO = "02";
@@ -237,7 +237,7 @@ namespace VRDR
             ije.SEX = "M";
             ije.SSN = "429471420";
             ije.AGETYPE = "2";
-            ije.AGE = "010";
+            ije.AGE = "002";
             ije.AGE_BYPASS = "0";
             ije.DOB_YR = "2021";
             ije.DOB_MO = "03";

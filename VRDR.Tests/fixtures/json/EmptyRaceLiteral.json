@@ -294,7 +294,7 @@
               {
                 "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator",
                 "valueCoding": {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "code": "U",
                   "display": "Unknown"
                 }
@@ -471,7 +471,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "code": "N",
               "display": "No"
             }
@@ -491,7 +491,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "code": "N",
                   "display": "No"
                 }
@@ -607,24 +607,6 @@
               "coding": [
                 {
                   "system": "http://loinc.org",
-                  "code": "69451-3",
-                  "display": "Transportation role of decedent"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct"
-                }
-              ]
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
                   "code": "69444-8",
                   "display": "Did death result from injury at work"
                 }
@@ -633,7 +615,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
                 }
               ]
             }
@@ -693,7 +675,7 @@
         "id": "ef1c2ce7-cb70-4e85-b5c2-8f614fbf9647",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+            "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
         "name": "BLANK",
@@ -1269,7 +1251,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "code": "U",
               "display": "Unknown"
             }
@@ -1314,7 +1296,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "code": "N",
                   "display": "No"
                 }
@@ -1334,7 +1316,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "code": "N",
                   "display": "No"
                 }
@@ -1354,7 +1336,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "code": "N",
                   "display": "No"
                 }
@@ -1374,7 +1356,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "code": "N",
                   "display": "No"
                 }

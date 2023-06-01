@@ -362,7 +362,7 @@
                             "id": "681ba1a7-9d4b-4b40-8ad2-db11a8bfe497",
                             "meta": {
                                 "profile": [
-                                    "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification"
+                                    "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
                                 ]
                             },
                             "status": "completed",
@@ -669,7 +669,7 @@
                                     },
                                     "valueCodeableConcept": {
                                         "coding": [{
-                                            "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                                            "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                                             "code": "N",
                                             "display": "No"
                                         }]
@@ -685,7 +685,7 @@
                                     },
                                     "valueCodeableConcept": {
                                         "coding": [{
-                                            "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                                            "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                                             "code": "N",
                                             "display": "No"
                                         }]
@@ -701,7 +701,7 @@
                                     },
                                     "valueCodeableConcept": {
                                         "coding": [{
-                                            "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                                            "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                                             "code": "N",
                                             "display": "No"
                                         }]
@@ -717,7 +717,7 @@
                                     },
                                     "valueCodeableConcept": {
                                         "coding": [{
-                                            "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                                            "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                                             "code": "N",
                                             "display": "No"
                                         }]
@@ -986,7 +986,7 @@
                             },
                             "valueCodeableConcept": {
                                 "coding": [{
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                                    "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                                     "code": "N",
                                     "display": "No"
                                 }]

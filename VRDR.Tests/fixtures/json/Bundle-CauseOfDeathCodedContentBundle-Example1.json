@@ -687,7 +687,7 @@
               "coding": [
                 {
                   "code": "N",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "No"
                 }
               ]
@@ -705,27 +705,6 @@
             },
             "valueCodeableConcept": {
               "text": "Home"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "69451-3",
-                  "system": "http://loinc.org",
-                  "display": "Transportation role of decedent"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "OTH",
-                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-                  "display": "Other"
-                }
-              ],
-              "text": "Hoverboard Rider"
             }
           }
         ],
@@ -978,7 +957,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
                   "display": "Yes"
                 }
               ]
@@ -992,7 +971,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
               "display": "Yes"
             }
           ]

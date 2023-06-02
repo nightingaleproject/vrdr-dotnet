@@ -3473,11 +3473,11 @@ namespace VRDR.Tests
         public void CheckConnectathonRecord1()
         {
             DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
-            Assert.Equal("20", dr1.AgeAtDeath["value"]);
+            Assert.Equal("21", dr1.AgeAtDeath["value"]);
             Assert.Equal("female", dr1.SexAtDeath["code"]);
             Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
-            Assert.Equal("020", ije.AGE);
+            Assert.Equal("021", ije.AGE);
             Assert.Equal("F", ije.SEX);
             Assert.Equal("531869507", ije.SSN);
             Assert.Equal("Hypoxemia", ije.COD1A.Trim());
@@ -3529,10 +3529,10 @@ namespace VRDR.Tests
         public void CheckConnectathonRecord2()
         {
             DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
-            Assert.Equal("62", dr1.AgeAtDeath["value"]);
+            Assert.Equal("63", dr1.AgeAtDeath["value"]);
             Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
-            Assert.Equal("062", ije.AGE);
+            Assert.Equal("063", ije.AGE);
             Assert.Equal("478151044", ije.SSN);
             Assert.Equal("", ije.HOWINJ.Trim());
             Assert.Equal("H", ije.DETHNIC2);
@@ -3746,7 +3746,7 @@ namespace VRDR.Tests
                 { "SEX", "F" },
                 { "SSN", "531869507" },
                 { "AGETYPE", "1" },
-                { "AGE", "020" },
+                { "AGE", "021" },
                 { "AGE_BYPASS", "0" },
                 { "DOB_YR", "2002" },
                 { "DOB_MO", "01" },

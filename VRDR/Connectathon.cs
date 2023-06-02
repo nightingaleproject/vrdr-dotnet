@@ -239,7 +239,7 @@ namespace VRDR
             ije.AGETYPE = "2";
             ije.AGE = "002";
             ije.AGE_BYPASS = "0";
-            ije.DOB_YR = "2021";
+            ije.DOB_YR = "2022";
             ije.DOB_MO = "03";
             ije.DOB_DY = "04";
             ije.BPLACE_CNT = "US";
@@ -282,7 +282,7 @@ namespace VRDR
             ije.OCCUP = "Infant";
             ije.INDUST = "Never Worked";
             ije.BCNO = "001023";
-            ije.IDOB_YR = "2021";
+            ije.IDOB_YR = "2022";
             ije.BSTATE = "CO";
             ije.MANNER = "P";
             ije.AUTOP = "U";

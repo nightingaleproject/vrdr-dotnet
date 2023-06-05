@@ -2,6 +2,12 @@
 
 ### v4.0.2 - 2023-06-05
 
+* Update ages in Connectathon.cs
+* Update ages and add test mothod CheckConnectathonRecord3() in DeathRecord_Should.cs
+
+
+### v4.0.1 - 2023-05-16
+
 * Syncs Connectathon test record generation code and example JSON and XML files with NCHS test plan changes
 * Syncs Race and Ethnicity Literal fields with latest VRDR IG build version and adds additional test cases
 * Add test cases for COD Coding Acknowledegement use case

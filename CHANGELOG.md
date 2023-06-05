@@ -3,7 +3,7 @@
 ### v4.0.2 - 2023-06-05
 
 * Update ages in Connectathon.cs
-* Update ages and add test mothod CheckConnectathonRecord3() in DeathRecord_Should.cs
+* Update ages and add test method CheckConnectathonRecord3() in DeathRecord_Should.cs
 
 
 ### v4.0.1 - 2023-05-16

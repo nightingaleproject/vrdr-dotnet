@@ -11,6 +11,7 @@
     * Remove Decedent Employment History
     * Change Mortician, Funeral Home Director, Funeral Service Licensee to us-core-practitioner
     * Change Related Party to us-core-organization
+    * Change Decendent Pregnancy to decedent-pregnancy-status
     * Change Cause of Death Condition to Cause of Death Part 1
     * Change Cause of Death Contributing Condition to Cause of Death Part 2
 

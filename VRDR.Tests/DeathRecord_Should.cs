@@ -3539,6 +3539,21 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CheckConnectathonRecord3()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.DavisLineberry();
+            Assert.Equal("2", dr1.AgeAtDeath["value"]);
+            Assert.Equal("male", dr1.SexAtDeath["code"]);
+            Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
+            IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
+            Assert.Equal("2", ije.AGE);
+            Assert.Equal("M", ije.SEX);
+            Assert.Equal("429471420", ije.SSN);
+            Assert.Equal("Pending", ije.COD1A.Trim());
+            Assert.Equal("N", ije.DETHNIC1);
+        }
+
+        [Fact]
         public void Test_GetCauseOfDeathCodedContentBundle()
         {
             Bundle bundle = DeathRecord1_JSON.GetCauseOfDeathCodedContentBundle();

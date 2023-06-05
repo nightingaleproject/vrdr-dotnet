@@ -1,6 +1,6 @@
 ## Changelog
 
-### v4.0.2 - 2023-05-16
+### v4.0.2 - 2023-06-05
 
 * Syncs Connectathon test record generation code and example JSON and XML files with NCHS test plan changes
 * Syncs Race and Ethnicity Literal fields with latest VRDR IG build version and adds additional test cases

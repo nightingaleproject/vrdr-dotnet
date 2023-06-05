@@ -4,14 +4,14 @@
 
 * Update ages in Connectathon.cs
 * Update ages and add test method CheckConnectathonRecord3() in DeathRecord_Should.cs
-* Remove Transport Role and its references
-* Remove Death Certificate Reference and its references
-* Remove Death Pronouncement Performer
-* Remove Decedent Employment History
-* Change Mortician, Funeral Home Director, Funeral Service Licensee to us-core-practitioner
-* Change Cause of Death Condition to Cause of Death Part 1
-* Change Cause of Death Contributing Condition to Cause of Death Part 2
-
+* Update and sync examples files (json and xml) with IG as follows:
+    * Remove Transport Role and its references
+    * Remove Death Certificate Reference and its references
+    * Remove Death Pronouncement Performer
+    * Remove Decedent Employment History
+    * Change Mortician, Funeral Home Director, Funeral Service Licensee to us-core-practitioner
+    * Change Cause of Death Condition to Cause of Death Part 1
+    * Change Cause of Death Contributing Condition to Cause of Death Part 2
 
 ### v4.0.1 - 2023-05-16
 

@@ -9,11 +9,12 @@
     * Remove Death Certificate Reference and its references
     * Remove Death Pronouncement Performer and its references
     * Remove Decedent Employment History and its references
+    * Remove Cause of Death Pathway and its references
     * Change Mortician, Funeral Home Director, Funeral Service Licensee to us-core-practitioner
-    * Change Related Party to us-core-organization
+    * Change Interested Party to us-core-organization
     * Change Decendent Pregnancy to decedent-pregnancy-status
     * Change Cause of Death Condition to Cause of Death Part 1
-    * Change Cause of Death Contributing Condition to Cause of Death Part 2
+    * Change Cause of Death Condition Contributing Death to Cause of Death Part 2
 
 ### v4.0.1 - 2023-05-16
 

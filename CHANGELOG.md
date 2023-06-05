@@ -7,8 +7,8 @@
 * Update and sync examples files (json and xml) with IG as follows:
     * Remove Transport Role and its references
     * Remove Death Certificate Reference and its references
-    * Remove Death Pronouncement Performer
-    * Remove Decedent Employment History
+    * Remove Death Pronouncement Performer and its references
+    * Remove Decedent Employment History and its references
     * Change Mortician, Funeral Home Director, Funeral Service Licensee to us-core-practitioner
     * Change Related Party to us-core-organization
     * Change Decendent Pregnancy to decedent-pregnancy-status

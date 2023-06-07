@@ -2179,7 +2179,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "Y");</para>
-            <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+            <para>code.Add("system", "http://terminology.hl7.org/ValueSet/v2-0136");</para>
             <para>code.Add("display", "Yes");</para>
             <para>ExampleDeathRecord.SpouseAlive = code;</para>
             <para>// Getter:</para>

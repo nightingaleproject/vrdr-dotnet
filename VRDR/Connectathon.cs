@@ -240,7 +240,7 @@ namespace VRDR
             ije.AGE = "002";
             ije.AGE_BYPASS = "0";
             ije.DOB_YR = "2023";
-            ije.DOB_MO = "03";
+            ije.DOB_MO = "01";
             ije.DOB_DY = "04";
             ije.BPLACE_CNT = "US";
             ije.BPLACE_ST = "CO";

@@ -885,7 +885,7 @@ namespace VRDR
         // /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
         // /// </example>
         // [Property("Certifier License Number", Property.Types.String, "Death Certification", "Certifier License Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 11)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "qualification")]
         // public string CertifierLicenseNumber
         // {
         //     get
@@ -3439,7 +3439,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "Y");</para>
-        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("system", "http://terminology.hl7.org/ValueSet/v2-0136");</para>
         /// <para>code.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.SpouseAlive = code;</para>
         /// <para>// Getter:</para>
@@ -4019,7 +4019,7 @@ namespace VRDR
         // /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
         // /// </example>
         // [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 96)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner')", "name")]
         // public string[] MorticianGivenNames
         // {
         //     get
@@ -4057,7 +4057,7 @@ namespace VRDR
         // /// <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
         // /// </example>
         // [Property("Mortician Family Name", Property.Types.String, "Decedent Disposition", "Family name of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 97)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner')", "name")]
         // public string MorticianFamilyName
         // {
         //     get
@@ -4095,7 +4095,7 @@ namespace VRDR
         // /// <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
         // /// </example>
         // [Property("Mortician Suffix", Property.Types.String, "Decedent Disposition", "Mortician's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 98)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "suffix")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner')", "suffix")]
         // public string MorticianSuffix
         // {
         //     get
@@ -4143,7 +4143,7 @@ namespace VRDR
         // [Property("Mortician Identifier", Property.Types.Dictionary, "Decedent Disposition", "Mortician Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 99)]
         // [PropertyParam("system", "The identifier system.")]
         // [PropertyParam("value", "The identifier value.")]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner')", "identifier")]
         // public Dictionary<string, string> MorticianIdentifier
         // {
         //     get
@@ -4180,7 +4180,7 @@ namespace VRDR
         //         Mortician = new Practitioner();
         //         Mortician.Id = Guid.NewGuid().ToString();
         //         Mortician.Meta = new Meta();
-        //         string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
+        //         string[] mortician_profile = { "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner" };
         //         Mortician.Meta.Profile = mortician_profile;
         //     }
         // }
@@ -4318,7 +4318,7 @@ namespace VRDR
         //             FuneralHomeDirector = new PractitionerRole();
         //             FuneralHomeDirector.Id = Guid.NewGuid().ToString();
         //             FuneralHomeDirector.Meta = new Meta();
-        //             string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
+        //             string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner" };
         //             FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
         //             AddReferenceToComposition(FuneralHomeDirector.Id);
         //             Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);

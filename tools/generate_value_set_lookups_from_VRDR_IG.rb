@@ -95,6 +95,7 @@ valuesets = {
     "ValueSet-vrdr-pregnancy-status-vs.json" => "PregnancyStatus",
     "ValueSet-vrdr-race-missing-value-reason-vs.json" => "RaceMissingValueReason",
     "ValueSet-vrdr-replace-status-vs.json" => "ReplaceStatus",
+    "ValueSet-vrdr-transportation-incident-role-vs.json" => "TransportationIncidentRole",
     "ValueSet-vrdr-units-of-age-vs.json" => "UnitsOfAge",
     "ValueSet-vrdr-yes-no-unknown-not-applicable-vs.json" => "YesNoUnknownNotApplicable",
     "ValueSet-vrdr-yes-no-unknown-vs.json" => "YesNoUnknown",

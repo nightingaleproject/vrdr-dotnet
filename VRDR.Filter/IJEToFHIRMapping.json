@@ -530,6 +530,9 @@
   "HOWINJ": [
     "InjuryDescription"
   ],
+  "TRANSPRT": [
+    "TransportationRole"
+  ],
   "COUNTYTEXT_I": [
     "InjuryLocationAddress.addressCounty"
   ],

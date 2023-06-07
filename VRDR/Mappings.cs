@@ -3107,7 +3107,24 @@ namespace VRDR
                 { "6", "6" },
             };
         }
-
+        /// <summary>Mappings for TransportationIncidentRole</summary>
+        public static class TransportationIncidentRole
+        {
+            /// <summary>IJE -> FHIR Mapping for TransportationIncidentRole</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "DR", "236320001" },
+                { "PA", "257500003" },
+                { "PE", "257518000" },
+            };
+            /// <summary>FHIR -> IJE Mapping for TransportationIncidentRole</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "236320001", "DR" },
+                { "257500003", "PA" },
+                { "257518000", "PE" },
+            };
+        }
         /// <summary>Mappings for UnitsOfAge</summary>
         public static class UnitsOfAge
         {

@@ -3963,6 +3963,37 @@ namespace VRDR
                 }
             }
         }
+        /// <summary>If Transportation Accident, Specify</summary>
+        [IJEField(175, 2409, 30, "If Transportation Accident, Specify", "TRANSPRT", 1)]
+        public string TRANSPRT
+        {
+            get
+            {
+                var ret = record.TransportationRoleHelper;
+                if (ret != null && Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(ret))
+                {
+                    return Get_MappingFHIRToIJE(Mappings.TransportationIncidentRole.FHIRToIJE, "TransportationRole", "TRANSPRT");
+                }
+                else
+                {
+                    return ret;  // If the return value is not a code, it is just an arbitrary string, so return it.
+                }
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    if (Mappings.TransportationIncidentRole.IJEToFHIR.ContainsKey(value.Split(' ')[0]))
+                    {
+                        Set_MappingIJEToFHIR(Mappings.TransportationIncidentRole.IJEToFHIR, "TRANSPRT", "TransportationRole", value.Trim());
+                    }
+                    else
+                    {
+                        record.TransportationRoleHelper = value;   // If the value is not a valid code, it is just an arbitrary string.  The helper will deal with it.
+                    }
+                }
+            }
+        }
 
         /// <summary>County of Injury - literal</summary>
         [IJEField(176, 2439, 28, "County of Injury - literal", "COUNTYTEXT_I", 1)]

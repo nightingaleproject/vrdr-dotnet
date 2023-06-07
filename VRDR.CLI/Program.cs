@@ -354,6 +354,13 @@ namespace VRDR.CLI
                 ps.Add("display", "not applicable");
                 deathRecord.PregnancyStatus = ps;
 
+		// TransportationRole
+                Dictionary<string, string> tr = new Dictionary<string, string>();
+                tr.Add("code", "257500003");
+                tr.Add("system", "http://snomed.info/sct");
+                tr.Add("display", "Passenger");
+                deathRecord.TransportationRole = tr;
+
                 // ExaminerContacted
                 deathRecord.ExaminerContactedHelper = "N";
 
@@ -970,7 +977,7 @@ namespace VRDR.CLI
                     ije2.DSTATE = record2.DeathRecordIdentifier.Substring(4, 2);
                     ije2.FILENO = record2.DeathRecordIdentifier.Substring(6, 6);
                     string[] ijeonlyfields = new String[] { "AUXNO2", "POILITRL", "HOWINJ", "TRANSPRT", "COD1A", "INTERVAL1A", "COD1B", "INTERVAL1B", "OTHERCONDITION", "CERTDATE", "SUR_YR", "SUR_MO", "SUR_DY" };
-                    return (CompareIJEtoIJE(ije1, "TRX", ije2, "JSON", ijeonlyfields));
+ 		    return (CompareIJEtoIJE(ije1, "TRX", ije2, "JSON", ijeonlyfields));
                 }
                 else
                 {

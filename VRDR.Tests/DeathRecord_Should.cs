@@ -2541,6 +2541,41 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_TransportationRole()
+        {
+            SetterDeathRecord.TransportationRoleHelper = ValueSets.TransportationIncidentRole.Passenger;
+            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, SetterDeathRecord.TransportationRole["code"]);
+            Assert.Equal(CodeSystems.SCT, SetterDeathRecord.TransportationRole["system"]);
+            Assert.Equal("Passenger", SetterDeathRecord.TransportationRole["display"]);
+            SetterDeathRecord.DeathLocationJurisdiction = "MA";
+            IJEMortality ije1 = new IJEMortality(SetterDeathRecord);
+            Assert.Equal("PA", ije1.TRANSPRT);
+            ije1.TRANSPRT = "PAP";
+            Assert.Equal("PAP", ije1.TRANSPRT);
+            DeathRecord d = ije1.ToDeathRecord();
+            IJEMortality ije2 = new IJEMortality(d);
+            Assert.Equal("PAP", ije2.TRANSPRT);
+            SetterDeathRecord.TransportationRoleHelper = "Hover Board Rider";
+            Assert.Equal("Hover Board Rider", SetterDeathRecord.TransportationRoleHelper);
+            Assert.Equal("Hover Board Rider", SetterDeathRecord.TransportationRole["text"]);
+            Assert.Equal("OTH", SetterDeathRecord.TransportationRole["code"]);
+            Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.TransportationRole["system"]);
+            Assert.Equal("Other", SetterDeathRecord.TransportationRole["display"]);
+        }
+
+        [Fact]
+        public void Get_TransportationRole()
+        {
+            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, DeathRecord1_JSON.TransportationRole["code"]);
+            Assert.Equal(ValueSets.TransportationIncidentRole.Pedestrian, DeathCertificateDocument2_JSON.TransportationRoleHelper);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_JSON.TransportationRole["system"]);
+            Assert.Equal("Passenger", DeathRecord1_JSON.TransportationRole["display"]);
+            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, DeathRecord1_XML.TransportationRole["code"]);
+            Assert.Equal(CodeSystems.SCT, DeathRecord1_XML.TransportationRole["system"]);
+            Assert.Equal("Passenger", DeathRecord1_XML.TransportationRole["display"]);
+        }
+
+        [Fact]
         public void Set_ExaminerContacted()
         {
             Dictionary<string, string> ec = new Dictionary<string, string>();

@@ -404,6 +404,30 @@ namespace VRDR
             /// <summary> Updated_Record_Not_For_Nchs </summary>
             public static string  Updated_Record_Not_For_Nchs = "updated_notforNCHS";
         };
+        /// <summary> TransportationIncidentRole </summary>
+        public static class TransportationIncidentRole {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "236320001", "Vehicle driver", VRDR.CodeSystems.SCT },
+                { "257500003", "Passenger", VRDR.CodeSystems.SCT },
+                { "257518000", "Pedestrian", VRDR.CodeSystems.SCT },
+                { "OTH", "Other", VRDR.CodeSystems.NullFlavor_HL7_V3 },
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 },
+                { "NA", "not applicable", VRDR.CodeSystems.NullFlavor_HL7_V3 }
+            };
+            /// <summary> Vehicle_Driver </summary>
+            public static string  Vehicle_Driver = "236320001";
+            /// <summary> Passenger </summary>
+            public static string  Passenger = "257500003";
+            /// <summary> Pedestrian </summary>
+            public static string  Pedestrian = "257518000";
+            /// <summary> Other </summary>
+            public static string  Other = "OTH";
+            /// <summary> Unknown </summary>
+            public static string  Unknown = "UNK";
+            /// <summary> Not_Applicable </summary>
+            public static string  Not_Applicable = "NA";
+        };
         /// <summary> UnitsOfAge </summary>
         public static class UnitsOfAge {
             /// <summary> Codes </summary>

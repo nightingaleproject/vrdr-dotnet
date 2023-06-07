@@ -1522,6 +1522,22 @@
           <code>
             <coding>
               <system value="http://loinc.org" />
+	      <code value="69451-3" />
+              <display value="Transportation role of decedent" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://snomed.info/sct" />
+              <code value="257500003" />
+              <display value="Passenger" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
               <code value="69450-5" />
               <display value="Place of injury Facility" />
             </coding>

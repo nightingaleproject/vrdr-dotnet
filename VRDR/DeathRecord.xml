@@ -3218,6 +3218,36 @@
             <para>Console.WriteLine($"Injury At Work? : {ExampleDeathRecord.InjuryAtWorkHelper}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.TransportationRole">
+            <summary>Transportation Role in death.</summary>
+            <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "257500003");</para>
+            <para>code.Add("system", CodeSystems.SCT);</para>
+            <para>code.Add("display", "Passenger");</para>
+            <para>ExampleDeathRecord.TransportationRole = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.TransportationRoleHelper">
+            <summary>Transportation Role in death helper.</summary>
+            <value>transportation code for role in death.
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.TransportationRoleHelper = VRDR.TransportationRoles.Passenger;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRoleHelper");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.TobaccoUse">
             <summary>Tobacco Use Contributed To Death.</summary>
             <value>if tobacco use contributed to death. A Dictionary representing a code, containing the following key/value pairs:
@@ -4175,6 +4205,9 @@
         <member name="P:VRDR.IJEMortality.HOWINJ">
             <summary>Describe How Injury Occurred</summary>
         </member>
+        <member name="P:VRDR.IJEMortality.TRANSPRT">
+            <summary>If Transportation Accident, Specify</summary>
+        </member>
         <member name="P:VRDR.IJEMortality.COUNTYTEXT_I">
             <summary>County of Injury - literal</summary>
         </member>
@@ -4663,6 +4696,15 @@
         </member>
         <member name="F:VRDR.Mappings.TransaxConversion.FHIRToIJE">
             <summary>FHIR -> IJE Mapping for TransaxConversion</summary>
+        </member>
+        <member name="T:VRDR.Mappings.TransportationIncidentRole">
+            <summary>Mappings for TransportationIncidentRole</summary>
+        </member>
+        <member name="F:VRDR.Mappings.TransportationIncidentRole.IJEToFHIR">
+            <summary>IJE -> FHIR Mapping for TransportationIncidentRole</summary>
+        </member>
+        <member name="F:VRDR.Mappings.TransportationIncidentRole.FHIRToIJE">
+            <summary>FHIR -> IJE Mapping for TransportationIncidentRole</summary>
         </member>
         <member name="T:VRDR.Mappings.UnitsOfAge">
             <summary>Mappings for UnitsOfAge</summary>
@@ -5719,6 +5761,30 @@
         </member>
         <member name="F:VRDR.ValueSets.ReplaceStatus.Updated_Record_Not_For_Nchs">
             <summary> Updated_Record_Not_For_Nchs </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.TransportationIncidentRole">
+            <summary> TransportationIncidentRole </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationIncidentRole.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationIncidentRole.Vehicle_Driver">
+            <summary> Vehicle_Driver </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationIncidentRole.Passenger">
+            <summary> Passenger </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationIncidentRole.Pedestrian">
+            <summary> Pedestrian </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationIncidentRole.Other">
+            <summary> Other </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationIncidentRole.Unknown">
+            <summary> Unknown </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationIncidentRole.Not_Applicable">
+            <summary> Not_Applicable </summary>
         </member>
         <member name="T:VRDR.ValueSets.UnitsOfAge">
             <summary> UnitsOfAge </summary>

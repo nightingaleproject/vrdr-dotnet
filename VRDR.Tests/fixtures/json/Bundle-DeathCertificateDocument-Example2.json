@@ -1496,6 +1496,26 @@
             "valueCodeableConcept": {
               "text": "Home"
             }
+          },
+	  {
+            "code": {
+              "coding": [
+                {
+                  "code": "69451-3",
+                  "system": "http://loinc.org",
+                  "display": "Transportation role of decedent"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "257518000",
+                  "system": "http://snomed.info/sct",
+                  "display": "Pedestrian"
+                }
+              ]
+            }
           }
         ],
         "subject": {

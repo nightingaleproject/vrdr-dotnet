@@ -4958,9 +4958,6 @@
         <member name="F:VRDR.ProfileURL.DecedentMilitaryService">
             <summary>URL for DecedentMilitaryService</summary>
         </member>
-        <member name="F:VRDR.ProfileURL.CauseOfDeathPathway">
-            <summary>URL for CauseOfDeathPathway</summary>
-        </member>
         <member name="F:VRDR.ProfileURL.TobaccoUseContributedToDeath">
             <summary>URL for TobaccoUseContributedToDeath</summary>
         </member>

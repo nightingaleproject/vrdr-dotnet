@@ -354,7 +354,7 @@ namespace VRDR.CLI
                 ps.Add("display", "not applicable");
                 deathRecord.PregnancyStatus = ps;
 
-		// TransportationRole
+		        // TransportationRole
                 Dictionary<string, string> tr = new Dictionary<string, string>();
                 tr.Add("code", "257500003");
                 tr.Add("system", "http://snomed.info/sct");

@@ -1,5 +1,10 @@
 ## Changelog
 
+### v4.0.3 - 2023-06-07
+
+* Update birth month for test record #3 in Connectathon.cs
+* Revert change to remove transportation role component on injury incident
+
 ### v4.0.2 - 2023-06-05
 
 * Update ages in Connectathon.cs

@@ -289,6 +289,8 @@ Contents</h2>
 <li><a class="el" href="md__v_r_d_r__death_record.html#P-VRDR-DeathRecord-TobaccoUseHelper">TobaccoUseHelper</a></li>
 <li><a class="el" href="md__v_r_d_r__death_record.html#P-VRDR-DeathRecord-TransaxConversion">TransaxConversion</a></li>
 <li><a class="el" href="md__v_r_d_r__death_record.html#P-VRDR-DeathRecord-TransaxConversionHelper">TransaxConversionHelper</a></li>
+<li><a class="el" href="md__v_r_d_r__death_record.html#P-VRDR-DeathRecord-TransportationRole">TransportationRole</a></li>
+<li><a class="el" href="md__v_r_d_r__death_record.html#P-VRDR-DeathRecord-TransportationRoleHelper">TransportationRoleHelper</a></li>
 <li><a class="el" href="md__v_r_d_r__death_record.html#P-VRDR-DeathRecord-UsualIndustry">UsualIndustry</a></li>
 <li><a class="el" href="md__v_r_d_r__death_record.html#P-VRDR-DeathRecord-UsualOccupation">UsualOccupation</a></li>
 <li><a class="el" href="md__v_r_d_r__death_record.html#M-VRDR-DeathRecord-ToDescription">ToDescription()</a></li>
@@ -2965,1454 +2967,1478 @@ TransaxConversionHelper &lt;tt&gt;property&lt;/tt&gt;</h3>
 <p >ExampleDeathRecord.TransaxConversionHelper = ValueSets.TransaxConversion.Conversion_Using_Non_Ambivalent_Table_Entries;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Filing Format: {ExampleDeathRecord.TransaxConversionHelper}");</p>
-<p ><a class="anchor" id="P-VRDR-DeathRecord-UsualIndustry"></a> </p>
+<p ><a class="anchor" id="P-VRDR-DeathRecord-TransportationRole"></a> </p>
 <h3><a class="anchor" id="autotoc_md727"></a>
-UsualIndustry &lt;tt&gt;property&lt;/tt&gt;</h3>
+TransportationRole &lt;tt&gt;property&lt;/tt&gt;</h3>
 <p ><a class="anchor" id="autotoc_md728"></a> </p><h5>Summary</h5>
-<p >Decedent's Usual Industry (Text).</p>
+<p >Transportation Role in death.</p>
 <p ><a class="anchor" id="autotoc_md729"></a> </p><h5>Example</h5>
+<p >// Setter:</p>
+<p >Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</p>
+<p >code.Add("code", "257500003");</p>
+<p >code.Add("system", CodeSystems.SCT);</p>
+<p >code.Add("display", "Passenger");</p>
+<p >ExampleDeathRecord.TransportationRole = code;</p>
+<p >// Getter:</p>
+<p >Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</p>
+<p ><a class="anchor" id="P-VRDR-DeathRecord-TransportationRoleHelper"></a> </p>
+<h3><a class="anchor" id="autotoc_md730"></a>
+TransportationRoleHelper &lt;tt&gt;property&lt;/tt&gt;</h3>
+<p ><a class="anchor" id="autotoc_md731"></a> </p><h5>Summary</h5>
+<p >Transportation Role in death helper.</p>
+<p ><a class="anchor" id="autotoc_md732"></a> </p><h5>Example</h5>
+<p >// Setter:</p>
+<p >ExampleDeathRecord.TransportationRoleHelper = VRDR.TransportationRoles.Passenger;</p>
+<p >// Getter:</p>
+<p >Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRoleHelper");</p>
+<p ><a class="anchor" id="P-VRDR-DeathRecord-UsualIndustry"></a> </p>
+<h3><a class="anchor" id="autotoc_md733"></a>
+UsualIndustry &lt;tt&gt;property&lt;/tt&gt;</h3>
+<p ><a class="anchor" id="autotoc_md734"></a> </p><h5>Summary</h5>
+<p >Decedent's Usual Industry (Text).</p>
+<p ><a class="anchor" id="autotoc_md735"></a> </p><h5>Example</h5>
 <p >// Setter:</p>
 <p >ExampleDeathRecord.UsualIndustry = "Accounting";</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry}");</p>
 <p ><a class="anchor" id="P-VRDR-DeathRecord-UsualOccupation"></a> </p>
-<h3><a class="anchor" id="autotoc_md730"></a>
+<h3><a class="anchor" id="autotoc_md736"></a>
 UsualOccupation &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md731"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md737"></a> </p><h5>Summary</h5>
 <p >Decedent's Usual Occupation.</p>
-<p ><a class="anchor" id="autotoc_md732"></a> </p><h5>Example</h5>
+<p ><a class="anchor" id="autotoc_md738"></a> </p><h5>Example</h5>
 <p >// Setter:</p>
 <p >ExampleDeathRecord.UsualOccupation = "Biomedical engineering";</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation}");</p>
 <p ><a class="anchor" id="M-VRDR-DeathRecord-GetBundle"></a> </p>
-<h3><a class="anchor" id="autotoc_md733"></a>
+<h3><a class="anchor" id="autotoc_md739"></a>
 GetBundle() &lt;tt&gt;method&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md734"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md740"></a> </p><h5>Summary</h5>
 <p >Helper method to return a the bundle.</p>
-<p ><a class="anchor" id="autotoc_md735"></a> </p><h5>Returns</h5>
+<p ><a class="anchor" id="autotoc_md741"></a> </p><h5>Returns</h5>
 <p >a FHIR Bundle</p>
-<p ><a class="anchor" id="autotoc_md736"></a> </p><h5>Parameters</h5>
+<p ><a class="anchor" id="autotoc_md742"></a> </p><h5>Parameters</h5>
 <p >This method has no parameters.</p>
 <p ><a class="anchor" id="M-VRDR-DeathRecord-GetCauseOfDeathCodedContentBundle"></a> </p>
-<h3><a class="anchor" id="autotoc_md737"></a>
+<h3><a class="anchor" id="autotoc_md743"></a>
 GetCauseOfDeathCodedContentBundle() &lt;tt&gt;method&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md738"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md744"></a> </p><h5>Summary</h5>
 <p >Helper method to return the subset of this record that makes up a CauseOfDeathCodedContent bundle.</p>
-<p ><a class="anchor" id="autotoc_md739"></a> </p><h5>Returns</h5>
+<p ><a class="anchor" id="autotoc_md745"></a> </p><h5>Returns</h5>
 <p >a new FHIR Bundle</p>
-<p ><a class="anchor" id="autotoc_md740"></a> </p><h5>Parameters</h5>
+<p ><a class="anchor" id="autotoc_md746"></a> </p><h5>Parameters</h5>
 <p >This method has no parameters.</p>
 <p ><a class="anchor" id="M-VRDR-DeathRecord-GetDeathCertificateDocumentBundle"></a> </p>
-<h3><a class="anchor" id="autotoc_md741"></a>
+<h3><a class="anchor" id="autotoc_md747"></a>
 GetDeathCertificateDocumentBundle() &lt;tt&gt;method&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md742"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md748"></a> </p><h5>Summary</h5>
 <p >Helper method to return the bundle that makes up a CauseOfDeathCodedContent bundle. This is actually the complete DeathRecord Bundle accessible via a method name that aligns with the other specific GetBundle methods (GetCauseOfDeathCodedContentBundle and GetDemographicCodedContentBundle).</p>
-<p ><a class="anchor" id="autotoc_md743"></a> </p><h5>Returns</h5>
+<p ><a class="anchor" id="autotoc_md749"></a> </p><h5>Returns</h5>
 <p >a FHIR Bundle</p>
-<p ><a class="anchor" id="autotoc_md744"></a> </p><h5>Parameters</h5>
+<p ><a class="anchor" id="autotoc_md750"></a> </p><h5>Parameters</h5>
 <p >This method has no parameters.</p>
 <p ><a class="anchor" id="M-VRDR-DeathRecord-GetDemographicCodedContentBundle"></a> </p>
-<h3><a class="anchor" id="autotoc_md745"></a>
+<h3><a class="anchor" id="autotoc_md751"></a>
 GetDemographicCodedContentBundle() &lt;tt&gt;method&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md746"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md752"></a> </p><h5>Summary</h5>
 <p >Helper method to return the subset of this record that makes up a DemographicCodedContent bundle.</p>
-<p ><a class="anchor" id="autotoc_md747"></a> </p><h5>Returns</h5>
+<p ><a class="anchor" id="autotoc_md753"></a> </p><h5>Returns</h5>
 <p >a new FHIR Bundle</p>
-<p ><a class="anchor" id="autotoc_md748"></a> </p><h5>Parameters</h5>
+<p ><a class="anchor" id="autotoc_md754"></a> </p><h5>Parameters</h5>
 <p >This method has no parameters.</p>
 <p ><a class="anchor" id="M-VRDR-DeathRecord-ToDescription"></a> </p>
-<h3><a class="anchor" id="autotoc_md749"></a>
+<h3><a class="anchor" id="autotoc_md755"></a>
 ToDescription() &lt;tt&gt;method&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md750"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md756"></a> </p><h5>Summary</h5>
 <p >Returns a JSON encoded structure that maps to the various property annotations found in the DeathRecord class. This is useful for scenarios where you may want to display the data in user interfaces.</p>
-<p ><a class="anchor" id="autotoc_md751"></a> </p><h5>Returns</h5>
+<p ><a class="anchor" id="autotoc_md757"></a> </p><h5>Returns</h5>
 <p >a string representation of this Death Record in a descriptive format.</p>
-<p ><a class="anchor" id="autotoc_md752"></a> </p><h5>Parameters</h5>
+<p ><a class="anchor" id="autotoc_md758"></a> </p><h5>Parameters</h5>
 <p >This method has no parameters.</p>
 <p ><a class="anchor" id="M-VRDR-DeathRecord-ToJSON"></a> </p>
-<h3><a class="anchor" id="autotoc_md753"></a>
+<h3><a class="anchor" id="autotoc_md759"></a>
 ToJSON() &lt;tt&gt;method&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md754"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md760"></a> </p><h5>Summary</h5>
 <p >Helper method to return a JSON string representation of this Death Record.</p>
-<p ><a class="anchor" id="autotoc_md755"></a> </p><h5>Returns</h5>
+<p ><a class="anchor" id="autotoc_md761"></a> </p><h5>Returns</h5>
 <p >a string representation of this Death Record in JSON format</p>
-<p ><a class="anchor" id="autotoc_md756"></a> </p><h5>Parameters</h5>
+<p ><a class="anchor" id="autotoc_md762"></a> </p><h5>Parameters</h5>
 <p >This method has no parameters.</p>
 <p ><a class="anchor" id="M-VRDR-DeathRecord-ToJson"></a> </p>
-<h3><a class="anchor" id="autotoc_md757"></a>
+<h3><a class="anchor" id="autotoc_md763"></a>
 ToJson() &lt;tt&gt;method&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md758"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md764"></a> </p><h5>Summary</h5>
 <p >Helper method to return a JSON string representation of this Death Record.</p>
-<p ><a class="anchor" id="autotoc_md759"></a> </p><h5>Returns</h5>
+<p ><a class="anchor" id="autotoc_md765"></a> </p><h5>Returns</h5>
 <p >a string representation of this Death Record in JSON format</p>
-<p ><a class="anchor" id="autotoc_md760"></a> </p><h5>Parameters</h5>
+<p ><a class="anchor" id="autotoc_md766"></a> </p><h5>Parameters</h5>
 <p >This method has no parameters.</p>
 <p ><a class="anchor" id="M-VRDR-DeathRecord-ToXML"></a> </p>
-<h3><a class="anchor" id="autotoc_md761"></a>
+<h3><a class="anchor" id="autotoc_md767"></a>
 ToXML() &lt;tt&gt;method&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md762"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md768"></a> </p><h5>Summary</h5>
 <p >Helper method to return a XML string representation of this Death Record.</p>
-<p ><a class="anchor" id="autotoc_md763"></a> </p><h5>Returns</h5>
+<p ><a class="anchor" id="autotoc_md769"></a> </p><h5>Returns</h5>
 <p >a string representation of this Death Record in XML format</p>
-<p ><a class="anchor" id="autotoc_md764"></a> </p><h5>Parameters</h5>
+<p ><a class="anchor" id="autotoc_md770"></a> </p><h5>Parameters</h5>
 <p >This method has no parameters.</p>
 <p ><a class="anchor" id="M-VRDR-DeathRecord-ToXml"></a> </p>
-<h3><a class="anchor" id="autotoc_md765"></a>
+<h3><a class="anchor" id="autotoc_md771"></a>
 ToXml() &lt;tt&gt;method&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md766"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md772"></a> </p><h5>Summary</h5>
 <p >Helper method to return a XML string representation of this Death Record.</p>
-<p ><a class="anchor" id="autotoc_md767"></a> </p><h5>Returns</h5>
+<p ><a class="anchor" id="autotoc_md773"></a> </p><h5>Returns</h5>
 <p >a string representation of this Death Record in XML format</p>
-<p ><a class="anchor" id="autotoc_md768"></a> </p><h5>Parameters</h5>
+<p ><a class="anchor" id="autotoc_md774"></a> </p><h5>Parameters</h5>
 <p >This method has no parameters.</p>
 <p ><a class="anchor" id="T-VRDR-IJEMortality"></a> </p>
-<h2><a class="anchor" id="autotoc_md769"></a>
+<h2><a class="anchor" id="autotoc_md775"></a>
 IJEMortality &lt;tt&gt;type&lt;/tt&gt;</h2>
-<p ><a class="anchor" id="autotoc_md770"></a> </p><h5>Namespace</h5>
+<p ><a class="anchor" id="autotoc_md776"></a> </p><h5>Namespace</h5>
 <p ><a class="el" href="namespace_v_r_d_r.html">VRDR</a></p>
-<p ><a class="anchor" id="autotoc_md771"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md777"></a> </p><h5>Summary</h5>
 <p >A "wrapper" class to convert between a FHIR based <code>DeathRecord</code> and a record in IJE Mortality format. Each property of this class corresponds exactly with a field in the IJE Mortality format. The getters convert from the embedded FHIR based <code>DeathRecord</code> to the IJE format for a specific field, and the setters convert from IJE format for a specific field and set that value on the embedded FHIR based <code>DeathRecord</code>.</p>
 <p ><a class="anchor" id="M-VRDR-IJEMortality-#ctor-VRDR-DeathRecord,System-Boolean-"></a> </p>
-<h3><a class="anchor" id="autotoc_md772"></a>
-#ctor() &lt;tt&gt;constructor&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md773"></a> </p><h5>Summary</h5>
-<p >Constructor that takes a <code>DeathRecord</code>.</p>
-<p ><a class="anchor" id="autotoc_md774"></a> </p><h5>Parameters</h5>
-<p >This constructor has no parameters.</p>
-<p ><a class="anchor" id="M-VRDR-IJEMortality-#ctor-System-String,System-Boolean-"></a> </p>
-<h3><a class="anchor" id="autotoc_md775"></a>
-#ctor() &lt;tt&gt;constructor&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md776"></a> </p><h5>Summary</h5>
-<p >Constructor that takes an IJE string and builds a corresponding internal <code>DeathRecord</code>.</p>
-<p ><a class="anchor" id="autotoc_md777"></a> </p><h5>Parameters</h5>
-<p >This constructor has no parameters.</p>
-<p ><a class="anchor" id="M-VRDR-IJEMortality-#ctor"></a> </p>
 <h3><a class="anchor" id="autotoc_md778"></a>
 #ctor() &lt;tt&gt;constructor&lt;/tt&gt;</h3>
 <p ><a class="anchor" id="autotoc_md779"></a> </p><h5>Summary</h5>
-<p >Constructor that creates a completely empty record for constructing records using the IJE properties.</p>
+<p >Constructor that takes a <code>DeathRecord</code>.</p>
 <p ><a class="anchor" id="autotoc_md780"></a> </p><h5>Parameters</h5>
 <p >This constructor has no parameters.</p>
-<p ><a class="anchor" id="F-VRDR-IJEMortality-dataLookup"></a> </p>
+<p ><a class="anchor" id="M-VRDR-IJEMortality-#ctor-System-String,System-Boolean-"></a> </p>
 <h3><a class="anchor" id="autotoc_md781"></a>
-dataLookup &lt;tt&gt;constants&lt;/tt&gt;</h3>
+#ctor() &lt;tt&gt;constructor&lt;/tt&gt;</h3>
 <p ><a class="anchor" id="autotoc_md782"></a> </p><h5>Summary</h5>
+<p >Constructor that takes an IJE string and builds a corresponding internal <code>DeathRecord</code>.</p>
+<p ><a class="anchor" id="autotoc_md783"></a> </p><h5>Parameters</h5>
+<p >This constructor has no parameters.</p>
+<p ><a class="anchor" id="M-VRDR-IJEMortality-#ctor"></a> </p>
+<h3><a class="anchor" id="autotoc_md784"></a>
+#ctor() &lt;tt&gt;constructor&lt;/tt&gt;</h3>
+<p ><a class="anchor" id="autotoc_md785"></a> </p><h5>Summary</h5>
+<p >Constructor that creates a completely empty record for constructing records using the IJE properties.</p>
+<p ><a class="anchor" id="autotoc_md786"></a> </p><h5>Parameters</h5>
+<p >This constructor has no parameters.</p>
+<p ><a class="anchor" id="F-VRDR-IJEMortality-dataLookup"></a> </p>
+<h3><a class="anchor" id="autotoc_md787"></a>
+dataLookup &lt;tt&gt;constants&lt;/tt&gt;</h3>
+<p ><a class="anchor" id="autotoc_md788"></a> </p><h5>Summary</h5>
 <p >IJE data lookup helper. Thread-safe singleton!</p>
 <p ><a class="anchor" id="F-VRDR-IJEMortality-mre"></a> </p>
-<h3><a class="anchor" id="autotoc_md783"></a>
+<h3><a class="anchor" id="autotoc_md789"></a>
 mre &lt;tt&gt;constants&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md784"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md790"></a> </p><h5>Summary</h5>
 <p >Utility location to provide support for setting MRE-only fields that have no mapping in IJE when creating coding response records</p>
 <p ><a class="anchor" id="F-VRDR-IJEMortality-record"></a> </p>
-<h3><a class="anchor" id="autotoc_md785"></a>
+<h3><a class="anchor" id="autotoc_md791"></a>
 record &lt;tt&gt;constants&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md786"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md792"></a> </p><h5>Summary</h5>
 <p >FHIR based death record.</p>
 <p ><a class="anchor" id="F-VRDR-IJEMortality-trx"></a> </p>
-<h3><a class="anchor" id="autotoc_md787"></a>
+<h3><a class="anchor" id="autotoc_md793"></a>
 trx &lt;tt&gt;constants&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md788"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md794"></a> </p><h5>Summary</h5>
 <p >Utility location to provide support for setting TRX-only fields that have no mapping in IJE when creating coding response records</p>
 <p ><a class="anchor" id="F-VRDR-IJEMortality-validationErrors"></a> </p>
-<h3><a class="anchor" id="autotoc_md789"></a>
+<h3><a class="anchor" id="autotoc_md795"></a>
 validationErrors &lt;tt&gt;constants&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md790"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md796"></a> </p><h5>Summary</h5>
 <p >Validation errors encountered while converting a record</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-ACME_UC"></a> </p>
-<h3><a class="anchor" id="autotoc_md791"></a>
+<h3><a class="anchor" id="autotoc_md797"></a>
 ACME_UC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md792"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md798"></a> </p><h5>Summary</h5>
 <p >ACME Underlying Cause</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-ADDRESS_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md793"></a>
+<h3><a class="anchor" id="autotoc_md799"></a>
 ADDRESS_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md794"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md800"></a> </p><h5>Summary</h5>
 <p >Long String address for place of death</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-ADDRESS_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md795"></a>
+<h3><a class="anchor" id="autotoc_md801"></a>
 ADDRESS_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md796"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md802"></a> </p><h5>Summary</h5>
 <p >Long string address for decedent's place of residence same as above but allows states to choose the way they capture information.</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-AGE"></a> </p>
-<h3><a class="anchor" id="autotoc_md797"></a>
+<h3><a class="anchor" id="autotoc_md803"></a>
 AGE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md798"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md804"></a> </p><h5>Summary</h5>
 <p >Decedent's Age&ndash;Units</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-AGETYPE"></a> </p>
-<h3><a class="anchor" id="autotoc_md799"></a>
+<h3><a class="anchor" id="autotoc_md805"></a>
 AGETYPE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md800"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md806"></a> </p><h5>Summary</h5>
 <p >Decedent's Age&ndash;Type</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-AGE_BYPASS"></a> </p>
-<h3><a class="anchor" id="autotoc_md801"></a>
+<h3><a class="anchor" id="autotoc_md807"></a>
 AGE_BYPASS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md802"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md808"></a> </p><h5>Summary</h5>
 <p >Decedent's Age&ndash;Edit Flag</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-ALIAS"></a> </p>
-<h3><a class="anchor" id="autotoc_md803"></a>
+<h3><a class="anchor" id="autotoc_md809"></a>
 ALIAS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md804"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md810"></a> </p><h5>Summary</h5>
 <p >Decedent's Legal Name&ndash;Alias</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-ARMEDF"></a> </p>
-<h3><a class="anchor" id="autotoc_md805"></a>
+<h3><a class="anchor" id="autotoc_md811"></a>
 ARMEDF &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md806"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md812"></a> </p><h5>Summary</h5>
 <p >Decedent ever served in Armed Forces?</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-AUTOP"></a> </p>
-<h3><a class="anchor" id="autotoc_md807"></a>
+<h3><a class="anchor" id="autotoc_md813"></a>
 AUTOP &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md808"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md814"></a> </p><h5>Summary</h5>
 <p >Was Autopsy performed</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-AUTOPF"></a> </p>
-<h3><a class="anchor" id="autotoc_md809"></a>
+<h3><a class="anchor" id="autotoc_md815"></a>
 AUTOPF &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md810"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md816"></a> </p><h5>Summary</h5>
 <p >Were Autopsy Findings Available to Complete the Cause of Death?</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-AUXNO"></a> </p>
-<h3><a class="anchor" id="autotoc_md811"></a>
+<h3><a class="anchor" id="autotoc_md817"></a>
 AUXNO &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md812"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md818"></a> </p><h5>Summary</h5>
 <p >Auxiliary State file number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-AUXNO2"></a> </p>
-<h3><a class="anchor" id="autotoc_md813"></a>
+<h3><a class="anchor" id="autotoc_md819"></a>
 AUXNO2 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md814"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md820"></a> </p><h5>Summary</h5>
 <p >Auxiliary State file number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-BCNO"></a> </p>
-<h3><a class="anchor" id="autotoc_md815"></a>
+<h3><a class="anchor" id="autotoc_md821"></a>
 BCNO &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md816"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md822"></a> </p><h5>Summary</h5>
 <p >Infant Death/Birth Linking - birth certificate number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-BLANK1"></a> </p>
-<h3><a class="anchor" id="autotoc_md817"></a>
+<h3><a class="anchor" id="autotoc_md823"></a>
 BLANK1 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md818"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md824"></a> </p><h5>Summary</h5>
 <p >For possible future change in transax</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-BLANK2"></a> </p>
-<h3><a class="anchor" id="autotoc_md819"></a>
+<h3><a class="anchor" id="autotoc_md825"></a>
 BLANK2 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md820"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md826"></a> </p><h5>Summary</h5>
 <p >Blank for future expansion</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-BLANK3"></a> </p>
-<h3><a class="anchor" id="autotoc_md821"></a>
+<h3><a class="anchor" id="autotoc_md827"></a>
 BLANK3 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md822"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md828"></a> </p><h5>Summary</h5>
 <p >Blank for Jurisdictional Use Only</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-BPLACE_CNT"></a> </p>
-<h3><a class="anchor" id="autotoc_md823"></a>
+<h3><a class="anchor" id="autotoc_md829"></a>
 BPLACE_CNT &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md824"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md830"></a> </p><h5>Summary</h5>
 <p >Birthplace&ndash;Country</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-BPLACE_ST"></a> </p>
-<h3><a class="anchor" id="autotoc_md825"></a>
+<h3><a class="anchor" id="autotoc_md831"></a>
 BPLACE_ST &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md826"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md832"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Birth - code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-BSTATE"></a> </p>
-<h3><a class="anchor" id="autotoc_md827"></a>
+<h3><a class="anchor" id="autotoc_md833"></a>
 BSTATE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md828"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md834"></a> </p><h5>Summary</h5>
 <p >Infant Death/Birth Linking - Birth state</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTADDRESS"></a> </p>
-<h3><a class="anchor" id="autotoc_md829"></a>
+<h3><a class="anchor" id="autotoc_md835"></a>
 CERTADDRESS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md830"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md836"></a> </p><h5>Summary</h5>
 <p >Long string address for Certifier same as above but allows states to choose the way they capture information.</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTCITYTEXT"></a> </p>
-<h3><a class="anchor" id="autotoc_md831"></a>
+<h3><a class="anchor" id="autotoc_md837"></a>
 CERTCITYTEXT &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md832"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md838"></a> </p><h5>Summary</h5>
 <p >Certifier - City or Town name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTDATE"></a> </p>
-<h3><a class="anchor" id="autotoc_md833"></a>
+<h3><a class="anchor" id="autotoc_md839"></a>
 CERTDATE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md834"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md840"></a> </p><h5>Summary</h5>
 <p >Certifier Date Signed</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTFIRST"></a> </p>
-<h3><a class="anchor" id="autotoc_md835"></a>
+<h3><a class="anchor" id="autotoc_md841"></a>
 CERTFIRST &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md836"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md842"></a> </p><h5>Summary</h5>
 <p >Certifier's First Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTL"></a> </p>
-<h3><a class="anchor" id="autotoc_md837"></a>
+<h3><a class="anchor" id="autotoc_md843"></a>
 CERTL &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md838"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md844"></a> </p><h5>Summary</h5>
 <p >Title of Certifier</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTLAST"></a> </p>
-<h3><a class="anchor" id="autotoc_md839"></a>
+<h3><a class="anchor" id="autotoc_md845"></a>
 CERTLAST &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md840"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md846"></a> </p><h5>Summary</h5>
 <p >Certifier's Last Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTMIDDLE"></a> </p>
-<h3><a class="anchor" id="autotoc_md841"></a>
+<h3><a class="anchor" id="autotoc_md847"></a>
 CERTMIDDLE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md842"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md848"></a> </p><h5>Summary</h5>
 <p >Certifier's Middle Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTPOSTDIR"></a> </p>
-<h3><a class="anchor" id="autotoc_md843"></a>
+<h3><a class="anchor" id="autotoc_md849"></a>
 CERTPOSTDIR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md844"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md850"></a> </p><h5>Summary</h5>
 <p >Certifier - Post Directional</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTPREDIR"></a> </p>
-<h3><a class="anchor" id="autotoc_md845"></a>
+<h3><a class="anchor" id="autotoc_md851"></a>
 CERTPREDIR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md846"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md852"></a> </p><h5>Summary</h5>
 <p >Certifier - Pre Directional</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTSTATE"></a> </p>
-<h3><a class="anchor" id="autotoc_md847"></a>
+<h3><a class="anchor" id="autotoc_md853"></a>
 CERTSTATE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md848"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md854"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Certifier - literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTSTATECD"></a> </p>
-<h3><a class="anchor" id="autotoc_md849"></a>
+<h3><a class="anchor" id="autotoc_md855"></a>
 CERTSTATECD &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md850"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md856"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Certifier - code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTSTNUM"></a> </p>
-<h3><a class="anchor" id="autotoc_md851"></a>
+<h3><a class="anchor" id="autotoc_md857"></a>
 CERTSTNUM &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md852"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md858"></a> </p><h5>Summary</h5>
 <p >Certifier - Street number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTSTRDESIG"></a> </p>
-<h3><a class="anchor" id="autotoc_md853"></a>
+<h3><a class="anchor" id="autotoc_md859"></a>
 CERTSTRDESIG &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md854"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md860"></a> </p><h5>Summary</h5>
 <p >Certifier - Street designator</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTSTRNAME"></a> </p>
-<h3><a class="anchor" id="autotoc_md855"></a>
+<h3><a class="anchor" id="autotoc_md861"></a>
 CERTSTRNAME &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md856"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md862"></a> </p><h5>Summary</h5>
 <p >Certifier - Street name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTSUFFIX"></a> </p>
-<h3><a class="anchor" id="autotoc_md857"></a>
+<h3><a class="anchor" id="autotoc_md863"></a>
 CERTSUFFIX &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md858"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md864"></a> </p><h5>Summary</h5>
 <p >Certifier's Suffix Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTUNITNUM"></a> </p>
-<h3><a class="anchor" id="autotoc_md859"></a>
+<h3><a class="anchor" id="autotoc_md865"></a>
 CERTUNITNUM &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md860"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md866"></a> </p><h5>Summary</h5>
 <p >Certifier - Unit or apt number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CERTZIP"></a> </p>
-<h3><a class="anchor" id="autotoc_md861"></a>
+<h3><a class="anchor" id="autotoc_md867"></a>
 CERTZIP &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md862"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md868"></a> </p><h5>Summary</h5>
 <p >Certifier - Zip</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CITYC"></a> </p>
-<h3><a class="anchor" id="autotoc_md863"></a>
+<h3><a class="anchor" id="autotoc_md869"></a>
 CITYC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md864"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md870"></a> </p><h5>Summary</h5>
 <p >Decedent's Residence&ndash;City</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CITYCODE_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md865"></a>
+<h3><a class="anchor" id="autotoc_md871"></a>
 CITYCODE_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md866"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md872"></a> </p><h5>Summary</h5>
 <p >Place of death. City FIPS code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CITYCODE_I"></a> </p>
-<h3><a class="anchor" id="autotoc_md867"></a>
+<h3><a class="anchor" id="autotoc_md873"></a>
 CITYCODE_I &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md868"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md874"></a> </p><h5>Summary</h5>
 <p >Town/city of Injury code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CITYTEXT_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md869"></a>
+<h3><a class="anchor" id="autotoc_md875"></a>
 CITYTEXT_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md870"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md876"></a> </p><h5>Summary</h5>
 <p >Place of death. City or Town name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CITYTEXT_I"></a> </p>
-<h3><a class="anchor" id="autotoc_md871"></a>
+<h3><a class="anchor" id="autotoc_md877"></a>
 CITYTEXT_I &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md872"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md878"></a> </p><h5>Summary</h5>
 <p >Town/city of Injury - literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-CITYTEXT_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md873"></a>
+<h3><a class="anchor" id="autotoc_md879"></a>
 CITYTEXT_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md874"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md880"></a> </p><h5>Summary</h5>
 <p >Decedent's Residence - City or Town name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COD"></a> </p>
-<h3><a class="anchor" id="autotoc_md875"></a>
+<h3><a class="anchor" id="autotoc_md881"></a>
 COD &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md876"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md882"></a> </p><h5>Summary</h5>
 <p >County of Death Occurrence</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COD1A"></a> </p>
-<h3><a class="anchor" id="autotoc_md877"></a>
+<h3><a class="anchor" id="autotoc_md883"></a>
 COD1A &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md878"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md884"></a> </p><h5>Summary</h5>
 <p >Cause of Death Part I Line a</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COD1B"></a> </p>
-<h3><a class="anchor" id="autotoc_md879"></a>
+<h3><a class="anchor" id="autotoc_md885"></a>
 COD1B &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md880"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md886"></a> </p><h5>Summary</h5>
 <p >Cause of Death Part I Line b</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COD1C"></a> </p>
-<h3><a class="anchor" id="autotoc_md881"></a>
+<h3><a class="anchor" id="autotoc_md887"></a>
 COD1C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md882"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md888"></a> </p><h5>Summary</h5>
 <p >Cause of Death Part I Line c</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COD1D"></a> </p>
-<h3><a class="anchor" id="autotoc_md883"></a>
+<h3><a class="anchor" id="autotoc_md889"></a>
 COD1D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md884"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md890"></a> </p><h5>Summary</h5>
 <p >Cause of Death Part I Line d</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COUNTRYC"></a> </p>
-<h3><a class="anchor" id="autotoc_md885"></a>
+<h3><a class="anchor" id="autotoc_md891"></a>
 COUNTRYC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md886"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md892"></a> </p><h5>Summary</h5>
 <p >Decedent's Residence&ndash;Country</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COUNTRYTEXT_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md887"></a>
+<h3><a class="anchor" id="autotoc_md893"></a>
 COUNTRYTEXT_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md888"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md894"></a> </p><h5>Summary</h5>
 <p >Decedent's Residence - COUNTRY name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COUNTYC"></a> </p>
-<h3><a class="anchor" id="autotoc_md889"></a>
+<h3><a class="anchor" id="autotoc_md895"></a>
 COUNTYC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md890"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md896"></a> </p><h5>Summary</h5>
 <p >Decedent's Residence&ndash;County</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COUNTYCODE_I"></a> </p>
-<h3><a class="anchor" id="autotoc_md891"></a>
+<h3><a class="anchor" id="autotoc_md897"></a>
 COUNTYCODE_I &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md892"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md898"></a> </p><h5>Summary</h5>
 <p >County of Injury code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COUNTYTEXT_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md893"></a>
+<h3><a class="anchor" id="autotoc_md899"></a>
 COUNTYTEXT_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md894"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md900"></a> </p><h5>Summary</h5>
 <p >Place of death. County of Death</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COUNTYTEXT_I"></a> </p>
-<h3><a class="anchor" id="autotoc_md895"></a>
+<h3><a class="anchor" id="autotoc_md901"></a>
 COUNTYTEXT_I &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md896"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md902"></a> </p><h5>Summary</h5>
 <p >County of Injury - literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-COUNTYTEXT_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md897"></a>
+<h3><a class="anchor" id="autotoc_md903"></a>
 COUNTYTEXT_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md898"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md904"></a> </p><h5>Summary</h5>
 <p >Decedent's Residence - County</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DBPLACECITY"></a> </p>
-<h3><a class="anchor" id="autotoc_md899"></a>
+<h3><a class="anchor" id="autotoc_md905"></a>
 DBPLACECITY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md900"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md906"></a> </p><h5>Summary</h5>
 <p >Decedent's Birth Place City - Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DBPLACECITYCODE"></a> </p>
-<h3><a class="anchor" id="autotoc_md901"></a>
+<h3><a class="anchor" id="autotoc_md907"></a>
 DBPLACECITYCODE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md902"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md908"></a> </p><h5>Summary</h5>
 <p >Decedent's Birth Place City - Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DDADF"></a> </p>
-<h3><a class="anchor" id="autotoc_md903"></a>
+<h3><a class="anchor" id="autotoc_md909"></a>
 DDADF &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md904"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md910"></a> </p><h5>Summary</h5>
 <p >Father's First Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DDADMID"></a> </p>
-<h3><a class="anchor" id="autotoc_md905"></a>
+<h3><a class="anchor" id="autotoc_md911"></a>
 DDADMID &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md906"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md912"></a> </p><h5>Summary</h5>
 <p >Father's Middle Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DEDUC"></a> </p>
-<h3><a class="anchor" id="autotoc_md907"></a>
+<h3><a class="anchor" id="autotoc_md913"></a>
 DEDUC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md908"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md914"></a> </p><h5>Summary</h5>
 <p >Decedent's Education</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DEDUC_BYPASS"></a> </p>
-<h3><a class="anchor" id="autotoc_md909"></a>
+<h3><a class="anchor" id="autotoc_md915"></a>
 DEDUC_BYPASS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md910"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md916"></a> </p><h5>Summary</h5>
 <p >Decedent's Education&ndash;Edit Flag</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DETHNIC1"></a> </p>
-<h3><a class="anchor" id="autotoc_md911"></a>
+<h3><a class="anchor" id="autotoc_md917"></a>
 DETHNIC1 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md912"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md918"></a> </p><h5>Summary</h5>
 <p >Decedent of Hispanic Origin?&ndash;Mexican</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DETHNIC2"></a> </p>
-<h3><a class="anchor" id="autotoc_md913"></a>
+<h3><a class="anchor" id="autotoc_md919"></a>
 DETHNIC2 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md914"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md920"></a> </p><h5>Summary</h5>
 <p >Decedent of Hispanic Origin?&ndash;Puerto Rican</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DETHNIC3"></a> </p>
-<h3><a class="anchor" id="autotoc_md915"></a>
+<h3><a class="anchor" id="autotoc_md921"></a>
 DETHNIC3 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md916"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md922"></a> </p><h5>Summary</h5>
 <p >Decedent of Hispanic Origin?&ndash;Cuban</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DETHNIC4"></a> </p>
-<h3><a class="anchor" id="autotoc_md917"></a>
+<h3><a class="anchor" id="autotoc_md923"></a>
 DETHNIC4 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md918"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md924"></a> </p><h5>Summary</h5>
 <p >Decedent of Hispanic Origin?&ndash;Other</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DETHNIC5"></a> </p>
-<h3><a class="anchor" id="autotoc_md919"></a>
+<h3><a class="anchor" id="autotoc_md925"></a>
 DETHNIC5 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md920"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md926"></a> </p><h5>Summary</h5>
 <p >Decedent of Hispanic Origin?&ndash;Other, Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DETHNIC5C"></a> </p>
-<h3><a class="anchor" id="autotoc_md921"></a>
+<h3><a class="anchor" id="autotoc_md927"></a>
 DETHNIC5C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md922"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md928"></a> </p><h5>Summary</h5>
 <p >Hispanic Code for Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DETHNICE"></a> </p>
-<h3><a class="anchor" id="autotoc_md923"></a>
+<h3><a class="anchor" id="autotoc_md929"></a>
 DETHNICE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md924"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md930"></a> </p><h5>Summary</h5>
 <p >Hispanic</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DINSTI"></a> </p>
-<h3><a class="anchor" id="autotoc_md925"></a>
+<h3><a class="anchor" id="autotoc_md931"></a>
 DINSTI &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md926"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md932"></a> </p><h5>Summary</h5>
 <p >Death Institution name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DISP"></a> </p>
-<h3><a class="anchor" id="autotoc_md927"></a>
+<h3><a class="anchor" id="autotoc_md933"></a>
 DISP &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md928"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md934"></a> </p><h5>Summary</h5>
 <p >Method of Disposition</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DISPCITY"></a> </p>
-<h3><a class="anchor" id="autotoc_md929"></a>
+<h3><a class="anchor" id="autotoc_md935"></a>
 DISPCITY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md930"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md936"></a> </p><h5>Summary</h5>
 <p >Disposition City - Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DISPCITYCODE"></a> </p>
-<h3><a class="anchor" id="autotoc_md931"></a>
+<h3><a class="anchor" id="autotoc_md937"></a>
 DISPCITYCODE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md932"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md938"></a> </p><h5>Summary</h5>
 <p >Disposition City - Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DISPSTATE"></a> </p>
-<h3><a class="anchor" id="autotoc_md933"></a>
+<h3><a class="anchor" id="autotoc_md939"></a>
 DISPSTATE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md934"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md940"></a> </p><h5>Summary</h5>
 <p >Disposition State or Territory - Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DISPSTATECD"></a> </p>
-<h3><a class="anchor" id="autotoc_md935"></a>
+<h3><a class="anchor" id="autotoc_md941"></a>
 DISPSTATECD &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md936"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md942"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Disposition - code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DMAIDEN"></a> </p>
-<h3><a class="anchor" id="autotoc_md937"></a>
+<h3><a class="anchor" id="autotoc_md943"></a>
 DMAIDEN &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md938"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md944"></a> </p><h5>Summary</h5>
 <p >Decedent's Maiden Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DMIDDLE"></a> </p>
-<h3><a class="anchor" id="autotoc_md939"></a>
+<h3><a class="anchor" id="autotoc_md945"></a>
 DMIDDLE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md940"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md946"></a> </p><h5>Summary</h5>
 <p >Middle Name of Decedent</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DMOMF"></a> </p>
-<h3><a class="anchor" id="autotoc_md941"></a>
+<h3><a class="anchor" id="autotoc_md947"></a>
 DMOMF &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md942"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md948"></a> </p><h5>Summary</h5>
 <p >Mother's First Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DMOMMDN"></a> </p>
-<h3><a class="anchor" id="autotoc_md943"></a>
+<h3><a class="anchor" id="autotoc_md949"></a>
 DMOMMDN &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md944"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md950"></a> </p><h5>Summary</h5>
 <p >Mother's Maiden Surname</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DMOMMID"></a> </p>
-<h3><a class="anchor" id="autotoc_md945"></a>
+<h3><a class="anchor" id="autotoc_md951"></a>
 DMOMMID &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md946"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md952"></a> </p><h5>Summary</h5>
 <p >Mother's Middle Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOB_DY"></a> </p>
-<h3><a class="anchor" id="autotoc_md947"></a>
+<h3><a class="anchor" id="autotoc_md953"></a>
 DOB_DY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md948"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md954"></a> </p><h5>Summary</h5>
 <p >Date of Birth&ndash;Day</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOB_MO"></a> </p>
-<h3><a class="anchor" id="autotoc_md949"></a>
+<h3><a class="anchor" id="autotoc_md955"></a>
 DOB_MO &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md950"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md956"></a> </p><h5>Summary</h5>
 <p >Date of Birth&ndash;Month</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOB_YR"></a> </p>
-<h3><a class="anchor" id="autotoc_md951"></a>
+<h3><a class="anchor" id="autotoc_md957"></a>
 DOB_YR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md952"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md958"></a> </p><h5>Summary</h5>
 <p >Date of Birth&ndash;Year</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOD_DY"></a> </p>
-<h3><a class="anchor" id="autotoc_md953"></a>
+<h3><a class="anchor" id="autotoc_md959"></a>
 DOD_DY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md954"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md960"></a> </p><h5>Summary</h5>
 <p >Date of Death&ndash;Day</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOD_MO"></a> </p>
-<h3><a class="anchor" id="autotoc_md955"></a>
+<h3><a class="anchor" id="autotoc_md961"></a>
 DOD_MO &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md956"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md962"></a> </p><h5>Summary</h5>
 <p >Date of Death&ndash;Month</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOD_YR"></a> </p>
-<h3><a class="anchor" id="autotoc_md957"></a>
+<h3><a class="anchor" id="autotoc_md963"></a>
 DOD_YR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md958"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md964"></a> </p><h5>Summary</h5>
 <p >Date of Death&ndash;Year</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOI_DY"></a> </p>
-<h3><a class="anchor" id="autotoc_md959"></a>
+<h3><a class="anchor" id="autotoc_md965"></a>
 DOI_DY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md960"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md966"></a> </p><h5>Summary</h5>
 <p >Date of injury&ndash;day</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOI_MO"></a> </p>
-<h3><a class="anchor" id="autotoc_md961"></a>
+<h3><a class="anchor" id="autotoc_md967"></a>
 DOI_MO &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md962"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md968"></a> </p><h5>Summary</h5>
 <p >Date of injury&ndash;month</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOI_YR"></a> </p>
-<h3><a class="anchor" id="autotoc_md963"></a>
+<h3><a class="anchor" id="autotoc_md969"></a>
 DOI_YR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md964"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md970"></a> </p><h5>Summary</h5>
 <p >Date of injury&ndash;year</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOR_DY"></a> </p>
-<h3><a class="anchor" id="autotoc_md965"></a>
+<h3><a class="anchor" id="autotoc_md971"></a>
 DOR_DY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md966"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md972"></a> </p><h5>Summary</h5>
 <p >Date of Registration&ndash;Day</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOR_MO"></a> </p>
-<h3><a class="anchor" id="autotoc_md967"></a>
+<h3><a class="anchor" id="autotoc_md973"></a>
 DOR_MO &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md968"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md974"></a> </p><h5>Summary</h5>
 <p >Date of Registration&ndash;Month</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DOR_YR"></a> </p>
-<h3><a class="anchor" id="autotoc_md969"></a>
+<h3><a class="anchor" id="autotoc_md975"></a>
 DOR_YR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md970"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md976"></a> </p><h5>Summary</h5>
 <p >Date of Registration&ndash;Year</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DPLACE"></a> </p>
-<h3><a class="anchor" id="autotoc_md971"></a>
+<h3><a class="anchor" id="autotoc_md977"></a>
 DPLACE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md972"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md978"></a> </p><h5>Summary</h5>
 <p >Place of Death</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DSTATE"></a> </p>
-<h3><a class="anchor" id="autotoc_md973"></a>
+<h3><a class="anchor" id="autotoc_md979"></a>
 DSTATE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md974"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md980"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Death - code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DTHCOUNTRY"></a> </p>
-<h3><a class="anchor" id="autotoc_md975"></a>
+<h3><a class="anchor" id="autotoc_md981"></a>
 DTHCOUNTRY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md976"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md982"></a> </p><h5>Summary</h5>
 <p >Country of Death - Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-DTHCOUNTRYCD"></a> </p>
-<h3><a class="anchor" id="autotoc_md977"></a>
+<h3><a class="anchor" id="autotoc_md983"></a>
 DTHCOUNTRYCD &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md978"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md984"></a> </p><h5>Summary</h5>
 <p >Country of Death - Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-EAC"></a> </p>
-<h3><a class="anchor" id="autotoc_md979"></a>
+<h3><a class="anchor" id="autotoc_md985"></a>
 EAC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md980"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md986"></a> </p><h5>Summary</h5>
 <p >Entity-axis codes</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FATHERSUFFIX"></a> </p>
-<h3><a class="anchor" id="autotoc_md981"></a>
+<h3><a class="anchor" id="autotoc_md987"></a>
 FATHERSUFFIX &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md982"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md988"></a> </p><h5>Summary</h5>
 <p >Father's Suffix</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FILEDATE"></a> </p>
-<h3><a class="anchor" id="autotoc_md983"></a>
+<h3><a class="anchor" id="autotoc_md989"></a>
 FILEDATE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md984"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md990"></a> </p><h5>Summary</h5>
 <p >Date Filed</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FILENO"></a> </p>
-<h3><a class="anchor" id="autotoc_md985"></a>
+<h3><a class="anchor" id="autotoc_md991"></a>
 FILENO &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md986"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md992"></a> </p><h5>Summary</h5>
 <p >Certificate Number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FILLER2"></a> </p>
-<h3><a class="anchor" id="autotoc_md987"></a>
+<h3><a class="anchor" id="autotoc_md993"></a>
 FILLER2 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md988"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md994"></a> </p><h5>Summary</h5>
 <p >FILLER 2 for expansion</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FLNAME"></a> </p>
-<h3><a class="anchor" id="autotoc_md989"></a>
+<h3><a class="anchor" id="autotoc_md995"></a>
 FLNAME &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md990"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md996"></a> </p><h5>Summary</h5>
 <p >Father's Surname</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNCITYTEXT"></a> </p>
-<h3><a class="anchor" id="autotoc_md991"></a>
+<h3><a class="anchor" id="autotoc_md997"></a>
 FUNCITYTEXT &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md992"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md998"></a> </p><h5>Summary</h5>
 <p >Funeral Facility - City or Town name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNFACADDRESS"></a> </p>
-<h3><a class="anchor" id="autotoc_md993"></a>
+<h3><a class="anchor" id="autotoc_md999"></a>
 FUNFACADDRESS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md994"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1000"></a> </p><h5>Summary</h5>
 <p >Long string address for Funeral Facility same as above but allows states to choose the way they capture information.</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNFACNAME"></a> </p>
-<h3><a class="anchor" id="autotoc_md995"></a>
+<h3><a class="anchor" id="autotoc_md1001"></a>
 FUNFACNAME &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md996"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1002"></a> </p><h5>Summary</h5>
 <p >Funeral Facility Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNFACPREDIR"></a> </p>
-<h3><a class="anchor" id="autotoc_md997"></a>
+<h3><a class="anchor" id="autotoc_md1003"></a>
 FUNFACPREDIR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md998"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1004"></a> </p><h5>Summary</h5>
 <p >Funeral Facility - Pre Directional</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNFACSTNUM"></a> </p>
-<h3><a class="anchor" id="autotoc_md999"></a>
+<h3><a class="anchor" id="autotoc_md1005"></a>
 FUNFACSTNUM &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1000"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1006"></a> </p><h5>Summary</h5>
 <p >Funeral Facility - Street number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNFACSTRDESIG"></a> </p>
-<h3><a class="anchor" id="autotoc_md1001"></a>
+<h3><a class="anchor" id="autotoc_md1007"></a>
 FUNFACSTRDESIG &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1002"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1008"></a> </p><h5>Summary</h5>
 <p >Funeral Facility - Street designator</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNFACSTRNAME"></a> </p>
-<h3><a class="anchor" id="autotoc_md1003"></a>
+<h3><a class="anchor" id="autotoc_md1009"></a>
 FUNFACSTRNAME &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1004"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1010"></a> </p><h5>Summary</h5>
 <p >Funeral Facility - Street name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNPOSTDIR"></a> </p>
-<h3><a class="anchor" id="autotoc_md1005"></a>
+<h3><a class="anchor" id="autotoc_md1011"></a>
 FUNPOSTDIR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1006"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1012"></a> </p><h5>Summary</h5>
 <p >Funeral Facility - Post Directional</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNSTATE"></a> </p>
-<h3><a class="anchor" id="autotoc_md1007"></a>
+<h3><a class="anchor" id="autotoc_md1013"></a>
 FUNSTATE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1008"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1014"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Funeral Facility - literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNSTATECD"></a> </p>
-<h3><a class="anchor" id="autotoc_md1009"></a>
+<h3><a class="anchor" id="autotoc_md1015"></a>
 FUNSTATECD &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1010"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1016"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Funeral Facility - code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNUNITNUM"></a> </p>
-<h3><a class="anchor" id="autotoc_md1011"></a>
+<h3><a class="anchor" id="autotoc_md1017"></a>
 FUNUNITNUM &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1012"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1018"></a> </p><h5>Summary</h5>
 <p >Funeral Facility - Unit or apt number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-FUNZIP"></a> </p>
-<h3><a class="anchor" id="autotoc_md1013"></a>
+<h3><a class="anchor" id="autotoc_md1019"></a>
 FUNZIP &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1014"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1020"></a> </p><h5>Summary</h5>
 <p >Funeral Facility - ZIP</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-GNAME"></a> </p>
-<h3><a class="anchor" id="autotoc_md1015"></a>
+<h3><a class="anchor" id="autotoc_md1021"></a>
 GNAME &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1016"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1022"></a> </p><h5>Summary</h5>
 <p >Decedent's Legal Name&ndash;Given</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-HISPOLDC"></a> </p>
-<h3><a class="anchor" id="autotoc_md1017"></a>
+<h3><a class="anchor" id="autotoc_md1023"></a>
 HISPOLDC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1018"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1024"></a> </p><h5>Summary</h5>
 <p >Hispanic - old NCHS single ethnicity codes</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-HISPSTSP"></a> </p>
-<h3><a class="anchor" id="autotoc_md1019"></a>
+<h3><a class="anchor" id="autotoc_md1025"></a>
 HISPSTSP &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1020"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1026"></a> </p><h5>Summary</h5>
 <p >Hispanic Origin - Specify</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-HOWINJ"></a> </p>
-<h3><a class="anchor" id="autotoc_md1021"></a>
+<h3><a class="anchor" id="autotoc_md1027"></a>
 HOWINJ &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1022"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1028"></a> </p><h5>Summary</h5>
 <p >Describe How Injury Occurred</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-IDOB_YR"></a> </p>
-<h3><a class="anchor" id="autotoc_md1023"></a>
+<h3><a class="anchor" id="autotoc_md1029"></a>
 IDOB_YR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1024"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1030"></a> </p><h5>Summary</h5>
 <p >Infant Death/Birth Linking - year of birth</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INACT"></a> </p>
-<h3><a class="anchor" id="autotoc_md1025"></a>
+<h3><a class="anchor" id="autotoc_md1031"></a>
 INACT &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1026"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1032"></a> </p><h5>Summary</h5>
 <p >Activity at time of death (computer generated)</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INDUST"></a> </p>
-<h3><a class="anchor" id="autotoc_md1027"></a>
+<h3><a class="anchor" id="autotoc_md1033"></a>
 INDUST &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1028"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1034"></a> </p><h5>Summary</h5>
 <p >Industry &ndash; Literal (OPTIONAL)</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INDUSTC"></a> </p>
-<h3><a class="anchor" id="autotoc_md1029"></a>
+<h3><a class="anchor" id="autotoc_md1035"></a>
 INDUSTC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1030"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1036"></a> </p><h5>Summary</h5>
 <p >Industry &ndash; Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INDUSTC4"></a> </p>
-<h3><a class="anchor" id="autotoc_md1031"></a>
+<h3><a class="anchor" id="autotoc_md1037"></a>
 INDUSTC4 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1032"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1038"></a> </p><h5>Summary</h5>
 <p >Industry &ndash; 4 digit Code (OPTIONAL)</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INFORMRELATE"></a> </p>
-<h3><a class="anchor" id="autotoc_md1033"></a>
+<h3><a class="anchor" id="autotoc_md1039"></a>
 INFORMRELATE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1034"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1040"></a> </p><h5>Summary</h5>
 <p >Informant's Relationship</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INJPL"></a> </p>
-<h3><a class="anchor" id="autotoc_md1035"></a>
+<h3><a class="anchor" id="autotoc_md1041"></a>
 INJPL &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1036"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1042"></a> </p><h5>Summary</h5>
 <p >Place of Injury (computer generated)</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INTERVAL1A"></a> </p>
-<h3><a class="anchor" id="autotoc_md1037"></a>
+<h3><a class="anchor" id="autotoc_md1043"></a>
 INTERVAL1A &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1038"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1044"></a> </p><h5>Summary</h5>
 <p >Cause of Death Part I Interval, Line a</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INTERVAL1B"></a> </p>
-<h3><a class="anchor" id="autotoc_md1039"></a>
+<h3><a class="anchor" id="autotoc_md1045"></a>
 INTERVAL1B &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1040"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1046"></a> </p><h5>Summary</h5>
 <p >Cause of Death Part I Interval, Line b</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INTERVAL1C"></a> </p>
-<h3><a class="anchor" id="autotoc_md1041"></a>
+<h3><a class="anchor" id="autotoc_md1047"></a>
 INTERVAL1C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1042"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1048"></a> </p><h5>Summary</h5>
 <p >Cause of Death Part I Interval, Line c</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INTERVAL1D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1043"></a>
+<h3><a class="anchor" id="autotoc_md1049"></a>
 INTERVAL1D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1044"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1050"></a> </p><h5>Summary</h5>
 <p >Cause of Death Part I Interval, Line d</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-INT_REJ"></a> </p>
-<h3><a class="anchor" id="autotoc_md1045"></a>
+<h3><a class="anchor" id="autotoc_md1051"></a>
 INT_REJ &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1046"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1052"></a> </p><h5>Summary</h5>
 <p >Intentional Reject</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-LAT_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1047"></a>
+<h3><a class="anchor" id="autotoc_md1053"></a>
 LAT_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1048"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1054"></a> </p><h5>Summary</h5>
 <p >Place of Death. Latitude</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-LAT_I"></a> </p>
-<h3><a class="anchor" id="autotoc_md1049"></a>
+<h3><a class="anchor" id="autotoc_md1055"></a>
 LAT_I &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1050"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1056"></a> </p><h5>Summary</h5>
 <p >Place of injury. Latitude</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-LIMITS"></a> </p>
-<h3><a class="anchor" id="autotoc_md1051"></a>
+<h3><a class="anchor" id="autotoc_md1057"></a>
 LIMITS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1052"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1058"></a> </p><h5>Summary</h5>
 <p >Decedent's Residence&ndash;Inside City Limits</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-LNAME"></a> </p>
-<h3><a class="anchor" id="autotoc_md1053"></a>
+<h3><a class="anchor" id="autotoc_md1059"></a>
 LNAME &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1054"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1060"></a> </p><h5>Summary</h5>
 <p >Decedent's Legal Name&ndash;Last</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-LONG_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1055"></a>
+<h3><a class="anchor" id="autotoc_md1061"></a>
 LONG_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1056"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1062"></a> </p><h5>Summary</h5>
 <p >Place of death. Longitude</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-LONG_I"></a> </p>
-<h3><a class="anchor" id="autotoc_md1057"></a>
+<h3><a class="anchor" id="autotoc_md1063"></a>
 LONG_I &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1058"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1064"></a> </p><h5>Summary</h5>
 <p >Place of injury. Longitude</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-MANNER"></a> </p>
-<h3><a class="anchor" id="autotoc_md1059"></a>
+<h3><a class="anchor" id="autotoc_md1065"></a>
 MANNER &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1060"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1066"></a> </p><h5>Summary</h5>
 <p >Manner of Death</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-MAN_UC"></a> </p>
-<h3><a class="anchor" id="autotoc_md1061"></a>
+<h3><a class="anchor" id="autotoc_md1067"></a>
 MAN_UC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1062"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1068"></a> </p><h5>Summary</h5>
 <p >Manual Underlying Cause</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-MARITAL"></a> </p>
-<h3><a class="anchor" id="autotoc_md1063"></a>
+<h3><a class="anchor" id="autotoc_md1069"></a>
 MARITAL &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1064"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1070"></a> </p><h5>Summary</h5>
 <p >Marital Status</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-MARITAL_BYPASS"></a> </p>
-<h3><a class="anchor" id="autotoc_md1065"></a>
+<h3><a class="anchor" id="autotoc_md1071"></a>
 MARITAL_BYPASS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1066"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1072"></a> </p><h5>Summary</h5>
 <p >Marital Status&ndash;Edit Flag</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-MARITAL_DESCRIP"></a> </p>
-<h3><a class="anchor" id="autotoc_md1067"></a>
+<h3><a class="anchor" id="autotoc_md1073"></a>
 MARITAL_DESCRIP &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1068"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1074"></a> </p><h5>Summary</h5>
 <p >Marital Descriptor</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-MFILED"></a> </p>
-<h3><a class="anchor" id="autotoc_md1069"></a>
+<h3><a class="anchor" id="autotoc_md1075"></a>
 MFILED &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1070"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1076"></a> </p><h5>Summary</h5>
 <p >Source flag: paper/electronic</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-MNAME"></a> </p>
-<h3><a class="anchor" id="autotoc_md1071"></a>
+<h3><a class="anchor" id="autotoc_md1077"></a>
 MNAME &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1072"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1078"></a> </p><h5>Summary</h5>
 <p >Decedent's Legal Name&ndash;Middle</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-MOTHERSSUFFIX"></a> </p>
-<h3><a class="anchor" id="autotoc_md1073"></a>
+<h3><a class="anchor" id="autotoc_md1079"></a>
 MOTHERSSUFFIX &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1074"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1080"></a> </p><h5>Summary</h5>
 <p >Mother's Suffix</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-NCHSBRIDGE"></a> </p>
-<h3><a class="anchor" id="autotoc_md1075"></a>
+<h3><a class="anchor" id="autotoc_md1081"></a>
 NCHSBRIDGE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1076"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1082"></a> </p><h5>Summary</h5>
 <p >Bridged Race</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-OCCUP"></a> </p>
-<h3><a class="anchor" id="autotoc_md1077"></a>
+<h3><a class="anchor" id="autotoc_md1083"></a>
 OCCUP &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1078"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1084"></a> </p><h5>Summary</h5>
 <p >Occupation &ndash; Literal (OPTIONAL)</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-OCCUPC"></a> </p>
-<h3><a class="anchor" id="autotoc_md1079"></a>
+<h3><a class="anchor" id="autotoc_md1085"></a>
 OCCUPC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1080"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1086"></a> </p><h5>Summary</h5>
 <p >Occupation &ndash; Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-OCCUPC4"></a> </p>
-<h3><a class="anchor" id="autotoc_md1081"></a>
+<h3><a class="anchor" id="autotoc_md1087"></a>
 OCCUPC4 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1082"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1088"></a> </p><h5>Summary</h5>
 <p >Occupation &ndash; 4 digit Code (OPTIONAL)</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-OLDEDUC"></a> </p>
-<h3><a class="anchor" id="autotoc_md1083"></a>
+<h3><a class="anchor" id="autotoc_md1089"></a>
 OLDEDUC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1084"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1090"></a> </p><h5>Summary</h5>
 <p >Old NCHS education code if collected - receiving state will recode as they prefer</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-OTHERCONDITION"></a> </p>
-<h3><a class="anchor" id="autotoc_md1085"></a>
+<h3><a class="anchor" id="autotoc_md1091"></a>
 OTHERCONDITION &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1086"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1092"></a> </p><h5>Summary</h5>
 <p >Cause of Death Part II</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE1_1"></a> </p>
-<h3><a class="anchor" id="autotoc_md1087"></a>
+<h3><a class="anchor" id="autotoc_md1093"></a>
 PLACE1_1 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1088"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1094"></a> </p><h5>Summary</h5>
 <p >Blank for One-Byte Field 1</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE1_2"></a> </p>
-<h3><a class="anchor" id="autotoc_md1089"></a>
+<h3><a class="anchor" id="autotoc_md1095"></a>
 PLACE1_2 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1090"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1096"></a> </p><h5>Summary</h5>
 <p >Blank for One-Byte Field 2</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE1_3"></a> </p>
-<h3><a class="anchor" id="autotoc_md1091"></a>
+<h3><a class="anchor" id="autotoc_md1097"></a>
 PLACE1_3 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1092"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1098"></a> </p><h5>Summary</h5>
 <p >Blank for One-Byte Field 3</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE1_4"></a> </p>
-<h3><a class="anchor" id="autotoc_md1093"></a>
+<h3><a class="anchor" id="autotoc_md1099"></a>
 PLACE1_4 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1094"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1100"></a> </p><h5>Summary</h5>
 <p >Blank for One-Byte Field 4</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE1_5"></a> </p>
-<h3><a class="anchor" id="autotoc_md1095"></a>
+<h3><a class="anchor" id="autotoc_md1101"></a>
 PLACE1_5 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1096"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1102"></a> </p><h5>Summary</h5>
 <p >Blank for One-Byte Field 5</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE1_6"></a> </p>
-<h3><a class="anchor" id="autotoc_md1097"></a>
+<h3><a class="anchor" id="autotoc_md1103"></a>
 PLACE1_6 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1098"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1104"></a> </p><h5>Summary</h5>
 <p >Blank for One-Byte Field 6</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE20"></a> </p>
-<h3><a class="anchor" id="autotoc_md1099"></a>
+<h3><a class="anchor" id="autotoc_md1105"></a>
 PLACE20 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1100"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1106"></a> </p><h5>Summary</h5>
 <p >Blank for Twenty-Byte Field</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE8_1"></a> </p>
-<h3><a class="anchor" id="autotoc_md1101"></a>
+<h3><a class="anchor" id="autotoc_md1107"></a>
 PLACE8_1 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1102"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1108"></a> </p><h5>Summary</h5>
 <p >Blank for Eight-Byte Field 1</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE8_2"></a> </p>
-<h3><a class="anchor" id="autotoc_md1103"></a>
+<h3><a class="anchor" id="autotoc_md1109"></a>
 PLACE8_2 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1104"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1110"></a> </p><h5>Summary</h5>
 <p >Blank for Eight-Byte Field 2</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PLACE8_3"></a> </p>
-<h3><a class="anchor" id="autotoc_md1105"></a>
+<h3><a class="anchor" id="autotoc_md1111"></a>
 PLACE8_3 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1106"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1112"></a> </p><h5>Summary</h5>
 <p >Blank for Eight-Byte Field 3</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-POILITRL"></a> </p>
-<h3><a class="anchor" id="autotoc_md1107"></a>
+<h3><a class="anchor" id="autotoc_md1113"></a>
 POILITRL &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1108"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1114"></a> </p><h5>Summary</h5>
 <p >Place of Injury- literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-POSTDIR_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1109"></a>
+<h3><a class="anchor" id="autotoc_md1115"></a>
 POSTDIR_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1110"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1116"></a> </p><h5>Summary</h5>
 <p >Place of death. Post Directional</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-POSTDIR_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md1111"></a>
+<h3><a class="anchor" id="autotoc_md1117"></a>
 POSTDIR_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1112"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1118"></a> </p><h5>Summary</h5>
 <p >Post Directional</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PPDATESIGNED"></a> </p>
-<h3><a class="anchor" id="autotoc_md1113"></a>
+<h3><a class="anchor" id="autotoc_md1119"></a>
 PPDATESIGNED &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1114"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1120"></a> </p><h5>Summary</h5>
 <p >Person Pronouncing Date Signed</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PPTIME"></a> </p>
-<h3><a class="anchor" id="autotoc_md1115"></a>
+<h3><a class="anchor" id="autotoc_md1121"></a>
 PPTIME &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1116"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1122"></a> </p><h5>Summary</h5>
 <p >Person Pronouncing Time Pronounced</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PREDIR_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1117"></a>
+<h3><a class="anchor" id="autotoc_md1123"></a>
 PREDIR_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1118"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1124"></a> </p><h5>Summary</h5>
 <p >Place of death. Pre Directional</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PREDIR_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md1119"></a>
+<h3><a class="anchor" id="autotoc_md1125"></a>
 PREDIR_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1120"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1126"></a> </p><h5>Summary</h5>
 <p >Pre directional</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PREG"></a> </p>
-<h3><a class="anchor" id="autotoc_md1121"></a>
+<h3><a class="anchor" id="autotoc_md1127"></a>
 PREG &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1122"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1128"></a> </p><h5>Summary</h5>
 <p >Pregnancy</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-PREG_BYPASS"></a> </p>
-<h3><a class="anchor" id="autotoc_md1123"></a>
+<h3><a class="anchor" id="autotoc_md1129"></a>
 PREG_BYPASS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1124"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1130"></a> </p><h5>Summary</h5>
 <p >If Female&ndash;Edit Flag: From EDR only</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RAC"></a> </p>
-<h3><a class="anchor" id="autotoc_md1125"></a>
+<h3><a class="anchor" id="autotoc_md1131"></a>
 RAC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1126"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1132"></a> </p><h5>Summary</h5>
 <p >Record-axis codes</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE1"></a> </p>
-<h3><a class="anchor" id="autotoc_md1127"></a>
+<h3><a class="anchor" id="autotoc_md1133"></a>
 RACE1 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1128"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1134"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;White</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE10"></a> </p>
-<h3><a class="anchor" id="autotoc_md1129"></a>
+<h3><a class="anchor" id="autotoc_md1135"></a>
 RACE10 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1130"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1136"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Other Asian</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE11"></a> </p>
-<h3><a class="anchor" id="autotoc_md1131"></a>
+<h3><a class="anchor" id="autotoc_md1137"></a>
 RACE11 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1132"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1138"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Native Hawaiian</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE12"></a> </p>
-<h3><a class="anchor" id="autotoc_md1133"></a>
+<h3><a class="anchor" id="autotoc_md1139"></a>
 RACE12 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1134"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1140"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Guamanian or Chamorro</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE13"></a> </p>
-<h3><a class="anchor" id="autotoc_md1135"></a>
+<h3><a class="anchor" id="autotoc_md1141"></a>
 RACE13 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1136"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1142"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Samoan</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE14"></a> </p>
-<h3><a class="anchor" id="autotoc_md1137"></a>
+<h3><a class="anchor" id="autotoc_md1143"></a>
 RACE14 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1138"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1144"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Other Pacific Islander</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE15"></a> </p>
-<h3><a class="anchor" id="autotoc_md1139"></a>
+<h3><a class="anchor" id="autotoc_md1145"></a>
 RACE15 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1140"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1146"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Other</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE16"></a> </p>
-<h3><a class="anchor" id="autotoc_md1141"></a>
+<h3><a class="anchor" id="autotoc_md1147"></a>
 RACE16 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1142"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1148"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;First American Indian or Alaska Native Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE16C"></a> </p>
-<h3><a class="anchor" id="autotoc_md1143"></a>
+<h3><a class="anchor" id="autotoc_md1149"></a>
 RACE16C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1144"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1150"></a> </p><h5>Summary</h5>
 <p >First American Indian Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE17"></a> </p>
-<h3><a class="anchor" id="autotoc_md1145"></a>
+<h3><a class="anchor" id="autotoc_md1151"></a>
 RACE17 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1146"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1152"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Second American Indian or Alaska Native Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE17C"></a> </p>
-<h3><a class="anchor" id="autotoc_md1147"></a>
+<h3><a class="anchor" id="autotoc_md1153"></a>
 RACE17C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1148"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1154"></a> </p><h5>Summary</h5>
 <p >Second American Indian Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE18"></a> </p>
-<h3><a class="anchor" id="autotoc_md1149"></a>
+<h3><a class="anchor" id="autotoc_md1155"></a>
 RACE18 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1150"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1156"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;First Other Asian Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE18C"></a> </p>
-<h3><a class="anchor" id="autotoc_md1151"></a>
+<h3><a class="anchor" id="autotoc_md1157"></a>
 RACE18C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1152"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1158"></a> </p><h5>Summary</h5>
 <p >First Other Asian Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE19"></a> </p>
-<h3><a class="anchor" id="autotoc_md1153"></a>
+<h3><a class="anchor" id="autotoc_md1159"></a>
 RACE19 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1154"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1160"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Second Other Asian Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE19C"></a> </p>
-<h3><a class="anchor" id="autotoc_md1155"></a>
+<h3><a class="anchor" id="autotoc_md1161"></a>
 RACE19C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1156"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1162"></a> </p><h5>Summary</h5>
 <p >Second Other Asian Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE1E"></a> </p>
-<h3><a class="anchor" id="autotoc_md1157"></a>
+<h3><a class="anchor" id="autotoc_md1163"></a>
 RACE1E &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1158"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1164"></a> </p><h5>Summary</h5>
 <p >First Edited Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE2"></a> </p>
-<h3><a class="anchor" id="autotoc_md1159"></a>
+<h3><a class="anchor" id="autotoc_md1165"></a>
 RACE2 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1160"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1166"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Black or African American</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE20"></a> </p>
-<h3><a class="anchor" id="autotoc_md1161"></a>
+<h3><a class="anchor" id="autotoc_md1167"></a>
 RACE20 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1162"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1168"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;First Other Pacific Islander Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE20C"></a> </p>
-<h3><a class="anchor" id="autotoc_md1163"></a>
+<h3><a class="anchor" id="autotoc_md1169"></a>
 RACE20C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1164"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1170"></a> </p><h5>Summary</h5>
 <p >First Other Pacific Islander Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE21"></a> </p>
-<h3><a class="anchor" id="autotoc_md1165"></a>
+<h3><a class="anchor" id="autotoc_md1171"></a>
 RACE21 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1166"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1172"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Second Other Pacific Islander Literalr</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE21C"></a> </p>
-<h3><a class="anchor" id="autotoc_md1167"></a>
+<h3><a class="anchor" id="autotoc_md1173"></a>
 RACE21C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1168"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1174"></a> </p><h5>Summary</h5>
 <p >Second Other Pacific Islander Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE22"></a> </p>
-<h3><a class="anchor" id="autotoc_md1169"></a>
+<h3><a class="anchor" id="autotoc_md1175"></a>
 RACE22 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1170"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1176"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;First Other Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE22C"></a> </p>
-<h3><a class="anchor" id="autotoc_md1171"></a>
+<h3><a class="anchor" id="autotoc_md1177"></a>
 RACE22C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1172"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1178"></a> </p><h5>Summary</h5>
 <p >First Other Race Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE23"></a> </p>
-<h3><a class="anchor" id="autotoc_md1173"></a>
+<h3><a class="anchor" id="autotoc_md1179"></a>
 RACE23 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1174"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1180"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Second Other Literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE23C"></a> </p>
-<h3><a class="anchor" id="autotoc_md1175"></a>
+<h3><a class="anchor" id="autotoc_md1181"></a>
 RACE23C &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1176"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1182"></a> </p><h5>Summary</h5>
 <p >Second Other Race Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE2E"></a> </p>
-<h3><a class="anchor" id="autotoc_md1177"></a>
+<h3><a class="anchor" id="autotoc_md1183"></a>
 RACE2E &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1178"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1184"></a> </p><h5>Summary</h5>
 <p >Second Edited Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE3"></a> </p>
-<h3><a class="anchor" id="autotoc_md1179"></a>
+<h3><a class="anchor" id="autotoc_md1185"></a>
 RACE3 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1180"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1186"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;American Indian or Alaska Native</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE3E"></a> </p>
-<h3><a class="anchor" id="autotoc_md1181"></a>
+<h3><a class="anchor" id="autotoc_md1187"></a>
 RACE3E &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1182"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1188"></a> </p><h5>Summary</h5>
 <p >Third Edited Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE4"></a> </p>
-<h3><a class="anchor" id="autotoc_md1183"></a>
+<h3><a class="anchor" id="autotoc_md1189"></a>
 RACE4 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1184"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1190"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Asian Indian</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE4E"></a> </p>
-<h3><a class="anchor" id="autotoc_md1185"></a>
+<h3><a class="anchor" id="autotoc_md1191"></a>
 RACE4E &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1186"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1192"></a> </p><h5>Summary</h5>
 <p >Fourth Edited Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE5"></a> </p>
-<h3><a class="anchor" id="autotoc_md1187"></a>
+<h3><a class="anchor" id="autotoc_md1193"></a>
 RACE5 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1188"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1194"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Chinese</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE5E"></a> </p>
-<h3><a class="anchor" id="autotoc_md1189"></a>
+<h3><a class="anchor" id="autotoc_md1195"></a>
 RACE5E &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1190"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1196"></a> </p><h5>Summary</h5>
 <p >Fifth Edited Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE6"></a> </p>
-<h3><a class="anchor" id="autotoc_md1191"></a>
+<h3><a class="anchor" id="autotoc_md1197"></a>
 RACE6 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1192"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1198"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Filipino</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE6E"></a> </p>
-<h3><a class="anchor" id="autotoc_md1193"></a>
+<h3><a class="anchor" id="autotoc_md1199"></a>
 RACE6E &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1194"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1200"></a> </p><h5>Summary</h5>
 <p >Sixth Edited Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE7"></a> </p>
-<h3><a class="anchor" id="autotoc_md1195"></a>
+<h3><a class="anchor" id="autotoc_md1201"></a>
 RACE7 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1196"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1202"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Japanese</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE7E"></a> </p>
-<h3><a class="anchor" id="autotoc_md1197"></a>
+<h3><a class="anchor" id="autotoc_md1203"></a>
 RACE7E &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1198"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1204"></a> </p><h5>Summary</h5>
 <p >Seventh Edited Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE8"></a> </p>
-<h3><a class="anchor" id="autotoc_md1199"></a>
+<h3><a class="anchor" id="autotoc_md1205"></a>
 RACE8 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1200"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1206"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Korean</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE8E"></a> </p>
-<h3><a class="anchor" id="autotoc_md1201"></a>
+<h3><a class="anchor" id="autotoc_md1207"></a>
 RACE8E &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1202"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1208"></a> </p><h5>Summary</h5>
 <p >Eighth Edited Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE9"></a> </p>
-<h3><a class="anchor" id="autotoc_md1203"></a>
+<h3><a class="anchor" id="autotoc_md1209"></a>
 RACE9 &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1204"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1210"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Vietnamese</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACEOLDC"></a> </p>
-<h3><a class="anchor" id="autotoc_md1205"></a>
+<h3><a class="anchor" id="autotoc_md1211"></a>
 RACEOLDC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1206"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1212"></a> </p><h5>Summary</h5>
 <p >Race - old NCHS single race codes</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACESTSP"></a> </p>
-<h3><a class="anchor" id="autotoc_md1207"></a>
+<h3><a class="anchor" id="autotoc_md1213"></a>
 RACESTSP &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1208"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1214"></a> </p><h5>Summary</h5>
 <p >Race - Specify</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RACE_MVR"></a> </p>
-<h3><a class="anchor" id="autotoc_md1209"></a>
+<h3><a class="anchor" id="autotoc_md1215"></a>
 RACE_MVR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1210"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1216"></a> </p><h5>Summary</h5>
 <p >Decedent's Race&ndash;Missing</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-REFERRED"></a> </p>
-<h3><a class="anchor" id="autotoc_md1211"></a>
+<h3><a class="anchor" id="autotoc_md1217"></a>
 REFERRED &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1212"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1218"></a> </p><h5>Summary</h5>
 <p >Was case Referred to Medical Examiner/Coroner?</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-REPLACE"></a> </p>
-<h3><a class="anchor" id="autotoc_md1213"></a>
+<h3><a class="anchor" id="autotoc_md1219"></a>
 REPLACE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1214"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1220"></a> </p><h5>Summary</h5>
 <p >Replacement Record &ndash; suggested codes</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RESCON"></a> </p>
-<h3><a class="anchor" id="autotoc_md1215"></a>
+<h3><a class="anchor" id="autotoc_md1221"></a>
 RESCON &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1216"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1222"></a> </p><h5>Summary</h5>
 <p >Old NCHS residence city/county combo code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-RESSTATE"></a> </p>
-<h3><a class="anchor" id="autotoc_md1217"></a>
+<h3><a class="anchor" id="autotoc_md1223"></a>
 RESSTATE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1218"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1224"></a> </p><h5>Summary</h5>
 <p >Old NCHS residence state code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-R_DY"></a> </p>
-<h3><a class="anchor" id="autotoc_md1219"></a>
+<h3><a class="anchor" id="autotoc_md1225"></a>
 R_DY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1220"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1226"></a> </p><h5>Summary</h5>
 <p >Receipt date &ndash; Day</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-R_MO"></a> </p>
-<h3><a class="anchor" id="autotoc_md1221"></a>
+<h3><a class="anchor" id="autotoc_md1227"></a>
 R_MO &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1222"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1228"></a> </p><h5>Summary</h5>
 <p >Receipt date &ndash; Month</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-R_YR"></a> </p>
-<h3><a class="anchor" id="autotoc_md1223"></a>
+<h3><a class="anchor" id="autotoc_md1229"></a>
 R_YR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1224"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1230"></a> </p><h5>Summary</h5>
 <p >Receipt date &ndash; Year</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SEX"></a> </p>
-<h3><a class="anchor" id="autotoc_md1225"></a>
+<h3><a class="anchor" id="autotoc_md1231"></a>
 SEX &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1226"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1232"></a> </p><h5>Summary</h5>
 <p >Sex</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SEX_BYPASS"></a> </p>
-<h3><a class="anchor" id="autotoc_md1227"></a>
+<h3><a class="anchor" id="autotoc_md1233"></a>
 SEX_BYPASS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1228"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1234"></a> </p><h5>Summary</h5>
 <p >Sex&ndash;Edit Flag</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SPOUSEF"></a> </p>
-<h3><a class="anchor" id="autotoc_md1229"></a>
+<h3><a class="anchor" id="autotoc_md1235"></a>
 SPOUSEF &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1230"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1236"></a> </p><h5>Summary</h5>
 <p >Spouse's First Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SPOUSEL"></a> </p>
-<h3><a class="anchor" id="autotoc_md1231"></a>
+<h3><a class="anchor" id="autotoc_md1237"></a>
 SPOUSEL &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1232"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1238"></a> </p><h5>Summary</h5>
 <p >Husband's Surname/Wife's Maiden Last Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SPOUSELV"></a> </p>
-<h3><a class="anchor" id="autotoc_md1233"></a>
+<h3><a class="anchor" id="autotoc_md1239"></a>
 SPOUSELV &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1234"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1240"></a> </p><h5>Summary</h5>
 <p >Decedent's spouse living at decedent's DOD?</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SPOUSEMIDNAME"></a> </p>
-<h3><a class="anchor" id="autotoc_md1235"></a>
+<h3><a class="anchor" id="autotoc_md1241"></a>
 SPOUSEMIDNAME &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1236"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1242"></a> </p><h5>Summary</h5>
 <p >Spouse's Middle Name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SPOUSESUFFIX"></a> </p>
-<h3><a class="anchor" id="autotoc_md1237"></a>
+<h3><a class="anchor" id="autotoc_md1243"></a>
 SPOUSESUFFIX &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1238"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1244"></a> </p><h5>Summary</h5>
 <p >Spouse's Suffix</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SSADATETRANS"></a> </p>
-<h3><a class="anchor" id="autotoc_md1239"></a>
+<h3><a class="anchor" id="autotoc_md1245"></a>
 SSADATETRANS &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1240"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1246"></a> </p><h5>Summary</h5>
 <p >SSA Date of State Transmission</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SSADATEVER"></a> </p>
-<h3><a class="anchor" id="autotoc_md1241"></a>
+<h3><a class="anchor" id="autotoc_md1247"></a>
 SSADATEVER &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1242"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1248"></a> </p><h5>Summary</h5>
 <p >SSA Date of SSN Verification</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SSADTHCODE"></a> </p>
-<h3><a class="anchor" id="autotoc_md1243"></a>
+<h3><a class="anchor" id="autotoc_md1249"></a>
 SSADTHCODE &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1244"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1250"></a> </p><h5>Summary</h5>
 <p >SSA State Source of Death</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SSAFOREIGN"></a> </p>
-<h3><a class="anchor" id="autotoc_md1245"></a>
+<h3><a class="anchor" id="autotoc_md1251"></a>
 SSAFOREIGN &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1246"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1252"></a> </p><h5>Summary</h5>
 <p >SSA Foreign Country Indicator</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SSAVERIFY"></a> </p>
-<h3><a class="anchor" id="autotoc_md1247"></a>
+<h3><a class="anchor" id="autotoc_md1253"></a>
 SSAVERIFY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1248"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1254"></a> </p><h5>Summary</h5>
 <p >SSA EDR Verify Code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SSN"></a> </p>
-<h3><a class="anchor" id="autotoc_md1249"></a>
+<h3><a class="anchor" id="autotoc_md1255"></a>
 SSN &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1250"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1256"></a> </p><h5>Summary</h5>
 <p >Social Security Number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STATEBTH"></a> </p>
-<h3><a class="anchor" id="autotoc_md1251"></a>
+<h3><a class="anchor" id="autotoc_md1257"></a>
 STATEBTH &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1252"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1258"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Birth - literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STATEC"></a> </p>
-<h3><a class="anchor" id="autotoc_md1253"></a>
+<h3><a class="anchor" id="autotoc_md1259"></a>
 STATEC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1254"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1260"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Decedent's residence - code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STATECODE_I"></a> </p>
-<h3><a class="anchor" id="autotoc_md1255"></a>
+<h3><a class="anchor" id="autotoc_md1261"></a>
 STATECODE_I &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1256"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1262"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Injury - code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STATESP"></a> </p>
-<h3><a class="anchor" id="autotoc_md1257"></a>
+<h3><a class="anchor" id="autotoc_md1263"></a>
 STATESP &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1258"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1264"></a> </p><h5>Summary</h5>
 <p >State Specific Data</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STATETEXT_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1259"></a>
+<h3><a class="anchor" id="autotoc_md1265"></a>
 STATETEXT_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1260"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1266"></a> </p><h5>Summary</h5>
 <p >Place of death. State name literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STATETEXT_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md1261"></a>
+<h3><a class="anchor" id="autotoc_md1267"></a>
 STATETEXT_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1262"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1268"></a> </p><h5>Summary</h5>
 <p >Decedent's Residence - State name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STDESIG_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1263"></a>
+<h3><a class="anchor" id="autotoc_md1269"></a>
 STDESIG_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1264"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1270"></a> </p><h5>Summary</h5>
 <p >Place of death. Street designator</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STDESIG_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md1265"></a>
+<h3><a class="anchor" id="autotoc_md1271"></a>
 STDESIG_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1266"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1272"></a> </p><h5>Summary</h5>
 <p >Street designator</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STINJURY"></a> </p>
-<h3><a class="anchor" id="autotoc_md1267"></a>
+<h3><a class="anchor" id="autotoc_md1273"></a>
 STINJURY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1268"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1274"></a> </p><h5>Summary</h5>
 <p >State, U.S. Territory or Canadian Province of Injury - literal</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STNAME_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1269"></a>
+<h3><a class="anchor" id="autotoc_md1275"></a>
 STNAME_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1270"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1276"></a> </p><h5>Summary</h5>
 <p >Place of death. Street name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STNAME_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md1271"></a>
+<h3><a class="anchor" id="autotoc_md1277"></a>
 STNAME_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1272"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1278"></a> </p><h5>Summary</h5>
 <p >Street name</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STNUM_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1273"></a>
+<h3><a class="anchor" id="autotoc_md1279"></a>
 STNUM_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1274"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1280"></a> </p><h5>Summary</h5>
 <p >Place of death. Street number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-STNUM_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md1275"></a>
+<h3><a class="anchor" id="autotoc_md1281"></a>
 STNUM_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1276"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1282"></a> </p><h5>Summary</h5>
 <p >Place of death. City FIPS code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SUFF"></a> </p>
-<h3><a class="anchor" id="autotoc_md1277"></a>
+<h3><a class="anchor" id="autotoc_md1283"></a>
 SUFF &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1278"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1284"></a> </p><h5>Summary</h5>
 <p >Decedent's Legal Name&ndash;Suffix</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SUR_DY"></a> </p>
-<h3><a class="anchor" id="autotoc_md1279"></a>
+<h3><a class="anchor" id="autotoc_md1285"></a>
 SUR_DY &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1280"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1286"></a> </p><h5>Summary</h5>
 <p >Surgery Date&ndash;day</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SUR_MO"></a> </p>
-<h3><a class="anchor" id="autotoc_md1281"></a>
+<h3><a class="anchor" id="autotoc_md1287"></a>
 SUR_MO &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1282"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1288"></a> </p><h5>Summary</h5>
 <p >Surgery Date&ndash;month</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SUR_YR"></a> </p>
-<h3><a class="anchor" id="autotoc_md1283"></a>
+<h3><a class="anchor" id="autotoc_md1289"></a>
 SUR_YR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1284"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1290"></a> </p><h5>Summary</h5>
 <p >Surgery Date&ndash;year</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-SYS_REJ"></a> </p>
-<h3><a class="anchor" id="autotoc_md1285"></a>
+<h3><a class="anchor" id="autotoc_md1291"></a>
 SYS_REJ &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1286"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1292"></a> </p><h5>Summary</h5>
 <p >Acme System Reject Codes</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-TOBAC"></a> </p>
-<h3><a class="anchor" id="autotoc_md1287"></a>
+<h3><a class="anchor" id="autotoc_md1293"></a>
 TOBAC &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1288"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1294"></a> </p><h5>Summary</h5>
 <p >Did Tobacco Use Contribute to Death?</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-TOD"></a> </p>
-<h3><a class="anchor" id="autotoc_md1289"></a>
+<h3><a class="anchor" id="autotoc_md1295"></a>
 TOD &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1290"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1296"></a> </p><h5>Summary</h5>
 <p >Time of Death</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-TOI_HR"></a> </p>
-<h3><a class="anchor" id="autotoc_md1291"></a>
+<h3><a class="anchor" id="autotoc_md1297"></a>
 TOI_HR &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1292"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1298"></a> </p><h5>Summary</h5>
 <p >Time of injury</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-TOI_UNIT"></a> </p>
-<h3><a class="anchor" id="autotoc_md1293"></a>
+<h3><a class="anchor" id="autotoc_md1299"></a>
 TOI_UNIT &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1294"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1300"></a> </p><h5>Summary</h5>
 <p >Time of Injury Unit</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-TRANSPRT"></a> </p>
-<h3><a class="anchor" id="autotoc_md1295"></a>
+<h3><a class="anchor" id="autotoc_md1301"></a>
 TRANSPRT &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1296"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1302"></a> </p><h5>Summary</h5>
 <p >If Transportation Accident, Specify</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-TRX_FLG"></a> </p>
-<h3><a class="anchor" id="autotoc_md1297"></a>
+<h3><a class="anchor" id="autotoc_md1303"></a>
 TRX_FLG &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1298"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1304"></a> </p><h5>Summary</h5>
 <p >Transax conversion flag: Computer Generated</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-UNITNUM_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md1299"></a>
+<h3><a class="anchor" id="autotoc_md1305"></a>
 UNITNUM_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1300"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1306"></a> </p><h5>Summary</h5>
 <p >Unit number</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-VOID"></a> </p>
-<h3><a class="anchor" id="autotoc_md1301"></a>
+<h3><a class="anchor" id="autotoc_md1307"></a>
 VOID &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1302"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1308"></a> </p><h5>Summary</h5>
 <p >Void flag</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-WORKINJ"></a> </p>
-<h3><a class="anchor" id="autotoc_md1303"></a>
+<h3><a class="anchor" id="autotoc_md1309"></a>
 WORKINJ &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1304"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1310"></a> </p><h5>Summary</h5>
 <p >Time of injury</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-ZIP9_D"></a> </p>
-<h3><a class="anchor" id="autotoc_md1305"></a>
+<h3><a class="anchor" id="autotoc_md1311"></a>
 ZIP9_D &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1306"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1312"></a> </p><h5>Summary</h5>
 <p >Place of death. Zip code</p>
 <p ><a class="anchor" id="P-VRDR-IJEMortality-ZIP9_R"></a> </p>
-<h3><a class="anchor" id="autotoc_md1307"></a>
+<h3><a class="anchor" id="autotoc_md1313"></a>
 ZIP9_R &lt;tt&gt;property&lt;/tt&gt;</h3>
-<p ><a class="anchor" id="autotoc_md1308"></a> </p><h5>Summary</h5>
+<p ><a class="anchor" id="autotoc_md1314"></a> </p><h5>Summary</h5>
 <p >Decedent's Residence - ZIP code </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

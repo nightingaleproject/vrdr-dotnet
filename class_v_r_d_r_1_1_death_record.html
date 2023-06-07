@@ -820,6 +820,12 @@ String&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlagH
 <tr class="memitem:ac6187506ef5bb3253fdca6a40bea5ad4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#ac6187506ef5bb3253fdca6a40bea5ad4">InjuryAtWorkHelper</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ac6187506ef5bb3253fdca6a40bea5ad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Injury At Work Helper This is a convenience method, to access the code use the InjuryAtWork property instead.  <a href="class_v_r_d_r_1_1_death_record.html#ac6187506ef5bb3253fdca6a40bea5ad4">More...</a><br /></td></tr>
 <tr class="separator:ac6187506ef5bb3253fdca6a40bea5ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92fba0d2393a352e9e85c35ef6758f74"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#a92fba0d2393a352e9e85c35ef6758f74">TransportationRole</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a92fba0d2393a352e9e85c35ef6758f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transportation Role in death.  <a href="class_v_r_d_r_1_1_death_record.html#a92fba0d2393a352e9e85c35ef6758f74">More...</a><br /></td></tr>
+<tr class="separator:a92fba0d2393a352e9e85c35ef6758f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a759480bb8bed087edf0a68dad66566"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#a6a759480bb8bed087edf0a68dad66566">TransportationRoleHelper</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a6a759480bb8bed087edf0a68dad66566"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transportation Role in death helper.  <a href="class_v_r_d_r_1_1_death_record.html#a6a759480bb8bed087edf0a68dad66566">More...</a><br /></td></tr>
+<tr class="separator:a6a759480bb8bed087edf0a68dad66566"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af89e6160e323b9a2c9988432700d2c71"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#af89e6160e323b9a2c9988432700d2c71">TobaccoUse</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:af89e6160e323b9a2c9988432700d2c71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tobacco Use Contributed To Death.  <a href="class_v_r_d_r_1_1_death_record.html#af89e6160e323b9a2c9988432700d2c71">More...</a><br /></td></tr>
 <tr class="separator:af89e6160e323b9a2c9988432700d2c71"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -8169,6 +8175,72 @@ String&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlagH
 <p >ExampleDeathRecord.TransaxConversionHelper = ValueSets.TransaxConversion.Conversion_Using_Non_Ambivalent_Table_Entries;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Filing Format: {ExampleDeathRecord.TransaxConversionHelper}");</p>
+
+</div>
+</div>
+<a id="a92fba0d2393a352e9e85c35ef6758f74" name="a92fba0d2393a352e9e85c35ef6758f74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92fba0d2393a352e9e85c35ef6758f74">&#9670;&#160;</a></span>TransportationRole</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Dictionary&lt;string, string&gt; VRDR.DeathRecord.TransportationRole</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Transportation Role in death. </p>
+<p >transportation role in death. A Dictionary representing a code, containing the following key/value pairs: </p>
+<p >"code" - the code</p>
+<p >"system" - the code system this code belongs to</p>
+<p >"display" - a human readable meaning of the code</p>
+<p >// Setter:</p>
+<p >Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</p>
+<p >code.Add("code", "257500003");</p>
+<p >code.Add("system", CodeSystems.SCT);</p>
+<p >code.Add("display", "Passenger");</p>
+<p >ExampleDeathRecord.TransportationRole = code;</p>
+<p >// Getter:</p>
+<p >Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</p>
+
+</div>
+</div>
+<a id="a6a759480bb8bed087edf0a68dad66566" name="a6a759480bb8bed087edf0a68dad66566"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a759480bb8bed087edf0a68dad66566">&#9670;&#160;</a></span>TransportationRoleHelper</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string VRDR.DeathRecord.TransportationRoleHelper</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Transportation Role in death helper. </p>
+<p >transportation code for role in death. </p>
+<p >"code" - the code</p>
+<p >// Setter:</p>
+<p >ExampleDeathRecord.TransportationRoleHelper = VRDR.TransportationRoles.Passenger;</p>
+<p >// Getter:</p>
+<p >Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRoleHelper");</p>
 
 </div>
 </div>

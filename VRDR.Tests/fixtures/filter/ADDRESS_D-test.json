@@ -669,7 +669,7 @@
                                     },
                                     "valueCodeableConcept": {
                                         "coding": [{
-                                            "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+                                            "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                                             "code": "N",
                                             "display": "No"
                                         }]
@@ -685,7 +685,7 @@
                                     },
                                     "valueCodeableConcept": {
                                         "coding": [{
-                                            "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+                                            "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                                             "code": "N",
                                             "display": "No"
                                         }]
@@ -701,7 +701,7 @@
                                     },
                                     "valueCodeableConcept": {
                                         "coding": [{
-                                            "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+                                            "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                                             "code": "N",
                                             "display": "No"
                                         }]
@@ -717,7 +717,7 @@
                                     },
                                     "valueCodeableConcept": {
                                         "coding": [{
-                                            "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+                                            "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                                             "code": "N",
                                             "display": "No"
                                         }]
@@ -986,7 +986,7 @@
                             },
                             "valueCodeableConcept": {
                                 "coding": [{
-                                    "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                                     "code": "N",
                                     "display": "No"
                                 }]

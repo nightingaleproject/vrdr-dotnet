@@ -270,7 +270,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
                 }
               ]
             }
@@ -303,7 +303,7 @@
                 "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator",
                 "valueCoding": {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                   "display": "Yes"
                 }
               },
@@ -796,7 +796,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
                 }
               ]
             }
@@ -814,7 +814,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
                 }
               ]
             }
@@ -832,7 +832,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
                 }
               ]
             }
@@ -850,7 +850,7 @@
               "coding": [
                 {
                   "code": "N",
-                  "system": "http://terminology.hl7.org/ValueSet/v2-0136"
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
                 }
               ]
             }
@@ -975,7 +975,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
               "display": "Yes"
             }
           ]
@@ -1312,7 +1312,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
               "display": "Yes"
             }
           ]
@@ -1453,7 +1453,7 @@
               "coding": [
                 {
                   "code": "N",
-                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                   "display": "No"
                 }
               ]
@@ -1890,7 +1890,7 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                   "display": "Yes"
                 }
               ]
@@ -1904,7 +1904,7 @@
           "coding": [
             {
               "code": "Y",
-              "system": "http://terminology.hl7.org/ValueSet/v2-0136",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
               "display": "Yes"
             }
           ]

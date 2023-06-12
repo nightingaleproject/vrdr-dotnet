@@ -275,7 +275,7 @@ namespace VRDR.CLI
                 // MilitaryService
                 Dictionary<string, string> mserv = new Dictionary<string, string>();
                 mserv.Add("code", "Y");
-                mserv.Add("system", "http://terminology.hl7.org/ValueSet/v2-0136");
+                mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 mserv.Add("display", "Yes");
                 deathRecord.MilitaryService = mserv;
 
@@ -336,14 +336,14 @@ namespace VRDR.CLI
                 // AutopsyPerformedIndicator
                 Dictionary<string, string> api = new Dictionary<string, string>();
                 api.Add("code", "Y");
-                api.Add("system", "http://terminology.hl7.org/ValueSet/v2-0136");
+                api.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 api.Add("display", "Yes");
                 deathRecord.AutopsyPerformedIndicator = api;
 
                 // AutopsyResultsAvailable
                 Dictionary<string, string> ara = new Dictionary<string, string>();
                 ara.Add("code", "Y");
-                ara.Add("system", "http://terminology.hl7.org/ValueSet/v2-0136");
+                ara.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 ara.Add("display", "Yes");
                 deathRecord.AutopsyResultsAvailable = ara;
 
@@ -397,7 +397,7 @@ namespace VRDR.CLI
                 // InjuryAtWork
                 Dictionary<string, string> codeIW = new Dictionary<string, string>();
                 codeIW.Add("code", "N");
-                codeIW.Add("system", "http://terminology.hl7.org/ValueSet/v2-0136");
+                codeIW.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 codeIW.Add("display", "No");
                 deathRecord.InjuryAtWork = codeIW;
 

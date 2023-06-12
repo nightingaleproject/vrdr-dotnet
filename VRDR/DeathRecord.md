@@ -4265,7 +4265,7 @@ Dictionary<string, string> code = new Dictionary<string, string>();
 
 code.Add("code", "Y");
 
-code.Add("system", "http://terminology.hl7.org/ValueSet/v2-0136");
+code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
 
 code.Add("display", "Yes");
 

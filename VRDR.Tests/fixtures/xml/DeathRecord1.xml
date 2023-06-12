@@ -233,7 +233,7 @@
         <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/SpouseAlive">
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
               <code value="Y"/>
               <display value="Yes"/>
             </coding>
@@ -279,7 +279,7 @@
         <address>
           <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator">
             <valueCoding>
-              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
               <code value="Y"/>
               <display value="Yes"/>
             </valueCoding>
@@ -625,7 +625,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
               <code value="Y"/>
             </coding>
           </valueCodeableConcept>
@@ -1235,7 +1235,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -1301,7 +1301,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -1316,7 +1316,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
               <code value="Y" />
               <display value="Yes" />
             </coding>
@@ -1411,7 +1411,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
             <code value="N" />
             <display value="No" />
           </coding>
@@ -1512,7 +1512,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/ValueSet/v2-0136" />
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
               <code value="N" />
               <display value="No" />
             </coding>

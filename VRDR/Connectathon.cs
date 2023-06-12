@@ -237,7 +237,7 @@ namespace VRDR
             ije.SEX = "M";
             ije.SSN = "429471420";
             ije.AGETYPE = "2";
-            ije.AGE = "002";
+            ije.AGE = "003";
             ije.AGE_BYPASS = "0";
             ije.DOB_YR = "2023";
             ije.DOB_MO = "01";

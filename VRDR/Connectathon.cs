@@ -8,7 +8,18 @@ namespace VRDR
     /// <summary>Class <c>Connectathon</c> provides static methods for generating records used in Connectathon testing, used in Canary and in the CLI tool</summary>
     public class Connectathon
     {
-        /// <summary>Generate a DeathRecord from one of 5 pre-set records, providing an optional certificate number and state</summary>
+        /// <summary>Retrieve all available pre-set records</summary>
+        public static DeathRecord[] All()
+        {
+            DeathRecord[] records = new DeathRecord[] {
+                TwilaHilty(),
+                FideliaAlsup(),
+                DavisLineberry()
+            };
+            return records;
+        }
+
+        /// <summary>Generate a DeathRecord from one of 3 pre-set records, providing an optional certificate number and state</summary>
         public static DeathRecord FromId(int id, int? certificateNumber = null, string state = null, int? year = null)
         {
             DeathRecord record = null;

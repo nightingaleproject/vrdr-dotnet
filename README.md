@@ -418,7 +418,11 @@ CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage(ije.ToDeathRec
 
 // Set the source and destination
 message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
+// Set a single destination using MessageDestination (not plural).
 message.MessageDestination = "https://example.org/jurisdiction/endpoint";
+// Set multiple destinations with a comma separated list where each endpoint in the string is seperated by a comma. Use MessageDestinations (plural).
+// Messages without NCHS in this list of destinations will not be sent to NCHS.
+message.MessageDestinations = "https://example.org/jurisdiction/endpoint,https://example.org/jurisdiction/endpoint";
 
 // Create a JSON representation of the coding response message
 string jsonMessage = message.ToJSON();

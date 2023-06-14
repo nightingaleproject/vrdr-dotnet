@@ -414,7 +414,11 @@ Return Coding Example</h4>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Set the source and destination</span></div>
 <div class="line">message.MessageSource = <span class="stringliteral">&quot;http://nchs.cdc.gov/vrdr_submission&quot;</span>;</div>
+<div class="line"><span class="comment">// Set a single destination using MessageDestination (not plural).</span></div>
 <div class="line">message.MessageDestination = <span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>;</div>
+<div class="line"><span class="comment">// Set multiple destinations with a comma separated list where each endpoint in the string is seperated by a comma. Use MessageDestinations (plural).</span></div>
+<div class="line"><span class="comment">// Messages without NCHS in this list of destinations will not be sent to NCHS.</span></div>
+<div class="line">message.MessageDestinations = <span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint,https://example.org/jurisdiction/endpoint&quot;</span>;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Create a JSON representation of the coding response message</span></div>
 <div class="line"><span class="keywordtype">string</span> jsonMessage = message.<a class="code hl_function" href="class_v_r_d_r_1_1_base_message.html#ad93e5924c25c3b1eb29c316a47e25f1d">ToJSON</a>();</div>

@@ -9,14 +9,15 @@ namespace VRDR
     public class Connectathon
     {
         /// <summary>Retrieve all available pre-set records</summary>
-        public static DeathRecord[] All()
+        public static DeathRecord[] Records
         {
-            DeathRecord[] records = new DeathRecord[] {
-                TwilaHilty(),
-                FideliaAlsup(),
-                DavisLineberry()
-            };
-            return records;
+            get { 
+                return new DeathRecord[] {
+                    TwilaHilty(),
+                    FideliaAlsup(),
+                    DavisLineberry()
+                }; 
+            }
         }
 
         /// <summary>Generate a DeathRecord from one of 3 pre-set records, providing an optional certificate number and state</summary>

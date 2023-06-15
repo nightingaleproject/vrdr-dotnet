@@ -121,7 +121,7 @@
         <member name="T:VRDR.Connectathon">
             <summary>Class <c>Connectathon</c> provides static methods for generating records used in Connectathon testing, used in Canary and in the CLI tool</summary>
         </member>
-        <member name="M:VRDR.Connectathon.All">
+        <member name="P:VRDR.Connectathon.Records">
             <summary>Retrieve all available pre-set records</summary>
         </member>
         <member name="M:VRDR.Connectathon.FromId(System.Int32,System.Nullable{System.Int32},System.String,System.Nullable{System.Int32})">

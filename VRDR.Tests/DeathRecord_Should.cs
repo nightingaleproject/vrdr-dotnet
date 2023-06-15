@@ -102,6 +102,17 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void AllConnectathonRecords()
+        {
+            var records = VRDR.Connectathon.Records;
+            Assert.NotNull(records);
+            Assert.IsType<DeathRecord[]>(records);
+            Assert.Equal(3, records.Count());
+            Assert.Equal(VRDR.Connectathon.TwilaHilty().FamilyName, records[0].FamilyName);
+            Assert.Equal(VRDR.Connectathon.FideliaAlsup().Identifier, records[1].Identifier);
+        }
+
+        [Fact]
         // Check that two issues in NVSS-398 have been resolved
         public void ConnectathonRecordNVSS398()
         {

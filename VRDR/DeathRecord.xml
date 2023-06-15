@@ -121,8 +121,11 @@
         <member name="T:VRDR.Connectathon">
             <summary>Class <c>Connectathon</c> provides static methods for generating records used in Connectathon testing, used in Canary and in the CLI tool</summary>
         </member>
+        <member name="P:VRDR.Connectathon.Records">
+            <summary>Retrieve all available pre-set records</summary>
+        </member>
         <member name="M:VRDR.Connectathon.FromId(System.Int32,System.Nullable{System.Int32},System.String,System.Nullable{System.Int32})">
-            <summary>Generate a DeathRecord from one of 5 pre-set records, providing an optional certificate number and state</summary>
+            <summary>Generate a DeathRecord from one of 3 pre-set records, providing an optional certificate number and state</summary>
         </member>
         <member name="M:VRDR.Connectathon.TwilaHilty">
             <summary>Generate the Twila Hilty example record</summary>

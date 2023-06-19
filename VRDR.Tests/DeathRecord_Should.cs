@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Collections;
+using System.Reflection;
 using System.IO;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Xunit;
-
 using System.Linq;
 
 namespace VRDR.Tests
@@ -35,6 +34,14 @@ namespace VRDR.Tests
             DemographicCodedContentBundle1_JSON = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DemographicCodedContentBundle-Example1.json")));
 
             SetterDeathRecord = new DeathRecord();
+        }
+        
+        [Fact]
+        public void FailBadDplaceCode()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBadDplaceCode.json")));
+            Exception ex = Assert.Throws<System.ArgumentOutOfRangeException>(() => new IJEMortality(dr).DPLACE);
+            Assert.Equal("Error: Unable to find IJE DPLACE mapping for FHIR DeathLocationType field value '440081000124100x'", ex.Message.Substring(96, 98));
         }
 
         [Fact]
@@ -95,13 +102,24 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void AllConnectathonRecords()
+        {
+            var records = VRDR.Connectathon.Records;
+            Assert.NotNull(records);
+            Assert.IsType<DeathRecord[]>(records);
+            Assert.Equal(3, records.Count());
+            Assert.Equal(VRDR.Connectathon.TwilaHilty().FamilyName, records[0].FamilyName);
+            Assert.Equal(VRDR.Connectathon.FideliaAlsup().Identifier, records[1].Identifier);
+        }
+
+        [Fact]
         // Check that two issues in NVSS-398 have been resolved
         public void ConnectathonRecordNVSS398()
         {
             DeathRecord first = DeathRecord2_JSON;
             IJEMortality firstije = new IJEMortality(first);
             Assert.Null(first.DateOfDeath);   // Record has an unknown death day, the DeathDate should be null
-            Assert.Null(first.DeathDay);
+            Assert.Equal(-1, first.DeathDay); // Since it's explicitly unknown the DeathDay should be -1
             Assert.Equal("French", firstije.RACE22);
         }
         [Fact]
@@ -415,15 +433,15 @@ namespace VRDR.Tests
             Dictionary<string, string> CertificationRole = new Dictionary<string, string>();
             CertificationRole.Add("code", "434641000124105");
             CertificationRole.Add("system", CodeSystems.SCT);
-            CertificationRole.Add("display", "Physician certified and pronounced death certificate");
+            CertificationRole.Add("display", "Death certification and verification by physician (procedure)");
             SetterDeathRecord.CertificationRole = CertificationRole;
             Assert.Equal("434641000124105", SetterDeathRecord.CertificationRole["code"]);
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.CertificationRole["system"]);
-            Assert.Equal("Physician certified and pronounced death certificate", SetterDeathRecord.CertificationRole["display"]);
-            SetterDeathRecord.CertificationRoleHelper = VRDR.ValueSets.CertifierTypes.Pronouncing_Certifying_Physician;
+            Assert.Equal("Death certification and verification by physician (procedure)", SetterDeathRecord.CertificationRole["display"]);
+            SetterDeathRecord.CertificationRoleHelper = VRDR.ValueSets.CertifierTypes.Death_Certification_And_Verification_By_Physician_Procedure;
             Assert.Equal("434641000124105", SetterDeathRecord.CertificationRole["code"]);
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.CertificationRole["system"]);
-            Assert.Equal("Pronouncing & Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated.", SetterDeathRecord.CertificationRole["display"]);
+            Assert.Equal("Death certification and verification by physician (procedure)", SetterDeathRecord.CertificationRole["display"]);
             SetterDeathRecord.CertificationRoleHelper = "Barber";
             Assert.Equal("OTH", SetterDeathRecord.CertificationRole["code"]);
             Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.CertificationRole["system"]);
@@ -932,7 +950,7 @@ namespace VRDR.Tests
                 Assert.Equal(8, investigation.Entry.Count);
 
                 Composition.SectionComponent certification = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathCertification").First();
-                Assert.Equal(9, certification.Entry.Count);
+                Assert.Equal(8, certification.Entry.Count);
 
                 Composition.SectionComponent disposition = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDisposition").First();
                 Assert.Equal(4, disposition.Entry.Count);
@@ -970,7 +988,7 @@ namespace VRDR.Tests
                 Assert.Equal(8, investigation.Entry.Count);
 
                 Composition.SectionComponent certification = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathCertification").First();
-                Assert.Equal(8, certification.Entry.Count);
+                Assert.Equal(7, certification.Entry.Count);
 
                 Composition.SectionComponent disposition = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDisposition").First();
                 Assert.Equal(4, disposition.Entry.Count);
@@ -1238,14 +1256,19 @@ namespace VRDR.Tests
             Assert.Equal(1950, (int)SetterDeathRecord.BirthYear);
             Assert.Null(SetterDeathRecord.BirthMonth);
             Assert.Null(SetterDeathRecord.BirthDay);
+            SetterDeathRecord.BirthMonth = -1;
+            SetterDeathRecord.BirthDay = -1;
+            Assert.Equal(1950, (int)SetterDeathRecord.BirthYear);
+            Assert.Equal(-1, SetterDeathRecord.BirthMonth);
+            Assert.Equal(-1, SetterDeathRecord.BirthDay);
         }
 
         [Fact]
         public void Get_BirthDate_Partial_Date()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
-            Assert.Null(dr.BirthYear);
-            Assert.Null(dr.BirthMonth);
+            Assert.Equal(-1, dr.BirthYear);
+            Assert.Equal(-1, dr.BirthMonth);
             Assert.Equal(24, (int)dr.BirthDay);
         }
 
@@ -1259,8 +1282,8 @@ namespace VRDR.Tests
             Assert.Equal("99", ije1.DOB_MO);
             Assert.Equal("24", ije1.DOB_DY);
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Null(dr1.BirthYear);
-            Assert.Null(dr1.BirthMonth);
+            Assert.Equal(-1, dr1.BirthYear);
+            Assert.Equal(-1, dr1.BirthMonth);
             Assert.Equal(24, (int)dr1.BirthDay);
             Assert.Null(dr1.DateOfBirth);
         }
@@ -1268,7 +1291,7 @@ namespace VRDR.Tests
         [Fact]
         public void Set_Race()
         {
-            Tuple<string, string>[] race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslandLiteral1, "White, Native Hawaiian or Other Pacific Islander") };
+            Tuple<string, string>[] race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.FirstOtherPacificIslanderLiteral, "White, Native Hawaiian or Other Pacific Islander") };
             SetterDeathRecord.Race = race;
             Assert.Equal(race[0], SetterDeathRecord.Race[0]);
             Assert.Equal(race[1], SetterDeathRecord.Race[1]);
@@ -1750,6 +1773,7 @@ namespace VRDR.Tests
             SetterDeathRecord.FirstOtherRaceCodeHelper = ValueSets.RaceCode.Lebanese;
             SetterDeathRecord.SecondOtherRaceCodeHelper = ValueSets.RaceCode.Palestinian;
             SetterDeathRecord.HispanicCodeForLiteralHelper = ValueSets.HispanicOrigin.Canal_Zone;
+            SetterDeathRecord.HispanicCodeHelper = ValueSets.HispanicOrigin.Non_Hispanic; // test code 100...
             SetterDeathRecord.HispanicCodeHelper = ValueSets.HispanicOrigin.Cuban;
             SetterDeathRecord.RaceRecode40Helper = ValueSets.RaceRecode40.Aian_And_Asian;
             Assert.Equal(ValueSets.RaceCode.African, SetterDeathRecord.FirstEditedRaceCodeHelper);
@@ -2262,6 +2286,12 @@ namespace VRDR.Tests
             SetterDeathRecord.AgeAtDeath = aad;
             Assert.Equal("mo", SetterDeathRecord.AgeAtDeath["code"]);
             Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+            // optional fields
+            aad.Add("system", "http://unitsofmeasure.org");
+            aad.Add("unit", "years");
+            SetterDeathRecord.AgeAtDeath = aad;
+            Assert.Equal("http://unitsofmeasure.org", (SetterDeathRecord.AgeAtDeath["system"]));
+            Assert.Equal("years", (SetterDeathRecord.AgeAtDeath["unit"]));
         }
 
         [Fact]
@@ -2281,6 +2311,108 @@ namespace VRDR.Tests
             Assert.Equal("11", (dr2.AgeAtDeath["value"]));
             Assert.Equal("a", DeathRecord1_XML.AgeAtDeath["code"]);
             Assert.Equal("79", DeathRecord1_XML.AgeAtDeath["value"]);
+            // optional fields
+            Assert.Equal("http://unitsofmeasure.org", DeathCertificateDocument2_JSON.AgeAtDeath["system"]);
+            Assert.Equal("years", DeathCertificateDocument2_JSON.AgeAtDeath["unit"]);
+            Assert.Equal("http://unitsofmeasure.org", dr2.AgeAtDeath["system"]);
+            Assert.Equal("years", dr2.AgeAtDeath["unit"]);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathYears()
+        {
+            SetterDeathRecord.AgeAtDeathYears = 11;
+            Assert.Equal("a", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathYears()
+        {
+            Assert.Equal(42, DeathCertificateDocument2_JSON.AgeAtDeathYears);
+            Assert.Equal(79, DeathRecord1_XML.AgeAtDeathYears);
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "a"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathYears);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathMonths()
+        {
+            SetterDeathRecord.AgeAtDeathMonths = 11;
+            Assert.Equal("mo", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathMonths()
+        {
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "mo"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathMonths);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathDays()
+        {
+            SetterDeathRecord.AgeAtDeathDays = 11;
+            Assert.Equal("d", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathDays()
+        {
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "d"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathDays);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathHours()
+        {
+            SetterDeathRecord.AgeAtDeathHours = 11;
+            Assert.Equal("h", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathHours()
+        {
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "h"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathHours);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeathMinutes()
+        {
+            SetterDeathRecord.AgeAtDeathMinutes = 11;
+            Assert.Equal("min", SetterDeathRecord.AgeAtDeath["code"]);
+            Assert.Equal("11", SetterDeathRecord.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void Get_AgeAtDeathMinutes()
+        {
+            DeathRecord dr2 = new DeathRecord(DeathCertificateDocument2_JSON.ToJSON());
+            dr2.AgeAtDeath = new Dictionary<string, string>() {
+                {"code", "min"},
+                {"value", "11"}
+            };
+            Assert.Equal(11, dr2.AgeAtDeathMinutes);
         }
 
         [Fact]
@@ -2301,7 +2433,7 @@ namespace VRDR.Tests
             Assert.Equal("999", ije.AGE);
             Assert.Equal("9", ije.AGETYPE);
             DeathRecord dr2 = ije.ToDeathRecord();
-            Assert.Equal("", dr2.AgeAtDeath["unit"]);
+            Assert.Equal("", dr2.AgeAtDeath["code"]);
             Assert.Equal("", dr2.AgeAtDeath["value"]);
         }
 
@@ -2366,7 +2498,7 @@ namespace VRDR.Tests
             Assert.Equal("1", DeathRecord1_JSON.PregnancyStatus["code"]);
             Assert.Equal(VRDR.CodeSystems.PregnancyStatus, DeathRecord1_JSON.PregnancyStatus["system"]);
             Assert.Equal("Not pregnant within past year", DeathRecord1_JSON.PregnancyStatus["display"]);
-            Assert.Equal(ValueSets.PregnancyStatus.Pregnant_At_Time_Of_Death,DeathCertificateDocument2_JSON.PregnancyStatusHelper );
+            Assert.Equal(ValueSets.PregnancyStatus.Pregnant_At_Time_Of_Death, DeathCertificateDocument2_JSON.PregnancyStatusHelper);
             Assert.Equal("1", DeathRecord1_XML.PregnancyStatus["code"]);
             Assert.Equal(VRDR.CodeSystems.PregnancyStatus, DeathRecord1_XML.PregnancyStatus["system"]);
             Assert.Equal("Not pregnant within past year", DeathRecord1_XML.PregnancyStatus["display"]);
@@ -2440,9 +2572,6 @@ namespace VRDR.Tests
             Assert.Equal("OTH", SetterDeathRecord.TransportationRole["code"]);
             Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.TransportationRole["system"]);
             Assert.Equal("Other", SetterDeathRecord.TransportationRole["display"]);
-
-
-
         }
 
         [Fact]
@@ -2867,12 +2996,12 @@ namespace VRDR.Tests
         {
             Assert.Null(DeathCertificateDocument2_JSON.DateOfDeath);
             Assert.Null(DeathCertificateDocument2_JSON.DeathDay);
-            Assert.Equal((uint)2020, (DeathCertificateDocument2_JSON.DeathYear));
+            Assert.Equal(2020, (DeathCertificateDocument2_JSON.DeathYear));
             Assert.Equal("2020-11-12T00:00:00", DeathCertificateDocument1_JSON.DateOfDeath);
-            Assert.Equal((uint)2020, (DeathCertificateDocument1_JSON.DeathYear));
+            Assert.Equal(2020, (DeathCertificateDocument1_JSON.DeathYear));
             Assert.Null(DeathCertificateDocument1_JSON.DeathTime);
             Assert.Equal("2019-02-19T16:48:06", DeathRecord1_XML.DateOfDeath);
-            Assert.Equal((uint)2019, (DeathRecord1_JSON.DeathYear));
+            Assert.Equal(2019, (DeathRecord1_JSON.DeathYear));
         }
 
         [Fact]
@@ -2895,15 +3024,45 @@ namespace VRDR.Tests
             //Tuple<string, string>[] datePart = { Tuple.Create("date-year", "2021"), Tuple.Create("date-month", "5"), Tuple.Create("day-absent-reason", "asked-unknown")};
             SetterDeathRecord.DeathYear = 2021;
             SetterDeathRecord.DeathMonth = 5;
-            SetterDeathRecord.DeathDay = null;
+            SetterDeathRecord.DeathDay = -1;
             SetterDeathRecord.DeathTime = "10:00:00";
             IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
+            Assert.Equal("2021", ije1.DOD_YR);
+            Assert.Equal("05", ije1.DOD_MO);
+            Assert.Equal("99", ije1.DOD_DY);
             Assert.Equal("1000", ije1.TOD);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal(2021, (int)dr2.DeathYear);
-            Assert.Equal(5, (int)dr2.DeathMonth);
-            Assert.Null(dr2.DeathDay);
+            Assert.Equal(2021, dr2.DeathYear);
+            Assert.Equal(5, dr2.DeathMonth);
+            Assert.Equal(-1, dr2.DeathDay);
             Assert.Equal("10:00:00", dr2.DeathTime);
+        }
+
+        [Fact]
+        public void Set_DateOfDeath_Unknown_Partial_Date()
+        {
+            // Test ability to set dates and times diferentiating between explicitly unknown and unspecified
+            DeathRecord d = new DeathRecord();
+            Assert.Null(d.DeathYear);
+            Assert.Null(d.DeathMonth);
+            Assert.Null(d.DeathDay);
+            Assert.Null(d.DeathTime);
+            d.DeathYear = 2022;
+            Assert.Equal(2022, d.DeathYear);
+            Assert.Null(d.DeathMonth);
+            Assert.Null(d.DeathDay);
+            Assert.Null(d.DeathTime);
+            d.DeathMonth = -1;
+            d.DeathTime = "-1";
+            Assert.Equal(2022, d.DeathYear);
+            Assert.Equal(-1, d.DeathMonth);
+            Assert.Null(d.DeathDay);
+            Assert.Equal("-1", d.DeathTime);
+            IJEMortality ije = new IJEMortality(d, false);
+            Assert.Equal("2022", ije.DOD_YR);
+            Assert.Equal("99", ije.DOD_MO);
+            Assert.Equal("  ", ije.DOD_DY);
+            Assert.Equal("9999", ije.TOD);
         }
 
         [Fact]
@@ -2912,7 +3071,7 @@ namespace VRDR.Tests
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
             Assert.Equal(2021, (int)dr.DeathYear);
             Assert.Equal(2, (int)dr.DeathMonth);
-            Assert.Null(dr.DeathDay);
+            Assert.Equal(-1, dr.DeathDay);
         }
 
         [Fact]
@@ -2926,19 +3085,151 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Get_DateOfDeath_Timezone()
+        {
+            // The timezone of the death datetime should not impact the date due to timezone conversion
+            DeathRecord record = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathTimeZone.json")));
+            Assert.Equal(17, record.DeathDay);
+        }
+
+/* START DATE OF DEATH PRONOUNCEMENT */
+        [Fact]
         public void Set_DateOfDeathPronouncement()
         {
-            SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.498822-05:00";
-            Assert.Equal("2019-01-31T17:48:07.498822-05:00", SetterDeathRecord.DateOfDeathPronouncement);
+            SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.498822-05:00"; // check that we are ignoring the timezone
+            Assert.Equal("2019-01-31T17:48:07", SetterDeathRecord.DateOfDeathPronouncement);
         }
 
         [Fact]
         public void Get_DateOfDeathPronouncement()
         {
-            Assert.Equal("2018-02-20T16:48:06-05:00", DeathRecord1_JSON.DateOfDeathPronouncement);
-            Assert.Equal("2020-11-13T16:39:40-05:00", DeathCertificateDocument2_JSON.DateOfDeathPronouncement);
-            Assert.Equal("2019-02-20T16:48:06-05:00", DeathRecord1_XML.DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06", DeathRecord1_JSON.DateOfDeathPronouncement);
+            Assert.Equal("2020-11-13T16:39:40", DeathCertificateDocument2_JSON.DateOfDeathPronouncement);
+            Assert.Equal("2019-02-20T16:48:06", DeathRecord1_XML.DateOfDeathPronouncement);
         }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_Parts()
+        {
+            SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.498822-05:00"; // check that we are ignoring the timezone
+            Assert.Equal(2019, (int)SetterDeathRecord.DateOfDeathPronouncementYear);
+            Assert.Equal(01, (int)SetterDeathRecord.DateOfDeathPronouncementMonth);
+            Assert.Equal(31, (int)SetterDeathRecord.DateOfDeathPronouncementDay);
+            Assert.Equal("17:48:07", SetterDeathRecord.DateOfDeathPronouncementTime);
+
+            Assert.Equal(2018, (int)DeathRecord1_JSON.DateOfDeathPronouncementYear);
+            Assert.Equal(02, (int)DeathRecord1_JSON.DateOfDeathPronouncementMonth);
+            Assert.Equal(20, (int)DeathRecord1_JSON.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:06", DeathRecord1_JSON.DateOfDeathPronouncementTime);
+         }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_PPDATESIGNED_and_PPTIME_Roundtrip()
+        {
+            IJEMortality ije1 = new IJEMortality(DeathRecord1_JSON);
+            Assert.Equal("02202018", ije1.PPDATESIGNED);
+            Assert.Equal("1648", ije1.PPTIME);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("2018-02-20T16:48:06", dr2.DateOfDeathPronouncement);
+            Assert.Equal(2018, (int)dr2.DateOfDeathPronouncementYear);
+            Assert.Equal(02, (int)dr2.DateOfDeathPronouncementMonth);
+            Assert.Equal(20, (int)dr2.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:06", dr2.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_PPTIME_then_PPDATESIGNED_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateNoDatePronounced.json")));
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("        ", ije1.PPDATESIGNED);
+            Assert.Equal("    ", ije1.PPTIME);
+            ije1.PPTIME = "1648";
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("16:48:00", dr2.DateOfDeathPronouncement);
+            Assert.Null(dr2.DateOfDeathPronouncementYear);
+            Assert.Null(dr2.DateOfDeathPronouncementMonth);
+            Assert.Null(dr2.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:00", dr2.DateOfDeathPronouncementTime);
+            ije1.PPDATESIGNED = "02202018";
+            DeathRecord dr3 = ije1.ToDeathRecord();
+            Assert.Equal("2018-02-20T16:48:00", dr3.DateOfDeathPronouncement);
+            Assert.Equal(2018, (int)dr3.DateOfDeathPronouncementYear);
+            Assert.Equal(02, (int)dr3.DateOfDeathPronouncementMonth);
+            Assert.Equal(20, (int)dr3.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:00", dr3.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Set_DateOfDeathPronouncement_PPDATESIGNED_Only_Roundtrip()
+        {
+            SetterDeathRecord.DateOfDeathPronouncementYear = 2021;
+            SetterDeathRecord.DateOfDeathPronouncementMonth = 5;
+            SetterDeathRecord.DateOfDeathPronouncementDay = 10;
+            SetterDeathRecord.DateOfDeathPronouncementTime = null;
+            IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
+            Assert.Equal("05102021", ije1.PPDATESIGNED);
+            Assert.Equal("0000", ije1.PPTIME); // null is converted to time 0000 as a fhir time
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal(2021, dr2.DateOfDeathPronouncementYear);
+            Assert.Equal(5, dr2.DateOfDeathPronouncementMonth);
+            Assert.Equal(10, dr2.DateOfDeathPronouncementDay);
+            Assert.Equal("00:00:00", dr2.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Set_DateOfDeathPronouncement_PPTIME_Only_Roundtrip()
+        {
+            SetterDeathRecord.DateOfDeathPronouncementTime = "10:00:00";
+            IJEMortality ije1 = new IJEMortality(SetterDeathRecord, false);
+            Assert.Equal("        ", ije1.PPDATESIGNED);
+            Assert.Equal("1000", ije1.PPTIME);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Null(dr2.DateOfDeathPronouncementYear);
+            Assert.Null(dr2.DateOfDeathPronouncementMonth);
+            Assert.Null(dr2.DateOfDeathPronouncementDay);
+            Assert.Equal("10:00:00", dr2.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_DateTime()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
+            Assert.Equal(2021, (int)dr.DateOfDeathPronouncementYear);
+            Assert.Equal(3, (int)dr.DateOfDeathPronouncementMonth);
+            Assert.Equal(10, (int)dr.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:06", dr.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_DateTime_Date_Only()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDateOnly.json")));
+            Assert.Equal(2021, (int)dr.DateOfDeathPronouncementYear);
+            Assert.Equal(3, (int)dr.DateOfDeathPronouncementMonth);
+            Assert.Equal(10, (int)dr.DateOfDeathPronouncementDay);
+            Assert.Equal("00:00:00", dr.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_Time_Only()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateTimeOnly.json")));
+            Assert.Null(dr.DateOfDeathPronouncementYear);
+            Assert.Null(dr.DateOfDeathPronouncementMonth);
+            Assert.Null(dr.DateOfDeathPronouncementDay);
+            Assert.Equal("16:48:06", dr.DateOfDeathPronouncementTime);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement_Timezone()
+        {
+            // The timezone of the death datetime should not impact the date due to timezone conversion
+            DeathRecord record = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathTimeZone.json")));
+            Assert.Equal(18, record.DateOfDeathPronouncementDay);
+        }
+
+/* END DATE OF DEATH PRONOUCMENT */
 
         [Fact]
         public void Set_SurgeryDate()
@@ -3143,16 +3434,21 @@ namespace VRDR.Tests
         [Fact]
         public void Set_EntityAxisCodes()
         {
-            SetterDeathRecord.EntityAxisCauseOfDeath = new[] { (LineNumber: 2, Position: 1, Code: "T27.3", ECode: true) };
+            SetterDeathRecord.EntityAxisCauseOfDeath = new[] { (LineNumber: 2, Position: 1, Code: "T27.3", ECode: true),
+                                                               (LineNumber: 2, Position: 3, Code: "K27.10", ECode: false) };
             var eacGet = SetterDeathRecord.EntityAxisCauseOfDeath;
-            Assert.Single(eacGet);
+            Assert.Equal(2, eacGet.Count());
             Assert.Equal(2, eacGet.ElementAt(0).LineNumber);
             Assert.Equal(1, eacGet.ElementAt(0).Position);
             Assert.Equal("T27.3", eacGet.ElementAt(0).Code);
             Assert.True(eacGet.ElementAt(0).ECode);
+            Assert.Equal(2, eacGet.ElementAt(1).LineNumber);
+            Assert.Equal(3, eacGet.ElementAt(1).Position);
+            Assert.Equal("K27.10", eacGet.ElementAt(1).Code);
+            Assert.False(eacGet.ElementAt(1).ECode);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
-            string fmtEac = "21T273 &".PadRight(160, ' ');
+            string fmtEac = "21T273 &23K2710".PadRight(160, ' ');
             Assert.Equal(fmtEac, ije.EAC);
         }
 
@@ -3222,14 +3518,85 @@ namespace VRDR.Tests
         [Fact]
         public void CheckConnectathonRecord1()
         {
-            DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
-            Assert.Equal("62", dr1.AgeAtDeath["value"]);
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            Assert.Equal("21", dr1.AgeAtDeath["value"]);
+            Assert.Equal("female", dr1.SexAtDeath["code"]);
             Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
-            Assert.Equal("062", ije.AGE);
+            Assert.Equal("021", ije.AGE);
+            Assert.Equal("F", ije.SEX);
+            Assert.Equal("531869507", ije.SSN);
+            Assert.Equal("Hypoxemia", ije.COD1A.Trim());
+            Assert.Equal("N", ije.DETHNIC1);
+        }
+
+        [Fact]
+        public void CheckConnectathonRecord1DeathDatePartialTime()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            Assert.Equal("10:00:00", dr1.DeathTime);
+        }
+        [Fact]
+        public void CheckConnectathonRecordLocationOfDeath()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            String dr1Str = dr1.ToJson();
+            Assert.Contains("Location of death", dr1Str);
+            Assert.False(dr1Str.Contains("Place of death"), dr1Str);
+        }
+
+        [Fact]
+        public void CheckConnectathonRecordHispanicDisplayValue()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            String dr1Str = dr1.ToJson();
+            Assert.Contains("Hispanic Mexican", dr1Str);
+            Assert.Contains("Hispanic Puerto Rican", dr1Str);
+            Assert.Contains("Hispanic Cuban", dr1Str);
+            Assert.Contains("Hispanic Other", dr1Str);
+        }
+
+        [Fact]
+        public void CheckConnectathonRecordRaceDisplayValue()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.TwilaHilty();
+            String dr1Str = dr1.ToJson();
+            Assert.Contains("Black Or African American", dr1Str);
+            Assert.Contains("American Indian Or Alaskan Native", dr1Str);
+            Assert.Contains("Asian Indian", dr1Str);
+            Assert.Contains("Other Asian", dr1Str);
+            Assert.Contains("Native Hawaiian", dr1Str);
+            Assert.Contains("Guamanian Or Chamorro", dr1Str);
+            Assert.Contains("Other Pacific Islander", dr1Str);
+            Assert.Contains("Other Race", dr1Str);
+        }
+
+        [Fact]
+        public void CheckConnectathonRecord2()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
+            Assert.Equal("63", dr1.AgeAtDeath["value"]);
+            Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
+            IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
+            Assert.Equal("063", ije.AGE);
             Assert.Equal("478151044", ije.SSN);
-            Assert.Equal("Unrestrained ejected driver in rollover motor vehicle accident", ije.HOWINJ.Trim());
+            Assert.Equal("", ije.HOWINJ.Trim());
             Assert.Equal("H", ije.DETHNIC2);
+        }
+
+        [Fact]
+        public void CheckConnectathonRecord3()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.DavisLineberry();
+            Assert.Equal("3", dr1.AgeAtDeath["value"]);
+            Assert.Equal("male", dr1.SexAtDeath["code"]);
+            Assert.NotNull(dr1.ToDescription()); // This endpoint is used by Canary
+            IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
+            Assert.Equal("003", ije.AGE);
+            Assert.Equal("M", ije.SEX);
+            Assert.Equal("429471420", ije.SSN);
+            Assert.Equal("Pending", ije.COD1A.Trim());
+            Assert.Equal("N", ije.DETHNIC1);
         }
 
         [Fact]
@@ -3238,7 +3605,7 @@ namespace VRDR.Tests
             Bundle bundle = DeathRecord1_JSON.GetCauseOfDeathCodedContentBundle();
             DeathRecord codedcontentbundle = new DeathRecord(bundle);
             Assert.NotNull(bundle);
-            Assert.Equal("2019YC000182",codedcontentbundle.DeathRecordIdentifier);
+            Assert.Equal("2019YC000182", codedcontentbundle.DeathRecordIdentifier);
             Assert.Equal("000182", codedcontentbundle.Identifier);
             Assert.Equal("000000000042", codedcontentbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", codedcontentbundle.StateLocalIdentifier2);
@@ -3253,7 +3620,7 @@ namespace VRDR.Tests
             Bundle bundle = DeathRecord1_JSON.GetDemographicCodedContentBundle();
             Assert.NotNull(bundle);
             DeathRecord codedcontentbundle = new DeathRecord(bundle);
-            Assert.Equal("2019YC000182",codedcontentbundle.DeathRecordIdentifier);
+            Assert.Equal("2019YC000182", codedcontentbundle.DeathRecordIdentifier);
             Assert.Equal("000182", codedcontentbundle.Identifier);
             Assert.Equal("000000000042", codedcontentbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", codedcontentbundle.StateLocalIdentifier2);
@@ -3268,13 +3635,13 @@ namespace VRDR.Tests
             DeathRecord mortalityrosterbundle = new DeathRecord(bundle);
             Assert.NotNull(bundle);
             var numExtensions = bundle.Meta.Extension.Count();
-            Assert.Equal(2,numExtensions); // alias and replace
-            Assert.Equal("2019YC000182",mortalityrosterbundle.DeathRecordIdentifier);
+            Assert.Equal(2, numExtensions); // alias and replace
+            Assert.Equal("2019YC000182", mortalityrosterbundle.DeathRecordIdentifier);
             Assert.Equal("000182", mortalityrosterbundle.Identifier);
             Assert.Equal("000000000042", mortalityrosterbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", mortalityrosterbundle.StateLocalIdentifier2);
             Assert.Equal("", mortalityrosterbundle.CertificationRole["code"]); // should be empty
-            Assert.Equal("",mortalityrosterbundle.PregnancyStatusHelper); // should be missing
+            Assert.Null(mortalityrosterbundle.PregnancyStatusHelper); // should be missing
             // TODO: Fill out tests
         }
         [Fact]
@@ -3285,9 +3652,10 @@ namespace VRDR.Tests
             ije.DSTATE = "MA";
             ije.FILENO = "578660";
             ije.MAN_UC = "I219";
-            ije.EAC = "21I219  31I251  61E119  62F179  63I10   64E780";
-            ije.RAC = "I219 E119 E780 F179 I10  I251";
-            ije.AUXNO = "579927";
+            ije.EAC = "21I219  31I251  61E119  62F179  63I10   64E780  ";
+            ije.RAC = "I219 E119 E780 F179 I10  I251 ";
+            Assert.Equal("I219 E119 E780 F179 I10  I251 ".PadRight(100), ije.RAC);
+            ije.AUXNO = "579927".PadRight(12, ' ');
             ije.MFILED = "0";
             ije.MANNER = "N";
             ije.trx.CS = "1";
@@ -3310,8 +3678,8 @@ namespace VRDR.Tests
             Assert.Equal("578660", ije2.FILENO);
             Assert.Equal("I219", ije2.MAN_UC);
             Assert.Equal("21I219  31I251  61E119  62F179  63I10   64E780".PadRight(160), ije2.EAC);
-            Assert.Equal("I219 E119 E780 F179 I10  I251".PadRight(100), ije2.RAC);
-            Assert.Equal("579927".PadLeft(12, '0'), ije2.AUXNO);
+            Assert.Equal("I219 E119 E780 F179 I10  I251  ".PadRight(100), ije2.RAC);
+            Assert.Equal("579927".PadRight(12, ' '), ije2.AUXNO);
             Assert.Equal("0", ije2.MFILED);
             Assert.Equal("N", ije2.MANNER);
             Assert.Equal("1", ije2.trx.CS);
@@ -3324,6 +3692,80 @@ namespace VRDR.Tests
             Assert.Equal("Hover Board Rider", ije2.TRANSPRT);
             Assert.Equal("9", ije2.INACT);
         }
+        [Fact]
+        public void TestRaceLiteralRoundTrip()
+        {
+            // setup race literals in an IJE record
+            var ije = new IJEMortality();
+            ije.DOD_YR = "2021";
+            ije.DSTATE = "MA";
+            ije.FILENO = "578660";
+            ije.RACE16 = "Apache";
+            ije.RACE17 = "Lipan Apache";
+            ije.RACE18 = "Taiwanese";
+            ije.RACE19 = "Gaoshan";
+            ije.RACE20 = "Maori";
+            ije.RACE21 = "Waikato";
+            ije.RACE22 = "Vulcan";
+            ije.RACE23 = "Hgrtcha";
+            
+            // convert to a DeathRecord and check race literals
+            var record = ije.ToDeathRecord();
+            var race = record.Race.ToList().ToDictionary(x => x.Item1, x => x.Item2);
+            Assert.Equal(2021, record.DeathYear);
+            Assert.Equal("MA", record.DeathLocationJurisdiction);
+            Assert.Equal("578660", record.Identifier);
+            Assert.Equal("Apache", race.GetValueOrDefault("FirstAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Lipan Apache", race.GetValueOrDefault("SecondAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Taiwanese", race.GetValueOrDefault("FirstOtherAsianLiteral"));
+            Assert.Equal("Gaoshan", race.GetValueOrDefault("SecondOtherAsianLiteral"));
+            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslanderLiteral"));
+            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslanderLiteral"));
+            Assert.Equal("Vulcan", race.GetValueOrDefault("FirstOtherRaceLiteral"));
+            Assert.Equal("Hgrtcha", race.GetValueOrDefault("SecondOtherRaceLiteral"));
+
+            // convert back to an IJE record and check race literals for roundtrip
+            var ije2 = new IJEMortality(record);
+            Assert.Equal("2021", ije2.DOD_YR);
+            Assert.Equal("MA", ije2.DSTATE);
+            Assert.Equal("578660", ije2.FILENO);
+            Assert.Equal("Apache", ije.RACE16);
+            Assert.Equal("Lipan Apache", ije.RACE17);
+            Assert.Equal("Taiwanese", ije.RACE18);
+            Assert.Equal("Gaoshan", ije.RACE19);
+            Assert.Equal("Maori", ije.RACE20);
+            Assert.Equal("Waikato", ije.RACE21);
+            Assert.Equal("Vulcan", ije.RACE22);
+            Assert.Equal("Hgrtcha", ije.RACE23);
+        }
+
+        [Fact]
+        public void TestLoadRaceEthnicityLiteralsFromFHIRJSON() {
+            // confirm that we can read a death record from JSON and each of the race literal records
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/AllRaceLiterals.json")));
+            var race = dr.Race.ToList().ToDictionary(x => x.Item1, x => x.Item2);
+            Assert.Equal(2022, dr.DeathYear);
+            Assert.Equal("ID", dr.DeathLocationJurisdiction);
+            Assert.Equal("000182", dr.Identifier);
+            Assert.Equal("Apache", race.GetValueOrDefault("FirstAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Lipan Apache", race.GetValueOrDefault("SecondAmericanIndianOrAlaskanNativeLiteral"));
+            Assert.Equal("Taiwanese", race.GetValueOrDefault("FirstOtherAsianLiteral"));
+            Assert.Equal("Gaoshan", race.GetValueOrDefault("SecondOtherAsianLiteral"));
+            Assert.Equal("Maori", race.GetValueOrDefault("FirstOtherPacificIslanderLiteral"));
+            Assert.Equal("Waikato", race.GetValueOrDefault("SecondOtherPacificIslanderLiteral"));
+            Assert.Equal("Vulcan", race.GetValueOrDefault("FirstOtherRaceLiteral"));
+            Assert.Equal("Hgrtcha", race.GetValueOrDefault("SecondOtherRaceLiteral"));
+            Assert.Equal("Panamanian", dr.EthnicityLiteral); // HispanicLiteral
+        }
+
+        [Fact]
+        public void TestInvalidRaceLiteralThrowsException() {
+            var record = new DeathRecord();
+            var race = record.Race.ToList();
+            race.Add(Tuple.Create("InvalidRaceLiteral", "Foo"));
+            var raceArray = race.Distinct().ToArray();
+            Assert.Throws<System.ArgumentException>(() => record.Race = raceArray);
+        }
 
         [Fact]
         public void Get_BlankLocationNames()
@@ -3334,6 +3776,372 @@ namespace VRDR.Tests
             Assert.Null(dr.DispositionLocationName);
         }
 
+        [Fact]
+        public void Get_EmptyLiteralRaceFields()
+        {
+            // A record with an a literal race field (e.g., FirstAmericanIndianOrAlaskanNativeLiteral) with no content should parse successfully
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/EmptyRaceLiteral.json")));
+            Assert.DoesNotContain(dr.Race, (t => t.Item1 == "FirstAmericanIndianOrAlaskanNativeLiteral"));
+        }
+
+        [Fact]
+        public void TestForOverwrites()
+        {
+            // This test makes sure that there are no fields that, when writing them, accidentally change another field;
+            // we test this by going through each field, setting it to a value, and then setting all other fields to a value,
+            // and then checking to make sure the original field still has the same value
+
+            // Make a list of all the fields we'll test and a valid value for each
+            Dictionary<string, string> fields = new Dictionary<string, string>
+            {
+                // This list of fields is fairly comprehensive, though some have been intentionally left out:
+                // STATETEXT_D, STATEBTH, and FUNSTATE (setting these are a no-ops)
+                // MNAME, DMIDDLE, DDADMID, DMOMMID, SPOUSEMIDNAME, CERTMIDDLE (middle names behave oddly due to how FHIR represents names)
+                { "DOD_YR", "2023"}, //2022" },
+                { "DSTATE", "CT" },
+                { "FILENO", "000001" },
+                { "AUXNO", "000000000001" },
+                { "MFILED", "0" },
+                { "GNAME", "Twila" },
+                { "LNAME", "Hilty" },
+                { "SUFF", "Jr." },
+                { "FLNAME", "Brown" },
+                { "SEX", "F" },
+                { "SSN", "531869507" },
+                { "AGETYPE", "1" },
+                { "AGE", "021" },
+                { "AGE_BYPASS", "0" },
+                { "DOB_YR", "2002" },
+                { "DOB_MO", "01" },
+                { "DOB_DY", "01" },
+                { "BPLACE_CNT", "US" },
+                { "BPLACE_ST", "CT" },
+                { "CITYC", "37000" },
+                { "COUNTYC", "003" },
+                { "STATEC", "CT" },
+                { "COUNTRYC", "US" },
+                { "LIMITS", "Y" },
+                { "MARITAL", "S" },
+                { "MARITAL_BYPASS", "0" },
+                { "DPLACE", "1" },
+                { "COD", "001" },
+                { "DISP", "B" },
+                { "DOD_MO", "01" },
+                { "DOD_DY", "10" },
+                { "TOD", "1000" },
+                { "DEDUC", "8" },
+                { "DEDUC_BYPASS", "0" },
+                { "DETHNIC1", "N" },
+                { "DETHNIC2", "N" },
+                { "DETHNIC3", "N" },
+                { "DETHNIC4", "N" },
+                { "RACE1", "Y" },
+                { "RACE2", "N" },
+                { "RACE3", "N" },
+                { "RACE4", "N" },
+                { "RACE5", "N" },
+                { "RACE6", "N" },
+                { "RACE7", "N" },
+                { "RACE8", "N" },
+                { "RACE9", "N" },
+                { "RACE10", "N" },
+                { "RACE11", "N" },
+                { "RACE12", "N" },
+                { "RACE13", "N" },
+                { "RACE14", "N" },
+                { "RACE15", "N" },
+                { "OCCUP", "Teacher" },
+                { "INDUST", "Education" },
+                { "BCNO", "717171" },
+                { "IDOB_YR", "1961" },
+                { "BSTATE", "YC" },
+                { "R_YR", "2021" },
+                { "R_MO", "12" },
+                { "R_DY", "12" },
+                { "DOR_YR", "2020" },
+                { "DOR_MO", "11" },
+                { "DOR_DY", "15" },
+                { "MANNER", "N" },
+                { "INT_REJ", "1" },
+                { "SYS_REJ", "0" },
+                { "INJPL", "0" },
+                { "MAN_UC", "J960" },
+                { "ACME_UC", "J960" },
+                { "EAC", "11J960" },
+                { "TRX_FLG", "3" },
+                { "RAC", "J960" },
+                { "AUTOP", "N" },
+                { "AUTOPF", "X" },
+                { "TOBAC", "U" },
+                { "PREG", "8"}, //2" },
+                { "PREG_BYPASS", "0" },
+                { "DOI_MO", "01"}, //11" },
+                { "DOI_DY", "10"}, //02" },
+                { "DOI_YR", "2022"}, //2019" },
+                { "TOI_HR", "1300" },
+                { "WORKINJ", "N" },
+                { "CERTL", "D" },
+                { "INACT", "1" },
+                { "AUXNO2", "100000000001" },
+                { "STATESP", "20220101" },
+                { "SUR_MO", "01" },
+                { "SUR_DY", "10" },
+                { "SUR_YR", "2022" },
+                { "ARMEDF", "Y" },
+                { "DINSTI", "Pecan Grove Nursing Home" },
+                { "CITYTEXT_D", "Albany" },
+                { "CITYCODE_D", "00000" },
+                { "LONG_D", "-77.050636" },
+                { "LAT_D", "38.889248" },
+                { "SPOUSELV", "1" },
+                { "SPOUSEL", "Gazette" },
+                { "STNUM_R", "1829" },
+                { "PREDIR_R", "North" },
+                { "STNAME_R", "Charles" },
+                { "STDESIG_R", "Avenue" },
+                { "POSTDIR_R", "Southeast" },
+                { "UNITNUM_R", "Apt 2B" },
+                { "CITYTEXT_R", "Hartford" },
+                { "ZIP9_R", "06107" },
+                { "COUNTYTEXT_R", "Hartford" },
+                { "STATETEXT_R", "Connecticut" },
+                { "COUNTRYTEXT_R", "United States" },
+                { "ADDRESS_R", "4437 North Charles Avenue Southeast Apt 2B" },
+                { "DETHNICE", "233" },
+                { "DDADF", "John" },
+                { "DMOMF", "Momfirst" },
+                { "DMOMMDN", "Suzette" },
+                { "REFERRED", "Y" },
+                { "POILITRL", "Home" },
+                { "HOWINJ", "drug toxicity" },
+                { "TRANSPRT", "PE" },
+                { "COUNTYCODE_I", "000" },
+                { "CITYCODE_I", "00000" },
+                { "REPLACE", "0" },
+                { "COD1A", "Hypoxemia"}, //Cardiopulmonary arrest" },
+                { "INTERVAL1A", "4 Days"}, //4 Hours" },
+                { "COD1B", "MRSA Pneumonia"}, //Eclampsia" },
+                { "INTERVAL1B", "4 Days"}, //3 Months" },
+                { "OTHERCONDITION", "hypertensive heart disease" },
+                { "DBPLACECITY", "Roanoke" },
+                { "SPOUSESUFFIX", "Ss" },
+                { "FATHERSUFFIX", "Sr" },
+                { "MOTHERSSUFFIX", "Ms" },
+                { "INFORMRELATE", "Friend of family" },
+                { "DISPSTATECD", "VA" },
+                { "DISPCITY", "Danville" },
+                { "FUNFACNAME", "Lancaster Funeral Home and Crematory" },
+                { "FUNFACADDRESS", "211 High Street" },
+                { "FUNCITYTEXT", "Lancaster" },
+                { "FUNZIP", "17573" },
+                { "PPDATESIGNED", "11132020" },
+                { "PPTIME", "2139" },
+                { "CERTFIRST", "Jim" },
+                { "CERTLAST", "Black" },
+                { "CERTSUFFIX", "Cr" },
+                { "CERTADDRESS", "44 South Street" },
+                { "CERTCITYTEXT", "Bird in Hand" },
+                { "CERTSTATECD", "PA" },
+                { "CERTSTATE", "Pennsylvania" },
+                { "CERTZIP", "17505" },
+                { "CERTDATE", "11142020" },
+                { "DTHCOUNTRYCD", "US" },
+                { "DTHCOUNTRY", "United States" },
+                { "PLACE1_1", "H" },
+                { "PLACE1_2", "I" },
+                { "PLACE8_1", "Hi 8_1" },
+                { "PLACE20", "Hi 20_1"}
+            };
+            // For each field, create a record, set that field, set all the other fields, and make sure the first field still has the same value
+            foreach(var (field, value) in fields)
+            {
+                IJEMortality ije = new IJEMortality();
+                PropertyInfo property = typeof(IJEMortality).GetProperty(field);
+                property.SetValue(ije, value);
+                foreach(var (overwriteField, overwriteValue) in fields)
+                {
+                    if (overwriteField == field) continue; // Don't rewrite the field we're testing
+                    PropertyInfo overwriteProperty = typeof(IJEMortality).GetProperty(overwriteField);
+                    overwriteProperty.SetValue(ije, overwriteValue);
+                }
+                Console.WriteLine($"Testing {field} with value {value}");
+                Assert.Equal(value, ((string)property.GetValue(ije)).Trim());
+            }
+        }
+
+        [Fact]
+        public void GetShouldNotReturnEmptyString()
+        {
+            // An empty string field should never return an empty string to mean no value, should return null
+            DeathRecord blank = new DeathRecord();
+            List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.PropertyType.ToString() == "System.String")
+                {
+                    object value = property.GetValue(blank);
+                    if (property.Name == "DeathRecordIdentifier") {
+                        Assert.Equal(value, "0000XX000000");
+                    } else {
+                      Assert.Null(value);
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public void EmptyRecordRoundTrip()
+        {
+            // If we have an empty record and copy it over to a new empty record we shouldn't wind up with any blank strings
+            DeathRecord blank = new DeathRecord();
+            DeathRecord copy = new DeathRecord();
+            List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                property.SetValue(copy, property.GetValue(blank));
+            }
+            Assert.DoesNotContain("\"\"", blank.ToJson());
+            Assert.DoesNotContain("\"\"", copy.ToJson());
+        }
+
+        [Fact]
+        public void SetWithEmptyStrings()
+        {
+            // Starting with an empty record and setting all fields with the "empty" version of the field (e.g., for strings use "")
+            // should not actually set any fields to empty strings in the resulting JSON
+            DeathRecord blank = new DeathRecord();
+            List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                switch (property.PropertyType.ToString())
+                {
+                    case "System.String":
+                        property.SetValue(blank, "");
+                        break;
+                    case "System.String[]":
+                        property.SetValue(blank, new string[] { "", "" });
+                        break;
+                    case "System.Collections.Generic.Dictionary`2[System.String,System.String]":
+                        property.SetValue(blank, new Dictionary<string, string> { { "code", "" }, { "system", ""}, { "display", "" } });
+                        break;
+                    case "System.Collections.Generic.IEnumerable`1[System.ValueTuple`4[System.Int32,System.Int32,System.String,System.Boolean]]":
+                        property.SetValue(blank, new[] { (LineNumber: 1, Position: 1, Code: "", ECode: false) });
+                        break;
+                    case "System.Collections.Generic.IEnumerable`1[System.ValueTuple`3[System.Int32,System.String,System.Boolean]]":
+                        property.SetValue(blank, new[] { (Position: 1, Code: "", Pregnancy: false) });
+                        break;
+                    case "System.Tuple`2[System.String,System.String][]":
+                        property.SetValue(blank, new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "") });
+                        break;
+                    default:
+                        // Make sure we're not missing any string types in the test
+                        if (property.Name.ToString() == "CausesOfDeath") continue; // This is a convenience method that we don't need to test
+                        if (property.PropertyType.ToString().Contains("String")) Console.WriteLine($"Missing string type {property.PropertyType} for property {property.Name}");
+                        Assert.DoesNotContain("String", property.PropertyType.ToString()); // Make sure we're not missing any string types
+                        break;
+                }
+            }
+            Assert.DoesNotContain("\"\"", blank.ToJson());
+        }
+
+        [Fact]
+        public void TestPregnancyCodes()
+        {
+            DeathRecord testRecord = new DeathRecord();
+            string currentStatus = testRecord.PregnancyStatusHelper;
+            Assert.Null(currentStatus);
+            testRecord.PregnancyStatusHelper = "3";
+            Assert.Equal("3", testRecord.PregnancyStatusHelper);
+
+            Exception ex = Assert.Throws<System.ArgumentException>(() => testRecord.PregnancyStatusHelper = "10");
+
+            testRecord.PregnancyStatusHelper = "8";
+            Assert.Equal("8", testRecord.PregnancyStatusHelper);
+        }
+
+        [Fact]
+        public void TestEducationLevelObs()
+        {
+            var testRecord = new DeathRecord();
+            Composition composition = testRecord.GetComposition();
+
+            int beforeCounts = 0;
+            int afterCounts = 0;
+
+            foreach(var s in composition.Section)
+            {
+                beforeCounts += s.Entry.Count;
+            }
+
+            testRecord.EducationLevelHelper = "HS";
+
+            foreach (var s in composition.Section)
+            {
+                afterCounts += s.Entry.Count;
+            }
+            Assert.Equal(beforeCounts + 1, afterCounts);
+        }
+
+        [Fact]
+        public void TestAutopsyAvailableCodes()
+        {
+            IJEMortality ije = new IJEMortality();
+            ije.DOD_YR = "2021";
+            ije.DSTATE = "MA";
+            ije.FILENO = "578660";
+            ije.MAN_UC = "I219";
+            ije.EAC = "21I219  31I251  61E119  62F179  63I10   64E780  ";
+            ije.RAC = "I219 E119 E780 F179 I10  I251 ";
+            ije.AUXNO = "579927".PadRight(12, ' ');
+            ije.MFILED = "0";
+            ije.MANNER = "N";
+            ije.trx.CS = "1";
+            ije.trx.SHIP = "497";
+            ije.AUTOP = "Y";
+            ije.AUTOPF = "Y";
+            ije.TOBAC = "Y";
+            ije.PREG = "8";
+            ije.CERTL = "D";
+            ije.CERTL = "DDDD";
+            ije.TRANSPRT = "Hover Board Rider";
+            ije.INACT = "9";
+            DeathRecord record = ije.ToDeathRecord();
+            IJEMortality ije2 = new IJEMortality(record);
+            Assert.Equal("Y", record.AutopsyResultsAvailableHelper);
+            Assert.Equal("Y", ije2.AUTOPF);
+
+            ije.AUTOPF = "N";
+            record = ije.ToDeathRecord();
+            ije2 = new IJEMortality(record);
+            Assert.Equal("N", record.AutopsyResultsAvailableHelper);
+            Assert.Equal("N", ije2.AUTOPF);
+
+            ije.AUTOPF = "U";
+            record = ije.ToDeathRecord();
+            ije2 = new IJEMortality(record);
+            Assert.Equal("UNK", record.AutopsyResultsAvailableHelper);
+            Assert.Equal("U", ije2.AUTOPF);
+
+            ije.AUTOPF = "X";
+            record = ije.ToDeathRecord();
+            ije2 = new IJEMortality(record);
+            Assert.Equal("NA", record.AutopsyResultsAvailableHelper);
+            Assert.Equal("X", ije2.AUTOPF);
+        }
+
+        [Fact]
+        public void TestIJEParsing()
+        {
+            string initIJE = "2016NE0001151            0Jennifer                                          LJones                                                       0Adams                                             F05432112341047019680912USNE40780109NEUSYD04109C0107040530NNNN                    YNNNNNNNNNNNNNN                                                                                                                                                                                                                                                100                                              Tenneco                                    Factory                                    0172281968NE                20160112    A        R99  11R99                                                                                                                                                            R99                                                                                                 YYU1 010720169999NLancaster County Attorney                                                              N                              6100 W. Smith St.                                                                                                                           Raymond                     Nebraska                    68428    Lancaster                                                                                                                                                                                                                                          Raymond                     68428    Lancaster                   Nebraska                    United States               6100 W. South St.                                      10001                                                                   Loe                                               John                                                                                                Ann                                               L                                                 Doe                                               YHome                                              Decedeht was found unconscious and not breathing on the enclosed porchof the residence.                                                                                                                                                                                                                                Raymond                          NE                                    1Combined Ethanol, Cyclobenzaprine, Hydroxychloroquine And Gabapentin Toxicity                                           Unknown                                                                                                                                                                                                                                                                                                                                                                                                                                                 Diagnosed With Lupus; Depression History                                                                                                                                                                                                                                                               Lincoln                                                                                                     Son                             Nebraska                         Lincoln                     Lincoln Memorial Funeral Home                                                                                                                                                  6800 S. 14th Street                               Lincoln                       Nebraska                    68512    010720160405                                                                                                                                                                                                                                           575 South St                                      Lincoln                       Nebraska                    68508    0111201601122016Nebraska                    Nebraska                    USUnited States               280 Y01112016                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ";
+            IJEMortality ije = new IJEMortality(initIJE);
+            Assert.Equal("Nebraska", ije.STATETEXT_R.Trim());
+            Assert.Equal("L", ije.MNAME);
+            Assert.Equal("", ije.FILEDATE); // blanks out since not used in FHIR Assert.Equal("01122026", ije.FILEDATE);
+            // NOTE: below may change on subsequent reviews of IJE->FHIR mapping
+            Assert.Equal("0", ije.VOID); // zeroed out since IJE Void does not map to FHIR (Handled at Messaging IG level) Assert.Equal("1", ije.VOID);
+            Assert.Equal("0", ije.ALIAS); // zeroed out as with VOID Assert.Equal("1", ije.ALIAS);
+        }
+ 
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

@@ -14,9 +14,6 @@ namespace VRDR
         /// <summary>URL for DecedentMilitaryService</summary>
         public const string DecedentMilitaryService = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-military-service";
 
-        /// <summary>URL for CauseOfDeathPathway</summary>
-        public const string CauseOfDeathPathway = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-pathway";
-
         /// <summary>URL for TobaccoUseContributedToDeath</summary>
         public const string TobaccoUseContributedToDeath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-tobacco-use-contributed-to-death";
 

@@ -112,7 +112,7 @@ namespace VRDR
             }
             if (from?.DeathYear != null)
             {
-                this.DeathYear = from.DeathYear;
+                this.DeathYear = (uint)from.DeathYear;
             }
             this.JurisdictionId = from?.DeathLocationJurisdiction;
         }
@@ -261,19 +261,46 @@ namespace VRDR
         }
 
         /// <summary>Message Destination</summary>
-        /// <value>the message destination.</value>
+        /// <value>the message destinations, in csv format to support multiple endpoints. Acts as a wrapper for MessageDestinations while still maintaining backwards compatibility.</value>
         public string MessageDestination
         {
             get
             {
-                return Header?.Destination?.FirstOrDefault()?.Endpoint;
+                List<string> destinations = this.MessageDestinations;
+                if (destinations == null || (destinations.Count() == 1 && destinations[0] == null) || destinations.Count() < 1) {
+                    return null;
+                }
+                return String.Join(",", this.MessageDestinations);
+            }
+            set
+            {
+                this.MessageDestinations = value != null ? value.Split(',').ToList() : null;
+            }
+        }
+
+        /// <summary>Message Destinations</summary>
+        /// <value>the message destinations in list-based format.</value>
+        public List<string> MessageDestinations
+        {
+            get
+            {
+                return Header?.Destination?.Select(dest => dest.Endpoint).ToList();
             }
             set
             {
                 Header.Destination.Clear();
-                MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
-                dest.Endpoint = value;
-                Header.Destination.Add(dest);
+                if (value == null)
+                {
+                    MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
+                    dest.Endpoint = null;
+                    Header.Destination.Add(dest);
+                    return;
+                }
+                foreach (string endpoint in value) {
+                    MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
+                    dest.Endpoint = endpoint;
+                    Header.Destination.Add(dest);
+                }
             }
         }
 
@@ -281,7 +308,7 @@ namespace VRDR
         protected void SetSingleStringValue(string key, string value)
         {
             Record.Remove(key);
-            if (value != null)
+            if (!String.IsNullOrWhiteSpace(value))
             {
                 Record.Add(key, new FhirString(value));
             }
@@ -556,6 +583,61 @@ namespace VRDR
             return Parse(content, permissive);
         }
 
+        /// <summary>
+        /// Convert message to message type and extract the death record
+        /// </summary>
+        /// <param name="message">base message</param>
+        /// <returns>The death record inside the base message</returns>
+        public static DeathRecord GetDeathRecordFromMessage(BaseMessage message)
+        {
+                
+            Type messageType = message.GetType();
+
+            DeathRecord dr = null;
+
+            switch (messageType.Name)
+            {
+                case "DeathRecordSubmissionMessage":
+                {
+                    var drsm = message as DeathRecordSubmissionMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "DeathRecordUpdateMessage":
+                {
+                    var drsm = message as DeathRecordUpdateMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "CauseOfDeathCodingMessage":
+                {
+                    var drsm = message as CauseOfDeathCodingMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "CauseOfDeathCodingUpdateMessage":
+                {
+                    var drsm = message as CauseOfDeathCodingUpdateMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "DemographicsCodingMessage":
+                {
+                    var drsm = message as DemographicsCodingMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+                case "DemographicsCodingUpdateMessage":
+                {
+                    var drsm = message as DemographicsCodingUpdateMessage;
+                    dr = drsm?.DeathRecord;
+                    break;
+                }
+            }
+
+            return dr;
+        }
+        
         private static ParserSettings GetParserSettings(bool permissive)
         {
             return new ParserSettings { AcceptUnknownMembers = permissive,

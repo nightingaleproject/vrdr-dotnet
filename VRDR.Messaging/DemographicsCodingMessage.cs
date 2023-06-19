@@ -45,6 +45,31 @@ namespace VRDR
                 throw new MessageParseException($"Error processing DeathRecord entry in the message: {ex.Message}", baseMessage);
             }
         }
+        /// <summary>Constructor that creates an DemographicsCodingMessage for the specified submitted death record message.</summary>
+        /// <param name="messageToCode">the message to create coding response for.</param>
+        public DemographicsCodingMessage(BaseMessage messageToCode) : this(messageToCode?.MessageId, messageToCode?.MessageSource, messageToCode?.MessageDestination)
+        {
+            this.CertNo = messageToCode?.CertNo;
+            this.StateAuxiliaryId = messageToCode?.StateAuxiliaryId;
+            this.JurisdictionId = messageToCode?.JurisdictionId;
+            this.DeathYear = messageToCode?.DeathYear;
+        }
+
+        /// <summary>Constructor that creates a DemographicsCodingMessage for the specified message.</summary>
+        /// <param name="messageId">the id of the message to code.</param>
+        /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
+        /// <param name="status">the status being sent, from http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/ValueSet-VRM-Status-vs.html</param>
+        /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
+
+        public DemographicsCodingMessage(string messageId, string destination, string status, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
+        {
+            Header.Source.Endpoint = source;
+            this.MessageDestination = destination;
+            MessageHeader.ResponseComponent resp = new MessageHeader.ResponseComponent();
+            resp.Identifier = messageId;
+            resp.Code = MessageHeader.ResponseType.Ok;
+            Header.Response = resp;
+        }
 
         /// <summary>The DeathRecord conveyed by this message</summary>
         /// <value>the DeathRecord</value>
@@ -68,6 +93,24 @@ namespace VRDR
             get
             {
                 return deathRecord?.GetDemographicCodedContentBundle();
+            }
+        }
+        /// <summary>The id of the death record submission/update message that was coded to produce the content of this message</summary>
+        /// <value>the message id.</value>
+        public string CodedMessageId
+        {
+            get
+            {
+                return Header?.Response?.Identifier;
+            }
+            set
+            {
+                if (Header.Response == null)
+                {
+                    Header.Response = new MessageHeader.ResponseComponent();
+                    Header.Response.Code = MessageHeader.ResponseType.Ok;
+                }
+                Header.Response.Identifier = value;
             }
         }
     }

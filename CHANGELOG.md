@@ -1,5 +1,153 @@
 ## Changelog
 
+### v4.0.3 - 2023-06-07
+
+* Update birth month for test record #3 in Connectathon.cs
+* Revert change to remove transportation role component on injury incident
+
+### v4.0.2 - 2023-06-05
+
+* Update ages in Connectathon.cs
+* Update ages and add test method CheckConnectathonRecord3() in DeathRecord_Should.cs
+* Update and sync examples files (json and xml) with IG as follows:
+    * Remove Transport Role and its references
+    * Remove Death Certificate Reference and its references
+    * Remove Death Pronouncement Performer and its references
+    * Remove Decedent Employment History and its references
+    * Remove Cause of Death Pathway and its references
+    * Change Mortician, Funeral Home Director, Funeral Service Licensee to us-core-practitioner
+    * Change Interested Party to us-core-organization
+    * Change Decendent Pregnancy to decedent-pregnancy-status
+    * Change Cause of Death Condition to Cause of Death Part 1
+    * Change Cause of Death Condition Contributing Death to Cause of Death Part 2
+
+### v4.0.1 - 2023-05-16
+
+* Syncs Connectathon test record generation code and example JSON and XML files with NCHS test plan changes
+* Syncs Race and Ethnicity Literal fields with latest VRDR IG build version and adds additional test cases
+* Add test cases for COD Coding Acknowledegement use case
+
+### v4.0.0.preview21 - 2023-04-20
+
+* Adds support for multiple message destinations. It implemented this with a comma separated string of endpoints in the MessageDestination attribute. 
+
+*### v4.0.0.preview20 - 2023-04-20
+
+* Corrected race literals in code, tests and example json, added component name check on setting race literals to be in sync with IG
+* Updated test case to include missing usual occupation text, also made usual industry return null on unknown just as does usual occupation
+* Fixed bug where calling UsualIndustry would crash if no text key was provided such as happens in the unknown case
+* Incorporates preview19-with-filtering changes
+
+### v4.0.0.preview19-with-filtering - 2023-03-16
+
+* Added filtering logic
+* Added CLI to allow filtering of a single file
+* Added multiple tests to test issues we've experienced and testing different filters
+* Added documentation for CLI and brief descriptions for each test case
+
+### v4.0.0.preview19 - 2023-02-17
+
+* Additional tests for autopsy performed and results cases
+* Fixed decedent education level handling for demographics
+* Added handling for pregnancy code 8 - computer generated
+
+### v4.0.0.preview18 - 2023-02-10
+
+* Connectathon test record fixes
+* DateOfDeath valueTime formatting correction
+* LOINC code display value corrected to "Location of Death"
+* NVSS Race and Ethnicity display values corrected
+* Test methods added to verify each of the above
+* Corrected time values
+* Fixed IJE classes to post values to time in format of 00:00:00.
+* Updated ICD-10 code verification to support codes such as U071
+
+### v4.0.0.preview17 - 2023-01-30
+
+* Updated display text for the death record certifier types to align with IG
+
+### v4.0.0.preview16 - 2022-12-23
+
+* Updated AgeAtDeath property to expect a dictionary with "value" and "code" rather than "value" and "unit" to match the FHIR IG
+* Added helper properties for AgeAtDeath to make it easier to set: AgeAtDeathYears, AgeAtDeathMonths, AgeAtDeathDays, AgeAtDeathHours, and AgeAtDeathMinutes
+* Added a tabular data to FHIR Death Record Converter for testing
+* Improved errors returned for DSTATE missing vs incorrect
+* Fixed Auxno and Auxno2 formatting during conversion
+* Fixed IJEMortality handling of NCHS-formatted ICD10 codes 
+* Return null instead of empty strings for a blank fields in the death record
+
+### v4.0.0-preview15 - 2022-12-06
+
+* Fixed an issue where timezone conversion was causing an incorrect day of death to be returned
+* Expanded TargetFrameworks for the VRDR.Client library to include .NET Core 3.1 and .NET Framework 4.8
+
+### v4.0.0-preview14 - 2022-11-22
+
+* Fixed issue with WithinCityLimits field getting overwritten when setting address properties
+* Update date and time fields to differentiate between no data provided and explicitly unknown (see https://github.com/nightingaleproject/vrdr-dotnet#specifying-that-a-date-or-time-is-explicitly-unknown)
+* Fixed an issue in handling blank race value fields
+* Updated handling of middle name properties in IJEMortality class to account for mismatches between the FHIR standard and IJE (see https://github.com/nightingaleproject/vrdr-dotnet#names-in-fhir)
+    - The library raises an exception if a middle name is set before a first name when using IJEMortality
+    - The IJEMortality class returns middle name fields of the correct length
+
+### v4.0.0-preview13 - 2022-11-03
+
+* Added missing value for Non-Hispanic to HispanicOrigin value set
+
+### v4.0.0-preview12 - 2022-10-31
+
+* Added support for creating and submitting batch messages to the API
+* Fixed SSN length validation
+* Updated value mappings after corrections to the VRDR IG
+* Fixed CLI MRE/TRX conversion bug
+* Fixed issue with parsing empty literal race fields
+* Fixed issue that allowed empty strings in alias message fields
+* Fixed incorrect error for AgeAtDeathEditFlag
+
+### v4.0.0-preview11 - 2022-09-19
+
+* Fixed null object reference issue when retrieving message ID
+
+### v4.0.0-preview10 - 2022-09-19
+
+* Fixed date handling to correctly distinguish between unknown and unset
+* Fixed issue in ICD code handling to correctly support 5 character codes
+* Updated Client implementation to increase robustness of token refresh
+* Improved support for Status messages
+* Added support for linking coding response messages to the submission messages that they code
+
+### v4.0.0-preview9 - 2022-08-19
+
+* Added TS as a jurisdiction code for testing purposes
+
+### v4.0.0-preview8 - 2022-08-18
+
+* Fixed bug where injury incident value was encoded as String instead of CodeableConcept text
+* Improved support for Alias messages to allow data to be pulled from a source record
+* Improved error handling in microservice to return JSON errors
+* Added tools in the VRDR.CLI to convert from Coding Content Bundles to and from MRE and TRX formats
+* Added tools in the VRDR.CLI to compare JSON and TRX/MRE formatted data via translation to IJE
+* Added support for DateOfDeathDetermination
+* Updated the Client to stop using the now-unneeded _since parameter
+
+### v4.0.0-preview7 - 2022-08-05
+
+* Fixed credential handling in Client implementation
+* Updated handling of RelatedPerson fields to correctly set Active=True
+
+### v4.0.0-preview6 - 2022-07-22
+
+* Fixed BSTATE issue with connectathon test record
+* Fixed an issue with death age unit handling
+* Fixed an issue with time handling to correctly include seconds
+* Fixed an inconsistent race designator
+* Updated FHIR generation code so that empty observations are not produced
+* Updated pregnancy indicator handling for Record Axis Codes
+* Added TT as a jurisdiction code for testing purposes
+* Added initial approach for mortality roster bundle
+* Added initial support for status messages
+* Improved usability of the command line tool
+
 ### v4.0.0.preview5 - 2022-06-22
 
 * Addressed incorrect conversion of non-string values into strings

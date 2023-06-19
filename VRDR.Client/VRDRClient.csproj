@@ -1,11 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>VRDR</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>VRDR.Client</PackageId>
-    <TargetFramework>net6.0</TargetFramework>
+    <Title>FHIR VRDR Death Record Client Library</Title>
+    <PackageDescription>A library for supporting VRDR FHIR messaging client interaction.</PackageDescription>
+    <Authors>smacadam@mitre.org</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hl7.Fhir.R4" Version="4.3.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VRDR.Messaging\VRDRMessaging.csproj"/>

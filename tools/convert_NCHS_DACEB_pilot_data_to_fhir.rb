@@ -30,9 +30,16 @@ def extract_ije_records(sheet, first_data_row, record_count)
     values.map! { |v| v == '␢' ? '' : v }
     # puts "#{length} #{values.join(',')}"
     record_count.times do |record_number|
+      # Truncate data if needed (and inform user)
+      data = values[record_number]
+      if data.length > length
+        puts "Note: Record #{ije_records[record_number][0,12]} contains an overlong data field #{row_values[3]}"
+        data = data[0,length]
+      end
       # Append data, padded with correct amount of space before (based on offset) and after (based on length)
+      require 'byebug' ; debugger if (offset - ije_records[record_number].length) < 0
       ije_records[record_number] += ' ' * (offset - ije_records[record_number].length)
-      ije_records[record_number] << "%-#{length}s" % values[record_number]
+      ije_records[record_number] << "%-#{length}s" % data
     end
     row_number += 1
   end
@@ -56,14 +63,14 @@ def write_record(record, annotation)
   system(command)
 end
 
-# Two sheets; sheet one is good records (10 total), sheet two is bad records (14 total)
-good_ije_records = extract_ije_records(data.sheets[0], 4, 10)
-bad_ije_records = extract_ije_records(data.sheets[1], 6, 14)
+# Two sheets; sheet one is good records (10 total), sheet two is bad records (10 total)
+good_ije_records = extract_ije_records(data.sheets[0], 1, 10)
+bad_ije_records = extract_ije_records(data.sheets[1], 1, 10)
 
 10.times do |i|
   write_record(good_ije_records[i], "good")
 end
 
-14.times do |i|
+10.times do |i|
   write_record(bad_ije_records[i], "bad")
 end

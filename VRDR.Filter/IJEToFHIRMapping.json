@@ -1,0 +1,791 @@
+{
+  "DOD_YR": [
+    "DeathRecordIdentifier",
+    "DeathYear"
+  ],
+  "DSTATE": [
+    "DeathRecordIdentifier",
+    "DeathLocationJurisdiction",
+    "DeathLocationAddress.addressState",
+    "DeathLocationAddress.addressJurisdiction"
+  ],
+  "FILENO": [
+    "Identifier",
+    "DeathRecordIdentifier"
+  ],
+  "VOID": [
+    "NOTFOUND"
+  ],
+  "AUXNO": [
+    "StateLocalIdentifier1"
+  ],
+  "MFILED": [
+    "FilingFormat"
+  ],
+  "GNAME": [
+    "GivenNames[]"
+  ],
+  "MNAME": [
+    "GivenNames[]"
+  ],
+  "LNAME": [
+    "FamilyName"
+  ],
+  "SUFF": [
+    "Suffix"
+  ],
+  "ALIAS": [
+    "NOTFOUND"
+  ],
+  "FLNAME": [
+    "FatherFamilyName"
+  ],
+  "SEX": [
+    "SexAtDeath"
+  ],
+  "SEX_BYPASS": [
+    "NOTFOUND"
+  ],
+  "SSN": [
+    "SSN"
+  ],
+  "AGETYPE": [
+    "AgeAtDeath.unit",
+    "AgeAtDeath.code",
+    "AgeAtDeath.system"
+  ],
+  "AGE": [
+    "AgeAtDeath.value"
+  ],
+  "AGE_BYPASS": [
+    "AgeAtDeathEditFlag"
+  ],
+  "DOB_YR": [
+    "BirthYear"
+  ],
+  "DOB_MO": [
+    "BirthMonth"
+  ],
+  "DOB_DY": [
+    "BirthDay"
+  ],
+  "BPLACE_CNT": [
+    "PlaceOfBirth.addressCountry"
+  ],
+  "BPLACE_ST": [
+    "PlaceOfBirth.addressState",
+    "PlaceOfBirth.addressJurisdiction"
+  ],
+  "CITYC": [
+    "Residence.addressCityC"
+  ],
+  "COUNTYC": [
+    "Residence.addressCountyC"
+  ],
+  "STATEC": [
+    "Residence.addressState",
+    "Residence.addressJurisdiction"
+  ],
+  "COUNTRYC": [
+    "Residence.addressCountry"
+  ],
+  "LIMITS": [
+    "ResidenceWithinCityLimits"
+  ],
+  "MARITAL": [
+    "MaritalStatus"
+  ],
+  "MARITAL_BYPASS": [
+    "MaritalStatusEditFlag"
+  ],
+  "DPLACE": [
+    "DeathLocationType"
+  ],
+  "COD": [
+    "DeathLocationAddress.addressCountyC"
+  ],
+  "DISP": [
+    "DecedentDispositionMethod"
+  ],
+  "DOD_MO": [
+    "DeathMonth"
+  ],
+  "DOD_DY": [
+    "DeathDay"
+  ],
+  "TOD": [
+    "DeathTime"
+  ],
+  "DEDUC": [
+    "EducationLevel"
+  ],
+  "DEDUC_BYPASS": [
+    "EducationLevelEditFlag"
+  ],
+  "DETHNIC1": [
+    "Ethnicity1"
+  ],
+  "DETHNIC2": [
+    "Ethnicity2"
+  ],
+  "DETHNIC3": [
+    "Ethnicity3"
+  ],
+  "DETHNIC4": [
+    "Ethnicity4"
+  ],
+  "DETHNIC5": [
+    "EthnicityLiteral"
+  ],
+  "RACE1": [
+    "Race[]"
+  ],
+  "RACE2": [
+    "Race[]"
+  ],
+  "RACE3": [
+    "Race[]"
+  ],
+  "RACE4": [
+    "Race[]"
+  ],
+  "RACE5": [
+    "Race[]"
+  ],
+  "RACE6": [
+    "Race[]"
+  ],
+  "RACE7": [
+    "Race[]"
+  ],
+  "RACE8": [
+    "Race[]"
+  ],
+  "RACE9": [
+    "Race[]"
+  ],
+  "RACE10": [
+    "Race[]"
+  ],
+  "RACE11": [
+    "Race[]"
+  ],
+  "RACE12": [
+    "Race[]"
+  ],
+  "RACE13": [
+    "Race[]"
+  ],
+  "RACE14": [
+    "Race[]"
+  ],
+  "RACE15": [
+    "Race[]"
+  ],
+  "RACE16": [
+    "Race[]"
+  ],
+  "RACE17": [
+    "Race[]"
+  ],
+  "RACE18": [
+    "Race[]"
+  ],
+  "RACE19": [
+    "Race[]"
+  ],
+  "RACE20": [
+    "Race[]"
+  ],
+  "RACE21": [
+    "Race[]"
+  ],
+  "RACE22": [
+    "Race[]"
+  ],
+  "RACE23": [
+    "Race[]"
+  ],
+  "RACE1E": [
+    "FirstEditedRaceCode"
+  ],
+  "RACE2E": [
+    "SecondEditedRaceCode"
+  ],
+  "RACE3E": [
+    "ThirdEditedRaceCode"
+  ],
+  "RACE4E": [
+    "FourthEditedRaceCode"
+  ],
+  "RACE5E": [
+    "FifthEditedRaceCode"
+  ],
+  "RACE6E": [
+    "SixthEditedRaceCode"
+  ],
+  "RACE7E": [
+    "SeventhEditedRaceCode"
+  ],
+  "RACE8E": [
+    "EighthEditedRaceCode"
+  ],
+  "RACE16C": [
+    "FirstAmericanIndianRaceCode"
+  ],
+  "RACE17C": [
+    "SecondAmericanIndianRaceCode"
+  ],
+  "RACE18C": [
+    "FirstOtherAsianRaceCode"
+  ],
+  "RACE19C": [
+    "SecondOtherAsianRaceCode"
+  ],
+  "RACE20C": [
+    "FirstOtherPacificIslanderRaceCode"
+  ],
+  "RACE21C": [
+    "SecondOtherPacificIslanderRaceCode"
+  ],
+  "RACE22C": [
+    "FirstOtherRaceCode"
+  ],
+  "RACE23C": [
+    "SecondOtherRaceCode"
+  ],
+  "RACE_MVR": [
+    "NOTFOUND"
+  ],
+  "OCCUP": [
+    "UsualOccupation"
+  ],
+  "OCCUPC": [
+    "NOTFOUND"
+  ],
+  "INDUST": [
+    "UsualIndustry"
+  ],
+  "INDUSTC": [
+    "NOTFOUND"
+  ],
+  "BCNO": [
+    "BirthRecordId"
+  ],
+  "IDOB_YR": [
+    "BirthRecordYear"
+  ],
+  "BSTATE": [
+    "BirthRecordState"
+  ],
+  "R_YR": [
+    "ReceiptYear"
+  ],
+  "R_MO": [
+    "ReceiptMonth"
+  ],
+  "R_DY": [
+    "ReceiptDay"
+  ],
+  "OCCUPC4": [
+    "NOTFOUND"
+  ],
+  "INDUSTC4": [
+    "NOTFOUND"
+  ],
+  "DOR_YR": [
+    "RegisteredTime"
+  ],
+  "DOR_MO": [
+    "RegisteredTime"
+  ],
+  "DOR_DY": [
+    "RegisteredTime"
+  ],
+  "FILLER2": [
+    "NOTFOUND"
+  ],
+  "MANNER": [
+    "MannerOfDeathType"
+  ],
+  "INT_REJ": [
+    "IntentionalReject"
+  ],
+  "SYS_REJ": [
+    "AcmeSystemReject"
+  ],
+  "INJPL": [
+    "PlaceOfInjury"
+  ],
+  "MAN_UC": [
+    "NOTFOUND"
+  ],
+  "ACME_UC": [
+    "NOTFOUND"
+  ],
+  "EAC": [
+    "EntityAxisCauseOfDeath[]"
+  ],
+  "TRX_FLG": [
+    "TransaxConversion"
+  ],
+  "RAC": [
+    "RecordAxisCauseOfDeath[]"
+  ],
+  "AUTOP": [
+    "AutopsyPerformedIndicator"
+  ],
+  "AUTOPF": [
+    "AutopsyResultsAvailable"
+  ],
+  "TOBAC": [
+    "TobaccoUse"
+  ],
+  "PREG": [
+    "PregnancyStatus"
+  ],
+  "PREG_BYPASS": [
+    "PregnancyStatusEditFlag"
+  ],
+  "DOI_MO": [
+    "InjuryMonth"
+  ],
+  "DOI_DY": [
+    "InjuryDay"
+  ],
+  "DOI_YR": [
+    "InjuryYear"
+  ],
+  "TOI_HR": [
+    "InjuryTime"
+  ],
+  "WORKINJ": [
+    "InjuryAtWork"
+  ],
+  "CERTL": [
+    "CertificationRole"
+  ],
+  "INACT": [
+    "ActivityAtDeath"
+  ],
+  "AUXNO2": [
+    "StateLocalIdentifier2"
+  ],
+  "STATESP": [
+    "StateSpecific"
+  ],
+  "SUR_MO": [
+    "SurgeryMonth"
+  ],
+  "SUR_DY": [
+    "SurgeryDay"
+  ],
+  "SUR_YR": [
+    "SurgeryYear"
+  ],
+  "TOI_UNIT": [
+    "NOTFOUND"
+  ],
+  "BLANK1": [
+    "NOTFOUND"
+  ],
+  "ARMEDF": [
+    "MilitaryService"
+  ],
+  "DINSTI": [
+    "DeathLocationName"
+  ],
+  "ADDRESS_D": [
+    "DeathLocationAddress.addressLine1"
+  ],
+  "STNUM_D": [
+    "DeathLocationAddress.addressStnum"
+  ],
+  "PREDIR_D": [
+    "DeathLocationAddress.addressPredir"
+  ],
+  "STNAME_D": [
+    "DeathLocationAddress.addressStname"
+  ],
+  "STDESIG_D": [
+    "DeathLocationAddress.addressStdesig"
+  ],
+  "POSTDIR_D": [
+    "DeathLocationAddress.addressPostdir"
+  ],
+  "CITYTEXT_D": [
+    "DeathLocationAddress.addressCity"
+  ],
+  "STATETEXT_D": [
+    "NOTFOUND"
+  ],
+  "ZIP9_D": [
+    "DeathLocationAddress.addressZip"
+  ],
+  "COUNTYTEXT_D": [
+    "DeathLocationAddress.addressCounty"
+  ],
+  "CITYCODE_D": [
+    "DeathLocationAddress.addressCityC"
+  ],
+  "LONG_D": [
+    "DeathLocationLongitude"
+  ],
+  "LAT_D": [
+    "DeathLocationLatitude"
+  ],
+  "SPOUSELV": [
+    "SpouseAlive"
+  ],
+  "SPOUSEF": [
+    "SpouseGivenNames[]"
+  ],
+  "SPOUSEL": [
+    "SpouseMaidenName"
+  ],
+  "CITYTEXT_R": [
+    "Residence.addressCity"
+  ],
+  "ZIP9_R": [
+    "Residence.addressZip"
+  ],
+  "COUNTYTEXT_R": [
+    "Residence.addressCounty"
+  ],
+  "STATETEXT_R": [
+    "NOTFOUND"
+  ],
+  "COUNTRYTEXT_R": [
+    "NOTFOUND"
+  ],
+  "ADDRESS_R": [
+    "Residence.addressLine1"
+  ],
+  "RESSTATE": [
+    "NOTFOUND"
+  ],
+  "RESCON": [
+    "NOTFOUND"
+  ],
+  "STNUM_R": [
+    "Residence.addressStnum"
+  ],
+  "PREDIR_R": [
+    "Residence.addressPredir"
+  ],
+  "STNAME_R": [
+    "Residence.addressStname"
+  ],
+  "STDESIG_R": [
+    "Residence.addressStdesig"
+  ],
+  "POSTDIR_R": [
+    "Residence.addressPostdir"
+  ],
+  "UNITNUM_R": [
+    "Residence.addressUnitnum"
+  ],
+  "DETHNICE": [
+    "HispanicCode"
+  ],
+  "NCHSBRIDGE": [
+    "NOTFOUND"
+  ],
+  "HISPOLDC": [
+    "NOTFOUND"
+  ],
+  "RACEOLDC": [
+    "NOTFOUND"
+  ],
+  "HISPSTSP": [
+    "NOTFOUND"
+  ],
+  "RACESTSP": [
+    "NOTFOUND"
+  ],
+  "DMIDDLE": [
+    "GivenNames[]"
+  ],
+  "DDADF": [
+    "FatherGivenNames[]"
+  ],
+  "DDADMID": [
+    "FatherGivenNames[]"
+  ],
+  "DMOMF": [
+    "MotherGivenNames[]"
+  ],
+  "DMOMMID": [
+    "MotherGivenNames[]"
+  ],
+  "DMOMMDN": [
+    "MotherMaidenName"
+  ],
+  "REFERRED": [
+    "ExaminerContacted"
+  ],
+  "POILITRL": [
+    "InjuryPlaceDescription"
+  ],
+  "HOWINJ": [
+    "InjuryDescription"
+  ],
+  "TRANSPRT": [
+    "TransportationRole"
+  ],
+  "COUNTYTEXT_I": [
+    "InjuryLocationAddress.addressCounty"
+  ],
+  "COUNTYCODE_I": [
+    "InjuryLocationAddress.addressCountyC"
+  ],
+  "CITYTEXT_I": [
+    "InjuryLocationAddress.addressCity"
+  ],
+  "CITYCODE_I": [
+    "InjuryLocationAddress.addressCityC"
+  ],
+  "STATECODE_I": [
+    "InjuryLocationAddress.addressState",
+    "InjuryLocationAddress.addressJurisdiction"
+  ],
+  "LONG_I": [
+    "InjuryLocationLongitude"
+  ],
+  "LAT_I": [
+    "InjuryLocationLatitude"
+  ],
+  "OLDEDUC": [
+    "NOTFOUND"
+  ],
+  "REPLACE": [
+    "ReplaceStatus"
+  ],
+  "COD1A": [
+    "CausesOfDeath[]"
+  ],
+  "INTERVAL1A": [
+    "CausesOfDeath[]"
+  ],
+  "COD1B": [
+    "CausesOfDeath[]"
+  ],
+  "INTERVAL1B": [
+    "CausesOfDeath[]"
+  ],
+  "COD1C": [
+    "CausesOfDeath[]"
+  ],
+  "INTERVAL1C": [
+    "CausesOfDeath[]"
+  ],
+  "COD1D": [
+    "CausesOfDeath[]"
+  ],
+  "INTERVAL1D": [
+    "CausesOfDeath[]"
+  ],
+  "OTHERCONDITION": [
+    "ContributingConditions"
+  ],
+  "DMAIDEN": [
+    "MaidenName"
+  ],
+  "DBPLACECITYCODE": [
+    "PlaceOfBirth.addressCityC"
+  ],
+  "DBPLACECITY": [
+    "PlaceOfBirth.addressCity"
+  ],
+  "INFORMRELATE": [
+    "ContactRelationship.text"
+  ],
+  "SPOUSEMIDNAME": [
+    "SpouseGivenNames[]"
+  ],
+  "SPOUSESUFFIX": [
+    "SpouseSuffix"
+  ],
+  "FATHERSUFFIX": [
+    "FatherSuffix"
+  ],
+  "MOTHERSSUFFIX": [
+    "MotherSuffix"
+  ],
+  "DISPSTATECD": [
+    "DispositionLocationAddress.addressState",
+    "DispositionLocationAddress.addressJurisdiction"
+  ],
+  "DISPSTATE": [
+    "NOTFOUND"
+  ],
+  "DISPCITYCODE": [
+    "DispositionLocationAddress.addressCityC"
+  ],
+  "DISPCITY": [
+    "DispositionLocationAddress.addressCity"
+  ],
+  "FUNFACNAME": [
+    "FuneralHomeName"
+  ],
+  "FUNFACSTNUM": [
+    "FuneralHomeAddress.addressStnum"
+  ],
+  "FUNFACPREDIR": [
+    "FuneralHomeAddress.addressPredir"
+  ],
+  "FUNFACSTRNAME": [
+    "FuneralHomeAddress.addressStname"
+  ],
+  "FUNFACSTRDESIG": [
+    "FuneralHomeAddress.addressStdesig"
+  ],
+  "FUNPOSTDIR": [
+    "FuneralHomeAddress.addressPostdir"
+  ],
+  "FUNUNITNUM": [
+    "FuneralHomeAddress.addressUnitnum"
+  ],
+  "FUNFACADDRESS": [
+    "FuneralHomeAddress.addressLine1"
+  ],
+  "FUNCITYTEXT": [
+    "FuneralHomeAddress.addressCity"
+  ],
+  "FUNSTATECD": [
+    "NOTFOUND"
+  ],
+  "FUNSTATE": [
+    "NOTFOUND"
+  ],
+  "FUNZIP": [
+    "FuneralHomeAddress.addressZip"
+  ],
+  "PPDATESIGNED": [
+    "DateOfDeathPronouncement"
+  ],
+  "PPTIME": [
+    "DateOfDeathPronouncement"
+  ],
+  "CERTFIRST": [
+    "CertifierGivenNames[]"
+  ],
+  "CERTMIDDLE": [
+    "CertifierGivenNames[]"
+  ],
+  "CERTLAST": [
+    "CertifierFamilyName"
+  ],
+  "CERTSUFFIX": [
+    "CertifierSuffix"
+  ],
+  "CERTSTNUM": [
+    "CertifierAddress.addressStnum"
+  ],
+  "CERTPREDIR": [
+    "CertifierAddress.addressPredir"
+  ],
+  "CERTSTRNAME": [
+    "CertifierAddress.addressStname"
+  ],
+  "CERTSTRDESIG": [
+    "CertifierAddress.addressStdesig"
+  ],
+  "CERTPOSTDIR": [
+    "CertifierAddress.addressPostdir"
+  ],
+  "CERTUNITNUM": [
+    "CertifierAddress.addressUnitnum"
+  ],
+  "CERTADDRESS": [
+    "CertifierAddress.addressLine1"
+  ],
+  "CERTCITYTEXT": [
+    "CertifierAddress.addressCity"
+  ],
+  "CERTSTATECD": [
+    "CertifierAddress.addressState",
+    "CertifierAddress.addressJurisdiction"
+  ],
+  "CERTSTATE": [
+    "NOTFOUND"
+  ],
+  "CERTZIP": [
+    "CertifierAddress.addressZip"
+  ],
+  "CERTDATE": [
+    "CertifiedTime"
+  ],
+  "FILEDATE": [
+    "NOTFOUND"
+  ],
+  "STINJURY": [
+    "NOTFOUND"
+  ],
+  "STATEBTH": [
+    "NOTFOUND"
+  ],
+  "DTHCOUNTRYCD": [
+    "DeathLocationAddress.addressCountry"
+  ],
+  "DTHCOUNTRY": [
+    "NOTFOUND"
+  ],
+  "SSADTHCODE": [
+    "NOTFOUND"
+  ],
+  "SSAFOREIGN": [
+    "NOTFOUND"
+  ],
+  "SSAVERIFY": [
+    "NOTFOUND"
+  ],
+  "SSADATEVER": [
+    "NOTFOUND"
+  ],
+  "SSADATETRANS": [
+    "NOTFOUND"
+  ],
+  "DETHNIC5C": [
+    "HispanicCodeForLiteral"
+  ],
+  "PLACE1_1": [
+    "EmergingIssue1_1"
+  ],
+  "PLACE1_2": [
+    "EmergingIssue1_2"
+  ],
+  "PLACE1_3": [
+    "EmergingIssue1_3"
+  ],
+  "PLACE1_4": [
+    "EmergingIssue1_4"
+  ],
+  "PLACE1_5": [
+    "EmergingIssue1_5"
+  ],
+  "PLACE1_6": [
+    "EmergingIssue1_6"
+  ],
+  "PLACE8_1": [
+    "EmergingIssue8_1"
+  ],
+  "PLACE8_2": [
+    "EmergingIssue8_2"
+  ],
+  "PLACE8_3": [
+    "EmergingIssue8_3"
+  ],
+  "PLACE20": [
+    "EmergingIssue20"
+  ],
+  "BLANK2": [
+    "NOTFOUND"
+  ],
+  "BLANK3": [
+    "NOTFOUND"
+  ],
+  "MARITAL_DESCRIP": [
+    "MaritalStatusLiteral"
+  ]
+}

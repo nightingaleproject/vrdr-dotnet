@@ -1,17 +1,7 @@
 using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Diagnostics;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
-using Hl7.Fhir.Serialization;
-using Hl7.FhirPath;
-using Newtonsoft.Json;
 
 // DeathRecord_submissionProperties.cs
 //    These fields are used primarily for submitting death records to NCHS.  Some are also used in response messages from NCHS to EDRS corresponding to TRX and MRE content.
@@ -63,8 +53,8 @@ namespace VRDR
                 {
                     Extension ext = new Extension(ExtensionURL.CertificateNumber, new FhirString(value));
                     Bundle.Identifier.Extension.Add(ext);
+                    UpdateDeathRecordIdentifier();
                 }
-                UpdateDeathRecordIdentifier();
             }
         }
 
@@ -115,6 +105,10 @@ namespace VRDR
             // The setter is private because the value is derived so should never be set directly
             private set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (Bundle.Identifier == null)
                 {
                     Bundle.Identifier = new Identifier();
@@ -220,11 +214,14 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (DeathCertification == null)
                 {
                     CreateDeathCertification();
                 }
-
                 Composition.Attester.First().Time = value;
                 DeathCertification.Performed = new FhirDateTime(value);
             }
@@ -293,7 +290,7 @@ namespace VRDR
         {
             get
             {
-                if (FilingFormat.ContainsKey("code"))
+                if (FilingFormat.ContainsKey("code") && !String.IsNullOrWhiteSpace(FilingFormat["code"]))
                 {
                     return FilingFormat["code"];
                 }
@@ -301,7 +298,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("FilingFormat", value, VRDR.ValueSets.FilingFormat.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("FilingFormat", value, VRDR.ValueSets.FilingFormat.Codes);
+                }
             }
         }
 
@@ -323,11 +323,14 @@ namespace VRDR
                 {
                     return Composition.Date;
                 }
-                return "";
+                return null;
             }
             set
             {
-                Composition.Date = value;
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Composition.Date = value;
+                }
             }
         }
 
@@ -353,12 +356,16 @@ namespace VRDR
                         return stateSpecificData.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
                 // TODO: Handle case where Composition == null (either create it or throw exception)
                 Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.StateSpecificField);
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 Extension stateSpecificData = new Extension();
                 stateSpecificData.Url = ExtensionURL.StateSpecificField;
                 stateSpecificData.Value = new FhirString(value);
@@ -426,7 +433,7 @@ namespace VRDR
         {
             get
             {
-                if (ReplaceStatus.ContainsKey("code"))
+                if (ReplaceStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(ReplaceStatus["code"]))
                 {
                     return ReplaceStatus["code"];
                 }
@@ -434,7 +441,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ReplaceStatus", value, VRDR.ValueSets.ReplaceStatus.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ReplaceStatus", value, VRDR.ValueSets.ReplaceStatus.Codes);
+                }
             }
         }
 
@@ -511,13 +521,13 @@ namespace VRDR
                     string code = CertificationRole["code"];
                     if (code == "OTH")
                     {
-                        if (CertificationRole.ContainsKey("text"))
+                        if (CertificationRole.ContainsKey("text") && !String.IsNullOrWhiteSpace(CertificationRole["text"]))
                         {
                             return (CertificationRole["text"]);
                         }
                         return ("Other");
                     }
-                    else
+                    else if (!String.IsNullOrWhiteSpace(code))
                     {
                         return code;
                     }
@@ -533,7 +543,6 @@ namespace VRDR
                 }
                 if (!VRDR.Mappings.CertifierTypes.FHIRToIJE.ContainsKey(value))
                 { //other
-
                     CertificationRole = CodeableConceptToDict(new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value));
                 }
                 else
@@ -619,7 +628,7 @@ namespace VRDR
         {
             get
             {
-                if (MannerOfDeathType.ContainsKey("code"))
+                if (MannerOfDeathType.ContainsKey("code") && !String.IsNullOrWhiteSpace(MannerOfDeathType["code"]))
                 {
                     return MannerOfDeathType["code"];
                 }
@@ -627,7 +636,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("MannerOfDeathType", value, VRDR.ValueSets.MannerOfDeath.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("MannerOfDeathType", value, VRDR.ValueSets.MannerOfDeath.Codes);
+                }
             }
         }
 
@@ -660,18 +672,7 @@ namespace VRDR
                 {
                     CreateCertifier();
                 }
-                HumanName name = Certifier.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null)
-                {
-                    name.Given = value;
-                }
-                else
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = value;
-                    Certifier.Name.Add(name);
-                }
+                updateGivenHumanName(value, Certifier.Name);
             }
         }
 
@@ -884,7 +885,7 @@ namespace VRDR
         // /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
         // /// </example>
         // [Property("Certifier License Number", Property.Types.String, "Death Certification", "Certifier License Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 11)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "qualification")]
         // public string CertifierLicenseNumber
         // {
         //     get
@@ -944,6 +945,10 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (ConditionContributingToDeath != null)
                 {
                     ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
@@ -1020,23 +1025,48 @@ namespace VRDR
                 {
                     if (value.Length > 0)
                     {
-                        COD1A = value[0].Item1;
-                        INTERVAL1A = value[0].Item2;
+                        if (!String.IsNullOrWhiteSpace(value[0].Item1))
+                        {
+                            COD1A = value[0].Item1;
+                        }
+                        if (!String.IsNullOrWhiteSpace(value[0].Item2))
+                        {
+                            INTERVAL1A = value[0].Item2;
+                        }
                     }
                     if (value.Length > 1)
                     {
-                        COD1B = value[1].Item1;
-                        INTERVAL1B = value[1].Item2;
+                        if (!String.IsNullOrWhiteSpace(value[1].Item1))
+                        {
+                            COD1B = value[1].Item1;
+                        }
+                        if (!String.IsNullOrWhiteSpace(value[1].Item2))
+                        {
+                          INTERVAL1B = value[1].Item2;
+                        }
                     }
                     if (value.Length > 2)
                     {
-                        COD1C = value[2].Item1;
-                        INTERVAL1C = value[2].Item2;
+                        if (!String.IsNullOrWhiteSpace(value[2].Item1))
+                        {
+                            COD1C = value[2].Item1;
+
+                        }
+                        if (!String.IsNullOrWhiteSpace(value[2].Item2))
+                        {
+                            INTERVAL1C = value[2].Item2;
+                        }
                     }
                     if (value.Length > 3)
                     {
-                        COD1D = value[3].Item1;
-                        INTERVAL1D = value[3].Item2;
+                        if (!String.IsNullOrWhiteSpace(value[3].Item1))
+                        {
+                            COD1D = value[3].Item1;
+                        }
+                        if (!String.IsNullOrWhiteSpace(value[3].Item2))
+                        {
+                            INTERVAL1D = value[3].Item2;
+                        }
                     }
                 }
             }
@@ -1063,6 +1093,10 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (CauseOfDeathConditionA == null)
                 {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
@@ -1093,10 +1127,13 @@ namespace VRDR
                         return intervalComp.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
+                if (String.IsNullOrEmpty(value)) {
+                  return;
+                }
                 if (CauseOfDeathConditionA == null)
                 {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
@@ -1106,10 +1143,9 @@ namespace VRDR
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
                 if (intervalComp != null)
                 {
-
                     ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                 }
-                else
+                else 
                 {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
@@ -1190,6 +1226,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionB == null)
                 {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
@@ -1220,10 +1259,13 @@ namespace VRDR
                         return intervalComp.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionB == null)
                 {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
@@ -1233,7 +1275,6 @@ namespace VRDR
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
                 if (intervalComp != null)
                 {
-
                     ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                 }
                 else
@@ -1316,13 +1357,14 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionC == null)
                 {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
-
                 CauseOfDeathConditionC.Value = new CodeableConcept(null, null, null, value);
-
             }
         }
 
@@ -1348,10 +1390,13 @@ namespace VRDR
                         return intervalComp.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionC == null)
                 {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
@@ -1361,7 +1406,6 @@ namespace VRDR
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
                 if (intervalComp != null)
                 {
-
                     ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                 }
                 else
@@ -1444,6 +1488,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionD == null)
                 {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
@@ -1474,10 +1521,13 @@ namespace VRDR
                         return intervalComp.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (CauseOfDeathConditionD == null)
                 {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
@@ -1487,7 +1537,6 @@ namespace VRDR
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6");
                 if (intervalComp != null)
                 {
-
                     ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                 }
                 else
@@ -1577,18 +1626,7 @@ namespace VRDR
             }
             set
             {
-                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null)
-                {
-                    name.Given = value;
-                }
-                else
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = value;
-                    Decedent.Name.Add(name);
-                }
+                updateGivenHumanName(value, Decedent.Name);
             }
         }
 
@@ -1774,11 +1812,11 @@ namespace VRDR
             }
             set
             {
+                Decedent.Extension.RemoveAll(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
                 if (IsDictEmptyOrDefault(value) && Decedent.Extension == null)
                 {
                     return;
                 }
-                Decedent.Extension.RemoveAll(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
                 Extension sex = new Extension();
                 sex.Url = ExtensionURL.NVSSSexAtDeath;
                 sex.Value = DictToCodeableConcept(value);
@@ -1801,7 +1839,7 @@ namespace VRDR
         {
             get
             {
-                if (SexAtDeath.ContainsKey("code"))
+                if (SexAtDeath.ContainsKey("code") && !String.IsNullOrWhiteSpace(SexAtDeath["code"]))
                 {
                     return SexAtDeath["code"];
                 }
@@ -1809,7 +1847,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SexAtDeath", value, VRDR.ValueSets.AdministrativeGender.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SexAtDeath", value, VRDR.ValueSets.AdministrativeGender.Codes);
+                }
             }
         }
 
@@ -1855,16 +1896,16 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Year of Birth.</summary>
-        /// <value>the decedent's year of birth</value>
+        /// <value>the decedent's year of birth, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.BirthYear = 1928;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Birth: {ExampleDeathRecord.BirthYear}");</para>
         /// </example>
-        [Property("BirthYear", Property.Types.UInt32, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 14)]
+        [Property("BirthYear", Property.Types.Int32, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 14)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).birthDate", "")]
-        public uint? BirthYear
+        public int? BirthYear
         {
             get
             {
@@ -1885,16 +1926,16 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Month of Birth.</summary>
-        /// <value>the decedent's month of birth</value>
+        /// <value>the decedent's month of birth, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.BirthMonth = 11;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Birth: {ExampleDeathRecord.BirthMonth}");</para>
         /// </example>
-        [Property("BirthMonth", Property.Types.UInt32, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 14)]
+        [Property("BirthMonth", Property.Types.Int32, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 14)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).birthDate", "")]
-        public uint? BirthMonth
+        public int? BirthMonth
         {
             get
             {
@@ -1915,16 +1956,16 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Day of Birth.</summary>
-        /// <value>the decedent's dau of birth</value>
+        /// <value>the decedent's day of birth, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.BirthDay = 11;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Birth: {ExampleDeathRecord.BirthDay}");</para>
         /// </example>
-        [Property("BirthDay", Property.Types.UInt32, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 14)]
+        [Property("BirthDay", Property.Types.Int32, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 14)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).birthDate", "")]
-        public uint? BirthDay
+        public int? BirthDay
         {
             get
             {
@@ -1959,7 +2000,7 @@ namespace VRDR
             get
             {
                 // We support this legacy API entrypoint via the new partial date entrypoints
-                if (BirthYear != null && BirthMonth != null && BirthDay != null)
+                if (BirthYear != null && BirthYear != -1 && BirthMonth != null && BirthMonth != -1 && BirthDay != null && BirthDay != -1)
                 {
                     Date result = new Date((int)BirthYear, (int)BirthMonth, (int)BirthDay);
                     return result.ToString();
@@ -1972,9 +2013,9 @@ namespace VRDR
                 DateTimeOffset parsedDate;
                 if (DateTimeOffset.TryParse(value, out parsedDate))
                 {
-                    BirthYear = (uint?)parsedDate.Year;
-                    BirthMonth = (uint?)parsedDate.Month;
-                    BirthDay = (uint?)parsedDate.Day;
+                    BirthYear = parsedDate.Year;
+                    BirthMonth = parsedDate.Month;
+                    BirthDay = parsedDate.Day;
                 }
             }
         }
@@ -2031,9 +2072,11 @@ namespace VRDR
                 {
                     Decedent.Address = new List<Address>();
                 }
+                // Clear out the address since we're replacing it completely, except we need to keep the "WithinCityLimits" extension if present
+                Extension withinCityLimits = Decedent.Address?.FirstOrDefault()?.Extension?.Where(ext => ext.Url == ExtensionURL.WithinCityLimitsIndicator)?.FirstOrDefault();
                 Decedent.Address.Clear();
                 Decedent.Address.Add(DictToAddress(value));
-
+                if (withinCityLimits != null) Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
 
                 // Now encode -
                 //        Address.Country as PH_Country_GEC
@@ -2109,7 +2152,7 @@ namespace VRDR
         {
             get
             {
-                if (ResidenceWithinCityLimits.ContainsKey("code"))
+                if (ResidenceWithinCityLimits.ContainsKey("code") && !String.IsNullOrWhiteSpace(ResidenceWithinCityLimits["code"]))
                 {
                     return ResidenceWithinCityLimits["code"];
                 }
@@ -2117,7 +2160,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ResidenceWithinCityLimits", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ResidenceWithinCityLimits", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                }
             }
         }
 
@@ -2139,15 +2185,15 @@ namespace VRDR
             }
             set
             {
+                Decedent.Identifier.RemoveAll(iden => iden.System == CodeSystems.US_SSN);
                 if (String.IsNullOrWhiteSpace(value))
                 {
                     return;
                 }
-                Decedent.Identifier.RemoveAll(iden => iden.System == CodeSystems.US_SSN);
                 Identifier ssn = new Identifier();
                 ssn.Type = new CodeableConcept(CodeSystems.HL7_identifier_type, "SB", "Social Beneficiary Identifier", null);
                 ssn.System = CodeSystems.US_SSN;
-                ssn.Value = value.Replace("-", string.Empty);
+                ssn.Value = value.Replace("-", string.Empty).Replace(" ", string.Empty);
                 Decedent.Identifier.Add(ssn);
             }
         }
@@ -2195,7 +2241,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Mexican, NvssEthnicity.Mexican, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Mexican, NvssEthnicity.MexicanDisplay, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2216,7 +2262,7 @@ namespace VRDR
         {
             get
             {
-                if (Ethnicity1.ContainsKey("code"))
+                if (Ethnicity1.ContainsKey("code") && !String.IsNullOrWhiteSpace(Ethnicity1["code"]))
                 {
                     return Ethnicity1["code"];
                 }
@@ -2224,7 +2270,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity1", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("Ethnicity1", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                }
             }
         }
 
@@ -2271,7 +2320,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.PuertoRican, NvssEthnicity.PuertoRican, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.PuertoRican, NvssEthnicity.PuertoRicanDisplay, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2292,7 +2341,7 @@ namespace VRDR
         {
             get
             {
-                if (Ethnicity2.ContainsKey("code"))
+                if (Ethnicity2.ContainsKey("code") && !String.IsNullOrWhiteSpace(Ethnicity2["code"]))
                 {
                     return Ethnicity2["code"];
                 }
@@ -2300,7 +2349,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity2", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("Ethnicity2", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                }
             }
         }
 
@@ -2347,7 +2399,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Cuban, NvssEthnicity.Cuban, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Cuban, NvssEthnicity.CubanDisplay, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2368,7 +2420,7 @@ namespace VRDR
         {
             get
             {
-                if (Ethnicity3.ContainsKey("code"))
+                if (Ethnicity3.ContainsKey("code") && !String.IsNullOrWhiteSpace(Ethnicity3["code"]))
                 {
                     return Ethnicity3["code"];
                 }
@@ -2376,7 +2428,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity3", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("Ethnicity3", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                }
             }
         }
 
@@ -2423,7 +2478,7 @@ namespace VRDR
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Other); ;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Other, NvssEthnicity.Other, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Other, NvssEthnicity.OtherDisplay, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2444,7 +2499,7 @@ namespace VRDR
         {
             get
             {
-                if (Ethnicity4.ContainsKey("code"))
+                if (Ethnicity4.ContainsKey("code") && !String.IsNullOrWhiteSpace(Ethnicity4["code"]))
                 {
                     return Ethnicity4["code"];
                 }
@@ -2452,7 +2507,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity4", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("Ethnicity4", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
+                }
             }
         }
 
@@ -2483,7 +2541,7 @@ namespace VRDR
                         return ethnicity.Value.ToString();
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -2492,8 +2550,11 @@ namespace VRDR
                     CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Literal, NvssEthnicity.Literal, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, NvssEthnicity.Literal, NvssEthnicity.LiteralDisplay, null);
                 component.Value = new FhirString(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -2532,6 +2593,12 @@ namespace VRDR
                         // convert boolean race codes to strings
                         if (booleanRaceCodes.Contains(raceCode))
                         {
+                            if (component.Value == null) {
+                              // If there is no value given, set the race to blank.
+                              var race = Tuple.Create(raceCode, "");
+                              races.Add(race);
+                              continue;
+                            }
 
                             // Todo Find conversion from FhirBoolean to bool
                             string raceBool = ((FhirBoolean)component.Value).ToString();
@@ -2549,8 +2616,12 @@ namespace VRDR
                         }
                         else
                         {
-                            var race = Tuple.Create(raceCode, component.Value.ToString());
-                            races.Add(race);
+                            // Ignore unless there's a value present
+                            if (component.Value != null)
+                            {
+                                var race = Tuple.Create(raceCode, component.Value.ToString());
+                                races.Add(race);
+                            }
                         }
 
                     }
@@ -2565,11 +2636,13 @@ namespace VRDR
                     CreateInputRaceEthnicityObs();
                 }
                 var booleanRaceCodes = NvssRace.GetBooleanRaceCodes();
+                var literalRaceCodes = NvssRace.GetLiteralRaceCodes();
                 foreach (Tuple<string, string> element in value)
                 {
                     InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == element.Item1);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.ComponentCode, element.Item1, element.Item1, null);
+                    String displayValue = NvssRace.GetDisplayValueForCode(element.Item1);
+                    component.Code = new CodeableConcept(CodeSystems.ComponentCode, element.Item1, displayValue, null);
                     if (booleanRaceCodes.Contains(element.Item1))
                     {
                         if (element.Item2 == "Y")
@@ -2581,9 +2654,13 @@ namespace VRDR
                             component.Value = new FhirBoolean(false);
                         }
                     }
-                    else
+                    else if (literalRaceCodes.Contains(element.Item1))
                     {
                         component.Value = new FhirString(element.Item2);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid race literal code found: " + element.Item1 + " with value: " + element.Item2);
                     }
                     InputRaceAndEthnicityObs.Component.Add(component);
                 }
@@ -2655,7 +2732,7 @@ namespace VRDR
         {
             get
             {
-                if (RaceMissingValueReason.ContainsKey("code"))
+                if (RaceMissingValueReason.ContainsKey("code") && !String.IsNullOrWhiteSpace(RaceMissingValueReason["code"]))
                 {
                     return RaceMissingValueReason["code"];
                 }
@@ -2663,7 +2740,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("RaceMissingValueReason", value, VRDR.ValueSets.RaceMissingValueReason.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("RaceMissingValueReason", value, VRDR.ValueSets.RaceMissingValueReason.Codes);
+                }
             }
         }
 
@@ -2881,7 +2961,7 @@ namespace VRDR
         {
             get
             {
-                if (MaritalStatus.ContainsKey("code"))
+                if (MaritalStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(MaritalStatus["code"]))
                 {
                     return MaritalStatus["code"];
                 }
@@ -2889,7 +2969,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("MaritalStatus", value, VRDR.ValueSets.MaritalStatus.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("MaritalStatus", value, VRDR.ValueSets.MaritalStatus.Codes);
+                }
             }
         }
 
@@ -2910,7 +2993,7 @@ namespace VRDR
         {
             get
             {
-                if (MaritalStatusEditFlag.ContainsKey("code"))
+                if (MaritalStatusEditFlag.ContainsKey("code") && !String.IsNullOrWhiteSpace(MaritalStatusEditFlag["code"]))
                 {
                     return MaritalStatusEditFlag["code"];
                 }
@@ -2918,7 +3001,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("MaritalStatusEditFlag", value, VRDR.ValueSets.EditBypass0124.Codes);
+                if (!String.IsNullOrEmpty(value))
+                {
+                    SetCodeValue("MaritalStatusEditFlag", value, VRDR.ValueSets.EditBypass0124.Codes);
+                }
             }
         }
 
@@ -2943,10 +3029,14 @@ namespace VRDR
                 {
                     return Decedent.MaritalStatus.Text;
                 }
-                return "";
+                return null;
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (Decedent.MaritalStatus == null)
                 {
                     Decedent.MaritalStatus = new CodeableConcept();
@@ -2985,19 +3075,7 @@ namespace VRDR
                 {
                     CreateFather();
                 }
-                HumanName name = Father.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null && value != null)
-                {
-                    name.Given = value;
-                }
-                else if (value != null)
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = value;
-                    Father.Name.Add(name);
-                }
-
+                updateGivenHumanName(value, Father.Name);
             }
         }
 
@@ -3111,19 +3189,7 @@ namespace VRDR
                 {
                     CreateMother();
                 }
-                HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null && value != null)
-                {
-                    name.Given = value;
-                }
-                else if (value != null)
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = value;
-                    Mother.Name.Add(name);
-                }
-
+                updateGivenHumanName(value, Mother.Name);
             }
         }
 
@@ -3238,19 +3304,7 @@ namespace VRDR
                 {
                     CreateSpouse();
                 }
-                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null && value != null)
-                {
-                    name.Given = value;
-                }
-                else if (value != null)
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = value;
-                    Spouse.Name.Add(name);
-                }
-
+                updateGivenHumanName(value, Spouse.Name);
             }
         }
 
@@ -3435,7 +3489,7 @@ namespace VRDR
         {
             get
             {
-                if (SpouseAlive.ContainsKey("code"))
+                if (SpouseAlive.ContainsKey("code") && !String.IsNullOrWhiteSpace(SpouseAlive["code"]))
                 {
                     return SpouseAlive["code"];
                 }
@@ -3443,7 +3497,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SpouseAlive", value, VRDR.ValueSets.SpouseAlive.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("SpouseAlive", value, VRDR.ValueSets.SpouseAlive.Codes);
+                }
             }
         }
 
@@ -3515,7 +3572,7 @@ namespace VRDR
         {
             get
             {
-                if (EducationLevel.ContainsKey("code"))
+                if (EducationLevel.ContainsKey("code") && !String.IsNullOrWhiteSpace(EducationLevel["code"]))
                 {
                     return EducationLevel["code"];
                 }
@@ -3523,7 +3580,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("EducationLevel", value, VRDR.ValueSets.EducationLevel.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("EducationLevel", value, VRDR.ValueSets.EducationLevel.Codes);
+                }
             }
         }
 
@@ -3597,7 +3657,7 @@ namespace VRDR
         {
             get
             {
-                if (EducationLevelEditFlag.ContainsKey("code"))
+                if (EducationLevelEditFlag.ContainsKey("code") && !String.IsNullOrWhiteSpace(EducationLevelEditFlag["code"]))
                 {
                     return EducationLevelEditFlag["code"];
                 }
@@ -3605,7 +3665,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("EducationLevelEditFlag", value, VRDR.ValueSets.EditBypass01234.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                   SetCodeValue("EducationLevelEditFlag", value, VRDR.ValueSets.EditBypass01234.Codes);
+                }
             }
         }
 
@@ -3677,10 +3740,13 @@ namespace VRDR
                         return (Convert.ToString(stateComp.Value));
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 //    CodeableConcept state = DictToCodeableConcept(value);
                 if (BirthRecordIdentifier == null)
                 {
@@ -3736,6 +3802,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (BirthRecordIdentifier == null)
                 {
                     CreateBirthRecordIdentifier();
@@ -3779,13 +3848,17 @@ namespace VRDR
             {
                 if (UsualWork != null && UsualWork.Value != null && UsualWork.Value as CodeableConcept != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)UsualWork.Value)["text"];
+                    Dictionary<string, string> dict = CodeableConceptToDict((CodeableConcept)UsualWork.Value);
+                    if (dict.ContainsKey("text"))
+                    {
+                        return dict["text"];
+                    }
                 }
-                return "";
+                return null;
             }
             set
             {
-                if ((String.IsNullOrEmpty(value)))
+                if ((String.IsNullOrWhiteSpace(value)))
                 {
                     return;
                 }
@@ -3815,25 +3888,25 @@ namespace VRDR
                 if (UsualWork != null)
                 {
                     Observation.ComponentComponent component = UsualWork.Component.FirstOrDefault(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
-                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
+                    if (component != null && component.Value != null && component.Value as CodeableConcept != null
+                        && CodeableConceptToDict((CodeableConcept)component.Value).ContainsKey("text"))
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value)["text"];
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
-                if ((String.IsNullOrEmpty(value)))
-                {
-                    return;
-                }
                 if (UsualWork == null)
                 {
                     CreateUsualWork();
                 }
-
                 UsualWork.Component.RemoveAll(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
+                if ((String.IsNullOrWhiteSpace(value)))
+                {
+                    return;
+                }
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
                 component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
                 component.Value = new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "UNK", "unknown", value);     // code is required
@@ -3915,7 +3988,7 @@ namespace VRDR
         {
             get
             {
-                if (MilitaryService.ContainsKey("code"))
+                if (MilitaryService.ContainsKey("code") && !String.IsNullOrWhiteSpace(MilitaryService["code"]))
                 {
                     return (MilitaryService["code"]);
                 }
@@ -3923,7 +3996,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("MilitaryService", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("MilitaryService", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                }
             }
         }
 
@@ -3943,7 +4019,7 @@ namespace VRDR
         // /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
         // /// </example>
         // [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 96)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner')", "name")]
         // public string[] MorticianGivenNames
         // {
         //     get
@@ -3981,7 +4057,7 @@ namespace VRDR
         // /// <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
         // /// </example>
         // [Property("Mortician Family Name", Property.Types.String, "Decedent Disposition", "Family name of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 97)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner')", "name")]
         // public string MorticianFamilyName
         // {
         //     get
@@ -4019,7 +4095,7 @@ namespace VRDR
         // /// <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
         // /// </example>
         // [Property("Mortician Suffix", Property.Types.String, "Decedent Disposition", "Mortician's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 98)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "suffix")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner')", "suffix")]
         // public string MorticianSuffix
         // {
         //     get
@@ -4067,7 +4143,7 @@ namespace VRDR
         // [Property("Mortician Identifier", Property.Types.Dictionary, "Decedent Disposition", "Mortician Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 99)]
         // [PropertyParam("system", "The identifier system.")]
         // [PropertyParam("value", "The identifier value.")]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner')", "identifier")]
         // public Dictionary<string, string> MorticianIdentifier
         // {
         //     get
@@ -4104,7 +4180,7 @@ namespace VRDR
         //         Mortician = new Practitioner();
         //         Mortician.Id = Guid.NewGuid().ToString();
         //         Mortician.Meta = new Meta();
-        //         string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
+        //         string[] mortician_profile = { "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner" };
         //         Mortician.Meta.Profile = mortician_profile;
         //     }
         // }
@@ -4199,6 +4275,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (FuneralHome == null)
                 {
                     CreateFuneralHome();
@@ -4239,7 +4318,7 @@ namespace VRDR
         //             FuneralHomeDirector = new PractitionerRole();
         //             FuneralHomeDirector.Id = Guid.NewGuid().ToString();
         //             FuneralHomeDirector.Meta = new Meta();
-        //             string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
+        //             string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner" };
         //             FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
         //             AddReferenceToComposition(FuneralHomeDirector.Id);
         //             Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
@@ -4342,7 +4421,7 @@ namespace VRDR
                 {
                     CreateDispositionLocation();
                 }
-                if (value != null && !String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     DispositionLocation.Name = value;
                 }
@@ -4425,7 +4504,7 @@ namespace VRDR
         {
             get
             {
-                if (DecedentDispositionMethod.ContainsKey("code"))
+                if (DecedentDispositionMethod.ContainsKey("code") && !String.IsNullOrWhiteSpace(DecedentDispositionMethod["code"]))
                 {
                     return DecedentDispositionMethod["code"];
                 }
@@ -4433,7 +4512,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodOfDisposition.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodOfDisposition.Codes);
+                }
             }
         }
 
@@ -4503,7 +4585,7 @@ namespace VRDR
         {
             get
             {
-                if (AutopsyPerformedIndicator.ContainsKey("code"))
+                if (AutopsyPerformedIndicator.ContainsKey("code") && !String.IsNullOrWhiteSpace(AutopsyPerformedIndicator["code"]))
                 {
                     return AutopsyPerformedIndicator["code"];
                 }
@@ -4511,25 +4593,29 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("AutopsyPerformedIndicator", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("AutopsyPerformedIndicator", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                }
             }
         }
         // The idea here is that we have getters and setters for each of the parts of the death datetime, which get used in IJEMortality.cs
         // These getters and setters 1) use the DeathDateObs Observation 2) get and set values on the PartialDateTime extension using helpers that
-        // can be reused across year, month, etc. 3) interpret null as data being absent, and so set the data absent reason if value is null 4) when
-        // getting, look also in the valueDateTime and return the year from there if it happens to be set (but never bother to set it ourselves)
+        // can be reused across year, month, etc. 3) interpret -1 and null as data being absent (intentionally and unintentially, respectively),
+        // and so set the data absent reason if value is -1 or null 4) when getting, look also in the valueDateTime and return the year from there
+        // if it happens to be set (but never bother to set it ourselves)
 
         /// <summary>Decedent's Year of Death.</summary>
-        /// <value>the decedent's year of death</value>
+        /// <value>the decedent's year of death, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.DeathYear = 2018;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Death: {ExampleDeathRecord.DeathYear}");</para>
         /// </example>
-        [Property("DeathYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("DeathYear", Property.Types.Int32, "Death Investigation", "Decedent's Year of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
-        public uint? DeathYear
+        public int? DeathYear
         {
             get
             {
@@ -4551,16 +4637,16 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Month of Death.</summary>
-        /// <value>the decedent's month of death</value>
+        /// <value>the decedent's month of death, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.DeathMonth = 6;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Death: {ExampleDeathRecord.DeathMonth}");</para>
         /// </example>
-        [Property("DeathMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("DeathMonth", Property.Types.Int32, "Death Investigation", "Decedent's Month of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
-        public uint? DeathMonth
+        public int? DeathMonth
         {
             get
             {
@@ -4581,16 +4667,16 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Day of Death.</summary>
-        /// <value>the decedent's day of death</value>
+        /// <value>the decedent's day of death, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.DeathDay = 16;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Death: {ExampleDeathRecord.DeathDay}");</para>
         /// </example>
-        [Property("DeathDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("DeathDay", Property.Types.Int32, "Death Investigation", "Decedent's Day of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
-        public uint? DeathDay
+        public int? DeathDay
         {
             get
             {
@@ -4610,10 +4696,10 @@ namespace VRDR
             }
         }
         /// <summary>Decedent's Time of Death.</summary>
-        /// <value>the decedent's time of death</value>
+        /// <value>the decedent's time of death, or "-1" if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DeathTime = "07:15";</para>
+        /// <para>ExampleDeathRecord.DeathTime = "07:15:00";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Time of Death: {ExampleDeathRecord.DeathTime}");</para>
         /// </example>
@@ -4631,6 +4717,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (DeathDateObs == null)
                 {
                     CreateDeathDateObs();
@@ -4638,6 +4727,226 @@ namespace VRDR
                 SetPartialTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
             }
         }
+
+        /* START datetimePronouncedDead */
+        /// <summary>Decedent's Pronouncement Year of Death.</summary>
+        /// <value>the decedent's pronouncement year of death, or null if never specified</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathPronouncementYear = 2018;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Pronouncement Year of Death: {ExampleDeathRecord.DateOfDeathPronouncementYear}");</para>
+        /// </example>
+        [Property("DateOfDeathPronouncementYear", Property.Types.Int32, "Death Investigation", "Decedent's Pronouncement Year of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public int? DateOfDeathPronouncementYear
+        {
+            get
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    return GetDateFragment(pronouncementDateObs.Value, ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                if (value == null || !value.HasValue) {
+                    return;
+                }
+                Observation.ComponentComponent pronouncementDateObs = GetOrCreateDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is Time)
+                {
+                    // we need to convert to a FhirDateTime
+                    pronouncementDateObs.Value = ConvertFhirTimeToFhirDateTime((Time)pronouncementDateObs.Value);
+                }
+                if (pronouncementDateObs != null && pronouncementDateObs.Value == null) {
+                    pronouncementDateObs.Value = new FhirDateTime(); // initialize date object
+                }
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+                    DateTimeOffset? dateTimeOffset = null;
+                    if (pronouncementDateObs.Value is FhirDateTime && ((FhirDateTime)pronouncementDateObs.Value).Value != null)
+                    {
+                        // Note: We can't just call ToDateTimeOffset() on the FhirDateTime because want the datetime in whatever local time zone was provided
+                        dateTimeOffset = DateTimeOffset.Parse(((FhirDateTime)pronouncementDateObs.Value).Value);
+                    }
+                    var dt = dateTimeOffset ?? DateTimeOffset.MinValue;
+                    var newFdt = new FhirDateTime(value.Value, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, TimeSpan.Zero);
+                    pronouncementDateObs.Value = newFdt;
+                }
+            }
+        }
+
+        /// <summary>Decedent's Pronouncement Month of Death.</summary>
+        /// <value>the decedent's pronouncement month of death, or -1 if explicitly unknown, or null if never specified</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeathPronouncementMonth = 6;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Pronouncement Month of Death: {ExampleDeathRecord.DateOfDeathPronouncementMonth}");</para>
+        /// </example>
+        [Property("DeathMonth", Property.Types.Int32, "Death Investigation", "Decedent's Pronouncement Month of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public int? DateOfDeathPronouncementMonth
+        {
+            get
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    return GetDateFragment(pronouncementDateObs.Value, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                if (value == null || !value.HasValue) {
+                    return;
+                }
+                Observation.ComponentComponent pronouncementDateObs = GetOrCreateDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is Time)
+                {
+                    // we need to convert to a FhirDateTime
+                    pronouncementDateObs.Value = ConvertFhirTimeToFhirDateTime((Time)pronouncementDateObs.Value);
+                }
+                if (pronouncementDateObs != null && pronouncementDateObs.Value == null) {
+                    pronouncementDateObs.Value = new FhirDateTime(); // initialize date object
+                }
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+                    DateTimeOffset? dateTimeOffset = null;
+                    if (pronouncementDateObs.Value is FhirDateTime && ((FhirDateTime)pronouncementDateObs.Value).Value != null)
+                    {
+                        // Note: We can't just call ToDateTimeOffset() on the FhirDateTime because want the datetime in whatever local time zone was provided
+                        dateTimeOffset = DateTimeOffset.Parse(((FhirDateTime)pronouncementDateObs.Value).Value);
+                    }
+                    var dt = dateTimeOffset ?? DateTimeOffset.MinValue;
+                    var newFdt = new FhirDateTime(dt.Year, value.Value, dt.Day, dt.Hour, dt.Minute, dt.Second, TimeSpan.Zero);
+                    pronouncementDateObs.Value = newFdt;
+                }
+            }
+
+        }
+
+        /// <summary>Decedent's Pronouncement Day of Death.</summary>
+        /// <value>the decedent's pronouncement day of death, or -1 if explicitly unknown, or null if never specified</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeathPronouncementDay = 16;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Prounecement Day of Death: {ExampleDeathRecord.DateOfDeathPronouncementDay}");</para>
+        /// </example>
+        [Property("DeathDay", Property.Types.Int32, "Death Investigation", "Decedent's Pronouncement Day of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public int? DateOfDeathPronouncementDay
+        {
+            get
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    return GetDateFragment(pronouncementDateObs.Value, ExtensionURL.DateDay);
+                }
+                return null;
+
+            }
+            set
+            {
+                if (value == null || !value.HasValue) {
+                    return;
+                }
+                Observation.ComponentComponent pronouncementDateObs = GetOrCreateDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is Time)
+                {
+                    // we need to convert to a FhirDateTime
+                    pronouncementDateObs.Value = ConvertFhirTimeToFhirDateTime((Time)pronouncementDateObs.Value);
+                }
+                if (pronouncementDateObs != null && pronouncementDateObs.Value == null) {
+                    pronouncementDateObs.Value = new FhirDateTime(); // initialize date object
+                }
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+                    DateTimeOffset? dateTimeOffset = null;
+                    if (pronouncementDateObs.Value is FhirDateTime && ((FhirDateTime)pronouncementDateObs.Value).Value != null)
+                    {
+                        // Note: We can't just call ToDateTimeOffset() on the FhirDateTime because want the datetime in whatever local time zone was provided
+                        dateTimeOffset = DateTimeOffset.Parse(((FhirDateTime)pronouncementDateObs.Value).Value);
+                    }
+                    var dt = dateTimeOffset ?? DateTimeOffset.MinValue;
+                    var newFdt = new FhirDateTime(dt.Year, dt.Month, value.Value, dt.Hour, dt.Minute, dt.Second, TimeSpan.Zero);
+                    pronouncementDateObs.Value = newFdt;
+                }
+            }
+        }
+
+        /// <summary>Decedent's Pronouncement Time of Death.</summary>
+        /// <value>the decedent's pronouncement time of death, or "-1" if explicitly unknown, or null if never specified</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeathPronouncementTime = "07:15:00";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Pronouncement Time of Death: {ExampleDeathRecord.DateOfDeathPronouncementTime}");</para>
+        /// </example>
+        [Property("DeathTime", Property.Types.String, "Death Investigation", "Decedent's Pronoucement Time of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public string DateOfDeathPronouncementTime
+        {
+            get
+            {
+                Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+                if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime)
+                {
+                    return GetTimeFragment(pronouncementDateObs.Value);
+                }
+                 if (pronouncementDateObs != null && pronouncementDateObs.Value != null && pronouncementDateObs.Value is Time)
+                {
+                    var time = (Time)pronouncementDateObs.Value;
+                    return time.Value;
+                }
+                return null;
+            }
+            set
+            {
+                if (String.IsNullOrEmpty(value)) {
+                    return;
+                }
+
+                // we need to force it to be 00:00:00 format to be compliant with the IG because the FHIR class doesn't
+                if (value.Length < 8)
+                {
+                    value += ":";
+                    value = value.PadRight(8, '0');
+                }
+                Observation.ComponentComponent pronouncementDateObs = GetOrCreateDateOfDeathPronouncementObs();
+                // if we are only storing time, set just the valueTime
+                if (pronouncementDateObs != null && (pronouncementDateObs.Value == null || pronouncementDateObs.Value is Time)) {
+                    pronouncementDateObs.Value = new Time(value); // set to FhirTime
+                    return;
+                }
+
+                // otherwise we need to set the time portion of the valueDateTime
+                if (pronouncementDateObs.Value != null && pronouncementDateObs.Value is FhirDateTime) {
+                    // set time part of FhirDateTime
+                    var ft = new Time(value);
+                    var fdt = (FhirDateTime)pronouncementDateObs.Value;
+                    DateTimeOffset? dateTimeOffset = null;
+                    if (pronouncementDateObs.Value is FhirDateTime && ((FhirDateTime)pronouncementDateObs.Value).Value != null)
+                    {
+                        // Note: We can't just call ToDateTimeOffset() on the FhirDateTime because want the datetime in whatever local time zone was provided
+                        dateTimeOffset = DateTimeOffset.Parse(((FhirDateTime)pronouncementDateObs.Value).Value);
+                    }
+                    var dto = dateTimeOffset ?? DateTimeOffset.MinValue;
+                    var newFdt = new FhirDateTime(dto.Year, dto.Month, dto.Day, FhirTimeHour(ft), FhirTimeMin(ft), FhirTimeSec(ft), TimeSpan.Zero);
+                    pronouncementDateObs.Value = newFdt;
+                }
+            }
+        }
+        /* END datetimePronouncedDead */
 
         /// <summary>DateOfDeathDeterminationMethod.</summary>
         /// <value>method. A Dictionary representing a code, containing the following key/value pairs:
@@ -4694,7 +5003,7 @@ namespace VRDR
             get
             {
                 // We support this legacy API entrypoint via the new partial date and time entrypoints
-                if (DeathYear != null && DeathMonth != null && DeathDay != null && DeathTime != null)
+                if (DeathYear != null && DeathYear != -1 && DeathMonth != null && DeathMonth != -1 && DeathDay != null && DeathDay != -1 && DeathTime != null && DeathTime != "-1")
                 {
                     DateTimeOffset parsedTime;
                     if (DateTimeOffset.TryParse(DeathTime, out parsedTime))
@@ -4703,7 +5012,7 @@ namespace VRDR
                         return result.ToString("s");
                     }
                 }
-                else if (DeathYear != null && DeathMonth != null && DeathDay != null)
+                else if (DeathYear != null && DeathYear != -1 && DeathMonth != null && DeathMonth != -1 && DeathDay != null && DeathDay != -1)
                 {
                     DateTime result = new DateTime((int)DeathYear, (int)DeathMonth, (int)DeathDay);
                     return result.ToString("s");
@@ -4716,13 +5025,39 @@ namespace VRDR
                 DateTimeOffset parsedTime;
                 if (DateTimeOffset.TryParse(value, out parsedTime))
                 {
-                    DeathYear = (uint?)parsedTime.Year;
-                    DeathMonth = (uint?)parsedTime.Month;
-                    DeathDay = (uint?)parsedTime.Day;
+                    DeathYear = parsedTime.Year;
+                    DeathMonth = parsedTime.Month;
+                    DeathDay = parsedTime.Day;
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
                     DeathTime = timeSpan.ToString(@"hh\:mm\:ss");
                 }
             }
+        }
+
+        /// <summary>Decedent's Date/Time of Death Pronouncement as a component.</summary>
+        /// <value>the decedent's date and time of death pronouncement observation component</value>
+         public Observation.ComponentComponent GetDateOfDeathPronouncementObs() {
+            if (DeathDateObs != null && DeathDateObs.Component.Count > 0) // if there is a value for death pronouncement type, return it
+            {
+                var pronComp = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
+                        && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6");
+                if (pronComp != null && pronComp.Value != null)
+                {
+                    return pronComp;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>Get or Create Decedent's Date/Time of Death Pronouncement as a component.</summary>
+        /// <value>the decedent's date and time of death pronouncement observation component, if not present create it, return it in either case</value>
+        public Observation.ComponentComponent GetOrCreateDateOfDeathPronouncementObs() {
+            Observation.ComponentComponent pronouncementDateObs = GetDateOfDeathPronouncementObs();
+            if (pronouncementDateObs == null)
+            {
+                pronouncementDateObs = CreateDateOfDeathPronouncementObs();
+            }
+            return pronouncementDateObs;
         }
 
         /// <summary>Decedent's Date/Time of Death Pronouncement.</summary>
@@ -4737,56 +5072,56 @@ namespace VRDR
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5').component.where(code.coding.code='80616-6')", "")]
         public string DateOfDeathPronouncement
         {
-            get
-            {
-                if (DeathDateObs != null && DeathDateObs.Component.Count > 0) // if there is a value for death location type, return it
+            get {
+                if (DateOfDeathPronouncementYear != null && DateOfDeathPronouncementYear != -1 && DateOfDeathPronouncementMonth != null && DateOfDeathPronouncementMonth != -1 && DateOfDeathPronouncementDay != null && DateOfDeathPronouncementDay != -1 && DateOfDeathPronouncementTime != null && DateOfDeathPronouncementTime != "-1")
                 {
-                    var pronComp = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
-                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6");
-                    if (pronComp != null && pronComp.Value != null)
+                    DateTimeOffset parsedTime;
+                    if (DateTimeOffset.TryParse(DateOfDeathPronouncementTime, out parsedTime))
                     {
-                        return Convert.ToString(pronComp.Value);
+                        DateTimeOffset result = new DateTimeOffset((int)DateOfDeathPronouncementYear, (int)DateOfDeathPronouncementMonth, (int)DateOfDeathPronouncementDay, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
+                        return result.ToString("s");
                     }
+                }
+                else if (DateOfDeathPronouncementYear != null && DateOfDeathPronouncementYear != -1 && DateOfDeathPronouncementMonth != null && DateOfDeathPronouncementMonth != -1 && DateOfDeathPronouncementDay != null && DateOfDeathPronouncementDay != -1)
+                {
+                    DateTime result = new DateTime((int)DateOfDeathPronouncementYear, (int)DateOfDeathPronouncementMonth, (int)DateOfDeathPronouncementDay);
+                    return result.ToString("s");
+                }
+                else if (DateOfDeathPronouncementYear == null && DateOfDeathPronouncementMonth == null && DateOfDeathPronouncementDay == null && DateOfDeathPronouncementTime != null)
+                {
+                    return DateOfDeathPronouncementTime;
                 }
                 return null;
             }
             set
             {
-
-                if (DeathDateObs == null)
-                {
-                    CreateDeathDateObs(); // Create it
+                if (String.IsNullOrEmpty(value)) {
+                    return;
                 }
-
-                // Find correct component; if doesn't exist add another
-                var pronComp = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
-                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6");
-                if (pronComp != null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedTime;
+                if (DateTimeOffset.TryParse(value, out parsedTime))
                 {
-                    ((Observation.ComponentComponent)pronComp).Value = new FhirDateTime(value);
-                }
-                else
-                {
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
-                    component.Value = new FhirDateTime(value);
-                    DeathDateObs.Component.Add(component);
+                    DateOfDeathPronouncementYear = parsedTime.Year;
+                    DateOfDeathPronouncementMonth = parsedTime.Month;
+                    DateOfDeathPronouncementDay = parsedTime.Day;
+                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                    DateOfDeathPronouncementTime = timeSpan.ToString(@"hh\:mm\:ss");
                 }
             }
-
         }
 
         /// <summary>Decedent's Year of Surgery.</summary>
-        /// <value>the decedent's year of surgery</value>
+        /// <value>the decedent's year of surgery, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.SurgeryYear = 2018;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Surgery: {ExampleDeathRecord.SurgeryYear}");</para>
         /// </example>
-        [Property("SurgeryYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [Property("SurgeryYear", Property.Types.Int32, "Death Investigation", "Decedent's Year of Surgery.", true, IGURL.SurgeryDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
-        public uint? SurgeryYear
+        public int? SurgeryYear
         {
             get
             {
@@ -4807,16 +5142,16 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Month of Surgery.</summary>
-        /// <value>the decedent's month of surgery</value>
+        /// <value>the decedent's month of surgery, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.SurgeryMonth = 6;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Surgery: {ExampleDeathRecord.SurgeryMonth}");</para>
         /// </example>
-        [Property("SurgeryMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [Property("SurgeryMonth", Property.Types.Int32, "Death Investigation", "Decedent's Month of Surgery.", true, IGURL.SurgeryDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
-        public uint? SurgeryMonth
+        public int? SurgeryMonth
         {
             get
             {
@@ -4837,16 +5172,16 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Day of Surgery.</summary>
-        /// <value>the decedent's day of surgery</value>
+        /// <value>the decedent's day of surgery, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.SurgeryDay = 16;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Surgery: {ExampleDeathRecord.SurgeryDay}");</para>
         /// </example>
-        [Property("SurgeryDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [Property("SurgeryDay", Property.Types.Int32, "Death Investigation", "Decedent's Day of Surgery.", true, IGURL.SurgeryDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
-        public uint? SurgeryDay
+        public int? SurgeryDay
         {
             get
             {
@@ -4881,7 +5216,7 @@ namespace VRDR
             get
             {
                 // We support this legacy-style API entrypoint via the new partial date and time entrypoints
-                if (SurgeryYear != null && SurgeryMonth != null && SurgeryDay != null)
+                if (SurgeryYear != null && SurgeryYear != -1 && SurgeryMonth != null && SurgeryMonth != -1 && SurgeryDay != null && SurgeryDay != -1)
                 {
                     Date result = new Date((int)SurgeryYear, (int)SurgeryMonth, (int)SurgeryDay);
                     return result.ToString();
@@ -4894,9 +5229,9 @@ namespace VRDR
                 DateTimeOffset parsedDate;
                 if (DateTimeOffset.TryParse(value, out parsedDate))
                 {
-                    SurgeryYear = (uint?)parsedDate.Year;
-                    SurgeryMonth = (uint?)parsedDate.Month;
-                    SurgeryDay = (uint?)parsedDate.Day;
+                    SurgeryYear = parsedDate.Year;
+                    SurgeryMonth = parsedDate.Month;
+                    SurgeryDay = parsedDate.Day;
                 }
             }
         }
@@ -4970,7 +5305,7 @@ namespace VRDR
         {
             get
             {
-                if (AutopsyResultsAvailable.ContainsKey("code"))
+                if (AutopsyResultsAvailable.ContainsKey("code") && !String.IsNullOrWhiteSpace(AutopsyResultsAvailable["code"]))
                 {
                     return AutopsyResultsAvailable["code"];
                 }
@@ -4978,7 +5313,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("AutopsyResultsAvailable", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("AutopsyResultsAvailable", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+                }
             }
         }
 
@@ -5114,7 +5452,7 @@ namespace VRDR
                 {
                     CreateDeathLocation();
                 }
-                if (value != null && !String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     DeathLocationLoc.Name = value;
                 }
@@ -5147,6 +5485,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (DeathLocationLoc == null)
                 {
                     CreateDeathLocation();
@@ -5155,11 +5496,7 @@ namespace VRDR
                 {
                     DeathLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (value != null)
-                {
-                    DeathLocationLoc.Position.Latitude = Convert.ToDecimal(value);
-                }
-
+                DeathLocationLoc.Position.Latitude = Convert.ToDecimal(value);
             }
         }
 
@@ -5185,6 +5522,10 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 if (DeathLocationLoc == null)
                 {
                     CreateDeathLocation();
@@ -5193,14 +5534,9 @@ namespace VRDR
                 {
                     DeathLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (value != null)
-                {
-                    DeathLocationLoc.Position.Longitude = Convert.ToDecimal(value);
-                }
-
+                DeathLocationLoc.Position.Longitude = Convert.ToDecimal(value);
             }
         }
-
 
         /// <summary>Description of Death Location.</summary>
         /// <value>the death location description.</value>
@@ -5224,6 +5560,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (DeathLocationLoc == null)
                 {
                     DeathLocationLoc = new Location();
@@ -5302,7 +5641,7 @@ namespace VRDR
                 else
                 {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "58332-8", "Place of death", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "58332-8", "Location of death", null);
                     component.Value = DictToCodeableConcept(value);
                     DeathDateObs.Component.Add(component);
                 }
@@ -5325,7 +5664,7 @@ namespace VRDR
         {
             get
             {
-                if (DeathLocationType != null && DeathLocationType.ContainsKey("code"))
+                if (DeathLocationType != null && DeathLocationType.ContainsKey("code") && !String.IsNullOrWhiteSpace(DeathLocationType["code"]))
                 {
                     return DeathLocationType["code"];
                 }
@@ -5333,27 +5672,37 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("DeathLocationType", value, VRDR.ValueSets.PlaceOfDeath.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("DeathLocationType", value, VRDR.ValueSets.PlaceOfDeath.Codes);
+                }
             }
         }
 
         /// <summary>Age At Death.</summary>
-        /// <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
-        /// <para>"value" - the quantity value</para>
-        /// <para>"system" - the quantity unit</para>
-        /// </value>
+        /// <value>decedent's age at time of death. A Dictionary representing a length of time,
+        /// containing the following key/value pairs: </value>
+        /// <para>"value" - the quantity value, structured as valueQuantity.value</para>
+        /// <para>"code" - the unit a PHIN VADS code set UnitsOfAge, structed as valueQuantity.code
+        ///   USE: http://hl7.org/fhir/us/vrdr/STU2/StructureDefinition-vrdr-decedent-age.html </para>
+        /// <para>"system" - OPTIONAL: from the example page http://hl7.org/fhir/us/vrdr/Observation-DecedentAge-Example1.json.html</para>
+        /// <para>"unit" - OPTIONAL: from the example page http://hl7.org/fhir/us/vrdr/Observation-DecedentAge-Example1.json.html</para>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
         /// <para>age.Add("value", "100");</para>
-        /// <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-units-of-age-vs </para>
+        /// <para>age.Add("code", "a"); // e.g. "min" = minutes, "d" = days, "h" = hours, "mo" = months, "a" = years, "UNK" = unknown</para>
+        /// <para>age.Add("system", "http://unitsofmeasure.org");</para>
+        /// <para>age.Add("unit", "years");</para>
         /// <para>ExampleDeathRecord.AgeAtDeath = age;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['value']} years");</para>
         /// </example>
         [Property("Age At Death", Property.Types.Dictionary, "Decedent Demographics", "Age At Death.", true, IGURL.DecedentAge, true, 2)]
-        [PropertyParam("value", "The unit type, from UnitsOfAge ValueSet.")]
-        [PropertyParam("unit", "The quantity value.")]
+        [PropertyParam("value", "The quantity value.")]
+        [PropertyParam("code", "The unit type, from UnitsOfAge ValueSet.")]
+        [PropertyParam("system", "OPTIONAL: The coding system.")]
+        [PropertyParam("unit", "OPTIONAL: The unit description.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
         public Dictionary<string, string> AgeAtDeath
         {
@@ -5364,19 +5713,19 @@ namespace VRDR
                     Dictionary<string, string> age = new Dictionary<string, string>();
                     Quantity quantity = (Quantity)AgeAtDeathObs.Value;
                     age.Add("value", quantity.Value == null ? "" : Convert.ToString(quantity.Value));
-                    age.Add("unit", quantity.Unit == null ? "" : quantity.Unit);
                     age.Add("code", quantity.Code == null ? "" : quantity.Code);
                     age.Add("system", quantity.System == null ? "" : quantity.System);
+                    age.Add("unit", quantity.Unit== null ? "" : quantity.Unit);
                     return age;
                 }
-                return new Dictionary<string, string>() { { "value", "" }, { "unit", "" }, { "code", "" }, { "system", "" } };
+                return new Dictionary<string, string>() { { "value", "" }, { "code", "" }, { "system", null }, { "unit", null} };
             }
             set
             {
                 string extractedValue = GetValue(value, "value");
                 string extractedCode = GetValue(value, "code"); ;
-                string extractedUnit = GetValue(value, "unit");
                 string extractedSystem = GetValue(value, "system");
+                string extractedUnit = GetValue(value, "unit");
                 if ((extractedValue == null && extractedCode == null && extractedUnit == null && extractedSystem == null)) // if there is nothing to do, do nothing.
                 {
                     return;
@@ -5391,10 +5740,6 @@ namespace VRDR
                 {
                     quantity.Value = Convert.ToDecimal(extractedValue);
                 }
-                if (extractedUnit != null)
-                {
-                    quantity.Unit = extractedUnit;
-                }
                 if (extractedCode != null)
                 {
                     quantity.Code = extractedCode;
@@ -5403,8 +5748,119 @@ namespace VRDR
                 {
                     quantity.System = extractedSystem;
                 }
+                if (extractedUnit != null)
+                {
+                    quantity.Unit = extractedUnit;
+                }
                 AgeAtDeathObs.Value = (Quantity)quantity;
             }
+        }
+
+        /// <summary>Get Age At Death For Code</summary>
+        /// <value>Private helper method to get the age at death for a given code.</value>
+        private int? _getAgeAtDeathForCode(string code)
+        {
+            if (AgeAtDeath["code"] == code && AgeAtDeath["value"] != null)
+            {
+                return Convert.ToInt32(AgeAtDeath["value"]);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>Set Age At Death For Code</summary>
+        /// <value>Private helper method to set the age at death for a given code and value.</value>
+        private void _setAgeAtDeathForCode(string code, int? value)
+        {
+            if (value != null)
+            {
+                AgeAtDeath = new Dictionary<string, string>() {
+                    { "value", Convert.ToString(value) },
+                    { "code", code }
+                };
+            }
+        }
+
+        /// <summary>Age At Death Years Helper</summary>
+        /// <value>Set decedent's age at time of death in years.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathYears = 100;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathYears} years");</para>
+        /// </example>
+        [Property("Age At Death Years Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Years.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathYears
+        {
+            get => _getAgeAtDeathForCode("a");
+            set => _setAgeAtDeathForCode("a", value);
+        }
+
+        /// <summary>Age At Death Months Helper</summary>
+        /// <value>Set decedent's age at time of death in months.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathMonths = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMonths} months");</para>
+        /// </example>
+        [Property("Age At Death Months Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Months.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathMonths
+        {
+            get => _getAgeAtDeathForCode("mo");
+            set => _setAgeAtDeathForCode("mo", value);
+        }
+
+        /// <summary>Age At Death Days Helper</summary>
+        /// <value>Set decedent's age at time of death in days.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathDays = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathDays} days");</para>
+        /// </example>
+        [Property("Age At Death Days Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Days.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathDays
+        {
+            get => _getAgeAtDeathForCode("d");
+            set => _setAgeAtDeathForCode("d", value);
+        }
+
+        /// <summary>Age At Death Hours Helper</summary>
+        /// <value>Set decedent's age at time of death in hours.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathHours = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathHours} hours");</para>
+        /// </example>
+        [Property("Age At Death Hours Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Hours.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathHours
+        {
+            get => _getAgeAtDeathForCode("h");
+            set => _setAgeAtDeathForCode("h", value);
+        }
+
+        /// <summary>Age At Death Minutes Helper</summary>
+        /// <value>Set decedent's age at time of death in minutes.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathMinutes = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMinutes} minutes");</para>
+        /// </example>
+        [Property("Age At Death Minutes Helper", Property.Types.Int32, "Decedent Demographics", "Age At Death in Minutes.", false, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
+        public int? AgeAtDeathMinutes
+        {
+            get => _getAgeAtDeathForCode("min");
+            set => _setAgeAtDeathForCode("min", value);
         }
 
         /// <summary>Decedent's Age At Death Edit Flag.</summary>
@@ -5451,6 +5907,10 @@ namespace VRDR
                     CreateAgeAtDeathObs();
                 }
                 AgeAtDeathObs.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                if (IsDictEmptyOrDefault(value))
+                {
+                    return;
+                }
                 Extension editFlag = new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value));
                 AgeAtDeathObs.Value.Extension.Add(editFlag);
             }
@@ -5466,11 +5926,14 @@ namespace VRDR
         {
             get
             {
-                return AgeAtDeathEditFlag.ContainsKey("code") ? AgeAtDeathEditFlag["code"] : null;
+                return AgeAtDeathEditFlag.ContainsKey("code") && !String.IsNullOrWhiteSpace(AgeAtDeathEditFlag["code"]) ? AgeAtDeathEditFlag["code"] : null;
             }
             set
             {
-                SetCodeValue("AgeAtDeathEditFlag", value, VRDR.ValueSets.EditBypass01.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("AgeAtDeathEditFlag", value, VRDR.ValueSets.EditBypass01.Codes);
+                }
             }
         }
 
@@ -5544,7 +6007,7 @@ namespace VRDR
         {
             get
             {
-                if (PregnancyStatus.ContainsKey("code"))
+                if (PregnancyStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(PregnancyStatus["code"]))
                 {
                     return PregnancyStatus["code"];
                 }
@@ -5552,7 +6015,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("PregnancyStatus", value, VRDR.ValueSets.PregnancyStatus.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("PregnancyStatus", value, VRDR.ValueSets.PregnancyStatus.Codes);
+                }
             }
         }
         /// <summary>Decedent's Pregnancy Status at Death Edit Flag.</summary>
@@ -5628,7 +6094,7 @@ namespace VRDR
         {
             get
             {
-                if (PregnancyStatusEditFlag.ContainsKey("code"))
+                if (PregnancyStatusEditFlag.ContainsKey("code") && !String.IsNullOrWhiteSpace(PregnancyStatusEditFlag["code"]))
                 {
                     return PregnancyStatusEditFlag["code"];
                 }
@@ -5636,7 +6102,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("PregnancyStatusEditFlag", value, VRDR.ValueSets.EditBypass012.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("PregnancyStatusEditFlag", value, VRDR.ValueSets.EditBypass012.Codes);
+                }
             }
         }
 
@@ -5711,7 +6180,7 @@ namespace VRDR
         {
             get
             {
-                if (ExaminerContacted.ContainsKey("code"))
+                if (ExaminerContacted.ContainsKey("code") && !String.IsNullOrWhiteSpace(ExaminerContacted["code"]))
                 {
                     return ExaminerContacted["code"];
                 }
@@ -5719,7 +6188,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("ExaminerContacted", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("ExaminerContacted", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                }
             }
         }
 
@@ -5809,6 +6281,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (value == null && InjuryLocationLoc == null)
                 {
                     return;
@@ -5821,11 +6296,7 @@ namespace VRDR
                 {
                     InjuryLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (value != null)
-                {
-                    InjuryLocationLoc.Position.Latitude = Convert.ToDecimal(value);
-                }
-
+                InjuryLocationLoc.Position.Latitude = Convert.ToDecimal(value);
             }
         }
 
@@ -5851,6 +6322,9 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value)) {
+                    return;
+                }
                 if (value == null && InjuryLocationLoc == null)
                 {
                     return;
@@ -5863,12 +6337,7 @@ namespace VRDR
                 {
                     InjuryLocationLoc.Position = new Location.PositionComponent();
                 }
-                if (value != null)
-                {
-                    InjuryLocationLoc.Position.Longitude = Convert.ToDecimal(value);
-                }
-
-
+                InjuryLocationLoc.Position.Longitude = Convert.ToDecimal(value);
             }
         }
 
@@ -5895,7 +6364,7 @@ namespace VRDR
             }
             set
             {
-                if (value == null && InjuryLocationLoc == null)
+                if (String.IsNullOrWhiteSpace(value) && InjuryLocationLoc == null)
                 {
                     return;
                 }
@@ -5904,7 +6373,7 @@ namespace VRDR
                     CreateInjuryLocationLoc();
                     // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                 }
-                if (value != null && !String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     InjuryLocationLoc.Name = value;
                 }
@@ -5919,7 +6388,7 @@ namespace VRDR
         /// <summary>Set an emerging issue value, creating an empty EmergingIssues Observation as needed.</summary>
         private void SetEmergingIssue(string identifier, string value)
         {
-            if (value == null && EmergingIssues == null)
+            if (String.IsNullOrEmpty(value) && EmergingIssues == null)
             {
                 return;
             }
@@ -5979,7 +6448,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_1", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_1", value);
+                }
             }
         }
 
@@ -6001,7 +6473,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_2", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_2", value);
+                }
             }
         }
 
@@ -6024,7 +6499,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_3", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_3", value);
+                }
             }
         }
 
@@ -6047,7 +6525,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_4", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_4", value);
+                }
             }
         }
 
@@ -6070,7 +6551,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_5", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_5", value);
+                }
             }
         }
 
@@ -6093,7 +6577,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue1_6", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue1_6", value);
+                }
             }
         }
 
@@ -6116,7 +6603,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue8_1", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue8_1", value);
+                }
             }
         }
 
@@ -6139,7 +6629,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue8_2", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue8_2", value);
+                }
             }
         }
 
@@ -6162,7 +6655,10 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue8_3", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue8_3", value);
+                }
             }
         }
 
@@ -6185,22 +6681,25 @@ namespace VRDR
             }
             set
             {
-                SetEmergingIssue("EmergingIssue20", value);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetEmergingIssue("EmergingIssue20", value);
+                }
             }
         }
 
 
         /// <summary>Decedent's Year of Injury.</summary>
-        /// <value>the decedent's year of injury</value>
+        /// <value>the decedent's year of injury, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.InjuryYear = 2018;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Injury: {ExampleDeathRecord.InjuryYear}");</para>
         /// </example>
-        [Property("InjuryYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [Property("InjuryYear", Property.Types.Int32, "Death Investigation", "Decedent's Year of Injury.", true, IGURL.InjuryIncident, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public uint? InjuryYear
+        public int? InjuryYear
         {
             get
             {
@@ -6225,16 +6724,16 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Month of Injury.</summary>
-        /// <value>the decedent's month of injury</value>
+        /// <value>the decedent's month of injury, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.InjuryMonth = 7;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Injury: {ExampleDeathRecord.InjuryMonth}");</para>
         /// </example>
-        [Property("InjuryMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [Property("InjuryMonth", Property.Types.Int32, "Death Investigation", "Decedent's Month of Injury.", true, IGURL.InjuryIncident, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public uint? InjuryMonth
+        public int? InjuryMonth
         {
             get
             {
@@ -6259,16 +6758,16 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Day of Injury.</summary>
-        /// <value>the decedent's day of injury</value>
+        /// <value>the decedent's day of injury, or -1 if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.InjuryDay = 22;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Injury: {ExampleDeathRecord.InjuryDay}");</para>
         /// </example>
-        [Property("InjuryDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [Property("InjuryDay", Property.Types.Int32, "Death Investigation", "Decedent's Day of Injury.", true, IGURL.InjuryIncident, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public uint? InjuryDay
+        public int? InjuryDay
         {
             get
             {
@@ -6293,7 +6792,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Time of Injury.</summary>
-        /// <value>the decedent's time of injury</value>
+        /// <value>the decedent's time of injury, or "-1" if explicitly unknown, or null if never specified</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.InjuryTime = "07:15";</para>
@@ -6341,7 +6840,7 @@ namespace VRDR
             get
             {
                 // We support this legacy API entrypoint via the new partial date and time entrypoints
-                if (InjuryYear != null && InjuryMonth != null && InjuryDay != null && InjuryTime != null)
+                if (InjuryYear != null && InjuryYear != -1 && InjuryMonth != null && InjuryMonth != -1 && InjuryDay != null && InjuryDay != -1 && InjuryTime != null && InjuryTime != "-1")
                 {
                     DateTimeOffset parsedTime;
                     if (DateTimeOffset.TryParse(InjuryTime, out parsedTime))
@@ -6350,7 +6849,7 @@ namespace VRDR
                         return result.ToString("s");
                     }
                 }
-                else if (InjuryYear != null && InjuryMonth != null && InjuryDay != null)
+                else if (InjuryYear != null && InjuryYear != -1 && InjuryMonth != null && InjuryMonth != -1 && InjuryDay != null && InjuryDay != -1)
                 {
                     DateTime result = new DateTime((int)InjuryYear, (int)InjuryMonth, (int)InjuryDay);
                     return result.ToString("s");
@@ -6363,9 +6862,9 @@ namespace VRDR
                 DateTimeOffset parsedTime;
                 if (DateTimeOffset.TryParse(value, out parsedTime))
                 {
-                    InjuryYear = (uint?)parsedTime.Year;
-                    InjuryMonth = (uint?)parsedTime.Month;
-                    InjuryDay = (uint?)parsedTime.Day;
+                    InjuryYear = parsedTime.Year;
+                    InjuryMonth = parsedTime.Month;
+                    InjuryDay = parsedTime.Day;
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
                     InjuryTime = timeSpan.ToString(@"hh\:mm\:ss");
                 }
@@ -6436,7 +6935,7 @@ namespace VRDR
                         }
                     }
                 }
-                return "";
+                return null;
             }
             set
             {
@@ -6544,7 +7043,7 @@ namespace VRDR
         {
             get
             {
-                if (InjuryAtWork.ContainsKey("code"))
+                if (InjuryAtWork.ContainsKey("code") && !String.IsNullOrWhiteSpace(InjuryAtWork["code"]))
                 {
                     return InjuryAtWork["code"];
                 }
@@ -6552,7 +7051,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("InjuryAtWork", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+                if(!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("InjuryAtWork", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+                }
             }
         }
 
@@ -6629,8 +7131,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRoleHelper");</para>
         /// </example>
-        [Property("Transportation Role Helper", Property.Types.String, "Death Investigation", "Transportation Role in death.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Transportation-Role.html", true, 45)]
-        [PropertyParam("code", "The code used to describe this concept.")]
+        [Property("Transportation Role Helper", Property.Types.String, "Death Investigation", "Transportation Role in death.", false, IGURL.InjuryIncident, true, 45)]
+	[PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]  // The component  code is '69451-3'
         public string TransportationRoleHelper
         {
@@ -6647,7 +7149,7 @@ namespace VRDR
                         }
                         return ("Other");
                     }
-                    else
+                    else if (!String.IsNullOrWhiteSpace(code))
                     {
                         return code;
                     }
@@ -6753,7 +7255,7 @@ namespace VRDR
         {
             get
             {
-                if (TobaccoUse.ContainsKey("code"))
+                if (TobaccoUse.ContainsKey("code") && !String.IsNullOrWhiteSpace(TobaccoUse["code"]))
                 {
                     return TobaccoUse["code"];
                 }
@@ -6761,7 +7263,10 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("TobaccoUse", value, VRDR.ValueSets.ContributoryTobaccoUse.Codes);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetCodeValue("TobaccoUse", value, VRDR.ValueSets.ContributoryTobaccoUse.Codes);
+                }
             }
         }
 

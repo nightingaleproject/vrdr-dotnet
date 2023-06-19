@@ -706,27 +706,6 @@
             "valueCodeableConcept": {
               "text": "Home"
             }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "69451-3",
-                  "system": "http://loinc.org",
-                  "display": "Transportation role of decedent"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "OTH",
-                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-                  "display": "Other"
-                }
-              ],
-              "text": "Hoverboard Rider"
-            }
           }
         ],
         "subject": {

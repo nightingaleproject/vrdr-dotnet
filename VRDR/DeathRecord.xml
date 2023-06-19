@@ -121,8 +121,11 @@
         <member name="T:VRDR.Connectathon">
             <summary>Class <c>Connectathon</c> provides static methods for generating records used in Connectathon testing, used in Canary and in the CLI tool</summary>
         </member>
+        <member name="P:VRDR.Connectathon.Records">
+            <summary>Retrieve all available pre-set records</summary>
+        </member>
         <member name="M:VRDR.Connectathon.FromId(System.Int32,System.Nullable{System.Int32},System.String,System.Nullable{System.Int32})">
-            <summary>Generate a DeathRecord from one of 5 pre-set records, providing an optional certificate number and state</summary>
+            <summary>Generate a DeathRecord from one of 3 pre-set records, providing an optional certificate number and state</summary>
         </member>
         <member name="M:VRDR.Connectathon.TwilaHilty">
             <summary>Generate the Twila Hilty example record</summary>
@@ -220,6 +223,9 @@
         <member name="M:VRDR.DeathRecord.GetMortalityRosterBundle(System.Boolean)">
             <summary>Helper method to return the subset of this record that makes up a Mortality Roster bundle.</summary>
             <returns>a new FHIR Bundle</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetComposition">
+            <summary>Return a reference to the Composition object for unit testing.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.AddReferenceToComposition(System.String,System.String)">
             <summary>Add a reference to the Death Record Composition.</summary>
@@ -407,6 +413,9 @@
         </member>
         <member name="M:VRDR.DeathRecord.CreateDeathDateObs">
             <summary>Create Death Date Observation.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateDateOfDeathPronouncementObs">
+            <summary>Create Death Date Pronouncement Observation Component Component.</summary>
         </member>
         <member name="F:VRDR.DeathRecord.SurgeryDateObs">
             <summary>Date Of Surgery.</summary>
@@ -1084,7 +1093,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.ReceiptYear">
             <summary>The year NCHS received the death record.</summary>
-            <value>year</value>
+            <value>year, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.ReceiptYear = 2022 </para>
@@ -1097,7 +1106,7 @@
             The month NCHS received the death record.
             </summary>
             <summary>The month NCHS received the death record.</summary>
-            <value>month</value>
+            <value>month, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.ReceiptMonth = 11 </para>
@@ -1107,7 +1116,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.ReceiptDay">
             <summary>The day NCHS received the death record.</summary>
-            <value>month</value>
+            <value>day, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.ReceiptDay = 13 </para>
@@ -1681,7 +1690,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.BirthYear">
             <summary>Decedent's Year of Birth.</summary>
-            <value>the decedent's year of birth</value>
+            <value>the decedent's year of birth, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.BirthYear = 1928;</para>
@@ -1691,7 +1700,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.BirthMonth">
             <summary>Decedent's Month of Birth.</summary>
-            <value>the decedent's month of birth</value>
+            <value>the decedent's month of birth, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.BirthMonth = 11;</para>
@@ -1701,7 +1710,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.BirthDay">
             <summary>Decedent's Day of Birth.</summary>
-            <value>the decedent's dau of birth</value>
+            <value>the decedent's day of birth, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.BirthDay = 11;</para>
@@ -2466,7 +2475,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.DeathYear">
             <summary>Decedent's Year of Death.</summary>
-            <value>the decedent's year of death</value>
+            <value>the decedent's year of death, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.DeathYear = 2018;</para>
@@ -2476,7 +2485,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.DeathMonth">
             <summary>Decedent's Month of Death.</summary>
-            <value>the decedent's month of death</value>
+            <value>the decedent's month of death, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.DeathMonth = 6;</para>
@@ -2486,7 +2495,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.DeathDay">
             <summary>Decedent's Day of Death.</summary>
-            <value>the decedent's day of death</value>
+            <value>the decedent's day of death, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.DeathDay = 16;</para>
@@ -2496,12 +2505,52 @@
         </member>
         <member name="P:VRDR.DeathRecord.DeathTime">
             <summary>Decedent's Time of Death.</summary>
-            <value>the decedent's time of death</value>
+            <value>the decedent's time of death, or "-1" if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.DeathTime = "07:15";</para>
+            <para>ExampleDeathRecord.DeathTime = "07:15:00";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Time of Death: {ExampleDeathRecord.DeathTime}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementYear">
+            <summary>Decedent's Pronouncement Year of Death.</summary>
+            <value>the decedent's pronouncement year of death, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DeathPronouncementYear = 2018;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Pronouncement Year of Death: {ExampleDeathRecord.DateOfDeathPronouncementYear}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementMonth">
+            <summary>Decedent's Pronouncement Month of Death.</summary>
+            <value>the decedent's pronouncement month of death, or -1 if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncementMonth = 6;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Pronouncement Month of Death: {ExampleDeathRecord.DateOfDeathPronouncementMonth}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementDay">
+            <summary>Decedent's Pronouncement Day of Death.</summary>
+            <value>the decedent's pronouncement day of death, or -1 if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncementDay = 16;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Prounecement Day of Death: {ExampleDeathRecord.DateOfDeathPronouncementDay}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementTime">
+            <summary>Decedent's Pronouncement Time of Death.</summary>
+            <value>the decedent's pronouncement time of death, or "-1" if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncementTime = "07:15:00";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Pronouncement Time of Death: {ExampleDeathRecord.DateOfDeathPronouncementTime}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.DateOfDeathDeterminationMethod">
@@ -2532,6 +2581,14 @@
             <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
             </example>
         </member>
+        <member name="M:VRDR.DeathRecord.GetDateOfDeathPronouncementObs">
+            <summary>Decedent's Date/Time of Death Pronouncement as a component.</summary>
+            <value>the decedent's date and time of death pronouncement observation component</value>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetOrCreateDateOfDeathPronouncementObs">
+            <summary>Get or Create Decedent's Date/Time of Death Pronouncement as a component.</summary>
+            <value>the decedent's date and time of death pronouncement observation component, if not present create it, return it in either case</value>
+        </member>
         <member name="P:VRDR.DeathRecord.DateOfDeathPronouncement">
             <summary>Decedent's Date/Time of Death Pronouncement.</summary>
             <value>the decedent's date and time of death pronouncement</value>
@@ -2544,7 +2601,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.SurgeryYear">
             <summary>Decedent's Year of Surgery.</summary>
-            <value>the decedent's year of surgery</value>
+            <value>the decedent's year of surgery, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.SurgeryYear = 2018;</para>
@@ -2554,7 +2611,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.SurgeryMonth">
             <summary>Decedent's Month of Surgery.</summary>
-            <value>the decedent's month of surgery</value>
+            <value>the decedent's month of surgery, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.SurgeryMonth = 6;</para>
@@ -2564,7 +2621,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.SurgeryDay">
             <summary>Decedent's Day of Surgery.</summary>
-            <value>the decedent's day of surgery</value>
+            <value>the decedent's day of surgery, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.SurgeryDay = 16;</para>
@@ -2719,18 +2776,81 @@
         </member>
         <member name="P:VRDR.DeathRecord.AgeAtDeath">
             <summary>Age At Death.</summary>
-            <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
-            <para>"value" - the quantity value</para>
-            <para>"system" - the quantity unit</para>
-            </value>
+            <value>decedent's age at time of death. A Dictionary representing a length of time,
+            containing the following key/value pairs: </value>
+            <para>"value" - the quantity value, structured as valueQuantity.value</para>
+            <para>"code" - the unit a PHIN VADS code set UnitsOfAge, structed as valueQuantity.code
+              USE: http://hl7.org/fhir/us/vrdr/STU2/StructureDefinition-vrdr-decedent-age.html </para>
+            <para>"system" - OPTIONAL: from the example page http://hl7.org/fhir/us/vrdr/Observation-DecedentAge-Example1.json.html</para>
+            <para>"unit" - OPTIONAL: from the example page http://hl7.org/fhir/us/vrdr/Observation-DecedentAge-Example1.json.html</para>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
             <para>age.Add("value", "100");</para>
-            <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-units-of-age-vs </para>
+            <para>age.Add("code", "a"); // e.g. "min" = minutes, "d" = days, "h" = hours, "mo" = months, "a" = years, "UNK" = unknown</para>
+            <para>age.Add("system", "http://unitsofmeasure.org");</para>
+            <para>age.Add("unit", "years");</para>
             <para>ExampleDeathRecord.AgeAtDeath = age;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['value']} years");</para>
+            </example>
+        </member>
+        <member name="M:VRDR.DeathRecord._getAgeAtDeathForCode(System.String)">
+            <summary>Get Age At Death For Code</summary>
+            <value>Private helper method to get the age at death for a given code.</value>
+        </member>
+        <member name="M:VRDR.DeathRecord._setAgeAtDeathForCode(System.String,System.Nullable{System.Int32})">
+            <summary>Set Age At Death For Code</summary>
+            <value>Private helper method to set the age at death for a given code and value.</value>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathYears">
+            <summary>Age At Death Years Helper</summary>
+            <value>Set decedent's age at time of death in years.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathYears = 100;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathYears} years");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathMonths">
+            <summary>Age At Death Months Helper</summary>
+            <value>Set decedent's age at time of death in months.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathMonths = 11;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMonths} months");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathDays">
+            <summary>Age At Death Days Helper</summary>
+            <value>Set decedent's age at time of death in days.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathDays = 11;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathDays} days");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathHours">
+            <summary>Age At Death Hours Helper</summary>
+            <value>Set decedent's age at time of death in hours.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathHours = 11;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathHours} hours");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathMinutes">
+            <summary>Age At Death Minutes Helper</summary>
+            <value>Set decedent's age at time of death in minutes.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathMinutes = 11;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeathMinutes} minutes");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.AgeAtDeathEditFlag">
@@ -3005,7 +3125,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryYear">
             <summary>Decedent's Year of Injury.</summary>
-            <value>the decedent's year of injury</value>
+            <value>the decedent's year of injury, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.InjuryYear = 2018;</para>
@@ -3015,7 +3135,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryMonth">
             <summary>Decedent's Month of Injury.</summary>
-            <value>the decedent's month of injury</value>
+            <value>the decedent's month of injury, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.InjuryMonth = 7;</para>
@@ -3025,7 +3145,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryDay">
             <summary>Decedent's Day of Injury.</summary>
-            <value>the decedent's day of injury</value>
+            <value>the decedent's day of injury, or -1 if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.InjuryDay = 22;</para>
@@ -3035,7 +3155,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryTime">
             <summary>Decedent's Time of Injury.</summary>
-            <value>the decedent's time of injury</value>
+            <value>the decedent's time of injury, or "-1" if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.InjuryTime = "07:15";</para>
@@ -3159,20 +3279,20 @@
             <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUseHelper}");</para>
             </example>
         </member>
-        <member name="M:VRDR.DeathRecord.InjuryIncidentTimeSet">
-            <summary>Has an InjuryIncident Time Been Set</summary>
-        </member>
-        <member name="M:VRDR.DeathRecord.SurgeryDateSet">
-            <summary>Has a Surgery Date Been Set</summary>
-        </member>
         <member name="M:VRDR.DeathRecord.GetPartialDate(Hl7.Fhir.Model.Extension,System.String)">
-            <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
+            <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read
+            from the extension. Returns either a numeric date part, or -1 meaning explicitly unknown, or null meaning not specified.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.NewBlankPartialDateTimeExtension(System.Boolean)">
-            <summary>NewBlankPartialDateTimeExtension, Build a blank PartialDateTime extension (which means all the data absent reasons are present to note that the data is not in fact present)</summary>
+            <summary>NewBlankPartialDateTimeExtension, Build a blank PartialDateTime extension (which means all the placeholder data absent
+            reasons are present to note that the data is not in fact present). This method takes an optional flag to determine if this extension
+            should include the time field, which is not always needed</summary>
         </member>
-        <member name="M:VRDR.DeathRecord.SetPartialDate(Hl7.Fhir.Model.Extension,System.String,System.Nullable{System.UInt32})">
-            <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be set in the extension</summary>
+        <member name="M:VRDR.DeathRecord.SetPartialDate(Hl7.Fhir.Model.Extension,System.String,System.Nullable{System.Int32})">
+            <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be
+            set in the extension. Arguments are the extension to poplulate, the part of the URL to populate, and the value to specify.
+            The value can be a positive number for an actual value, a -1 meaning that the value is explicitly unknown, or null meaning
+            the data has not been specified.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.GetPartialTime(Hl7.Fhir.Model.Extension)">
             <summary>Getter helper for anything that uses PartialDateTime, allowing the time to be read from the extension</summary>
@@ -3180,9 +3300,17 @@
         <member name="M:VRDR.DeathRecord.SetPartialTime(Hl7.Fhir.Model.Extension,System.String)">
             <summary>Setter helper for anything that uses PartialDateTime, allowing the time to be set in the extension</summary>
         </member>
+        <member name="M:VRDR.DeathRecord.GetDateFragment(Hl7.Fhir.Model.Element,System.String)">
+            <summary>Getter helper for anything that can have a regular FHIR date/time
+            field (year, month, or day) to be read the value
+            supports dates and date times but does NOT support extensions</summary>
+        </member>
         <member name="M:VRDR.DeathRecord.GetDateFragmentOrPartialDate(Hl7.Fhir.Model.Element,System.String)">
             <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
             field (year, month, or day) to be read from either the value or the extension</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetTimeFragment(Hl7.Fhir.Model.Element)">
+            <summary>Getter helper for anything that can have a regular FHIR date/time, allowing the time to be read from the value</summary>
         </member>
         <member name="M:VRDR.DeathRecord.GetTimeFragmentOrPartialTime(Hl7.Fhir.Model.Element)">
             <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
@@ -3298,6 +3426,11 @@
             <param name="contents">string that represents </param>
             <returns>a new DeathRecord that corresponds to the given descriptive format</returns>
         </member>
+        <member name="M:VRDR.DeathRecord.updateGivenHumanName(System.String[],System.Collections.Generic.List{Hl7.Fhir.Model.HumanName})">
+            <summary>Helper method to create a HumanName from a list of strings.</summary>
+            <param name="value">A list of strings to be converted into a name.</param>
+            <param name="names">The current list of HumanName attributes for the person.</param>
+        </member>
         <member name="T:VRDR.Property">
             <summary>Property attribute used to describe a DeathRecord property.</summary>
         </member>
@@ -3325,7 +3458,7 @@
         <member name="F:VRDR.Property.Types.TupleCOD">
             <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
         </member>
-        <member name="F:VRDR.Property.Types.UInt32">
+        <member name="F:VRDR.Property.Types.Int32">
             <summary>Parameter is an unsigned integer.</summary>
         </member>
         <member name="F:VRDR.Property.Types.Tuple4Arr">
@@ -3458,7 +3591,7 @@
             <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
         </member>
         <member name="M:VRDR.IJEMortality.#ctor">
-            <summary>Constructor that creates a completely empty record for constructing records using the IJE properties.</summary>
+            <summary>Constructor that creates an empty record for constructing records using the IJE properties.</summary>
         </member>
         <member name="M:VRDR.IJEMortality.ToString">
             <summary>Converts the internal <c>DeathRecord</c> into an IJE string.</summary>
@@ -3481,13 +3614,15 @@
         <member name="M:VRDR.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
-        <member name="M:VRDR.IJEMortality.NumericAllowingUnknown_Get(System.String,System.String,System.Boolean)">
-            <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
+        <member name="M:VRDR.IJEMortality.NumericAllowingUnknown_Get(System.String,System.String)">
+            <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and -1 on the
+            FHIR side to represent'unknown' and blank on the IJE side and null on the FHIR side to represent unspecified</summary>
         </member>
         <member name="M:VRDR.IJEMortality.NumericAllowingUnknown_Set(System.String,System.String,System.String)">
-            <summary>Set a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
+            <summary>Set a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and -1 on the
+            FHIR side to represent'unknown' and blank on the IJE side and null on the FHIR side to represent unspecified</summary>
         </member>
-        <member name="M:VRDR.IJEMortality.TimeAllowingUnknown_Get(System.String,System.String,System.Boolean)">
+        <member name="M:VRDR.IJEMortality.TimeAllowingUnknown_Get(System.String,System.String)">
             <summary>Get a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
         </member>
         <member name="M:VRDR.IJEMortality.TimeAllowingUnknown_Set(System.String,System.String,System.String)">
@@ -3546,6 +3681,9 @@
             <summary>NCHS ICD10 to actual ICD10 </summary>
         </member>
         <member name="M:VRDR.IJEMortality.ActualICD10toNCHSICD10(System.String)">
+            <summary>Actual ICD10 to NCHS ICD10 </summary>
+        </member>
+        <member name="M:VRDR.IJEMortality.ValidNCHSICD10(System.String)">
             <summary>Actual ICD10 to NCHS ICD10 </summary>
         </member>
         <member name="P:VRDR.IJEMortality.DOD_YR">
@@ -4472,15 +4610,6 @@
         <member name="F:VRDR.Mappings.MethodOfDisposition.FHIRToIJE">
             <summary>FHIR -> IJE Mapping for MethodOfDisposition</summary>
         </member>
-        <member name="T:VRDR.Mappings.NotApplicable">
-            <summary>Mappings for NotApplicable</summary>
-        </member>
-        <member name="F:VRDR.Mappings.NotApplicable.IJEToFHIR">
-            <summary>IJE -> FHIR Mapping for NotApplicable</summary>
-        </member>
-        <member name="F:VRDR.Mappings.NotApplicable.FHIRToIJE">
-            <summary>FHIR -> IJE Mapping for NotApplicable</summary>
-        </member>
         <member name="T:VRDR.Mappings.PlaceOfDeath">
             <summary>Mappings for PlaceOfDeath</summary>
         </member>
@@ -4588,15 +4717,6 @@
         </member>
         <member name="F:VRDR.Mappings.UnitsOfAge.FHIRToIJE">
             <summary>FHIR -> IJE Mapping for UnitsOfAge</summary>
-        </member>
-        <member name="T:VRDR.Mappings.YesNoNotApplicable">
-            <summary>Mappings for YesNoNotApplicable</summary>
-        </member>
-        <member name="F:VRDR.Mappings.YesNoNotApplicable.IJEToFHIR">
-            <summary>IJE -> FHIR Mapping for YesNoNotApplicable</summary>
-        </member>
-        <member name="F:VRDR.Mappings.YesNoNotApplicable.FHIRToIJE">
-            <summary>FHIR -> IJE Mapping for YesNoNotApplicable</summary>
         </member>
         <member name="T:VRDR.Mappings.YesNoUnknown">
             <summary>Mappings for YesNoUnknown</summary>
@@ -4760,35 +4880,38 @@
         <member name="F:VRDR.NvssRace.OtherRace">
             <summary> OtherRace </summary>
         </member>
-        <member name="F:VRDR.NvssRace.AmericanIndianOrAlaskanNativeLiteral1">
-            <summary> AmericanIndianOrAlaskanNativeLiteralFirst </summary>
+        <member name="F:VRDR.NvssRace.FirstAmericanIndianOrAlaskanNativeLiteral">
+            <summary> FirstAmericanIndianOrAlaskanNativeLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.AmericanIndianOrAlaskanNativeLiteral2">
-            <summary> AmericanIndianOrAlaskanNativeLiteralSecond </summary>
+        <member name="F:VRDR.NvssRace.SecondAmericanIndianOrAlaskanNativeLiteral">
+            <summary> SecondAmericanIndianOrAlaskanNativeLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherAsianLiteral1">
-            <summary> OtherAsianLiteralFirst </summary>
+        <member name="F:VRDR.NvssRace.FirstOtherAsianLiteral">
+            <summary> FirstOtherAsianLiteralFirst </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherAsianLiteral2">
-            <summary> OtherAsianLiteralFirstSecond </summary>
+        <member name="F:VRDR.NvssRace.SecondOtherAsianLiteral">
+            <summary> SecondOtherPacificIslanderLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherPacificIslandLiteral1">
-            <summary> OtherPacificIslandLiteralFirst </summary>
+        <member name="F:VRDR.NvssRace.FirstOtherPacificIslanderLiteral">
+            <summary> FirstOtherPacificIslanderLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherPacificIslandLiteral2">
-            <summary> OtherPacificIslandLiteralSecond </summary>
+        <member name="F:VRDR.NvssRace.SecondOtherPacificIslanderLiteral">
+            <summary> SecondOtherPacificIslanderLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherRaceLiteral1">
-            <summary> OtherRaceLiteralFirst </summary>
+        <member name="F:VRDR.NvssRace.FirstOtherRaceLiteral">
+            <summary> FirstOtherRaceLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherRaceLiteral2">
-            <summary> OtherRaceLiteral2 </summary>
+        <member name="F:VRDR.NvssRace.SecondOtherRaceLiteral">
+            <summary> SecondOtherRaceLiteral </summary>
         </member>
         <member name="F:VRDR.NvssRace.MissingValueReason">
             <summary> MissingValueReason </summary>
         </member>
         <member name="M:VRDR.NvssRace.GetBooleanRaceCodes">
             <summary> GetBooleanRaceCodes Returns a list of the Boolean Race Codes, Y or N values </summary>
+        </member>
+        <member name="M:VRDR.NvssRace.GetDisplayValueForCode(System.String)">
+            <summary> GetDisplayValueForCode returns the display value for a race code, or the code itself if none exists</summary>
         </member>
         <member name="M:VRDR.NvssRace.GetLiteralRaceCodes">
             <summary> GetLiteralRaceCodes Returns a list of the literal Race Codes</summary>
@@ -4799,17 +4922,32 @@
         <member name="F:VRDR.NvssEthnicity.Mexican">
             <summary> Mexican </summary>
         </member>
+        <member name="F:VRDR.NvssEthnicity.MexicanDisplay">
+            <summary> Hispanic Mexican </summary>
+        </member>
         <member name="F:VRDR.NvssEthnicity.PuertoRican">
-            <summary> PuertoRican </summary>
+            <summary> Puerto Rican </summary>
+        </member>
+        <member name="F:VRDR.NvssEthnicity.PuertoRicanDisplay">
+            <summary> Hispanic Puerto Rican </summary>
         </member>
         <member name="F:VRDR.NvssEthnicity.Cuban">
             <summary> Cuban </summary>
         </member>
+        <member name="F:VRDR.NvssEthnicity.CubanDisplay">
+            <summary> Hispanic Cuban </summary>
+        </member>
         <member name="F:VRDR.NvssEthnicity.Other">
             <summary> Other </summary>
         </member>
+        <member name="F:VRDR.NvssEthnicity.OtherDisplay">
+            <summary> Hispanic Other </summary>
+        </member>
         <member name="F:VRDR.NvssEthnicity.Literal">
             <summary> Literal </summary>
+        </member>
+        <member name="F:VRDR.NvssEthnicity.LiteralDisplay">
+            <summary> Hispanic Literal </summary>
         </member>
         <member name="T:VRDR.ProfileURL">
             <summary>Profile URLs</summary>
@@ -4822,9 +4960,6 @@
         </member>
         <member name="F:VRDR.ProfileURL.DecedentMilitaryService">
             <summary>URL for DecedentMilitaryService</summary>
-        </member>
-        <member name="F:VRDR.ProfileURL.CauseOfDeathPathway">
-            <summary>URL for CauseOfDeathPathway</summary>
         </member>
         <member name="F:VRDR.ProfileURL.TobaccoUseContributedToDeath">
             <summary>URL for TobaccoUseContributedToDeath</summary>
@@ -5315,14 +5450,14 @@
         <member name="F:VRDR.ValueSets.CertifierTypes.Codes">
             <summary> Codes </summary>
         </member>
-        <member name="F:VRDR.ValueSets.CertifierTypes.Medical_Examiner_Coroner">
-            <summary> Medical_Examiner_Coroner </summary>
+        <member name="F:VRDR.ValueSets.CertifierTypes.Death_Certification_By_Medical_Examiner_Or_Coroner_Procedure">
+            <summary> Death_Certification_By_Medical_Examiner_Or_Coroner_Procedure </summary>
         </member>
-        <member name="F:VRDR.ValueSets.CertifierTypes.Pronouncing_Certifying_Physician">
-            <summary> Pronouncing_Certifying_Physician </summary>
+        <member name="F:VRDR.ValueSets.CertifierTypes.Death_Certification_And_Verification_By_Physician_Procedure">
+            <summary> Death_Certification_And_Verification_By_Physician_Procedure </summary>
         </member>
-        <member name="F:VRDR.ValueSets.CertifierTypes.Certifying_Physician">
-            <summary> Certifying_Physician </summary>
+        <member name="F:VRDR.ValueSets.CertifierTypes.Death_Certification_By_Physician_Procedure">
+            <summary> Death_Certification_By_Physician_Procedure </summary>
         </member>
         <member name="F:VRDR.ValueSets.CertifierTypes.Other_Specify">
             <summary> Other_Specify </summary>
@@ -5585,6 +5720,12 @@
         <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death">
             <summary> Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death </summary>
         </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Reported_On_Certificate">
+            <summary> Not_Reported_On_Certificate </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Applicable_Computer_Generated">
+            <summary> Not applicable: Computer generated </summary>
+        </member>
         <member name="F:VRDR.ValueSets.PregnancyStatus.Unknown_If_Pregnant_Within_The_Past_Year">
             <summary> Unknown_If_Pregnant_Within_The_Past_Year </summary>
         </member>
@@ -5816,8 +5957,8 @@
         <member name="F:VRDR.ValueSets.RaceCode.Multiple_White_Responses">
             <summary> Multiple_White_Responses </summary>
         </member>
-        <member name="F:VRDR.ValueSets.RaceCode.Black_Or_African_American">
-            <summary> Black_Or_African_American </summary>
+        <member name="F:VRDR.ValueSets.RaceCode.Black_Checkbox">
+            <summary> Black_Checkbox </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Black">
             <summary> Black </summary>
@@ -5894,8 +6035,8 @@
         <member name="F:VRDR.ValueSets.RaceCode.American_Indian_Checkbox">
             <summary> American_Indian_Checkbox </summary>
         </member>
-        <member name="F:VRDR.ValueSets.RaceCode.Asian">
-            <summary> Asian </summary>
+        <member name="F:VRDR.ValueSets.RaceCode.Asian_Indian_Checkbox">
+            <summary> Asian_Indian_Checkbox </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Asian_Indian">
             <summary> Asian_Indian </summary>
@@ -5912,11 +6053,17 @@
         <member name="F:VRDR.ValueSets.RaceCode.Cambodian">
             <summary> Cambodian </summary>
         </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Chinese_Checkbox">
+            <summary> Chinese_Checkbox </summary>
+        </member>
         <member name="F:VRDR.ValueSets.RaceCode.Chinese">
             <summary> Chinese </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Taiwanese">
             <summary> Taiwanese </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Filipino_Checkbox">
+            <summary> Filipino_Checkbox </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Filipino">
             <summary> Filipino </summary>
@@ -5927,8 +6074,14 @@
         <member name="F:VRDR.ValueSets.RaceCode.Indonesian">
             <summary> Indonesian </summary>
         </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Japanese_Checkbox">
+            <summary> Japanese_Checkbox </summary>
+        </member>
         <member name="F:VRDR.ValueSets.RaceCode.Japanese">
             <summary> Japanese </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Korean_Checkbox">
+            <summary> Korean_Checkbox </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Korean">
             <summary> Korean </summary>
@@ -5951,20 +6104,20 @@
         <member name="F:VRDR.ValueSets.RaceCode.Thai">
             <summary> Thai </summary>
         </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Vietnamese_Checkbox">
+            <summary> Vietnamese_Checkbox </summary>
+        </member>
         <member name="F:VRDR.ValueSets.RaceCode.Vietnamese">
             <summary> Vietnamese </summary>
         </member>
-        <member name="F:VRDR.ValueSets.RaceCode.Amerasian">
-            <summary> Amerasian </summary>
+        <member name="F:VRDR.ValueSets.RaceCode.Other_Asian_Checkbox">
+            <summary> Other_Asian_Checkbox </summary>
         </member>
-        <member name="F:VRDR.ValueSets.RaceCode.Asian2">
-            <summary> Asian2 </summary>
+        <member name="F:VRDR.ValueSets.RaceCode.Asian">
+            <summary> Asian </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Asiatic">
             <summary> Asiatic </summary>
-        </member>
-        <member name="F:VRDR.ValueSets.RaceCode.Eurasian">
-            <summary> Eurasian </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Mongolian">
             <summary> Mongolian </summary>
@@ -6017,6 +6170,9 @@
         <member name="F:VRDR.ValueSets.RaceCode.Part_Hawaiian">
             <summary> Part_Hawaiian </summary>
         </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Samoan_Checkbox">
+            <summary> Samoan_Checkbox </summary>
+        </member>
         <member name="F:VRDR.ValueSets.RaceCode.Samoan">
             <summary> Samoan </summary>
         </member>
@@ -6032,11 +6188,17 @@
         <member name="F:VRDR.ValueSets.RaceCode.Tokelauan">
             <summary> Tokelauan </summary>
         </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Guamanian_Checkbox">
+            <summary> Guamanian_Checkbox </summary>
+        </member>
         <member name="F:VRDR.ValueSets.RaceCode.Guamanian">
             <summary> Guamanian </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Chamorro">
             <summary> Chamorro </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Other_Pacific_Islander_Checkbox">
+            <summary> Other_Pacific_Islander_Checkbox </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Mariana_Islander">
             <summary> Mariana_Islander </summary>
@@ -6091,6 +6253,9 @@
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Multiple_Native_Hawaiian_And_Other_Pacific_Islander_Responses">
             <summary> Multiple_Native_Hawaiian_And_Other_Pacific_Islander_Responses </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Other_Race_Checkbox">
+            <summary> Other_Race_Checkbox </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Argentinean">
             <summary> Argentinean </summary>
@@ -6230,6 +6395,12 @@
         <member name="F:VRDR.ValueSets.RaceCode.Sudanese">
             <summary> Sudanese </summary>
         </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Amerasian">
+            <summary> Amerasian </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.RaceCode.Eurasian">
+            <summary> Eurasian </summary>
+        </member>
         <member name="F:VRDR.ValueSets.RaceCode.Brazilian">
             <summary> Brazilian </summary>
         </member>
@@ -6338,8 +6509,11 @@
         <member name="F:VRDR.ValueSets.RaceCode.Other_Race_N_E_C">
             <summary> Other_Race_N_E_C </summary>
         </member>
-        <member name="F:VRDR.ValueSets.RaceCode.Multiple_Some_Other_Race_Responses_995_American">
-            <summary> Multiple_Some_Other_Race_Responses_995_American </summary>
+        <member name="F:VRDR.ValueSets.RaceCode.Multiple_Some_Other_Race_Responses">
+            <summary> Multiple_Some_Other_Race_Responses </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.RaceCode.American">
+            <summary> American </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Uncodable">
             <summary> Uncodable </summary>
@@ -7655,8 +7829,8 @@
         <member name="F:VRDR.ValueSets.RaceCode.San_Juan_Pueblo">
             <summary> San_Juan_Pueblo </summary>
         </member>
-        <member name="F:VRDR.ValueSets.RaceCode.San_Juan_De">
-            <summary> San_Juan_De </summary>
+        <member name="F:VRDR.ValueSets.RaceCode.San_Juan_De_Guadelupe">
+            <summary> San_Juan_De_Guadelupe </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.San_Juan">
             <summary> San_Juan </summary>
@@ -8813,8 +8987,8 @@
         <member name="F:VRDR.ValueSets.RaceCode.Orutsararmuit_Native_Village">
             <summary> Orutsararmuit_Native_Village </summary>
         </member>
-        <member name="F:VRDR.ValueSets.RaceCode.Village_Of_Bill_Moores_Slough_Bay">
-            <summary> Village_Of_Bill_Moores_Slough_Bay </summary>
+        <member name="F:VRDR.ValueSets.RaceCode.Village_Of_Bill_Moores_Slough">
+            <summary> Village_Of_Bill_Moores_Slough </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Bristol_Bay">
             <summary> Bristol_Bay </summary>
@@ -8825,8 +8999,8 @@
         <member name="F:VRDR.ValueSets.RaceCode.Village_Of_Chefomak">
             <summary> Village_Of_Chefomak </summary>
         </member>
-        <member name="F:VRDR.ValueSets.RaceCode.Native_Of_Hamilton">
-            <summary> Native_Of_Hamilton </summary>
+        <member name="F:VRDR.ValueSets.RaceCode.Native_Village_Of_Hamilton">
+            <summary> Native_Village_Of_Hamilton </summary>
         </member>
         <member name="F:VRDR.ValueSets.RaceCode.Native_Village_Of_Chuathbaluk">
             <summary> Native_Village_Of_Chuathbaluk </summary>
@@ -9317,8 +9491,8 @@
         <member name="F:VRDR.ValueSets.HispanicOrigin.Codes">
             <summary> Codes </summary>
         </member>
-        <member name="F:VRDR.ValueSets.HispanicOrigin.Not_Hispanic">
-            <summary> Not_Hispanic </summary>
+        <member name="F:VRDR.ValueSets.HispanicOrigin.Non_Hispanic">
+            <summary> Non_Hispanic </summary>
         </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Spaniard">
             <summary> Spaniard </summary>
@@ -9350,11 +9524,11 @@
         <member name="F:VRDR.ValueSets.HispanicOrigin.Spanish_Basque">
             <summary> Spanish_Basque </summary>
         </member>
+        <member name="F:VRDR.ValueSets.HispanicOrigin.Mexican_Checkbox">
+            <summary> Mexican_Checkbox </summary>
+        </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Mexican">
             <summary> Mexican </summary>
-        </member>
-        <member name="F:VRDR.ValueSets.HispanicOrigin.Mexican_2">
-            <summary> Mexican_2 </summary>
         </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Mexican_American">
             <summary> Mexican_American </summary>
@@ -9371,8 +9545,8 @@
         <member name="F:VRDR.ValueSets.HispanicOrigin.Mexican_American_Indian">
             <summary> Mexican_American_Indian </summary>
         </member>
-        <member name="F:VRDR.ValueSets.HispanicOrigin.Caribbean">
-            <summary> Caribbean </summary>
+        <member name="F:VRDR.ValueSets.HispanicOrigin.Caribbean_Reassigned_To_290">
+            <summary> Caribbean_Reassigned_To_290 </summary>
         </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Mexico">
             <summary> Mexico </summary>
@@ -9452,23 +9626,23 @@
         <member name="F:VRDR.ValueSets.HispanicOrigin.Latino">
             <summary> Latino </summary>
         </member>
+        <member name="F:VRDR.ValueSets.HispanicOrigin.Puerto_Rican_Checkbox">
+            <summary> Puerto_Rican_Checkbox </summary>
+        </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Puerto_Rican">
             <summary> Puerto_Rican </summary>
         </member>
-        <member name="F:VRDR.ValueSets.HispanicOrigin.Puerto_Rican_2">
-            <summary> Puerto_Rican_2 </summary>
+        <member name="F:VRDR.ValueSets.HispanicOrigin.Cuban_Checkbox">
+            <summary> Cuban_Checkbox </summary>
         </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Cuban">
             <summary> Cuban </summary>
         </member>
-        <member name="F:VRDR.ValueSets.HispanicOrigin.Cuban_2">
-            <summary> Cuban_2 </summary>
-        </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Dominican">
             <summary> Dominican </summary>
         </member>
-        <member name="F:VRDR.ValueSets.HispanicOrigin.Other_Spanish">
-            <summary> Other_Spanish </summary>
+        <member name="F:VRDR.ValueSets.HispanicOrigin.Other_Spanish_Checkbox">
+            <summary> Other_Spanish_Checkbox </summary>
         </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Hispanic">
             <summary> Hispanic </summary>
@@ -9497,11 +9671,14 @@
         <member name="F:VRDR.ValueSets.HispanicOrigin.Mestizo">
             <summary> Mestizo </summary>
         </member>
+        <member name="F:VRDR.ValueSets.HispanicOrigin.Caribbean">
+            <summary> Caribbean </summary>
+        </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Multiple_Hispanic_Responses">
             <summary> Multiple_Hispanic_Responses </summary>
         </member>
-        <member name="F:VRDR.ValueSets.HispanicOrigin.Other_Spanish_2">
-            <summary> Other_Spanish_2 </summary>
+        <member name="F:VRDR.ValueSets.HispanicOrigin.Other_Spanish">
+            <summary> Other_Spanish </summary>
         </member>
         <member name="F:VRDR.ValueSets.HispanicOrigin.Uncodable">
             <summary> Uncodable </summary>

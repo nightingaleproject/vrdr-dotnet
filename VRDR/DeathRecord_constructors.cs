@@ -335,6 +335,12 @@ namespace VRDR
         //
         /////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>Return a reference to the Composition object for unit testing.</summary>
+        public Composition GetComposition()
+        {
+            return Composition;
+        }
+
         /// <summary>Add a reference to the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>
         /// <param name="code">the code for the section to add to.</param>

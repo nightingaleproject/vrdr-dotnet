@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using ICSharpCode.SharpZipLib;
 
 namespace VRDR
 {
@@ -30,6 +31,13 @@ namespace VRDR
         /// <summary>Priority - lower will be "GET" and "SET" earlier.</summary>
         public int Priority;
 
+        /// <summary>void nessage.</summary>
+        public string VOID;
+
+        /// <summary>alias nessage.</summary>
+        public string ALIAS;
+
+
         /// <summary>Constructor.</summary>
         public IJEField(int field, int location, int length, string contents, string name, int priority)
         {
@@ -40,6 +48,7 @@ namespace VRDR
             this.Name = name;
             this.Priority = priority;
         }
+
     }
 
     /// <summary>A "wrapper" class to convert between a FHIR based <c>DeathRecord</c> and
@@ -173,7 +182,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Constructor that creates a completely empty record for constructing records using the IJE properties.</summary>
+        /// <summary>Constructor that creates an empty record for constructing records using the IJE properties.</summary>
         public IJEMortality()
         {
             this.record = new DeathRecord();
@@ -386,72 +395,70 @@ namespace VRDR
             }
         }
 
-        /// <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
-        private string NumericAllowingUnknown_Get(string ijeFieldName, string fhirFieldName, bool fieldExists = true)
+        /// <summary>Get a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and -1 on the
+        /// FHIR side to represent'unknown' and blank on the IJE side and null on the FHIR side to represent unspecified</summary>
+        private string NumericAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            if (!fieldExists)
+            int? value = (int?)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (value == null) return new String(' ', info.Length); // No value specified
+            if (value == -1) return new String('9', info.Length); // Explicitly set to unknown
+            string valueString = Convert.ToString(value);
+            if (valueString.Length > info.Length)
             {
-                return new String(' ', info.Length);
+                validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{valueString}' that's not the expected length for IJE field {ijeFieldName} of length {info.Length}");
             }
-            uint? value = (uint?)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (value != null)
-            {
-                string valueString = Convert.ToString(value);
-                if (valueString.Length > info.Length)
-                {
-                    validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{valueString}' that's not the expected length for IJE field {ijeFieldName} of length {info.Length}");
-                }
-                return Truncate(valueString, info.Length).PadLeft(info.Length, '0');
-            }
-            else
-            {
-                return new String('9', info.Length);
-            }
+            return Truncate(valueString, info.Length).PadLeft(info.Length, '0');
         }
 
-        /// <summary>Set a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
+        /// <summary>Set a value on the DeathRecord that is a numeric string with the option of being set to all 9s on the IJE side and -1 on the
+        /// FHIR side to represent'unknown' and blank on the IJE side and null on the FHIR side to represent unspecified</summary>
         private void NumericAllowingUnknown_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            if (value == new string('9', info.Length) || value == new string(' ', info.Length))
+            if (value == new string(' ', info.Length))
             {
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, null);
             }
+            else if (value == new string('9', info.Length))
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, -1);
+            }
             else
             {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, Convert.ToUInt32(value));
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, Convert.ToInt32(value));
             }
         }
 
         /// <summary>Get a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
-        private string TimeAllowingUnknown_Get(string ijeFieldName, string fhirFieldName, bool fieldExists = true)
+        private string TimeAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            if (!fieldExists)
-            {
-                return new String(' ', info.Length);
-            }
             string timeString = (string)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (timeString != null)
+            if (timeString == null) return new String(' ', info.Length); // No value specified
+            if (timeString == "-1") return new String('9', info.Length); // Explicitly set to unknown
+            DateTimeOffset parsedTime;
+            if (DateTimeOffset.TryParse(timeString, out parsedTime))
             {
-                DateTimeOffset parsedTime;
-                if (DateTimeOffset.TryParse(timeString, out parsedTime))
-                {
-                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
-                    return timeSpan.ToString(@"hhmm");
-                }
+                TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                return timeSpan.ToString(@"hhmm");
             }
-            return new String('9', info.Length);
+            // No valid date found
+            validationErrors.Add($"Error: FHIR field {fhirFieldName} contains value '{timeString}' that cannot be parsed into a time for IJE field {ijeFieldName}");
+            return new String(' ', info.Length);
         }
 
         /// <summary>Set a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
         private void TimeAllowingUnknown_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            if (value == new string('9', info.Length) || value == new string(' ', info.Length))
+            if (value == new string(' ', info.Length))
             {
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, null);
+            }
+            else if (value == new string('9', info.Length))
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, "-1");
             }
             else
             {
@@ -459,11 +466,11 @@ namespace VRDR
                 if (DateTimeOffset.TryParseExact(value, "HHmm", null, DateTimeStyles.None, out parsedTime))
                 {
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, 0);
-                    typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, timeSpan.ToString(@"hh\:mm"));
+                    typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, timeSpan.ToString(@"hh\:mm\:ss"));
                 }
                 else
                 {
-                    validationErrors.Add(ijeFieldName + " value of " + value + " is invalid.");
+                    validationErrors.Add($"Error: FHIR field {fhirFieldName} value of '{value}' is invalid for IJE field {ijeFieldName}");
                 }
             }
         }
@@ -742,6 +749,26 @@ namespace VRDR
             }
             catch (KeyNotFoundException)
             {
+                switch (ijeField)
+                {
+                    case "COD":
+                        ijeField = "County of Death";
+                        break;
+                    case "COD1A":
+                        ijeField = "Cause of Death-1A";
+                        break;
+                    case "COD1B":
+                        ijeField = "Cause of Death-1B";
+                        break;
+                    case "COD1C":
+                        ijeField = "Cause of Death-1C";
+                        break;
+                    case "COD1D":
+                        ijeField = "Cause of Death-1D";
+                        break;
+                    default:
+                        break;
+                }
                 validationErrors.Add($"Error: Unable to find IJE {ijeField} mapping for FHIR {fhirField} field value '{fhirCode}'");
                 return "";
             }
@@ -777,27 +804,26 @@ namespace VRDR
         /// <summary>NCHS ICD10 to actual ICD10 </summary>
         private string NCHSICD10toActualICD10(string nchsicd10code)
         {
-            Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
-            Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
-            string code;
-            nchsicd10code = nchsicd10code.Trim();
-            if (ICD10rgx.IsMatch(nchsicd10code))
+            string code = "";
+
+            if (!String.IsNullOrEmpty(nchsicd10code))
             {
-                code = nchsicd10code;
-            }
-            else
-            {
-                code = "";
-                //if(value.Length == 4 && value[value.Length-1] != '.'){
-                if (NCHSICD10rgx.IsMatch(nchsicd10code))
+                if (ValidNCHSICD10(nchsicd10code.Trim()))
                 {
-                    code = nchsicd10code;
-                    if (nchsicd10code.Length == 4)
-                    {
-                        code = nchsicd10code.Insert(3, ".");
-                    }
+                    code = nchsicd10code.Trim();
                 }
+                else
+                {
+                    throw new ArgumentException($"NCHS ICD10 code {nchsicd10code} is invalid.");
+                }
+
             }
+
+            if (code.Length >= 4)    // codes of length 4 or 5 need to have a decimal inserted
+            {
+                code = nchsicd10code.Insert(3, ".");
+            }
+
             return (code);
         }
         /// <summary>Actual ICD10 to NCHS ICD10 </summary>
@@ -812,6 +838,24 @@ namespace VRDR
                 return "";
             }
         }
+
+        /// <summary>Actual ICD10 to NCHS ICD10 </summary>
+        public static bool ValidNCHSICD10(string nchsicd10code)
+        {
+            // ICD-10 diagnosis codes always begin with a letter followed by a digit.
+            // The third character is usually a digit, but could be an A or B [1].
+            // After the first three characters, there may be a decimal point, and up to three more alphanumeric characters.
+            // Sometimes the decimal is left out.
+            // NCHS ICD10 codes are the same as above for the first three characters.
+            // The decimal point is always dropped.
+            // Some codes have a fourth character that reflects an actual ICD10 code.
+            // NCHS tacks on an extra character to some ICD10 codes, e.g., K7210 (K27.10)
+            Regex NCHSICD10regex = new Regex(@"^[A-Z][0-9][0-9AB][0-9A-Z]{0,2}$");
+
+            return (String.IsNullOrEmpty(nchsicd10code) ||
+                 NCHSICD10regex.Match(nchsicd10code).Success);
+        }
+
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -844,9 +888,13 @@ namespace VRDR
             get
             {
                 string value = LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
-                if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
+                if (String.IsNullOrWhiteSpace(value))
                 {
-                    validationErrors.Add("DSTATE value of " + value + " is invalid.");
+                    validationErrors.Add($"Error: FHIR field DeathLocationJurisdiction is blank, which is invalid for IJE field DSTATE.");
+                }
+                else if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
+                {
+                    validationErrors.Add($"Error: FHIR field DeathLocationJurisdiction has value '{value}', which is invalid for IJE field DSTATE.");
                 }
                 return value;
             }
@@ -893,11 +941,11 @@ namespace VRDR
         {
             get
             {
-                return "0";
+                return "0"; // VOID;
             }
             set
             {
-                // NOOP
+                //VOID = value;
             }
         }
 
@@ -911,13 +959,14 @@ namespace VRDR
                 {
                     return (new String(' ', 12));
                 }
-                return RightJustifiedZeroed_Get("AUXNO", "StateLocalIdentifier1");
+                return LeftJustified_Get("AUXNO", "StateLocalIdentifier1");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AUXNO", "StateLocalIdentifier1", value);
+                    value = value.PadLeft(12 , '0');
+                    LeftJustified_Set("AUXNO", "StateLocalIdentifier1", value);
                 }
             }
         }
@@ -945,9 +994,9 @@ namespace VRDR
                 string[] names = record.GivenNames;
                 if (names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -959,7 +1008,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Legal Name--Middle</summary>
-        [IJEField(8, 77, 1, "Decedent's Legal Name--Middle", "MNAME", 3)]
+        [IJEField(8, 77, 1, "Decedent's Legal Name--Middle", "MNAME", 2)]
         public string MNAME
         {
             get
@@ -967,20 +1016,21 @@ namespace VRDR
                 string[] names = record.GivenNames;
                 if (names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 1).PadRight(1, ' ');
                 }
-                return "";
+                return " ";
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(GNAME)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (String.IsNullOrWhiteSpace(DMIDDLE))
                     {
                         if (record.GivenNames != null)
                         {
                             List<string> names = record.GivenNames.ToList();
-                            names.Add(value.Trim());
+                            if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                             record.GivenNames = names.ToArray();
                         }
                     }
@@ -1022,11 +1072,11 @@ namespace VRDR
         {
             get
             {
-                return "0";
+                return "0";//this.ALIAS;
             }
             set
             {
-                // NOOP
+                //this.ALIAS = value;
             }
         }
 
@@ -1076,21 +1126,46 @@ namespace VRDR
         [IJEField(15, 191, 9, "Social Security Number", "SSN", 1)]
         public string SSN
         {
+
             get
             {
+                string fhirFieldName = "SSN";
+                string ijeFieldName = "SSN";
+                int ssnLength = 9;
                 string ssn = record.SSN;
                 if (!String.IsNullOrWhiteSpace(ssn))
                 {
-                    return ssn.Replace("-", string.Empty);
+                    string formattedSSN = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
+                    if (formattedSSN.Length != ssnLength)
+                    {
+                        validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{ssn}' which is not the expected length (without dashes or spaces) for IJE field {ijeFieldName} of length {ssnLength}");
+                    }
+                    return Truncate(formattedSSN, ssnLength).PadRight(ssnLength, ' ');
                 }
                 else
                 {
-                    return "";
+                    return new String(' ', ssnLength);
                 }
             }
             set
             {
-                LeftJustified_Set("SSN", "SSN", value);
+                string fhirFieldName = "SSN";
+                string ijeFieldName = "SSN";
+                int ssnLength = 9;
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    string ssn = value.Trim();
+                    if (ssn.Contains("-") || ssn.Contains(" "))
+                    {
+                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which cannot contain ` ` or `-` characters for FHIR field {fhirFieldName}.");
+                    }
+                    string formattedSSN = ssn.Replace("-", string.Empty).Replace(" ", string.Empty);
+                    if (formattedSSN.Length != ssnLength)
+                    {
+                        validationErrors.Add($"Error: IJE field {ijeFieldName} contains string '{value}' which is not the expected length (without dashes or spaces) for FHIR field {fhirFieldName} of length {ssnLength}");
+                    }
+                }
+                LeftJustified_Set(ijeFieldName, fhirFieldName, value);
             }
         }
 
@@ -1100,9 +1175,9 @@ namespace VRDR
         {
             get
             {
-                // Pull unit from coded unit.   "unit" field is descriptive only, and is not required by VRDR IG
-                string unit = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
-                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(unit, out string ijeValue);
+                // Pull code from coded unit.   "code" field is not required by VRDR IG
+                string code = Dictionary_Get_Full("AGETYPE", "AgeAtDeath", "code") ?? "";
+                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(code, out string ijeValue);
                 return ijeValue ?? "9";
             }
             set
@@ -1165,11 +1240,11 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.EditBypass01.FHIRToIJE, "AgeAtDeathEditFlag", "AGE");
+                return Get_MappingFHIRToIJE(Mappings.EditBypass01.FHIRToIJE, "AgeAtDeathEditFlag", "AGE_BYPASS");
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.EditBypass01.IJEToFHIR, "AGE", "AgeAtDeathEditFlag", value);
+                Set_MappingIJEToFHIR(Mappings.EditBypass01.IJEToFHIR, "AGE_BYPASS", "AgeAtDeathEditFlag", value);
             }
         }
 
@@ -1465,7 +1540,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    TimeAllowingUnknown_Set("TOD", "DeathTime", value);
+                   TimeAllowingUnknown_Set("TOD", "DeathTime", value);
                 }
             }
         }
@@ -1916,13 +1991,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral1);
+                return Get_Race(NvssRace.FirstAmericanIndianOrAlaskanNativeLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral1, value);
+                    Set_Race(NvssRace.FirstAmericanIndianOrAlaskanNativeLiteral, value);
                 }
             }
         }
@@ -1933,13 +2008,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral2);
+                return Get_Race(NvssRace.SecondAmericanIndianOrAlaskanNativeLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral2, value);
+                    Set_Race(NvssRace.SecondAmericanIndianOrAlaskanNativeLiteral, value);
                 }
             }
         }
@@ -1950,13 +2025,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherAsianLiteral1);
+                return Get_Race(NvssRace.FirstOtherAsianLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherAsianLiteral1, value);
+                    Set_Race(NvssRace.FirstOtherAsianLiteral, value);
                 }
             }
         }
@@ -1967,13 +2042,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherAsianLiteral2);
+                return Get_Race(NvssRace.SecondOtherAsianLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherAsianLiteral2, value);
+                    Set_Race(NvssRace.SecondOtherAsianLiteral, value);
                 }
             }
         }
@@ -1984,13 +2059,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherPacificIslandLiteral1);
+                return Get_Race(NvssRace.FirstOtherPacificIslanderLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherPacificIslandLiteral1, value);
+                    Set_Race(NvssRace.FirstOtherPacificIslanderLiteral, value);
                 }
             }
         }
@@ -2001,13 +2076,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherPacificIslandLiteral2);
+                return Get_Race(NvssRace.SecondOtherPacificIslanderLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherPacificIslandLiteral2, value);
+                    Set_Race(NvssRace.SecondOtherPacificIslanderLiteral, value);
                 }
             }
         }
@@ -2018,13 +2093,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherRaceLiteral1);
+                return Get_Race(NvssRace.FirstOtherRaceLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherRaceLiteral1, value);
+                    Set_Race(NvssRace.FirstOtherRaceLiteral, value);
                 }
             }
         }
@@ -2035,13 +2110,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race(NvssRace.OtherRaceLiteral2);
+                return Get_Race(NvssRace.SecondOtherRaceLiteral);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_Race(NvssRace.OtherRaceLiteral2, value);
+                    Set_Race(NvssRace.SecondOtherRaceLiteral, value);
                 }
             }
         }
@@ -2636,10 +2711,9 @@ namespace VRDR
                 {
                     string lineNumber = Truncate(entry.LineNumber.ToString(), 1).PadRight(1, ' ');
                     string position = Truncate(entry.Position.ToString(), 1).PadRight(1, ' ');
-                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' '); ;
-                    string reserved = " ";
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 5).PadRight(5, ' '); ;
                     string eCode = entry.ECode ? "&" : " ";
-                    eacStr += lineNumber + position + icdCode + reserved + eCode;
+                    eacStr += lineNumber + position + icdCode + eCode;
                 }
                 string fmtEac = Truncate(eacStr, 160).PadRight(160, ' ');
                 return fmtEac;
@@ -2655,7 +2729,7 @@ namespace VRDR
                     {
                         if (int.TryParse(code.Substring(0, 1), out int lineNumber) && int.TryParse(code.Substring(1, 1), out int position))
                         {
-                            string icdCode = NCHSICD10toActualICD10(code.Substring(2, 4));
+                            string icdCode = NCHSICD10toActualICD10(code.Substring(2, 5));
                             string eCode = code.Substring(7, 1);
                             eac.Add((LineNumber: lineNumber, Position: position, Code: icdCode, ECode: eCode == "&"));
                         }
@@ -2802,7 +2876,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("DOI_MO", "InjuryMonth", record.InjuryIncidentTimeSet());
+                return NumericAllowingUnknown_Get("DOI_MO", "InjuryMonth");
             }
             set
             {
@@ -2816,7 +2890,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("DOI_DY", "InjuryDay", record.InjuryIncidentTimeSet());
+                return NumericAllowingUnknown_Get("DOI_DY", "InjuryDay");
             }
             set
             {
@@ -2830,7 +2904,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("DOI_YR", "InjuryYear", record.InjuryIncidentTimeSet());
+                return NumericAllowingUnknown_Get("DOI_YR", "InjuryYear");
             }
             set
             {
@@ -2844,7 +2918,7 @@ namespace VRDR
         {
             get
             {
-                return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime", record.InjuryIncidentTimeSet());
+                return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime");
             }
             set
             {
@@ -2873,7 +2947,7 @@ namespace VRDR
             get
             {
                 var ret = record.CertificationRoleHelper;
-                if (Mappings.CertifierTypes.FHIRToIJE.ContainsKey(ret))
+                if (ret != null && Mappings.CertifierTypes.FHIRToIJE.ContainsKey(ret))
                 {
                     return Get_MappingFHIRToIJE(Mappings.CertifierTypes.FHIRToIJE, "CertificationRole", "CERTL");
                 }
@@ -2920,13 +2994,14 @@ namespace VRDR
                 {
                     return (new String(' ', 12));
                 }
-                return RightJustifiedZeroed_Get("AUXNO2", "StateLocalIdentifier2");
+                return LeftJustified_Get("AUXNO2", "StateLocalIdentifier2");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AUXNO2", "StateLocalIdentifier2", value);
+                    value = value.PadLeft(12 , '0');
+                    LeftJustified_Set("AUXNO2", "StateLocalIdentifier2", value);
                 }
             }
         }
@@ -2954,7 +3029,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("SUR_MO", "SurgeryMonth", record.SurgeryDateSet());
+                return NumericAllowingUnknown_Get("SUR_MO", "SurgeryMonth");
             }
             set
             {
@@ -2971,7 +3046,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("SUR_DY", "SurgeryDay", record.SurgeryDateSet());
+                return NumericAllowingUnknown_Get("SUR_DY", "SurgeryDay");
             }
             set
             {
@@ -2988,7 +3063,7 @@ namespace VRDR
         {
             get
             {
-                return NumericAllowingUnknown_Get("SUR_YR", "SurgeryYear", record.SurgeryDateSet());
+                return NumericAllowingUnknown_Get("SUR_YR", "SurgeryYear");
             }
             set
             {
@@ -3005,13 +3080,15 @@ namespace VRDR
         {
             get
             {
-                if (record.InjuryIncidentTimeSet())
+                if (DOI_YR != "9999" && DOI_YR != "    ")
                 {
-                    return "M"; // Military time
+                    // Military time since that's the form the datetime object VRDR stores the time of injury as.
+                    return "M";
                 }
                 else
                 {
-                    return " "; // Blank = Military time
+                    // Blank since there is no time of injury.
+                    return " ";
 
                 }
             }
@@ -3019,7 +3096,7 @@ namespace VRDR
             { // The TOI is persisted as a datetime, so the A/P/M is meaningless.   This set is a NOOP, but generate a diagnostic for A and P
                 if (value != "M" && value != " ")
                 {
-                    validationErrors.Add($"Error: FHIR field TOI_UNIT contains string '{value}' but can only be set to M or blank");
+                    validationErrors.Add($"Error: IJE field TOI_UNIT contains string '{value}' but can only be set to M or blank");
                 }
             }
         }
@@ -3325,9 +3402,9 @@ namespace VRDR
                 string[] names = record.SpouseGivenNames;
                 if (names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -3699,7 +3776,7 @@ namespace VRDR
         }
 
         /// <summary>Middle Name of Decedent</summary>
-        [IJEField(166, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 2)]
+        [IJEField(166, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 3)]
         public string DMIDDLE
         {
             get
@@ -3707,18 +3784,19 @@ namespace VRDR
                 string[] names = record.GivenNames;
                 if (names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(GNAME)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.GivenNames != null)
                     {
                         List<string> names = record.GivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.GivenNames = names.ToArray();
                     }
                 }
@@ -3734,9 +3812,9 @@ namespace VRDR
                 string[] names = record.FatherGivenNames;
                 if (names != null && names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -3756,18 +3834,19 @@ namespace VRDR
                 string[] names = record.FatherGivenNames;
                 if (names != null && names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(DDADF)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.FatherGivenNames != null)
                     {
                         List<string> names = record.FatherGivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.FatherGivenNames = names.ToArray();
                     }
                 }
@@ -3783,9 +3862,9 @@ namespace VRDR
                 string[] names = record.MotherGivenNames;
                 if (names != null && names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -3805,18 +3884,19 @@ namespace VRDR
                 string[] names = record.MotherGivenNames;
                 if (names != null && names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(DMOMF)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.MotherGivenNames != null)
                     {
                         List<string> names = record.MotherGivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.MotherGivenNames = names.ToArray();
                     }
                 }
@@ -3891,7 +3971,6 @@ namespace VRDR
                 }
             }
         }
-
         /// <summary>If Transportation Accident, Specify</summary>
         [IJEField(175, 2409, 30, "If Transportation Accident, Specify", "TRANSPRT", 1)]
         public string TRANSPRT
@@ -3899,7 +3978,7 @@ namespace VRDR
             get
             {
                 var ret = record.TransportationRoleHelper;
-                if (Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(ret))
+                if (ret != null && Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(ret))
                 {
                     return Get_MappingFHIRToIJE(Mappings.TransportationIncidentRole.FHIRToIJE, "TransportationRole", "TRANSPRT");
                 }
@@ -4339,18 +4418,19 @@ namespace VRDR
                 string[] names = record.SpouseGivenNames;
                 if (names != null && names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(SPOUSEF)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.SpouseGivenNames != null)
                     {
                         List<string> names = record.SpouseGivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.SpouseGivenNames = names.ToArray();
                     }
                 }
@@ -4531,13 +4611,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("FUNFACSTNUM", "FuneralHomeAddress", "address", "stname", true);
+                return Dictionary_Geo_Get("FUNFACSTRNAME", "FuneralHomeAddress", "address", "stname", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("FUNFACSTNUM", "FuneralHomeAddress", "address", "stname", false, value);
+                    Dictionary_Geo_Set("FUNFACSTRNAME", "FuneralHomeAddress", "address", "stname", false, value);
                 }
             }
         }
@@ -4634,13 +4714,13 @@ namespace VRDR
             get
             {
 
-                return Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", true);
+                return Dictionary_Geo_Get("FUNSTATECD", "FuneralHomeAddress", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "state", value);
+                    Dictionary_Geo_Set("FUNSTATECD", "FuneralHomeAddress", "address", "state", true, value);
                 }
             }
         }
@@ -4651,7 +4731,7 @@ namespace VRDR
         {
             get
             {
-                var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("FUNSTATE", "FuneralHomeAddress", "address", "state", false);
                 //                var mortalityData = MortalityData.Instance;
                 string funstate = dataLookup.StateCodeToStateName(stateCode);
                 if (funstate == null)
@@ -4689,13 +4769,28 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement");
+                var month = record.DateOfDeathPronouncementMonth;
+                var day = record.DateOfDeathPronouncementDay;
+                var year = record.DateOfDeathPronouncementYear;
+                if (month == null || day == null || year == null)
+                {
+                    return new String(' ', 8);
+                }
+                else
+                {
+                    return String.Format("{0:00}{1:00}{2:0000}", month, day, year);
+                }
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement", value, false, true);
+                    var mm = value.Substring(0, 2);
+                    var dd = value.Substring(2, 2);
+                    var yyyy = value.Substring(4, 4);
+                    record.DateOfDeathPronouncementMonth = int.Parse(mm);
+                    record.DateOfDeathPronouncementDay = int.Parse(dd);
+                    record.DateOfDeathPronouncementYear = int.Parse(yyyy);
                 }
             }
         }
@@ -4706,13 +4801,25 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("PPTIME", "HHmm", "DateOfDeathPronouncement");
+                var fhirTimeStr = record.DateOfDeathPronouncementTime;
+                if (fhirTimeStr == null) {
+                    return "    ";
+                }
+                else {
+                    var HH = fhirTimeStr.Substring(0, 2);
+                    var mm = fhirTimeStr.Substring(3, 2);
+                    var ijeTime = HH + mm;
+                    return ijeTime;
+                }
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("PPTIME", "HHmm", "DateOfDeathPronouncement", value, false, true);
+                    var HH = value.Substring(0, 2);
+                    var mm = value.Substring(2, 2);
+                    var fhirTimeStr = HH + ":" + mm + ":00";
+                    record.DateOfDeathPronouncementTime = fhirTimeStr;
                 }
             }
         }
@@ -4726,9 +4833,9 @@ namespace VRDR
                 string[] names = record.CertifierGivenNames;
                 if (names != null && names.Length > 0)
                 {
-                    return names[0];
+                    return Truncate(names[0], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
@@ -4748,18 +4855,19 @@ namespace VRDR
                 string[] names = record.CertifierGivenNames;
                 if (names != null && names.Length > 1)
                 {
-                    return names[1];
+                    return Truncate(names[1], 50).PadRight(50, ' ');
                 }
-                return "";
+                return new string(' ', 50);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    if (String.IsNullOrWhiteSpace(CERTFIRST)) throw new ArgumentException("Middle name cannot be set before first name");
                     if (record.GivenNames != null)
                     {
                         List<string> names = record.CertifierGivenNames.ToList();
-                        names.Add(value.Trim());
+                        if (names.Count() > 1) names[1] = value.Trim(); else names.Add(value.Trim());
                         record.CertifierGivenNames = names.ToArray();
                     }
                 }

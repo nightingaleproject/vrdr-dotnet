@@ -406,7 +406,7 @@
     </resource>
   </entry>
   <entry>
-    <fullUrl value="http://www.example.org/fhir/Observation/DecedentAge-Example1" />
+    <fullUrl value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age" />
     <resource>
       <Observation>
         <id value="DecedentAge-Example1" />

@@ -44,9 +44,9 @@ namespace VRDR.Tests
             DeathRecord record = (DeathRecord)XMLRecords[0];
             DeathRecordSubmissionMessage submission = new DeathRecordSubmissionMessage(record);
             Assert.NotNull(submission.DeathRecord);
-            Assert.Equal("2019-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2019-02-20T16:48:06", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
-            Assert.Equal(10,10);
+            Assert.Equal(10, 10);
             Assert.Equal((uint)182, submission.CertNo);
             Assert.Equal((uint)2019, submission.DeathYear);
             Assert.Equal("000000000042", submission.StateAuxiliaryId);
@@ -55,7 +55,7 @@ namespace VRDR.Tests
             record = (DeathRecord)JSONRecords[0];
             submission = new DeathRecordSubmissionMessage(record);
             Assert.NotNull(submission.DeathRecord);
-            Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Equal((uint)182, submission.CertNo);
             Assert.Equal((uint)2019, submission.DeathYear);
@@ -73,7 +73,7 @@ namespace VRDR.Tests
             record = (DeathRecord)JSONRecords[1];
             submission = new DeathRecordSubmissionMessage(record);
             Assert.NotNull(submission.DeathRecord);
-            Assert.Equal("2019-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2019-02-20T16:48:06", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Null(submission.CertNo);
             Assert.Null(submission.StateAuxiliaryId);
@@ -81,10 +81,27 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateMultipleDestinationsRecord()
+        {
+            BaseMessage multipleDestinations = BaseMessage.Parse(FixtureStream("fixtures/json/MultipleDestinationsMessage.json"));
+            Assert.Equal("test_one,test_two", multipleDestinations.MessageDestination);
+            Assert.Equal((new string[] {"test_one", "test_two"}).ToList(), multipleDestinations.MessageDestinations);
+            multipleDestinations.MessageDestination = "test_three,test_four";
+            Assert.Equal("test_three,test_four", multipleDestinations.MessageDestination);
+            Assert.Equal((new string[] {"test_three", "test_four"}).ToList(), multipleDestinations.MessageDestinations);
+            multipleDestinations.MessageDestinations = (new string[] {"test_five", "test_six"}).ToList();
+            Assert.Equal("test_five,test_six", multipleDestinations.MessageDestination);
+            Assert.Equal((new string[] {"test_five", "test_six"}).ToList(), multipleDestinations.MessageDestinations);
+            multipleDestinations.MessageDestination = "test_seven";
+            Assert.Equal("test_seven", multipleDestinations.MessageDestination);
+            Assert.Equal((new string[] {"test_seven"}).ToList(), multipleDestinations.MessageDestinations);
+        }
+
+        [Fact]
         public void CreateSubmissionFromJSON()
         {
             DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
-            Assert.Equal("2020-11-13T16:39:40-05:00", submission.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2020-11-13T16:39:40", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Equal("2018NY123456", submission.NCHSIdentifier);
             Assert.Equal((uint)123456, submission.CertNo);
@@ -93,7 +110,7 @@ namespace VRDR.Tests
             Assert.Equal(submission.JurisdictionId, submission.DeathRecord.DeathLocationJurisdiction);
 
             submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionNoIdentifiers.json"));
-            Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Null(submission.CertNo);
             Assert.Null(submission.StateAuxiliaryId);
@@ -151,7 +168,7 @@ namespace VRDR.Tests
         {
             DeathRecordUpdateMessage update = new DeathRecordUpdateMessage((DeathRecord)XMLRecords[0]);
             Assert.NotNull(update.DeathRecord);
-            Assert.Equal("2019-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2019-02-20T16:48:06", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Equal((uint)182, update.CertNo);
             Assert.Equal((uint)2019, update.DeathYear);
@@ -160,7 +177,7 @@ namespace VRDR.Tests
 
             update = new DeathRecordUpdateMessage((DeathRecord)JSONRecords[1]); // no ids in this death record (except jurisdiction id which is required)
             Assert.NotNull(update.DeathRecord);
-            Assert.Equal("2019-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2019-02-20T16:48:06", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Null(update.CertNo);
             Assert.Null(update.StateAuxiliaryId);
@@ -171,7 +188,7 @@ namespace VRDR.Tests
         public void CreateUpdateFromJSON()
         {
             DeathRecordUpdateMessage update = BaseMessage.Parse<DeathRecordUpdateMessage>(FixtureStream("fixtures/json/DeathRecordUpdateMessage.json"));
-            Assert.Equal("2020-11-13T16:39:40-05:00", update.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2020-11-13T16:39:40", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Equal("2018NY123456", update.NCHSIdentifier);
             Assert.Equal((uint)123456, update.CertNo);
@@ -179,7 +196,7 @@ namespace VRDR.Tests
             Assert.Equal("abcdef10", update.StateAuxiliaryId);
 
             update = BaseMessage.Parse<DeathRecordUpdateMessage>(FixtureStream("fixtures/json/DeathRecordUpdateNoIdentifiers.json"));
-            Assert.Equal("2018-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Null(update.CertNo);
             Assert.Null(update.StateAuxiliaryId);
@@ -235,6 +252,74 @@ namespace VRDR.Tests
             Assert.Equal(submission.StateAuxiliaryId, ack.StateAuxiliaryId);
             Assert.Equal(submission.CertNo, ack.CertNo);
             Assert.Equal(submission.NCHSIdentifier, ack.NCHSIdentifier);
+        }
+
+        [Fact]
+        public void CreateCODForMessage()
+        {
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
+            CauseOfDeathCodingMessage coding = new CauseOfDeathCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_causeofdeath_coding", coding.MessageType);
+            Assert.Equal(submission.MessageId, coding.CodedMessageId);
+            Assert.Equal(submission.MessageSource, coding.MessageDestination);
+            Assert.Equal(submission.MessageDestination, coding.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, coding.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, coding.NCHSIdentifier);
+
+            submission = null;
+            coding = new CauseOfDeathCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_causeofdeath_coding", coding.MessageType);
+            Assert.Null(coding.CodedMessageId);
+            Assert.Null(coding.MessageDestination);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", coding.MessageSource);
+            Assert.Null(coding.CertNo);
+            Assert.Null(coding.StateAuxiliaryId);
+            Assert.Null(coding.NCHSIdentifier);
+
+            submission = new DeathRecordSubmissionMessage();
+            coding = new CauseOfDeathCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_causeofdeath_coding", coding.MessageType);
+            Assert.Equal(submission.MessageId, coding.CodedMessageId);
+            Assert.Equal(submission.MessageSource, coding.MessageDestination);
+            Assert.Equal(submission.MessageDestination, coding.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, coding.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, coding.NCHSIdentifier);
+        }
+
+        [Fact]
+        public void CreateDemographicForMessage()
+        {
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
+            DemographicsCodingMessage coding = new DemographicsCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_demographics_coding", coding.MessageType);
+            Assert.Equal(submission.MessageId, coding.CodedMessageId);
+            Assert.Equal(submission.MessageSource, coding.MessageDestination);
+            Assert.Equal(submission.MessageDestination, coding.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, coding.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, coding.NCHSIdentifier);
+
+            submission = null;
+            coding = new DemographicsCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_demographics_coding", coding.MessageType);
+            Assert.Null(coding.CodedMessageId);
+            Assert.Null(coding.MessageDestination);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", coding.MessageSource);
+            Assert.Null(coding.CertNo);
+            Assert.Null(coding.StateAuxiliaryId);
+            Assert.Null(coding.NCHSIdentifier);
+
+            submission = new DeathRecordSubmissionMessage();
+            coding = new DemographicsCodingMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_demographics_coding", coding.MessageType);
+            Assert.Equal(submission.MessageId, coding.CodedMessageId);
+            Assert.Equal(submission.MessageSource, coding.MessageDestination);
+            Assert.Equal(submission.MessageDestination, coding.MessageSource);
+            Assert.Equal(submission.StateAuxiliaryId, coding.StateAuxiliaryId);
+            Assert.Equal(submission.CertNo, coding.CertNo);
+            Assert.Equal(submission.NCHSIdentifier, coding.NCHSIdentifier);
         }
 
         [Fact]
@@ -322,6 +407,46 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateCauseOfDeathCodingAcknowledgementFromJSON()
+        {
+            // parse the message generically, without assuming type
+            BaseMessage message = BaseMessage.Parse<BaseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingMessage2.json"));
+
+            switch (message)
+            {
+                // use C# pattern matching to cast message type
+                case CauseOfDeathCodingMessage codCodeMsg:
+                    Assert.NotNull(codCodeMsg);
+                    Assert.Equal(CauseOfDeathCodingMessage.MESSAGE_TYPE, message.MessageType);
+                    Assert.Equal("https://apigw.cdc.gov/OSELS/NCHS/NVSSFHIRAPI/KY/Bundles?_since=2023-03-21T16:18:29.7258392-05:00", message.MessageDestination);
+                    Assert.Equal((uint)8928, message.CertNo);
+                    Assert.Equal("KY", message.JurisdictionId);
+                    Assert.Equal((uint)2023, message.DeathYear);
+                    Assert.Equal("230410164027", message.StateAuxiliaryId);
+
+                    // now create an acknowledgement message for the cause of death coding message
+                    var ackMessage = new AcknowledgementMessage(codCodeMsg);
+                    Assert.Equal("KY", ackMessage.JurisdictionId);
+
+                    // test serialization of the message to JSON
+                    var ackMessageStr = ackMessage.ToJSON();
+                    Assert.Contains("\"resourceType\":\"Bundle\"", ackMessageStr);
+                    Assert.Contains("\"name\":\"jurisdiction_id\",\"valueString\":\"KY\"", ackMessageStr);
+
+                    // re-parse the message to make sure it's still valid
+                    var ackMessageParsed = BaseMessage.Parse<AcknowledgementMessage>(ackMessageStr);
+                    Assert.NotNull(ackMessageParsed);
+                    Assert.Equal("KY", ackMessageParsed.JurisdictionId);
+
+                    break;
+                default:
+                    Assert.True(false, "Message was not a CauseOfDeathCodingMessage");
+                    break;
+            }
+        }
+
+
+        [Fact]
         public void CreateCauseOfDeathCodingResponseFromSubmissionBundle()
         {
             CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage((DeathRecord)JSONRecords[0]);
@@ -384,6 +509,17 @@ namespace VRDR.Tests
             Assert.Equal(1, (int)message.DeathRecord.ReceiptDay);
         }
 
+//         [Fact]
+//         public void SetAndGetVoidAndAliasIJEMortality()
+//         {
+//             // This test setters and getters of VOID and ALIAS messages on IJE
+//             IJEMortality ije = new IJEMortality();
+//             ije.VOID = "1";
+//             Assert.Equal("1", ije.VOID);
+//             ije.ALIAS = "1";
+//             Assert.Equal("1", ije.ALIAS);
+//         }    
+
         [Fact]
         public void CreateCauseOfDeathCodingResponse()
         {
@@ -416,13 +552,15 @@ namespace VRDR.Tests
             CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage(ije.ToDeathRecord());
             message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
             message.MessageDestination = "https://example.org/jurisdiction/endpoint";
+            message.CodedMessageId = "378888";
             Assert.Equal(CauseOfDeathCodingMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageSource);
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
             Assert.Equal((uint)123, message.CertNo);
             Assert.Equal((uint)2022, message.DeathYear);
-            Assert.Equal("500", message.StateAuxiliaryId);
+            Assert.Equal("000000000500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
+            Assert.Equal("378888", message.CodedMessageId);
             Assert.Equal("T27.3", message.DeathRecord.AutomatedUnderlyingCOD);
             var recordAxisCodes = message.DeathRecord.RecordAxisCauseOfDeath;
             Assert.Equal(2, recordAxisCodes.Count());
@@ -494,7 +632,7 @@ namespace VRDR.Tests
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
             Assert.Equal((uint)123, message.CertNo);
             Assert.Equal((uint)2022, message.DeathYear);
-            Assert.Equal("500", message.StateAuxiliaryId);
+            Assert.Equal("000000000500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
             Assert.Equal("T27.3", message.DeathRecord.AutomatedUnderlyingCOD);
             var recordAxisCodes = message.DeathRecord.RecordAxisCauseOfDeath;
@@ -582,7 +720,7 @@ namespace VRDR.Tests
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
             Assert.Equal((uint)123, message.CertNo);
             Assert.Equal((uint)2022, message.DeathYear);
-            Assert.Equal("500", message.StateAuxiliaryId);
+            Assert.Equal("000000000500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
             Assert.Equal(ValueSets.YesNoUnknown.Yes, message.DeathRecord.Ethnicity1Helper);
             Assert.Equal(ValueSets.YesNoUnknown.No, message.DeathRecord.Ethnicity2Helper);
@@ -618,7 +756,7 @@ namespace VRDR.Tests
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
             Assert.Equal((uint)123, message.CertNo);
             Assert.Equal((uint)2022, message.DeathYear);
-            Assert.Equal("500", message.StateAuxiliaryId);
+            Assert.Equal("000000000500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
             Assert.Equal(ValueSets.YesNoUnknown.Yes, message.DeathRecord.Ethnicity1Helper);
             Assert.Equal(ValueSets.YesNoUnknown.No, message.DeathRecord.Ethnicity2Helper);
@@ -721,7 +859,7 @@ namespace VRDR.Tests
             Assert.Equal(voidMessage.BlockCount, ack.BlockCount);
         }
 
-       [Fact]
+        [Fact]
         public void CreateAckForStatusMessage()
         {
             StatusMessage statusMessage = BaseMessage.Parse<StatusMessage>(FixtureStream("fixtures/json/StatusMessage.json"));
@@ -870,6 +1008,19 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateAliasForRecordWithEmptyMiddleNameString()
+        {
+            // This is a regression test for a bug where an empty middle name field led to an empty string in the alias
+            DeathRecord record = new DeathRecord();
+            record.Identifier = "321";
+            record.DeathLocationJurisdiction = "MA";
+            record.DeathYear = 2022;
+            record.GivenNames = new string[] { "Rocket", "" };
+            DeathRecordAliasMessage message = new DeathRecordAliasMessage(record);
+            Assert.Null(message.AliasDecedentMiddleName);
+        }
+
+        [Fact]
         public void SelectMessageType()
         {
             var msg = BaseMessage.Parse(FixtureStream("fixtures/json/AcknowledgementMessage.json"), false);
@@ -1003,52 +1154,64 @@ namespace VRDR.Tests
             Assert.Equal("The message was very old", issues[1].Description);
         }
 
-/*         [Fact]
-        public void BuildEntityAxis()
+        /*         [Fact]
+                public void BuildEntityAxis()
+                {
+                    var builder = new CauseOfDeathEntityAxisBuilder();
+                    var list = builder.ToCauseOfDeathEntityAxis();
+                    Assert.Empty(list);
+                    Exception ex = Assert.Throws<System.ArgumentException>(() => builder.Add("foo", "1", "bar"));
+                    Assert.Equal("The value of the line argument must be a number, found: foo", ex.Message);
+                    ex = Assert.Throws<System.ArgumentException>(() => builder.Add("1", "baz", "bar"));
+                    Assert.Equal("The value of the position argument must be a number, found: baz", ex.Message);
+                    Assert.Empty(list);
+                    builder.Add("6", "1", "A047");
+                    builder.Add("4", "1", "J189");
+                    builder.Add("3", "1", "A419");
+                    builder.Add("2", "3", "N19");
+                    builder.Add("2", "2", "R579");
+                    builder.Add("2", "1", "J960");
+                    builder.Add("1", "1", "R688");
+                    builder.Add("1", "2", "   "); // should be skipped
+                    builder.Add("1", "3", ""); // should be skipped
+                    builder.Add("1", "4", null); // should be skipped
+                    list = builder.ToCauseOfDeathEntityAxis();
+                    Assert.Equal(5, list.Count);
+                    var entry = list[0];
+                    Assert.Equal("1", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("R688", entry.AssignedCodes[0]);
+                    entry = list[1];
+                    Assert.Equal("2", entry.LineNumber);
+                    Assert.Equal(3, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("J960", entry.AssignedCodes[0]);
+                    Assert.Equal("R579", entry.AssignedCodes[1]);
+                    Assert.Equal("N19", entry.AssignedCodes[2]);
+                    entry = list[2];
+                    Assert.Equal("3", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("A419", entry.AssignedCodes[0]);
+                    entry = list[3];
+                    Assert.Equal("4", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("J189", entry.AssignedCodes[0]);
+                    entry = list[4];
+                    Assert.Equal("6", entry.LineNumber);
+                    Assert.Equal(1, (int)entry.AssignedCodes.Count);
+                    Assert.Equal("A047", entry.AssignedCodes[0]);
+                } */
+
+        [Fact]
+        public void CreateSubmissionFromJSONWithValueCodeableConceptText()
         {
-            var builder = new CauseOfDeathEntityAxisBuilder();
-            var list = builder.ToCauseOfDeathEntityAxis();
-            Assert.Empty(list);
-            Exception ex = Assert.Throws<System.ArgumentException>(() => builder.Add("foo", "1", "bar"));
-            Assert.Equal("The value of the line argument must be a number, found: foo", ex.Message);
-            ex = Assert.Throws<System.ArgumentException>(() => builder.Add("1", "baz", "bar"));
-            Assert.Equal("The value of the position argument must be a number, found: baz", ex.Message);
-            Assert.Empty(list);
-            builder.Add("6", "1", "A047");
-            builder.Add("4", "1", "J189");
-            builder.Add("3", "1", "A419");
-            builder.Add("2", "3", "N19");
-            builder.Add("2", "2", "R579");
-            builder.Add("2", "1", "J960");
-            builder.Add("1", "1", "R688");
-            builder.Add("1", "2", "   "); // should be skipped
-            builder.Add("1", "3", ""); // should be skipped
-            builder.Add("1", "4", null); // should be skipped
-            list = builder.ToCauseOfDeathEntityAxis();
-            Assert.Equal(5, list.Count);
-            var entry = list[0];
-            Assert.Equal("1", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("R688", entry.AssignedCodes[0]);
-            entry = list[1];
-            Assert.Equal("2", entry.LineNumber);
-            Assert.Equal(3, (int)entry.AssignedCodes.Count);
-            Assert.Equal("J960", entry.AssignedCodes[0]);
-            Assert.Equal("R579", entry.AssignedCodes[1]);
-            Assert.Equal("N19", entry.AssignedCodes[2]);
-            entry = list[2];
-            Assert.Equal("3", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("A419", entry.AssignedCodes[0]);
-            entry = list[3];
-            Assert.Equal("4", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("J189", entry.AssignedCodes[0]);
-            entry = list[4];
-            Assert.Equal("6", entry.LineNumber);
-            Assert.Equal(1, (int)entry.AssignedCodes.Count);
-            Assert.Equal("A047", entry.AssignedCodes[0]);
-        } */
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordValueCodeableConceptText.json"));
+            Assert.Equal("Drowning", submission.DeathRecord.COD1A);
+            Assert.Equal("sad", submission.DeathRecord.ContributingConditions);
+            Assert.Equal("DO", submission.DeathRecord.CertificationRoleHelper);
+            Assert.Null(submission.DeathRecord.UsualOccupation);
+            Assert.Null(submission.DeathRecord.UsualIndustry);
+        }
+
 
         private string FixturePath(string filePath)
         {

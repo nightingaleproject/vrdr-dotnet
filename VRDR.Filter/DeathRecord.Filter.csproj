@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp6.0</TargetFramework>
+        <RootNamespace>VRDR.Filter</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\VRDR.Messaging\VRDRMessaging.csproj" />
+    </ItemGroup>
+</Project>

@@ -108,6 +108,13 @@ valuesets = {
     "ValueSet-vrdr-spouse-alive-vs.json" => "SpouseAlive",
     "ValueSet-vrdr-hispanic-no-unknown-vs.json" => "HispanicNoUnknown",
 }
+# These are special cases that we want to shorten the string produced by the general approach, for practical reasons
+special_cases =
+    {
+    "Medical_Examiner_Coroner_On_The_Basis_Of_Examination_And_Or_Investigation_In_My_Opinion_Death_Occurred_At_The_Time_Date_And_Place_And_Due_To_The_Cause_S_And_Manner_Stated" => "Medical_Examiner_Coroner",
+    "Pronouncing_Certifying_Physician_To_The_Best_Of_My_Knowledge_Death_Occurred_At_The_Time_Date_And_Place_And_Due_To_The_Cause_S_And_Manner_Stated" => "Pronouncing_Certifying_Physician",
+    "Certifying_Physician_To_The_Best_Of_My_Knowledge_Death_Occurred_Due_To_The_Cause_S_And_Manner_Stated" => "Certifying_Physician"
+}
 
 outfilename = ARGV[1] + "/ValueSets.cs"
 puts "Output in #{outfilename}"
@@ -151,9 +158,9 @@ valuesets.each do |vsfile, fieldname|
                 system = codesystems[system]
             end
             for concept in group["concept"]
-                display = concept["display"].split(/-[A-Z]/).first
-                display = display.gsub("'", '').split(/[^a-z0-9]+/i).map(&:capitalize).join('_')
+                display = concept["display"].gsub("'", '').split(/[^a-z0-9]+/i).map(&:capitalize).join('_')
                 if display[0][/\d/] then display = "_" + display end
+                if special_cases[display] != nil then display = special_cases[display] end
                 file.puts "            /// <summary> #{display} </summary>"
                 file.puts "            public static string  #{display} = \"#{concept["code"]}\";"
             end

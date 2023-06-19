@@ -30,6 +30,12 @@ namespace VRDR
 
         /// <summary>Priority - lower will be "GET" and "SET" earlier.</summary>
         public int Priority;
+        
+        /// <summary>Field VOID.</summary>
+        public string VOID;
+        
+        /// <summary>Field ALIAS.</summary>
+        public string ALIAS;
 
         /// <summary>Constructor.</summary>
         public IJEField(int field, int location, int length, string contents, string name, int priority)
@@ -933,11 +939,11 @@ namespace VRDR
         {
             get
             {
-                return "0";
+                return "0"; // VOID
             }
             set
             {
-                // NOOP
+                // VOID = value;
             }
         }
 
@@ -1064,11 +1070,11 @@ namespace VRDR
         {
             get
             {
-                return "0";
+                return "0"; // ALIAS
             }
             set
             {
-                // NOOP
+                // ALIAS = value;
             }
         }
 

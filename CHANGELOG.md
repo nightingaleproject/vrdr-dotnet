@@ -1,5 +1,50 @@
 ## Changelog
 
+### v4.0.3 - 2023-06-07
+
+* Update birth month for test record #3 in Connectathon.cs
+* Revert change to remove transportation role component on injury incident
+
+### v4.0.2 - 2023-06-05
+
+* Update ages in Connectathon.cs
+* Update ages and add test method CheckConnectathonRecord3() in DeathRecord_Should.cs
+* Update and sync examples files (json and xml) with IG as follows:
+    * Remove Transport Role and its references
+    * Remove Death Certificate Reference and its references
+    * Remove Death Pronouncement Performer and its references
+    * Remove Decedent Employment History and its references
+    * Remove Cause of Death Pathway and its references
+    * Change Mortician, Funeral Home Director, Funeral Service Licensee to us-core-practitioner
+    * Change Interested Party to us-core-organization
+    * Change Decendent Pregnancy to decedent-pregnancy-status
+    * Change Cause of Death Condition to Cause of Death Part 1
+    * Change Cause of Death Condition Contributing Death to Cause of Death Part 2
+
+### v4.0.1 - 2023-05-16
+
+* Syncs Connectathon test record generation code and example JSON and XML files with NCHS test plan changes
+* Syncs Race and Ethnicity Literal fields with latest VRDR IG build version and adds additional test cases
+* Add test cases for COD Coding Acknowledegement use case
+
+### v4.0.0.preview21 - 2023-04-20
+
+* Adds support for multiple message destinations. It implemented this with a comma separated string of endpoints in the MessageDestination attribute. 
+
+*### v4.0.0.preview20 - 2023-04-20
+
+* Corrected race literals in code, tests and example json, added component name check on setting race literals to be in sync with IG
+* Updated test case to include missing usual occupation text, also made usual industry return null on unknown just as does usual occupation
+* Fixed bug where calling UsualIndustry would crash if no text key was provided such as happens in the unknown case
+* Incorporates preview19-with-filtering changes
+
+### v4.0.0.preview19-with-filtering - 2023-03-16
+
+* Added filtering logic
+* Added CLI to allow filtering of a single file
+* Added multiple tests to test issues we've experienced and testing different filters
+* Added documentation for CLI and brief descriptions for each test case
+
 ### v4.0.0.preview19 - 2023-02-17
 
 * Additional tests for autopsy performed and results cases

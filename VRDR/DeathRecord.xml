@@ -121,8 +121,11 @@
         <member name="T:VRDR.Connectathon">
             <summary>Class <c>Connectathon</c> provides static methods for generating records used in Connectathon testing, used in Canary and in the CLI tool</summary>
         </member>
+        <member name="P:VRDR.Connectathon.Records">
+            <summary>Retrieve all available pre-set records</summary>
+        </member>
         <member name="M:VRDR.Connectathon.FromId(System.Int32,System.Nullable{System.Int32},System.String,System.Nullable{System.Int32})">
-            <summary>Generate a DeathRecord from one of 5 pre-set records, providing an optional certificate number and state</summary>
+            <summary>Generate a DeathRecord from one of 3 pre-set records, providing an optional certificate number and state</summary>
         </member>
         <member name="M:VRDR.Connectathon.TwilaHilty">
             <summary>Generate the Twila Hilty example record</summary>
@@ -410,6 +413,9 @@
         </member>
         <member name="M:VRDR.DeathRecord.CreateDeathDateObs">
             <summary>Create Death Date Observation.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateDateOfDeathPronouncementObs">
+            <summary>Create Death Date Pronouncement Observation Component Component.</summary>
         </member>
         <member name="F:VRDR.DeathRecord.SurgeryDateObs">
             <summary>Date Of Surgery.</summary>
@@ -2502,9 +2508,49 @@
             <value>the decedent's time of death, or "-1" if explicitly unknown, or null if never specified</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.DeathTime = "07:15";</para>
+            <para>ExampleDeathRecord.DeathTime = "07:15:00";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Time of Death: {ExampleDeathRecord.DeathTime}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementYear">
+            <summary>Decedent's Pronouncement Year of Death.</summary>
+            <value>the decedent's pronouncement year of death, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DeathPronouncementYear = 2018;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Pronouncement Year of Death: {ExampleDeathRecord.DateOfDeathPronouncementYear}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementMonth">
+            <summary>Decedent's Pronouncement Month of Death.</summary>
+            <value>the decedent's pronouncement month of death, or -1 if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncementMonth = 6;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Pronouncement Month of Death: {ExampleDeathRecord.DateOfDeathPronouncementMonth}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementDay">
+            <summary>Decedent's Pronouncement Day of Death.</summary>
+            <value>the decedent's pronouncement day of death, or -1 if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncementDay = 16;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Prounecement Day of Death: {ExampleDeathRecord.DateOfDeathPronouncementDay}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncementTime">
+            <summary>Decedent's Pronouncement Time of Death.</summary>
+            <value>the decedent's pronouncement time of death, or "-1" if explicitly unknown, or null if never specified</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncementTime = "07:15:00";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Pronouncement Time of Death: {ExampleDeathRecord.DateOfDeathPronouncementTime}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.DateOfDeathDeterminationMethod">
@@ -2534,6 +2580,14 @@
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
             </example>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetDateOfDeathPronouncementObs">
+            <summary>Decedent's Date/Time of Death Pronouncement as a component.</summary>
+            <value>the decedent's date and time of death pronouncement observation component</value>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetOrCreateDateOfDeathPronouncementObs">
+            <summary>Get or Create Decedent's Date/Time of Death Pronouncement as a component.</summary>
+            <value>the decedent's date and time of death pronouncement observation component, if not present create it, return it in either case</value>
         </member>
         <member name="P:VRDR.DeathRecord.DateOfDeathPronouncement">
             <summary>Decedent's Date/Time of Death Pronouncement.</summary>
@@ -3246,9 +3300,17 @@
         <member name="M:VRDR.DeathRecord.SetPartialTime(Hl7.Fhir.Model.Extension,System.String)">
             <summary>Setter helper for anything that uses PartialDateTime, allowing the time to be set in the extension</summary>
         </member>
+        <member name="M:VRDR.DeathRecord.GetDateFragment(Hl7.Fhir.Model.Element,System.String)">
+            <summary>Getter helper for anything that can have a regular FHIR date/time
+            field (year, month, or day) to be read the value
+            supports dates and date times but does NOT support extensions</summary>
+        </member>
         <member name="M:VRDR.DeathRecord.GetDateFragmentOrPartialDate(Hl7.Fhir.Model.Element,System.String)">
             <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
             field (year, month, or day) to be read from either the value or the extension</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetTimeFragment(Hl7.Fhir.Model.Element)">
+            <summary>Getter helper for anything that can have a regular FHIR date/time, allowing the time to be read from the value</summary>
         </member>
         <member name="M:VRDR.DeathRecord.GetTimeFragmentOrPartialTime(Hl7.Fhir.Model.Element)">
             <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
@@ -4818,29 +4880,29 @@
         <member name="F:VRDR.NvssRace.OtherRace">
             <summary> OtherRace </summary>
         </member>
-        <member name="F:VRDR.NvssRace.AmericanIndianOrAlaskanNativeLiteral1">
-            <summary> AmericanIndianOrAlaskanNativeLiteralFirst </summary>
+        <member name="F:VRDR.NvssRace.FirstAmericanIndianOrAlaskanNativeLiteral">
+            <summary> FirstAmericanIndianOrAlaskanNativeLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.AmericanIndianOrAlaskanNativeLiteral2">
-            <summary> AmericanIndianOrAlaskanNativeLiteralSecond </summary>
+        <member name="F:VRDR.NvssRace.SecondAmericanIndianOrAlaskanNativeLiteral">
+            <summary> SecondAmericanIndianOrAlaskanNativeLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherAsianLiteral1">
-            <summary> OtherAsianLiteralFirst </summary>
+        <member name="F:VRDR.NvssRace.FirstOtherAsianLiteral">
+            <summary> FirstOtherAsianLiteralFirst </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherAsianLiteral2">
-            <summary> OtherAsianLiteralFirstSecond </summary>
+        <member name="F:VRDR.NvssRace.SecondOtherAsianLiteral">
+            <summary> SecondOtherPacificIslanderLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherPacificIslandLiteral1">
-            <summary> OtherPacificIslandLiteralFirst </summary>
+        <member name="F:VRDR.NvssRace.FirstOtherPacificIslanderLiteral">
+            <summary> FirstOtherPacificIslanderLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherPacificIslandLiteral2">
-            <summary> OtherPacificIslandLiteralSecond </summary>
+        <member name="F:VRDR.NvssRace.SecondOtherPacificIslanderLiteral">
+            <summary> SecondOtherPacificIslanderLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherRaceLiteral1">
-            <summary> OtherRaceLiteralFirst </summary>
+        <member name="F:VRDR.NvssRace.FirstOtherRaceLiteral">
+            <summary> FirstOtherRaceLiteral </summary>
         </member>
-        <member name="F:VRDR.NvssRace.OtherRaceLiteral2">
-            <summary> OtherRaceLiteral2 </summary>
+        <member name="F:VRDR.NvssRace.SecondOtherRaceLiteral">
+            <summary> SecondOtherRaceLiteral </summary>
         </member>
         <member name="F:VRDR.NvssRace.MissingValueReason">
             <summary> MissingValueReason </summary>
@@ -4898,9 +4960,6 @@
         </member>
         <member name="F:VRDR.ProfileURL.DecedentMilitaryService">
             <summary>URL for DecedentMilitaryService</summary>
-        </member>
-        <member name="F:VRDR.ProfileURL.CauseOfDeathPathway">
-            <summary>URL for CauseOfDeathPathway</summary>
         </member>
         <member name="F:VRDR.ProfileURL.TobaccoUseContributedToDeath">
             <summary>URL for TobaccoUseContributedToDeath</summary>

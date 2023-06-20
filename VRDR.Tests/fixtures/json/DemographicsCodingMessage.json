@@ -54,7 +54,7 @@
         "id": "1c8f5cb8-e124-449b-9e10-b9ecd53f3b7f",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-demographic-coded-content-bundle"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-demographic-coded-bundle"
           ]
         },
         "identifier": {
@@ -405,8 +405,8 @@
                   "code": {
                     "coding": [
                       {
-                        "code": "AmericanIndianOrAlaskanNativeLiteral1",
-                        "display": "AmericanIndianOrAlaskanNativeLiteral1"
+                        "code": "FirstAmericanIndianOrAlaskanNativeLiteral",
+                        "display": "FirstAmericanIndianOrAlaskanNativeLiteral"
                       }
                     ]
                   },

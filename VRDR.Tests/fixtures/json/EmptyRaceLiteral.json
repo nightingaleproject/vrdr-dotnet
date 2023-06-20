@@ -607,24 +607,6 @@
               "coding": [
                 {
                   "system": "http://loinc.org",
-                  "code": "69451-3",
-                  "display": "Transportation role of decedent"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct"
-                }
-              ]
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
                   "code": "69444-8",
                   "display": "Did death result from injury at work"
                 }
@@ -693,7 +675,7 @@
         "id": "ef1c2ce7-cb70-4e85-b5c2-8f614fbf9647",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+            "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
         "name": "BLANK",
@@ -878,7 +860,7 @@
               }
             }
           ],
-          "value": 20,
+          "value": 21,
           "code": "a"
         }
       }
@@ -1577,8 +1559,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "AmericanIndianOrAlaskanNativeLiteral1",
-                  "display": "AmericanIndianOrAlaskanNativeLiteral1"
+                  "code": "FirstAmericanIndianOrAlaskanNativeLiteral",
+                  "display": "FirstAmericanIndianOrAlaskanNativeLiteral"
                 }
               ]
             }
@@ -1588,8 +1570,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "AmericanIndianOrAlaskanNativeLiteral2",
-                  "display": "AmericanIndianOrAlaskanNativeLiteral2"
+                  "code": "SecondAmericanIndianOrAlaskanNativeLiteral",
+                  "display": "SecondAmericanIndianOrAlaskanNativeLiteral"
                 }
               ]
             }
@@ -1599,8 +1581,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "OtherAsianLiteral1",
-                  "display": "OtherAsianLiteral1"
+                  "code": "FirstOtherAsianLiteral",
+                  "display": "FirstOtherAsianLiteral"
                 }
               ]
             }
@@ -1610,8 +1592,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "OtherAsianLiteral2",
-                  "display": "OtherAsianLiteral2"
+                  "code": "SecondOtherAsianLiteral",
+                  "display": "SecondOtherAsianLiteral"
                 }
               ]
             }
@@ -1621,8 +1603,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "OtherPacificIslandLiteral1",
-                  "display": "OtherPacificIslandLiteral1"
+                  "code": "FirstOtherPacificIslanderLiteral",
+                  "display": "FirstOtherPacificIslanderLiteral"
                 }
               ]
             }
@@ -1632,8 +1614,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "OtherPacificIslandLiteral2",
-                  "display": "OtherPacificIslandLiteral2"
+                  "code": "SecondOtherPacificIslanderLiteral",
+                  "display": "SecondOtherPacificIslanderLiteral"
                 }
               ]
             }
@@ -1643,8 +1625,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "OtherRaceLiteral1",
-                  "display": "OtherRaceLiteral1"
+                  "code": "FirstOtherRaceLiteral",
+                  "display": "FirstOtherRaceLiteral"
                 }
               ]
             }
@@ -1654,8 +1636,8 @@
               "coding": [
                 {
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "code": "OtherRaceLiteral2",
-                  "display": "OtherRaceLiteral2"
+                  "code": "SecondOtherRaceLiteral",
+                  "display": "SecondOtherRaceLiteral"
                 }
               ]
             }

@@ -8,7 +8,19 @@ namespace VRDR
     /// <summary>Class <c>Connectathon</c> provides static methods for generating records used in Connectathon testing, used in Canary and in the CLI tool</summary>
     public class Connectathon
     {
-        /// <summary>Generate a DeathRecord from one of 5 pre-set records, providing an optional certificate number and state</summary>
+        /// <summary>Retrieve all available pre-set records</summary>
+        public static DeathRecord[] Records
+        {
+            get { 
+                return new DeathRecord[] {
+                    TwilaHilty(),
+                    FideliaAlsup(),
+                    DavisLineberry()
+                }; 
+            }
+        }
+
+        /// <summary>Generate a DeathRecord from one of 3 pre-set records, providing an optional certificate number and state</summary>
         public static DeathRecord FromId(int id, int? certificateNumber = null, string state = null, int? year = null)
         {
             DeathRecord record = null;
@@ -47,7 +59,7 @@ namespace VRDR
         public static DeathRecord TwilaHilty()
         {
             IJEMortality ije = new IJEMortality();
-            ije.DOD_YR = "2022";
+            ije.DOD_YR = "2023";
             ije.DSTATE = "CT";
             ije.FILENO = "000001";
             ije.MFILED = "0";
@@ -59,7 +71,7 @@ namespace VRDR
             ije.SEX = "F";
             ije.SSN = "531869507";
             ije.AGETYPE = "1";
-            ije.AGE = "020";
+            ije.AGE = "021";
             ije.AGE_BYPASS = "0";
             ije.DOB_YR = "2002";
             ije.DOB_MO = "01";
@@ -106,12 +118,9 @@ namespace VRDR
             ije.AUTOP = "N";
             ije.AUTOPF = "X";
             ije.TOBAC = "U";
-            ije.PREG = "2";
+            ije.PREG = "8";
             ije.PREG_BYPASS = "0";
             ije.CERTL = "D";
-            ije.SUR_MO = "01";
-            ije.SUR_DY = "10";
-            ije.SUR_YR = "2022";
             ije.STNUM_R = "4437";
             ije.PREDIR_R = "North";
             ije.STNAME_R = "Charles";
@@ -124,10 +133,10 @@ namespace VRDR
             ije.STATETEXT_R = "Connecticut";
             ije.COUNTRYTEXT_R = "United States";
             ije.ADDRESS_R = "4437 North Charles Avenue Southeast Apt 2B";
-            ije.COD1A = "Cardiopulmonary arrest";
-            ije.INTERVAL1A = "4 Hours";
-            ije.COD1B = "Eclampsia";
-            ije.INTERVAL1B = "3 Months";
+            ije.COD1A = "Hypoxemia";
+            ije.INTERVAL1A = "4 Days";
+            ije.COD1B = "MRSA Pneumonia";
+            ije.INTERVAL1B = "4 Days";
             ije.PLACE1_1 = "Y";
             DeathRecord record = ije.ToDeathRecord();
             return record;
@@ -138,7 +147,7 @@ namespace VRDR
         public static DeathRecord FideliaAlsup()
         {
             IJEMortality ije = new IJEMortality();
-            ije.DOD_YR = "2022";
+            ije.DOD_YR = "2023";
             ije.DSTATE = "CT";
             ije.FILENO = "000002";
             ije.MFILED = "2";
@@ -148,7 +157,7 @@ namespace VRDR
             ije.SEX = "F";
             ije.SSN = "478151044";
             ije.AGETYPE = "1";
-            ije.AGE = "62";
+            ije.AGE = "063";
             ije.AGE_BYPASS = "0";
             ije.DOB_YR = "1960";
             ije.DOB_MO = "02";
@@ -194,17 +203,12 @@ namespace VRDR
             ije.DOR_YR = "2022";
             ije.DOR_MO = "03";
             ije.DOR_DY = "18";
-            ije.MANNER = "A";
-            ije.AUTOP = "N";
-            ije.AUTOPF = "X";
+            ije.MANNER = "N";
+            ije.AUTOP = "Y";
+            ije.AUTOPF = "Y";
             ije.TOBAC = "U";
-            ije.PREG = "8";
+            ije.PREG = "1";
             ije.PREG_BYPASS = "0";
-            ije.DOI_MO = "03";
-            ije.DOI_DY = "16";
-            ije.DOI_YR = "2022";
-            ije.TOI_HR = "1015";
-            ije.WORKINJ = "Y";
             ije.CERTL = "P";
             ije.STATESP = "20220101";
             ije.STNUM_R = "1829";
@@ -216,16 +220,15 @@ namespace VRDR
             ije.STATETEXT_R = "California";
             ije.COUNTRYTEXT_R = "United States";
             ije.ADDRESS_R = "1829 Main St";
-            ije.POILITRL = "Street";
-            ije.HOWINJ = "Unrestrained ejected driver in rollover motor vehicle accident";
-            ije.TRANSPRT = "DR";
-            ije.COD1A = "Blunt head trauma";
-            ije.INTERVAL1A = "30 Minutes";
-            ije.COD1B = "Automobile accident";
-            ije.INTERVAL1B = "30 Minutes";
-            ije.COD1C = "Epilepsy";
-            ije.INTERVAL1C = "20 Years";
-            ije.OTHERCONDITION = "Hypertension, Depression, Migraine";
+            ije.COD1A = "Hepatorenal Syndrome";
+            ije.INTERVAL1A = "Days to Weeks";
+            ije.COD1B = "Alcoholic Hepatitis";
+            ije.INTERVAL1B = "Weeks";
+            ije.COD1C = "Acute Liver Failure";
+            ije.INTERVAL1C = "Weeks";
+            ije.COD1D = "Hepatic Encephalopathy";
+            ije.INTERVAL1D = "Weeks";
+            ije.OTHERCONDITION = "Alcoholism";
             ije.PLACE8_1 = "00000033";
             DeathRecord record = ije.ToDeathRecord();
             return record;
@@ -235,7 +238,7 @@ namespace VRDR
         public static DeathRecord DavisLineberry()
         {
             IJEMortality ije = new IJEMortality();
-            ije.DOD_YR = "2022";
+            ije.DOD_YR = "2023";//"2022";
             ije.DSTATE = "CT";
             ije.FILENO = "000003";
             ije.MFILED = "0";
@@ -246,10 +249,10 @@ namespace VRDR
             ije.SEX = "M";
             ije.SSN = "429471420";
             ije.AGETYPE = "2";
-            ije.AGE = "010";
+            ije.AGE = "003";
             ije.AGE_BYPASS = "0";
-            ije.DOB_YR = "2021";
-            ije.DOB_MO = "03";
+            ije.DOB_YR = "2023";
+            ije.DOB_MO = "01";
             ije.DOB_DY = "04";
             ije.BPLACE_CNT = "US";
             ije.BPLACE_ST = "CO";
@@ -291,7 +294,7 @@ namespace VRDR
             ije.OCCUP = "Infant";
             ije.INDUST = "Never Worked";
             ije.BCNO = "001023";
-            ije.IDOB_YR = "2021";
+            ije.IDOB_YR = "2023";
             ije.BSTATE = "CO";
             ije.MANNER = "P";
             ije.AUTOP = "U";

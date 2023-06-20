@@ -255,7 +255,7 @@
                   ]
                }
             ],
-            "birthDate":"2021-03-04",
+            "birthDate":"2023-01-04",
             "address":[
                {
                   "extension":[
@@ -461,7 +461,7 @@
                      "coding":[
                         {
                            "system":"http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                           "code":"OtherRaceLiteral1"
+                           "code":"FirstOtherRaceLiteral"
                         }
                      ]
                   },
@@ -634,7 +634,7 @@
                      }
                   }
                ],
-               "value":10,
+               "value":2,
                "unit":"months",
                "code":"mo"
             }
@@ -647,7 +647,7 @@
             "id":"64a919f2-1895-49a6-9fa2-73bafdcb0d28",
             "meta":{
                "profile":[
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-BirthRecordIdentifier"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-birth-record-identifier"
                ]
             },
             "status":"final",
@@ -747,7 +747,7 @@
             "id":"d4044469-3a56-456b-809c-0ea1afcf7561",
             "meta":{
                "profile":[
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-Military-Service"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-military-service"
                ]
             },
             "status":"final",
@@ -1070,6 +1070,18 @@
                      ],
                      "text":"Inpatient"
                   }
+               },
+               {
+                  "code": {
+                  "coding": [
+                     {
+                        "system": "http://loinc.org",
+                        "code": "80616-6",
+                        "display": "Date and time pronounced dead"
+                     }
+                  ]
+                  },
+                  "valueDateTime":"2022-01-18T18:23:00-10:00"
                }
             ]
          }
@@ -1336,7 +1348,7 @@
             "id":"6885b57d-9f0d-4509-a535-3fe5e9808161",
             "meta":{
                "profile":[
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-Tobacco-Use-Contributed-To-Death"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-tobacco-use-contributed-to-death"
                ]
             },
             "status":"final",

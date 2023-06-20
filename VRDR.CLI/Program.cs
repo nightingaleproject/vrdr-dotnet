@@ -13,6 +13,8 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.ElementModel;
 using Hl7.FhirPath;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using VRDR;
 
 namespace VRDR.CLI
@@ -48,7 +50,7 @@ namespace VRDR.CLI
   - json2xml: Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR XML (1 argument: FHIR JSON Death Record)
   - mre2json: Creates a Demographic Coding Bundle from a MRE Message (1 argument: TRX file)
   - resubmit: Create an update FHIR message wrapping a FHIR death record (1 argument:  FHIR death record)
-  - roundtrip-all: Convert a record to JSON and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record )
+  - roundtrip-all: Convert a record to JSON and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record)
   - roundtrip-ije: Convert a record to IJE and back and check field by field to identify any conversion issues (1 argument: FHIR Death Record)
   - showcodes: Extract and show the codes in a coding response message (1 argument: coding response message)
   - submit: Create a submission FHIR message wrapping a FHIR death record (1 argument: FHIR death record; many arguments: output directory and FHIR death records)
@@ -60,6 +62,7 @@ namespace VRDR.CLI
   - xml2json: Read in the IJE death record and print out as JSON (1 argument: path to death record in XML format)
   - xml2xml: Read in the IJE death record and print out as XML (1 argument: path to death record in XML format)
   - batch: Read in IJE messages and create a batch submission bundle (2+ arguments: submission URL (for inside bundle) and one or more messages)
+  - filter: Read in the FHIR death record and filter based on filter array (1 argument: path to death record to filter)
 ";
         static int Main(string[] args)
         {
@@ -351,7 +354,7 @@ namespace VRDR.CLI
                 ps.Add("display", "not applicable");
                 deathRecord.PregnancyStatus = ps;
 
-                // TransportationRole
+		        // TransportationRole
                 Dictionary<string, string> tr = new Dictionary<string, string>();
                 tr.Add("code", "257500003");
                 tr.Add("system", "http://snomed.info/sct");
@@ -974,7 +977,7 @@ namespace VRDR.CLI
                     ije2.DSTATE = record2.DeathRecordIdentifier.Substring(4, 2);
                     ije2.FILENO = record2.DeathRecordIdentifier.Substring(6, 6);
                     string[] ijeonlyfields = new String[] { "AUXNO2", "POILITRL", "HOWINJ", "TRANSPRT", "COD1A", "INTERVAL1A", "COD1B", "INTERVAL1B", "OTHERCONDITION", "CERTDATE", "SUR_YR", "SUR_MO", "SUR_DY" };
-                    return (CompareIJEtoIJE(ije1, "TRX", ije2, "JSON", ijeonlyfields));
+ 		    return (CompareIJEtoIJE(ije1, "TRX", ije2, "JSON", ijeonlyfields));
                 }
                 else
                 {
@@ -1099,6 +1102,22 @@ namespace VRDR.CLI
                 }
                 string payload = Client.CreateBulkUploadPayload(messages, url, true);
                 Console.WriteLine(payload);
+                return 0;
+            }
+            else if (args.Length == 3 && args[0] == "filter")
+            {
+                Console.WriteLine($"Filtering file {args[1]}");
+
+                BaseMessage baseMessage = BaseMessage.Parse(File.ReadAllText(args[1]));
+                
+                FilterService FilterService = new FilterService("./VRDR.Filter/NCHSIJEFilter.json", "./VRDR.Filter/IJEToFHIRMapping.json");
+
+                var filteredFile = FilterService.filterMessage(baseMessage).ToJson();
+                BaseMessage.Parse(filteredFile);
+                Console.WriteLine($"File successfully filtered and saved to {args[2]}");
+                    
+                File.WriteAllText(args[2], filteredFile);
+                
                 return 0;
             }
             else

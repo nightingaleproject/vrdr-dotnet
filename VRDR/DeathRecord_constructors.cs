@@ -214,6 +214,16 @@ namespace VRDR
             return Bundle;
         }
 
+        public Bundle GetMessageBundle()
+        {
+            return MessageBundle;
+        }
+
+        private void SetMessageBundle(Bundle MessageBundle)
+        {
+            this.MessageBundle = MessageBundle;
+        }
+
         /// <summary>
         /// Helper method to return the bundle that makes up a CauseOfDeathCodedContent bundle. This is actually
         /// the complete DeathRecord Bundle accessible via a method name that aligns with the other specific

@@ -1,0 +1,29 @@
+{
+    "resourceType": "Bundle",
+    "id": "1227ab22-e431-4d6e-b6ba-aec5c0eecd89",
+    "timestamp": "2020-03-25T08:51:24.663034-04:00",
+    "type": "message",
+    "entry": [{
+        "fullUrl": "urn:uuid:761dca08-259b-4dcd-aeb7-bb3c73fa30f2",
+        "resource": {
+            "resourceType": "MessageHeader",
+            "id": "761dca08-259b-4dcd-aeb7-bb3c73fa30f2",
+            "eventUri": "http://nchs.cdc.gov/vrdr_acknowledgement",
+            "destination": [{"endpoint": "test_one"}, {"endpoint": "test_two"}],
+            "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"},
+            "response": {
+                "identifier": "a9d66d2e-2480-4e8d-bab3-4e4c761da1b7",
+                "code": "ok"
+            },
+            "focus": [{"reference": "urn:uuid:df6f9785-1f00-4af8-bd5d-56c1b024691d"}]
+        }
+    },
+    {
+        "fullUrl": "urn:uuid:df6f9785-1f00-4af8-bd5d-56c1b024691d",
+        "resource": {
+            "resourceType": "Parameters",
+            "id": "df6f9785-1f00-4af8-bd5d-56c1b024691d",
+            "parameter": []
+        }
+    }]
+}

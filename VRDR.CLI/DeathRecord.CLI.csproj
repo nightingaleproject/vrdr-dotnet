@@ -5,6 +5,7 @@
     <TargetFrameworks>netcoreapp6.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VRDR.Filter\DeathRecord.Filter.csproj" />
     <ProjectReference Include="..\VRDR\DeathRecord.csproj" />
     <ProjectReference Include="..\VRDR.Messaging\VRDRMessaging.csproj" />
     <ProjectReference Include="..\VRDR.Client\VRDRClient.csproj" />

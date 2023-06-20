@@ -6,7 +6,7 @@
 
 This repository includes .NET (C#) code for
 
-- Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide STU2](http://hl7.org/fhir/us/vrdr/2021Sep/).
+- Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide STU2.1](http://hl7.org/fhir/us/vrdr/STU2.1).
 - Producing and consuming FHIR messages for the exchange of VRDR documents.
 - Support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
 - This codebase covers the subset of the IJE fields listed in this [spreadsheet](VRDRdotNETLibraryCoverage.csv).
@@ -30,36 +30,36 @@ Interactions with NCHS are governed by the CI build version of the VRDR and Vita
 </tr>
 </tr>
 <tr>
-<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 CI build version</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2.1 CI build version</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview19</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview19">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview19"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview19">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview19"> github</a></td>
+<td style="text-align: center;">V4.0.3</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2.1/">STU2.1 Published</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
+<td style="text-align: center;">R4</td>
+<td style="text-align: center;">V4.0.3</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2/">STU2 Published</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview19</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview19">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview19"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview19">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview19"> github</a></td>
+<td style="text-align: center;">V4.0.3</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 v1.3</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview19</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview19">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview19"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview19">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview19"> github</a></td>
-</tr>
-<tr>
-<td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2/">STU2 Published</a></td>
-<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
-<td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0-preview19</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0-preview19">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview19"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0-preview19">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0-preview19"> github</a></td>
+<td style="text-align: center;">V4.0.3</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;">STU1</td>
@@ -98,7 +98,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="4.0.0-preview19" />
+  <PackageReference Include="VRDR" Version="4.0.3" />
   ...
 </ItemGroup>
 ```
@@ -355,7 +355,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="4.0.0-preview19" />
+  <PackageReference Include="VRDR.Messaging" Version="4.0.3" />
   ...
 </ItemGroup>
 ```
@@ -418,7 +418,11 @@ CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage(ije.ToDeathRec
 
 // Set the source and destination
 message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
+// Set a single destination using MessageDestination (not plural).
 message.MessageDestination = "https://example.org/jurisdiction/endpoint";
+// Set multiple destinations with a comma separated list where each endpoint in the string is seperated by a comma. Use MessageDestinations (plural).
+// Messages without NCHS in this list of destinations will not be sent to NCHS.
+message.MessageDestinations = "https://example.org/jurisdiction/endpoint,https://example.org/jurisdiction/endpoint";
 
 // Create a JSON representation of the coding response message
 string jsonMessage = message.ToJSON();
@@ -441,6 +445,27 @@ The C# tests can be run separately from the other tests by executing the followi
 ```bash
 dotnet test
 ```
+
+#### Filtering tests
+Tests have been added to test the filtering process as well as the parsing of filtered files to ensure a valid file is generated from filtering.
+These tests will run with the above commands.
+
+##### Filtering tests description
+
+**ADDRESS_DShouldEqual**: Tests that the `DeathLocationAddress` field isn't filtered out.  
+**LIMITSShouldEqual_1**: Tests that the `ResidenceWithinCityLimits` field isn't filtered out. [Related to ticket: https://ruvos.atlassian.net/browse/STEVESD-2582]  
+**LIMITSShouldEqual_2**: Tests that the `ResidenceWithinCityLimits` field isn't filtered out. [Related to ticket: https://ruvos.atlassian.net/browse/STEVESD-2582]  
+**PreFilteredFileEqualsFilteredFile**: Tests that filtering through all fields in a file results in all fields being the same before and after filtering.  
+**FilteringNoFields**: Tests filtering no fields results in a valid Death Record.  
+**FilteringPlusParsingTest_1**: Tests filtering results in a valid Death Record.  
+**FilteringPlusParsingTest_2**: Tests filtering results in a valid Death Record.  
+**FilteringPlusParsingTest_3**: Tests filtering results in a valid Death Record.  
+**FilteringPlusParsingTest_4**: Tests filtering results in a valid Death Record.  
+**FilteringPlusParsingTest_5**: Tests filtering results in a valid Death Record.  
+**FilterAllFields_1**: Tests filtering all fields results in a valid Death Record.  
+**FilterAllFields_2**: Tests filtering all fields results in a valid Death Record.  
+**FilterAllFields_3**: Tests filtering all fields results in a valid Death Record.  
+**FilterFilePerJurisdictionFilters**: Tests that each jurisdictions filter results in a valid Death Record.  
 
 ### VRDR.CLI
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
@@ -528,8 +553,17 @@ dotnet run --project VRDR.CLI resubmit VRDR.CLI/1.json
 # Create an acknowledgement FHIR message for a submission FHIR message
 dotnet run --project VRDR.CLI ack VRDR.CLI/1submit.json
 
+# Create an alias FHIR message for a FHIR death record (1 argument: FHIR death record)
+dotnet run --project VRDR.CLI alias VRDR.Tests/fixtures/json/DeathRecord1.json
+
+# Creates a void message for a Death Record (1 argument: FHIR death record; one optional argument: number of records to void)
+dotnet run --project VRDR.CLI void VRDR.Tests/fixtures/json/DeathRecord1.json
+
 # Extract and show the codes in a coding response message
 dotnet run --project VRDR.CLI showcodes VRDR.CLI/1coding.json
+
+# Filter file and write output as `filteredFile.json`
+dotnet run --project VRDR.CLI filter VRDR.CLI/1coding.json
 ```
 
 ### VRDR.Client
@@ -700,4 +734,4 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 For questions or comments about vrdr-dotnet, please send email to
 
-    cdc-nvss-feedback-list@lists.mitre.org
+    nvssmodernization@cdc.gov

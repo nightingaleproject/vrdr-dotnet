@@ -587,32 +587,6 @@
             }
           },
           {
-            "fullUrl": "urn:uuid:5a4a5b3e-f7fa-46b7-a3f2-679c4f8ac871",
-            "resource": {
-              "resourceType": "List",
-              "id": "5a4a5b3e-f7fa-46b7-a3f2-679c4f8ac871",
-              "meta": {
-                "profile": [
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-pathway"
-                ]
-              },
-              "status": "current",
-              "mode": "snapshot",
-              "source": {
-                "reference": "urn:uuid:9b0ae4c1-a159-4525-a51e-8e248cbd41dc"
-              },
-              "orderedBy": {
-                "coding": [
-                  {
-                    "system": "http://terminology.hl7.org/CodeSystem/list-order",
-                    "code": "priority",
-                    "display": "Sorted by Priority"
-                  }
-                ]
-              }
-            }
-          },
-          {
             "fullUrl": "urn:uuid:51232671-915a-48e7-b30e-ff64964ac216",
             "resource": {
               "resourceType": "Observation",

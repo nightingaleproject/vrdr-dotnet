@@ -154,8 +154,8 @@ namespace VRDR.Tests
             var deathRecord = new DeathRecord();
             DeathRecordSubmissionMessage submission = new DeathRecordSubmissionMessage();
             Bundle submissionBundle = (Bundle)submission;
-            var method = deathRecord.GetType().GetMethod("SetMessageBundle").
-            method.Invoke(deathRecord, new object[] {submissionBundle});
+            var method1 = deathRecord.GetType().GetMethod("SetMessageBundle").
+            method1.Invoke(deathRecord, new object[] {submissionBundle});
         }
 
             

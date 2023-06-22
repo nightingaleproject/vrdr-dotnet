@@ -42,7 +42,7 @@ namespace VRDR
             set
             {
                 Record.Remove("block_count");
-                if (value != null && value > 1)
+                if (value != null && value >= 0)
                 {
                     Record.Add("block_count", new UnsignedInt((int)value));
                 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Xunit;
 using Hl7.Fhir.Model;
+using System.Reflection;
 
 namespace VRDR.Tests
 {
@@ -151,11 +152,12 @@ namespace VRDR.Tests
         [Fact]
         public void SetMessageBundle()
         {
-            var deathRecord = new DeathRecord();
+            DeathRecord deathRecord = new DeathRecord();
             DeathRecordSubmissionMessage submission = new DeathRecordSubmissionMessage();
             Bundle submissionBundle = (Bundle)submission;
-            var method = deathRecord.GetType().GetMethod("SetMessageBundle").
-            method.Invoke(deathRecord, new object[] {submissionBundle});
+            MethodInfo methodInfo = typeof(DeathRecord).GetMethod("SetMessageBundle",BindingFlags.NonPublic | BindingFlags.Instance);
+            methodInfo.Invoke(deathRecord, new object[] { submissionBundle });
+            Assert.NotNull(deathRecord.GetMessageBundle());
         }
 
             

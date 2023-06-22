@@ -22,7 +22,7 @@ jobs:
           echo "subject=$(git log -n 1 --pretty=%s)" >> $GITHUB_OUTPUT
   release-pull-request:
     runs-on: ubuntu-latest
-    needs: verify-commit
+    needs: parse-commit
     if: startsWith(needs.parse-commit.outputs.subject, 'chore(release):') != true
     steps:
       - uses: actions/checkout@v3

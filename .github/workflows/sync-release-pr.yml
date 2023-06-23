@@ -1,0 +1,65 @@
+name: Sync release pull-request
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "master", "main" ]
+
+permissions:
+  contents: 'write'
+  pull-requests: 'write'
+
+jobs:
+  parse-commit:
+    runs-on: ubuntu-latest
+    outputs:
+      subject: ${{ steps.commit-subject.outputs.subject }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get commit subject
+        id: commit-subject
+        run: |
+          echo "subject=$(git log -n 1 --pretty=%s)" >> $GITHUB_OUTPUT
+  release-pull-request:
+    runs-on: ubuntu-latest
+    needs: parse-commit
+    if: startsWith(needs.parse-commit.outputs.subject, 'chore(release):') != true
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+      - name: Setup Versionize
+        run: |
+          dotnet tool install --global Versionize
+      - name: Bump version and create changelog
+        run: |
+          versionize --proj-version-bump-logic --skip-tag --changelog-all
+      - name: Get current version
+        id: get-version
+        run: |
+          echo "version=$(versionize inspect)" >> $GITHUB_OUTPUT
+      - name: Create release Pull Request
+        uses: peter-evans/create-pull-request@v5
+        id: cpr
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            chore(release): ${{ steps.get-version.outputs.version }}
+          title: |
+            chore(release): ${{ steps.get-version.outputs.version }}
+          body: ""
+          branch: actions/release
+          reviewers: ${{ github.actor }}
+          delete-branch: true          
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"

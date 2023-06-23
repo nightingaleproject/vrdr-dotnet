@@ -677,31 +677,33 @@ dotnet run --project VRDR.HTTP
 
 The service will be listening locally at `http://localhost:8080`.
 
-#### Contributing
-Changes related to an upcoming IG version should be merged to the IG-develop-vx.x.x branch. Bug fixes related to the current version should be merged to the master branch and a new release should be created.
+## Contributing
+This repository follows [Semantic Versioning](https://semver.org/). Bug fixes and feature enhancements should be merged into the `master` branch via Pull Requests (PR), instead of directly committing to the `master` branch. Once a PR is merged, a new version of the library will be automatically published to NuGet.
 
-##### Create a branch for IG changes:
 ```
-git fetch origin
-git checkout IG-develop-vx.x.x
-git pull origin IG-develop-vx.x.x
-git checkout -b <your-ticketnumber-branch-name>
-<commit-your-IG-related-changes>
-<test-with-changes-from-master>
-git push origin <your-ticketnumber-branch-name>
-```
-Create merge request to the IG-develop-vx.x.x branch.
-
-##### Create a branch for bug fixes in master
-```
-git checkout master
 git pull origin master
-git checkout -b <your-ticketnumber-branch-name>
-<commit-bug-related-changes>
-git push origin <your-ticketnumber-branch-name>
+git checkout -b <your-working-branch-name>
+<commit-your-changes>
+<test-with-changes-from-master>
+git push -u origin <your-working-branch-name>
 ```
-Create a merge request to the master branch.
-Finally, merge master into the IG-develop-vx.x.x branch.
+Once the working branch is pushed to the respository, follow these steps:
+
+1. Create a new PR with the working branch as base, and master as head.
+1. The PR title and description should follow the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) format. The PR title should be structured as  `<type>[optional scope]: <short-message>`, where a type can be:
+  - **feat:** introduces a new feature to the codebase (correlates with MINOR in Semantic Versioning).
+  - **fix:** patches a bug in the codebase (correlates with PATCH in Semantic Versioning).
+  - Other types such as `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`, and others are allowed as well (correlates with PATCH in Semantic Versioning).
+  
+  (The PR title needs to be concise and conform to the style guide for change tracking purposes. The PR description can include additional details about the changes associated with this PR.)
+1. Assign one or more reviewers to review your changes. At least one approved review is required before the PR can be merged.
+1. If the PR addresses an existing Issue, link the PR with the Issue to resolve it through the PR.
+1. Once the PR is approved by a reviewer, with all discussions resolved and all checks passed, click the Squash and Merge button. Avoid using "Create a merge commit." The PR title and description will automatically fill in the commit message boxes.
+
+#### Release Pull Request
+
+With each commit to the default branch, a release pull request will be automatically created/updated. This PR increments the package version and updates the CHANGELOG using a special branch named `actions/release`. You don't need to wait for this special PR to be merged into the default branch before merging additional pull requests. It consolidates subsequent commits to the default branch; only one instance of release pull request will be active.
+
 
 #### Publishing a Version
 

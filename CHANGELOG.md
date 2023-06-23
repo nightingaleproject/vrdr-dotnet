@@ -1,5 +1,20 @@
 # Changelog
 
+<a name="4.0.4"></a>
+## [4.0.4](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.4) (2023-6-23)
+
+### Features
+
+* allow retrieval of all Connectathon records ([a5d5f07](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/a5d5f07a601cf33fe31872e16a2d250e5e727a76))
+* sync pregnancy status vealue set with IG ([61d84c6](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/61d84c6361b1760d847bcf97d263e5fdba6c0771))
+
+### Bug Fixes
+
+* expected age at time of death for test record #3 ([e3fb04b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/e3fb04b330e97b909cc034d9f42e11c48d489fd1))
+* sync VOID message block_count property with messaging IG ([731db5b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/731db5b004c8091031e979cda1d23e834e499f2d))
+* yes-no value set url (#456) ([bf042dc](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/bf042dcedfa3b883582741e8bb71c8b93155a0b9))
+
+
 <a name="4.0.3"></a>
 ## [4.0.3](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.3) (2023-6-7)
 

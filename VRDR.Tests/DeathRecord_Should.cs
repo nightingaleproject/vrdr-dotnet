@@ -4053,10 +4053,8 @@ namespace VRDR.Tests
             testRecord.PregnancyStatusHelper = "3";
             Assert.Equal("3", testRecord.PregnancyStatusHelper);
 
-            Exception ex = Assert.Throws<System.ArgumentException>(() => testRecord.PregnancyStatusHelper = "10");
-
-            testRecord.PregnancyStatusHelper = "8";
-            Assert.Equal("8", testRecord.PregnancyStatusHelper);
+            Exception ex = Assert.Throws<System.ArgumentException>(() => testRecord.PregnancyStatusHelper = "8");
+            Exception ex2 = Assert.Throws<System.ArgumentException>(() => testRecord.PregnancyStatusHelper = "10");
         }
 
         [Fact]

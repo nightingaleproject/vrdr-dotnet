@@ -1,11 +1,27 @@
-## Changelog
+# Changelog
 
-### v4.0.3 - 2023-06-07
+<a name="4.0.4"></a>
+## [4.0.4](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.4) (2023-6-23)
+
+### Features
+
+* allow retrieval of all Connectathon records ([a5d5f07](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/a5d5f07a601cf33fe31872e16a2d250e5e727a76))
+* sync pregnancy status vealue set with IG ([61d84c6](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/61d84c6361b1760d847bcf97d263e5fdba6c0771))
+
+### Bug Fixes
+
+* expected age at time of death for test record #3 ([e3fb04b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/e3fb04b330e97b909cc034d9f42e11c48d489fd1))
+* sync VOID message block_count property with messaging IG ([731db5b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/731db5b004c8091031e979cda1d23e834e499f2d))
+* yes-no value set url (#456) ([bf042dc](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/bf042dcedfa3b883582741e8bb71c8b93155a0b9))
+
+
+<a name="4.0.3"></a>
+## [4.0.3](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.3) (2023-6-7)
 
 * Update birth month for test record #3 in Connectathon.cs
 * Revert change to remove transportation role component on injury incident
 
-### v4.0.2 - 2023-06-05
+## v4.0.2 - 2023-06-05
 
 * Update ages in Connectathon.cs
 * Update ages and add test method CheckConnectathonRecord3() in DeathRecord_Should.cs
@@ -21,37 +37,37 @@
     * Change Cause of Death Condition to Cause of Death Part 1
     * Change Cause of Death Condition Contributing Death to Cause of Death Part 2
 
-### v4.0.1 - 2023-05-16
+## v4.0.1 - 2023-05-16
 
 * Syncs Connectathon test record generation code and example JSON and XML files with NCHS test plan changes
 * Syncs Race and Ethnicity Literal fields with latest VRDR IG build version and adds additional test cases
 * Add test cases for COD Coding Acknowledegement use case
 
-### v4.0.0.preview21 - 2023-04-20
+## v4.0.0.preview21 - 2023-04-20
 
 * Adds support for multiple message destinations. It implemented this with a comma separated string of endpoints in the MessageDestination attribute. 
 
-*### v4.0.0.preview20 - 2023-04-20
+*## v4.0.0.preview20 - 2023-04-20
 
 * Corrected race literals in code, tests and example json, added component name check on setting race literals to be in sync with IG
 * Updated test case to include missing usual occupation text, also made usual industry return null on unknown just as does usual occupation
 * Fixed bug where calling UsualIndustry would crash if no text key was provided such as happens in the unknown case
 * Incorporates preview19-with-filtering changes
 
-### v4.0.0.preview19-with-filtering - 2023-03-16
+## v4.0.0.preview19-with-filtering - 2023-03-16
 
 * Added filtering logic
 * Added CLI to allow filtering of a single file
 * Added multiple tests to test issues we've experienced and testing different filters
 * Added documentation for CLI and brief descriptions for each test case
 
-### v4.0.0.preview19 - 2023-02-17
+## v4.0.0.preview19 - 2023-02-17
 
 * Additional tests for autopsy performed and results cases
 * Fixed decedent education level handling for demographics
 * Added handling for pregnancy code 8 - computer generated
 
-### v4.0.0.preview18 - 2023-02-10
+## v4.0.0.preview18 - 2023-02-10
 
 * Connectathon test record fixes
 * DateOfDeath valueTime formatting correction
@@ -62,11 +78,11 @@
 * Fixed IJE classes to post values to time in format of 00:00:00.
 * Updated ICD-10 code verification to support codes such as U071
 
-### v4.0.0.preview17 - 2023-01-30
+## v4.0.0.preview17 - 2023-01-30
 
 * Updated display text for the death record certifier types to align with IG
 
-### v4.0.0.preview16 - 2022-12-23
+## v4.0.0.preview16 - 2022-12-23
 
 * Updated AgeAtDeath property to expect a dictionary with "value" and "code" rather than "value" and "unit" to match the FHIR IG
 * Added helper properties for AgeAtDeath to make it easier to set: AgeAtDeathYears, AgeAtDeathMonths, AgeAtDeathDays, AgeAtDeathHours, and AgeAtDeathMinutes
@@ -76,12 +92,12 @@
 * Fixed IJEMortality handling of NCHS-formatted ICD10 codes 
 * Return null instead of empty strings for a blank fields in the death record
 
-### v4.0.0-preview15 - 2022-12-06
+## v4.0.0-preview15 - 2022-12-06
 
 * Fixed an issue where timezone conversion was causing an incorrect day of death to be returned
 * Expanded TargetFrameworks for the VRDR.Client library to include .NET Core 3.1 and .NET Framework 4.8
 
-### v4.0.0-preview14 - 2022-11-22
+## v4.0.0-preview14 - 2022-11-22
 
 * Fixed issue with WithinCityLimits field getting overwritten when setting address properties
 * Update date and time fields to differentiate between no data provided and explicitly unknown (see https://github.com/nightingaleproject/vrdr-dotnet#specifying-that-a-date-or-time-is-explicitly-unknown)
@@ -90,11 +106,11 @@
     - The library raises an exception if a middle name is set before a first name when using IJEMortality
     - The IJEMortality class returns middle name fields of the correct length
 
-### v4.0.0-preview13 - 2022-11-03
+## v4.0.0-preview13 - 2022-11-03
 
 * Added missing value for Non-Hispanic to HispanicOrigin value set
 
-### v4.0.0-preview12 - 2022-10-31
+## v4.0.0-preview12 - 2022-10-31
 
 * Added support for creating and submitting batch messages to the API
 * Fixed SSN length validation
@@ -104,11 +120,11 @@
 * Fixed issue that allowed empty strings in alias message fields
 * Fixed incorrect error for AgeAtDeathEditFlag
 
-### v4.0.0-preview11 - 2022-09-19
+## v4.0.0-preview11 - 2022-09-19
 
 * Fixed null object reference issue when retrieving message ID
 
-### v4.0.0-preview10 - 2022-09-19
+## v4.0.0-preview10 - 2022-09-19
 
 * Fixed date handling to correctly distinguish between unknown and unset
 * Fixed issue in ICD code handling to correctly support 5 character codes
@@ -116,11 +132,11 @@
 * Improved support for Status messages
 * Added support for linking coding response messages to the submission messages that they code
 
-### v4.0.0-preview9 - 2022-08-19
+## v4.0.0-preview9 - 2022-08-19
 
 * Added TS as a jurisdiction code for testing purposes
 
-### v4.0.0-preview8 - 2022-08-18
+## v4.0.0-preview8 - 2022-08-18
 
 * Fixed bug where injury incident value was encoded as String instead of CodeableConcept text
 * Improved support for Alias messages to allow data to be pulled from a source record
@@ -130,12 +146,12 @@
 * Added support for DateOfDeathDetermination
 * Updated the Client to stop using the now-unneeded _since parameter
 
-### v4.0.0-preview7 - 2022-08-05
+## v4.0.0-preview7 - 2022-08-05
 
 * Fixed credential handling in Client implementation
 * Updated handling of RelatedPerson fields to correctly set Active=True
 
-### v4.0.0-preview6 - 2022-07-22
+## v4.0.0-preview6 - 2022-07-22
 
 * Fixed BSTATE issue with connectathon test record
 * Fixed an issue with death age unit handling
@@ -148,7 +164,7 @@
 * Added initial support for status messages
 * Improved usability of the command line tool
 
-### v4.0.0.preview5 - 2022-06-22
+## v4.0.0.preview5 - 2022-06-22
 
 * Addressed incorrect conversion of non-string values into strings
 * Updated documentation to better align with recent library changes
@@ -156,11 +172,11 @@
 * Removed erroneous second injury location object from output bundle
 * Fixed issue where VRDR DeathRecord properties that return a dictionary were returning null
 
-### v4.0.0.preview4 - 2022-05-31
+## v4.0.0.preview4 - 2022-05-31
 
 * Added parsing of generic non-VRDR message bundles to support more flexibility in message-handling APIs built using the VRDR.Messaging library
 
-### v4.0.0.preview3 - 2022-05-25
+## v4.0.0.preview3 - 2022-05-25
 
 * Aligned with IG updates
     - Eliminated CauseOfDeathPathway and added lineNumber component to Part1CauseOfDeath
@@ -186,11 +202,11 @@
     - Fixed FHIR paths to support better test results in Canary
 * Added release of VRDR.Client NuGet package
 
-### v4.0.0.preview2 - 2022-05-09
+## v4.0.0.preview2 - 2022-05-09
 
 * Addressed inconsistencies in how identifiers were being handled
 
-### v4.0.0.preview1 - 2022-05-07
+## v4.0.0.preview1 - 2022-05-07
 
 * Aligned VRDR library to latest VRDR IG at http://build.fhir.org/ig/HL7/vrdr/artifacts.html
     - Updated 137 fields to the latest FHIR representation
@@ -213,7 +229,7 @@
     - Added support for new DeathRecordAliasMessage
     - New common model of message bundles to support submission messages, coding response messages, and full interjurisdictional exchange messages
 
-### v3.3.1 - 2022-04-07
+## v3.3.1 - 2022-04-07
 
 * Added the CertificationRoleHelper method
 * Documented the new helper methods in the README
@@ -224,24 +240,24 @@
 * Added a ruby script for converting an Excel file with records in pseudo-IJE format into a set of FHIR records for testing
 * Removed support for the now-obsolete netcoreapp2.1
 
-### v3.3.0 - 2022-04-05
+## v3.3.0 - 2022-04-05
 
 * Added a client library (VDRD.Client) for interacting with the [NVSS FHIR API](https://github.com/nightingaleproject/Reference-NCHS-API)
 * Added helper methods for setting field values that use value sets
 * Fixed bug in unknown DOB IJE to FHIR conversion
 
-### v3.2.1 - 2021-10-05
+## v3.2.1 - 2021-10-05
 
 * Return null rather than an error when jurisdiction id is missing from VRDR record
 
-### v3.2.0 - 2021-10-01
+## v3.2.0 - 2021-10-01
 
 * Fixed FHIRPath and data types to support date absent extension
 * Allow casting a message to a Bundle to support the NCHS API
 * Return descriptive error when jurisdiction id is missing from VRDR record
 * Add support for passing Bundles directly to BaseMessage
 
-### v3.2.0-preview5 - 2021-09-13
+## v3.2.0-preview5 - 2021-09-13
 
 * Fixed bug in how nulls are interpreted when loading description files that caused segments of records to be dropped in Canary
 * Removed incorrect extra spaces from some race strings
@@ -249,19 +265,19 @@
 * Improved text that describes expected values for the Death Location Jurisdiction field
 * Fixed bug that caused incorrect data to be shown in Canary for Death Location Jurisdiction
 
-### v3.2.0-preview4 - 2021-09-02
+## v3.2.0-preview4 - 2021-09-02
 
 * Fixed bug that causes error when calling data absent boolean setter methods
 
-### v3.2.0-preview3 - 2021-09-01
+## v3.2.0-preview3 - 2021-09-01
 
 * Add methods for getting and setting AgeAtDeathAbsentReason and BirthRecordIdentifierAbsentReason. A boolean getter and setter returning whether a reason has been set has also been provided.
 
-### v3.2.0-preview2 - 2021-08-25
+## v3.2.0-preview2 - 2021-08-25
 
 * Fetch DeathLocationJurisdiction from DeathLocationJurisdiction instead of DeathLocationAddress?["addressState"] in VRDR Messaging
 
-### v3.2.0-preview1 - 2021-08-24
+## v3.2.0-preview1 - 2021-08-24
 
 * Updated to [STU2 version](http://hl7.org/fhir/us/vrdr/2021Sep/) of the VRDR IG
 * DeathLocationJurisdiction must now be specified in order to generate an IJE file
@@ -271,42 +287,42 @@
 * Added support for missing data as per the STU2 IG
 * Full list of supported IJE fields [is now available](VRDRdotNETLibraryCoverage.csv).
 
-### v3.1.1 - 2021-06-10
+## v3.1.1 - 2021-06-10
 
 * Reorder death record properties to reflect order in standard death certificate
 
-### v3.1.0 - 2021-02-17
+## v3.1.0 - 2021-02-17
 
 * Acknowledgement messages support block_count field for acknowledging bulk void messages
 * Added additional required fields to CodingResponseMessage
 * Documentation updated to reflect completed migration from CauseCode to CodingResponseMessage
 
-### v3.1.0-RC5 - 2020-09-16
+## v3.1.0-RC5 - 2020-09-16
 
 * Blank identifiers are ignored in a Death Certificate Reference
 * Default is to have no certificate number rather than an OID
 * Added IJE vs. IJE-from-FHIR comparison utility function to VRDR.CLI
 * Fixed a bug that allowed blank values in IJE age fields
 
-### v3.1.0-RC4 - 2020-09-10
+## v3.1.0-RC4 - 2020-09-10
 
 * Added message related utility functions to VRDR.CLI
 * Assorted bug fixes
     - Fixed a bug where an identifier was being incorrectly initialized with a GUID
 
-### v3.1.0-RC3 - 2020-09-10
+## v3.1.0-RC3 - 2020-09-10
 
 * Assorted bug fixes
     - Fixed a bug that would cause an NPE if source was missing from a parsed message header
 
-### v3.1.0-RC2 - 2020-09-08
+## v3.1.0-RC2 - 2020-09-08
 
 * Assorted bug fixes
     - Fixed a bug that would cause an NPE if a mortician was not present in a death record file
     - Fixed a bug where mortician entry was not being correctly identified
     - Fixed bug where text description of usual occupation and industry was being put in the code description instead of the codeable concept text
 
-### v3.1.0-RC1 - 2020-08-25
+## v3.1.0-RC1 - 2020-08-25
 
 * Updated `DeathRecord` class to match latest VRDR IG changes.
 * Numerous under-the-covers changes to address IG changes from FHIR STU3 -> R4 and fix errors and warnings from the FHIR validator including:
@@ -345,19 +361,19 @@
 * Added `DeathRecord.EthnicityText` property for uncoded ethnicity
 * Added `DeathRecord.RaceText` property for uncoded race
 
-### v3.1.0-preview10 - 2020-06-12
+## v3.1.0-preview10 - 2020-06-12
 
 * Improve error handling during message parsing.
 * Add `MessageParseException` class.
 * Added `CauseOfDeathEntityAxisList` property to `CodingResponseMessage` and `CodingUpdateMessage`.
 
-### v3.1.0-preview9 - 2020-05-29
+## v3.1.0-preview9 - 2020-05-29
 
 * Add ability to format output for human readability via `prettyPrint` parameter of `BaseMessage.ToXML` and `BaseMessage.ToJSON`.
 * Move VRDR.Messaging API documentation to new, [task-oriented, documentation page](doc/Messaging.md).
 * `ExtractionErrorMessage(sourceMessage)` constructor initializes the `MessageSource` property from `sourceMessage.MessageDestination`. Removed the defaulted `source` parameter from this constructor.
 
-### v3.1.0-preview8 - 2020-05-27
+## v3.1.0-preview8 - 2020-05-27
 
 * Add business identifier properties (`NCHSIdentifier`, `StateAuxiliaryIdentifier`, `CertificateNumber`) to every message type.
 * Replace `DeathCertificateText` and `CauseOfDeathConditionId` properties of `CauseOfDeathEntityAxisEntry` with `LineNumber` property.

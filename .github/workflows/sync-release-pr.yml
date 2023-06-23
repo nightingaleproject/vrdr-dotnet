@@ -39,13 +39,8 @@ jobs:
         run: |
           dotnet tool install --global Versionize
       - name: Bump version and create changelog
-        if: github.event_name == 'workflow_dispatch'
         run: |
-          versionize --proj-version-bump-logic --skip-tag --aggregate-pre-releases --changelog-all
-      - name: Bump pre-release version and create changelog
-        if: github.event_name == 'push'
-        run: |
-          versionize --pre-release pre --proj-version-bump-logic --skip-tag --aggregate-pre-releases --changelog-all
+          versionize --proj-version-bump-logic --skip-tag --changelog-all
       - name: Get current version
         id: get-version
         run: |

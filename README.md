@@ -677,7 +677,7 @@ dotnet run --project VRDR.HTTP
 
 The service will be listening locally at `http://localhost:8080`.
 
-#### Contributing
+## Contributing
 This repository follows [Semantic Versioning](https://semver.org/). Bug fixes and feature enhancements should be merged into the `master` branch via Pull Requests (PR), instead of directly committing to the `master` branch. Once a PR is merged, a new version of the library will be automatically published to NuGet.
 
 ```

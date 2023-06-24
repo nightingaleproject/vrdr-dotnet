@@ -4138,7 +4138,7 @@ namespace VRDR.Tests
             Assert.Equal("L", ije.MNAME);
             Assert.Equal("", ije.FILEDATE); // blanks out since not used in FHIR Assert.Equal("01122026", ije.FILEDATE);
             // NOTE: below may change on subsequent reviews of IJE->FHIR mapping
-            Assert.Equal("0", ije.VOID); // zeroed out since IJE Void does not map to FHIR (Handled at Messaging IG level) Assert.Equal("1", ije.VOID);
+            Assert.Equal("1", ije.VOID);
             Assert.Equal("0", ije.ALIAS); // zeroed out as with VOID Assert.Equal("1", ije.ALIAS);
         }
  

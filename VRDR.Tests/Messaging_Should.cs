@@ -152,8 +152,8 @@ namespace VRDR.Tests
         public void ProtectedSetMessageBundle()
         {
             DeathRecordSubmissionMessage submission = new DeathRecordSubmissionMessage();
-            Assert.NotNull(submission);
-		}
+            Assert.NotNull(submission.MessageBundle);
+	}
 		
         [Fact]
         public void CreateUpdate()

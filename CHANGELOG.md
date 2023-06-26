@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="4.0.5"></a>
+## [4.0.5](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.5) (2023-6-26)
+
+### Other
+
+* feat:add-void-and-alias-handling-in-ijemortality ([8a2c10b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/8a2c10be680358042595fcd045857367074c0e47))
+* Merge branch 'master' into 435-add-void-and-alias-handling-in-ijemortality ([2916cd2](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/2916cd21137f6904275c39a5f870b8f48574ed36))
+* Merge pull request #463 from nightingaleproject/435-add-void-and-alias-handling-in-ijemortality ([f3094ab](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/f3094ab8b9692aeab0c6cb9a6819b2bf778fdb4b))
+* Update IJEMortality.cs ([bb6f786](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/bb6f786a42212ed7d207df5caf41cdb6bcb8a360))
+* Update README.md ([765a004](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/765a004641b997fc18b0b2a9bf13c66d37a5dd13))
+* Update README.md ([216a601](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/216a601db6439ac66b1e1b0fb04e0f5437acbe25))
+
 <a name="4.0.4"></a>
 ## [4.0.4](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.4) (2023-6-23)
 

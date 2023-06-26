@@ -155,6 +155,49 @@ namespace VRDR.Tests
             Assert.Equal("    ", ije1.TOI_HR);
         }
 
+        [Fact]
+        public void SetVOID()
+        {
+            IJEMortality ije = new IJEMortality();
+            Assert.Null(ije.VOID);
+            ije.VOID = "123";
+            Assert.Null(ije.VOID);
+            ije.VOID = " ";
+            Assert.Null(ije.VOID);
+            ije.VOID = "abc #$@";
+            Assert.Null(ije.VOID);
+            ije.VOID = " 0 ";
+            Assert.Equal("0", ije.VOID);
+            ije.VOID = "0";
+            Assert.Equal("0", ije.VOID);           
+            ije.VOID = "1";
+            Assert.Equal("1", ije.VOID);
+            ije.VOID = "2";
+            Assert.Equal("1", ije.VOID);
+        }
+
+        [Fact]
+        public void SetALIAS()
+        {
+            IJEMortality ije = new IJEMortality();
+            Assert.Null(ije.ALIAS);
+            ije.ALIAS = "123";
+            Assert.Null(ije.ALIAS);
+            ije.ALIAS = " ";
+            Assert.Null(ije.ALIAS);
+            ije.ALIAS = "abc #$W";
+            Assert.Null(ije.ALIAS);
+            ije.ALIAS = " 0 ";
+            Assert.Equal("0", ije.ALIAS);
+            ije.ALIAS = "0";
+            Assert.Equal("0", ije.ALIAS);           
+            ije.ALIAS = "1";
+            Assert.Equal("1", ije.ALIAS);
+            ije.ALIAS = "2";
+            Assert.Equal("1", ije.ALIAS);
+        }
+
+            
         // [Fact]
         // public void SetCOUNTRY_C()
         // {

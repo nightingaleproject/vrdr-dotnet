@@ -31,6 +31,7 @@ namespace VRDR
         /// <summary>Priority - lower will be "GET" and "SET" earlier.</summary>
         public int Priority;
 
+
         /// <summary>Constructor.</summary>
         public IJEField(int field, int location, int length, string contents, string name, int priority)
         {
@@ -56,6 +57,13 @@ namespace VRDR
 
         /// <summary>Utility location to provide support for setting MRE-only fields that have no mapping in IJE when creating coding response records</summary>
         public MREHelper mre;
+
+        /// <summary>Field _void.</summary>
+        private string _void;
+
+        /// <summary>Field _alias.</summary>
+        private string _alias;
+        
 
         /// <summary>Helper class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
         public class TRXHelper
@@ -929,15 +937,22 @@ namespace VRDR
 
         /// <summary>Void flag</summary>
         [IJEField(4, 13, 1, "Void flag", "VOID", 1)]
-        public string VOID
+        public string VOID  
         {
             get
             {
-                return "0";
+                return _void;
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    string valueTrim = value.Trim();
+                    if(valueTrim == "0" || valueTrim == "1")
+                    {
+                        _void = valueTrim;
+                    }
+                }
             }
         }
 
@@ -1064,11 +1079,18 @@ namespace VRDR
         {
             get
             {
-                return "0";
+                return _alias;
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    string valueTrim = value.Trim();
+                    if(valueTrim == "0" || valueTrim == "1")
+                    {
+                        _alias = valueTrim;
+                    }
+                }
             }
         }
 

@@ -587,6 +587,22 @@ You can include a locally downloaded copy of the library instead of the NuGet ve
 ```
 
 #### Example Usage
+
+Using VOID and ALIAS fields of IJEMortality object. Use case: VOID is for voiding the Death Record, and should be sent using a DeathRecordVoidMessage. ALIAS is for denoting optional records submitted only for National Death Index purposes, and should be sent using a DeathRecordAliasMessage. Both are mainly sent by Vital Records Jurisdiction.
+```
+  // Example getting values of VOID and ALIAS fields, respectively
+  IJEMortality ijeMortality = new IJEMortality(ijeFile);
+  string voidFieldValue = ijeMortality.VOID;
+  string aliasFieldValue = ijeMortality.ALIAS;
+
+  // Example setting values of VOID and ALIAS fields, respectively
+  IJEMortality ijeMortality = new IJEMortality(ijeFile);
+  ijeMortality.VOID = "0"; // flag "OFF"
+  ijeMortality.ALIAS = "0"; // flag "OFF"
+  ijeMortality.VOID = "1";  // flag "ON"
+  ijeMortality.ALIAS = "1"; // flag "ON"
+
+
 Authenticate to the NVSS API Server
 ```
   // Example SAMS credentials

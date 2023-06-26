@@ -772,6 +772,8 @@ namespace VRDR.Tests
             Assert.Null(message.BlockCount);
             message.BlockCount = 100;
             Assert.Equal((uint)100, message.BlockCount);
+            message.BlockCount = 0;
+            Assert.Equal((uint)0, message.BlockCount);
         }
         [Fact]
         public void CreateStatusMessage()

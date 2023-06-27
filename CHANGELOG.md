@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.0.5"></a>
+## [4.0.5](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.5) (2023-6-26)
+
+### Features
+
+* add VOID and ALIAS handling in IJEMortality class ([8a2c10b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/8a2c10be680358042595fcd045857367074c0e47))
+
 <a name="4.0.4"></a>
 ## [4.0.4](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.4) (2023-6-23)
 

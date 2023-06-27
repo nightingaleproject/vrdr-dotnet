@@ -516,7 +516,7 @@ dotnet run --project VRDR.CLI connectathon 1 100 MA
 # Parameters are:
 #    - initial certificate number
 #    - number of records to generate (each with cert_no one greater than its predecessor)
-#	 - Submitting jurisdiction
+#	   - Submitting jurisdiction
 #    - output directory (must exist)
 #    
 dotnet run --project VRDR.CLI generaterecords 23 100 CT ./generatedrecords 

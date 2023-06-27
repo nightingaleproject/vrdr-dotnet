@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.0.6"></a>
+## [4.0.6](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.6) (2023-6-27)
+
+### Bug Fixes
+
+* change BaseMessage.MessageBundle accessibility to public get, protected set ([72ae122](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/72ae122430a6465699fd59006475b2306ddf978c))
+
 <a name="4.0.5"></a>
 ## [4.0.5](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.5) (2023-6-26)
 

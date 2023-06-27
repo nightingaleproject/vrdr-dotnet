@@ -571,73 +571,141 @@ Example Usage</h4>
 <div class="line">  // Example setting values of VOID and ALIAS fields, respectively</div>
 <div class="line">  IJEMortality ijeMortality = new IJEMortality(ijeFile);</div>
 <div class="line">  ijeMortality.VOID = &quot;0&quot;; // flag &quot;OFF&quot;</div>
-<div class="line">  ijeMortality.ALIAS = &quot;0&quot;; // flag &quot;OFF&quot;</div>
 <div class="line">  ijeMortality.VOID = &quot;1&quot;;  // flag &quot;ON&quot;</div>
+<div class="line">  ijeMortality.ALIAS = &quot;0&quot;; // flag &quot;OFF&quot;</div>
 <div class="line">  ijeMortality.ALIAS = &quot;1&quot;; // flag &quot;ON&quot;</div>
 <div class="line"> </div>
+<div class="line">Using MessageBundle of BaseMessage. Use case: as a FHIR Bundle, it is for initializing various message types</div>
+</div><!-- fragment --><p> // Example get MessageBundle after setting it (in BaseMessage) by constructor DeathRecordSubmissionMessage message = new DeathRecordSubmissionMessage(); Bundle messageBundle = message.MessageBundle; or BaseMessage message = new DeathRecordUpdateMessage(); Bundle messageBundle = message.MessageBundle;</p>
+<p >Authenticate to the NVSS API Server </p><div class="fragment"><div class="line">// Example SAMS credentials</div>
+<div class="line">string authUrl = &quot;https://&lt;authServerUrl&gt;.gov/auth/oauth/v2/token&quot;;</div>
+<div class="line">string clientId = &quot;Client-id-from-sams&quot;;</div>
+<div class="line">string clientSecret = &quot;Client-secret-from-sams&quot;;</div>
+<div class="line">string username = &quot;your-sams-username&quot;;</div>
+<div class="line">string pass = &quot;your-sams-password&quot;;</div>
 <div class="line"> </div>
-<div class="line">Authenticate to the NVSS API Server</div>
-</div><!-- fragment --><p> // Example SAMS credentials string authUrl = "https://&lt;authServerUrl&gt;.gov/auth/oauth/v2/token"; string clientId = "Client-id-from-sams"; string clientSecret = "Client-secret-from-sams"; string username = "your-sams-username"; string pass = "your-sams-password";</p>
-<p >// ... Create the credentials and client intance Credentials credentials = new Credentials(authUrl, clientId, clientSecret, username, pass); string apiUrl = "https://&lt;thenvssapiserverurl&gt;.gov/OSELS/NCHS/NVSSFHIRAPI/&lt;Jurisidction-Id&gt;/Bundles"; Boolean localDev = false; // false when testing against the NVSS API Server client = new Client(apiUrl, localDev, credentials); </p><div class="fragment"><div class="line">POST a FHIR Message to the NVSS API Server with your authenticated client</div>
-</div><!-- fragment --><p> // ... Create a FHIR Message BaseMessage msg = new BaseMessage(); HttpResponseMessage response = client.PostMessageAsync(msg); // ... handle success or failure </p><div class="fragment"><div class="line">GET record responses from the NVSS API Server with your authenticated client</div>
-</div><!-- fragment --><p> // lastUpdated is a timestamp of the last GET request lastUpdatedStr = lastUpdated.ToString("yyyy-MM-ddTHH:mm:ss.fffffff"); var content = client.GetMessageResponsesAsync(lastUpdatedStr);</p>
-<p >// ...parse the Bundle of Bundles in the content response </p><div class="fragment"><div class="line">Generate a batch Bundle of FHIR Messages for upload to the NVSS API Server</div>
-</div><!-- fragment --><p> // ... Create FHIR Messages and put them into a List List&lt;BaseMessage&gt; messages = new List&lt;BaseMessage&gt;(); for (int i = 0; i &lt; 5; i++) { BaseMessage msg = new BaseMessage(); messages.Add(msg); } // Create the batch upload JSON string batch = Client.CreateBulkUploadPayload(messages, "/Bundle", true); </p><div class="fragment"><div class="line">POST a batch of FHIR Message to the NVSS API Server with your authenticated client</div>
-</div><!-- fragment --><p> // ... Create FHIR Messages and put them into a List List&lt;BaseMessage&gt; messages = new List&lt;BaseMessage&gt;(); for (int i = 0; i &lt; 50; i++) { BaseMessage msg = new BaseMessage(); messages.Add(msg); } // POST messages in batches of 20 List&lt;HttpResponseMessage&gt; responses = client.PostMessagesAsync(messages, 20); // ... handle success or failure </p><div class="fragment"><div class="line">### VRDR.HTTP</div>
-<div class="line">This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.</div>
+<div class="line">// ... Create the credentials and client intance</div>
+<div class="line">Credentials credentials = new Credentials(authUrl, clientId, clientSecret, username, pass);</div>
+<div class="line">string apiUrl = &quot;https://&lt;thenvssapiserverurl&gt;.gov/OSELS/NCHS/NVSSFHIRAPI/&lt;Jurisidction-Id&gt;/Bundles&quot;;</div>
+<div class="line">Boolean localDev = false; // false when testing against the NVSS API Server</div>
+<div class="line">client = new Client(apiUrl, localDev, credentials);</div>
+</div><!-- fragment --><p >POST a FHIR Message to the NVSS API Server with your authenticated client </p><div class="fragment"><div class="line">// ... Create a FHIR Message</div>
+<div class="line">BaseMessage msg = new BaseMessage();</div>
+<div class="line">HttpResponseMessage response = client.PostMessageAsync(msg);</div>
+<div class="line">// ... handle success or failure</div>
+</div><!-- fragment --><p >GET record responses from the NVSS API Server with your authenticated client </p><div class="fragment"><div class="line">// lastUpdated is a timestamp of the last GET request</div>
+<div class="line">lastUpdatedStr = lastUpdated.ToString(&quot;yyyy-MM-ddTHH:mm:ss.fffffff&quot;);</div>
+<div class="line">var content = client.GetMessageResponsesAsync(lastUpdatedStr);</div>
 <div class="line"> </div>
-<div class="line">The current available endpoints to `POST` to are:</div>
-</div><!-- fragment --><p> <a href="http://">http://</a>&lt;server&gt;:8080/xml &lt;- For requesting a record as FHIR in XML format <a href="http://">http://</a>&lt;server&gt;:8080/json &lt;- For requesting a record as FHIR in JSON format <a href="http://">http://</a>&lt;server&gt;:8080/ije &lt;- For requesting a record as IJE </p><div class="fragment"><div class="line">Include a `Content-Type` header indicating what format the record is represented as in the body of the message (e.g. `application/fhir+json`, `application/fhir+xml`, or `application/ije`.).</div>
-<div class="line"> </div>
-<div class="line">#### Running</div>
-<div class="line"> </div>
-<div class="line">To build a Dockerized version from scratch (from source), you can do so by running (inside the project root directory):</div>
-</div><!-- fragment --><p> dotnet publish docker build -t vrdr-microservice -f ./VRDR.HTTP/Dockerfile . docker run -p 8080:8080 vrdr-microservice </p><div class="fragment"><div class="line">If you prefer not to use Docker, you can run it from the root project directory using [.NET Core](https://dotnet.microsoft.com/download):</div>
-</div><!-- fragment --><p> dotnet run &ndash;project <a class="el" href="namespace_v_r_d_r_1_1_h_t_t_p.html">VRDR.HTTP</a> </p><div class="fragment"><div class="line">The service will be listening locally at `http://localhost:8080`.</div>
-<div class="line"> </div>
-<div class="line">## Contributing</div>
-<div class="line">This repository follows [Semantic Versioning](https://semver.org/). Bug fixes and feature enhancements should be merged into the `master` branch via Pull Requests (PR), instead of directly committing to the `master` branch. Once a PR is merged, a new version of the library will be automatically published to NuGet.</div>
-</div><!-- fragment --><p> git pull origin master git checkout -b &lt;your-working-branch-name&gt; &lt;commit-your-changes&gt; &lt;test-with-changes-from-master&gt; git push -u origin &lt;your-working-branch-name&gt; </p><div class="fragment"><div class="line">Once the working branch is pushed to the respository, follow these steps:</div>
-<div class="line"> </div>
-<div class="line">1. Create a new PR with the working branch as base, and master as head.</div>
-<div class="line">1. The PR title and description should follow the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) format. The PR title should be structured as  `&lt;type&gt;[optional scope]: &lt;short-message&gt;`, where a type can be:</div>
-<div class="line">  - **feat:** introduces a new feature to the codebase (correlates with MINOR in Semantic Versioning).</div>
-<div class="line">  - **fix:** patches a bug in the codebase (correlates with PATCH in Semantic Versioning).</div>
-<div class="line">  - Other types such as `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`, and others are allowed as well (correlates with PATCH in Semantic Versioning).</div>
-<div class="line">  </div>
-<div class="line">  (The PR title needs to be concise and conform to the style guide for change tracking purposes. The PR description can include additional details about the changes associated with this PR.)</div>
-<div class="line">1. Assign one or more reviewers to review your changes. At least one approved review is required before the PR can be merged.</div>
-<div class="line">1. If the PR addresses an existing Issue, link the PR with the Issue to resolve it through the PR.</div>
-<div class="line">1. Once the PR is approved by a reviewer, with all discussions resolved and all checks passed, click the Squash and Merge button. Avoid using &quot;Create a merge commit.&quot; The PR title and description will automatically fill in the commit message boxes.</div>
-<div class="line"> </div>
-<div class="line">#### Release Pull Request</div>
-<div class="line"> </div>
-<div class="line">With each commit to the default branch, a release pull request will be automatically created/updated. This PR increments the package version and updates the CHANGELOG using a special branch named `actions/release`. You don&#39;t need to wait for this special PR to be merged into the default branch before merging additional pull requests. It consolidates subsequent commits to the default branch; only one instance of release pull request will be active.</div>
-<div class="line"> </div>
-<div class="line"> </div>
-<div class="line">#### Publishing a Version</div>
-<div class="line"> </div>
-<div class="line">To create a new release of VRDR on NuGet:</div>
-<div class="line"> </div>
-<div class="line">1. Bump the version of the libraries listed in the [Directory.Build.props](Directory.Build.props) file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, [Github Actions](.github/workflows/publish.yml) will automatically build and publish a new version of the package based on the value specified.</div>
-<div class="line">1. Update the version numbers listed in this README</div>
-<div class="line">1. Update the CHANGELOG.md file with information on what is changing in the release</div>
-<div class="line">1. Merge the above changes to master, causing the GitHub publishing workflow to fire</div>
-<div class="line">1. Create a GitHub release</div>
-<div class="line">    1. Go to the [Releases page](https://github.com/nightingaleproject/vrdr-dotnet/releases)</div>
-<div class="line">    1. Click on &quot;Draft a new release&quot;</div>
-<div class="line">    1. Enter the release version on the tag and release; this should be the same as in the Directory.Build.props file (e.g., v3.2.0-preview3)</div>
-<div class="line">    1. Copy the information from the CHANGELOG.md file from this version into the release description</div>
-<div class="line">    1. Do not check the &quot;pre-release&quot; button, even for preview releases, since those don&#39;t show up on the main GitHub page</div>
-<div class="line"> </div>
-<div class="line">## License</div>
-<div class="line"> </div>
-<div class="line">Copyright 2018, 2019, 2020, 2021, 2022 The MITRE Corporation</div>
-<div class="line"> </div>
-<div class="line">Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at</div>
-</div><!-- fragment --><p> <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a> ```</p>
-<p >Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
-<h3><a class="anchor" id="autotoc_md97"></a>
+<div class="line">// ...parse the Bundle of Bundles in the content response</div>
+</div><!-- fragment --><p >Generate a batch Bundle of FHIR Messages for upload to the NVSS API Server </p><div class="fragment"><div class="line">// ... Create FHIR Messages and put them into a List</div>
+<div class="line">List&lt;BaseMessage&gt; messages = new List&lt;BaseMessage&gt;();</div>
+<div class="line">for (int i = 0; i &lt; 5; i++)</div>
+<div class="line">{</div>
+<div class="line">  BaseMessage msg = new BaseMessage();</div>
+<div class="line">  messages.Add(msg);</div>
+<div class="line">}</div>
+<div class="line">// Create the batch upload JSON</div>
+<div class="line">string batch = Client.CreateBulkUploadPayload(messages, &quot;/Bundle&quot;, true);</div>
+</div><!-- fragment --><p >POST a batch of FHIR Message to the NVSS API Server with your authenticated client </p><div class="fragment"><div class="line">// ... Create FHIR Messages and put them into a List</div>
+<div class="line">List&lt;BaseMessage&gt; messages = new List&lt;BaseMessage&gt;();</div>
+<div class="line">for (int i = 0; i &lt; 50; i++)</div>
+<div class="line">{</div>
+<div class="line">  BaseMessage msg = new BaseMessage();</div>
+<div class="line">  messages.Add(msg);</div>
+<div class="line">}</div>
+<div class="line">// POST messages in batches of 20</div>
+<div class="line">List&lt;HttpResponseMessage&gt; responses = client.PostMessagesAsync(messages, 20);</div>
+<div class="line">// ... handle success or failure</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md97"></a>
+VRDR.HTTP</h3>
+<p >This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.</p>
+<p >The current available endpoints to <code>POST</code> to are: </p><div class="fragment"><div class="line">http://&lt;server&gt;:8080/xml   &lt;- For requesting a record as FHIR in XML format</div>
+<div class="line">http://&lt;server&gt;:8080/json  &lt;- For requesting a record as FHIR in JSON format</div>
+<div class="line">http://&lt;server&gt;:8080/ije   &lt;- For requesting a record as IJE</div>
+</div><!-- fragment --><p >Include a <code>Content-Type</code> header indicating what format the record is represented as in the body of the message (e.g. <code>application/fhir+json</code>, <code>application/fhir+xml</code>, or <code>application/ije</code>.).</p>
+<h4><a class="anchor" id="autotoc_md98"></a>
+Running</h4>
+<p >To build a Dockerized version from scratch (from source), you can do so by running (inside the project root directory):</p>
+<div class="fragment"><div class="line">dotnet publish</div>
+<div class="line">docker build -t vrdr-microservice -f ./VRDR.HTTP/Dockerfile .</div>
+<div class="line">docker run -p 8080:8080 vrdr-microservice</div>
+</div><!-- fragment --><p >If you prefer not to use Docker, you can run it from the root project directory using <a href="https://dotnet.microsoft.com/download">.NET Core</a>:</p>
+<div class="fragment"><div class="line">dotnet run --project VRDR.HTTP</div>
+</div><!-- fragment --><p >The service will be listening locally at <code><a href="http://localhost:8080">http://localhost:8080</a></code>.</p>
+<h2><a class="anchor" id="autotoc_md99"></a>
+Contributing</h2>
+<p >This repository follows <a href="https://semver.org/">Semantic Versioning</a>. Bug fixes and feature enhancements should be merged into the <code>master</code> branch via Pull Requests (PR), instead of directly committing to the <code>master</code> branch. Once a PR is merged, a new version of the library will be automatically published to NuGet.</p>
+<div class="fragment"><div class="line">git pull origin master</div>
+<div class="line">git checkout -b &lt;your-working-branch-name&gt;</div>
+<div class="line">&lt;commit-your-changes&gt;</div>
+<div class="line">&lt;test-with-changes-from-master&gt;</div>
+<div class="line">git push -u origin &lt;your-working-branch-name&gt;</div>
+</div><!-- fragment --><p> Once the working branch is pushed to the respository, follow these steps:</p>
+<ol type="1">
+<li>Create a new PR with the working branch as base, and master as head.</li>
+</ol>
+<ol type="1">
+<li><p class="startli">The PR title and description should follow the <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commit</a> format. The PR title should be structured as <code>&lt;type&gt;[optional scope]: &lt;short-message&gt;</code>, where a type can be:</p><ul>
+<li><b>feat:</b> introduces a new feature to the codebase (correlates with MINOR in Semantic Versioning).</li>
+<li><b>fix:</b> patches a bug in the codebase (correlates with PATCH in Semantic Versioning).</li>
+<li>Other types such as <code>build</code>, <code>chore</code>, <code>ci</code>, <code>docs</code>, <code>style</code>, <code>refactor</code>, <code>perf</code>, <code>test</code>, and others are allowed as well (correlates with PATCH in Semantic Versioning).</li>
+</ul>
+<p class="startli">(The PR title needs to be concise and conform to the style guide for change tracking purposes. The PR description can include additional details about the changes associated with this PR.)</p>
+</li>
+</ol>
+<ol type="1">
+<li>Assign one or more reviewers to review your changes. At least one approved review is required before the PR can be merged.</li>
+</ol>
+<ol type="1">
+<li>If the PR addresses an existing Issue, link the PR with the Issue to resolve it through the PR.</li>
+</ol>
+<ol type="1">
+<li>Once the PR is approved by a reviewer, with all discussions resolved and all checks passed, click the Squash and Merge button. Avoid using "Create a merge commit." The PR title and description will automatically fill in the commit message boxes.</li>
+</ol>
+<h4><a class="anchor" id="autotoc_md100"></a>
+Release Pull Request</h4>
+<p >With each commit to the default branch, a release pull request will be automatically created/updated. This PR increments the package version and updates the CHANGELOG using a special branch named <code>actions/release</code>. You don't need to wait for this special PR to be merged into the default branch before merging additional pull requests. It consolidates subsequent commits to the default branch; only one instance of release pull request will be active.</p>
+<h4><a class="anchor" id="autotoc_md101"></a>
+Publishing a Version</h4>
+<p >To create a new release of <a class="el" href="namespace_v_r_d_r.html">VRDR</a> on NuGet:</p>
+<ol type="1">
+<li>Bump the version of the libraries listed in the <a href="Directory.Build.props">Directory.Build.props</a> file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, <a href=".github/workflows/publish.yml">Github Actions</a> will automatically build and publish a new version of the package based on the value specified.</li>
+</ol>
+<ol type="1">
+<li>Update the version numbers listed in this README</li>
+</ol>
+<ol type="1">
+<li>Update the CHANGELOG.md file with information on what is changing in the release</li>
+</ol>
+<ol type="1">
+<li>Merge the above changes to master, causing the GitHub publishing workflow to fire</li>
+</ol>
+<ol type="1">
+<li>Create a GitHub release<ol type="a">
+<li>Go to the <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases">Releases page</a></li>
+</ol>
+<ol type="a">
+<li>Click on "Draft a new release"</li>
+</ol>
+<ol type="a">
+<li>Enter the release version on the tag and release; this should be the same as in the Directory.Build.props file (e.g., v3.2.0-preview3)</li>
+</ol>
+<ol type="a">
+<li>Copy the information from the CHANGELOG.md file from this version into the release description</li>
+</ol>
+<ol type="a">
+<li>Do not check the "pre-release" button, even for preview releases, since those don't show up on the main GitHub page</li>
+</ol>
+</li>
+</ol>
+<h2><a class="anchor" id="autotoc_md102"></a>
+License</h2>
+<p >Copyright 2018, 2019, 2020, 2021, 2022 The MITRE Corporation</p>
+<p >Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<div class="fragment"><div class="line">http://www.apache.org/licenses/LICENSE-2.0</div>
+</div><!-- fragment --><p >Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+<h3><a class="anchor" id="autotoc_md103"></a>
 Contact Information</h3>
 <p >For questions or comments about vrdr-dotnet, please send email to </p><pre class="fragment">nvssmodernization@cdc.gov
 </pre> </div></div><!-- PageDoc -->

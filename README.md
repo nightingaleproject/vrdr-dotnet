@@ -598,11 +598,19 @@ Using VOID and ALIAS fields of IJEMortality object. Use case: VOID is for voidin
   // Example setting values of VOID and ALIAS fields, respectively
   IJEMortality ijeMortality = new IJEMortality(ijeFile);
   ijeMortality.VOID = "0"; // flag "OFF"
-  ijeMortality.ALIAS = "0"; // flag "OFF"
   ijeMortality.VOID = "1";  // flag "ON"
+  ijeMortality.ALIAS = "0"; // flag "OFF"
   ijeMortality.ALIAS = "1"; // flag "ON"
 
-
+Using MessageBundle of BaseMessage. Use case: as a FHIR Bundle, it is for initializing various message types
+```
+  // Example get MessageBundle after setting it (in BaseMessage) by constructor
+  DeathRecordSubmissionMessage message = new DeathRecordSubmissionMessage();
+  Bundle messageBundle = message.MessageBundle;
+  or
+  BaseMessage message = new DeathRecordUpdateMessage();
+  Bundle messageBundle = message.MessageBundle;
+  
 Authenticate to the NVSS API Server
 ```
   // Example SAMS credentials

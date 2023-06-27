@@ -12,7 +12,7 @@ namespace VRDR
     public partial class BaseMessage
     {
         /// <summary>Bundle that contains the message.</summary>
-        protected Bundle MessageBundle;
+        public Bundle MessageBundle { get; protected set; }
 
         /// <summary>
         /// A Parameters entry that contains business identifiers for all messages plus additional information for Coding messages.

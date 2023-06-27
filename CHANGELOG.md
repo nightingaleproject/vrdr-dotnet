@@ -7,15 +7,6 @@
 
 * change BaseMessage.MessageBundle accessibility to public get, protected set ([72ae122](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/72ae122430a6465699fd59006475b2306ddf978c))
 
-### Other
-
-* Merge branch 'master' into 452-add-messagebundle-as-a-read-only-public-property-to-deathrecord-class-1 ([a4c14c0](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/a4c14c0eedbb7d4ef8f38596001629450c9c35f5))
-* Merge branch 'master' into 452-add-messagebundle-as-a-read-only-public-property-to-deathrecord-class-1 ([0a8fd6b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/0a8fd6b8ff3d76b7870168cb7d942a40e3e5484b))
-* Merge pull request #469 from nightingaleproject/452-add-messagebundle-as-a-read-only-public-property-to-deathrecord-class-1 ([af4a78f](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/af4a78f4e5b32d162eb165ec8004795b706db3e2))
-* Update Messaging_Should.cs ([df79f70](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/df79f70b25a039dfd810f94824292df38f4dc596))
-* Update Messaging_Should.cs ([8304a31](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/8304a319968c986e602c249dbf170e039c5168aa))
-* Update README.md ([2b3cb5a](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/2b3cb5adcf3d1b10902f0920ab02579378341e94))
-
 <a name="4.0.5"></a>
 ## [4.0.5](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.5) (2023-6-26)
 

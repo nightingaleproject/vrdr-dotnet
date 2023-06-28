@@ -500,9 +500,10 @@ Example Usages</h4>
 <div class="line"># Parameters are:</div>
 <div class="line">#    - initial certificate number</div>
 <div class="line">#    - number of records to generate (each with cert_no one greater than its predecessor)</div>
+<div class="line">#    - Submitting jurisdiction</div>
 <div class="line">#    - output directory (must exist)</div>
-<div class="line">#    - SUbmitting jurisdiction</div>
-<div class="line">dotnet run --project VRDR.CLI generaterecords 23 100 ./generatedrecords CT</div>
+<div class="line">#    </div>
+<div class="line">dotnet run --project VRDR.CLI generaterecords 23 100 CT ./generatedrecords </div>
 <div class="line"> </div>
 <div class="line"># Generate a verbose JSON description of the record (in the format used to drive Canary)</div>
 <div class="line">dotnet run --project VRDR.CLI description VRDR.CLI/1.json</div>

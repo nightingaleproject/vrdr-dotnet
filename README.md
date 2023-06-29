@@ -760,8 +760,11 @@ and with the following constructor:
 
 Official resources:
 https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/attribute-tutorial
+
 https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/attributes
+
 https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/creating-custom-attributes
+
 https://learn.microsoft.com/en-us/dotnet/standard/attributes/writing-custom-attributes
 
 

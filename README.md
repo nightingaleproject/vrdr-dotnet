@@ -675,7 +675,7 @@ POST a batch of FHIR Message to the NVSS API Server with your authenticated clie
 
 Attributes (equivalent to Annotations in Java) are used in .NET to promote loose coupling via  “declarative” programming, and add Metadata to the target program entity, namely .NET assembly, module, for global scope, and class, interface, struct, enum, constructor, delegate, field, property, method, parameter, return value, and event, for non-global scope. They can be either built-in or custom, and denoted by pair or pair(s), for mutltiple attributes, of square brackets [...] surrounding the target entity. As shown in ../VRDR/DeathRecord_submissionProperties.cs, the custom attributes [Property( ...)] and [FHIRPath( ... )] for each of the DeathRecord's properties, and [PropertyParam( ... )] for many of its properties, add relevant sets of Metadata to their targets, based on their definitions and orders of formal parameters given in ../VRDR/DeathRecord_util.cs,
 where custom attribute [Property( ...)], as in
-...
+'''
         [Property("Death Record Identifier", Property.Types.String, "Death Certification", "Death Record identifier.", true, IGURL.DeathCertificate, true, 4)]
         [FHIRPath("Bundle", "identifier")]
         public string DeathRecordIdentifier
@@ -703,7 +703,7 @@ where custom attribute [Property( ...)], as in
                 Bundle.Identifier.System = "http://nchs.cdc.gov/vrdr_id";
             }
         }
-...
+'''
 for example, can be seen mapped to the following custom attribute class with the same name:
 
 `public class Property : System.Attribute`
@@ -721,7 +721,7 @@ Custom attribute classes are typically derived, either directly or indirectly, f
 The property values of these Metadata/attributes for DeathRecord are set and retrieved via setters and getters, respectively, based on individual sets of rules also as shown in ../VRDR/DeathRecord_submissionProperties.cs
 
 Snippet from ../VRDR.CLI/Program.cs#L479-L489 gives an example of how these custom attributes can be used:
-...
+'''
 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
 IJEMortality ije1 = new IJEMortality(d, false);
 // Loop over every property (these are the fields); Order by priority
@@ -733,10 +733,10 @@ foreach (PropertyInfo property in properties)
     // Grab the field value
     string field = Convert.ToString(property.GetValue(ije1, null));
 }   
-...
+'''
 
 Custom attributes are also used extensively in IJEMortality's properties, one of which is shown below
-...
+'''
         [IJEField(1, 1, 4, "Date of Death--Year", "DOD_YR", 1)]
         public string DOD_YR
         {
@@ -749,7 +749,7 @@ Custom attributes are also used extensively in IJEMortality's properties, one of
                 NumericAllowingUnknown_Set("DOD_YR", "DeathYear", value);
             }
         }
-...
+'''
 
 which is mapped to constructor
 

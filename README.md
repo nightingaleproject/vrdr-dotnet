@@ -734,7 +734,7 @@ foreach (PropertyInfo property in properties)
     string field = Convert.ToString(property.GetValue(ije1, null));
 }   
 ```
-Custom attributes are also used extensively in IJEField's properties, one of which is shown below
+Custom attributes are also used extensively in IJEField's properties, one of which is shown below as an example.
 ```
         [IJEField(1, 1, 4, "Date of Death--Year", "DOD_YR", 1)]
         public string DOD_YR
@@ -762,7 +762,7 @@ Official resources:<br/>
 https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/attribute-tutorial<br/>
 https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/attributes<br/>
 https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/creating-custom-attributes<br/>
-https://learn.microsoft.com/en-us/dotnet/standard/attributes/writing-custom-attributes<br/>
+https://learn.microsoft.com/en-us/dotnet/standard/attributes/writing-custom-attributes<br/><br/>
 
 
 ### VRDR.HTTP

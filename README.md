@@ -671,6 +671,78 @@ POST a batch of FHIR Message to the NVSS API Server with your authenticated clie
   // ... handle success or failure
 ```
 
+#### For Library Developers
+
+Attributes (equivalent to Annotations in Java) are used in .NET to promote loose coupling via  “declarative” programming, and add Metadata to the target program entity, namely .NET assembly, module, for global scope, and class, interface, struct, enum, constructor, delegate, field, property, method, parameter, return value, and event, for non-global scope. They can be either built-in or custom, and denoted by pair or pair(s),
+for mutltiple attributes, of square brackets [...] surrounding the target entity. As shown in ../VRDR/DeathRecord_submissionProperties.cs, the custom attributes [Property( ...)] and [FHIRPath( ... )] for each of the DeathRecord's properties, and [PropertyParam( ... )] for many of its properties, add relevant sets of Metadata to their targets, based on their definitions and orders of formal parameters given in ../VRDR/DeathRecord_util.cs,
+where custom attribute [Property( ...)], as in
+
+        [Property("Death Record Identifier", Property.Types.String, "Death Certification", "Death Record identifier.", true, IGURL.DeathCertificate, true, 4)]
+        [FHIRPath("Bundle", "identifier")]
+        public string DeathRecordIdentifier
+        {
+            get
+            {
+                if (Bundle != null && Bundle.Identifier != null)
+                {
+                    return Bundle.Identifier.Value;
+                }
+                return null;
+            }
+            // The setter is private because the value is derived so should never be set directly
+            private set
+            {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
+                if (Bundle.Identifier == null)
+                {
+                    Bundle.Identifier = new Identifier();
+                }
+                Bundle.Identifier.Value = value;
+                Bundle.Identifier.System = "http://nchs.cdc.gov/vrdr_id";
+            }
+        }
+
+for example, can be seen mapped to the following custom attribute class with the same name:
+
+public class Property : System.Attribute 
+
+and with the following constructor:
+
+public Property(string name, Types type, string category, string description, bool serialize, string igurl, bool capturedInIJE, int priority = 4).
+
+Similarly, custom attribute [FHIRPath( ... )] is mapped to custom attribute class FHIRPath with public constructor FHIRPath(string path, string element)
+
+and custom attribute [PropertyParam( ... )] is mapped to custom attribute class PropertyParam with public constructor PropertyParam(string key, string description)
+
+Custom attribute classes are typically derived, either directly or indirectly, from built-in abstract class System.Attribute, just as illustrated here.
+
+The property values of these Metadata/attributes for DeathRecord are set and retrieved via setters and getters, respectively, based on individual sets of rules also as shown in ../VRDR/DeathRecord_submissionProperties.cs
+
+Snippet from ../VRDR.CLI/Program.cs#L479-L489 gives an example of how these custom attributes can be used:
+
+DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+IJEMortality ije1 = new IJEMortality(d, false);
+// Loop over every property (these are the fields); Order by priority
+List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Location).ToList();
+foreach (PropertyInfo property in properties)
+{
+    // Grab the field attributes
+    IJEField info = property.GetCustomAttribute<IJEField>();
+    // Grab the field value
+    string field = Convert.ToString(property.GetValue(ije1, null));
+}   
+
+Official resources:
+https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/attribute-tutorial
+https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/attributes
+https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/creating-custom-attributes
+https://learn.microsoft.com/en-us/dotnet/standard/attributes/writing-custom-attributes
+
+
+
 ### VRDR.HTTP
 This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.
 

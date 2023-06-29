@@ -516,9 +516,10 @@ dotnet run --project VRDR.CLI connectathon 1 100 MA
 # Parameters are:
 #    - initial certificate number
 #    - number of records to generate (each with cert_no one greater than its predecessor)
+#	 - Submitting jurisdiction
 #    - output directory (must exist)
-#    - SUbmitting jurisdiction
-dotnet run --project VRDR.CLI generaterecords 23 100 ./generatedrecords CT
+#    
+dotnet run --project VRDR.CLI generaterecords 23 100 CT ./generatedrecords 
 
 # Generate a verbose JSON description of the record (in the format used to drive Canary)
 dotnet run --project VRDR.CLI description VRDR.CLI/1.json

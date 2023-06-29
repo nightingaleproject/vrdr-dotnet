@@ -1,5 +1,16 @@
 # Changelog
 
+<a name="4.0.7"></a>
+## [4.0.7](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.7) (2023-6-29)
+
+### Bug Fixes
+
+* correct-position-error-between-jurisidiction-and-output-directory… (#473) ([ccbc98d](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/ccbc98d118233e1dfe2de61efe962e73810b188e))
+
+### Other
+
+* bump Microsoft.NET.Test.Sdk from 17.6.2 to 17.6.3 (#475) ([c59b91e](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/c59b91e4184ab22970e241f5445ec0ef64b85ad4))
+
 <a name="4.0.6"></a>
 ## [4.0.6](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.6) (2023-6-27)
 

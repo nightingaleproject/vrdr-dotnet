@@ -673,8 +673,7 @@ POST a batch of FHIR Message to the NVSS API Server with your authenticated clie
 
 #### For Library Developers
 
-Attributes (equivalent to Annotations in Java) are used in .NET to promote loose coupling via  “declarative” programming, and add Metadata to the target program entity, namely .NET assembly, module, for global scope, and class, interface, struct, enum, constructor, delegate, field, property, method, parameter, return value, and event, for non-global scope. They can be either built-in or custom, and denoted by pair or pair(s), for mutltiple attributes, of square brackets [...] surrounding the target entity. As shown in ../VRDR/DeathRecord_submissionProperties.cs, the custom attributes [Property( ...)] and [FHIRPath( ... )] for each of the DeathRecord's properties, and [PropertyParam( ... )] for many of its properties, add relevant sets of Metadata to their targets, based on their definitions and orders of formal parameters given in ../VRDR/DeathRecord_util.cs,
-where custom attribute [Property( ...)], as in
+Attributes (equivalent to Annotations in Java) are used in .NET to promote loose coupling via  “declarative” programming, and add Metadata to the target program entity, namely .NET assembly, module, for global scope, and class, interface, struct, enum, constructor, delegate, field, property, method, parameter, return value, and event, for non-global scope. They can be either built-in or custom, and denoted by pair or pair(s), for mutltiple attributes, of square brackets [...] surrounding the target entity. As shown in ../VRDR/DeathRecord_submissionProperties.cs, the custom attributes [Property( ...)] and [FHIRPath( ... )] for each of the DeathRecord's properties, and [PropertyParam( ... )] for many of its properties, add relevant sets of Metadata to their targets, based on their definitions and orders of formal parameters given in [VRDR/DeathRecord_util.cs](../master/VRDR/DeathRecord_util.cs), where custom attribute [Property( ...)], as in
 ```
         [Property("Death Record Identifier", Property.Types.String, "Death Certification", "Death Record identifier.", true, IGURL.DeathCertificate, true, 4)]
         [FHIRPath("Bundle", "identifier")]
@@ -718,7 +717,7 @@ and custom attribute [PropertyParam( ... )] is mapped to custom attribute class 
 
 Custom attribute classes are typically derived, either directly or indirectly, from built-in abstract class System.Attribute, just as illustrated here.
 
-The property values of these Metadata/attributes for DeathRecord are set and retrieved via setters and getters, respectively, based on individual sets of rules also as shown in ../VRDR/DeathRecord_submissionProperties.cs
+The property values of these Metadata/attributes for DeathRecord are set and retrieved via setters and getters, respectively, based on individual sets of rules also as shown in [VRDR/DeathRecord_submissionProperties.cs](../master/VRDR/DeathRecord_submissionProperties.cs)
 
 Snippet from ../VRDR.CLI/Program.cs#L479-L489 gives an example of how these custom attributes can be used:
 ```
@@ -755,7 +754,7 @@ which is mapped to the following custom attribute class with the same name:
 
 and with the following constructor:
 
-`public IJEField(int field, int location, int length, string contents, string name, int priority)` in the same file [../VRDR/IJEMortality.cs](../master/VRDR/IJEMortality.cs)
+`public IJEField(int field, int location, int length, string contents, string name, int priority)` in the same file [VRDR/IJEMortality.cs](../master/VRDR/IJEMortality.cs)
 
 
 Official resources:<br/>

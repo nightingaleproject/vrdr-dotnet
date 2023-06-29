@@ -719,7 +719,7 @@ Custom attribute classes are typically derived, either directly or indirectly, f
 
 The property values of these Metadata/attributes for DeathRecord are set and retrieved via setters and getters, respectively, based on individual sets of rules also as shown in [VRDR/DeathRecord_submissionProperties.cs](../master/VRDR/DeathRecord_submissionProperties.cs)
 
-Snippet from [VRDR.CLI/Program.cs]{../master/VRDR.CLI/Program.cs#L479-L489) gives an example of how these custom attributes can be used:
+Snippet from [VRDR.CLI/Program.cs](../master/VRDR.CLI/Program.cs#L479-L489) gives an example of how these custom attributes can be used:
 ```
 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
 IJEMortality ije1 = new IJEMortality(d, false);

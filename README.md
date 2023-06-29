@@ -734,7 +734,7 @@ foreach (PropertyInfo property in properties)
     string field = Convert.ToString(property.GetValue(ije1, null));
 }   
 ```
-Custom attributes are also used extensively in IJEMortality's properties, one of which is shown below
+Custom attributes are also used extensively in IJEField's properties, one of which is shown below
 ```
         [IJEField(1, 1, 4, "Date of Death--Year", "DOD_YR", 1)]
         public string DOD_YR
@@ -749,7 +749,11 @@ Custom attributes are also used extensively in IJEMortality's properties, one of
             }
         }
 ```
-which is mapped to constructor
+which is mapped to the following custom attribute class with the same name:
+
+`public class IJEField : System.Attribute`
+
+and with the following constructor:
 
 `public IJEField(int field, int location, int length, string contents, string name, int priority)` in the same file ../VRDR/IJEMortality.cs
 

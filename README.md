@@ -712,9 +712,9 @@ and with the following constructor:
 
 `public Property(string name, Types type, string category, string description, bool serialize, string igurl, bool capturedInIJE, int priority = 4)`
 
-Similarly, custom attribute [FHIRPath( ... )] is mapped to custom attribute class FHIRPath with public constructor FHIRPath(string path, string element)
+Similarly, custom attribute [FHIRPath( ... )] is mapped to custom attribute class FHIRPath with public constructor `FHIRPath(string path, string element)`
 
-and custom attribute [PropertyParam( ... )] is mapped to custom attribute class PropertyParam with public constructor PropertyParam(string key, string description)
+and custom attribute [PropertyParam( ... )] is mapped to custom attribute class PropertyParam with public constructor `PropertyParam(string key, string description)`
 
 Custom attribute classes are typically derived, either directly or indirectly, from built-in abstract class System.Attribute, just as illustrated here.
 

@@ -1,0 +1,22 @@
+name: Maintenance
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  pull-requests: write
+  actions: write
+
+jobs:
+  dependabot-pr:
+    if: startsWith(github.event.pull_request.title, 'Bump ') && startsWith(github.event.pull_request.head.ref, 'dependabot/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TITLE=$(echo ${{github.event.pull_request.title}} | sed "s/Bump /chore: bump /")
+          gh pr edit ${{ github.event.pull_request.number}} --title "$TITLE"          
+          gh workflow run lint-commit-message.yml --ref ${{ github.event.pull_request.head.ref }}

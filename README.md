@@ -755,7 +755,7 @@ which is mapped to the following custom attribute class with the same name:
 
 and with the following constructor:
 
-`public IJEField(int field, int location, int length, string contents, string name, int priority)` in the same file [../VRDR/IJEMortality.cs](../VRDR/IJEMortality.cs)
+`public IJEField(int field, int location, int length, string contents, string name, int priority)` in the same file [../VRDR/IJEMortality.cs](../master/VRDR/IJEMortality.cs)
 
 
 Official resources:<br/>

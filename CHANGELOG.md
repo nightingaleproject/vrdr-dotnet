@@ -5,7 +5,7 @@
 
 ### Bug Fixes
 
-* correct-position-error-between-jurisidiction-and-output-directory… (#473) ([ccbc98d](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/ccbc98d118233e1dfe2de61efe962e73810b188e))
+* correct CLI argument position error between jurisidiction and output directory (#473) ([ccbc98d](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/ccbc98d118233e1dfe2de61efe962e73810b188e))
 
 ### Other
 

@@ -758,14 +758,11 @@ and with the following constructor:
 `public IJEField(int field, int location, int length, string contents, string name, int priority)` in the same file ../VRDR/IJEMortality.cs
 
 
-Official resources:
-https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/attribute-tutorial
-
-https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/attributes
-
-https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/creating-custom-attributes
-
-https://learn.microsoft.com/en-us/dotnet/standard/attributes/writing-custom-attributes
+Official resources:<br/>
+https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/attribute-tutorial<br/>
+https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/attributes<br/>
+https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/creating-custom-attributes<br/>
+https://learn.microsoft.com/en-us/dotnet/standard/attributes/writing-custom-attributes<br/>
 
 
 ### VRDR.HTTP

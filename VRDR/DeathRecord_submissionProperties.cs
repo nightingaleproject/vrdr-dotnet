@@ -1731,53 +1731,53 @@ namespace VRDR
             }
         }
 
-        // /// <summary>Decedent's Gender.</summary>
-        // /// <value>the decedent's gender</value>
-        // /// <example>
-        // /// <para>// Setter:</para>
-        // /// <para>ExampleDeathRecord.Gender = "female";</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
-        // /// </example>
-        // [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, IGURL.Decedent, true, 11)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Patient)", "gender")]
-        // public string Gender
-        // {
-        //     get
-        //     {
-        //         return GetFirstString("Bundle.entry.resource.where($this is Patient).gender");
-        //     }
-        //     set
-        //     {
-        //         switch (value)
-        //         {
-        //             case "male":
-        //             case "Male":
-        //             case "m":
-        //             case "M":
-        //                 Decedent.Gender = AdministrativeGender.Male;
-        //                 break;
-        //             case "female":
-        //             case "Female":
-        //             case "f":
-        //             case "F":
-        //                 Decedent.Gender = AdministrativeGender.Female;
-        //                 break;
-        //             case "other":
-        //             case "Other":
-        //             case "o":
-        //             case "O":
-        //                 Decedent.Gender = AdministrativeGender.Other;
-        //                 break;
-        //             case "unknown":
-        //             case "Unknown":
-        //             case "u":
-        //             case "U":
-        //                 Decedent.Gender = AdministrativeGender.Unknown;
-        //                 break;
-        //         }
-        //     }
-        // }
+        /// <summary>Decedent's Gender.</summary>
+        /// <value>the decedent's gender</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Gender = "female";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
+        /// </example>
+        [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, IGURL.Decedent, true, 11)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "gender")]
+        public string Gender
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).gender");
+            }
+            set
+            {
+                switch (value)
+                {
+                    case "male":
+                    case "Male":
+                    case "m":
+                    case "M":
+                        Decedent.Gender = AdministrativeGender.Male;
+                        break;
+                    case "female":
+                    case "Female":
+                    case "f":
+                    case "F":
+                        Decedent.Gender = AdministrativeGender.Female;
+                        break;
+                    case "other":
+                    case "Other":
+                    case "o":
+                    case "O":
+                        Decedent.Gender = AdministrativeGender.Other;
+                        break;
+                    case "unknown":
+                    case "Unknown":
+                    case "u":
+                    case "U":
+                        Decedent.Gender = AdministrativeGender.Unknown;
+                        break;
+                }
+            }
+        }
 
         /// <summary>Decedent's Sex at Death.</summary>
         /// <value>the decedent's sex at time of death</value>

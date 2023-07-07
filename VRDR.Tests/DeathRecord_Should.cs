@@ -1098,19 +1098,19 @@ namespace VRDR.Tests
         }
 
         // v1.3 OBE tests
-        // [Fact]
-        // public void Set_Gender()
-        // {
-        //     SetterDeathRecord.Gender = "male";
-        //     Assert.Equal("male", SetterDeathRecord.Gender);
-        // }
+        [Fact]
+        public void Set_Gender()
+        {
+            SetterDeathRecord.Gender = "male";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+        }
 
-        // [Fact]
-        // public void Get_Gender()
-        // {
-        //     Assert.Equal("male", DeathRecord1_JSON.Gender);
-        //     Assert.Equal("male", DeathRecord1_XML.Gender);
-        // }
+        [Fact]
+        public void Get_Gender()
+        {
+            Assert.Equal("female", DeathRecord1_JSON.Gender);
+            Assert.Equal("female", DeathRecord1_XML.Gender);
+        }
 
         [Fact]
         public void Set_SexAtDeath()

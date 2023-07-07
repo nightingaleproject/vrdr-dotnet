@@ -1,5 +1,33 @@
 # Changelog
 
+<a name="4.0.8"></a>
+## [4.0.8](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.8) (2023-7-7)
+
+### Other
+
+* add DeathRecord.cs annotations and library developers section to README (#477) ([3743ba0](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/3743ba0ee6c9b375cf6f3ca0ab6f7664a249fee4))
+* bump xunit from 2.4.2 to 2.5.0 (#481) ([568ec91](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/568ec9152650a8d76d180472509a98ec1b33d785))
+* bump xunit.runner.visualstudio from 2.4.5 to 2.5.0 (#480) ([0276b75](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/0276b7596ac9dd2bb350a27c59d3c7bcde817427))
+* handle dependabot pull requests (#478) ([2b7f1f8](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/2b7f1f892930eeec91ce96bf73c473925c16f68c))
+
+<a name="4.0.7"></a>
+## [4.0.7](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.7) (2023-6-29)
+
+### Bug Fixes
+
+* correct CLI argument position error between jurisidiction and output directory (#473) ([ccbc98d](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/ccbc98d118233e1dfe2de61efe962e73810b188e))
+
+### Other
+
+* bump Microsoft.NET.Test.Sdk from 17.6.2 to 17.6.3 (#475) ([c59b91e](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/c59b91e4184ab22970e241f5445ec0ef64b85ad4))
+
+<a name="4.0.6"></a>
+## [4.0.6](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.6) (2023-6-27)
+
+### Bug Fixes
+
+* change BaseMessage.MessageBundle accessibility to public get, protected set ([72ae122](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/72ae122430a6465699fd59006475b2306ddf978c))
+
 <a name="4.0.5"></a>
 ## [4.0.5](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.5) (2023-6-26)
 

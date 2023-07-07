@@ -1,5 +1,15 @@
 # Changelog
 
+<a name="4.0.8"></a>
+## [4.0.8](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.8) (2023-7-7)
+
+### Other
+
+* add DeathRecord.cs annotations and library developers section to README (#477) ([3743ba0](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/3743ba0ee6c9b375cf6f3ca0ab6f7664a249fee4))
+* bump xunit from 2.4.2 to 2.5.0 (#481) ([568ec91](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/568ec9152650a8d76d180472509a98ec1b33d785))
+* bump xunit.runner.visualstudio from 2.4.5 to 2.5.0 (#480) ([0276b75](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/0276b7596ac9dd2bb350a27c59d3c7bcde817427))
+* handle dependabot pull requests (#478) ([2b7f1f8](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/2b7f1f892930eeec91ce96bf73c473925c16f68c))
+
 <a name="4.0.7"></a>
 ## [4.0.7](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.7) (2023-6-29)
 

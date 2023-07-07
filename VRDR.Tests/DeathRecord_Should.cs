@@ -1103,6 +1103,12 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.Gender = "male";
             Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "m";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "f";
+            Assert.Equal("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "m";
+            Assert.NotEqual("female", SetterDeathRecord.Gender);
         }
 
         [Fact]

@@ -77,6 +77,9 @@
     <None Update="fixtures/json/EmptyRaceLiteral.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathTimeZone.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MultipleDestinationsMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/TempUnknownDateOfDeath.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/UnknownDateOfDeath.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/UnknownDateOfInjury.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/DeathRecord1.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/AcknowledgementMessage.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />

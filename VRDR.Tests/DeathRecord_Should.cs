@@ -2999,7 +2999,7 @@ namespace VRDR.Tests
             Assert.Equal(2020, (DeathCertificateDocument2_JSON.DeathYear));
             Assert.Equal("2020-11-12T00:00:00", DeathCertificateDocument1_JSON.DateOfDeath);
             Assert.Equal(2020, (DeathCertificateDocument1_JSON.DeathYear));
-            Assert.Null(DeathCertificateDocument1_JSON.DeathTime);
+            Assert.Equal("-1", DeathCertificateDocument1_JSON.DeathTime); // absent unknown "_valueTime"
             Assert.Equal("2019-02-19T16:48:06", DeathRecord1_XML.DateOfDeath);
             Assert.Equal(2019, (DeathRecord1_JSON.DeathYear));
         }
@@ -4139,7 +4139,69 @@ namespace VRDR.Tests
             Assert.Equal("1", ije.VOID);
             Assert.Equal("0", ije.ALIAS); // zeroed out as with VOID Assert.Equal("1", ije.ALIAS);
         }
- 
+
+        [Fact]
+        public void TestUnknownDateOfDeath()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/UnknownDateOfDeath.json")));
+            Assert.Null(dr.DateOfDeath);
+            Assert.Equal(-1, dr.DeathYear);
+            Assert.Equal(-1, dr.DeathMonth);
+            Assert.Equal(-1, dr.DeathDay);
+            Assert.Equal("-1", dr.DeathTime);
+
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("9999", ije.DOD_YR);
+            Assert.Equal("99", ije.DOD_MO);
+            Assert.Equal("99", ije.DOD_DY);
+            Assert.Equal("9999", ije.TOD);
+        }
+
+        [Fact]
+        public void TestUnknownDateOfInjury()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/UnknownDateOfInjury.json")));
+            Assert.Null(dr.InjuryDate);
+            Assert.Equal(-1, dr.InjuryYear);
+            Assert.Equal(-1, dr.InjuryMonth);
+            Assert.Equal(-1, dr.InjuryDay);
+            Assert.Equal("-1", dr.InjuryTime);
+
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("9999", ije.DOI_YR);
+            Assert.Equal("99", ije.DOI_MO);
+            Assert.Equal("99", ije.DOI_DY);
+            Assert.Equal("9999", ije.TOI_HR);
+        }
+
+        [Fact]
+        public void TestTempUnknownDateOfDeathAndDateOfInjury()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/TempUnknownDateOfDeath.json")));
+            Assert.Null(dr.DateOfDeath);
+            Assert.Null(dr.DeathYear);
+            Assert.Null(dr.DeathMonth);
+            Assert.Null(dr.DeathDay);
+            Assert.Null(dr.DeathTime);
+
+            Assert.Null(dr.InjuryDate);
+            Assert.Null(dr.InjuryYear);
+            Assert.Null(dr.InjuryMonth);
+            Assert.Null(dr.InjuryDay);
+            Assert.Null(dr.InjuryTime);
+
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("    ", ije.DOD_YR);
+            Assert.Equal("  ", ije.DOD_MO);
+            Assert.Equal("  ", ije.DOD_DY);
+            Assert.Equal("    ", ije.TOD);
+
+            Assert.Equal("    ", ije.DOI_YR);
+            Assert.Equal("  ", ije.DOI_MO);
+            Assert.Equal("  ", ije.DOI_DY);
+            Assert.Equal("    ", ije.TOI_HR);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

@@ -143,6 +143,10 @@ namespace VRDR
                         FhirJsonParser parser = new FhirJsonParser(parserSettings);
                         Bundle = parser.Parse<Bundle>(record);
                     }
+
+                    // Validate the partial dates.
+                    DeathRecord.ValidatePartialDates(Bundle);
+
                     Navigator = Bundle.ToTypedElement();
                 }
                 catch (Exception e)

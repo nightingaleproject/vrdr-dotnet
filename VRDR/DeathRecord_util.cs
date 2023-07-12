@@ -1075,6 +1075,51 @@ namespace VRDR
                 names.Add(name);
             }
         }
+
+        private static void ValidatePartialDates(Bundle bundle)
+        {
+            System.Text.StringBuilder errors = new System.Text.StringBuilder();
+            List<DomainResource> resources = bundle.Entry.Select(entry => (DomainResource) entry.Resource).ToList();
+
+            foreach (Hl7.Fhir.Model.DomainResource resource in resources)
+            {
+                foreach (DataType partialDateChild in resource.Children.Where(child => child.GetType().IsSubclassOf(typeof(DataType))))
+                {
+                    List<Extension> partialDateExtensions = partialDateChild.Extension.Where(ext => ext.Url.Equals(ExtensionURL.PartialDate)).ToList();
+                    foreach (Extension partialDateExtension in partialDateExtensions)
+                    {
+                        List<String> partialDateSubExtensions = partialDateExtension.Extension.Select(ext => ext.Url).ToList();
+                        if (!partialDateSubExtensions.Contains(ExtensionURL.DateDay))
+                        {
+                            errors.Append("Missing 'Date-Day' of 'PartialDate' for resource [" + resource.Id + "].");
+                            errors.AppendLine();
+                        }
+                        if (!partialDateSubExtensions.Contains(ExtensionURL.DateMonth))
+                        {
+                            errors.Append("Missing 'Date-Month' of 'PartialDate' for resource [" + resource.Id + "].");
+                            errors.AppendLine();
+                        }
+                        if (!partialDateSubExtensions.Contains(ExtensionURL.DateYear))
+                        {
+                            errors.Append("Missing 'Date-Year' of 'PartialDate' for resource [" + resource.Id + "].");
+                            errors.AppendLine();
+                        }
+                        partialDateSubExtensions.Remove(ExtensionURL.DateDay);
+                        partialDateSubExtensions.Remove(ExtensionURL.DateMonth);
+                        partialDateSubExtensions.Remove(ExtensionURL.DateYear);
+                        if (partialDateSubExtensions.Count() > 0) {
+                            errors.Append("'PartialDate' component contains extra invalid fields [" + string.Join(",", partialDateSubExtensions) + "] for resource [" + resource.Id + "].");
+                            errors.AppendLine();
+                        }
+                    }
+                }
+            }
+            if (errors.Length > 0)
+            {
+                throw new Exception(errors.ToString());
+            }
+        }
+
     }
 
     /// <summary>Property attribute used to describe a DeathRecord property.</summary>

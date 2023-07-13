@@ -4202,6 +4202,24 @@ namespace VRDR.Tests
             Assert.Equal("    ", ije.TOI_HR);
         }
 
+        [Fact]
+        public void TestUknownTimeOfDeathForFHIR() {
+            var dr = new DeathRecord();
+            dr.DeathTime = "-1";
+            var fhir = dr.ToJson();
+            Assert.Null(dr.DateOfDeath);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"",\s*""_valueTime"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
+        }
+
+         [Fact]
+        public void TestUknownTimeOfInjuryForFHIR() {
+            var dr = new DeathRecord();
+            dr.InjuryTime = "-1";
+            var fhir = dr.ToJson();
+            Assert.Null(dr.InjuryDate);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"",\s*""_valueTime"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

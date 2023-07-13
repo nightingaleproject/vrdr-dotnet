@@ -153,9 +153,9 @@ namespace VRDR
             }
             else
             {
-                part.Value = null;
+                part.Value = new Time();
                 // Determine which data absent reason to use based on whether the value is unknown or -1
-                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code(value == "-1" ? "unknown" : "temp-unknown")));
+                part.Value.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code(value == "-1" ? "unknown" : "temp-unknown")));
             }
         }
 

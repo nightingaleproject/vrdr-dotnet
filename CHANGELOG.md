@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.0.9"></a>
+## [4.0.9](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.9) (2023-7-13)
+
+### Bug Fixes
+
+* ensure correct FHIR date of death and injury handling (#484) ([991ae30](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/991ae30a9e852b23bbfd85f8b04f8d0f4f5f740e))
+
 <a name="4.0.8"></a>
 ## [4.0.8](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.8) (2023-7-7)
 

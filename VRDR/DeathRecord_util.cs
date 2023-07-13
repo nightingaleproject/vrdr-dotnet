@@ -97,18 +97,40 @@ namespace VRDR
         private string GetPartialTime(Extension partialDateTime)
         {
             Extension part = partialDateTime?.Extension?.Find(ext => ext.Url == ExtensionURL.DateTime);
-            // If we have a value, return it
-            if (part?.Value != null)
-            {
-                return part.Value.ToString();
-            }
             Extension dataAbsent = part?.Extension?.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            // extension for absent date can be directly on the part as with year, month, day
             if (dataAbsent != null)
             {
                 // The data absent reason is either a placeholder that a field hasen't been set yet (data absent reason of 'temp-unknown') or
                 // a claim that there's no data (any other data absent reason, e.g., 'unknown'); return null for the former and "-1" for the latter
                 string code = ((Code)dataAbsent.Value).Value;
-                if (code == "temp-unknown") return null; else return "-1";
+                if (code == "temp-unknown")
+                {
+                    return null;
+                }
+                else
+                {
+                    return "-1";
+                }
+            }
+            // check if the part (e.g. "_valueTime") has a data absent reason extension on the value
+            Extension dataAbsentOnValue = part?.Value?.Extension?.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            if (dataAbsentOnValue != null)
+            {
+                string code = ((Code)dataAbsentOnValue.Value).Value;
+                if (code == "temp-unknown")
+                {
+                    return null;
+                }
+                else
+                {
+                    return "-1";
+                }
+            }
+            // If we have a value, return it
+            if (part?.Value != null)
+            {
+                return part.Value.ToString();
             }
             // No data present at all, return null
             return null;
@@ -131,9 +153,9 @@ namespace VRDR
             }
             else
             {
-                part.Value = null;
+                part.Value = new Time();
                 // Determine which data absent reason to use based on whether the value is unknown or -1
-                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code(value == "-1" ? "unknown" : "temp-unknown")));
+                part.Value.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code(value == "-1" ? "unknown" : "temp-unknown")));
             }
         }
 

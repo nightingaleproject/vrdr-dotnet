@@ -1081,9 +1081,9 @@ namespace VRDR
         private static void ValidatePartialDates(Bundle bundle)
         {
             System.Text.StringBuilder errors = new System.Text.StringBuilder();
-            List<DomainResource> resources = bundle.Entry.Select(entry => (DomainResource) entry.Resource).ToList();
+            List<Resource> resources = bundle.Entry.Select(entry => entry.Resource).ToList();
 
-            foreach (Hl7.Fhir.Model.DomainResource resource in resources)
+            foreach (Hl7.Fhir.Model.Resource resource in resources)
             {
                 foreach (DataType child in resource.Children.Where(child => child.GetType().IsSubclassOf(typeof(DataType))))
                 {
@@ -1115,14 +1115,14 @@ namespace VRDR
                         partialDateSubExtensions.Remove(ExtensionURL.DateYear);
                         partialDateSubExtensions.Remove(ExtensionURL.DateTime);
                         if (partialDateSubExtensions.Count() > 0) {
-                            errors.Append("[" + partialDateExtension.Url + "] component contains extra invalid fields [" + string.Join(",", partialDateSubExtensions) + "] for resource [" + resource.Id + "].").AppendLine();
+                            errors.Append("[" + partialDateExtension.Url + "] component contains extra invalid fields [" + string.Join(", ", partialDateSubExtensions) + "] for resource [" + resource.Id + "].").AppendLine();
                         }
                     }
                 }
             }
             if (errors.Length > 0)
             {
-                throw new Exception(errors.ToString());
+                throw new ArgumentException(errors.ToString());
             }
         }
     }

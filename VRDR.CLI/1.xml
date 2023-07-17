@@ -1639,6 +1639,9 @@
             <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day">
               <valueUnsignedInt value="18"/>
             </extension>
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time">
+              <valueTime value="10:00"/>
+            </extension>
           </extension>
         </valueDateTime>
       </Observation>

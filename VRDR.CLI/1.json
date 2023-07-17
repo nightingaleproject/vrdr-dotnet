@@ -2048,6 +2048,15 @@
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
                   "valueUnsignedInt": 18
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "unknown"
+                    }
+                  ],
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"
                 }
               ],
               "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"

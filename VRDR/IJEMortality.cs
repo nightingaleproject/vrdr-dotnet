@@ -1051,7 +1051,6 @@ namespace VRDR
         {
             get
             {
-                
                 if (!String.IsNullOrWhiteSpace(record.FamilyName))
                 {
                     return LeftJustified_Get("LNAME", "FamilyName");
@@ -1068,9 +1067,9 @@ namespace VRDR
                     Set_MappingIJEToFHIR(Mappings.AdministrativeGender.IJEToFHIR, "LNAME", "FamilyName", null);
                 }
                 else
-				{
+		{
                     LeftJustified_Set("LNAME", "FamilyName", value);
-				}
+		}
             }
         }
 

@@ -4223,7 +4223,10 @@ namespace VRDR.Tests
             DeathRecord record = ije.ToDeathRecord();
             Assert.Null(record.FamilyName);
             // test getter
-            Assert.Equal("UNKNOWN", ije.LNAME);  
+            Assert.Equal("UNKNOWN", ije.LNAME);
+            // test roundtrip
+            ije = new IJEMortality(record, false);
+            Assert.Equal("UNKNOWN", ije.LNAME);
         }	
 
         private string FixturePath(string filePath)

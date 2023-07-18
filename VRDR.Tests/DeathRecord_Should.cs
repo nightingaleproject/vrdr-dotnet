@@ -1074,6 +1074,7 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.FamilyName = "Last";
             Assert.Equal("Last", SetterDeathRecord.FamilyName);
+
         }
 
         [Fact]
@@ -4211,7 +4212,7 @@ namespace VRDR.Tests
             Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"",\s*""_valueTime"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
         }
 
-         [Fact]
+        [Fact]
         public void TestUknownTimeOfInjuryForFHIR() {
             var dr = new DeathRecord();
             dr.InjuryTime = "-1";
@@ -4219,6 +4220,17 @@ namespace VRDR.Tests
             Assert.Null(dr.InjuryDate);
             Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"",\s*""_valueTime"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
         }
+
+        [Fact]
+        public void testMissingFamilyNameInFHIR() {
+            // test setter
+            IJEMortality ije = new IJEMortality();
+            ije.LNAME = "UNKNOWN";
+            DeathRecord record = ije.ToDeathRecord();
+            Assert.Equal(null, record.FamilyName);
+            // test getter
+            Assert.Equal("UNKNOWN", ije.LNAME);  
+        }	
 
         private string FixturePath(string filePath)
         {

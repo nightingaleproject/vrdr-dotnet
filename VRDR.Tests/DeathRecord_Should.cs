@@ -298,7 +298,6 @@ namespace VRDR.Tests
             Assert.Equal("U", ije1.DETHNIC3);
             Assert.Equal("U", ije1.DETHNIC4);
             Assert.Equal("", ije1.DETHNIC5);
-
         }
 
         [Fact]
@@ -447,7 +446,6 @@ namespace VRDR.Tests
             Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.CertificationRole["system"]);
             Assert.Equal("Other", SetterDeathRecord.CertificationRole["display"]);
             Assert.Equal("Barber", SetterDeathRecord.CertificationRole["text"]);
-
         }
 
         [Fact]
@@ -958,7 +956,6 @@ namespace VRDR.Tests
                 covered = true;
             }
             Assert.True(covered);
-
         }
 
         [Fact]
@@ -1021,7 +1018,6 @@ namespace VRDR.Tests
             Assert.Equal("electronic", SetterDeathRecord.FilingFormat["code"]);
             Assert.Equal("Electronic", SetterDeathRecord.FilingFormat["display"]);
             Assert.Equal(VRDR.CodeSystems.FilingFormat, SetterDeathRecord.FilingFormat["system"]);
-
         }
 
         [Fact]
@@ -1039,7 +1035,6 @@ namespace VRDR.Tests
             Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
             Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
             Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
-
         }
 
         [Fact]
@@ -1074,7 +1069,6 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.FamilyName = "Last";
             Assert.Equal("Last", SetterDeathRecord.FamilyName);
-
         }
 
         [Fact]

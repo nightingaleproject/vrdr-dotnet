@@ -205,6 +205,10 @@ class
 3. Resetting the middle name if the first name is set again when using the IJEMortality class;
 setting the first name and then the middle name ensures no issues will occur.
 
+For the decedent's last name, if the family name, denoted as FamilyName in FHIR, is missing or unknown,
+its corresponding LNAME in IJE has value of "UNKNOWN". Vice versa, if its LNAME in IJE is "UNKNOWN",
+its corresponding FamilyName in FHIR has value of NULL.
+
 #### Helper Properties for Value Sets
 
 For fields that contain coded values it can involve some extra effort to provide the code, the code

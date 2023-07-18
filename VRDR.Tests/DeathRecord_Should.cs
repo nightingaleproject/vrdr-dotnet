@@ -4221,7 +4221,7 @@ namespace VRDR.Tests
             IJEMortality ije = new IJEMortality();
             ije.LNAME = "UNKNOWN";
             DeathRecord record = ije.ToDeathRecord();
-            Assert.Equal(null, record.FamilyName);
+            Assert.Null(record.FamilyName);
             // test getter
             Assert.Equal("UNKNOWN", ije.LNAME);  
         }	

@@ -1051,11 +1051,25 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("LNAME", "FamilyName");
+                if (!String.IsNullOrWhiteSpace(record.FamilyName))
+                {
+                    return LeftJustified_Get("LNAME", "FamilyName");
+                }
+                else
+                {
+                    return "UNKNOWN";
+                }
             }
             set
             {
-                LeftJustified_Set("LNAME", "FamilyName", value);
+                if (value.Equals("UNKNOWN"))
+                {
+                    Set_MappingIJEToFHIR(Mappings.AdministrativeGender.IJEToFHIR, "LNAME", "FamilyName", null);
+                }
+                else
+		{
+                    LeftJustified_Set("LNAME", "FamilyName", value);
+		}
             }
         }
 

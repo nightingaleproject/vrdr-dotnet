@@ -4217,16 +4217,36 @@ namespace VRDR.Tests
 
         [Fact]
         public void testMissingFamilyNameInFHIR() {
-            // test setter
+           // test setter
             IJEMortality ije = new IJEMortality();
             ije.LNAME = "UNKNOWN";
             DeathRecord record = ije.ToDeathRecord();
             Assert.Null(record.FamilyName);
+            IJEMortality ije1 = new IJEMortality();
+            ije1.LNAME = "Smith";
+            DeathRecord record1 = ije1.ToDeathRecord();
+            Assert.Equal("Smith", record1.FamilyName);
+
             // test getter
             Assert.Equal("UNKNOWN", ije.LNAME);
-            // test roundtrip
+            Assert.Equal("Smith", ije1.LNAME.Trim());
+
+            // test roundtrip from ije, with first half implemented above
             ije = new IJEMortality(record, false);
+            ije1 = new IJEMortality(record1, false);
             Assert.Equal("UNKNOWN", ije.LNAME);
+            Assert.Equal("Smith", ije1.LNAME.Trim());
+
+            // test roundtrip from FHIR/record, with first half implemented above
+            record.FamilyName = "Williams";
+            ije = new IJEMortality(record, false);
+            Assert.Equal("Williams", ije.LNAME.Trim());
+
+            // test roundtrip from FHIR/record for special case FamilyName = "UNKNOWN"
+            record.FamilyName = "UNKNOWN";
+            ije = new IJEMortality(record, false);
+            record = ije.ToDeathRecord();
+            Assert.Null(record.FamilyName);
         }	
 
         private string FixturePath(string filePath)

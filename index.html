@@ -244,6 +244,7 @@ Names in FHIR</h4>
 <li>Raising an exception if a middle name is set before a first name when using the IJEMortality class</li>
 <li>Resetting the middle name if the first name is set again when using the IJEMortality class; setting the first name and then the middle name ensures no issues will occur.</li>
 </ol>
+<p >For the decedent's last name, if the family name, denoted as FamilyName in FHIR, is missing or unknown, its corresponding LNAME in IJE has value of "UNKNOWN". Vice versa, if its LNAME in IJE is "UNKNOWN", its corresponding FamilyName in FHIR has value of NULL. All other values have 1-to-1 mappings between FHIR's FamilyName and IJE's LNAME.</p>
 <h4><a class="anchor" id="autotoc_md92"></a>
 Helper Properties for Value Sets</h4>
 <p >For fields that contain coded values it can involve some extra effort to provide the code, the code system, and the display text. The <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library includes some helper methods to make this easier. For example, here's how to specify the pregnancy status using the long form specifying each of the three necessary values:</p>

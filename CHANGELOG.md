@@ -1,5 +1,23 @@
 # Changelog
 
+<a name="4.0.10"></a>
+## [4.0.10](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.10) (2023-7-19)
+
+### Bug Fixes
+
+* handling of missing decedents last name LNAME (#494) ([b5d0c30](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/b5d0c309e159fc3b76b00e4e2c4d22fb4839eb04))
+
+### Other
+
+* use latest checkout and setup-dotnet action (#489) ([569a850](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/569a8506c3a18ded00f03484c0cf7a742ab27d51))
+
+<a name="4.0.9"></a>
+## [4.0.9](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.9) (2023-7-13)
+
+### Bug Fixes
+
+* ensure correct FHIR date of death and injury handling (#484) ([991ae30](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/991ae30a9e852b23bbfd85f8b04f8d0f4f5f740e))
+
 <a name="4.0.8"></a>
 ## [4.0.8](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.8) (2023-7-7)
 

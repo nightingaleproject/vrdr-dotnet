@@ -3554,6 +3554,12 @@
         <member name="F:VRDR.IJEMortality.mre">
             <summary>Utility location to provide support for setting MRE-only fields that have no mapping in IJE when creating coding response records</summary>
         </member>
+        <member name="F:VRDR.IJEMortality._void">
+            <summary>Field _void.</summary>
+        </member>
+        <member name="F:VRDR.IJEMortality._alias">
+            <summary>Field _alias.</summary>
+        </member>
         <member name="T:VRDR.IJEMortality.TRXHelper">
             <summary>Helper class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
         </member>

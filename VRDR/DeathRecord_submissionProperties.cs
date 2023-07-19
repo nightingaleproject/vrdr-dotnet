@@ -1651,7 +1651,10 @@ namespace VRDR
                 HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
                 if (name != null && !String.IsNullOrEmpty(value))
                 {
-                    name.Family = value;
+                    if (value.Equals("UNKNOWN"))
+                        name.Family = null;
+                    else
+			name.Family = value;
                 }
                 else if (!String.IsNullOrEmpty(value))
                 {

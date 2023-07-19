@@ -298,7 +298,6 @@ namespace VRDR.Tests
             Assert.Equal("U", ije1.DETHNIC3);
             Assert.Equal("U", ije1.DETHNIC4);
             Assert.Equal("", ije1.DETHNIC5);
-
         }
 
         [Fact]
@@ -447,7 +446,6 @@ namespace VRDR.Tests
             Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.CertificationRole["system"]);
             Assert.Equal("Other", SetterDeathRecord.CertificationRole["display"]);
             Assert.Equal("Barber", SetterDeathRecord.CertificationRole["text"]);
-
         }
 
         [Fact]
@@ -958,7 +956,6 @@ namespace VRDR.Tests
                 covered = true;
             }
             Assert.True(covered);
-
         }
 
         [Fact]
@@ -1021,7 +1018,6 @@ namespace VRDR.Tests
             Assert.Equal("electronic", SetterDeathRecord.FilingFormat["code"]);
             Assert.Equal("Electronic", SetterDeathRecord.FilingFormat["display"]);
             Assert.Equal(VRDR.CodeSystems.FilingFormat, SetterDeathRecord.FilingFormat["system"]);
-
         }
 
         [Fact]
@@ -1039,7 +1035,6 @@ namespace VRDR.Tests
             Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
             Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
             Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
-
         }
 
         [Fact]
@@ -2999,7 +2994,7 @@ namespace VRDR.Tests
             Assert.Equal(2020, (DeathCertificateDocument2_JSON.DeathYear));
             Assert.Equal("2020-11-12T00:00:00", DeathCertificateDocument1_JSON.DateOfDeath);
             Assert.Equal(2020, (DeathCertificateDocument1_JSON.DeathYear));
-            Assert.Null(DeathCertificateDocument1_JSON.DeathTime);
+            Assert.Equal("-1", DeathCertificateDocument1_JSON.DeathTime); // absent unknown "_valueTime"
             Assert.Equal("2019-02-19T16:48:06", DeathRecord1_XML.DateOfDeath);
             Assert.Equal(2019, (DeathRecord1_JSON.DeathYear));
         }
@@ -4162,7 +4157,121 @@ namespace VRDR.Tests
             Assert.Equal("1", ije.VOID);
             Assert.Equal("0", ije.ALIAS); // zeroed out as with VOID Assert.Equal("1", ije.ALIAS);
         }
- 
+
+        [Fact]
+        public void TestUnknownDateOfDeath()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/UnknownDateOfDeath.json")));
+            Assert.Null(dr.DateOfDeath);
+            Assert.Equal(-1, dr.DeathYear);
+            Assert.Equal(-1, dr.DeathMonth);
+            Assert.Equal(-1, dr.DeathDay);
+            Assert.Equal("-1", dr.DeathTime);
+
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("9999", ije.DOD_YR);
+            Assert.Equal("99", ije.DOD_MO);
+            Assert.Equal("99", ije.DOD_DY);
+            Assert.Equal("9999", ije.TOD);
+        }
+
+        [Fact]
+        public void TestUnknownDateOfInjury()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/UnknownDateOfInjury.json")));
+            Assert.Null(dr.InjuryDate);
+            Assert.Equal(-1, dr.InjuryYear);
+            Assert.Equal(-1, dr.InjuryMonth);
+            Assert.Equal(-1, dr.InjuryDay);
+            Assert.Equal("-1", dr.InjuryTime);
+
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("9999", ije.DOI_YR);
+            Assert.Equal("99", ije.DOI_MO);
+            Assert.Equal("99", ije.DOI_DY);
+            Assert.Equal("9999", ije.TOI_HR);
+        }
+
+        [Fact]
+        public void TestTempUnknownDateOfDeathAndDateOfInjury()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/TempUnknownDateOfDeath.json")));
+            Assert.Null(dr.DateOfDeath);
+            Assert.Null(dr.DeathYear);
+            Assert.Null(dr.DeathMonth);
+            Assert.Null(dr.DeathDay);
+            Assert.Null(dr.DeathTime);
+
+            Assert.Null(dr.InjuryDate);
+            Assert.Null(dr.InjuryYear);
+            Assert.Null(dr.InjuryMonth);
+            Assert.Null(dr.InjuryDay);
+            Assert.Null(dr.InjuryTime);
+
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("    ", ije.DOD_YR);
+            Assert.Equal("  ", ije.DOD_MO);
+            Assert.Equal("  ", ije.DOD_DY);
+            Assert.Equal("    ", ije.TOD);
+
+            Assert.Equal("    ", ije.DOI_YR);
+            Assert.Equal("  ", ije.DOI_MO);
+            Assert.Equal("  ", ije.DOI_DY);
+            Assert.Equal("    ", ije.TOI_HR);
+        }
+
+        [Fact]
+        public void TestUknownTimeOfDeathForFHIR() {
+            var dr = new DeathRecord();
+            dr.DeathTime = "-1";
+            var fhir = dr.ToJson();
+            Assert.Null(dr.DateOfDeath);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"",\s*""_valueTime"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
+        }
+
+        [Fact]
+        public void TestUknownTimeOfInjuryForFHIR() {
+            var dr = new DeathRecord();
+            dr.InjuryTime = "-1";
+            var fhir = dr.ToJson();
+            Assert.Null(dr.InjuryDate);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"",\s*""_valueTime"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
+        }
+
+        [Fact]
+        public void testMissingFamilyNameInFHIR() {
+           // test setter
+            IJEMortality ije = new IJEMortality();
+            ije.LNAME = "UNKNOWN";
+            DeathRecord record = ije.ToDeathRecord();
+            Assert.Null(record.FamilyName);
+            IJEMortality ije1 = new IJEMortality();
+            ije1.LNAME = "Smith";
+            DeathRecord record1 = ije1.ToDeathRecord();
+            Assert.Equal("Smith", record1.FamilyName);
+
+            // test getter
+            Assert.Equal("UNKNOWN", ije.LNAME);
+            Assert.Equal("Smith", ije1.LNAME.Trim());
+
+            // test roundtrip from ije, with first half implemented above
+            ije = new IJEMortality(record, false);
+            ije1 = new IJEMortality(record1, false);
+            Assert.Equal("UNKNOWN", ije.LNAME);
+            Assert.Equal("Smith", ije1.LNAME.Trim());
+
+            // test roundtrip from FHIR/record, with first half implemented above
+            record.FamilyName = "Williams";
+            ije = new IJEMortality(record, false);
+            Assert.Equal("Williams", ije.LNAME.Trim());
+
+            // test roundtrip from FHIR/record for special case FamilyName = "UNKNOWN"
+            record.FamilyName = "UNKNOWN";
+            ije = new IJEMortality(record, false);
+            record = ije.ToDeathRecord();
+            Assert.Null(record.FamilyName);
+        }	
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

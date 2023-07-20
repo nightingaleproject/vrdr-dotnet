@@ -19,7 +19,7 @@ jobs:
           echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
       - name: Validate pull request title with commitlint
         if: github.event_name == 'pull_request'
-        run: echo ${{ github.event.pull_request.title }} | commitlint --verbose
+        run: echo "${{ github.event.pull_request.title }}" | commitlint --verbose
       - name: Validate pull request title with commitlint
         if: github.event_name == 'workflow_dispatch'
         run: gh pr view --json title -t "{{.title}}" | commitlint --verbose

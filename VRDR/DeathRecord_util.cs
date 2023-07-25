@@ -32,19 +32,40 @@ namespace VRDR
         private int? GetPartialDate(Extension partialDateTime, string partURL)
         {
             Extension part = partialDateTime?.Extension?.Find(ext => ext.Url == partURL);
+            Extension dataAbsent = part?.Extension?.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            // extension for absent date can be directly on the part as with year, month, day
+            if (dataAbsent != null)
+            {
+                // The data absent reason is either a placeholder that a field hasen't been set yet (data absent reason of 'temp-unknown') or
+                // a claim that there's no data (any other data absent reason, e.g., 'unknown'); return null for the former and "-1" for the latter
+                string code = ((Code)dataAbsent.Value).Value;
+                if (code == "temp-unknown")
+                {
+                    return null;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            // check if the part (e.g. "_valueUnsignedInt") has a data absent reason extension on the value
+            Extension dataAbsentOnValue = part?.Value?.Extension?.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            if (dataAbsentOnValue != null)
+            {
+                string code = ((Code)dataAbsentOnValue.Value).Value;
+                if (code == "temp-unknown")
+                {
+                    return null;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
             // If we have a value, return it
             if (part?.Value != null)
             {
                 return (int?)((UnsignedInt)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into an int
-            }
-            // If there's no value, but there is a data absent reason, return the appropriate status
-            Extension dataAbsent = part?.Extension?.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
-            if (dataAbsent != null)
-            {
-                // The data absent reason is either a placeholder that a field hasen't been set yet (data absent reason of 'temp-unknown') or
-                // a claim that there's no data (any other data absent reason, e.g., 'unknown'); return null for the former and -1 for the latter
-                string code = ((Code)dataAbsent.Value).Value;
-                if (code == "temp-unknown") return null; else return -1;
             }
             // No data present at all, return null
             return null;
@@ -87,9 +108,9 @@ namespace VRDR
             }
             else
             {
-                part.Value = null;
+                part.Value = new UnsignedInt();
                 // Determine which data absent reason to use based on whether the value is unknown or -1
-                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code(value == -1 ? "unknown" : "temp-unknown")));
+                part.Value.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code(value == -1 ? "unknown" : "temp-unknown")));
             }
         }
 
@@ -175,6 +196,11 @@ namespace VRDR
                 // Note: We can't just call ToDateTimeOffset() on the FhirDateTime because want the datetime in whatever local time zone was provided
                 dateTimeOffset = DateTimeOffset.Parse(((FhirDateTime)value).Value);
             }
+            else if (value is Date && ((Date)value).Value != null)
+            {
+                // Note: We can't just call ToDateTimeOffset() on the Date because want the date in whatever local time zone was provided
+                dateTimeOffset = DateTimeOffset.Parse(((Date)value).Value);
+            }
             if (dateTimeOffset != null)
             {
                 switch (partURL)
@@ -186,7 +212,7 @@ namespace VRDR
                     case ExtensionURL.DateDay:
                         return ((DateTimeOffset)dateTimeOffset).Day;
                     default:
-                        throw new ArgumentException("GetDateFragmentOrPartialDate called with unsupported PartialDateTime segment");
+                        throw new ArgumentException("GetDateFragment called with unsupported PartialDateTime segment");
                 }
             }
             return null;
@@ -196,34 +222,13 @@ namespace VRDR
         /// field (year, month, or day) to be read from either the value or the extension</summary>
         private int? GetDateFragmentOrPartialDate(Element value, string partURL)
         {
-            if (value == null)
-            {
+            if (value == null) {
                 return null;
             }
-            // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
-            DateTimeOffset? dateTimeOffset = null;
-            if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
+            var dateFragment = GetDateFragment(value, partURL);
+            if (dateFragment != null)
             {
-                // Note: We can't just call ToDateTimeOffset() on the FhirDateTime because want the datetime in whatever local time zone was provided
-                dateTimeOffset = DateTimeOffset.Parse(((FhirDateTime)value).Value);
-            }
-            else if (value is Date && ((Date)value).Value != null)
-            {
-                dateTimeOffset = ((Date)value).ToDateTimeOffset();
-            }
-            if (dateTimeOffset != null)
-            {
-                switch (partURL)
-                {
-                    case ExtensionURL.DateYear:
-                        return ((DateTimeOffset)dateTimeOffset).Year;
-                    case ExtensionURL.DateMonth:
-                        return ((DateTimeOffset)dateTimeOffset).Month;
-                    case ExtensionURL.DateDay:
-                        return ((DateTimeOffset)dateTimeOffset).Day;
-                    default:
-                        throw new ArgumentException("GetDateFragmentOrPartialDate called with unsupported PartialDateTime segment");
-                }
+                return dateFragment;
             }
             // Look for either PartialDate or PartialDateTime
             Extension extension = value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime);

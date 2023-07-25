@@ -1093,19 +1093,51 @@ namespace VRDR.Tests
         }
 
         // v1.3 OBE tests
-        // [Fact]
-        // public void Set_Gender()
-        // {
-        //     SetterDeathRecord.Gender = "male";
-        //     Assert.Equal("male", SetterDeathRecord.Gender);
-        // }
+        [Fact]
+        public void testGenderSetterGetter()
+        {
+            SetterDeathRecord.Gender = "male";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "Male";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "m";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "M";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "m";
+            Assert.NotEqual("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "female";
+            Assert.Equal("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "Female";
+            Assert.Equal("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "f";
+            Assert.Equal("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "F";
+            Assert.Equal("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "o";
+            Assert.Equal("other", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "O";
+            Assert.Equal("other", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "other";
+            Assert.Equal("other", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "Other";
+            Assert.Equal("other", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "u";
+            Assert.Equal("unknown", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "U";
+            Assert.Equal("unknown", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "unknown";
+            Assert.Equal("unknown", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "Unknown";
+            Assert.Equal("unknown", SetterDeathRecord.Gender);
+        }
 
-        // [Fact]
-        // public void Get_Gender()
-        // {
-        //     Assert.Equal("male", DeathRecord1_JSON.Gender);
-        //     Assert.Equal("male", DeathRecord1_XML.Gender);
-        // }
+        [Fact]
+        public void testGenderGetterFromParsedFile()
+        {
+            Assert.Equal("female", DeathRecord1_JSON.Gender);
+            Assert.Equal("female", DeathRecord1_XML.Gender);
+        }
 
         [Fact]
         public void Set_SexAtDeath()
@@ -2990,7 +3022,7 @@ namespace VRDR.Tests
         public void Get_DateOfDeath()
         {
             Assert.Null(DeathCertificateDocument2_JSON.DateOfDeath);
-            Assert.Null(DeathCertificateDocument2_JSON.DeathDay);
+            Assert.Equal(-1, DeathCertificateDocument2_JSON.DeathDay); // partial unknowns return as -1
             Assert.Equal(2020, (DeathCertificateDocument2_JSON.DeathYear));
             Assert.Equal("2020-11-12T00:00:00", DeathCertificateDocument1_JSON.DateOfDeath);
             Assert.Equal(2020, (DeathCertificateDocument1_JSON.DeathYear));
@@ -4218,23 +4250,46 @@ namespace VRDR.Tests
             Assert.Equal("  ", ije.DOI_MO);
             Assert.Equal("  ", ije.DOI_DY);
             Assert.Equal("    ", ije.TOI_HR);
+            Assert.Equal("    ", ije.DOD_YR);
+            /* // depends on outcome of temp-unknown discussion with Saul
+            Assert.Equal("99", ije.DOD_MO);
+            Assert.Equal("99", ije.DOD_DY);
+            Assert.Equal("9999", ije.TOD);
+
+            Assert.Equal("9999", ije.DOI_YR);
+            Assert.Equal("99", ije.DOI_MO);
+            Assert.Equal("99", ije.DOI_DY);
+            Assert.Equal("9999", ije.TOI_HR);
+            */
         }
 
         [Fact]
         public void TestUknownTimeOfDeathForFHIR() {
             var dr = new DeathRecord();
+            dr.DeathDay = -1;
+            dr.DeathMonth = -1;
+            dr.DeathYear = -1;
             dr.DeathTime = "-1";
             var fhir = dr.ToJson();
             Assert.Null(dr.DateOfDeath);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year"",\s*""_valueUnsignedInt"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month"",\s*""_valueUnsignedInt"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"",\s*""_valueUnsignedInt"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
             Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"",\s*""_valueTime"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
         }
 
         [Fact]
         public void TestUknownTimeOfInjuryForFHIR() {
             var dr = new DeathRecord();
+            dr.InjuryDay = -1;
+            dr.InjuryMonth = -1;
+            dr.InjuryYear = -1;
             dr.InjuryTime = "-1";
             var fhir = dr.ToJson();
             Assert.Null(dr.InjuryDate);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year"",\s*""_valueUnsignedInt"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month"",\s*""_valueUnsignedInt"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
+            Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"",\s*""_valueUnsignedInt"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
             Assert.Matches(@"\{\s*""url"":\s*""http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"",\s*""_valueTime"":\s*\{\s*""extension"":\s*\[\s*\{\s*""url"":\s*""http://hl7.org/fhir/StructureDefinition/data-absent-reason"",\s*""valueCode"":\s*""unknown""\s*\}\s*\]\s*\}\s*\}", fhir);
         }
 

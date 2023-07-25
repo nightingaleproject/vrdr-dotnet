@@ -1,5 +1,16 @@
 # Changelog
 
+<a name="4.1.0"></a>
+## [4.1.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.0) (2023-7-25)
+
+### Features
+
+* add setter/getter for Decedents gender (#482) ([68c8e03](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/68c8e033d690de05be162091bc6d2af0c22abcee))
+
+### Other
+
+* wrap commit message in double quotes to allow the use of apostrophe (') (#497) ([ebb1bda](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/ebb1bdabdb1a28bd4bec9bfdab475ab222a9c0c0))
+
 <a name="4.0.10"></a>
 ## [4.0.10](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.10) (2023-7-19)
 

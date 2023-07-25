@@ -1821,31 +1821,37 @@
             {
               "extension": [
                 {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                      "valueCode": "unknown"
-                    }
-                  ],
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year"
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
+                  "_valueUnsignedInt": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                      }
+                    ]
+                  }
                 },
                 {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                      "valueCode": "unknown"
-                    }
-                  ],
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month"
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
+                  "_valueUnsignedInt": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                      }
+                    ]
+                  }
                 },
                 {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                      "valueCode": "unknown"
-                    }
-                  ],
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
+                  "_valueUnsignedInt": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                      }
+                    ]
+                  }
                 },
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time",

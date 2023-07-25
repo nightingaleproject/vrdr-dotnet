@@ -7,6 +7,10 @@
 
 * add setter/getter for Decedents gender (#482) ([68c8e03](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/68c8e033d690de05be162091bc6d2af0c22abcee))
 
+### Bug Fixes
+
+* partial date time handling of day, month and year (#496) ([3e5b1d3](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/3e5b1d3fb8fc9bbafd406e7bf6fd4dc63a9af31a))
+
 ### Other
 
 * wrap commit message in double quotes to allow the use of apostrophe (') (#497) ([ebb1bda](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/ebb1bdabdb1a28bd4bec9bfdab475ab222a9c0c0))

@@ -1093,19 +1093,51 @@ namespace VRDR.Tests
         }
 
         // v1.3 OBE tests
-        // [Fact]
-        // public void Set_Gender()
-        // {
-        //     SetterDeathRecord.Gender = "male";
-        //     Assert.Equal("male", SetterDeathRecord.Gender);
-        // }
+        [Fact]
+        public void testGenderSetterGetter()
+        {
+            SetterDeathRecord.Gender = "male";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "Male";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "m";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "M";
+            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "m";
+            Assert.NotEqual("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "female";
+            Assert.Equal("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "Female";
+            Assert.Equal("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "f";
+            Assert.Equal("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "F";
+            Assert.Equal("female", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "o";
+            Assert.Equal("other", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "O";
+            Assert.Equal("other", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "other";
+            Assert.Equal("other", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "Other";
+            Assert.Equal("other", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "u";
+            Assert.Equal("unknown", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "U";
+            Assert.Equal("unknown", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "unknown";
+            Assert.Equal("unknown", SetterDeathRecord.Gender);
+            SetterDeathRecord.Gender = "Unknown";
+            Assert.Equal("unknown", SetterDeathRecord.Gender);
+        }
 
-        // [Fact]
-        // public void Get_Gender()
-        // {
-        //     Assert.Equal("male", DeathRecord1_JSON.Gender);
-        //     Assert.Equal("male", DeathRecord1_XML.Gender);
-        // }
+        [Fact]
+        public void testGenderGetterFromParsedFile()
+        {
+            Assert.Equal("female", DeathRecord1_JSON.Gender);
+            Assert.Equal("female", DeathRecord1_XML.Gender);
+        }
 
         [Fact]
         public void Set_SexAtDeath()

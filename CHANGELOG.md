@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.1.2"></a>
+## [4.1.2](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.2) (2023-7-26)
+
+### Other
+
+* **release:** default to auto-merge; use deploy key to chain workflows (#501) ([517db68](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/517db68b809fc43a9b2894ba2015d2130547caf5))
+
 <a name="4.1.1"></a>
 ## [4.1.1](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.1) (2023-7-26)
 

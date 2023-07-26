@@ -1,13 +1,12 @@
 {
   "resourceType" : "Bundle",
   "id" : "DeathCertificateDocument-Example1",
-  "meta" : {
-    "profile" : [
-      "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"
-    ]
-  },
   "identifier" : {
     "extension" : [
+      {
+        "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/CertificateNumber",
+        "valueString" : "000182"
+      },
       {
         "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
         "valueString" : "000000000042"
@@ -17,8 +16,12 @@
         "valueString" : "100000000001"
       }
     ],
-    "system" : "http://nchs.cdc.gov/vrdr_id",
-    "value" : "000182"
+    "value" : "2022YC000182"
+  },
+  "meta" : {
+    "profile" : [
+      "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"
+    ]
   },
   "type" : "document",
   "timestamp" : "2020-10-20T14:48:35.401641-04:00",
@@ -32,9 +35,6 @@
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
           ]
-        },
-        "identifier": {
-          "value": "99999"
         },
         "extension" : [
           {
@@ -321,10 +321,10 @@
         ],
         "name" : [
           {
-            "use" : "official",
-            "family" : "Patel",
-            "given" : [
-              "Madelyn",
+            "use": "official",
+            "family": "Pãtêl",
+            "given": [
+              "Mædęlyñ",
               "Middle"
             ],
             "suffix" : ["Jr."]
@@ -481,7 +481,7 @@
         "id": "84452aa0-fc31-4f4c-848f-b8f1e5bba1c0",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
           ]
         },
         "identifier": [
@@ -638,8 +638,8 @@
             "code" : {
               "coding" : [
                 {
-                  "code" : "AmericanIndianOrAlaskaNative",
-                  "display" : "American Indian Or Alaska Native"
+                  "code" : "AmericanIndianOrAlaskanNative",
+                  "display" : "AmericanIndianOrAlaskanNative"
                 }
               ]
             },
@@ -841,7 +841,7 @@
         "id": "c834ea74-e93d-4a51-bc02-60466b9e4f14",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
           ]
         },
         "practitioner": {
@@ -1330,7 +1330,7 @@
         "id": "79c8753a-bb2b-4e99-800c-cabfe9b97b57",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-education-level"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-education-level"
           ]
         },
         "status": "final",
@@ -1762,7 +1762,7 @@
         "id": "3c1f5202-68de-47e8-813f-43a3f7f29129",
         "meta": {
           "profile": [
-            "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
         "type": [{
@@ -1850,6 +1850,27 @@
             },
             "valueCodeableConcept": {
               "text": "At home, in the kitchen"
+            }
+	   },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "69451-3",
+                  "display": "Transportation role of decedent"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "257500003",
+                  "display": "Passenger"
+                }
+              ],
+              "text": "Passenger"
             }
           }
         ]
@@ -2042,24 +2063,15 @@
                   "valueUnsignedInt": 2017
                 },
                 {
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Monh",
                   "valueUnsignedInt": 3
                 },
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
                   "valueUnsignedInt": 18
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                      "valueCode": "unknown"
-                    }
-                  ],
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"
                 }
               ],
-              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate"
             }
           ]
         }

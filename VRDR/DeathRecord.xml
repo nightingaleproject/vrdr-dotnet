@@ -3431,6 +3431,10 @@
             <param name="value">A list of strings to be converted into a name.</param>
             <param name="names">The current list of HumanName attributes for the person.</param>
         </member>
+        <member name="M:VRDR.DeathRecord.ValidatePartialDates(Hl7.Fhir.Model.Bundle)">
+            <summary>Helper method to validate that all PartialDate and PartialDateTime exensions are valid and have the valid required sub-extensions.</summary>
+            <param name="bundle">The bundle in which to validate the PartialDate/Time extensions.</param>
+        </member>
         <member name="T:VRDR.Property">
             <summary>Property attribute used to describe a DeathRecord property.</summary>
         </member>

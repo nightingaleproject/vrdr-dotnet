@@ -1,5 +1,16 @@
 # Changelog
 
+<a name="4.1.1"></a>
+## [4.1.1](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.1) (2023-7-26)
+
+### Bug Fixes
+
+* partialDate and partialDateTime validation (#492) ([5e7e932](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/5e7e9326cd97d0c5c4beab751ba0ea3030e1c8e9))
+
+### Other
+
+* add #496 to change log (#499) ([8498226](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/849822650f5ad57f90f281645a66527914b9e284))
+
 <a name="4.1.0"></a>
 ## [4.1.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.0) (2023-7-25)
 

@@ -941,18 +941,18 @@ namespace VRDR
         {
             get
             {
-				if(_void == null)
-					_void = "0";
+		if(_void == null)
+		  return "0";
                 return _void;
             }
             set
             {
-				if(value.Trim() == "1")
-				{
-					_void = "1";
-				}
-				else
-					_void = "0";
+		if(value.Trim() == "1")
+		{
+		  _void = "1";
+		}
+		else
+		  _void = "0";
             }
         }
 

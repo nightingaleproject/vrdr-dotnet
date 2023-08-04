@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="4.1.3"></a>
+## [4.1.3](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.3) (2023-8-4)
+
+### Bug Fixes
+
+* void flag on fhir message to 0 (or 1) from blank or null (#508) ([33f3efb](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/33f3efbbcdb59d76ad90fd8baa34c4b47d421fcd))
+
+### Other
+
+* add Fact decorator; remove warning with negative assertion (#509) ([1c07be6](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/1c07be624f0533622922cb1bed75c8465b225b60))
+* use GITHUB_TOKEN to auto-merge; close/reopen PR to trigger workflow (#503) ([fa27f7d](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/fa27f7dd9502c2bd0e233560cd91772260338039))
+* use machine account PAT to create release PR ([61dd64b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/61dd64b16a387e8ddd81359ba481f4d6de9cc5ec))
+
 <a name="4.1.2"></a>
 ## [4.1.2](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.2) (2023-7-26)
 

@@ -942,8 +942,13 @@ namespace VRDR
             get
             {
 		if(_void == null)
+		{
 		  return "0";
-                return _void;
+		}
+                else
+		{
+		  return _void;
+		}
             }
             set
             {
@@ -952,7 +957,9 @@ namespace VRDR
 		  _void = "1";
 		}
 		else
+		{
 		  _void = "0";
+		}
             }
         }
 

@@ -159,13 +159,13 @@ namespace VRDR.Tests
         public void SetVOID()
         {
             IJEMortality ije = new IJEMortality();
-            Assert.Null(ije.VOID);
+			Assert.Equal("0", ije.VOID);
             ije.VOID = "123";
-            Assert.Null(ije.VOID);
+			Assert.Equal("0", ije.VOID);
             ije.VOID = " ";
-            Assert.Null(ije.VOID);
+			Assert.Equal("0", ije.VOID);
             ije.VOID = "abc #$@";
-            Assert.Null(ije.VOID);
+			Assert.Equal("0", ije.VOID);
             ije.VOID = " 0 ";
             Assert.Equal("0", ije.VOID);
             ije.VOID = "0";
@@ -173,7 +173,7 @@ namespace VRDR.Tests
             ije.VOID = "1";
             Assert.Equal("1", ije.VOID);
             ije.VOID = "2";
-            Assert.Equal("1", ije.VOID);
+            Assert.Equal("0", ije.VOID);
         }
 
         [Fact]

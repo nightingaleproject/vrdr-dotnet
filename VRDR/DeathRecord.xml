@@ -1664,6 +1664,16 @@
             <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.Gender">
+            <summary>Decedent's Gender.</summary>
+            <value>the decedent's gender</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.Gender = "female";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.SexAtDeath">
             <summary>Decedent's Sex at Death.</summary>
             <value>the decedent's sex at time of death</value>

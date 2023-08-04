@@ -4096,6 +4096,7 @@ namespace VRDR.Tests
             Assert.Equal(errorMsg.ToString(), ex.Message);
         }
 
+        [Fact]
         public void TestBadPartialDateTime()
         {
             Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBadPartialDateTime.json"))));

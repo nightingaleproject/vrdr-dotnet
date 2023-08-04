@@ -447,7 +447,7 @@ namespace VRDR.Tests
 
                     break;
                 default:
-                    Assert.True(false, "Message was not a CauseOfDeathCodingMessage");
+                    Assert.Fail("Message was not a CauseOfDeathCodingMessage");
                     break;
             }
         }

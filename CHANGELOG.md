@@ -1,5 +1,16 @@
 # Changelog
 
+<a name="4.1.4"></a>
+## [4.1.4](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.4) (2023-8-14)
+
+### Bug Fixes
+
+* alias flag on fhir message to 0 (or 1) from blank or null (#513) ([0407051](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/040705121b126b945c1e5659928e9c4174a135b5))
+
+### Other
+
+* bump Microsoft.NET.Test.Sdk from 17.6.3 to 17.7.0 (#510) ([0b1319e](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/0b1319edc99847385a5ece085bc9c822a2444599))
+
 <a name="4.1.3"></a>
 ## [4.1.3](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.3) (2023-8-4)
 

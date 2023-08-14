@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master # Default release branch
+  workflow_dispatch:
 jobs:
   publish:
     name: list on nuget

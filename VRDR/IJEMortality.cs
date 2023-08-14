@@ -1100,18 +1100,25 @@ namespace VRDR
         {
             get
             {
-                return _alias;
+		if(_alias == null)
+		{
+		  return "0";
+		}
+                else
+		{
+		  return _alias;
+		}
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    string valueTrim = value.Trim();
-                    if(valueTrim == "0" || valueTrim == "1")
-                    {
-                        _alias = valueTrim;
-                    }
-                }
+		if(value.Trim() == "1")
+		{
+		  _alias = "1";
+		}
+		else
+		{
+		  _alias = "0";
+		}
             }
         }
 

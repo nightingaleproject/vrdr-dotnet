@@ -15,7 +15,7 @@ namespace VRDR
                 return new DeathRecord[] {
                     TwilaHilty(),
                     FideliaAlsup(),
-                    DavisLineberry()
+                    DavisLineberry(),
                     SujaUnknown()
                 }; 
             }

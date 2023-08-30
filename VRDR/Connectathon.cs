@@ -16,6 +16,7 @@ namespace VRDR
                     TwilaHilty(),
                     FideliaAlsup(),
                     DavisLineberry()
+                    SujaUnknown()
                 }; 
             }
         }
@@ -34,6 +35,9 @@ namespace VRDR
                     break;
                 case 3:
                     record = DavisLineberry();
+                    break;
+                case 4:
+                    record = SujaUnknown();
                     break;
             }
 
@@ -314,6 +318,91 @@ namespace VRDR
             ije.ADDRESS_R = "2722 N Pin Oak Dr";
             ije.COD1A = "Pending";
             ije.PLACE20 = "043-A-110234";
+            DeathRecord record = ije.ToDeathRecord();
+            return record;
+        }
+
+        /// <summary>Generate the Suja UNKNOWN example record</summary>
+        public static DeathRecord SujaUnknown()
+        {
+            IJEMortality ije = new IJEMortality();
+            ije.DOD_YR = "2023";
+            ije.DSTATE = "CT";
+            ije.FILENO = "000004";
+            ije.MFILED = "0";
+            ije.GNAME = "Suja";
+            ije.LNAME = "UNKNOWN";            
+            ije.FLNAME = "UNKNOWN";
+            ije.SEX = "M";
+            ije.SSN = "429471210";
+            ije.AGETYPE = "1";
+            ije.AGE = "044";
+            ije.AGE_BYPASS = "0";
+            ije.DOB_YR = "1979";
+            ije.DOB_MO = "06";
+            ije.DOB_DY = "23";
+            ije.BPLACE_CNT = "US";
+            ije.BPLACE_ST = "CO";
+            ije.CITYC = "45050";
+            ije.COUNTYC = "001";
+            ije.STATEC = "WY";
+            ije.COUNTRYC = "US";
+            ije.LIMITS = "Y";
+            ije.MARITAL = "D";
+            ije.MARITAL_BYPASS = "0";
+            ije.DPLACE = "2";
+            ije.COD = "001";
+            ije.DISP = "C";
+            ije.DOD_MO = "07";
+            ije.DOD_DY = "20";
+            ije.TOD = "UNKNOWN";
+            ije.DEDUC = "9";
+            ije.DEDUC_BYPASS = "0";
+            ije.DETHNIC1 = "H";
+            ije.DETHNIC2 = "N";
+            ije.DETHNIC3 = "N";
+            ije.DETHNIC4 = "N";
+            ije.RACE1 = "N";
+            ije.RACE2 = "N";
+            ije.RACE3 = "Y";
+            ije.RACE4 = "N";
+            ije.RACE5 = "N";
+            ije.RACE6 = "N";
+            ije.RACE7 = "N";
+            ije.RACE8 = "N";
+            ije.RACE9 = "N";
+            ije.RACE10 = "N";
+            ije.RACE11 = "N";
+            ije.RACE12 = "N";
+            ije.RACE13 = "N";
+            ije.RACE14 = "N";
+            ije.RACE15 = "N";
+            ije.RACE16 = "Choctaw";
+            ije.RACE17 = "Cree";
+            ije.OCCUP = "Software developer";
+            ije.INDUST = "Computer";
+            ije.MANNER = "A";
+            ije.AUTOP = "N";
+            ije.AUTOPF = "X";
+            ije.TOBAC = "N";
+            ije.PREG = "8";
+            ije.PREG_BYPASS = "0";
+            ije.DOI_MO = "07";
+            ije.DOI_DY = "20";
+            ije.DOI_YR = "2023";
+            ije.TOI_HR = "2100";
+            ije.STNUM_R = "4620";
+            ije.PREDIR_R = "S";
+            ije.STNAME_R = "Grandview";
+            ije.STDESIG_R = "Avenue";
+            ije.CITYTEXT_R = "Laramie";
+            ije.ZIP9_R = "82009";
+            ije.COUNTYTEXT_R = "Cheyenne";
+            ije.STATETEXT_R = "Wyoming";
+            ije.COUNTRYTEXT_R = "United States";
+            ije.ADDRESS_R = "4620 Grandview Avenue Suite 100";
+            ije.COD1A = "Motor vehicle accident";
+            ije.INTERVAL1A = "30 minutes";
             DeathRecord record = ije.ToDeathRecord();
             return record;
         }

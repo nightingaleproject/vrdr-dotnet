@@ -107,9 +107,10 @@ namespace VRDR.Tests
             var records = VRDR.Connectathon.Records;
             Assert.NotNull(records);
             Assert.IsType<DeathRecord[]>(records);
-            Assert.Equal(3, records.Count());
+            Assert.Equal(4, records.Count());
             Assert.Equal(VRDR.Connectathon.TwilaHilty().FamilyName, records[0].FamilyName);
             Assert.Equal(VRDR.Connectathon.FideliaAlsup().Identifier, records[1].Identifier);
+            Assert.Equal(VRDR.Connectathon.SujaUnknown().InjuryTime, records[3].InjuryTime);
         }
 
         [Fact]

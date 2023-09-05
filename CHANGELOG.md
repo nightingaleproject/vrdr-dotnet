@@ -1,5 +1,15 @@
 # Changelog
 
+<a name="4.1.5"></a>
+## [4.1.5](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.5) (2023-9-5)
+
+### Other
+
+* add 4th test record (#518) ([f852332](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/f85233212e800cb6fd32cfb58f9a00b9f0aadf38))
+* add support to manually dispatch workflows (#514) ([24585f2](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/24585f20f0c1a488b03eb93bdb4084c5f215f7c5))
+* bump Microsoft.NET.Test.Sdk from 17.7.0 to 17.7.1 (#516) ([c00135b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/c00135bb8a6b412a3c62ce1c681d019ac325e3ca))
+* bump Microsoft.NET.Test.Sdk from 17.7.1 to 17.7.2 (#519) ([7930ab4](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/7930ab4a16eb48cc977dd1f83f092d07d1f5a720))
+
 <a name="4.1.4"></a>
 ## [4.1.4](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.4) (2023-8-14)
 

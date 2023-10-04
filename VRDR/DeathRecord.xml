@@ -136,6 +136,9 @@
         <member name="M:VRDR.Connectathon.DavisLineberry">
             <summary>Generate the Davis Lineberry example record</summary>
         </member>
+        <member name="M:VRDR.Connectathon.SujaUnknown">
+            <summary>Generate the Suja UNKNOWN example record</summary>
+        </member>
         <member name="M:VRDR.Connectathon.WriteRecordAsXml(VRDR.DeathRecord,System.String)">
             <summary>Of historical interest for writing a record to a file</summary>
         </member>
@@ -3181,6 +3184,16 @@
             <para>ExampleDeathRecord.InjuryDate = "2018-02-19T16:48:06-05:00";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.HOWINJ">
+            <summary>How Injury Ocurred.</summary>
+            <value>How Injury Ocurred</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.HOWINJ = "Falling down";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Injury Description: {ExampleDeathRecord.InjuryDescription}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.InjuryDescription">

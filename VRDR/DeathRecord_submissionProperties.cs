@@ -6874,41 +6874,6 @@ namespace VRDR
             }
         }
 
-        /// <summary>How Injury Ocurred.</summary>
-        /// <value>How Injury Ocurred</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.HOWINJ = "Falling down";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Injury Description: {ExampleDeathRecord.InjuryDescription}");</para>
-        /// </example>
-        [Property("How Injury Ocurred", Property.Types.String, "Death Investigation", "How Injury Ocurred.", true, IGURL.InjuryIncident, true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public string HOWINJ
-        {
-            get
-            {
-                CodeableConcept concept = InjuryIncidentObs?.Value as CodeableConcept;
-                if (concept != null)
-                {
-                    return concept.Text;
-                }
-                return null;
-            }
-            set
-            {
-                if (String.IsNullOrWhiteSpace(value) && InjuryIncidentObs == null)
-                {
-                    return;
-                }
-                if (InjuryIncidentObs == null)
-                {
-                    CreateInjuryIncidentObs();
-                }
-                InjuryIncidentObs.Value = new CodeableConcept(null, null, null, value);
-            }
-        }
-
         /// <summary>Description of Injury.</summary>
         /// <value>the description of the injury</value>
         /// <example>

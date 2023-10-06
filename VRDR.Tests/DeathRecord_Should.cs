@@ -122,7 +122,9 @@ namespace VRDR.Tests
             Assert.Equal(4, records.Count());
             Assert.Equal(VRDR.Connectathon.SujaUnknown().InjuryTime, records[3].InjuryTime);
             Assert.Equal(VRDR.Connectathon.SujaUnknown().InjuryPlaceDescription, records[3].InjuryPlaceDescription);
-            Assert.Equal(VRDR.Connectathon.SujaUnknown().HOWINJ, records[3].HOWINJ);
+            Assert.Equal(VRDR.Connectathon.SujaUnknown().InjuryDescription, records[3].InjuryDescription);
+            Assert.Equal("description", records[3].InjuryDescription);
+            Assert.Equal("place", records[3].InjuryPlaceDescription);
         }
 
         [Fact]

@@ -3186,16 +3186,6 @@
             <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
             </example>
         </member>
-        <member name="P:VRDR.DeathRecord.HOWINJ">
-            <summary>How Injury Ocurred.</summary>
-            <value>How Injury Ocurred</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.HOWINJ = "Falling down";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Injury Description: {ExampleDeathRecord.InjuryDescription}");</para>
-            </example>
-        </member>
         <member name="P:VRDR.DeathRecord.InjuryDescription">
             <summary>Description of Injury.</summary>
             <value>the description of the injury</value>

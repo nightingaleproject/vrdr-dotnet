@@ -403,8 +403,8 @@ namespace VRDR
             ije.ADDRESS_R = "4620 Grandview Avenue Suite 100";
             ije.COD1A = "Motor vehicle accident";
             ije.INTERVAL1A = "30 minutes";
-            ije.HOWINJ = "place";
-            ije.POILITRL = "description";
+            ije.HOWINJ = "description";
+            ije.POILITRL = "place";
             DeathRecord record = ije.ToDeathRecord();
             return record;
         }

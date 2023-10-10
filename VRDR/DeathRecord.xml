@@ -136,6 +136,9 @@
         <member name="M:VRDR.Connectathon.DavisLineberry">
             <summary>Generate the Davis Lineberry example record</summary>
         </member>
+        <member name="M:VRDR.Connectathon.SujaUnknown">
+            <summary>Generate the Suja UNKNOWN example record</summary>
+        </member>
         <member name="M:VRDR.Connectathon.WriteRecordAsXml(VRDR.DeathRecord,System.String)">
             <summary>Of historical interest for writing a record to a file</summary>
         </member>

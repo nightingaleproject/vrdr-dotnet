@@ -1,5 +1,16 @@
 # Changelog
 
+<a name="4.1.6"></a>
+## [4.1.6](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.6) (2023-10-10)
+
+### Bug Fixes
+
+* adding missing place of injury and description (#524) ([6c90377](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/6c90377cc7a942211dda20079e53321c51e29c97))
+
+### Other
+
+* bump xunit.runner.visualstudio from 2.5.0 to 2.5.1 (#521) ([4fdcba3](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/4fdcba3ef067cd35098e4547e528fecf599cf293))
+
 <a name="4.1.5"></a>
 ## [4.1.5](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.5) (2023-9-5)
 

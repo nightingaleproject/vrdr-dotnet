@@ -35,7 +35,7 @@ namespace VRDR.Tests
 
             SetterDeathRecord = new DeathRecord();
         }
-        
+
         [Fact]
         public void FailBadDplaceCode()
         {
@@ -3134,7 +3134,7 @@ namespace VRDR.Tests
             Assert.Equal(17, record.DeathDay);
         }
 
-/* START DATE OF DEATH PRONOUNCEMENT */
+        /* START DATE OF DEATH PRONOUNCEMENT */
         [Fact]
         public void Set_DateOfDeathPronouncement()
         {
@@ -3163,7 +3163,7 @@ namespace VRDR.Tests
             Assert.Equal(02, (int)DeathRecord1_JSON.DateOfDeathPronouncementMonth);
             Assert.Equal(20, (int)DeathRecord1_JSON.DateOfDeathPronouncementDay);
             Assert.Equal("16:48:06", DeathRecord1_JSON.DateOfDeathPronouncementTime);
-         }
+        }
 
         [Fact]
         public void Get_DateOfDeathPronouncement_PPDATESIGNED_and_PPTIME_Roundtrip()
@@ -3271,7 +3271,7 @@ namespace VRDR.Tests
             Assert.Equal(18, record.DateOfDeathPronouncementDay);
         }
 
-/* END DATE OF DEATH PRONOUCMENT */
+        /* END DATE OF DEATH PRONOUCMENT */
 
         [Fact]
         public void Set_SurgeryDate()
@@ -3750,7 +3750,7 @@ namespace VRDR.Tests
             ije.RACE21 = "Waikato";
             ije.RACE22 = "Vulcan";
             ije.RACE23 = "Hgrtcha";
-            
+
             // convert to a DeathRecord and check race literals
             var record = ije.ToDeathRecord();
             var race = record.Race.ToList().ToDictionary(x => x.Item1, x => x.Item2);
@@ -3782,7 +3782,8 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void TestLoadRaceEthnicityLiteralsFromFHIRJSON() {
+        public void TestLoadRaceEthnicityLiteralsFromFHIRJSON()
+        {
             // confirm that we can read a death record from JSON and each of the race literal records
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/AllRaceLiterals.json")));
             var race = dr.Race.ToList().ToDictionary(x => x.Item1, x => x.Item2);
@@ -3801,7 +3802,8 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void TestInvalidRaceLiteralThrowsException() {
+        public void TestInvalidRaceLiteralThrowsException()
+        {
             var record = new DeathRecord();
             var race = record.Race.ToList();
             race.Add(Tuple.Create("InvalidRaceLiteral", "Foo"));
@@ -3995,12 +3997,12 @@ namespace VRDR.Tests
                 { "PLACE20", "Hi 20_1"}
             };
             // For each field, create a record, set that field, set all the other fields, and make sure the first field still has the same value
-            foreach(var (field, value) in fields)
+            foreach (var (field, value) in fields)
             {
                 IJEMortality ije = new IJEMortality();
                 PropertyInfo property = typeof(IJEMortality).GetProperty(field);
                 property.SetValue(ije, value);
-                foreach(var (overwriteField, overwriteValue) in fields)
+                foreach (var (overwriteField, overwriteValue) in fields)
                 {
                     if (overwriteField == field) continue; // Don't rewrite the field we're testing
                     PropertyInfo overwriteProperty = typeof(IJEMortality).GetProperty(overwriteField);
@@ -4022,10 +4024,17 @@ namespace VRDR.Tests
                 if (property.PropertyType.ToString() == "System.String")
                 {
                     object value = property.GetValue(blank);
-                    if (property.Name == "DeathRecordIdentifier") {
+                    if (property.Name == "DeathRecordIdentifier")
+                    {
                         Assert.Equal(value, "0000XX000000");
-                    } else {
-                      Assert.Null(value);
+                    }
+                    else if (property.Name == "Gender")
+                    {
+                        Assert.Equal(value, "unknown");
+                    }
+                    else
+                    {
+                        Assert.Null(value);
                     }
                 }
             }
@@ -4064,7 +4073,7 @@ namespace VRDR.Tests
                         property.SetValue(blank, new string[] { "", "" });
                         break;
                     case "System.Collections.Generic.Dictionary`2[System.String,System.String]":
-                        property.SetValue(blank, new Dictionary<string, string> { { "code", "" }, { "system", ""}, { "display", "" } });
+                        property.SetValue(blank, new Dictionary<string, string> { { "code", "" }, { "system", "" }, { "display", "" } });
                         break;
                     case "System.Collections.Generic.IEnumerable`1[System.ValueTuple`4[System.Int32,System.Int32,System.String,System.Boolean]]":
                         property.SetValue(blank, new[] { (LineNumber: 1, Position: 1, Code: "", ECode: false) });
@@ -4132,7 +4141,7 @@ namespace VRDR.Tests
             int beforeCounts = 0;
             int afterCounts = 0;
 
-            foreach(var s in composition.Section)
+            foreach (var s in composition.Section)
             {
                 beforeCounts += s.Entry.Count;
             }
@@ -4280,7 +4289,8 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void TestUknownTimeOfDeathForFHIR() {
+        public void TestUknownTimeOfDeathForFHIR()
+        {
             var dr = new DeathRecord();
             dr.DeathDay = -1;
             dr.DeathMonth = -1;
@@ -4295,7 +4305,8 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void TestUknownTimeOfInjuryForFHIR() {
+        public void TestUknownTimeOfInjuryForFHIR()
+        {
             var dr = new DeathRecord();
             dr.InjuryDay = -1;
             dr.InjuryMonth = -1;
@@ -4310,8 +4321,9 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void testMissingFamilyNameInFHIR() {
-           // test setter
+        public void testMissingFamilyNameInFHIR()
+        {
+            // test setter
             IJEMortality ije = new IJEMortality();
             ije.LNAME = "UNKNOWN";
             DeathRecord record = ije.ToDeathRecord();
@@ -4341,7 +4353,7 @@ namespace VRDR.Tests
             ije = new IJEMortality(record, false);
             record = ije.ToDeathRecord();
             Assert.Null(record.FamilyName);
-        }	
+        }
 
         private string FixturePath(string filePath)
         {

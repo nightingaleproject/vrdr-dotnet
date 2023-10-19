@@ -39,6 +39,7 @@ namespace VRDR
             // Start with an empty decedent.  Need reference in Composition.
             Decedent = new Patient();
             Decedent.Id = Guid.NewGuid().ToString();
+            Decedent.Gender = AdministrativeGender.Unknown;
             Decedent.Meta = new Meta();
             string[] decedent_profile = { ProfileURL.Decedent };
             Decedent.Meta.Profile = decedent_profile;

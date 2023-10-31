@@ -1,5 +1,20 @@
 # Changelog
 
+<a name="4.1.7"></a>
+## [4.1.7](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.7) (2023-10-24)
+
+### Bug Fixes
+
+* default decedent gender to unknown (#529) ([172d2b5](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/172d2b5017c40c7443d8b29c4570bbcb3f934275))
+
+### Other
+
+* bump xunit from 2.5.0 to 2.5.1 (#520) ([f1cc224](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/f1cc224eb0009d232584f666e45db9bbb88f863b))
+* bump xunit from 2.5.1 to 2.5.2 (#527) ([7766300](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/7766300ef2a372af00ab05d97e7ba17d7d8293a4))
+* bump xunit from 2.5.2 to 2.5.3 (#530) ([dc803a8](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/dc803a8c13b1e4e7d09b24990cabcfb9dfd4afd4))
+* bump xunit.runner.visualstudio from 2.5.1 to 2.5.3 (#528) ([bd2e686](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/bd2e686f9be78d6f5731d9f2087e7e69c626e9a9))
+* use net6 container; add VS Code debug profiles (#531) ([6970a7b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/6970a7b1168e32140908b800ba9415d2d5017306))
+
 <a name="4.1.6"></a>
 ## [4.1.6](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.6) (2023-10-10)
 

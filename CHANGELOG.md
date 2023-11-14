@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="4.1.8"></a>
+## [4.1.8](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.8) (2023-11-14)
+
+### Other
+
+* bump Microsoft.NET.Test.Sdk from 17.7.2 to 17.8.0 ([#538](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/538)) ([fef3b75](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/fef3b75bf026cecbfde2cd32398523a2ec0d9291))
+* bump xunit from 2.5.3 to 2.6.1 ([#537](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/537)) ([eab811c](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/eab811c36fe641d4b3918e45bd2f623893d8b843))
+* update 4th test case ([#540](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/540)) ([11c6700](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/11c6700f3599f3aca15e46707b07e1548c8430b1))
+
 <a name="4.1.7"></a>
 ## [4.1.7](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.7) (2023-10-24)
 

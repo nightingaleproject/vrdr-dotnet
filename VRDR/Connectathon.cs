@@ -330,9 +330,7 @@ namespace VRDR
             ije.DSTATE = "CT";
             ije.FILENO = "000004";
             ije.MFILED = "0";
-            ije.GNAME = "Suja";
-            ije.LNAME = "UNKNOWN";            
-            ije.FLNAME = "UNKNOWN";
+            ije.GNAME = "Suja";      
             ije.SEX = "M";
             ije.SSN = "429471210";
             ije.AGETYPE = "1";
@@ -355,7 +353,7 @@ namespace VRDR
             ije.DISP = "C";
             ije.DOD_MO = "07";
             ije.DOD_DY = "20";
-            ije.TOD = "UNKNOWN";
+            ije.TOD = "9999";
             ije.DEDUC = "9";
             ije.DEDUC_BYPASS = "0";
             ije.DETHNIC1 = "H";

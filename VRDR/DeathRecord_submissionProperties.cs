@@ -3533,11 +3533,18 @@ namespace VRDR
         {
             get
             {
-                if (DecedentEducationLevel != null && DecedentEducationLevel.Value != null && DecedentEducationLevel.Value as CodeableConcept != null)
+                if (DecedentEducationLevel != null && DecedentEducationLevel.Value != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)DecedentEducationLevel.Value);
+                    if (DecedentEducationLevel.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)DecedentEducationLevel.Value);
+                    }
+                    else
+                    {
+                        throw new System.ArgumentException("The value of Education Level is missing.");
+                    }
                 }
-                return EmptyCodeableDict();
+                else return EmptyCodeableDict();
             }
             set
             {
@@ -3944,11 +3951,18 @@ namespace VRDR
         {
             get
             {
-                if (MilitaryServiceObs != null && MilitaryServiceObs.Value != null && MilitaryServiceObs.Value as CodeableConcept != null)
+                if (MilitaryServiceObs != null && MilitaryServiceObs.Value != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)MilitaryServiceObs.Value);
+                    if (MilitaryServiceObs.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)MilitaryServiceObs.Value);
+                    }
+                    else
+                    {
+                        throw new System.ArgumentException("The value of Military Service is missing.");
+                    }
                 }
-                return EmptyCodeableDict();
+                else return EmptyCodeableDict();
             }
             set
             {

@@ -6,6 +6,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Xunit;
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace VRDR.Tests
 {
@@ -42,6 +43,13 @@ namespace VRDR.Tests
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBadDplaceCode.json")));
             Exception ex = Assert.Throws<System.ArgumentOutOfRangeException>(() => new IJEMortality(dr).DPLACE);
             Assert.Equal("Error: Unable to find IJE DPLACE mapping for FHIR DeathLocationType field value '440081000124100x'", ex.Message.Substring(96, 98));
+        }
+
+
+        [Fact]
+        public void FailMissingMilitaryServiceValue()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingMilitaryService.json")));
         }
 
         [Fact]
@@ -116,6 +124,7 @@ namespace VRDR.Tests
         [Fact]
         public void TestInjuryFields()
         {
+            Console.WriteLine("Hello World!");
             var records = VRDR.Connectathon.Records;
             Assert.NotNull(records);
             Assert.IsType<DeathRecord[]>(records);

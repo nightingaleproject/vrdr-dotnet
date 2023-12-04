@@ -59,15 +59,6 @@ namespace VRDR.Tests
             Assert.Equal("Parser: The attribute 'value' in element 'status' has an empty value, which is not allowed. (at line 21, 17)", ex.Message);
         }
 
-      /*  [Fact]
-        public void FailMissingMilitaryServiceValue()
-        {
-            //string bundle = File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"));
-            //Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            //Assert.Equal("Parser: The object for property 'valueCodeableConcept' is empty, which is not allowed. (at line 1100, 41)", ex.Message);
-        }*/
-
-
         [Fact]
         public void FailMissingObservationCode()
         {

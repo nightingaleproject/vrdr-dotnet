@@ -2,7 +2,7 @@
 [![Nuget](https://img.shields.io/nuget/v/VRDR?label=VRDR%20%28nuget%29)](https://www.nuget.org/packages/VRDR)
 [![Nuget](https://img.shields.io/nuget/v/VRDR.Messaging?label=VRDR.Messaging%20%28nuget%29)](https://www.nuget.org/packages/VRDR.Messaging)
 
-# vrdr-dotnet
+# vrdr-dotnet1
 
 This repository includes .NET (C#) code for
 

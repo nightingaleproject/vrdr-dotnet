@@ -1098,13 +1098,6 @@
                     "reference": "urn:uuid:2d27b2ef-406b-4192-aeb4-4c72eb6b9403"
                 },
                 "valueCodeableConcept": {
-                    "coding": [
-                        {
-                            "system": "urn:oid:2.16.840.1.113883.12.136",
-                            "code": "",
-                            "display": "Yes"
-                        }
-                    ]
                 }
             }
         },

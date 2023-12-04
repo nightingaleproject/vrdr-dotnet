@@ -49,7 +49,9 @@ namespace VRDR.Tests
         [Fact]
         public void FailMissingMilitaryServiceValue()
         {
-            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingMilitaryService.json")));
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingMilitaryService.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Parser: The object for property 'valueCodeableConcept' is empty, which is not allowed. (at line 1100, 41)", ex.Message);
         }
 
         [Fact]

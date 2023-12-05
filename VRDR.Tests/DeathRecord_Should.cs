@@ -126,7 +126,6 @@ namespace VRDR.Tests
         [Fact]
         public void TestInjuryFields()
         {
-            Console.WriteLine("Hello World!");
             var records = VRDR.Connectathon.Records;
             Assert.NotNull(records);
             Assert.IsType<DeathRecord[]>(records);

@@ -1096,8 +1096,6 @@
                 },
                 "subject": {
                     "reference": "urn:uuid:2d27b2ef-406b-4192-aeb4-4c72eb6b9403"
-                },
-                "valueCodeableConcept": {
                 }
             }
         },

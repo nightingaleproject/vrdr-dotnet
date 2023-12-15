@@ -3951,21 +3951,18 @@ namespace VRDR
         {
             get
             {
-                if (MilitaryServiceObs != null && MilitaryServiceObs.Value != null)
-                {
-                    if (MilitaryServiceObs.Value as CodeableConcept != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)MilitaryServiceObs.Value);
-                    }
-                    else
-                    {
-                        throw new System.ArgumentException("The value of Military Service is missing.");
-                    }
-                }
-                else return EmptyCodeableDict();
+                if (MilitaryServiceObs != null && MilitaryServiceObs.Value != null && MilitaryServiceObs.Value as CodeableConcept != null)
+		{
+		    return CodeableConceptToDict((CodeableConcept)MilitaryServiceObs.Value);
+		}
+		return EmptyCodeableDict();
             }
             set
             {
+	    	if(value == null)
+		{
+		    throw new ArgumentException("Value of 'MilitaryService' cannot be null");
+		}
                 if (IsDictEmptyOrDefault(value) && MilitaryServiceObs == null)
                 {
                     return;

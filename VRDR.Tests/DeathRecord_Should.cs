@@ -7,6 +7,7 @@ using Hl7.Fhir.Serialization;
 using Xunit;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Diagnostics;
 
 namespace VRDR.Tests
 {
@@ -45,14 +46,6 @@ namespace VRDR.Tests
             Assert.Equal("Error: Unable to find IJE DPLACE mapping for FHIR DeathLocationType field value '440081000124100x'", ex.Message.Substring(96, 98));
         }
 
-
-        [Fact]
-        public void FailMissingMilitaryServiceValue()
-        {
-            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.MilitaryService = null);
-            Assert.Equal("Value of 'MilitaryService' cannot be null", ex.Message);       
-        }
-
         [Fact]
         public void FailInvalidInput()
         {
@@ -66,6 +59,98 @@ namespace VRDR.Tests
             string bundle = File.ReadAllText(FixturePath("fixtures/xml/MissingValue.xml"));
             Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
             Assert.Equal("Parser: The attribute 'value' in element 'status' has an empty value, which is not allowed. (at line 21, 17)", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingMilitaryService()
+        {
+           Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.MilitaryService = null);
+           Assert.Equal("Value of 'MilitaryService' cannot be null", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingEducationLevel()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.EducationLevel = null);
+            Assert.Equal("Value of 'EducationLevel' cannot be null", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingDecedentDispositionMethod()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.DecedentDispositionMethod = null);
+            Assert.Equal("Value of 'DecedentDispositionMethod' cannot be null", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingAutopsyPerformedIndicator()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.AutopsyPerformedIndicator = null);
+            Assert.Equal("Value of 'AutopsyPerformedIndicator' cannot be null", ex.Message);
+        }
+        [Fact]
+        public void FailMissingPregnancyStatus()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.PregnancyStatus = null);
+            Assert.Equal("Value of 'PregnancyStatus' cannot be null", ex.Message);
+        }
+        [Fact]
+        public void FailMissingExaminerContacted()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.ExaminerContacted = null);
+            Assert.Equal("Value of 'ExaminerContacted' cannot be null", ex.Message);
+        }
+        [Fact]
+        public void FailMissingTobaccoUse()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.TobaccoUse = null);
+            Assert.Equal("Value of 'TobaccoUse' cannot be null", ex.Message);
+        }
+        [Fact]
+        public void FailMissingMannerOfDeathType()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.MannerOfDeathType = null);
+            Assert.Equal("Value of 'MannerOfDeathType' cannot be null", ex.Message);
+        }
+        [Fact]
+        public void FailMissingEthnicity1()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.Ethnicity1 = null);
+            Assert.Equal("Value of 'Ethnicity1' cannot be null", ex.Message);
+        }
+        [Fact]
+        public void FailMissingActivityAtDeath()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.ActivityAtDeath = null);
+            Assert.Equal("Value of 'ActivityAtDeath' cannot be null", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingUsualOccupation()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.UsualOccupation = null);
+            Assert.Equal("Value of 'UsualOccupation' cannot be null", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingPlaceOfInjury()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.PlaceOfInjury = null);
+            Assert.Equal("Value of 'PlaceOfInjury' cannot be null", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingEntityAxisCauseOfDeath()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.EntityAxisCauseOfDeath = null);
+            Assert.Equal("Value of 'EntityAxisCauseOfDeath' cannot be null", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingCausesOfDeath()
+        {
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.CausesOfDeath = null);
+            Assert.Equal("Value of 'CausesOfDeath' cannot be null", ex.Message);
         }
 
 
@@ -4058,7 +4143,9 @@ namespace VRDR.Tests
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
             {
+                if (property.Name == "UsualOccupation") continue;
                 property.SetValue(copy, property.GetValue(blank));
+                
             }
             Assert.DoesNotContain("\"\"", blank.ToJson());
             Assert.DoesNotContain("\"\"", copy.ToJson());

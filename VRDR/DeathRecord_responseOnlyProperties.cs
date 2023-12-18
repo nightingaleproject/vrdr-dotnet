@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
@@ -59,6 +58,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'ActivityAtDeath' cannot be null");
+                }
                 if (ActivityAtTimeOfDeathObs == null)
                 {
                     CreateActivityAtTimeOfDeathObs();
@@ -209,6 +212,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'PlaceOfInjury' cannot be null");
+                }
                 if (PlaceOfInjuryObs == null)
                 {
                     CreatePlaceOfInjuryObs();
@@ -1804,6 +1811,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'EntityAxisCauseOfDeath' cannot be null");
+                }
                 // clear all existing eac
                 Bundle.Entry.RemoveAll(entry => entry.Resource is Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80356-9"));
                 if (EntityAxisCauseOfDeathObsList != null)

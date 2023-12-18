@@ -584,6 +584,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'MannerOfDeathType' cannot be null");
+                }
                 if (IsDictEmptyOrDefault(value) && MannerOfDeath == null)
                 {
                     return;
@@ -1020,8 +1024,11 @@ namespace VRDR
                 return results.ToArray();
             }
             set
-            {
-                if (value != null)
+            {  if (value == null)
+                {
+                    throw new ArgumentException("Value of 'CausesOfDeath' cannot be null");
+                }
+                else
                 {
                     if (value.Length > 0)
                     {
@@ -2238,6 +2245,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'Ethnicity1' cannot be null");
+                }
                 if (InputRaceAndEthnicityObs == null)
                 {
                     CreateInputRaceEthnicityObs();
@@ -3533,21 +3544,18 @@ namespace VRDR
         {
             get
             {
-                if (DecedentEducationLevel != null && DecedentEducationLevel.Value != null)
+                if (DecedentEducationLevel != null && DecedentEducationLevel.Value != null && DecedentEducationLevel.Value as CodeableConcept != null)
                 {
-                    if (DecedentEducationLevel.Value as CodeableConcept != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)DecedentEducationLevel.Value);
-                    }
-                    else
-                    {
-                        throw new System.ArgumentException("The value of Education Level is missing.");
-                    }
+                    return CodeableConceptToDict((CodeableConcept)DecedentEducationLevel.Value);
                 }
-                else return EmptyCodeableDict();
+                return EmptyCodeableDict();
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'EducationLevel' cannot be null");
+                }
                 if (IsDictEmptyOrDefault(value) && DecedentEducationLevel == null)
                 {
                     return;
@@ -3704,6 +3712,10 @@ namespace VRDR
             }
             set
             {
+               /* if (String.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Value of 'BirthRecordId' cannot be null");
+                }*/
                 if (BirthRecordIdentifier == null)
                 {
                     CreateBirthRecordIdentifier();
@@ -3868,6 +3880,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'UsualOccupation' cannot be null");
+                }
                 if ((String.IsNullOrWhiteSpace(value)))
                 {
                     return;
@@ -3952,17 +3968,17 @@ namespace VRDR
             get
             {
                 if (MilitaryServiceObs != null && MilitaryServiceObs.Value != null && MilitaryServiceObs.Value as CodeableConcept != null)
-		{
-		    return CodeableConceptToDict((CodeableConcept)MilitaryServiceObs.Value);
-		}
-		return EmptyCodeableDict();
+                {
+                    return CodeableConceptToDict((CodeableConcept)MilitaryServiceObs.Value);
+                }
+                return EmptyCodeableDict();
             }
             set
             {
-	    	if(value == null)
-		{
-		    throw new ArgumentException("Value of 'MilitaryService' cannot be null");
-		}
+                if(value == null)
+                {
+                    throw new ArgumentException("Value of 'MilitaryService' cannot be null");
+                }
                 if (IsDictEmptyOrDefault(value) && MilitaryServiceObs == null)
                 {
                     return;
@@ -4479,6 +4495,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'DecedentDispositionMethod' cannot be null");
+                }
                 if (DispositionMethod == null)
                 {
                     DispositionMethod = new Observation();
@@ -4572,6 +4592,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'AutopsyPerformedIndicator' cannot be null");
+                }
                 if (IsDictEmptyOrDefault(value) && AutopsyPerformed == null)
                 {
                     return;
@@ -5985,6 +6009,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'PregnancyStatus' cannot be null");
+                }
                 if (IsDictEmptyOrDefault(value) && PregnancyObs == null)
                 {
                     return;
@@ -6154,6 +6182,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'ExaminerContacted' cannot be null");
+                }
                 if (IsDictEmptyOrDefault(value) && ExaminerContactedObs == null)
                 {
                     return;
@@ -7234,6 +7266,10 @@ namespace VRDR
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Value of 'TobaccoUse' cannot be null");
+                }
                 if (TobaccoUseObs == null)
                 {
                     TobaccoUseObs = new Observation();

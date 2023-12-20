@@ -131,7 +131,14 @@ public class FilterService
                 string x = p?.GetValue(dr)?.ToString();
                 if (!String.IsNullOrEmpty(x))
                 {
-                    p?.SetValue(outputRecord, p.GetValue(dr));
+                    if (p.Name == "MilitaryService" && dr.MilitaryService.Values.ElementAt(0) == "")
+                    {
+                       continue;      
+                    }
+                    else
+                    {
+                        p?.SetValue(outputRecord, p.GetValue(dr));
+                    }      
                 }
             }
         }

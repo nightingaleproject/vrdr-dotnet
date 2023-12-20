@@ -548,6 +548,10 @@ namespace VRDR
                         break;
                     case "55280-2":
                         MilitaryServiceObs = (Observation)obs;
+                        if (MilitaryServiceObs != null && MilitaryServiceObs.Value == null && MilitaryServiceObs.Value as CodeableConcept == null)
+                        {
+                            throw new System.ArgumentException("Value of 'MilitaryService' cannot be null");
+                        }
                         break;
                     case "BR":
                         BirthRecordIdentifier = (Observation)obs;

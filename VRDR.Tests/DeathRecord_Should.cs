@@ -4152,7 +4152,7 @@ namespace VRDR.Tests
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
             {
-                if (property.Name == "UsualOccupation") continue;
+                if (property.Name == "MilitaryService") continue;
                 property.SetValue(copy, property.GetValue(blank));
                 
             }
@@ -4169,6 +4169,7 @@ namespace VRDR.Tests
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
             {
+                if (property.Name == "MilitaryService") continue;
                 switch (property.PropertyType.ToString())
                 {
                     case "System.String":

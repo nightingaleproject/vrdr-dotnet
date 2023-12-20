@@ -64,8 +64,17 @@ namespace VRDR.Tests
         [Fact]
         public void FailMissingMilitaryService()
         {
-           Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.MilitaryService = null);
-           Assert.Equal("Value of 'MilitaryService' cannot be null", ex.Message);
+          // handle parsed input data
+          string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingMilitaryService.json"));
+          Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+          Assert.Equal("Value of 'MilitaryService' is missing", ex.Message);
+          // handle manual input data
+          Dictionary<string, string> dict = new Dictionary<string, string>();
+          dict.Add("code", "");
+          dict.Add("system", "");
+          dict.Add("display", "");
+          ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord().MilitaryService = dict);
+          Assert.Equal("Value of 'MilitaryService' is missing", ex.Message);
         }
 
         [Fact]

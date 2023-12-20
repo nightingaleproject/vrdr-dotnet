@@ -550,7 +550,7 @@ namespace VRDR
                         MilitaryServiceObs = (Observation)obs;
                         if (MilitaryServiceObs != null && MilitaryServiceObs.Value == null && MilitaryServiceObs.Value as CodeableConcept == null)
                         {
-                            throw new System.ArgumentException("Value of 'MilitaryService' cannot be null");
+                            throw new System.ArgumentException("Value of 'MilitaryService' is missing");
                         }
                         break;
                     case "BR":

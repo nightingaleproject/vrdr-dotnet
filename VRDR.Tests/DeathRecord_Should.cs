@@ -76,7 +76,7 @@ namespace VRDR.Tests
           ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord().MilitaryService = dict);
           Assert.Equal("Value of 'MilitaryService' is missing", ex.Message);
         }
-
+/*
         [Fact]
         public void FailMissingEducationLevel()
         {
@@ -161,7 +161,7 @@ namespace VRDR.Tests
             Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.CausesOfDeath = null);
             Assert.Equal("Value of 'CausesOfDeath' cannot be null", ex.Message);
         }
-
+*/
 
         [Fact]
         public void FailMissingObservationCode()

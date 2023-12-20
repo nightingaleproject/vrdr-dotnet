@@ -3975,9 +3975,9 @@ namespace VRDR
             }
             set
             {
-                if(value == null)
+                if (value == null || (value?.Values?.ElementAt(0) == ""))
                 {
-                    throw new ArgumentException("Value of 'MilitaryService' cannot be null");
+                    throw new ArgumentException("Value of 'MilitaryService' is missing");
                 }
                 if (IsDictEmptyOrDefault(value) && MilitaryServiceObs == null)
                 {

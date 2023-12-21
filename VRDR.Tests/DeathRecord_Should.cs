@@ -128,6 +128,13 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void TestUnknownTimeOfDeath()
+        {
+            var record = Connectathon.SujaUnknown();
+            Console.WriteLine(record.DeathTime.ToString());
+        }
+
+        [Fact]
         // Check that two issues in NVSS-398 have been resolved
         public void ConnectathonRecordNVSS398()
         {

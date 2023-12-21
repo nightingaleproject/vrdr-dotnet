@@ -3976,11 +3976,6 @@ namespace VRDR
             }
             set
             {
-                /* Debug.WriteLine("*** value=" + value.ToArray());
-                 Debug.WriteLine("*** value.Keys=" + value.Keys.ToArray());
-                 Debug.WriteLine("*** value.Values=" + value.Values.ToArray());
-                 Debug.WriteLine("*** value.Values.ElementAt(1)=" + value.Values.ElementAt(1));
-                 */
                 string codeValue = null;
                 bool isKeyExist = (bool)value?.TryGetValue("code", out codeValue);
                 if (value == null || (isKeyExist && codeValue == "")) //.Values?.ElementAt(0) == "")) // || String.IsNullOrWhiteSpace(value.ToString()))
@@ -4039,10 +4034,10 @@ namespace VRDR
                 {
                     SetCodeValue("MilitaryService", value, VRDR.ValueSets.YesNoUnknown.Codes);
                 }
-                else
+               /* else
                 {
                     throw new ArgumentException("Value of 'MilitaryServiceHelper' is missing");
-                }
+                }*/
             }
         }
 

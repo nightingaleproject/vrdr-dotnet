@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
+using System.Net.Http;
 
 namespace VRDR
 {

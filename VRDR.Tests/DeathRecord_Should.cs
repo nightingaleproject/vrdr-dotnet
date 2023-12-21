@@ -8,6 +8,7 @@ using Xunit;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Diagnostics;
+using Hl7.Fhir.Utility;
 
 namespace VRDR.Tests
 {
@@ -38,6 +39,7 @@ namespace VRDR.Tests
             SetterDeathRecord = new DeathRecord();
         }
 
+
         [Fact]
         public void FailBadDplaceCode()
         {
@@ -62,21 +64,40 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void FailMissingMilitaryService()
+        public void FailMissingMilitaryServiceValue()
         {
-          // handle parsed input data
-          string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingMilitaryService.json"));
-          Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-          Assert.Equal("Value of 'MilitaryService' is missing", ex.Message);
-          // handle manual input data
-          Dictionary<string, string> dict = new Dictionary<string, string>();
-          dict.Add("code", "");
-          dict.Add("system", "");
-          dict.Add("display", "");
-          ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord().MilitaryService = dict);
-          Assert.Equal("Value of 'MilitaryService' is missing", ex.Message);
+            // handle parsed input data
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingMilitaryService.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Value of 'MilitaryService' is missing", ex.Message);
+            
+            // handle manual input data via MilitaryService, with valid data
+            Dictionary<string, string> testDict = new Dictionary<string, string>();
+            testDict.Add("code", "Y");
+            testDict.Add("system", ""); // "urn:oid:2.16.840.1.113883.12.136"
+            testDict.Add("display", ""); // "Yes"
+            SetterDeathRecord.MilitaryService = testDict;
+
+            // handle manual input data via MilitaryService, with missing data in "code"
+            testDict.Remove("code");
+            testDict.Add("code", "");
+            ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord().MilitaryService = testDict);
+            Assert.Equal("Value of 'MilitaryService' is missing", ex.Message);
+            /*
+            // handle manual input data via MilitaryServiceHelper, with valid data
+            SetterDeathRecord.MilitaryServiceHelper = "Y";
+
+            // handle manual input data via MilitaryServiceHelper, with invalid data in "code"
+            ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord().MilitaryServiceHelper = null); // with null
+            Assert.Equal("Value of 'MilitaryServiceHelper' is missing", ex.Message);
+
+            ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord().MilitaryServiceHelper = ""); // with empty string
+            Assert.Equal("Value of 'MilitaryServiceHelper' is missing", ex.Message);
+  
+            ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord().MilitaryServiceHelper = " "); // with blank(s)
+            Assert.Equal("Value of 'MilitaryServiceHelper' is missing", ex.Message);*/
         }
-/*
+        /*
         [Fact]
         public void FailMissingEducationLevel()
         {
@@ -161,7 +182,7 @@ namespace VRDR.Tests
             Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.CausesOfDeath = null);
             Assert.Equal("Value of 'CausesOfDeath' cannot be null", ex.Message);
         }
-*/
+        */
 
         [Fact]
         public void FailMissingObservationCode()
@@ -4152,7 +4173,8 @@ namespace VRDR.Tests
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
             {
-                if (property.Name == "MilitaryService") continue;
+                Debug.WriteLine("property=" + property + "//value=" + property.GetValue(blank));
+                if (property.Name == "MilitaryService" || property.Name == "MilitaryServiceHelper") continue;
                 property.SetValue(copy, property.GetValue(blank));
                 
             }
@@ -4169,7 +4191,7 @@ namespace VRDR.Tests
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
             {
-                if (property.Name == "MilitaryService") continue;
+                if (property.Name == "MilitaryService" || property.Name == "MilitaryServiceHelper") continue;
                 switch (property.PropertyType.ToString())
                 {
                     case "System.String":

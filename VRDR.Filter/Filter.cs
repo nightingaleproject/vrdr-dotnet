@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -131,14 +132,20 @@ public class FilterService
                 string x = p?.GetValue(dr)?.ToString();
                 if (!String.IsNullOrEmpty(x))
                 {
-                    if (p.Name == "MilitaryService" && dr.MilitaryService.Values.ElementAt(0) == "")
+                    if (p.Name == "MilitaryService")                      
                     {
-                       continue;      
+                       // if (dr.MilitaryService.Values.ElementAt(0) == "")
+                        string codeValue = null;
+                        bool isKeyExist = (bool)dr.MilitaryService?.TryGetValue("code", out codeValue);
+                        if (isKeyExist && codeValue == "")
+                        {
+                            continue;
+                        }                            
                     }
                     else
                     {
                         p?.SetValue(outputRecord, p.GetValue(dr));
-                    }      
+                    }
                 }
             }
         }

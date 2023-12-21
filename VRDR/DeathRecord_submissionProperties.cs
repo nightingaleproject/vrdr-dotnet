@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Hl7.Fhir.Model;
+using System.Diagnostics;
 
 // DeathRecord_submissionProperties.cs
 //    These fields are used primarily for submitting death records to NCHS.  Some are also used in response messages from NCHS to EDRS corresponding to TRX and MRE content.
@@ -3882,7 +3883,7 @@ namespace VRDR
             {
                 if (value == null)
                 {
-                    throw new ArgumentException("Value of 'UsualOccupation' cannot be null");
+                    //throw new ArgumentException("Value of 'UsualOccupation' cannot be null");
                 }
                 if ((String.IsNullOrWhiteSpace(value)))
                 {
@@ -3975,7 +3976,14 @@ namespace VRDR
             }
             set
             {
-                if (value == null || (value?.Values?.ElementAt(0) == ""))
+                /* Debug.WriteLine("*** value=" + value.ToArray());
+                 Debug.WriteLine("*** value.Keys=" + value.Keys.ToArray());
+                 Debug.WriteLine("*** value.Values=" + value.Values.ToArray());
+                 Debug.WriteLine("*** value.Values.ElementAt(1)=" + value.Values.ElementAt(1));
+                 */
+                string codeValue = null;
+                bool isKeyExist = (bool)value?.TryGetValue("code", out codeValue);
+                if (value == null || (isKeyExist && codeValue == "")) //.Values?.ElementAt(0) == "")) // || String.IsNullOrWhiteSpace(value.ToString()))
                 {
                     throw new ArgumentException("Value of 'MilitaryService' is missing");
                 }
@@ -4026,9 +4034,14 @@ namespace VRDR
             }
             set
             {
-                if(!String.IsNullOrWhiteSpace(value))
+                
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     SetCodeValue("MilitaryService", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                }
+                else
+                {
+                    throw new ArgumentException("Value of 'MilitaryServiceHelper' is missing");
                 }
             }
         }

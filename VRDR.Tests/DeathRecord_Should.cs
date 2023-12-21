@@ -7,7 +7,6 @@ using Hl7.Fhir.Serialization;
 using Xunit;
 using System.Linq;
 using System.Reflection.Metadata;
-using System.Diagnostics;
 using Hl7.Fhir.Utility;
 
 namespace VRDR.Tests
@@ -4173,8 +4172,7 @@ namespace VRDR.Tests
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
             {
-                Debug.WriteLine("property=" + property + "//value=" + property.GetValue(blank));
-                if (property.Name == "MilitaryService" || property.Name == "MilitaryServiceHelper") continue;
+                if (property.Name == "MilitaryService") continue;
                 property.SetValue(copy, property.GetValue(blank));
                 
             }
@@ -4191,7 +4189,7 @@ namespace VRDR.Tests
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
             {
-                if (property.Name == "MilitaryService" || property.Name == "MilitaryServiceHelper") continue;
+                if (property.Name == "MilitaryService") continue;
                 switch (property.PropertyType.ToString())
                 {
                     case "System.String":

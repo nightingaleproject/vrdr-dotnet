@@ -532,7 +532,7 @@ namespace VRDR
             ManualUnderlyingCauseOfDeathObs = new Observation();
             ManualUnderlyingCauseOfDeathObs.Id = Guid.NewGuid().ToString();
             ManualUnderlyingCauseOfDeathObs.Meta = new Meta();
-            string[] profile = { ProfileURL.AutomatedUnderlyingCauseOfDeath };
+            string[] profile = { ProfileURL.ManualUnderlyingCauseOfDeath };
             ManualUnderlyingCauseOfDeathObs.Meta.Profile = profile;
             ManualUnderlyingCauseOfDeathObs.Status = ObservationStatus.Final;
             ManualUnderlyingCauseOfDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "80359-3", "Cause of death.underlying [Manual]", null);
@@ -549,7 +549,7 @@ namespace VRDR
             PlaceOfInjuryObs = new Observation();
             PlaceOfInjuryObs.Id = Guid.NewGuid().ToString();
             PlaceOfInjuryObs.Meta = new Meta();
-            string[] profile = { ProfileURL.AutomatedUnderlyingCauseOfDeath };
+            string[] profile = { ProfileURL.PlaceOfInjury };
             PlaceOfInjuryObs.Meta.Profile = profile;
             PlaceOfInjuryObs.Status = ObservationStatus.Final;
             PlaceOfInjuryObs.Code = new CodeableConcept(CodeSystems.LOINC, "11376-1", "Injury location", null);

@@ -30,7 +30,7 @@ Interactions with NCHS are governed by the CI build version of the VRDR and Vita
 </tr>
 </tr>
 <tr>
-<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2.1 CI build version</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2.2 version</a></td>
 <td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
 <td style="text-align: center;">R4</td>
 <td style="text-align: center;">V4.0.3</td>

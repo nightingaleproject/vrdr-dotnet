@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vrdr_20_2enet_0',['VRDR .NET',['../index.html',1,'']]]
+  ['messaging_20library_0',['Using the VRDR.Messaging Library',['../md_doc_2_messaging.html',1,'']]]
 ];

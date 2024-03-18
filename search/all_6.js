@@ -1,21 +1,9 @@
 var searchData=
 [
-  ['gender_0',['Gender',['../class_v_r_d_r_1_1_death_record.html#a9825ec286027f44aa3f86b65d1c16155',1,'VRDR::DeathRecord']]],
-  ['getall_1',['GetAll',['../class_v_r_d_r_1_1_death_record.html#a8c26329ed2071f50d820a955c78107c4',1,'VRDR::DeathRecord']]],
-  ['getauthorizetokenasync_2',['GetAuthorizeTokenAsync',['../class_v_r_d_r_1_1_client.html#a5c996466c736124300808cdcfcc2f1fd',1,'VRDR::Client']]],
-  ['getbundle_3',['GetBundle',['../class_v_r_d_r_1_1_death_record.html#a5b24253082f8f4c0e8bbe898febc2420',1,'VRDR::DeathRecord']]],
-  ['getcauseofdeathcodedcontentbundle_4',['GetCauseOfDeathCodedContentBundle',['../class_v_r_d_r_1_1_death_record.html#ae0e502756952456ee094a1e530dcafef',1,'VRDR::DeathRecord']]],
-  ['getcomposition_5',['GetComposition',['../class_v_r_d_r_1_1_death_record.html#a73607d76f91f78315915e9ec933dff9e',1,'VRDR::DeathRecord']]],
-  ['getdateofdeathpronouncementobs_6',['GetDateOfDeathPronouncementObs',['../class_v_r_d_r_1_1_death_record.html#a33940f95792f6612e99efbe5f8598482',1,'VRDR::DeathRecord']]],
-  ['getdeathcertificatedocumentbundle_7',['GetDeathCertificateDocumentBundle',['../class_v_r_d_r_1_1_death_record.html#af9985739042d9e3ac6c06f6f19a2e80f',1,'VRDR::DeathRecord']]],
-  ['getdeathrecordfrommessage_8',['GetDeathRecordFromMessage',['../class_v_r_d_r_1_1_base_message.html#a9bdb5e46ee7dc54615c998f5df5dfe67',1,'VRDR::BaseMessage']]],
-  ['getdemographiccodedcontentbundle_9',['GetDemographicCodedContentBundle',['../class_v_r_d_r_1_1_death_record.html#af2aa66beaeb8ef80aaae0b24b730af77',1,'VRDR::DeathRecord']]],
-  ['getfirst_10',['GetFirst',['../class_v_r_d_r_1_1_death_record.html#aa52277443735efe7ddadd9c0a50fb889',1,'VRDR::DeathRecord']]],
-  ['getitypedelement_11',['GetITypedElement',['../class_v_r_d_r_1_1_death_record.html#a14d009a92d42937e26e47ba8c324e97a',1,'VRDR::DeathRecord']]],
-  ['getlast_12',['GetLast',['../class_v_r_d_r_1_1_death_record.html#aced32110e46501fbc5a8693605befb5a',1,'VRDR::DeathRecord']]],
-  ['getmessageresponsesasync_13',['GetMessageResponsesAsync',['../class_v_r_d_r_1_1_client.html#aa6bd39ea26087937279709b49c3e9719',1,'VRDR::Client']]],
-  ['getmortalityrosterbundle_14',['GetMortalityRosterBundle',['../class_v_r_d_r_1_1_death_record.html#adc5285ddb7527891c4f1bbee87dd5104',1,'VRDR::DeathRecord']]],
-  ['getorcreatedateofdeathpronouncementobs_15',['GetOrCreateDateOfDeathPronouncementObs',['../class_v_r_d_r_1_1_death_record.html#a1c36219f328e01733c483e732057b10d',1,'VRDR::DeathRecord']]],
-  ['givennames_16',['GivenNames',['../class_v_r_d_r_1_1_death_record.html#a478852f212fc67cfab62983820498292',1,'VRDR::DeathRecord']]],
-  ['gname_17',['GNAME',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aa2b7e77640aa8f79b56f19a561ace75f',1,'VRDR::IJEMortality']]]
+  ['6_2023_0',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.4&quot; &gt;4.0.4&lt;/a&gt; (2023-6-23)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md40',1,'']]],
+  ['6_2026_1',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.5&quot; &gt;4.0.5&lt;/a&gt; (2023-6-26)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md38',1,'']]],
+  ['6_2029_2',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.7&quot; &gt;4.0.7&lt;/a&gt; (2023-6-29)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md33',1,'']]],
+  ['6_204_200_206_20a_202023_206_2027_3',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.6&quot; &gt;4.0.6&lt;/a&gt; (2023-6-27)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md36',1,'']]],
+  ['6_204_201_206_20a_202023_2010_2010_4',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.6&quot; &gt;4.1.6&lt;/a&gt; (2023-10-10)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md6',1,'']]],
+  ['6_207_5',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.3&quot; &gt;4.0.3&lt;/a&gt; (2023-6-7)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md43',1,'']]]
 ];

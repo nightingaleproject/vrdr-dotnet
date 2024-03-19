@@ -1,5 +1,21 @@
 # Changelog
 
+<a name="4.1.9"></a>
+## [4.1.9](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.9) (2024-03-19)
+
+### Bug Fixes
+
+* add System.Net.Http namespace reference ([#549](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/549)) ([69b309f](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/69b309f8568efc6452f29acda13ba94b5c486bb1))
+* reference URLs for PlaceOfInjury and ManualUnderlyingCauseOfDeath ([#562](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/562)) ([059b4ef](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/059b4ef1de90a7cf7ebffc9c83b945ca823953af))
+
+### Other
+
+* bump Microsoft.NET.Test.Sdk from 17.8.0 to 17.9.0 ([#557](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/557)) ([cde1231](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/cde1231a0ad6b7166482c542ba4c87ff7b63d566))
+* bump xunit from 2.6.1 to 2.6.3 ([#548](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/548)) ([7770173](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/7770173d8ad0ea398a5ef31bc5cae414ae805aac))
+* bump xunit from 2.6.3 to 2.7.0 ([#560](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/560)) ([5a81f87](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/5a81f87af1b09d3950c430e316309669b39286cc))
+* bump xunit.runner.visualstudio from 2.5.3 to 2.5.5 ([#547](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/547)) ([cad0dfa](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/cad0dfad3e95cdceac6397b59e135d27c3f50b0c))
+* bump xunit.runner.visualstudio from 2.5.5 to 2.5.7 ([#559](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/559)) ([b684be9](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/b684be9c55fc6b4f04ad57ec2991f45a99fb3616))
+
 <a name="4.1.8"></a>
 ## [4.1.8](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.8) (2023-11-14)
 

@@ -4427,5 +4427,1118 @@ namespace VRDR
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
         };
+        /// <summary> BirthplaceCountry </summary>
+        public static class BirthplaceCountry {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "AA", "Aruba", VRDR.CodeSystems.CountryCode },
+                { "AC", "Antigua And Barbuda", VRDR.CodeSystems.CountryCode },
+                { "AE", "United Arab Emirates", VRDR.CodeSystems.CountryCode },
+                { "AF", "Afghanistan", VRDR.CodeSystems.CountryCode },
+                { "AG", "Algeria", VRDR.CodeSystems.CountryCode },
+                { "AJ", "Azerbaijan", VRDR.CodeSystems.CountryCode },
+                { "AL", "Albania", VRDR.CodeSystems.CountryCode },
+                { "AM", "Armenia", VRDR.CodeSystems.CountryCode },
+                { "AN", "Andorra", VRDR.CodeSystems.CountryCode },
+                { "AO", "Angola", VRDR.CodeSystems.CountryCode },
+                { "AR", "Argentina", VRDR.CodeSystems.CountryCode },
+                { "AS", "Australia", VRDR.CodeSystems.CountryCode },
+                { "AT", "Ashmore And Cartier Islands", VRDR.CodeSystems.CountryCode },
+                { "AU", "Austria", VRDR.CodeSystems.CountryCode },
+                { "AV", "Anguilla", VRDR.CodeSystems.CountryCode },
+                { "AX", "Akrotiri", VRDR.CodeSystems.CountryCode },
+                { "AY", "Antarctica", VRDR.CodeSystems.CountryCode },
+                { "BA", "Bahrain", VRDR.CodeSystems.CountryCode },
+                { "BB", "Barbados", VRDR.CodeSystems.CountryCode },
+                { "BC", "Botswana", VRDR.CodeSystems.CountryCode },
+                { "BD", "Bermuda", VRDR.CodeSystems.CountryCode },
+                { "BE", "Belgium", VRDR.CodeSystems.CountryCode },
+                { "BF", "Bahamas, The", VRDR.CodeSystems.CountryCode },
+                { "BG", "Bangladesh", VRDR.CodeSystems.CountryCode },
+                { "BH", "Belize", VRDR.CodeSystems.CountryCode },
+                { "BK", "Bosnia And Herzegovina", VRDR.CodeSystems.CountryCode },
+                { "BL", "Bolivia", VRDR.CodeSystems.CountryCode },
+                { "BM", "Burma, Myanmar", VRDR.CodeSystems.CountryCode },
+                { "BN", "Benin", VRDR.CodeSystems.CountryCode },
+                { "BO", "Belarus", VRDR.CodeSystems.CountryCode },
+                { "BP", "Solomon Islands", VRDR.CodeSystems.CountryCode },
+                { "BR", "Brazil", VRDR.CodeSystems.CountryCode },
+                { "BS", "Bassas Da India", VRDR.CodeSystems.CountryCode },
+                { "BT", "Bhutan", VRDR.CodeSystems.CountryCode },
+                { "BU", "Bulgaria", VRDR.CodeSystems.CountryCode },
+                { "BV", "Bouvet Island", VRDR.CodeSystems.CountryCode },
+                { "BX", "Brunei", VRDR.CodeSystems.CountryCode },
+                { "BY", "Burundi", VRDR.CodeSystems.CountryCode },
+                { "CA", "Canada", VRDR.CodeSystems.CountryCode },
+                { "CB", "Cambodia", VRDR.CodeSystems.CountryCode },
+                { "CD", "Chad", VRDR.CodeSystems.CountryCode },
+                { "CE", "Sri Lanka", VRDR.CodeSystems.CountryCode },
+                { "CF", "Congo (brazzaville), Republic Of The Congo", VRDR.CodeSystems.CountryCode },
+                { "CG", "Congo (kinshasa), Democratic Republic Of The Congo, Zaire", VRDR.CodeSystems.CountryCode },
+                { "CH", "China", VRDR.CodeSystems.CountryCode },
+                { "CI", "Chile", VRDR.CodeSystems.CountryCode },
+                { "CJ", "Cayman Islands", VRDR.CodeSystems.CountryCode },
+                { "CK", "Cocos (keeling) Islands", VRDR.CodeSystems.CountryCode },
+                { "CL", "Central And Southern Line Islands", VRDR.CodeSystems.CountryCode },
+                { "CM", "Cameroon", VRDR.CodeSystems.CountryCode },
+                { "CN", "Comoros", VRDR.CodeSystems.CountryCode },
+                { "CO", "Colombia", VRDR.CodeSystems.CountryCode },
+                { "CR", "Coral Sea Islands", VRDR.CodeSystems.CountryCode },
+                { "CS", "Costa Rica", VRDR.CodeSystems.CountryCode },
+                { "CT", "Central African Republic", VRDR.CodeSystems.CountryCode },
+                { "CU", "Cuba", VRDR.CodeSystems.CountryCode },
+                { "CV", "Cape Verde", VRDR.CodeSystems.CountryCode },
+                { "CW", "Cook Islands", VRDR.CodeSystems.CountryCode },
+                { "CY", "Cyprus", VRDR.CodeSystems.CountryCode },
+                { "CZ", "Czechoslovakia", VRDR.CodeSystems.CountryCode },
+                { "DA", "Denmark", VRDR.CodeSystems.CountryCode },
+                { "DJ", "Djibouti", VRDR.CodeSystems.CountryCode },
+                { "DM", "Dahomey", VRDR.CodeSystems.CountryCode },
+                { "DO", "Dominica", VRDR.CodeSystems.CountryCode },
+                { "DQ", "Jarvis Island", VRDR.CodeSystems.CountryCode },
+                { "DR", "Dominican Republic", VRDR.CodeSystems.CountryCode },
+                { "DX", "Dhekelia", VRDR.CodeSystems.CountryCode },
+                { "EB", "East Berlin", VRDR.CodeSystems.CountryCode },
+                { "EC", "Ecuador", VRDR.CodeSystems.CountryCode },
+                { "EG", "Egypt", VRDR.CodeSystems.CountryCode },
+                { "EI", "Ireland", VRDR.CodeSystems.CountryCode },
+                { "EK", "Equatorial Guinea", VRDR.CodeSystems.CountryCode },
+                { "EN", "Estonia", VRDR.CodeSystems.CountryCode },
+                { "EQ", "Canton And Enderberry Islands", VRDR.CodeSystems.CountryCode },
+                { "ER", "Eritrea", VRDR.CodeSystems.CountryCode },
+                { "ES", "El Salvador", VRDR.CodeSystems.CountryCode },
+                { "ET", "Ethiopia", VRDR.CodeSystems.CountryCode },
+                { "EU", "Europa Island", VRDR.CodeSystems.CountryCode },
+                { "EZ", "Czech Republic", VRDR.CodeSystems.CountryCode },
+                { "FG", "French Guiana", VRDR.CodeSystems.CountryCode },
+                { "FI", "Åland, Finland", VRDR.CodeSystems.CountryCode },
+                { "FJ", "Fiji", VRDR.CodeSystems.CountryCode },
+                { "FK", "Falkland Islands (islas Malvinas), Islas Malvinas", VRDR.CodeSystems.CountryCode },
+                { "FM", "Federated States Of Micronesia, Micronesia,federated States Of", VRDR.CodeSystems.CountryCode },
+                { "FO", "Faroe Islands", VRDR.CodeSystems.CountryCode },
+                { "FP", "French Polynesia, Tahiti", VRDR.CodeSystems.CountryCode },
+                { "FR", "France", VRDR.CodeSystems.CountryCode },
+                { "FS", "French Southern And Antarctic Lands", VRDR.CodeSystems.CountryCode },
+                { "FT", "French Territory Of The Affars And Issas", VRDR.CodeSystems.CountryCode },
+                { "GA", "Gambia,the", VRDR.CodeSystems.CountryCode },
+                { "GB", "Gabon", VRDR.CodeSystems.CountryCode },
+                { "GC", "East Germany, German Democratic Republic", VRDR.CodeSystems.CountryCode },
+                { "GE", "Federal Republic Of Germany, West Germany", VRDR.CodeSystems.CountryCode },
+                { "GG", "Georgia", VRDR.CodeSystems.CountryCode },
+                { "GH", "Ghana", VRDR.CodeSystems.CountryCode },
+                { "GI", "Gibraltar", VRDR.CodeSystems.CountryCode },
+                { "GJ", "Grenada", VRDR.CodeSystems.CountryCode },
+                { "GK", "Guernsey", VRDR.CodeSystems.CountryCode },
+                { "GL", "Greenland", VRDR.CodeSystems.CountryCode },
+                { "GM", "Germany", VRDR.CodeSystems.CountryCode },
+                { "GN", "Gilbert And Ellice Islands", VRDR.CodeSystems.CountryCode },
+                { "GO", "Glorioso Islands", VRDR.CodeSystems.CountryCode },
+                { "GP", "Guadeloupe", VRDR.CodeSystems.CountryCode },
+                { "GR", "Greece", VRDR.CodeSystems.CountryCode },
+                { "GS", "Gilbert Islands", VRDR.CodeSystems.CountryCode },
+                { "GT", "Guatemala", VRDR.CodeSystems.CountryCode },
+                { "GV", "Guinea", VRDR.CodeSystems.CountryCode },
+                { "GY", "Guyana", VRDR.CodeSystems.CountryCode },
+                { "GZ", "Gaza Strip", VRDR.CodeSystems.CountryCode },
+                { "HA", "Haiti", VRDR.CodeSystems.CountryCode },
+                { "HK", "Hong Kong", VRDR.CodeSystems.CountryCode },
+                { "HM", "Heard Island And Mcdonald Islands", VRDR.CodeSystems.CountryCode },
+                { "HO", "Honduras", VRDR.CodeSystems.CountryCode },
+                { "HQ", "Howland Island", VRDR.CodeSystems.CountryCode },
+                { "HR", "Croatia", VRDR.CodeSystems.CountryCode },
+                { "HU", "Hungary", VRDR.CodeSystems.CountryCode },
+                { "IC", "Iceland", VRDR.CodeSystems.CountryCode },
+                { "ID", "Indonesia", VRDR.CodeSystems.CountryCode },
+                { "IM", "Isle Of Man", VRDR.CodeSystems.CountryCode },
+                { "IN", "India", VRDR.CodeSystems.CountryCode },
+                { "IO", "British Indian Ocean Territory", VRDR.CodeSystems.CountryCode },
+                { "IP", "Clipperton Island", VRDR.CodeSystems.CountryCode },
+                { "IQ", "Us Miscellaneous Pacific Islands", VRDR.CodeSystems.CountryCode },
+                { "IR", "Iran", VRDR.CodeSystems.CountryCode },
+                { "IS", "Israel", VRDR.CodeSystems.CountryCode },
+                { "IT", "Italy", VRDR.CodeSystems.CountryCode },
+                { "IU", "Israel-syria Demilitarized Zone", VRDR.CodeSystems.CountryCode },
+                { "IV", "Côte D’ivoire, Ivory Coast", VRDR.CodeSystems.CountryCode },
+                { "IW", "Israel-jordan Demilitarized Zone", VRDR.CodeSystems.CountryCode },
+                { "IY", "Iraq-saudi Arabia Neutral Zone", VRDR.CodeSystems.CountryCode },
+                { "IZ", "Iraq", VRDR.CodeSystems.CountryCode },
+                { "JA", "Japan", VRDR.CodeSystems.CountryCode },
+                { "JE", "Jersey", VRDR.CodeSystems.CountryCode },
+                { "JM", "Jamaica", VRDR.CodeSystems.CountryCode },
+                { "JN", "Jan Mayen", VRDR.CodeSystems.CountryCode },
+                { "JO", "Jordan", VRDR.CodeSystems.CountryCode },
+                { "JQ", "Johnston Atoll", VRDR.CodeSystems.CountryCode },
+                { "JS", "Svalbard And Jan Mayen", VRDR.CodeSystems.CountryCode },
+                { "JU", "Juan De Nova Island", VRDR.CodeSystems.CountryCode },
+                { "KE", "Kenya", VRDR.CodeSystems.CountryCode },
+                { "KG", "Kyrgyzstan", VRDR.CodeSystems.CountryCode },
+                { "KN", "Korea,north, North Korea", VRDR.CodeSystems.CountryCode },
+                { "KR", "Kiribati", VRDR.CodeSystems.CountryCode },
+                { "KS", "Korea,south, South Korea", VRDR.CodeSystems.CountryCode },
+                { "KT", "Christmas Island", VRDR.CodeSystems.CountryCode },
+                { "KU", "Kuwait", VRDR.CodeSystems.CountryCode },
+                { "KV", "Kosovo", VRDR.CodeSystems.CountryCode },
+                { "KZ", "Kazakhstan", VRDR.CodeSystems.CountryCode },
+                { "LA", "Laos", VRDR.CodeSystems.CountryCode },
+                { "LE", "Lebanon", VRDR.CodeSystems.CountryCode },
+                { "LG", "Latvia", VRDR.CodeSystems.CountryCode },
+                { "LH", "Lithuania", VRDR.CodeSystems.CountryCode },
+                { "LI", "Liberia", VRDR.CodeSystems.CountryCode },
+                { "LO", "Slovakia", VRDR.CodeSystems.CountryCode },
+                { "LQ", "Palmyra Atoll", VRDR.CodeSystems.CountryCode },
+                { "LS", "Liechtenstein", VRDR.CodeSystems.CountryCode },
+                { "LT", "Lesotho", VRDR.CodeSystems.CountryCode },
+                { "LU", "Luxembourg", VRDR.CodeSystems.CountryCode },
+                { "LY", "Libya", VRDR.CodeSystems.CountryCode },
+                { "MA", "Madagascar", VRDR.CodeSystems.CountryCode },
+                { "MB", "Martinique", VRDR.CodeSystems.CountryCode },
+                { "MC", "Macau", VRDR.CodeSystems.CountryCode },
+                { "MD", "Moldova", VRDR.CodeSystems.CountryCode },
+                { "MF", "Mayotte", VRDR.CodeSystems.CountryCode },
+                { "MG", "Mongolia", VRDR.CodeSystems.CountryCode },
+                { "MH", "Montserrat", VRDR.CodeSystems.CountryCode },
+                { "MI", "Malawi", VRDR.CodeSystems.CountryCode },
+                { "MJ", "Montenegro", VRDR.CodeSystems.CountryCode },
+                { "MK", "Macedonia", VRDR.CodeSystems.CountryCode },
+                { "ML", "Mali", VRDR.CodeSystems.CountryCode },
+                { "MN", "Monaco", VRDR.CodeSystems.CountryCode },
+                { "MO", "Morocco", VRDR.CodeSystems.CountryCode },
+                { "MP", "Mauritius", VRDR.CodeSystems.CountryCode },
+                { "MQ", "Midway Islands", VRDR.CodeSystems.CountryCode },
+                { "MR", "Mauritania", VRDR.CodeSystems.CountryCode },
+                { "MT", "Malta", VRDR.CodeSystems.CountryCode },
+                { "MU", "Oman", VRDR.CodeSystems.CountryCode },
+                { "MV", "Maldives", VRDR.CodeSystems.CountryCode },
+                { "MX", "Mexico", VRDR.CodeSystems.CountryCode },
+                { "MY", "Malaysia", VRDR.CodeSystems.CountryCode },
+                { "MZ", "Mozambique", VRDR.CodeSystems.CountryCode },
+                { "NC", "New Caledonia", VRDR.CodeSystems.CountryCode },
+                { "NE", "Niue", VRDR.CodeSystems.CountryCode },
+                { "NF", "Norfolk Island", VRDR.CodeSystems.CountryCode },
+                { "NG", "Niger", VRDR.CodeSystems.CountryCode },
+                { "NH", "New Hebrides, Vanuatu", VRDR.CodeSystems.CountryCode },
+                { "NI", "Nigeria", VRDR.CodeSystems.CountryCode },
+                { "NL", "Bonaire, Netherlands, Saba, Saint Eustatius", VRDR.CodeSystems.CountryCode },
+                { "NN", "Sint Maarten", VRDR.CodeSystems.CountryCode },
+                { "NO", "Norway", VRDR.CodeSystems.CountryCode },
+                { "NP", "Nepal", VRDR.CodeSystems.CountryCode },
+                { "NR", "Nauru", VRDR.CodeSystems.CountryCode },
+                { "NS", "Suriname", VRDR.CodeSystems.CountryCode },
+                { "NT", "Netherlands Antilles", VRDR.CodeSystems.CountryCode },
+                { "NU", "Nicaragua", VRDR.CodeSystems.CountryCode },
+                { "NZ", "New Zealand", VRDR.CodeSystems.CountryCode },
+                { "OD", "South Sudan", VRDR.CodeSystems.CountryCode },
+                { "PA", "Paraguay", VRDR.CodeSystems.CountryCode },
+                { "PC", "Pitcairn Island", VRDR.CodeSystems.CountryCode },
+                { "PE", "Peru", VRDR.CodeSystems.CountryCode },
+                { "PF", "Paracel Islands", VRDR.CodeSystems.CountryCode },
+                { "PG", "Spratly Islands", VRDR.CodeSystems.CountryCode },
+                { "PJ", "Etorofu, Habomai,kunashiri,and Shikotan Islands", VRDR.CodeSystems.CountryCode },
+                { "PK", "Pakistan", VRDR.CodeSystems.CountryCode },
+                { "PL", "Poland", VRDR.CodeSystems.CountryCode },
+                { "PM", "Panama", VRDR.CodeSystems.CountryCode },
+                { "PN", "Panama", VRDR.CodeSystems.CountryCode },
+                { "PO", "Azores, Portugal", VRDR.CodeSystems.CountryCode },
+                { "PP", "Papua New Guinea", VRDR.CodeSystems.CountryCode },
+                { "PQ", "Panama Canal Zone", VRDR.CodeSystems.CountryCode },
+                { "PS", "Palau", VRDR.CodeSystems.CountryCode },
+                { "PU", "Guinea-bissau", VRDR.CodeSystems.CountryCode },
+                { "QA", "Qatar", VRDR.CodeSystems.CountryCode },
+                { "RE", "Reunion", VRDR.CodeSystems.CountryCode },
+                { "RH", "Rhodesia, Southern Rhodesia", VRDR.CodeSystems.CountryCode },
+                { "RI", "Serbia", VRDR.CodeSystems.CountryCode },
+                { "RM", "Marshall Islands", VRDR.CodeSystems.CountryCode },
+                { "RN", "Saint Martin", VRDR.CodeSystems.CountryCode },
+                { "RO", "Romania", VRDR.CodeSystems.CountryCode },
+                { "RP", "Philippines", VRDR.CodeSystems.CountryCode },
+                { "RS", "Russia", VRDR.CodeSystems.CountryCode },
+                { "RW", "Rwanda", VRDR.CodeSystems.CountryCode },
+                { "SA", "Saudi Arabia", VRDR.CodeSystems.CountryCode },
+                { "SB", "Saint Pierre And Miquelon", VRDR.CodeSystems.CountryCode },
+                { "SC", "Nevis, Saint Kitts And Nevis", VRDR.CodeSystems.CountryCode },
+                { "SE", "Seychelles", VRDR.CodeSystems.CountryCode },
+                { "SF", "South Africa", VRDR.CodeSystems.CountryCode },
+                { "SG", "Senegal", VRDR.CodeSystems.CountryCode },
+                { "SH", "Saint Helena, Ascension And Tristan Da Cunha", VRDR.CodeSystems.CountryCode },
+                { "SI", "Slovenia", VRDR.CodeSystems.CountryCode },
+                { "SK", "Sikkim", VRDR.CodeSystems.CountryCode },
+                { "SL", "Sierra Leone", VRDR.CodeSystems.CountryCode },
+                { "SM", "San Marino", VRDR.CodeSystems.CountryCode },
+                { "SN", "Singapore", VRDR.CodeSystems.CountryCode },
+                { "SO", "Somalia", VRDR.CodeSystems.CountryCode },
+                { "SP", "Spain", VRDR.CodeSystems.CountryCode },
+                { "SQ", "Swan Islands", VRDR.CodeSystems.CountryCode },
+                { "SS", "Spanish Sahara", VRDR.CodeSystems.CountryCode },
+                { "ST", "Saint Lucia", VRDR.CodeSystems.CountryCode },
+                { "SU", "Sudan", VRDR.CodeSystems.CountryCode },
+                { "SV", "Svalbard", VRDR.CodeSystems.CountryCode },
+                { "SW", "Sweden", VRDR.CodeSystems.CountryCode },
+                { "SX", "South Georgia And South Sandwich Islands", VRDR.CodeSystems.CountryCode },
+                { "SY", "Syria", VRDR.CodeSystems.CountryCode },
+                { "SZ", "Switzerland", VRDR.CodeSystems.CountryCode },
+                { "TB", "Saint Barthélemy", VRDR.CodeSystems.CountryCode },
+                { "TC", "United Arab Emirates", VRDR.CodeSystems.CountryCode },
+                { "TD", "Trinidad And Tobago", VRDR.CodeSystems.CountryCode },
+                { "TE", "Tromelin Island", VRDR.CodeSystems.CountryCode },
+                { "TH", "Thailand", VRDR.CodeSystems.CountryCode },
+                { "TI", "Tajikistan", VRDR.CodeSystems.CountryCode },
+                { "TK", "Turks And Caicos Islands", VRDR.CodeSystems.CountryCode },
+                { "TL", "Tokelau", VRDR.CodeSystems.CountryCode },
+                { "TN", "Tonga", VRDR.CodeSystems.CountryCode },
+                { "TO", "Togo", VRDR.CodeSystems.CountryCode },
+                { "TP", "Sao Tome And Principe", VRDR.CodeSystems.CountryCode },
+                { "TQ", "Trust Territory Of The Pacific Islands", VRDR.CodeSystems.CountryCode },
+                { "TS", "Tunisia", VRDR.CodeSystems.CountryCode },
+                { "TT", "East Timor, Timor-leste", VRDR.CodeSystems.CountryCode },
+                { "TU", "Turkey", VRDR.CodeSystems.CountryCode },
+                { "TV", "Tuvalu", VRDR.CodeSystems.CountryCode },
+                { "TW", "Taiwan", VRDR.CodeSystems.CountryCode },
+                { "TX", "Turkmenistan", VRDR.CodeSystems.CountryCode },
+                { "TZ", "Tanzania", VRDR.CodeSystems.CountryCode },
+                { "UC", "Curaçao", VRDR.CodeSystems.CountryCode },
+                { "UG", "Uganda", VRDR.CodeSystems.CountryCode },
+                { "UK", "England, Great Britain, United Kingdom", VRDR.CodeSystems.CountryCode },
+                { "UP", "Ukraine", VRDR.CodeSystems.CountryCode },
+                { "UR", "Soviet Union, Union Of Soviet Socialist Republics", VRDR.CodeSystems.CountryCode },
+                { "US", "United States", VRDR.CodeSystems.CountryCode },
+                { "UV", "Burkina Faso, Upper Volta", VRDR.CodeSystems.CountryCode },
+                { "UY", "Uruguay", VRDR.CodeSystems.CountryCode },
+                { "UZ", "Uzbekistan", VRDR.CodeSystems.CountryCode },
+                { "VC", "Saint Vincent And The Grenadines", VRDR.CodeSystems.CountryCode },
+                { "VE", "Venezuela", VRDR.CodeSystems.CountryCode },
+                { "VI", "British Virgin Islands, Virgin Islands,british", VRDR.CodeSystems.CountryCode },
+                { "VM", "Vietnam", VRDR.CodeSystems.CountryCode },
+                { "VN", "North Vietnam", VRDR.CodeSystems.CountryCode },
+                { "VS", "South Vietnam", VRDR.CodeSystems.CountryCode },
+                { "VT", "Holy See, Vatican City", VRDR.CodeSystems.CountryCode },
+                { "WA", "Namibia", VRDR.CodeSystems.CountryCode },
+                { "WB", "West Berlin", VRDR.CodeSystems.CountryCode },
+                { "WE", "West Bank", VRDR.CodeSystems.CountryCode },
+                { "WF", "Wallis And Futuna", VRDR.CodeSystems.CountryCode },
+                { "WI", "Western Sahara", VRDR.CodeSystems.CountryCode },
+                { "WQ", "Wake Island", VRDR.CodeSystems.CountryCode },
+                { "WS", "Samoa", VRDR.CodeSystems.CountryCode },
+                { "WZ", "Swaziland", VRDR.CodeSystems.CountryCode },
+                { "YE", "Yemen (sana'a)", VRDR.CodeSystems.CountryCode },
+                { "YI", "Serbia And Montenegro, Yugoslavia", VRDR.CodeSystems.CountryCode },
+                { "YM", "Yemen", VRDR.CodeSystems.CountryCode },
+                { "YQ", "Ryukyu Islands,southern", VRDR.CodeSystems.CountryCode },
+                { "YS", "Yemen (aden)", VRDR.CodeSystems.CountryCode },
+                { "ZA", "Zambia", VRDR.CodeSystems.CountryCode },
+                { "ZI", "Zimbabwe", VRDR.CodeSystems.CountryCode },
+                { "ZZ", "Not Classifiable", VRDR.CodeSystems.CountryCode }
+            };
+            /// <summary> Aruba </summary>
+            public static string  Aruba = "AA";
+            /// <summary> Antigua_And_Barbuda </summary>
+            public static string  Antigua_And_Barbuda = "AC";
+            /// <summary> United_Arab_Emirates </summary>
+            public static string  United_Arab_Emirates_2 = "AE";
+            /// <summary> Afghanistan </summary>
+            public static string  Afghanistan = "AF";
+            /// <summary> Algeria </summary>
+            public static string  Algeria = "AG";
+            /// <summary> Azerbaijan </summary>
+            public static string  Azerbaijan = "AJ";
+            /// <summary> Albania </summary>
+            public static string  Albania = "AL";
+            /// <summary> Armenia </summary>
+            public static string  Armenia = "AM";
+            /// <summary> Andorra </summary>
+            public static string  Andorra = "AN";
+            /// <summary> Angola </summary>
+            public static string  Angola = "AO";
+            /// <summary> Argentina </summary>
+            public static string  Argentina = "AR";
+            /// <summary> Australia </summary>
+            public static string  Australia = "AS";
+            /// <summary> Ashmore_And_Cartier_Islands </summary>
+            public static string  Ashmore_And_Cartier_Islands = "AT";
+            /// <summary> Austria </summary>
+            public static string  Austria = "AU";
+            /// <summary> Anguilla </summary>
+            public static string  Anguilla = "AV";
+            /// <summary> Akrotiri </summary>
+            public static string  Akrotiri = "AX";
+            /// <summary> Antarctica </summary>
+            public static string  Antarctica = "AY";
+            /// <summary> Bahrain </summary>
+            public static string  Bahrain = "BA";
+            /// <summary> Barbados </summary>
+            public static string  Barbados = "BB";
+            /// <summary> Botswana </summary>
+            public static string  Botswana = "BC";
+            /// <summary> Bermuda </summary>
+            public static string  Bermuda = "BD";
+            /// <summary> Belgium </summary>
+            public static string  Belgium = "BE";
+            /// <summary> Bahamas_The </summary>
+            public static string  Bahamas_The = "BF";
+            /// <summary> Bangladesh </summary>
+            public static string  Bangladesh = "BG";
+            /// <summary> Belize </summary>
+            public static string  Belize = "BH";
+            /// <summary> Bosnia_And_Herzegovina </summary>
+            public static string  Bosnia_And_Herzegovina = "BK";
+            /// <summary> Bolivia </summary>
+            public static string  Bolivia = "BL";
+            /// <summary> Burma_Myanmar </summary>
+            public static string  Burma_Myanmar = "BM";
+            /// <summary> Benin </summary>
+            public static string  Benin = "BN";
+            /// <summary> Belarus </summary>
+            public static string  Belarus = "BO";
+            /// <summary> Solomon_Islands </summary>
+            public static string  Solomon_Islands = "BP";
+            /// <summary> Brazil </summary>
+            public static string  Brazil = "BR";
+            /// <summary> Bassas_Da_India </summary>
+            public static string  Bassas_Da_India = "BS";
+            /// <summary> Bhutan </summary>
+            public static string  Bhutan = "BT";
+            /// <summary> Bulgaria </summary>
+            public static string  Bulgaria = "BU";
+            /// <summary> Bouvet_Island </summary>
+            public static string  Bouvet_Island = "BV";
+            /// <summary> Brunei </summary>
+            public static string  Brunei = "BX";
+            /// <summary> Burundi </summary>
+            public static string  Burundi = "BY";
+            /// <summary> Canada </summary>
+            public static string  Canada = "CA";
+            /// <summary> Cambodia </summary>
+            public static string  Cambodia = "CB";
+            /// <summary> Chad </summary>
+            public static string  Chad = "CD";
+            /// <summary> Sri_Lanka </summary>
+            public static string  Sri_Lanka = "CE";
+            /// <summary> Congo_Brazzaville_Republic_Of_The_Congo </summary>
+            public static string  Congo_Brazzaville_Republic_Of_The_Congo = "CF";
+            /// <summary> Congo_Kinshasa_Democratic_Republic_Of_The_Congo_Zaire </summary>
+            public static string  Congo_Kinshasa_Democratic_Republic_Of_The_Congo_Zaire = "CG";
+            /// <summary> China </summary>
+            public static string  China = "CH";
+            /// <summary> Chile </summary>
+            public static string  Chile = "CI";
+            /// <summary> Cayman_Islands </summary>
+            public static string  Cayman_Islands = "CJ";
+            /// <summary> Cocos_Keeling_Islands </summary>
+            public static string  Cocos_Keeling_Islands = "CK";
+            /// <summary> Central_And_Southern_Line_Islands </summary>
+            public static string  Central_And_Southern_Line_Islands = "CL";
+            /// <summary> Cameroon </summary>
+            public static string  Cameroon = "CM";
+            /// <summary> Comoros </summary>
+            public static string  Comoros = "CN";
+            /// <summary> Colombia </summary>
+            public static string  Colombia = "CO";
+            /// <summary> Coral_Sea_Islands </summary>
+            public static string  Coral_Sea_Islands = "CR";
+            /// <summary> Costa_Rica </summary>
+            public static string  Costa_Rica = "CS";
+            /// <summary> Central_African_Republic </summary>
+            public static string  Central_African_Republic = "CT";
+            /// <summary> Cuba </summary>
+            public static string  Cuba = "CU";
+            /// <summary> Cape_Verde </summary>
+            public static string  Cape_Verde = "CV";
+            /// <summary> Cook_Islands </summary>
+            public static string  Cook_Islands = "CW";
+            /// <summary> Cyprus </summary>
+            public static string  Cyprus = "CY";
+            /// <summary> Czechoslovakia </summary>
+            public static string  Czechoslovakia = "CZ";
+            /// <summary> Denmark </summary>
+            public static string  Denmark = "DA";
+            /// <summary> Djibouti </summary>
+            public static string  Djibouti = "DJ";
+            /// <summary> Dahomey </summary>
+            public static string  Dahomey = "DM";
+            /// <summary> Dominica </summary>
+            public static string  Dominica = "DO";
+            /// <summary> Jarvis_Island </summary>
+            public static string  Jarvis_Island = "DQ";
+            /// <summary> Dominican_Republic </summary>
+            public static string  Dominican_Republic = "DR";
+            /// <summary> Dhekelia </summary>
+            public static string  Dhekelia = "DX";
+            /// <summary> East_Berlin </summary>
+            public static string  East_Berlin = "EB";
+            /// <summary> Ecuador </summary>
+            public static string  Ecuador = "EC";
+            /// <summary> Egypt </summary>
+            public static string  Egypt = "EG";
+            /// <summary> Ireland </summary>
+            public static string  Ireland = "EI";
+            /// <summary> Equatorial_Guinea </summary>
+            public static string  Equatorial_Guinea = "EK";
+            /// <summary> Estonia </summary>
+            public static string  Estonia = "EN";
+            /// <summary> Canton_And_Enderberry_Islands </summary>
+            public static string  Canton_And_Enderberry_Islands = "EQ";
+            /// <summary> Eritrea </summary>
+            public static string  Eritrea = "ER";
+            /// <summary> El_Salvador </summary>
+            public static string  El_Salvador = "ES";
+            /// <summary> Ethiopia </summary>
+            public static string  Ethiopia = "ET";
+            /// <summary> Europa_Island </summary>
+            public static string  Europa_Island = "EU";
+            /// <summary> Czech_Republic </summary>
+            public static string  Czech_Republic = "EZ";
+            /// <summary> French_Guiana </summary>
+            public static string  French_Guiana = "FG";
+            /// <summary> _Land_Finland </summary>
+            public static string  _Land_Finland = "FI";
+            /// <summary> Fiji </summary>
+            public static string  Fiji = "FJ";
+            /// <summary> Falkland_Islands_Islas_Malvinas_Islas_Malvinas </summary>
+            public static string  Falkland_Islands_Islas_Malvinas_Islas_Malvinas = "FK";
+            /// <summary> Federated_States_Of_Micronesia_Micronesia_Federated_States_Of </summary>
+            public static string  Federated_States_Of_Micronesia_Micronesia_Federated_States_Of = "FM";
+            /// <summary> Faroe_Islands </summary>
+            public static string  Faroe_Islands = "FO";
+            /// <summary> French_Polynesia_Tahiti </summary>
+            public static string  French_Polynesia_Tahiti = "FP";
+            /// <summary> France </summary>
+            public static string  France = "FR";
+            /// <summary> French_Southern_And_Antarctic_Lands </summary>
+            public static string  French_Southern_And_Antarctic_Lands = "FS";
+            /// <summary> French_Territory_Of_The_Affars_And_Issas </summary>
+            public static string  French_Territory_Of_The_Affars_And_Issas = "FT";
+            /// <summary> Gambia_The </summary>
+            public static string  Gambia_The = "GA";
+            /// <summary> Gabon </summary>
+            public static string  Gabon = "GB";
+            /// <summary> East_Germany_German_Democratic_Republic </summary>
+            public static string  East_Germany_German_Democratic_Republic = "GC";
+            /// <summary> Federal_Republic_Of_Germany_West_Germany </summary>
+            public static string  Federal_Republic_Of_Germany_West_Germany = "GE";
+            /// <summary> Georgia </summary>
+            public static string  Georgia = "GG";
+            /// <summary> Ghana </summary>
+            public static string  Ghana = "GH";
+            /// <summary> Gibraltar </summary>
+            public static string  Gibraltar = "GI";
+            /// <summary> Grenada </summary>
+            public static string  Grenada = "GJ";
+            /// <summary> Guernsey </summary>
+            public static string  Guernsey = "GK";
+            /// <summary> Greenland </summary>
+            public static string  Greenland = "GL";
+            /// <summary> Germany </summary>
+            public static string  Germany = "GM";
+            /// <summary> Gilbert_And_Ellice_Islands </summary>
+            public static string  Gilbert_And_Ellice_Islands = "GN";
+            /// <summary> Glorioso_Islands </summary>
+            public static string  Glorioso_Islands = "GO";
+            /// <summary> Guadeloupe </summary>
+            public static string  Guadeloupe = "GP";
+            /// <summary> Greece </summary>
+            public static string  Greece = "GR";
+            /// <summary> Gilbert_Islands </summary>
+            public static string  Gilbert_Islands = "GS";
+            /// <summary> Guatemala </summary>
+            public static string  Guatemala = "GT";
+            /// <summary> Guinea </summary>
+            public static string  Guinea = "GV";
+            /// <summary> Guyana </summary>
+            public static string  Guyana = "GY";
+            /// <summary> Gaza_Strip </summary>
+            public static string  Gaza_Strip = "GZ";
+            /// <summary> Haiti </summary>
+            public static string  Haiti = "HA";
+            /// <summary> Hong_Kong </summary>
+            public static string  Hong_Kong = "HK";
+            /// <summary> Heard_Island_And_Mcdonald_Islands </summary>
+            public static string  Heard_Island_And_Mcdonald_Islands = "HM";
+            /// <summary> Honduras </summary>
+            public static string  Honduras = "HO";
+            /// <summary> Howland_Island </summary>
+            public static string  Howland_Island = "HQ";
+            /// <summary> Croatia </summary>
+            public static string  Croatia = "HR";
+            /// <summary> Hungary </summary>
+            public static string  Hungary = "HU";
+            /// <summary> Iceland </summary>
+            public static string  Iceland = "IC";
+            /// <summary> Indonesia </summary>
+            public static string  Indonesia = "ID";
+            /// <summary> Isle_Of_Man </summary>
+            public static string  Isle_Of_Man = "IM";
+            /// <summary> India </summary>
+            public static string  India = "IN";
+            /// <summary> British_Indian_Ocean_Territory </summary>
+            public static string  British_Indian_Ocean_Territory = "IO";
+            /// <summary> Clipperton_Island </summary>
+            public static string  Clipperton_Island = "IP";
+            /// <summary> Us_Miscellaneous_Pacific_Islands </summary>
+            public static string  Us_Miscellaneous_Pacific_Islands = "IQ";
+            /// <summary> Iran </summary>
+            public static string  Iran = "IR";
+            /// <summary> Israel </summary>
+            public static string  Israel = "IS";
+            /// <summary> Italy </summary>
+            public static string  Italy = "IT";
+            /// <summary> Israel_Syria_Demilitarized_Zone </summary>
+            public static string  Israel_Syria_Demilitarized_Zone = "IU";
+            /// <summary> C_Te_D_Ivoire_Ivory_Coast </summary>
+            public static string  C_Te_D_Ivoire_Ivory_Coast = "IV";
+            /// <summary> Israel_Jordan_Demilitarized_Zone </summary>
+            public static string  Israel_Jordan_Demilitarized_Zone = "IW";
+            /// <summary> Iraq_Saudi_Arabia_Neutral_Zone </summary>
+            public static string  Iraq_Saudi_Arabia_Neutral_Zone = "IY";
+            /// <summary> Iraq </summary>
+            public static string  Iraq = "IZ";
+            /// <summary> Japan </summary>
+            public static string  Japan = "JA";
+            /// <summary> Jersey </summary>
+            public static string  Jersey = "JE";
+            /// <summary> Jamaica </summary>
+            public static string  Jamaica = "JM";
+            /// <summary> Jan_Mayen </summary>
+            public static string  Jan_Mayen = "JN";
+            /// <summary> Jordan </summary>
+            public static string  Jordan = "JO";
+            /// <summary> Johnston_Atoll </summary>
+            public static string  Johnston_Atoll = "JQ";
+            /// <summary> Svalbard_And_Jan_Mayen </summary>
+            public static string  Svalbard_And_Jan_Mayen = "JS";
+            /// <summary> Juan_De_Nova_Island </summary>
+            public static string  Juan_De_Nova_Island = "JU";
+            /// <summary> Kenya </summary>
+            public static string  Kenya = "KE";
+            /// <summary> Kyrgyzstan </summary>
+            public static string  Kyrgyzstan = "KG";
+            /// <summary> Korea_North_North_Korea </summary>
+            public static string  Korea_North_North_Korea = "KN";
+            /// <summary> Kiribati </summary>
+            public static string  Kiribati = "KR";
+            /// <summary> Korea_South_South_Korea </summary>
+            public static string  Korea_South_South_Korea = "KS";
+            /// <summary> Christmas_Island </summary>
+            public static string  Christmas_Island = "KT";
+            /// <summary> Kuwait </summary>
+            public static string  Kuwait = "KU";
+            /// <summary> Kosovo </summary>
+            public static string  Kosovo = "KV";
+            /// <summary> Kazakhstan </summary>
+            public static string  Kazakhstan = "KZ";
+            /// <summary> Laos </summary>
+            public static string  Laos = "LA";
+            /// <summary> Lebanon </summary>
+            public static string  Lebanon = "LE";
+            /// <summary> Latvia </summary>
+            public static string  Latvia = "LG";
+            /// <summary> Lithuania </summary>
+            public static string  Lithuania = "LH";
+            /// <summary> Liberia </summary>
+            public static string  Liberia = "LI";
+            /// <summary> Slovakia </summary>
+            public static string  Slovakia = "LO";
+            /// <summary> Palmyra_Atoll </summary>
+            public static string  Palmyra_Atoll = "LQ";
+            /// <summary> Liechtenstein </summary>
+            public static string  Liechtenstein = "LS";
+            /// <summary> Lesotho </summary>
+            public static string  Lesotho = "LT";
+            /// <summary> Luxembourg </summary>
+            public static string  Luxembourg = "LU";
+            /// <summary> Libya </summary>
+            public static string  Libya = "LY";
+            /// <summary> Madagascar </summary>
+            public static string  Madagascar = "MA";
+            /// <summary> Martinique </summary>
+            public static string  Martinique = "MB";
+            /// <summary> Macau </summary>
+            public static string  Macau = "MC";
+            /// <summary> Moldova </summary>
+            public static string  Moldova = "MD";
+            /// <summary> Mayotte </summary>
+            public static string  Mayotte = "MF";
+            /// <summary> Mongolia </summary>
+            public static string  Mongolia = "MG";
+            /// <summary> Montserrat </summary>
+            public static string  Montserrat = "MH";
+            /// <summary> Malawi </summary>
+            public static string  Malawi = "MI";
+            /// <summary> Montenegro </summary>
+            public static string  Montenegro = "MJ";
+            /// <summary> Macedonia </summary>
+            public static string  Macedonia = "MK";
+            /// <summary> Mali </summary>
+            public static string  Mali = "ML";
+            /// <summary> Monaco </summary>
+            public static string  Monaco = "MN";
+            /// <summary> Morocco </summary>
+            public static string  Morocco = "MO";
+            /// <summary> Mauritius </summary>
+            public static string  Mauritius = "MP";
+            /// <summary> Midway_Islands </summary>
+            public static string  Midway_Islands = "MQ";
+            /// <summary> Mauritania </summary>
+            public static string  Mauritania = "MR";
+            /// <summary> Malta </summary>
+            public static string  Malta = "MT";
+            /// <summary> Oman </summary>
+            public static string  Oman = "MU";
+            /// <summary> Maldives </summary>
+            public static string  Maldives = "MV";
+            /// <summary> Mexico </summary>
+            public static string  Mexico = "MX";
+            /// <summary> Malaysia </summary>
+            public static string  Malaysia = "MY";
+            /// <summary> Mozambique </summary>
+            public static string  Mozambique = "MZ";
+            /// <summary> New_Caledonia </summary>
+            public static string  New_Caledonia = "NC";
+            /// <summary> Niue </summary>
+            public static string  Niue = "NE";
+            /// <summary> Norfolk_Island </summary>
+            public static string  Norfolk_Island = "NF";
+            /// <summary> Niger </summary>
+            public static string  Niger = "NG";
+            /// <summary> New_Hebrides_Vanuatu </summary>
+            public static string  New_Hebrides_Vanuatu = "NH";
+            /// <summary> Nigeria </summary>
+            public static string  Nigeria = "NI";
+            /// <summary> Bonaire_Netherlands_Saba_Saint_Eustatius </summary>
+            public static string  Bonaire_Netherlands_Saba_Saint_Eustatius = "NL";
+            /// <summary> Sint_Maarten </summary>
+            public static string  Sint_Maarten = "NN";
+            /// <summary> Norway </summary>
+            public static string  Norway = "NO";
+            /// <summary> Nepal </summary>
+            public static string  Nepal = "NP";
+            /// <summary> Nauru </summary>
+            public static string  Nauru = "NR";
+            /// <summary> Suriname </summary>
+            public static string  Suriname = "NS";
+            /// <summary> Netherlands_Antilles </summary>
+            public static string  Netherlands_Antilles = "NT";
+            /// <summary> Nicaragua </summary>
+            public static string  Nicaragua = "NU";
+            /// <summary> New_Zealand </summary>
+            public static string  New_Zealand = "NZ";
+            /// <summary> South_Sudan </summary>
+            public static string  South_Sudan = "OD";
+            /// <summary> Paraguay </summary>
+            public static string  Paraguay = "PA";
+            /// <summary> Pitcairn_Island </summary>
+            public static string  Pitcairn_Island = "PC";
+            /// <summary> Peru </summary>
+            public static string  Peru = "PE";
+            /// <summary> Paracel_Islands </summary>
+            public static string  Paracel_Islands = "PF";
+            /// <summary> Spratly_Islands </summary>
+            public static string  Spratly_Islands = "PG";
+            /// <summary> Etorofu_Habomai_Kunashiri_And_Shikotan_Islands </summary>
+            public static string  Etorofu_Habomai_Kunashiri_And_Shikotan_Islands = "PJ";
+            /// <summary> Pakistan </summary>
+            public static string  Pakistan = "PK";
+            /// <summary> Poland </summary>
+            public static string  Poland = "PL";
+            /// <summary> Panama </summary>
+            public static string  Panama = "PM";
+            /// <summary> Panama </summary>
+            public static string  Panama_2 = "PN";
+            /// <summary> Azores_Portugal </summary>
+            public static string  Azores_Portugal = "PO";
+            /// <summary> Papua_New_Guinea </summary>
+            public static string  Papua_New_Guinea = "PP";
+            /// <summary> Panama_Canal_Zone </summary>
+            public static string  Panama_Canal_Zone = "PQ";
+            /// <summary> Palau </summary>
+            public static string  Palau = "PS";
+            /// <summary> Guinea_Bissau </summary>
+            public static string  Guinea_Bissau = "PU";
+            /// <summary> Qatar </summary>
+            public static string  Qatar = "QA";
+            /// <summary> Reunion </summary>
+            public static string  Reunion = "RE";
+            /// <summary> Rhodesia_Southern_Rhodesia </summary>
+            public static string  Rhodesia_Southern_Rhodesia = "RH";
+            /// <summary> Serbia </summary>
+            public static string  Serbia = "RI";
+            /// <summary> Marshall_Islands </summary>
+            public static string  Marshall_Islands = "RM";
+            /// <summary> Saint_Martin </summary>
+            public static string  Saint_Martin = "RN";
+            /// <summary> Romania </summary>
+            public static string  Romania = "RO";
+            /// <summary> Philippines </summary>
+            public static string  Philippines = "RP";
+            /// <summary> Russia </summary>
+            public static string  Russia = "RS";
+            /// <summary> Rwanda </summary>
+            public static string  Rwanda = "RW";
+            /// <summary> Saudi_Arabia </summary>
+            public static string  Saudi_Arabia = "SA";
+            /// <summary> Saint_Pierre_And_Miquelon </summary>
+            public static string  Saint_Pierre_And_Miquelon = "SB";
+            /// <summary> Nevis_Saint_Kitts_And_Nevis </summary>
+            public static string  Nevis_Saint_Kitts_And_Nevis = "SC";
+            /// <summary> Seychelles </summary>
+            public static string  Seychelles = "SE";
+            /// <summary> South_Africa </summary>
+            public static string  South_Africa = "SF";
+            /// <summary> Senegal </summary>
+            public static string  Senegal = "SG";
+            /// <summary> Saint_Helena_Ascension_And_Tristan_Da_Cunha </summary>
+            public static string  Saint_Helena_Ascension_And_Tristan_Da_Cunha = "SH";
+            /// <summary> Slovenia </summary>
+            public static string  Slovenia = "SI";
+            /// <summary> Sikkim </summary>
+            public static string  Sikkim = "SK";
+            /// <summary> Sierra_Leone </summary>
+            public static string  Sierra_Leone = "SL";
+            /// <summary> San_Marino </summary>
+            public static string  San_Marino = "SM";
+            /// <summary> Singapore </summary>
+            public static string  Singapore = "SN";
+            /// <summary> Somalia </summary>
+            public static string  Somalia = "SO";
+            /// <summary> Spain </summary>
+            public static string  Spain = "SP";
+            /// <summary> Swan_Islands </summary>
+            public static string  Swan_Islands = "SQ";
+            /// <summary> Spanish_Sahara </summary>
+            public static string  Spanish_Sahara = "SS";
+            /// <summary> Saint_Lucia </summary>
+            public static string  Saint_Lucia = "ST";
+            /// <summary> Sudan </summary>
+            public static string  Sudan = "SU";
+            /// <summary> Svalbard </summary>
+            public static string  Svalbard = "SV";
+            /// <summary> Sweden </summary>
+            public static string  Sweden = "SW";
+            /// <summary> South_Georgia_And_South_Sandwich_Islands </summary>
+            public static string  South_Georgia_And_South_Sandwich_Islands = "SX";
+            /// <summary> Syria </summary>
+            public static string  Syria = "SY";
+            /// <summary> Switzerland </summary>
+            public static string  Switzerland = "SZ";
+            /// <summary> Saint_Barth_Lemy </summary>
+            public static string  Saint_Barth_Lemy = "TB";
+            /// <summary> United_Arab_Emirates </summary>
+            public static string  United_Arab_Emirates = "TC";
+            /// <summary> Trinidad_And_Tobago </summary>
+            public static string  Trinidad_And_Tobago = "TD";
+            /// <summary> Tromelin_Island </summary>
+            public static string  Tromelin_Island = "TE";
+            /// <summary> Thailand </summary>
+            public static string  Thailand = "TH";
+            /// <summary> Tajikistan </summary>
+            public static string  Tajikistan = "TI";
+            /// <summary> Turks_And_Caicos_Islands </summary>
+            public static string  Turks_And_Caicos_Islands = "TK";
+            /// <summary> Tokelau </summary>
+            public static string  Tokelau = "TL";
+            /// <summary> Tonga </summary>
+            public static string  Tonga = "TN";
+            /// <summary> Togo </summary>
+            public static string  Togo = "TO";
+            /// <summary> Sao_Tome_And_Principe </summary>
+            public static string  Sao_Tome_And_Principe = "TP";
+            /// <summary> Trust_Territory_Of_The_Pacific_Islands </summary>
+            public static string  Trust_Territory_Of_The_Pacific_Islands = "TQ";
+            /// <summary> Tunisia </summary>
+            public static string  Tunisia = "TS";
+            /// <summary> East_Timor_Timor_Leste </summary>
+            public static string  East_Timor_Timor_Leste = "TT";
+            /// <summary> Turkey </summary>
+            public static string  Turkey = "TU";
+            /// <summary> Tuvalu </summary>
+            public static string  Tuvalu = "TV";
+            /// <summary> Taiwan </summary>
+            public static string  Taiwan = "TW";
+            /// <summary> Turkmenistan </summary>
+            public static string  Turkmenistan = "TX";
+            /// <summary> Tanzania </summary>
+            public static string  Tanzania = "TZ";
+            /// <summary> Cura_Ao </summary>
+            public static string  Cura_Ao = "UC";
+            /// <summary> Uganda </summary>
+            public static string  Uganda = "UG";
+            /// <summary> England_Great_Britain_United_Kingdom </summary>
+            public static string  England_Great_Britain_United_Kingdom = "UK";
+            /// <summary> Ukraine </summary>
+            public static string  Ukraine = "UP";
+            /// <summary> Soviet_Union_Union_Of_Soviet_Socialist_Republics </summary>
+            public static string  Soviet_Union_Union_Of_Soviet_Socialist_Republics = "UR";
+            /// <summary> United_States </summary>
+            public static string  United_States = "US";
+            /// <summary> Burkina_Faso_Upper_Volta </summary>
+            public static string  Burkina_Faso_Upper_Volta = "UV";
+            /// <summary> Uruguay </summary>
+            public static string  Uruguay = "UY";
+            /// <summary> Uzbekistan </summary>
+            public static string  Uzbekistan = "UZ";
+            /// <summary> Saint_Vincent_And_The_Grenadines </summary>
+            public static string  Saint_Vincent_And_The_Grenadines = "VC";
+            /// <summary> Venezuela </summary>
+            public static string  Venezuela = "VE";
+            /// <summary> British_Virgin_Islands_Virgin_Islands_British </summary>
+            public static string  British_Virgin_Islands_Virgin_Islands_British = "VI";
+            /// <summary> Vietnam </summary>
+            public static string  Vietnam = "VM";
+            /// <summary> North_Vietnam </summary>
+            public static string  North_Vietnam = "VN";
+            /// <summary> South_Vietnam </summary>
+            public static string  South_Vietnam = "VS";
+            /// <summary> Holy_See_Vatican_City </summary>
+            public static string  Holy_See_Vatican_City = "VT";
+            /// <summary> Namibia </summary>
+            public static string  Namibia = "WA";
+            /// <summary> West_Berlin </summary>
+            public static string  West_Berlin = "WB";
+            /// <summary> West_Bank </summary>
+            public static string  West_Bank = "WE";
+            /// <summary> Wallis_And_Futuna </summary>
+            public static string  Wallis_And_Futuna = "WF";
+            /// <summary> Western_Sahara </summary>
+            public static string  Western_Sahara = "WI";
+            /// <summary> Wake_Island </summary>
+            public static string  Wake_Island = "WQ";
+            /// <summary> Samoa </summary>
+            public static string  Samoa = "WS";
+            /// <summary> Swaziland </summary>
+            public static string  Swaziland = "WZ";
+            /// <summary> Yemen_Sanaa </summary>
+            public static string  Yemen_Sanaa = "YE";
+            /// <summary> Serbia_And_Montenegro_Yugoslavia </summary>
+            public static string  Serbia_And_Montenegro_Yugoslavia = "YI";
+            /// <summary> Yemen </summary>
+            public static string  Yemen = "YM";
+            /// <summary> Ryukyu_Islands_Southern </summary>
+            public static string  Ryukyu_Islands_Southern = "YQ";
+            /// <summary> Yemen_Aden </summary>
+            public static string  Yemen_Aden = "YS";
+            /// <summary> Zambia </summary>
+            public static string  Zambia = "ZA";
+            /// <summary> Zimbabwe </summary>
+            public static string  Zimbabwe = "ZI";
+            /// <summary> Not_Classifiable </summary>
+            public static string  Not_Classifiable = "ZZ";
+        };
+        /// <summary> USStatesAndTerritories </summary>
+        public static class USStatesAndTerritories {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "AL", "Alabama",  },
+                { "AK", "Alaska",  },
+                { "AZ", "Arizona",  },
+                { "AR", "Arkansas",  },
+                { "CA", "California",  },
+                { "CO", "Colorado",  },
+                { "CT", "Connecticut",  },
+                { "DE", "Delaware",  },
+                { "DC", "District of Columbia",  },
+                { "FL", "Florida",  },
+                { "GA", "Georgia",  },
+                { "HI", "Hawaii",  },
+                { "ID", "Idaho",  },
+                { "IL", "Illinois",  },
+                { "IN", "Indiana",  },
+                { "IA", "Iowa",  },
+                { "KS", "Kansas",  },
+                { "KY", "Kentucky",  },
+                { "LA", "Louisiana",  },
+                { "ME", "Maine",  },
+                { "MD", "Maryland",  },
+                { "MA", "Massachusetts",  },
+                { "MI", "Michigan",  },
+                { "MN", "Minnesota",  },
+                { "MS", "Mississippi",  },
+                { "MO", "Missouri",  },
+                { "MT", "Montana",  },
+                { "NE", "Nebraska",  },
+                { "NV", "Nevada",  },
+                { "NH", "New Hampshire",  },
+                { "NJ", "New Jersey",  },
+                { "NM", "New Mexico",  },
+                { "NY", "New York",  },
+                { "NC", "North Carolina",  },
+                { "ND", "North Dakota",  },
+                { "OH", "Ohio",  },
+                { "OK", "Oklahoma",  },
+                { "OR", "Oregon",  },
+                { "PA", "Pennsylvania",  },
+                { "RI", "Rhode Island",  },
+                { "SC", "South Carolina",  },
+                { "SD", "South Dakota",  },
+                { "TN", "Tennessee",  },
+                { "TX", "Texas",  },
+                { "UT", "Utah",  },
+                { "VT", "Vermont",  },
+                { "VA", "Virginia",  },
+                { "WA", "Washington",  },
+                { "WV", "West Virginia",  },
+                { "WI", "Wisconsin",  },
+                { "WY", "Wyoming",  },
+                { "AS", "American Samoa",  },
+                { "GU", "Guam",  },
+                { "MP", "Northern Mariana Islands",  },
+                { "PR", "Puerto Rico",  },
+                { "VI", "Virgin Islands",  }
+            };
+            /// <summary> Alabama </summary>
+            public static string  Alabama = "AL";
+            /// <summary> Alaska </summary>
+            public static string  Alaska = "AK";
+            /// <summary> Arizona </summary>
+            public static string  Arizona = "AZ";
+            /// <summary> Arkansas </summary>
+            public static string  Arkansas = "AR";
+            /// <summary> California </summary>
+            public static string  California = "CA";
+            /// <summary> Colorado </summary>
+            public static string  Colorado = "CO";
+            /// <summary> Connecticut </summary>
+            public static string  Connecticut = "CT";
+            /// <summary> Delaware </summary>
+            public static string  Delaware = "DE";
+            /// <summary> District_Of_Columbia </summary>
+            public static string  District_Of_Columbia = "DC";
+            /// <summary> Florida </summary>
+            public static string  Florida = "FL";
+            /// <summary> Georgia </summary>
+            public static string  Georgia = "GA";
+            /// <summary> Hawaii </summary>
+            public static string  Hawaii = "HI";
+            /// <summary> Idaho </summary>
+            public static string  Idaho = "ID";
+            /// <summary> Illinois </summary>
+            public static string  Illinois = "IL";
+            /// <summary> Indiana </summary>
+            public static string  Indiana = "IN";
+            /// <summary> Iowa </summary>
+            public static string  Iowa = "IA";
+            /// <summary> Kansas </summary>
+            public static string  Kansas = "KS";
+            /// <summary> Kentucky </summary>
+            public static string  Kentucky = "KY";
+            /// <summary> Louisiana </summary>
+            public static string  Louisiana = "LA";
+            /// <summary> Maine </summary>
+            public static string  Maine = "ME";
+            /// <summary> Maryland </summary>
+            public static string  Maryland = "MD";
+            /// <summary> Massachusetts </summary>
+            public static string  Massachusetts = "MA";
+            /// <summary> Michigan </summary>
+            public static string  Michigan = "MI";
+            /// <summary> Minnesota </summary>
+            public static string  Minnesota = "MN";
+            /// <summary> Mississippi </summary>
+            public static string  Mississippi = "MS";
+            /// <summary> Missouri </summary>
+            public static string  Missouri = "MO";
+            /// <summary> Montana </summary>
+            public static string  Montana = "MT";
+            /// <summary> Nebraska </summary>
+            public static string  Nebraska = "NE";
+            /// <summary> Nevada </summary>
+            public static string  Nevada = "NV";
+            /// <summary> New_Hampshire </summary>
+            public static string  New_Hampshire = "NH";
+            /// <summary> New_Jersey </summary>
+            public static string  New_Jersey = "NJ";
+            /// <summary> New_Mexico </summary>
+            public static string  New_Mexico = "NM";
+            /// <summary> New_York </summary>
+            public static string  New_York = "NY";
+            /// <summary> North_Carolina </summary>
+            public static string  North_Carolina = "NC";
+            /// <summary> North_Dakota </summary>
+            public static string  North_Dakota = "ND";
+            /// <summary> Ohio </summary>
+            public static string  Ohio = "OH";
+            /// <summary> Oklahoma </summary>
+            public static string  Oklahoma = "OK";
+            /// <summary> Oregon </summary>
+            public static string  Oregon = "OR";
+            /// <summary> Pennsylvania </summary>
+            public static string  Pennsylvania = "PA";
+            /// <summary> Rhode_Island </summary>
+            public static string  Rhode_Island = "RI";
+            /// <summary> South_Carolina </summary>
+            public static string  South_Carolina = "SC";
+            /// <summary> South_Dakota </summary>
+            public static string  South_Dakota = "SD";
+            /// <summary> Tennessee </summary>
+            public static string  Tennessee = "TN";
+            /// <summary> Texas </summary>
+            public static string  Texas = "TX";
+            /// <summary> Utah </summary>
+            public static string  Utah = "UT";
+            /// <summary> Vermont </summary>
+            public static string  Vermont = "VT";
+            /// <summary> Virginia </summary>
+            public static string  Virginia = "VA";
+            /// <summary> Washington </summary>
+            public static string  Washington = "WA";
+            /// <summary> West_Virginia </summary>
+            public static string  West_Virginia = "WV";
+            /// <summary> Wisconsin </summary>
+            public static string  Wisconsin = "WI";
+            /// <summary> Wyoming </summary>
+            public static string  Wyoming = "WY";
+            /// <summary> American_Samoa </summary>
+            public static string  American_Samoa = "AS";
+            /// <summary> Guam </summary>
+            public static string  Guam = "GU";
+            /// <summary> Northern_Mariana_Islands </summary>
+            public static string  Northern_Mariana_Islands = "MP";
+            /// <summary> Puerto_Rico </summary>
+            public static string  Puerto_Rico = "PR";
+            /// <summary> Virgin_Islands </summary>
+            public static string  Virgin_Islands = "VI";
+        };
+        /// <summary> CanadaProvinces </summary>
+        public static class CanadaProvinces {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "AB", "Alberta", VRDR.CodeSystems.CanadianProvinces },
+                { "BC", "British Columbia", VRDR.CodeSystems.CanadianProvinces },
+                { "MB", "Manitoba", VRDR.CodeSystems.CanadianProvinces },
+                { "NB", "New Brunswick", VRDR.CodeSystems.CanadianProvinces },
+                { "NL", "Newfoundland and Labrador", VRDR.CodeSystems.CanadianProvinces },
+                { "NS", "Nova Scotia", VRDR.CodeSystems.CanadianProvinces },
+                { "NT", "Northwest Territories", VRDR.CodeSystems.CanadianProvinces },
+                { "NU", "Nunavut", VRDR.CodeSystems.CanadianProvinces },
+                { "ON", "Ontario", VRDR.CodeSystems.CanadianProvinces },
+                { "PE", "Prince Edward Island", VRDR.CodeSystems.CanadianProvinces },
+                { "QC", "Quebec", VRDR.CodeSystems.CanadianProvinces },
+                { "SK", "Saskatchewan", VRDR.CodeSystems.CanadianProvinces },
+                { "YT", "Yukon", VRDR.CodeSystems.CanadianProvinces }
+            };
+            /// <summary> Alberta </summary>
+            public static string  Alberta = "AB";
+            /// <summary> British_Columbia </summary>
+            public static string  British_Columbia = "BC";
+            /// <summary> Manitoba </summary>
+            public static string  Manitoba = "MB";
+            /// <summary> New_Brunswick </summary>
+            public static string  New_Brunswick = "NB";
+            /// <summary> Newfoundland_And_Labrador </summary>
+            public static string  Newfoundland_And_Labrador = "NL";
+            /// <summary> Nova_Scotia </summary>
+            public static string  Nova_Scotia = "NS";
+            /// <summary> Northwest_Territories </summary>
+            public static string  Northwest_Territories = "NT";
+            /// <summary> Nunavut </summary>
+            public static string  Nunavut = "NU";
+            /// <summary> Ontario </summary>
+            public static string  Ontario = "ON";
+            /// <summary> Prince_Edward_Island </summary>
+            public static string  Prince_Edward_Island = "PE";
+            /// <summary> Quebec </summary>
+            public static string  Quebec = "QC";
+            /// <summary> Saskatchewan </summary>
+            public static string  Saskatchewan = "SK";
+            /// <summary> Yukon </summary>
+            public static string  Yukon = "YT";
+        };
    }
 }

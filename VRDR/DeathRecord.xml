@@ -118,6 +118,12 @@
         <member name="F:VRDR.CodeSystems.DateOfDeathDeterminationMethods">
             <summary> Date of Death Determination Methods </summary>
         </member>
+        <member name="F:VRDR.CodeSystems.CanadianProvinces">
+            <summary>Canadian Provinces</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.CountryCode">
+            <summary>Country Code</summary>
+        </member>
         <member name="T:VRDR.Connectathon">
             <summary>Class <c>Connectathon</c> provides static methods for generating records used in Connectathon testing, used in Canary and in the CLI tool</summary>
         </member>
@@ -9807,6 +9813,1119 @@
         </member>
         <member name="F:VRDR.ValueSets.HispanicNoUnknown.Unknown">
             <summary> Unknown </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.BirthplaceCountry">
+            <summary> BirthplaceCountry </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Aruba">
+            <summary> Aruba </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Antigua_And_Barbuda">
+            <summary> Antigua_And_Barbuda </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.United_Arab_Emirates_2">
+            <summary> United_Arab_Emirates </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Afghanistan">
+            <summary> Afghanistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Algeria">
+            <summary> Algeria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Azerbaijan">
+            <summary> Azerbaijan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Albania">
+            <summary> Albania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Armenia">
+            <summary> Armenia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Andorra">
+            <summary> Andorra </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Angola">
+            <summary> Angola </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Argentina">
+            <summary> Argentina </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Australia">
+            <summary> Australia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Ashmore_And_Cartier_Islands">
+            <summary> Ashmore_And_Cartier_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Austria">
+            <summary> Austria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Anguilla">
+            <summary> Anguilla </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Akrotiri">
+            <summary> Akrotiri </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Antarctica">
+            <summary> Antarctica </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bahrain">
+            <summary> Bahrain </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Barbados">
+            <summary> Barbados </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Botswana">
+            <summary> Botswana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bermuda">
+            <summary> Bermuda </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Belgium">
+            <summary> Belgium </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bahamas_The">
+            <summary> Bahamas_The </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bangladesh">
+            <summary> Bangladesh </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Belize">
+            <summary> Belize </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bosnia_And_Herzegovina">
+            <summary> Bosnia_And_Herzegovina </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bolivia">
+            <summary> Bolivia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Burma_Myanmar">
+            <summary> Burma_Myanmar </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Benin">
+            <summary> Benin </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Belarus">
+            <summary> Belarus </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Solomon_Islands">
+            <summary> Solomon_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Brazil">
+            <summary> Brazil </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bassas_Da_India">
+            <summary> Bassas_Da_India </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bhutan">
+            <summary> Bhutan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bulgaria">
+            <summary> Bulgaria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bouvet_Island">
+            <summary> Bouvet_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Brunei">
+            <summary> Brunei </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Burundi">
+            <summary> Burundi </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Canada">
+            <summary> Canada </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Cambodia">
+            <summary> Cambodia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Chad">
+            <summary> Chad </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Sri_Lanka">
+            <summary> Sri_Lanka </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Congo_Brazzaville_Republic_Of_The_Congo">
+            <summary> Congo_Brazzaville_Republic_Of_The_Congo </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Congo_Kinshasa_Democratic_Republic_Of_The_Congo_Zaire">
+            <summary> Congo_Kinshasa_Democratic_Republic_Of_The_Congo_Zaire </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.China">
+            <summary> China </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Chile">
+            <summary> Chile </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Cayman_Islands">
+            <summary> Cayman_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Cocos_Keeling_Islands">
+            <summary> Cocos_Keeling_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Central_And_Southern_Line_Islands">
+            <summary> Central_And_Southern_Line_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Cameroon">
+            <summary> Cameroon </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Comoros">
+            <summary> Comoros </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Colombia">
+            <summary> Colombia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Coral_Sea_Islands">
+            <summary> Coral_Sea_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Costa_Rica">
+            <summary> Costa_Rica </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Central_African_Republic">
+            <summary> Central_African_Republic </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Cuba">
+            <summary> Cuba </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Cape_Verde">
+            <summary> Cape_Verde </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Cook_Islands">
+            <summary> Cook_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Cyprus">
+            <summary> Cyprus </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Czechoslovakia">
+            <summary> Czechoslovakia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Denmark">
+            <summary> Denmark </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Djibouti">
+            <summary> Djibouti </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Dahomey">
+            <summary> Dahomey </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Dominica">
+            <summary> Dominica </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Jarvis_Island">
+            <summary> Jarvis_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Dominican_Republic">
+            <summary> Dominican_Republic </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Dhekelia">
+            <summary> Dhekelia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.East_Berlin">
+            <summary> East_Berlin </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Ecuador">
+            <summary> Ecuador </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Egypt">
+            <summary> Egypt </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Ireland">
+            <summary> Ireland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Equatorial_Guinea">
+            <summary> Equatorial_Guinea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Estonia">
+            <summary> Estonia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Canton_And_Enderberry_Islands">
+            <summary> Canton_And_Enderberry_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Eritrea">
+            <summary> Eritrea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.El_Salvador">
+            <summary> El_Salvador </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Ethiopia">
+            <summary> Ethiopia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Europa_Island">
+            <summary> Europa_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Czech_Republic">
+            <summary> Czech_Republic </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.French_Guiana">
+            <summary> French_Guiana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry._Land_Finland">
+            <summary> _Land_Finland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Fiji">
+            <summary> Fiji </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Falkland_Islands_Islas_Malvinas_Islas_Malvinas">
+            <summary> Falkland_Islands_Islas_Malvinas_Islas_Malvinas </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Federated_States_Of_Micronesia_Micronesia_Federated_States_Of">
+            <summary> Federated_States_Of_Micronesia_Micronesia_Federated_States_Of </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Faroe_Islands">
+            <summary> Faroe_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.French_Polynesia_Tahiti">
+            <summary> French_Polynesia_Tahiti </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.France">
+            <summary> France </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.French_Southern_And_Antarctic_Lands">
+            <summary> French_Southern_And_Antarctic_Lands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.French_Territory_Of_The_Affars_And_Issas">
+            <summary> French_Territory_Of_The_Affars_And_Issas </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Gambia_The">
+            <summary> Gambia_The </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Gabon">
+            <summary> Gabon </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.East_Germany_German_Democratic_Republic">
+            <summary> East_Germany_German_Democratic_Republic </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Federal_Republic_Of_Germany_West_Germany">
+            <summary> Federal_Republic_Of_Germany_West_Germany </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Georgia">
+            <summary> Georgia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Ghana">
+            <summary> Ghana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Gibraltar">
+            <summary> Gibraltar </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Grenada">
+            <summary> Grenada </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Guernsey">
+            <summary> Guernsey </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Greenland">
+            <summary> Greenland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Germany">
+            <summary> Germany </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Gilbert_And_Ellice_Islands">
+            <summary> Gilbert_And_Ellice_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Glorioso_Islands">
+            <summary> Glorioso_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Guadeloupe">
+            <summary> Guadeloupe </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Greece">
+            <summary> Greece </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Gilbert_Islands">
+            <summary> Gilbert_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Guatemala">
+            <summary> Guatemala </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Guinea">
+            <summary> Guinea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Guyana">
+            <summary> Guyana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Gaza_Strip">
+            <summary> Gaza_Strip </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Haiti">
+            <summary> Haiti </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Hong_Kong">
+            <summary> Hong_Kong </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Heard_Island_And_Mcdonald_Islands">
+            <summary> Heard_Island_And_Mcdonald_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Honduras">
+            <summary> Honduras </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Howland_Island">
+            <summary> Howland_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Croatia">
+            <summary> Croatia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Hungary">
+            <summary> Hungary </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Iceland">
+            <summary> Iceland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Indonesia">
+            <summary> Indonesia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Isle_Of_Man">
+            <summary> Isle_Of_Man </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.India">
+            <summary> India </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.British_Indian_Ocean_Territory">
+            <summary> British_Indian_Ocean_Territory </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Clipperton_Island">
+            <summary> Clipperton_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Us_Miscellaneous_Pacific_Islands">
+            <summary> Us_Miscellaneous_Pacific_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Iran">
+            <summary> Iran </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Israel">
+            <summary> Israel </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Italy">
+            <summary> Italy </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Israel_Syria_Demilitarized_Zone">
+            <summary> Israel_Syria_Demilitarized_Zone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.C_Te_D_Ivoire_Ivory_Coast">
+            <summary> C_Te_D_Ivoire_Ivory_Coast </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Israel_Jordan_Demilitarized_Zone">
+            <summary> Israel_Jordan_Demilitarized_Zone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Iraq_Saudi_Arabia_Neutral_Zone">
+            <summary> Iraq_Saudi_Arabia_Neutral_Zone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Iraq">
+            <summary> Iraq </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Japan">
+            <summary> Japan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Jersey">
+            <summary> Jersey </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Jamaica">
+            <summary> Jamaica </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Jan_Mayen">
+            <summary> Jan_Mayen </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Jordan">
+            <summary> Jordan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Johnston_Atoll">
+            <summary> Johnston_Atoll </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Svalbard_And_Jan_Mayen">
+            <summary> Svalbard_And_Jan_Mayen </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Juan_De_Nova_Island">
+            <summary> Juan_De_Nova_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Kenya">
+            <summary> Kenya </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Kyrgyzstan">
+            <summary> Kyrgyzstan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Korea_North_North_Korea">
+            <summary> Korea_North_North_Korea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Kiribati">
+            <summary> Kiribati </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Korea_South_South_Korea">
+            <summary> Korea_South_South_Korea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Christmas_Island">
+            <summary> Christmas_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Kuwait">
+            <summary> Kuwait </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Kosovo">
+            <summary> Kosovo </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Kazakhstan">
+            <summary> Kazakhstan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Laos">
+            <summary> Laos </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Lebanon">
+            <summary> Lebanon </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Latvia">
+            <summary> Latvia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Lithuania">
+            <summary> Lithuania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Liberia">
+            <summary> Liberia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Slovakia">
+            <summary> Slovakia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Palmyra_Atoll">
+            <summary> Palmyra_Atoll </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Liechtenstein">
+            <summary> Liechtenstein </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Lesotho">
+            <summary> Lesotho </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Luxembourg">
+            <summary> Luxembourg </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Libya">
+            <summary> Libya </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Madagascar">
+            <summary> Madagascar </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Martinique">
+            <summary> Martinique </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Macau">
+            <summary> Macau </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Moldova">
+            <summary> Moldova </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Mayotte">
+            <summary> Mayotte </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Mongolia">
+            <summary> Mongolia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Montserrat">
+            <summary> Montserrat </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Malawi">
+            <summary> Malawi </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Montenegro">
+            <summary> Montenegro </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Macedonia">
+            <summary> Macedonia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Mali">
+            <summary> Mali </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Monaco">
+            <summary> Monaco </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Morocco">
+            <summary> Morocco </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Mauritius">
+            <summary> Mauritius </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Midway_Islands">
+            <summary> Midway_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Mauritania">
+            <summary> Mauritania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Malta">
+            <summary> Malta </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Oman">
+            <summary> Oman </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Maldives">
+            <summary> Maldives </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Mexico">
+            <summary> Mexico </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Malaysia">
+            <summary> Malaysia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Mozambique">
+            <summary> Mozambique </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.New_Caledonia">
+            <summary> New_Caledonia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Niue">
+            <summary> Niue </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Norfolk_Island">
+            <summary> Norfolk_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Niger">
+            <summary> Niger </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.New_Hebrides_Vanuatu">
+            <summary> New_Hebrides_Vanuatu </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Nigeria">
+            <summary> Nigeria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Bonaire_Netherlands_Saba_Saint_Eustatius">
+            <summary> Bonaire_Netherlands_Saba_Saint_Eustatius </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Sint_Maarten">
+            <summary> Sint_Maarten </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Norway">
+            <summary> Norway </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Nepal">
+            <summary> Nepal </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Nauru">
+            <summary> Nauru </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Suriname">
+            <summary> Suriname </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Netherlands_Antilles">
+            <summary> Netherlands_Antilles </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Nicaragua">
+            <summary> Nicaragua </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.New_Zealand">
+            <summary> New_Zealand </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.South_Sudan">
+            <summary> South_Sudan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Paraguay">
+            <summary> Paraguay </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Pitcairn_Island">
+            <summary> Pitcairn_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Peru">
+            <summary> Peru </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Paracel_Islands">
+            <summary> Paracel_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Spratly_Islands">
+            <summary> Spratly_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Etorofu_Habomai_Kunashiri_And_Shikotan_Islands">
+            <summary> Etorofu_Habomai_Kunashiri_And_Shikotan_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Pakistan">
+            <summary> Pakistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Poland">
+            <summary> Poland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Panama">
+            <summary> Panama </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Panama_2">
+            <summary> Panama </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Azores_Portugal">
+            <summary> Azores_Portugal </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Papua_New_Guinea">
+            <summary> Papua_New_Guinea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Panama_Canal_Zone">
+            <summary> Panama_Canal_Zone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Palau">
+            <summary> Palau </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Guinea_Bissau">
+            <summary> Guinea_Bissau </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Qatar">
+            <summary> Qatar </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Reunion">
+            <summary> Reunion </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Rhodesia_Southern_Rhodesia">
+            <summary> Rhodesia_Southern_Rhodesia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Serbia">
+            <summary> Serbia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Marshall_Islands">
+            <summary> Marshall_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Saint_Martin">
+            <summary> Saint_Martin </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Romania">
+            <summary> Romania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Philippines">
+            <summary> Philippines </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Russia">
+            <summary> Russia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Rwanda">
+            <summary> Rwanda </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Saudi_Arabia">
+            <summary> Saudi_Arabia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Saint_Pierre_And_Miquelon">
+            <summary> Saint_Pierre_And_Miquelon </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Nevis_Saint_Kitts_And_Nevis">
+            <summary> Nevis_Saint_Kitts_And_Nevis </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Seychelles">
+            <summary> Seychelles </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.South_Africa">
+            <summary> South_Africa </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Senegal">
+            <summary> Senegal </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Saint_Helena_Ascension_And_Tristan_Da_Cunha">
+            <summary> Saint_Helena_Ascension_And_Tristan_Da_Cunha </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Slovenia">
+            <summary> Slovenia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Sikkim">
+            <summary> Sikkim </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Sierra_Leone">
+            <summary> Sierra_Leone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.San_Marino">
+            <summary> San_Marino </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Singapore">
+            <summary> Singapore </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Somalia">
+            <summary> Somalia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Spain">
+            <summary> Spain </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Swan_Islands">
+            <summary> Swan_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Spanish_Sahara">
+            <summary> Spanish_Sahara </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Saint_Lucia">
+            <summary> Saint_Lucia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Sudan">
+            <summary> Sudan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Svalbard">
+            <summary> Svalbard </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Sweden">
+            <summary> Sweden </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.South_Georgia_And_South_Sandwich_Islands">
+            <summary> South_Georgia_And_South_Sandwich_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Syria">
+            <summary> Syria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Switzerland">
+            <summary> Switzerland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Saint_Barth_Lemy">
+            <summary> Saint_Barth_Lemy </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.United_Arab_Emirates">
+            <summary> United_Arab_Emirates </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Trinidad_And_Tobago">
+            <summary> Trinidad_And_Tobago </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Tromelin_Island">
+            <summary> Tromelin_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Thailand">
+            <summary> Thailand </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Tajikistan">
+            <summary> Tajikistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Turks_And_Caicos_Islands">
+            <summary> Turks_And_Caicos_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Tokelau">
+            <summary> Tokelau </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Tonga">
+            <summary> Tonga </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Togo">
+            <summary> Togo </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Sao_Tome_And_Principe">
+            <summary> Sao_Tome_And_Principe </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Trust_Territory_Of_The_Pacific_Islands">
+            <summary> Trust_Territory_Of_The_Pacific_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Tunisia">
+            <summary> Tunisia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.East_Timor_Timor_Leste">
+            <summary> East_Timor_Timor_Leste </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Turkey">
+            <summary> Turkey </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Tuvalu">
+            <summary> Tuvalu </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Taiwan">
+            <summary> Taiwan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Turkmenistan">
+            <summary> Turkmenistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Tanzania">
+            <summary> Tanzania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Cura_Ao">
+            <summary> Cura_Ao </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Uganda">
+            <summary> Uganda </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.England_Great_Britain_United_Kingdom">
+            <summary> England_Great_Britain_United_Kingdom </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Ukraine">
+            <summary> Ukraine </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Soviet_Union_Union_Of_Soviet_Socialist_Republics">
+            <summary> Soviet_Union_Union_Of_Soviet_Socialist_Republics </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.United_States">
+            <summary> United_States </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Burkina_Faso_Upper_Volta">
+            <summary> Burkina_Faso_Upper_Volta </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Uruguay">
+            <summary> Uruguay </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Uzbekistan">
+            <summary> Uzbekistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Saint_Vincent_And_The_Grenadines">
+            <summary> Saint_Vincent_And_The_Grenadines </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Venezuela">
+            <summary> Venezuela </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.British_Virgin_Islands_Virgin_Islands_British">
+            <summary> British_Virgin_Islands_Virgin_Islands_British </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Vietnam">
+            <summary> Vietnam </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.North_Vietnam">
+            <summary> North_Vietnam </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.South_Vietnam">
+            <summary> South_Vietnam </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Holy_See_Vatican_City">
+            <summary> Holy_See_Vatican_City </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Namibia">
+            <summary> Namibia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.West_Berlin">
+            <summary> West_Berlin </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.West_Bank">
+            <summary> West_Bank </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Wallis_And_Futuna">
+            <summary> Wallis_And_Futuna </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Western_Sahara">
+            <summary> Western_Sahara </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Wake_Island">
+            <summary> Wake_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Samoa">
+            <summary> Samoa </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Swaziland">
+            <summary> Swaziland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Yemen_Sanaa">
+            <summary> Yemen_Sanaa </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Serbia_And_Montenegro_Yugoslavia">
+            <summary> Serbia_And_Montenegro_Yugoslavia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Yemen">
+            <summary> Yemen </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Ryukyu_Islands_Southern">
+            <summary> Ryukyu_Islands_Southern </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Yemen_Aden">
+            <summary> Yemen_Aden </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Zambia">
+            <summary> Zambia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Zimbabwe">
+            <summary> Zimbabwe </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.BirthplaceCountry.Not_Classifiable">
+            <summary> Not_Classifiable </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.USStatesAndTerritories">
+            <summary> USStatesAndTerritories </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Alabama">
+            <summary> Alabama </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Alaska">
+            <summary> Alaska </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Arizona">
+            <summary> Arizona </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Arkansas">
+            <summary> Arkansas </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.California">
+            <summary> California </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Colorado">
+            <summary> Colorado </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Connecticut">
+            <summary> Connecticut </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Delaware">
+            <summary> Delaware </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.District_Of_Columbia">
+            <summary> District_Of_Columbia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Florida">
+            <summary> Florida </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Georgia">
+            <summary> Georgia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Hawaii">
+            <summary> Hawaii </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Idaho">
+            <summary> Idaho </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Illinois">
+            <summary> Illinois </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Indiana">
+            <summary> Indiana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Iowa">
+            <summary> Iowa </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Kansas">
+            <summary> Kansas </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Kentucky">
+            <summary> Kentucky </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Louisiana">
+            <summary> Louisiana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Maine">
+            <summary> Maine </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Maryland">
+            <summary> Maryland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Massachusetts">
+            <summary> Massachusetts </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Michigan">
+            <summary> Michigan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Minnesota">
+            <summary> Minnesota </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Mississippi">
+            <summary> Mississippi </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Missouri">
+            <summary> Missouri </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Montana">
+            <summary> Montana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Nebraska">
+            <summary> Nebraska </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Nevada">
+            <summary> Nevada </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.New_Hampshire">
+            <summary> New_Hampshire </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.New_Jersey">
+            <summary> New_Jersey </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.New_Mexico">
+            <summary> New_Mexico </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.New_York">
+            <summary> New_York </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.North_Carolina">
+            <summary> North_Carolina </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.North_Dakota">
+            <summary> North_Dakota </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Ohio">
+            <summary> Ohio </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Oklahoma">
+            <summary> Oklahoma </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Oregon">
+            <summary> Oregon </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Pennsylvania">
+            <summary> Pennsylvania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Rhode_Island">
+            <summary> Rhode_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.South_Carolina">
+            <summary> South_Carolina </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.South_Dakota">
+            <summary> South_Dakota </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Tennessee">
+            <summary> Tennessee </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Texas">
+            <summary> Texas </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Utah">
+            <summary> Utah </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Vermont">
+            <summary> Vermont </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Virginia">
+            <summary> Virginia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Washington">
+            <summary> Washington </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.West_Virginia">
+            <summary> West_Virginia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Wisconsin">
+            <summary> Wisconsin </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Wyoming">
+            <summary> Wyoming </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.American_Samoa">
+            <summary> American_Samoa </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Guam">
+            <summary> Guam </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Northern_Mariana_Islands">
+            <summary> Northern_Mariana_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Puerto_Rico">
+            <summary> Puerto_Rico </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.USStatesAndTerritories.Virgin_Islands">
+            <summary> Virgin_Islands </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.CanadaProvinces">
+            <summary> CanadaProvinces </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Alberta">
+            <summary> Alberta </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.British_Columbia">
+            <summary> British_Columbia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Manitoba">
+            <summary> Manitoba </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.New_Brunswick">
+            <summary> New_Brunswick </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Newfoundland_And_Labrador">
+            <summary> Newfoundland_And_Labrador </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Nova_Scotia">
+            <summary> Nova_Scotia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Northwest_Territories">
+            <summary> Northwest_Territories </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Nunavut">
+            <summary> Nunavut </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Ontario">
+            <summary> Ontario </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Prince_Edward_Island">
+            <summary> Prince_Edward_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Quebec">
+            <summary> Quebec </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Saskatchewan">
+            <summary> Saskatchewan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CanadaProvinces.Yukon">
+            <summary> Yukon </summary>
         </member>
     </members>
 </doc>

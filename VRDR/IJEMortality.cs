@@ -615,11 +615,161 @@ namespace VRDR
                 {
                     current = Truncate(current, info.Length).PadLeft(info.Length, '0');
                 }
-            }
+                else if (ijeFieldName == "BPLACE_CNT" || ijeFieldName == "BPLACE_ST")
+                {
+                    var countryCode = dictionary["addressCountry"];
+                    var stateCode = dictionary["addressState"];
+                    var nextCountryValue = "ZZ";
+                    var nextStateValue = "ZZ";
 
-            if (ijeFieldName == "BPLACE_CNT")
-            {
-                current = string.IsNullOrWhiteSpace(current) ? "ZZ" : current;
+                    for (int i = 0; i < ValueSets.BirthplaceCountry.Codes.GetLength(0); i += 1)
+                    {
+                        if (ValueSets.BirthplaceCountry.Codes[i, 0] == countryCode)
+                        {
+                            nextCountryValue = countryCode;
+                            break;
+                        }
+                    }
+
+                    if (countryCode == "US")
+                    {
+                        for (int i = 0; i < ValueSets.USStatesAndTerritories.Codes.GetLength(0); i += 1)
+                        {
+                            if (ValueSets.USStatesAndTerritories.Codes[i, 0] == stateCode && stateCode != "UNK")
+                            {
+                                nextStateValue = stateCode;
+                                break;
+                            }
+                        }
+                    }
+                    else if (countryCode == "CA")
+                    {
+                        nextStateValue = "XX";
+
+                        for (int i = 0; i < ValueSets.CanadaProvinces.Codes.GetLength(0); i += 1)
+                        {
+                            if (ValueSets.CanadaProvinces.Codes[i, 0] == stateCode)
+                            {
+                                nextStateValue = stateCode;
+                                break;
+                            }
+                        }
+                    }
+                    else if (nextCountryValue != "ZZ")
+                    {
+                        // other valid country code
+                        nextStateValue = "XX";
+                    }
+                    else
+                    {
+                        // other valid state code
+                        nextStateValue = "ZZ";
+                    }
+
+
+                    if (ijeFieldName == "BPLACE_CNT")
+                    {
+                        return nextCountryValue;
+                    }
+                    else if (ijeFieldName == "BPLACE_ST")
+                    {
+                        return nextStateValue;
+                    }
+                }
+                // else if (ijeFieldName == "BPLACE_CNT")
+                {
+                    var opts = ValueSets.BirthplaceCountry.Codes;
+                    var nextCountryValue = "ZZ";
+                    for (int i = 0; i < opts.GetLength(0); i += 1)
+                    {
+                        if (opts[i, 0] == current)
+                        {
+                            nextCountryValue = current;
+                        }
+                    }
+                    current = nextCountryValue;
+                }
+                // else if (ijeFieldName == "BPLACE_ST")
+                {
+                    // Check the country code
+                    var countryCode = dictionary["addressCountry"];
+
+                    switch (countryCode)
+                    {
+                        case "US":
+                            var nextUSStateValue = "ZZ";
+                            var stateOpts = ValueSets.USStatesAndTerritories.Codes;
+
+
+                            for (int i = 0; i < stateOpts.GetLength(0); i += 1)
+                            {
+                                if (stateOpts[i, 0] == current && current != "UNK")
+                                {
+                                    nextUSStateValue = current;
+                                }
+                            }
+                            current = nextUSStateValue;
+                            break;
+
+                        case "CA":
+                            var nextCAProvinceValue = "XX";
+                            var provinceOpts = ValueSets.CanadaProvinces.Codes;
+
+                            for (int i = 0; i < provinceOpts.GetLength(0); i += 1)
+                            {
+                                if (provinceOpts[i, 0] == current && current != "UNK")
+                                {
+                                    nextCAProvinceValue = current;
+                                }
+                            }
+                            current = nextCAProvinceValue;
+                            break;
+
+                        case "ZZ":
+                            current = "ZZ";
+                            break;
+
+                        default:
+                            current = "XX";
+                            break;
+                    }
+                    // if (countryCode == "US")
+                    // {
+                    //     var nextUSStateValue = "ZZ";
+                    //     var stateOpts = ValueSets.USStatesAndTerritories.Codes;
+
+                    //     for (int i = 0; i < stateOpts.GetLength(0); i += 1)
+                    //     {
+                    //         if (stateOpts[i, 0] == current && current != "UNK")
+                    //         {
+                    //             nextUSStateValue = current;
+                    //         }
+                    //     }
+                    //     current = nextUSStateValue;
+                    // }
+                    // else if (countryCode == "CA")
+                    // {
+                    //     var nextCAProvinceValue = "XX";
+                    //     var provinceOpts = ValueSets.CanadaProvinces.Codes;
+
+                    //     for (int i = 0; i < provinceOpts.GetLength(0); i += 1)
+                    //     {
+                    //         if (provinceOpts[i, 0] == current && current != "UNK")
+                    //         {
+                    //             nextCAProvinceValue = current;
+                    //         }
+                    //     }
+                    //     current = nextCAProvinceValue;
+                    // }
+                    // else if (countryCode == "ZZ")
+                    // {
+                    //     current = "ZZ";
+                    // }
+                    // else
+                    // {
+                    //     current = "XX";
+                    // }
+                }
             }
             if (geoType == "zip")
             {  // Remove "-" for zip

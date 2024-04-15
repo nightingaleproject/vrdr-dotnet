@@ -467,7 +467,7 @@ namespace VRDR.Tests
         public void BirthCountryState()
         {
             DeathRecord record = new DeathRecord();
-            record.DeathLocationJurisdiction = "MI"; // No jurisdiction code
+            record.DeathLocationJurisdiction = "MI";
             Dictionary<string, string> address = new Dictionary<string, string>();
             address.Add("addressLine1", "11 Example Street");
             address.Add("addressLine2", "Line 2");

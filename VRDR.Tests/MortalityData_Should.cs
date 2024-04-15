@@ -469,23 +469,67 @@ namespace VRDR.Tests
             DeathRecord record = new DeathRecord();
             record.DeathLocationJurisdiction = "MI";
             Dictionary<string, string> address = new Dictionary<string, string>();
-            address.Add("addressLine1", "11 Example Street");
-            address.Add("addressLine2", "Line 2");
-            address.Add("addressCity", "Bedford");
-            address.Add("addressCounty", "Middlesex");
-            address.Add("addressState", "MA");
-            address.Add("addressZip", "01730");
-            address.Add("addressCountry", "12");
-            address.Add("addressPredir", "W");
-            address.Add("addressPostdir", "E");
-            address.Add("addressStname", "Example");
-            address.Add("addressStnum", "11");
-            address.Add("addressStdesig", "Street");
-            address.Add("addressUnitnum", "3");
-            record.PlaceOfBirth = address;
+            IJEMortality ije;
 
-            var ije = new IJEMortality(record);
+            // US/CA; valid state/province
+            address["addressCountry"] = "US";
+            address["addressState"] = "MA";
+            record.PlaceOfBirth = address;
+            ije = new IJEMortality(record);
+            Assert.Equal("US", ije.BPLACE_CNT);
+            Assert.Equal("MA", ije.BPLACE_ST);
+
+            address["addressCountry"] = "CA";
+            address["addressState"] = "ON";
+            record.PlaceOfBirth = address;
+            ije = new IJEMortality(record);
+            Assert.Equal("CA", ije.BPLACE_CNT);
+            Assert.Equal("ON", ije.BPLACE_ST);
+
+            // US/CA; invalid state/province
+            address["addressCountry"] = "US";
+            address["addressState"] = "A1";
+            record.PlaceOfBirth = address;
+            ije = new IJEMortality(record);
+            Assert.Equal("US", ije.BPLACE_CNT);
+            Assert.Equal("ZZ", ije.BPLACE_ST);
+
+            address["addressCountry"] = "US";
+            address["addressState"] = "UNK";
+            record.PlaceOfBirth = address;
+            ije = new IJEMortality(record);
+            Assert.Equal("US", ije.BPLACE_CNT);
+            Assert.Equal("ZZ", ije.BPLACE_ST);
+
+            address["addressCountry"] = "CA";
+            address["addressState"] = "A1";
+            record.PlaceOfBirth = address;
+            ije = new IJEMortality(record);
+            Assert.Equal("CA", ije.BPLACE_CNT);
+            Assert.Equal("XX", ije.BPLACE_ST);
+
+            address["addressCountry"] = "CA";
+            address["addressState"] = "UNK";
+            record.PlaceOfBirth = address;
+            ije = new IJEMortality(record);
+            Assert.Equal("CA", ije.BPLACE_CNT);
+            Assert.Equal("XX", ije.BPLACE_ST);
+
+            // valid country; no state/province
+            address["addressCountry"] = "AS";
+            address["addressState"] = "";
+            record.PlaceOfBirth = address;
+            ije = new IJEMortality(record);
+            Assert.Equal("AS", ije.BPLACE_CNT);
+            Assert.Equal("XX", ije.BPLACE_ST);
+
+            // invalid country; valid state/province
+            address["addressCountry"] = "Z1";
+            address["addressState"] = "CA";
+            record.PlaceOfBirth = address;
+            ije = new IJEMortality(record);
             Assert.Equal("ZZ", ije.BPLACE_CNT);
+            Assert.Equal("ZZ", ije.BPLACE_ST);
         }
         // NCHS has quirky ICD10 codes.  If someone tries to use an actual ICD10 code with periods it should throw an exception
         [Fact]

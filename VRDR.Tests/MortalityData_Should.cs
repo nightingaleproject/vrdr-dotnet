@@ -159,20 +159,20 @@ namespace VRDR.Tests
         public void SetVOID()
         {
             IJEMortality ije = new IJEMortality();
-	    Assert.Equal("0", ije.VOID);
+            Assert.Equal("0", ije.VOID);
             ije.VOID = "123";
-	    Assert.Equal("0", ije.VOID);
+            Assert.Equal("0", ije.VOID);
             ije.VOID = " ";
-	    Assert.Equal("0", ije.VOID);
+            Assert.Equal("0", ije.VOID);
             ije.VOID = "abc #$@";
-	    Assert.Equal("0", ije.VOID);
+            Assert.Equal("0", ije.VOID);
             ije.VOID = " 0 ";
             Assert.Equal("0", ije.VOID);
             ije.VOID = "0";
-            Assert.Equal("0", ije.VOID);           
+            Assert.Equal("0", ije.VOID);
             ije.VOID = " 1 ";
             Assert.Equal("1", ije.VOID);
-	    ije.VOID = "1";
+            ije.VOID = "1";
             Assert.Equal("1", ije.VOID);
             ije.VOID = "2";
             Assert.Equal("0", ije.VOID);
@@ -182,26 +182,26 @@ namespace VRDR.Tests
         public void SetALIAS()
         {
             IJEMortality ije = new IJEMortality();
-	    Assert.Equal("0", ije.ALIAS);
+            Assert.Equal("0", ije.ALIAS);
             ije.ALIAS = "123";
-	    Assert.Equal("0", ije.ALIAS);
+            Assert.Equal("0", ije.ALIAS);
             ije.ALIAS = " ";
-	    Assert.Equal("0", ije.ALIAS);
+            Assert.Equal("0", ije.ALIAS);
             ije.ALIAS = "abc #$@";
-	    Assert.Equal("0", ije.ALIAS);
+            Assert.Equal("0", ije.ALIAS);
             ije.ALIAS = " 0 ";
             Assert.Equal("0", ije.ALIAS);
             ije.ALIAS = "0";
-            Assert.Equal("0", ije.ALIAS);           
+            Assert.Equal("0", ije.ALIAS);
             ije.ALIAS = " 1 ";
             Assert.Equal("1", ije.ALIAS);
-	    ije.ALIAS = "1";
+            ije.ALIAS = "1";
             Assert.Equal("1", ije.ALIAS);
             ije.ALIAS = "2";
             Assert.Equal("0", ije.ALIAS);
         }
 
-            
+
         // [Fact]
         // public void SetCOUNTRY_C()
         // {
@@ -461,6 +461,31 @@ namespace VRDR.Tests
             record.DeathLocationJurisdiction = "QQ"; // Not a valid jurisdiction code
             e = Assert.Throws<ArgumentOutOfRangeException>(() => new IJEMortality(record));
             Assert.Equal("Specified argument was out of the range of valid values. (Parameter 'Found 1 validation errors:\nError: FHIR field DeathLocationJurisdiction has value 'QQ', which is invalid for IJE field DSTATE.')", e.Message);
+        }
+        // Birth Country and State
+        [Fact]
+        public void BirthCountryState()
+        {
+            DeathRecord record = new DeathRecord();
+            record.DeathLocationJurisdiction = "MI"; // No jurisdiction code
+            Dictionary<string, string> address = new Dictionary<string, string>();
+            address.Add("addressLine1", "11 Example Street");
+            address.Add("addressLine2", "Line 2");
+            address.Add("addressCity", "Bedford");
+            address.Add("addressCounty", "Middlesex");
+            address.Add("addressState", "MA");
+            address.Add("addressZip", "01730");
+            address.Add("addressCountry", "12");
+            address.Add("addressPredir", "W");
+            address.Add("addressPostdir", "E");
+            address.Add("addressStname", "Example");
+            address.Add("addressStnum", "11");
+            address.Add("addressStdesig", "Street");
+            address.Add("addressUnitnum", "3");
+            record.PlaceOfBirth = address;
+
+            var ije = new IJEMortality(record);
+            Assert.Equal("ZZ", ije.BPLACE_CNT);
         }
         // NCHS has quirky ICD10 codes.  If someone tries to use an actual ICD10 code with periods it should throw an exception
         [Fact]

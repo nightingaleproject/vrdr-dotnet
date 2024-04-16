@@ -523,6 +523,14 @@ namespace VRDR.Tests
             Assert.Equal("AS", ije.BPLACE_CNT);
             Assert.Equal("XX", ije.BPLACE_ST);
 
+            // valid country; unknown state/province
+            address["addressCountry"] = "AS";
+            address["addressState"] = "UNK";
+            record.PlaceOfBirth = address;
+            ije = new IJEMortality(record);
+            Assert.Equal("AS", ije.BPLACE_CNT);
+            Assert.Equal("XX", ije.BPLACE_ST);
+
             // invalid country; valid state/province
             address["addressCountry"] = "Z1";
             address["addressState"] = "CA";

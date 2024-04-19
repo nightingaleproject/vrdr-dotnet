@@ -74,6 +74,8 @@ codesystems = {
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-intentional-reject-cs" => "VRDR.CodeSystems.IntentionalReject",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-system-reject-cs" => "VRDR.CodeSystems.SystemReject",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-transax-conversion-cs" => "VRDR.CodeSystems.TransaxConversion",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-country-code-cs" => "VRDR.CodeSystems.CountryCode",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-canadian-provinces-cs" => "VRDR.CodeSystems.CanadianProvinces",
 }
 
 valuesets = {
@@ -107,6 +109,9 @@ valuesets = {
     "ValueSet-vrdr-intentional-reject-vs.json" => "IntentionalReject",
     "ValueSet-vrdr-spouse-alive-vs.json" => "SpouseAlive",
     "ValueSet-vrdr-hispanic-no-unknown-vs.json" => "HispanicNoUnknown",
+    "ValueSet-vrdr-birthplace-country-vs.json" => "BirthplaceCountry",
+    "ValueSet-vrdr-usstates-territories-vs.json" => "USStatesAndTerritories",
+    "ValueSet-vrdr-canada-provinces-vs.json" => "CanadaProvinces",
 }
 # These are special cases that we want to shorten the string produced by the general approach, for practical reasons
 special_cases =

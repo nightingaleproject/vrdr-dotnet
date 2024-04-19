@@ -63,7 +63,7 @@ namespace VRDR
 
         /// <summary>Field _alias.</summary>
         private string _alias;
-        
+
 
         /// <summary>Helper class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
         public class TRXHelper
@@ -615,8 +615,69 @@ namespace VRDR
                 {
                     current = Truncate(current, info.Length).PadLeft(info.Length, '0');
                 }
-            }
+                else if (ijeFieldName == "BPLACE_CNT" || ijeFieldName == "BPLACE_ST")
+                {
+                    var countryCode = dictionary["addressCountry"];
+                    var stateCode = dictionary["addressState"];
 
+                    var nextCountryValue = "ZZ";
+                    var nextStateValue = "ZZ";
+
+                    for (int i = 0; i < ValueSets.BirthplaceCountry.Codes.GetLength(0); i += 1)
+                    {
+                        if (ValueSets.BirthplaceCountry.Codes[i, 0] == countryCode)
+                        {
+                            nextCountryValue = countryCode;
+                            break;
+                        }
+                    }
+
+                    if (countryCode == "US")
+                    {
+                        for (int i = 0; i < ValueSets.USStatesAndTerritories.Codes.GetLength(0); i += 1)
+                        {
+                            if (ValueSets.USStatesAndTerritories.Codes[i, 0] == stateCode && stateCode != "UNK")
+                            {
+                                nextStateValue = stateCode;
+                                break;
+                            }
+                        }
+                    }
+                    else if (countryCode == "CA")
+                    {
+                        nextStateValue = "XX";
+
+                        for (int i = 0; i < ValueSets.CanadaProvinces.Codes.GetLength(0); i += 1)
+                        {
+                            if (ValueSets.CanadaProvinces.Codes[i, 0] == stateCode && stateCode != "UNK")
+                            {
+                                nextStateValue = stateCode;
+                                break;
+                            }
+                        }
+                    }
+                    else if (nextCountryValue != "ZZ")
+                    {
+                        // other valid country code
+                        nextStateValue = "XX";
+                    }
+                    else
+                    {
+                        // other valid state code
+                        nextStateValue = "ZZ";
+                    }
+
+
+                    if (ijeFieldName == "BPLACE_CNT")
+                    {
+                        return nextCountryValue;
+                    }
+                    else if (ijeFieldName == "BPLACE_ST")
+                    {
+                        return nextStateValue;
+                    }
+                }
+            }
             if (geoType == "zip")
             {  // Remove "-" for zip
                 current.Replace("-", string.Empty);
@@ -937,29 +998,29 @@ namespace VRDR
 
         /// <summary>Void flag</summary>
         [IJEField(4, 13, 1, "Void flag", "VOID", 1)]
-        public string VOID  
+        public string VOID
         {
             get
             {
-		if(_void == null)
-		{
-		  return "0";
-		}
+                if (_void == null)
+                {
+                    return "0";
+                }
                 else
-		{
-		  return _void;
-		}
+                {
+                    return _void;
+                }
             }
             set
             {
-		if(value.Trim() == "1")
-		{
-		  _void = "1";
-		}
-		else
-		{
-		  _void = "0";
-		}
+                if (value.Trim() == "1")
+                {
+                    _void = "1";
+                }
+                else
+                {
+                    _void = "0";
+                }
             }
         }
 
@@ -979,7 +1040,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    value = value.PadLeft(12 , '0');
+                    value = value.PadLeft(12, '0');
                     LeftJustified_Set("AUXNO", "StateLocalIdentifier1", value);
                 }
             }
@@ -1074,9 +1135,9 @@ namespace VRDR
                     Set_MappingIJEToFHIR(Mappings.AdministrativeGender.IJEToFHIR, "LNAME", "FamilyName", null);
                 }
                 else
-		{
+                {
                     LeftJustified_Set("LNAME", "FamilyName", value);
-		}
+                }
             }
         }
 
@@ -1100,25 +1161,25 @@ namespace VRDR
         {
             get
             {
-		if(_alias == null)
-		{
-		  return "0";
-		}
+                if (_alias == null)
+                {
+                    return "0";
+                }
                 else
-		{
-		  return _alias;
-		}
+                {
+                    return _alias;
+                }
             }
             set
             {
-		if(value.Trim() == "1")
-		{
-		  _alias = "1";
-		}
-		else
-		{
-		  _alias = "0";
-		}
+                if (value.Trim() == "1")
+                {
+                    _alias = "1";
+                }
+                else
+                {
+                    _alias = "0";
+                }
             }
         }
 
@@ -1582,7 +1643,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                   TimeAllowingUnknown_Set("TOD", "DeathTime", value);
+                    TimeAllowingUnknown_Set("TOD", "DeathTime", value);
                 }
             }
         }
@@ -3042,7 +3103,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    value = value.PadLeft(12 , '0');
+                    value = value.PadLeft(12, '0');
                     LeftJustified_Set("AUXNO2", "StateLocalIdentifier2", value);
                 }
             }
@@ -4844,10 +4905,12 @@ namespace VRDR
             get
             {
                 var fhirTimeStr = record.DateOfDeathPronouncementTime;
-                if (fhirTimeStr == null) {
+                if (fhirTimeStr == null)
+                {
                     return "    ";
                 }
-                else {
+                else
+                {
                     var HH = fhirTimeStr.Substring(0, 2);
                     var mm = fhirTimeStr.Substring(3, 2);
                     var ijeTime = HH + mm;

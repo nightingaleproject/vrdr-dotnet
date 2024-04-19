@@ -121,6 +121,14 @@ namespace VRDR
 
        /// <summary> Date of Death Determination Methods </summary>
        public static string DateOfDeathDeterminationMethods = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-date-of-death-determination-methods-cs";
+
+       /// <summary>Canadian Provinces</summary>
+       public static string CanadianProvinces = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-canadian-provinces-cs";
+
+
+       /// <summary>Country Code</summary>
+       public static string CountryCode = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-country-code-cs";
+
     }
 
 }

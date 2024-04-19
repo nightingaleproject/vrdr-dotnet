@@ -4008,7 +4008,7 @@ namespace VRDR.Tests
                     PropertyInfo overwriteProperty = typeof(IJEMortality).GetProperty(overwriteField);
                     overwriteProperty.SetValue(ije, overwriteValue);
                 }
-                Console.WriteLine($"Testing {field} with value {value}");
+                // Console.WriteLine($"Testing {field} with value {value}");
                 Assert.Equal(value, ((string)property.GetValue(ije)).Trim());
             }
         }

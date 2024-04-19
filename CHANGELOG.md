@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.1.10"></a>
+## [4.1.10](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.10) (2024-04-19)
+
+### Bug Fixes
+
+* handle invalid birth country and state during IJE conversion ([#565](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/565)) ([c4d6964](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/c4d69641dbfe879bda4ca57df250ccd4ffca5a7c))
+
 <a name="4.1.9"></a>
 ## [4.1.9](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.9) (2024-03-19)
 

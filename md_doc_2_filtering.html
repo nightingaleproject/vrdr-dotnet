@@ -72,14 +72,14 @@ $(function() {
   <div class="headertitle"><div class="title">Using the VRDR.Filter Library</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md89"></a> This document describes how to use the VRDR.Filter library.</p>
-<h1><a class="anchor" id="autotoc_md90"></a>
+<div class="textblock"><p><a class="anchor" id="autotoc_md91"></a> This document describes how to use the VRDR.Filter library.</p>
+<h1><a class="anchor" id="autotoc_md92"></a>
 Instantiating the filter class</h1>
 <p>Before the filter class can be used, we need to instantiate an instance of the class with 3 arguments.</p>
-<h3><a class="anchor" id="autotoc_md91"></a>
+<h3><a class="anchor" id="autotoc_md93"></a>
 Argument 1:</h3>
 <p><code>nchsIjeFilterFileLocation</code>: This is the location of the filter file. This file will contain an array of IJE fields that we want in the filtered file. </p><div class="fragment"><div class="line">[&quot;DOD_YR&quot;,&quot;DSTATE&quot;,&quot;FILENO&quot;,&quot;VOID&quot;,&quot;AUXNO&quot;,&quot;MFILED&quot;...]</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md92"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md94"></a>
 Argument 2:</h3>
 <p><code>ijeToFhirMappingFileLocation</code>: This is the location of the IJE to FHIR fields mapping file. This file will contain an object with IJE keys and FHIR array objects. We need this mapping so know which FHIR fields to exclude when filtering out an IJE field. In the future we will only have an array for FHIR fields to filter. </p><div class="fragment"><div class="line">{</div>
 <div class="line">  &quot;DOD_YR&quot;: [</div>
@@ -94,7 +94,7 @@ Argument 2:</h3>
 <div class="line">  ],</div>
 <div class="line">  ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md93"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md95"></a>
 Argument 3:</h3>
 <p><code>filterIsFile</code>: This field indicates if the first argument is a file location or a string representation of the filter array. It is defaulted to true. </p>
 </div></div><!-- contents -->

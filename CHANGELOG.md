@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="4.1.11"></a>
+## [4.1.11](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.11) (2024-05-03)
+
+### Bug Fixes
+
+* use leap year as default for datetime helper ([#575](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/575)) ([31babf9](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/31babf9087d1272797a474a08821d84361083d93))
+
+### Other
+
+* bump xunit from 2.7.0 to 2.8.0 ([#570](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/570)) ([ebd03c2](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/ebd03c26126f5efdb7cb38617a18f7d81ae33d18))
+* bump xunit.runner.visualstudio from 2.5.7 to 2.8.0 ([#571](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/571)) ([338d472](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/338d4725fe4628157c9ad8a80b9171a30cfe8d38))
+
 <a name="4.1.10"></a>
 ## [4.1.10](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.10) (2024-04-19)
 

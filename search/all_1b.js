@@ -62,7 +62,7 @@ var searchData=
   ['spousemaidenname_20tt_20property_20tt_59',['SpouseMaidenName &lt;tt&gt;property&lt;/tt&gt;',['../md__v_r_d_r_2_death_record.html#autotoc_md727',1,'']]],
   ['spousemidname_60',['SPOUSEMIDNAME',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aa993c0f03adc0c490f0d2fae06e5ed73',1,'VRDR::IJEMortality']]],
   ['spousemidname_20tt_20property_20tt_61',['SPOUSEMIDNAME &lt;tt&gt;property&lt;/tt&gt;',['../md__v_r_d_r_2_death_record.html#autotoc_md1289',1,'']]],
-  ['spousesuffix_62',['spousesuffix',['../class_v_r_d_r_1_1_i_j_e_mortality.html#ae6f88d38a9e33fc9734a4a55f3924ab4',1,'VRDR.IJEMortality.SPOUSESUFFIX'],['../class_v_r_d_r_1_1_death_record.html#a72fb38ee2c7b01f1b3f22094b362675a',1,'VRDR.DeathRecord.SpouseSuffix']]],
+  ['spousesuffix_62',['spousesuffix',['../class_v_r_d_r_1_1_death_record.html#a72fb38ee2c7b01f1b3f22094b362675a',1,'VRDR.DeathRecord.SpouseSuffix'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#ae6f88d38a9e33fc9734a4a55f3924ab4',1,'VRDR.IJEMortality.SPOUSESUFFIX']]],
   ['spousesuffix_20tt_20property_20tt_63',['spousesuffix tt property tt',['../md__v_r_d_r_2_death_record.html#autotoc_md730',1,'SpouseSuffix &lt;tt&gt;property&lt;/tt&gt;'],['../md__v_r_d_r_2_death_record.html#autotoc_md1291',1,'SPOUSESUFFIX &lt;tt&gt;property&lt;/tt&gt;']]],
   ['ssadatetrans_64',['SSADATETRANS',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aff522b39b3ea3f944de47a64fe6d2a74',1,'VRDR::IJEMortality']]],
   ['ssadatetrans_20tt_20property_20tt_65',['SSADATETRANS &lt;tt&gt;property&lt;/tt&gt;',['../md__v_r_d_r_2_death_record.html#autotoc_md1293',1,'']]],

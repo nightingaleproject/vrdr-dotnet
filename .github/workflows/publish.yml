@@ -9,16 +9,16 @@ jobs:
     name: list on nuget
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             3.1.408
             6.0.x
       # Publish
       - name: publish DeathRecord on version change
-        uses: alirezanet/publish-nuget@v3.0.4
+        uses: alirezanet/publish-nuget@v3
         with:
           PROJECT_FILE_PATH: VRDR/DeathRecord.csproj # Relative to repository root
           VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo
@@ -29,7 +29,7 @@ jobs:
           PACKAGE_NAME: VRDR
           INCLUDE_SYMBOLS: false
       - name: publish Messaging on version change
-        uses: alirezanet/publish-nuget@v3.0.4
+        uses: alirezanet/publish-nuget@v3
         with:
           PROJECT_FILE_PATH: VRDR.Messaging/VRDRMessaging.csproj # Relative to repository root
           VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo
@@ -39,7 +39,7 @@ jobs:
           PACKAGE_NAME: VRDR.Messaging
           INCLUDE_SYMBOLS: false
       - name: publish Client on version change
-        uses: alirezanet/publish-nuget@v3.0.4
+        uses: alirezanet/publish-nuget@v3
         with:
           PROJECT_FILE_PATH: VRDR.Client/VRDRClient.csproj # Relative to repository root
           VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo

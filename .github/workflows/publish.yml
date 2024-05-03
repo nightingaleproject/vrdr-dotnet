@@ -18,7 +18,7 @@ jobs:
             6.0.x
       # Publish
       - name: publish DeathRecord on version change
-        uses: alirezanet/publish-nuget@v3
+        uses: alirezanet/publish-nuget@v3.1.0
         with:
           PROJECT_FILE_PATH: VRDR/DeathRecord.csproj # Relative to repository root
           VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo
@@ -29,7 +29,7 @@ jobs:
           PACKAGE_NAME: VRDR
           INCLUDE_SYMBOLS: false
       - name: publish Messaging on version change
-        uses: alirezanet/publish-nuget@v3
+        uses: alirezanet/publish-nuget@v3.1.0
         with:
           PROJECT_FILE_PATH: VRDR.Messaging/VRDRMessaging.csproj # Relative to repository root
           VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo
@@ -39,7 +39,7 @@ jobs:
           PACKAGE_NAME: VRDR.Messaging
           INCLUDE_SYMBOLS: false
       - name: publish Client on version change
-        uses: alirezanet/publish-nuget@v3
+        uses: alirezanet/publish-nuget@v3.1.0
         with:
           PROJECT_FILE_PATH: VRDR.Client/VRDRClient.csproj # Relative to repository root
           VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo

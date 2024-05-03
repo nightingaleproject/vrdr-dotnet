@@ -390,7 +390,7 @@ namespace VRDR
             }
             else
             {
-                date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+                date = new DateTimeOffset(4, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date, dateOnly, withTimezoneOffset));
             }
         }

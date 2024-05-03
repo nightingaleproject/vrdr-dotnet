@@ -316,6 +316,12 @@ namespace VRDR
                 {
                     return "";
                 }
+                // DateTimeOffset newDate;
+                // DateTimeOffset.TryParseExact(Truncate(value, info.Length), "MMddyy", null, DateTimeStyles.None, out newDate);
+                // if (newDate > DateTimeOffset.MinValue) {
+                //     date = newDate;
+                // }
+
                 int month;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(0, 2), out month))
                 {
@@ -390,7 +396,7 @@ namespace VRDR
             }
             else
             {
-                date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+                date = new DateTimeOffset(4, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date, dateOnly, withTimezoneOffset));
             }
         }

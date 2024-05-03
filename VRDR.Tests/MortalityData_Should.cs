@@ -584,6 +584,13 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void LeapYearDate()
+        {
+            IJEMortality ije = new IJEMortality();
+            ije.CERTDATE = "02292024";
+            Assert.Equal("02292024", ije.CERTDATE.Trim());
+        }
+        [Fact]
         public void TestTimeValues()
         {
             IJEMortality ijem;

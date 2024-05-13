@@ -1040,7 +1040,6 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    value = value.PadLeft(12, '0');
                     LeftJustified_Set("AUXNO", "StateLocalIdentifier1", value);
                 }
             }
@@ -3103,7 +3102,6 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    value = value.PadLeft(12, '0');
                     LeftJustified_Set("AUXNO2", "StateLocalIdentifier2", value);
                 }
             }

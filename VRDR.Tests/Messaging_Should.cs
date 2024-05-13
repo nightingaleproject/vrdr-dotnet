@@ -154,7 +154,7 @@ namespace VRDR.Tests
             DeathRecordSubmissionMessage submission = new DeathRecordSubmissionMessage();
             Assert.NotNull(submission.MessageBundle);
 	}
-		
+
         [Fact]
         public void CreateUpdate()
         {
@@ -628,7 +628,7 @@ namespace VRDR.Tests
             Assert.Equal("https://example.org/jurisdiction/endpoint", message.MessageDestination);
             Assert.Equal((uint)123, message.CertNo);
             Assert.Equal((uint)2022, message.DeathYear);
-            Assert.Equal("000000000500", message.StateAuxiliaryId);
+            Assert.Equal("500", message.StateAuxiliaryId);
             Assert.Equal("2022YC000123", message.NCHSIdentifier);
             Assert.Equal("T27.3", message.DeathRecord.AutomatedUnderlyingCOD);
             var recordAxisCodes = message.DeathRecord.RecordAxisCauseOfDeath;

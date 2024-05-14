@@ -5108,8 +5108,6 @@ namespace VRDR
             public static string  Poland = "PL";
             /// <summary> Panama </summary>
             public static string  Panama = "PM";
-            /// <summary> Panama </summary>
-            public static string  Panama = "PN";
             /// <summary> Azores_Portugal </summary>
             public static string  Azores_Portugal = "PO";
             /// <summary> Papua_New_Guinea </summary>
@@ -5188,8 +5186,6 @@ namespace VRDR
             public static string  Switzerland = "SZ";
             /// <summary> Saint_Barth_Lemy </summary>
             public static string  Saint_Barth_Lemy = "TB";
-            /// <summary> United_Arab_Emirates </summary>
-            public static string  United_Arab_Emirates = "TC";
             /// <summary> Trinidad_And_Tobago </summary>
             public static string  Trinidad_And_Tobago = "TD";
             /// <summary> Tromelin_Island </summary>

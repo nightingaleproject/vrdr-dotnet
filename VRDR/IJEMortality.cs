@@ -623,9 +623,9 @@ namespace VRDR
                     var nextCountryValue = "ZZ";
                     var nextStateValue = "ZZ";
 
-                    for (int i = 0; i < ValueSets.BirthplaceCountry.Codes.GetLength(0); i += 1)
+                    for (int i = 0; i < ValueSets.ResidenceCountry.Codes.GetLength(0); i += 1)
                     {
-                        if (ValueSets.BirthplaceCountry.Codes[i, 0] == countryCode)
+                        if (ValueSets.ResidenceCountry.Codes[i, 0] == countryCode)
                         {
                             nextCountryValue = countryCode;
                             break;

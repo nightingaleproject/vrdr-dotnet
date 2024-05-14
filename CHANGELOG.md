@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="4.1.12"></a>
+## [4.1.12](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.12) (2024-05-14)
+
+### Bug Fixes
+
+* handle translation from FHIR to IJE for COUNTRYC and STATE fields ([#579](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/579)) ([bc37e8b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/bc37e8b20cdd9a1497cf918c9215efbfce567a89))
+
+### Other
+
+* bump action versions ([#576](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/576)) ([4ff2b7a](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/4ff2b7a70cd274fed559b73b719e4a1448061f59))
+* use specific alirezanet/publish-nuget action version ([#578](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/578)) ([d1089ec](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/d1089ecc7ed3f99c9aafb65e7c7c4e1bf45db28b))
+
 <a name="4.1.11"></a>
 ## [4.1.11](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.11) (2024-05-03)
 

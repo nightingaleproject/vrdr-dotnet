@@ -106,5 +106,8 @@
     <None Update="fixtures/filter/Filtering+Parsing_1.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordBadPartialDate.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordBadPartialDateTime.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures\json\Test_StateText_JSON_To_IJE.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

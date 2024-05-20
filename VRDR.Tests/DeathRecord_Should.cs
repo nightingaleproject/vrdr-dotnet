@@ -1331,6 +1331,14 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Test_StateText_JSON_To_IJE()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Test_StateText_JSON_To_IJE.json")));
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("District of Columbia", ije1.STATETEXT_R.Trim());
+        }
+
+        [Fact]
         public void Set_Race()
         {
             Tuple<string, string>[] race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.FirstOtherPacificIslanderLiteral, "White, Native Hawaiian or Other Pacific Islander") };

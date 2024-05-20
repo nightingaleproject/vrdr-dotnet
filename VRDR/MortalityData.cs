@@ -254,7 +254,8 @@ namespace VRDR
             { "Prince Edward Island", "PE" },
             { "Quebec", "QC" },
             { "Saskatchewan", "SK" },
-            { "Yukon", "YK" }
+            { "Yukon", "YK" },
+            { "District of Columbia", "DC" }
         };
 
         /// <summary>Country Codes based on PH_Country_GEC = 2.16.840.1.113883.13.250    </summary>

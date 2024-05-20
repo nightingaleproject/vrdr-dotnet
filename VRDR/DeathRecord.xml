@@ -9814,6 +9814,894 @@
         <member name="F:VRDR.ValueSets.HispanicNoUnknown.Unknown">
             <summary> Unknown </summary>
         </member>
+        <member name="T:VRDR.ValueSets.ResidenceCountry">
+            <summary> ResidenceCountry </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Aruba">
+            <summary> Aruba </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Antigua_And_Barbuda">
+            <summary> Antigua_And_Barbuda </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.United_Arab_Emirates">
+            <summary> United_Arab_Emirates </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry._Afghanistan">
+            <summary> _Afghanistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Algeria">
+            <summary> Algeria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Azerbaijan">
+            <summary> Azerbaijan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Albania">
+            <summary> Albania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Armenia">
+            <summary> Armenia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Andorra">
+            <summary> Andorra </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Angola">
+            <summary> Angola </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Argentina">
+            <summary> Argentina </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Australia">
+            <summary> Australia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Ashmore_And_Cartier_Islands">
+            <summary> Ashmore_And_Cartier_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Austria">
+            <summary> Austria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Anguilla">
+            <summary> Anguilla </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Akrotiri">
+            <summary> Akrotiri </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Antarctica">
+            <summary> Antarctica </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bahrain">
+            <summary> Bahrain </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Barbados">
+            <summary> Barbados </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Botswana">
+            <summary> Botswana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bermuda">
+            <summary> Bermuda </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Belgium">
+            <summary> Belgium </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bahamas_The">
+            <summary> Bahamas_The </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bangladesh">
+            <summary> Bangladesh </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Belize">
+            <summary> Belize </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bosnia_And_Herzegovina">
+            <summary> Bosnia_And_Herzegovina </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bolivia">
+            <summary> Bolivia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Burma_Myanmar">
+            <summary> Burma_Myanmar </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Benin">
+            <summary> Benin </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Belarus">
+            <summary> Belarus </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Solomon_Islands">
+            <summary> Solomon_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Brazil">
+            <summary> Brazil </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bassas_Da_India">
+            <summary> Bassas_Da_India </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bhutan">
+            <summary> Bhutan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bulgaria">
+            <summary> Bulgaria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bouvet_Island">
+            <summary> Bouvet_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Brunei">
+            <summary> Brunei </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Burundi">
+            <summary> Burundi </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Canada">
+            <summary> Canada </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Cambodia">
+            <summary> Cambodia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Chad">
+            <summary> Chad </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Sri_Lanka">
+            <summary> Sri_Lanka </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Congo_Brazzaville_Republic_Of_The_Congo">
+            <summary> Congo_Brazzaville_Republic_Of_The_Congo </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Congo_Kinshasa_Democratic_Republic_Of_The_Congo_Zaire">
+            <summary> Congo_Kinshasa_Democratic_Republic_Of_The_Congo_Zaire </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.China">
+            <summary> China </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Chile">
+            <summary> Chile </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Cayman_Islands">
+            <summary> Cayman_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Cocos_Keeling_Islands">
+            <summary> Cocos_Keeling_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Central_And_Southern_Line_Islands">
+            <summary> Central_And_Southern_Line_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Cameroon">
+            <summary> Cameroon </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Comoros">
+            <summary> Comoros </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Colombia">
+            <summary> Colombia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Coral_Sea_Islands">
+            <summary> Coral_Sea_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Costa_Rica">
+            <summary> Costa_Rica </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Central_African_Republic">
+            <summary> Central_African_Republic </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Cuba">
+            <summary> Cuba </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Cape_Verde">
+            <summary> Cape_Verde </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Cook_Islands">
+            <summary> Cook_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Cyprus">
+            <summary> Cyprus </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Czechoslovakia">
+            <summary> Czechoslovakia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Denmark">
+            <summary> Denmark </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Djibouti">
+            <summary> Djibouti </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Dahomey">
+            <summary> Dahomey </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Dominica">
+            <summary> Dominica </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Jarvis_Island">
+            <summary> Jarvis_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Dominican_Republic">
+            <summary> Dominican_Republic </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Dhekelia">
+            <summary> Dhekelia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.East_Berlin">
+            <summary> East_Berlin </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Ecuador">
+            <summary> Ecuador </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Egypt">
+            <summary> Egypt </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Ireland">
+            <summary> Ireland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Equatorial_Guinea">
+            <summary> Equatorial_Guinea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Estonia">
+            <summary> Estonia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Canton_And_Enderberry_Islands">
+            <summary> Canton_And_Enderberry_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Eritrea">
+            <summary> Eritrea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.El_Salvador">
+            <summary> El_Salvador </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Ethiopia">
+            <summary> Ethiopia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Europa_Island">
+            <summary> Europa_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Czech_Republic">
+            <summary> Czech_Republic </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.French_Guiana">
+            <summary> French_Guiana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry._Land_Finland">
+            <summary> _Land_Finland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Fiji">
+            <summary> Fiji </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Falkland_Islands_Islas_Malvinas_Islas_Malvinas">
+            <summary> Falkland_Islands_Islas_Malvinas_Islas_Malvinas </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Federated_States_Of_Micronesia_Micronesia_Federated_States_Of">
+            <summary> Federated_States_Of_Micronesia_Micronesia_Federated_States_Of </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Faroe_Islands">
+            <summary> Faroe_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.French_Polynesia_Tahiti">
+            <summary> French_Polynesia_Tahiti </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.France">
+            <summary> France </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.French_Southern_And_Antarctic_Lands">
+            <summary> French_Southern_And_Antarctic_Lands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.French_Territory_Of_The_Affars_And_Issas">
+            <summary> French_Territory_Of_The_Affars_And_Issas </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Gambia_The">
+            <summary> Gambia_The </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Gabon">
+            <summary> Gabon </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.East_Germany_German_Democratic_Republic">
+            <summary> East_Germany_German_Democratic_Republic </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Federal_Republic_Of_Germany_West_Germany">
+            <summary> Federal_Republic_Of_Germany_West_Germany </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Georgia">
+            <summary> Georgia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Ghana">
+            <summary> Ghana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Gibraltar">
+            <summary> Gibraltar </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Grenada">
+            <summary> Grenada </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Guernsey">
+            <summary> Guernsey </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Greenland">
+            <summary> Greenland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Germany">
+            <summary> Germany </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Gilbert_And_Ellice_Islands">
+            <summary> Gilbert_And_Ellice_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Glorioso_Islands">
+            <summary> Glorioso_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Guadeloupe">
+            <summary> Guadeloupe </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Greece">
+            <summary> Greece </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Gilbert_Islands">
+            <summary> Gilbert_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Guatemala">
+            <summary> Guatemala </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Guinea">
+            <summary> Guinea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Guyana">
+            <summary> Guyana </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Gaza_Strip">
+            <summary> Gaza_Strip </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Haiti">
+            <summary> Haiti </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Hong_Kong">
+            <summary> Hong_Kong </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Heard_Island_And_Mcdonald_Islands">
+            <summary> Heard_Island_And_Mcdonald_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Honduras">
+            <summary> Honduras </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Howland_Island">
+            <summary> Howland_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Croatia">
+            <summary> Croatia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Hungary">
+            <summary> Hungary </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Iceland">
+            <summary> Iceland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Indonesia">
+            <summary> Indonesia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Isle_Of_Man">
+            <summary> Isle_Of_Man </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.India">
+            <summary> India </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.British_Indian_Ocean_Territory">
+            <summary> British_Indian_Ocean_Territory </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Clipperton_Island">
+            <summary> Clipperton_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Us_Miscellaneous_Pacific_Islands">
+            <summary> Us_Miscellaneous_Pacific_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Iran">
+            <summary> Iran </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Israel">
+            <summary> Israel </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Italy">
+            <summary> Italy </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Israel_Syria_Demilitarized_Zone">
+            <summary> Israel_Syria_Demilitarized_Zone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.C_Te_D_Ivoire_Ivory_Coast">
+            <summary> C_Te_D_Ivoire_Ivory_Coast </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Israel_Jordan_Demilitarized_Zone">
+            <summary> Israel_Jordan_Demilitarized_Zone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Iraq_Saudi_Arabia_Neutral_Zone">
+            <summary> Iraq_Saudi_Arabia_Neutral_Zone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Iraq">
+            <summary> Iraq </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Japan">
+            <summary> Japan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Jersey">
+            <summary> Jersey </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Jamaica">
+            <summary> Jamaica </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Jan_Mayen">
+            <summary> Jan_Mayen </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Jordan">
+            <summary> Jordan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Johnston_Atoll">
+            <summary> Johnston_Atoll </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Svalbard_And_Jan_Mayen">
+            <summary> Svalbard_And_Jan_Mayen </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Juan_De_Nova_Island">
+            <summary> Juan_De_Nova_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Kenya">
+            <summary> Kenya </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Kyrgyzstan">
+            <summary> Kyrgyzstan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Korea_North_North_Korea">
+            <summary> Korea_North_North_Korea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Kiribati">
+            <summary> Kiribati </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Korea_South_South_Korea">
+            <summary> Korea_South_South_Korea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Christmas_Island">
+            <summary> Christmas_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Kuwait">
+            <summary> Kuwait </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Kosovo">
+            <summary> Kosovo </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Kazakhstan">
+            <summary> Kazakhstan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Laos">
+            <summary> Laos </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Lebanon">
+            <summary> Lebanon </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Latvia">
+            <summary> Latvia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Lithuania">
+            <summary> Lithuania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Liberia">
+            <summary> Liberia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Slovakia">
+            <summary> Slovakia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Palmyra_Atoll">
+            <summary> Palmyra_Atoll </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Liechtenstein">
+            <summary> Liechtenstein </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Lesotho">
+            <summary> Lesotho </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Luxembourg">
+            <summary> Luxembourg </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Libya">
+            <summary> Libya </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Madagascar">
+            <summary> Madagascar </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Martinique">
+            <summary> Martinique </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Macau">
+            <summary> Macau </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Moldova">
+            <summary> Moldova </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Mayotte">
+            <summary> Mayotte </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Mongolia">
+            <summary> Mongolia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Montserrat">
+            <summary> Montserrat </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Malawi">
+            <summary> Malawi </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Montenegro">
+            <summary> Montenegro </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Macedonia">
+            <summary> Macedonia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Mali">
+            <summary> Mali </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Monaco">
+            <summary> Monaco </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Morocco">
+            <summary> Morocco </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Mauritius">
+            <summary> Mauritius </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Midway_Islands">
+            <summary> Midway_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Mauritania">
+            <summary> Mauritania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Malta">
+            <summary> Malta </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Oman">
+            <summary> Oman </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Maldives">
+            <summary> Maldives </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Mexico">
+            <summary> Mexico </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Malaysia">
+            <summary> Malaysia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Mozambique">
+            <summary> Mozambique </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.New_Caledonia">
+            <summary> New_Caledonia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Niue">
+            <summary> Niue </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Norfolk_Island">
+            <summary> Norfolk_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Niger">
+            <summary> Niger </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.New_Hebrides_Vanuatu">
+            <summary> New_Hebrides_Vanuatu </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Nigeria">
+            <summary> Nigeria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Bonaire_Netherlands_Saba_Saint_Eustatius">
+            <summary> Bonaire_Netherlands_Saba_Saint_Eustatius </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Sint_Maarten">
+            <summary> Sint_Maarten </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Norway">
+            <summary> Norway </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Nepal">
+            <summary> Nepal </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Nauru">
+            <summary> Nauru </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Suriname">
+            <summary> Suriname </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Netherlands_Antilles">
+            <summary> Netherlands_Antilles </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Nicaragua">
+            <summary> Nicaragua </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.New_Zealand">
+            <summary> New_Zealand </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.South_Sudan">
+            <summary> South_Sudan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Paraguay">
+            <summary> Paraguay </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Pitcairn_Island">
+            <summary> Pitcairn_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Peru">
+            <summary> Peru </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Paracel_Islands">
+            <summary> Paracel_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Spratly_Islands">
+            <summary> Spratly_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Etorofu_Habomai_Kunashiri_And_Shikotan_Islands">
+            <summary> Etorofu_Habomai_Kunashiri_And_Shikotan_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Pakistan">
+            <summary> Pakistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Poland">
+            <summary> Poland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Panama">
+            <summary> Panama </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Azores_Portugal">
+            <summary> Azores_Portugal </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Papua_New_Guinea">
+            <summary> Papua_New_Guinea </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Panama_Canal_Zone">
+            <summary> Panama_Canal_Zone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Palau">
+            <summary> Palau </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Guinea_Bissau">
+            <summary> Guinea_Bissau </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Qatar">
+            <summary> Qatar </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Reunion">
+            <summary> Reunion </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Rhodesia_Southern_Rhodesia">
+            <summary> Rhodesia_Southern_Rhodesia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Serbia">
+            <summary> Serbia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Marshall_Islands">
+            <summary> Marshall_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Saint_Martin">
+            <summary> Saint_Martin </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Romania">
+            <summary> Romania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Philippines">
+            <summary> Philippines </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Russia">
+            <summary> Russia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Rwanda">
+            <summary> Rwanda </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Saudi_Arabia">
+            <summary> Saudi_Arabia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Saint_Pierre_And_Miquelon">
+            <summary> Saint_Pierre_And_Miquelon </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Nevis_Saint_Kitts_And_Nevis">
+            <summary> Nevis_Saint_Kitts_And_Nevis </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Seychelles">
+            <summary> Seychelles </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.South_Africa">
+            <summary> South_Africa </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Senegal">
+            <summary> Senegal </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Saint_Helena_Ascension_And_Tristan_Da_Cunha">
+            <summary> Saint_Helena_Ascension_And_Tristan_Da_Cunha </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Slovenia">
+            <summary> Slovenia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Sikkim">
+            <summary> Sikkim </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Sierra_Leone">
+            <summary> Sierra_Leone </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.San_Marino">
+            <summary> San_Marino </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Singapore">
+            <summary> Singapore </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Somalia">
+            <summary> Somalia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Spain">
+            <summary> Spain </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Swan_Islands">
+            <summary> Swan_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Spanish_Sahara">
+            <summary> Spanish_Sahara </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Saint_Lucia">
+            <summary> Saint_Lucia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Sudan">
+            <summary> Sudan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Svalbard">
+            <summary> Svalbard </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Sweden">
+            <summary> Sweden </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.South_Georgia_And_South_Sandwich_Islands">
+            <summary> South_Georgia_And_South_Sandwich_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Syria">
+            <summary> Syria </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Switzerland">
+            <summary> Switzerland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Saint_Barth_Lemy">
+            <summary> Saint_Barth_Lemy </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Trinidad_And_Tobago">
+            <summary> Trinidad_And_Tobago </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Tromelin_Island">
+            <summary> Tromelin_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Thailand">
+            <summary> Thailand </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Tajikistan">
+            <summary> Tajikistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Turks_And_Caicos_Islands">
+            <summary> Turks_And_Caicos_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Tokelau">
+            <summary> Tokelau </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Tonga">
+            <summary> Tonga </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Togo">
+            <summary> Togo </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Sao_Tome_And_Principe">
+            <summary> Sao_Tome_And_Principe </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Trust_Territory_Of_The_Pacific_Islands">
+            <summary> Trust_Territory_Of_The_Pacific_Islands </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Tunisia">
+            <summary> Tunisia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.East_Timor_Timor_Leste">
+            <summary> East_Timor_Timor_Leste </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Turkey">
+            <summary> Turkey </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Tuvalu">
+            <summary> Tuvalu </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Taiwan">
+            <summary> Taiwan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Turkmenistan">
+            <summary> Turkmenistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Tanzania">
+            <summary> Tanzania </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Cura_Ao">
+            <summary> Cura_Ao </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Uganda">
+            <summary> Uganda </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.England_Great_Britain_United_Kingdom">
+            <summary> England_Great_Britain_United_Kingdom </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Ukraine">
+            <summary> Ukraine </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Soviet_Union_Union_Of_Soviet_Socialist_Republics">
+            <summary> Soviet_Union_Union_Of_Soviet_Socialist_Republics </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.United_States">
+            <summary> United_States </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Burkina_Faso_Upper_Volta">
+            <summary> Burkina_Faso_Upper_Volta </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Uruguay">
+            <summary> Uruguay </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Uzbekistan">
+            <summary> Uzbekistan </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Saint_Vincent_And_The_Grenadines">
+            <summary> Saint_Vincent_And_The_Grenadines </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Venezuela">
+            <summary> Venezuela </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.British_Virgin_Islands_Virgin_Islands_British">
+            <summary> British_Virgin_Islands_Virgin_Islands_British </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Vietnam">
+            <summary> Vietnam </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.North_Vietnam">
+            <summary> North_Vietnam </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.South_Vietnam">
+            <summary> South_Vietnam </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Holy_See_Vatican_City">
+            <summary> Holy_See_Vatican_City </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Namibia">
+            <summary> Namibia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.West_Berlin">
+            <summary> West_Berlin </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.West_Bank">
+            <summary> West_Bank </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Wallis_And_Futuna">
+            <summary> Wallis_And_Futuna </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Western_Sahara">
+            <summary> Western_Sahara </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Wake_Island">
+            <summary> Wake_Island </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Samoa">
+            <summary> Samoa </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Swaziland">
+            <summary> Swaziland </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Yemen_Sanaa">
+            <summary> Yemen_Sanaa </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Serbia_And_Montenegro_Yugoslavia">
+            <summary> Serbia_And_Montenegro_Yugoslavia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Yemen">
+            <summary> Yemen </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Ryukyu_Islands_Southern">
+            <summary> Ryukyu_Islands_Southern </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Yemen_Aden">
+            <summary> Yemen_Aden </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Zambia">
+            <summary> Zambia </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Zimbabwe">
+            <summary> Zimbabwe </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.ResidenceCountry.Not_Classifiable">
+            <summary> Not_Classifiable </summary>
+        </member>
         <member name="T:VRDR.ValueSets.BirthplaceCountry">
             <summary> BirthplaceCountry </summary>
         </member>

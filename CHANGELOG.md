@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.1.13"></a>
+## [4.1.13](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.13) (2024-05-20)
+
+### Bug Fixes
+
+* updating state text parsing lookup ([#582](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/582)) ([2fc0f8a](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/2fc0f8ac0bb10acbf380d1b32151fd9e3c544150))
+
 <a name="4.1.12"></a>
 ## [4.1.12](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.12) (2024-05-14)
 

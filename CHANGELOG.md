@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.1.14"></a>
+## [4.1.14](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.14) (2024-05-30)
+
+### Bug Fixes
+
+* add support for literal "UNKNOWN" LNAME for IJE ([#588](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/588)) ([4921660](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/4921660c13c529dc9b13664c1ac15459211d7562))
+
 <a name="4.1.13"></a>
 ## [4.1.13](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.13) (2024-05-20)
 

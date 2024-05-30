@@ -1192,14 +1192,7 @@ namespace VRDR
             }
             set
             {
-                if (value.Equals("UNKNOWN"))
-                {
-                    Set_MappingIJEToFHIR(Mappings.AdministrativeGender.IJEToFHIR, "LNAME", "FamilyName", null);
-                }
-                else
-                {
                     LeftJustified_Set("LNAME", "FamilyName", value);
-                }
             }
         }
 

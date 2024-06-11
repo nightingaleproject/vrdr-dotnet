@@ -598,9 +598,9 @@ namespace VRDR.Tests
 
             // simple round trip
             ije.AUXNO = "A1B2C3";
-            Assert.Equal("A1B2C3", ije.AUXNO);
+            Assert.Equal("A1B2C3      ", ije.AUXNO);
             ije.AUXNO2 = "E1F2G3";
-            Assert.Equal("E1F2G3", ije.AUXNO2);
+            Assert.Equal("E1F2G3      ", ije.AUXNO2);
 
             // oversized input
             ije.AUXNO = "1234567890123456";

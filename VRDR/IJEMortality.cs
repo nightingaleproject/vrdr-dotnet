@@ -615,6 +615,68 @@ namespace VRDR
                 {
                     current = Truncate(current, info.Length).PadLeft(info.Length, '0');
                 }
+                else if (ijeFieldName == "COUNTRYC" || ijeFieldName == "STATEC")
+                {
+                    var countryCode = dictionary["addressCountry"];
+                    var stateCode = dictionary["addressState"];
+
+                    var nextCountryValue = "ZZ";
+                    var nextStateValue = "ZZ";
+
+                    for (int i = 0; i < ValueSets.ResidenceCountry.Codes.GetLength(0); i += 1)
+                    {
+                        if (ValueSets.ResidenceCountry.Codes[i, 0] == countryCode)
+                        {
+                            nextCountryValue = countryCode;
+                            break;
+                        }
+                    }
+
+                    if (countryCode == "US")
+                    {
+                        for (int i = 0; i < ValueSets.USStatesAndTerritories.Codes.GetLength(0); i += 1)
+                        {
+                            if (ValueSets.USStatesAndTerritories.Codes[i, 0] == stateCode && stateCode != "UNK")
+                            {
+                                nextStateValue = stateCode;
+                                break;
+                            }
+                        }
+                    }
+                    else if (countryCode == "CA")
+                    {
+                        nextStateValue = "XX";
+
+                        for (int i = 0; i < ValueSets.CanadaProvinces.Codes.GetLength(0); i += 1)
+                        {
+                            if (ValueSets.CanadaProvinces.Codes[i, 0] == stateCode && stateCode != "UNK")
+                            {
+                                nextStateValue = stateCode;
+                                break;
+                            }
+                        }
+                    }
+                    else if (nextCountryValue != "ZZ")
+                    {
+                        // other valid country code
+                        nextStateValue = "XX";
+                    }
+                    else
+                    {
+                        // other valid state code
+                        nextStateValue = "ZZ";
+                    }
+
+
+                    if (ijeFieldName == "COUNTRYC")
+                    {
+                        return nextCountryValue;
+                    }
+                    else if (ijeFieldName == "STATEC")
+                    {
+                        return nextStateValue;
+                    }
+                }
                 else if (ijeFieldName == "BPLACE_CNT" || ijeFieldName == "BPLACE_ST")
                 {
                     var countryCode = dictionary["addressCountry"];
@@ -1129,14 +1191,7 @@ namespace VRDR
             }
             set
             {
-                if (value.Equals("UNKNOWN"))
-                {
-                    Set_MappingIJEToFHIR(Mappings.AdministrativeGender.IJEToFHIR, "LNAME", "FamilyName", null);
-                }
-                else
-                {
                     LeftJustified_Set("LNAME", "FamilyName", value);
-                }
             }
         }
 

@@ -9,7 +9,7 @@ var searchData=
   ['fatherfamilyname_20tt_20property_20tt_6',['FatherFamilyName &lt;tt&gt;property&lt;/tt&gt;',['../md__v_r_d_r_2_death_record.html#autotoc_md422',1,'']]],
   ['fathergivennames_7',['FatherGivenNames',['../class_v_r_d_r_1_1_death_record.html#a046cbc4fb316806886fd81d97501b37c',1,'VRDR::DeathRecord']]],
   ['fathergivennames_20tt_20property_20tt_8',['FatherGivenNames &lt;tt&gt;property&lt;/tt&gt;',['../md__v_r_d_r_2_death_record.html#autotoc_md425',1,'']]],
-  ['fathersuffix_9',['fathersuffix',['../class_v_r_d_r_1_1_death_record.html#a519ffa42628467258220bff9f0bd0d71',1,'VRDR.DeathRecord.FatherSuffix'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a75d5212635bf63f144d0e73ebeb5b59d',1,'VRDR.IJEMortality.FATHERSUFFIX']]],
+  ['fathersuffix_9',['fathersuffix',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a75d5212635bf63f144d0e73ebeb5b59d',1,'VRDR.IJEMortality.FATHERSUFFIX'],['../class_v_r_d_r_1_1_death_record.html#a519ffa42628467258220bff9f0bd0d71',1,'VRDR.DeathRecord.FatherSuffix']]],
   ['fathersuffix_20tt_20property_20tt_10',['fathersuffix tt property tt',['../md__v_r_d_r_2_death_record.html#autotoc_md428',1,'FatherSuffix &lt;tt&gt;property&lt;/tt&gt;'],['../md__v_r_d_r_2_death_record.html#autotoc_md1045',1,'FATHERSUFFIX &lt;tt&gt;property&lt;/tt&gt;']]],
   ['features_11',['features',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md38',1,'Features'],['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md56',1,'Features'],['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md54',1,'Features']]],
   ['fhir_12',['Names in FHIR',['../index.html#autotoc_md134',1,'']]],

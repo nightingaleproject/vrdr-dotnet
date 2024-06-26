@@ -4,7 +4,7 @@ var searchData=
   ['familyname_1',['FamilyName',['../class_v_r_d_r_1_1_death_record.html#aa857613740dcf20a4e85ecc86994b2e9',1,'VRDR::DeathRecord']]],
   ['fatherfamilyname_2',['FatherFamilyName',['../class_v_r_d_r_1_1_death_record.html#aff3b70ef53f3fcae65f336d37aba3c8a',1,'VRDR::DeathRecord']]],
   ['fathergivennames_3',['FatherGivenNames',['../class_v_r_d_r_1_1_death_record.html#a046cbc4fb316806886fd81d97501b37c',1,'VRDR::DeathRecord']]],
-  ['fathersuffix_4',['fathersuffix',['../class_v_r_d_r_1_1_death_record.html#a519ffa42628467258220bff9f0bd0d71',1,'VRDR.DeathRecord.FatherSuffix'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a75d5212635bf63f144d0e73ebeb5b59d',1,'VRDR.IJEMortality.FATHERSUFFIX']]],
+  ['fathersuffix_4',['fathersuffix',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a75d5212635bf63f144d0e73ebeb5b59d',1,'VRDR.IJEMortality.FATHERSUFFIX'],['../class_v_r_d_r_1_1_death_record.html#a519ffa42628467258220bff9f0bd0d71',1,'VRDR.DeathRecord.FatherSuffix']]],
   ['fiftheditedracecode_5',['FifthEditedRaceCode',['../class_v_r_d_r_1_1_death_record.html#a612fc5b5d2f01a9aae4d8af0a90548bd',1,'VRDR::DeathRecord']]],
   ['fiftheditedracecodehelper_6',['FifthEditedRaceCodeHelper',['../class_v_r_d_r_1_1_death_record.html#a166f57c1524a991ed28e26559ce61832',1,'VRDR::DeathRecord']]],
   ['filedate_7',['FILEDATE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#abafef96fd48028c15b0a21b3eae9628a',1,'VRDR::IJEMortality']]],

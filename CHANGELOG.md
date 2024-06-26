@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="4.2.0"></a>
+## [4.2.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.0) (2024-06-26)
+
+### Features
+
+* remove padding by 0 to AUXNO2 and AUXNO ([#591](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/591)) ([dce0842](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/dce08422a121b8bb0df053dc519036b0e88f1734))
+
+### Other
+
+* bump Microsoft.NET.Test.Sdk from 17.9.0 to 17.10.0 ([#585](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/585)) ([24f6ecd](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/24f6ecd22da54973e3d9acb61c41589e775486a4))
+* bump xunit from 2.8.0 to 2.8.1 ([#587](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/587)) ([957230c](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/957230cee6f8728f541e8acbf2a6e5391fe23811))
+
 <a name="4.1.14"></a>
 ## [4.1.14](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.14) (2024-05-30)
 

@@ -666,8 +666,27 @@ namespace VRDR.Tests
         {
             IJEMortality ije = new IJEMortality();
             ije.CERTDATE = "02292024";
-            Assert.Equal("02292024", ije.CERTDATE.Trim());
+            Assert.Equal("02292024", ije.CERTDATE);
         }
+
+        [Fact]
+        public void AuxiliaryNo()
+        {
+            IJEMortality ije = new IJEMortality();
+
+            // simple round trip
+            ije.AUXNO = "A1B2C3";
+            Assert.Equal("A1B2C3      ", ije.AUXNO);
+            ije.AUXNO2 = "E1F2G3";
+            Assert.Equal("E1F2G3      ", ije.AUXNO2);
+
+            // oversized input
+            ije.AUXNO = "1234567890123456";
+            Assert.Equal("123456789012", ije.AUXNO);
+            ije.AUXNO2 = "1234567890123456";
+            Assert.Equal("123456789012", ije.AUXNO2);
+        }
+
         [Fact]
         public void TestTimeValues()
         {

@@ -67,7 +67,7 @@ namespace VRDR
             Composition.Attester.First().Party = new ResourceReference("urn:uuid:" + Certifier.Id);
             Composition.Attester.First().ModeElement = new Code<Hl7.Fhir.Model.Composition.CompositionAttestationMode>(Hl7.Fhir.Model.Composition.CompositionAttestationMode.Legal);
             Hl7.Fhir.Model.Composition.EventComponent eventComponent = new Hl7.Fhir.Model.Composition.EventComponent();
-            eventComponent.Code.Add(new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure (procedure)", null));
+            eventComponent.Code.Add(new CodeableConcept(CodeSystems.SCT, "103693007", null, null));
             eventComponent.Detail.Add(new ResourceReference("urn:uuid:" + DeathCertification.Id));
             Composition.Event.Add(eventComponent);
             Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);

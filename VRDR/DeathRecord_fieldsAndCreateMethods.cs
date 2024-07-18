@@ -88,7 +88,7 @@ namespace VRDR
             string[] deathcertification_profile = { ProfileURL.DeathCertification };
             DeathCertification.Meta.Profile = deathcertification_profile;
             DeathCertification.Status = EventStatus.Completed;
-            DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure", null);
+            DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", null, null);
             DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
             // Not linked to Composition or inserted in bundle, since this is run before the composition exists.
         }

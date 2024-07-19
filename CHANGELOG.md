@@ -1,5 +1,23 @@
 # Changelog
 
+<a name="4.2.0"></a>
+## [4.2.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.0) (2024-07-19)
+
+### Features
+
+* remove padding by 0 to AUXNO2 and AUXNO ([#591](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/591)) ([dce0842](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/dce08422a121b8bb0df053dc519036b0e88f1734))
+
+### Bug Fixes
+
+* exclude display text for selected code ([#596](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/596)) ([e38ba84](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/e38ba84d95f1fb4ada90e5422ff82fca0a91346a))
+
+### Other
+
+* bump Microsoft.NET.Test.Sdk from 17.9.0 to 17.10.0 ([#585](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/585)) ([24f6ecd](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/24f6ecd22da54973e3d9acb61c41589e775486a4))
+* bump xunit from 2.8.0 to 2.8.1 ([#587](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/587)) ([957230c](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/957230cee6f8728f541e8acbf2a6e5391fe23811))
+* bump xunit from 2.8.1 to 2.9.0 ([#594](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/594)) ([2f83f4b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/2f83f4b962b84723aa8fb8c3639f027f0c98a3c8))
+* bump xunit.runner.visualstudio from 2.8.0 to 2.8.2 ([#593](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/593)) ([d750880](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/d7508808b1861e75e631ccb684014e466cfbf7e6))
+
 <a name="4.1.14"></a>
 ## [4.1.14](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.14) (2024-05-30)
 

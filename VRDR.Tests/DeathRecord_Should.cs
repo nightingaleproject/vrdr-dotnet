@@ -376,12 +376,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DeathRecordIdentifier()
         {
-            Assert.Equal("2019YC000182", DeathRecord1_JSON.DeathRecordIdentifier);
+            Assert.Equal("2022YC000182", DeathRecord1_JSON.DeathRecordIdentifier);
             Assert.Equal("2020NY000182", DeathCertificateDocument2_JSON.DeathRecordIdentifier);
             Assert.Equal("2020NY000182", DeathCertificateDocument1_JSON.DeathRecordIdentifier);
             Assert.Equal("2020NY000182", CauseOfDeathCodedContentBundle1_JSON.DeathRecordIdentifier);
             Assert.Equal("2020NY000182", DemographicCodedContentBundle1_JSON.DeathRecordIdentifier);
-            Assert.Equal("2019YC000182", DeathRecord1_XML.DeathRecordIdentifier);
+            Assert.Equal("2002YC000182", DeathRecord1_XML.DeathRecordIdentifier);
         }
 
         [Fact]
@@ -3655,7 +3655,7 @@ namespace VRDR.Tests
             Bundle bundle = DeathRecord1_JSON.GetCauseOfDeathCodedContentBundle();
             DeathRecord codedcontentbundle = new DeathRecord(bundle);
             Assert.NotNull(bundle);
-            Assert.Equal("2019YC000182", codedcontentbundle.DeathRecordIdentifier);
+            Assert.Equal("2022YC000182", codedcontentbundle.DeathRecordIdentifier);
             Assert.Equal("000182", codedcontentbundle.Identifier);
             Assert.Equal("000000000042", codedcontentbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", codedcontentbundle.StateLocalIdentifier2);
@@ -3670,7 +3670,7 @@ namespace VRDR.Tests
             Bundle bundle = DeathRecord1_JSON.GetDemographicCodedContentBundle();
             Assert.NotNull(bundle);
             DeathRecord codedcontentbundle = new DeathRecord(bundle);
-            Assert.Equal("2019YC000182", codedcontentbundle.DeathRecordIdentifier);
+            Assert.Equal("2022YC000182", codedcontentbundle.DeathRecordIdentifier);
             Assert.Equal("000182", codedcontentbundle.Identifier);
             Assert.Equal("000000000042", codedcontentbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", codedcontentbundle.StateLocalIdentifier2);
@@ -3686,7 +3686,7 @@ namespace VRDR.Tests
             Assert.NotNull(bundle);
             var numExtensions = bundle.Meta.Extension.Count();
             Assert.Equal(2, numExtensions); // alias and replace
-            Assert.Equal("2019YC000182", mortalityrosterbundle.DeathRecordIdentifier);
+            Assert.Equal("2022YC000182", mortalityrosterbundle.DeathRecordIdentifier);
             Assert.Equal("000182", mortalityrosterbundle.Identifier);
             Assert.Equal("000000000042", mortalityrosterbundle.StateLocalIdentifier1);
             Assert.Equal("100000000001", mortalityrosterbundle.StateLocalIdentifier2);

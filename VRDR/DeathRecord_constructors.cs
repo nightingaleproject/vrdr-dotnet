@@ -668,10 +668,7 @@ namespace VRDR
                     }
                 }
             }
-            if (fullRecord)
-            {
-                UpdateDeathRecordIdentifier();
-            }
+            
         }
     }
 }

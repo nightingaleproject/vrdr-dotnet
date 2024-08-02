@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.2.1"></a>
+## [4.2.1](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.1) (2024-08-02)
+
+### Bug Fixes
+
+*  updating unit test ([#598](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/598)) ([d55d74d](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/d55d74d62632cf512b32a48987c5edb4cbfc94b9))
+
 <a name="4.2.0"></a>
 ## [4.2.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.0) (2024-07-19)
 

@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['3_200_202022_2004_2005_0',['v3.3.0 - 2022-04-05',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md83',1,'']]],
-  ['3_201_202022_2004_2007_1',['v3.3.1 - 2022-04-07',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md82',1,'']]],
-  ['3_204_200_203_20a_202023_206_207_2',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.3&quot; &gt;4.0.3&lt;/a&gt; (2023-6-7)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md58',1,'']]],
-  ['3_204_201_203_20a_202023_208_204_3',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.3&quot; &gt;4.1.3&lt;/a&gt; (2023-8-4)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md29',1,'']]],
-  ['30_4',['30',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md1',1,'&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.14&quot; &gt;4.1.14&lt;/a&gt; (2024-05-30)'],['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md65',1,'v4.0.0.preview17 - 2023-01-30']]],
-  ['31_5',['31',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md70',1,'v4.0.0-preview12 - 2022-10-31'],['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md78',1,'v4.0.0.preview4 - 2022-05-31']]],
-  ['3_3a_6',['Argument 3:',['../md_doc_2_filtering.html#autotoc_md105',1,'']]]
+  ['3_200_202022_2004_2005_0',['v3.3.0 - 2022-04-05',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md87',1,'']]],
+  ['3_201_202022_2004_2007_1',['v3.3.1 - 2022-04-07',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md86',1,'']]],
+  ['3_204_200_203_20a_202023_206_207_2',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.0.3&quot; &gt;4.0.3&lt;/a&gt; (2023-6-7)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md62',1,'']]],
+  ['3_204_201_203_20a_202023_208_204_3',['&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.3&quot; &gt;4.1.3&lt;/a&gt; (2023-8-4)',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md33',1,'']]],
+  ['30_4',['30',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md5',1,'&lt;a href=&quot;https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.1.14&quot; &gt;4.1.14&lt;/a&gt; (2024-05-30)'],['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md69',1,'v4.0.0.preview17 - 2023-01-30']]],
+  ['31_5',['31',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md74',1,'v4.0.0-preview12 - 2022-10-31'],['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md82',1,'v4.0.0.preview4 - 2022-05-31']]],
+  ['3_3a_6',['Argument 3:',['../md_doc_2_filtering.html#autotoc_md109',1,'']]]
 ];

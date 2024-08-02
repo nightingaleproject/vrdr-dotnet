@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.2.1"></a>
+## [4.2.1](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.1) (2024-08-02)
+
+### Bug Fixes
+
+*  remove auto-generation of certificate identifier ([#598](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/598)) ([d55d74d](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/d55d74d62632cf512b32a48987c5edb4cbfc94b9))
+
 <a name="4.2.0"></a>
 ## [4.2.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.0) (2024-07-19)
 
@@ -279,7 +286,7 @@
 
 ## v4.0.0.preview21 - 2023-04-20
 
-* Adds support for multiple message destinations. It implemented this with a comma separated string of endpoints in the MessageDestination attribute. 
+* Adds support for multiple message destinations. It implemented this with a comma separated string of endpoints in the MessageDestination attribute.
 
 *## v4.0.0.preview20 - 2023-04-20
 
@@ -323,7 +330,7 @@
 * Added a tabular data to FHIR Death Record Converter for testing
 * Improved errors returned for DSTATE missing vs incorrect
 * Fixed Auxno and Auxno2 formatting during conversion
-* Fixed IJEMortality handling of NCHS-formatted ICD10 codes 
+* Fixed IJEMortality handling of NCHS-formatted ICD10 codes
 * Return null instead of empty strings for a blank fields in the death record
 
 ## v4.0.0-preview15 - 2022-12-06

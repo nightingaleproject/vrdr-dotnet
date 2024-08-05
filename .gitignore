@@ -53,6 +53,8 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+VRDR.Tests/tools
+VRDR.Tests/.config/dotnet-tools.json
 
 # StyleCop
 StyleCopReport.xml

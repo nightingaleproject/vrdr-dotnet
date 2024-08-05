@@ -12,29 +12,60 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET Core 2.1
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 2.1.815
-    - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 3.1.408
-    - name: Setup .NET Core 6.0
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.100
-    - name: .net Side by Side
-      run: |
-        rsync -a ${DOTNET_ROOT/3.1.408/2.1.815}/* $DOTNET_ROOT/
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: ./VRDR.Tests/run_tests.sh
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core 2.1
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 2.1.815
+      - name: Setup .NET Core 3.1
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 3.1.408
+      - name: Setup .NET Core 6.0
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.100
+      - name: .net Side by Side
+        run: |
+          rsync -a ${DOTNET_ROOT/3.1.408/2.1.815}/* $DOTNET_ROOT/
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: ./VRDR.Tests/run_tests.sh
+  coverage:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.100
+      - name: Install dependencies
+        run: dotnet restore vrdr-dotnet.sln
+      - name: Build
+        run: dotnet build vrdr-dotnet.sln --configuration Release --no-restore
+      - name: Test
+        run: dotnet test vrdr-dotnet.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+      - name: Code Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/**/coverage.cobertura.xml
+          badge: true
+          fail_below_min: false
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '50 75'
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: code-coverage-results.md

@@ -3,4 +3,9 @@ updates:
 - package-ecosystem: "nuget"
   directory: "/"
   schedule:
-    interval: daily
+    interval: weekly
+  ignore:
+    # For all deps
+    - dependency-name: "*"
+      # ignore all patch updates
+      update-types: ["version-update:semver-patch"]

@@ -1,5 +1,15 @@
 # Changelog
 
+<a name="4.2.2"></a>
+## [4.2.2](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.2) (2024-08-06)
+
+### Other
+
+* add test coverage ([#600](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/600)) ([f3f307b](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/f3f307b85b09097739890f7ddfe08fcc4f07d017))
+* bump coverlet.collector from 6.0.0 to 6.0.2 ([#603](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/603)) ([13fa016](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/13fa0160b47c0bce9de286b5ab34959cdaafe0f2))
+* bump ReportGenerator from 5.3.5 to 5.3.8 ([#602](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/602)) ([004842f](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/004842ff3ee4be06226cb2336eca385d196cca4a))
+* ignore patch dependency updates ([#605](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/605)) ([332a13c](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/332a13c9d13087f0e83f50416aefc830fc4539dc))
+
 <a name="4.2.1"></a>
 ## [4.2.1](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.1) (2024-08-02)
 

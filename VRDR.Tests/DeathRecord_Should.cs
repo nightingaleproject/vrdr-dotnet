@@ -69,6 +69,14 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void FailMissingExtensionValue()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingExtensionValue.json"));
+            Exception ex = Assert.Throws<ArgumentException>(() => new DeathRecord(bundle).DeathLocationAddress);
+            Assert.Equal("Found an Extension resource that does not contain a value. All extensions must include a value element.", ex.Message);
+        }
+
+        [Fact]
         public void FailMissingRelatedPersonRelationshipCode()
         {
             string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingRelatedPersonRelationshipCode.json"));

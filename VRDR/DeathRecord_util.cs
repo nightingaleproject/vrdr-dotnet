@@ -222,7 +222,8 @@ namespace VRDR
         /// field (year, month, or day) to be read from either the value or the extension</summary>
         private int? GetDateFragmentOrPartialDate(Element value, string partURL)
         {
-            if (value == null) {
+            if (value == null)
+            {
                 return null;
             }
             var dateFragment = GetDateFragment(value, partURL);
@@ -239,25 +240,30 @@ namespace VRDR
             return GetPartialDate(extension, partURL);
         }
 
-        private FhirDateTime ConvertFhirTimeToFhirDateTime(Time value) {
+        private FhirDateTime ConvertFhirTimeToFhirDateTime(Time value)
+        {
             return new FhirDateTime(DateTimeOffset.MinValue.Year, DateTimeOffset.MinValue.Month, DateTimeOffset.MinValue.Day,
                 FhirTimeHour(value), FhirTimeMin(value), FhirTimeSec(value), TimeSpan.Zero);
         }
 
-        private int FhirTimeHour(Time value) {
+        private int FhirTimeHour(Time value)
+        {
             return int.Parse(value.ToString().Substring(0, 2));
         }
 
-        private int FhirTimeMin(Time value) {
+        private int FhirTimeMin(Time value)
+        {
             return int.Parse(value.ToString().Substring(3, 2));
         }
 
-        private int FhirTimeSec(Time value) {
+        private int FhirTimeSec(Time value)
+        {
             return int.Parse(value.ToString().Substring(6, 2));
         }
 
         /// <summary>Getter helper for anything that can have a regular FHIR date/time, allowing the time to be read from the value</summary>
-        private string GetTimeFragment(Element value) {
+        private string GetTimeFragment(Element value)
+        {
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
             {
                 // Using FhirDateTime's ToDateTimeOffset doesn't keep the time in the original time zone, so we parse the string representation, first using the appropriate segment of
@@ -280,7 +286,8 @@ namespace VRDR
         {
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
             string time = GetTimeFragment(value);
-            if (time != null) {
+            if (time != null)
+            {
                 return time;
             }
             return GetPartialTime(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime));
@@ -559,28 +566,40 @@ namespace VRDR
                 // Year part
                 if (yearAbsentPart != null)
                 {
+                    if (yearAbsentPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dateParts.Add(Tuple.Create("year-absent-reason", yearAbsentPart.Value.ToString()));
                 }
                 if (yearPart != null)
                 {
+                    if (yearPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dateParts.Add(Tuple.Create("date-year", yearPart.Value.ToString()));
                 }
                 // Month part
                 if (monthAbsentPart != null)
                 {
+                    if (monthAbsentPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dateParts.Add(Tuple.Create("month-absent-reason", monthAbsentPart.Value.ToString()));
                 }
                 if (monthPart != null)
                 {
+                    if (monthPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dateParts.Add(Tuple.Create("date-month", monthPart.Value.ToString()));
                 }
                 // Day Part
                 if (dayAbsentPart != null)
                 {
+                    if (dayAbsentPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dateParts.Add(Tuple.Create("day-absent-reason", dayAbsentPart.Value.ToString()));
                 }
                 if (dayPart != null)
                 {
+                    if (dayPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dateParts.Add(Tuple.Create("date-day", dayPart.Value.ToString()));
                 }
             }
@@ -633,6 +652,8 @@ namespace VRDR
                     Extension districtCode = addr.DistrictElement.Extension.Where(ext => ext.Url == ExtensionURL.DistrictCode).FirstOrDefault();
                     if (districtCode != null)
                     {
+                        if (districtCode.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                         dictionary["addressCountyC"] = districtCode.Value.ToString();
                     }
                 }
@@ -640,36 +661,48 @@ namespace VRDR
                 Extension stnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetNumber).FirstOrDefault();
                 if (stnum != null)
                 {
+                    if (stnum.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dictionary["addressStnum"] = stnum.Value.ToString();
                 }
 
                 Extension predir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PreDirectional).FirstOrDefault();
                 if (predir != null)
                 {
+                    if (predir.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dictionary["addressPredir"] = predir.Value.ToString();
                 }
 
                 Extension stname = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetName).FirstOrDefault();
                 if (stname != null)
                 {
+                    if (stname.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dictionary["addressStname"] = stname.Value.ToString();
                 }
 
                 Extension stdesig = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetDesignator).FirstOrDefault();
                 if (stdesig != null)
                 {
+                    if (stdesig.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dictionary["addressStdesig"] = stdesig.Value.ToString();
                 }
 
                 Extension postdir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PostDirectional).FirstOrDefault();
                 if (postdir != null)
                 {
+                    if (postdir.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dictionary["addressPostdir"] = postdir.Value.ToString();
                 }
 
                 Extension unitnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.UnitOrAptNumber).FirstOrDefault();
                 if (unitnum != null)
                 {
+                    if (unitnum.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                     dictionary["addressUnitnum"] = unitnum.Value.ToString();
                 }
 
@@ -684,6 +717,8 @@ namespace VRDR
                     Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
                     if (stateExt != null)
                     {
+                        if (stateExt.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+
                         dictionary["addressJurisdiction"] = stateExt.Value.ToString();
                     }
                 }
@@ -1087,7 +1122,7 @@ namespace VRDR
             // Set names only if there are non-blank values.
             if (value.Length < 1)
             {
-              return;
+                return;
             }
             HumanName name = names.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
             if (name != null)
@@ -1141,7 +1176,8 @@ namespace VRDR
                         partialDateSubExtensions.Remove(ExtensionURL.DateMonth);
                         partialDateSubExtensions.Remove(ExtensionURL.DateYear);
                         partialDateSubExtensions.Remove(ExtensionURL.DateTime);
-                        if (partialDateSubExtensions.Count() > 0) {
+                        if (partialDateSubExtensions.Count() > 0)
+                        {
                             errors.Append("[" + partialDateExtension.Url + "] component contains extra invalid fields [" + string.Join(", ", partialDateSubExtensions) + "] for resource [" + resource.Id + "].").AppendLine();
                         }
                     }

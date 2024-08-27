@@ -1080,6 +1080,16 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void ValidateMessageHeader()
+        {
+            var msg = BaseMessage.Parse(FixtureStream("fixtures/json/MessageHeaderValidation.json"), false);
+            Assert.IsType<DeathRecordSubmissionMessage>(msg);
+            MessageRuleException ex = Assert.Throws<MessageRuleException>(() => BaseMessage.ValidateMessageHeader(msg));
+            Assert.Equal("Message certificate number cannot be more than 6 digits long.", ex.Message);
+            Assert.IsType<DeathRecordSubmissionMessage>(ex.SourceMessage);
+        }
+
+        [Fact]
         public void ParseOldTRXVersionAsGenericMsg()
         {
             // verifies the Generic Message Parser allows for messages based on the old IG 1.2

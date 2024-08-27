@@ -187,9 +187,9 @@
             "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
             "valueAddress": {
               "line": [
-                "1601 Hibiscus"
+                "123 Main"
               ],
-              "city": "Marcory, Groupement Foncier",
+              "city": "UNKNOWN",
               "state": "UNK",
               "country": "CA"
             }
@@ -258,12 +258,12 @@
           {
             "use": "nickname",
             "given": [
-              "Cheryl"
+              "Jane"
             ]
           }
         ],
         "gender": "male",
-        "birthDate": "1941-01-01",
+        "birthDate": "1911-01-01",
         "address": [
           {
             "extension": [
@@ -277,11 +277,11 @@
               }
             ],
             "line": [
-              "2706 Snowbird Terrace unit 5"
+              "123 Main St"
             ],
             "district": "MD",
             "state": "MD",
-            "postalCode": "20906",
+            "postalCode": "00000",
             "country": "USA"
           }
         ],
@@ -315,9 +315,9 @@
         "name": [
           {
             "use": "official",
-            "family": "Murphy",
+            "family": "Doe",
             "given": [
-              "sherry"
+              "Jane"
             ]
           }
         ],
@@ -438,11 +438,11 @@
           }
         ],
         "active": true,
-        "name": "Lingala Bailey LLC",
+        "name": "ACME LLC",
         "address": [
           {
             "line": [
-              "2634 Coolidge rd"
+              "123 Main rd"
             ],
             "city": "silver spring",
             "district": "Montgomery",
@@ -478,11 +478,11 @@
         "address": [
           {
             "line": [
-              "3311 Toledo Road"
+              "3311 Main Road"
             ],
             "district": "Montgomery",
             "state": "MD",
-            "postalCode": "2876",
+            "postalCode": "02876",
             "country": "USA"
           }
         ]
@@ -519,11 +519,10 @@
         "name": "Burial",
         "address": {
           "line": [
-            "2706 Apple Pie Terrace"
+            "123 Main St"
           ],
-          "district": "Prince Georges",
           "state": "MD",
-          "postalCode": "27865",
+          "postalCode": "00000",
           "country": "USA"
         },
         "physicalType": {
@@ -680,9 +679,9 @@
         ],
         "name": [
           {
-            "family": "Ouattara",
+            "family": "Doe",
             "given": [
-              "Kabore"
+              "John"
             ]
           }
         ]
@@ -870,14 +869,14 @@
             }
           }
         ],
-        "name": "West Somerville Hospital",
+        "name": "General Hospital",
         "type": [
           {
             "coding": [
               {
                 "system": "PHVS_PlaceOfDeath_NCHS",
                 "code": "death",
-                "display": "Hospice  Facility"
+                "display": "Death Location"
               }
             ]
           }

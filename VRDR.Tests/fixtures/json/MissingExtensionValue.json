@@ -241,15 +241,15 @@
               ]
             },
             "system": "http://hl7.org/fhir/sid/us-ssn",
-            "value": "657876543"
+            "value": "12312333"
           }
         ],
         "name": [
           {
             "use": "official",
-            "family": "Dramane",
+            "family": "Doe",
             "given": [
-              "Allassane"
+              "Alaska"
             ],
             "suffix": [
               "Jr."

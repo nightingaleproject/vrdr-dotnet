@@ -90,6 +90,7 @@
     <None Update="fixtures/json/MissingCompositionSubject.json"
       CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingDecedent.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingExtensionValue.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingMessageType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingObservationCode.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingRelatedPersonRelationshipCode.json"

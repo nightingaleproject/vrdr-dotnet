@@ -1079,6 +1079,18 @@ namespace VRDR.Tests
             Assert.Null(responseMsg.StateAuxiliaryId);
         }
 
+        /// <summary>
+        /// Tests the validation of the message header.
+        /// </summary>
+        /// <remarks>
+        /// This test parses a message from a JSON fixture and validates its header.
+        /// It ensures that the message is of type <see cref="DeathRecordSubmissionMessage"/>.
+        /// It also verifies that a <see cref="MessageRuleException"/> is thrown when the message header is invalid,
+        /// and checks that the exception message and source message type are correct.
+        /// </remarks>
+        /// <exception cref="MessageRuleException">
+        /// Thrown when the message header validation fails due to the certificate number being more than 6 digits long.
+        /// </exception>
         [Fact]
         public void ValidateMessageHeader()
         {

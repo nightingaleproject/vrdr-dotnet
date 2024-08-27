@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.2.3"></a>
+## [4.2.3](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.3) (2024-08-27)
+
+### Bug Fixes
+
+* add null checks to extension values ([#608](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/608)) ([eb49f15](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/eb49f151211d36063bc31bb8fdcb162d34b5c029))
+
 <a name="4.2.2"></a>
 ## [4.2.2](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.2) (2024-08-06)
 

@@ -566,39 +566,39 @@ namespace VRDR
                 // Year part
                 if (yearAbsentPart != null)
                 {
-                    if (yearAbsentPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (yearAbsentPart.Value == null) throw new ArgumentException("Found an Extension resource (year-absent-reason) that does not contain a value. All extensions must include a value element.");
 
                     dateParts.Add(Tuple.Create("year-absent-reason", yearAbsentPart.Value.ToString()));
                 }
                 if (yearPart != null)
                 {
-                    if (yearPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (yearPart.Value == null) throw new ArgumentException("Found an Extension resource (date-year) that does not contain a value. All extensions must include a value element.");
 
                     dateParts.Add(Tuple.Create("date-year", yearPart.Value.ToString()));
                 }
                 // Month part
                 if (monthAbsentPart != null)
                 {
-                    if (monthAbsentPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (monthAbsentPart.Value == null) throw new ArgumentException("Found an Extension resource (month-absent-reason) that does not contain a value. All extensions must include a value element.");
 
                     dateParts.Add(Tuple.Create("month-absent-reason", monthAbsentPart.Value.ToString()));
                 }
                 if (monthPart != null)
                 {
-                    if (monthPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (monthPart.Value == null) throw new ArgumentException("Found an Extension resource (date-month) that does not contain a value. All extensions must include a value element.");
 
                     dateParts.Add(Tuple.Create("date-month", monthPart.Value.ToString()));
                 }
                 // Day Part
                 if (dayAbsentPart != null)
                 {
-                    if (dayAbsentPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (dayAbsentPart.Value == null) throw new ArgumentException("Found an Extension resource (day-absent-reason) that does not contain a value. All extensions must include a value element.");
 
                     dateParts.Add(Tuple.Create("day-absent-reason", dayAbsentPart.Value.ToString()));
                 }
                 if (dayPart != null)
                 {
-                    if (dayPart.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (dayPart.Value == null) throw new ArgumentException("Found an Extension resource (date-day) that does not contain a value. All extensions must include a value element.");
 
                     dateParts.Add(Tuple.Create("date-day", dayPart.Value.ToString()));
                 }
@@ -643,6 +643,8 @@ namespace VRDR
                     Extension cityCode = addr.CityElement.Extension.Where(ext => ext.Url == ExtensionURL.CityCode).FirstOrDefault();
                     if (cityCode != null)
                     {
+                        if (cityCode.Value == null) throw new ArgumentException("Found an Extension resource (CityCode) that does not contain a value. All extensions must include a value element.");
+
                         dictionary["addressCityC"] = cityCode.Value.ToString();
                     }
                 }
@@ -652,7 +654,7 @@ namespace VRDR
                     Extension districtCode = addr.DistrictElement.Extension.Where(ext => ext.Url == ExtensionURL.DistrictCode).FirstOrDefault();
                     if (districtCode != null)
                     {
-                        if (districtCode.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                        if (districtCode.Value == null) throw new ArgumentException("Found an Extension resource (DistrictCode) that does not contain a value. All extensions must include a value element.");
 
                         dictionary["addressCountyC"] = districtCode.Value.ToString();
                     }
@@ -661,7 +663,7 @@ namespace VRDR
                 Extension stnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetNumber).FirstOrDefault();
                 if (stnum != null)
                 {
-                    if (stnum.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (stnum.Value == null) throw new ArgumentException("Found an Extension resource (StreetNumber) that does not contain a value. All extensions must include a value element.");
 
                     dictionary["addressStnum"] = stnum.Value.ToString();
                 }
@@ -669,7 +671,7 @@ namespace VRDR
                 Extension predir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PreDirectional).FirstOrDefault();
                 if (predir != null)
                 {
-                    if (predir.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (predir.Value == null) throw new ArgumentException("Found an Extension resource (PreDirectional) that does not contain a value. All extensions must include a value element.");
 
                     dictionary["addressPredir"] = predir.Value.ToString();
                 }
@@ -677,7 +679,7 @@ namespace VRDR
                 Extension stname = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetName).FirstOrDefault();
                 if (stname != null)
                 {
-                    if (stname.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (stname.Value == null) throw new ArgumentException("Found an Extension resource (StreetName) that does not contain a value. All extensions must include a value element.");
 
                     dictionary["addressStname"] = stname.Value.ToString();
                 }
@@ -685,7 +687,7 @@ namespace VRDR
                 Extension stdesig = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetDesignator).FirstOrDefault();
                 if (stdesig != null)
                 {
-                    if (stdesig.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (stdesig.Value == null) throw new ArgumentException("Found an Extension resource (StreetDesignator) that does not contain a value. All extensions must include a value element.");
 
                     dictionary["addressStdesig"] = stdesig.Value.ToString();
                 }
@@ -693,7 +695,7 @@ namespace VRDR
                 Extension postdir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PostDirectional).FirstOrDefault();
                 if (postdir != null)
                 {
-                    if (postdir.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (postdir.Value == null) throw new ArgumentException("Found an Extension resource (PostDirectional) that does not contain a value. All extensions must include a value element.");
 
                     dictionary["addressPostdir"] = postdir.Value.ToString();
                 }
@@ -701,7 +703,7 @@ namespace VRDR
                 Extension unitnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.UnitOrAptNumber).FirstOrDefault();
                 if (unitnum != null)
                 {
-                    if (unitnum.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                    if (unitnum.Value == null) throw new ArgumentException("Found an Extension resource (UnitOrAptNumber) that does not contain a value. All extensions must include a value element.");
 
                     dictionary["addressUnitnum"] = unitnum.Value.ToString();
                 }
@@ -717,7 +719,7 @@ namespace VRDR
                     Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
                     if (stateExt != null)
                     {
-                        if (stateExt.Value == null) throw new ArgumentException("Found an Extension resource that does not contain a value. All extensions must include a value element.");
+                        if (stateExt.Value == null) throw new ArgumentException("Found an Extension resource (LocationJurisdictionId) that does not contain a value. All extensions must include a value element.");
 
                         dictionary["addressJurisdiction"] = stateExt.Value.ToString();
                     }

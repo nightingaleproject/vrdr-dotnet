@@ -147,6 +147,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a80f070ca02d6c17876f762d78be064ce" id="r_a80f070ca02d6c17876f762d78be064ce"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#a80f070ca02d6c17876f762d78be064ce">Parse</a> (StreamReader source, bool permissive=false)</td></tr>
 <tr class="memdesc:a80f070ca02d6c17876f762d78be064ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of BaseMessage. Clients can use the typeof operator to determine the type of message object returned.  <br /></td></tr>
 <tr class="separator:a80f070ca02d6c17876f762d78be064ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37221b3fc177535f1f2bce088a668b26" id="r_a37221b3fc177535f1f2bce088a668b26"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#a37221b3fc177535f1f2bce088a668b26">ValidateMessageHeader</a> (<a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a> message)</td></tr>
+<tr class="memdesc:a37221b3fc177535f1f2bce088a668b26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the fields in a BaseMessage header meet NCHS processing requirements. This function will be used by the STEVE API and NVSS API for validation. Library users can also use this to test their messages meet the validation requirements before submitting. The function throws an error if there are invalid fields. Nothing is returned if the message is valid.  <br /></td></tr>
+<tr class="separator:a37221b3fc177535f1f2bce088a668b26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bdb5e46ee7dc54615c998f5df5dfe67" id="r_a9bdb5e46ee7dc54615c998f5df5dfe67"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_v_r_d_r_1_1_death_record.html">DeathRecord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#a9bdb5e46ee7dc54615c998f5df5dfe67">GetDeathRecordFromMessage</a> (<a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a> message)</td></tr>
 <tr class="memdesc:a9bdb5e46ee7dc54615c998f5df5dfe67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert message to message type and extract the death record.  <br /></td></tr>
 <tr class="separator:a9bdb5e46ee7dc54615c998f5df5dfe67"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,10 +162,10 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:acfdd3fb47385ce4cdfeadca909d2c85e" id="r_acfdd3fb47385ce4cdfeadca909d2c85e"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#acfdd3fb47385ce4cdfeadca909d2c85e">findEntry&lt; T &gt;</a> (bool ignoreMissingEntries=false)</td></tr>
 <tr class="memdesc:acfdd3fb47385ce4cdfeadca909d2c85e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the first Entry within the message Bundle that contains a Resource of the specified type and return that resource.  <br /></td></tr>
 <tr class="separator:acfdd3fb47385ce4cdfeadca909d2c85e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace40aba93639177e19608abb642aeea6" id="r_ace40aba93639177e19608abb642aeea6"><td class="memItemLeft" align="right" valign="top"><a id="ace40aba93639177e19608abb642aeea6" name="ace40aba93639177e19608abb642aeea6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BaseMessage</b> (String messageType)</td></tr>
-<tr class="memdesc:ace40aba93639177e19608abb642aeea6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that creates a new, empty message for the specified message type. <br /></td></tr>
-<tr class="separator:ace40aba93639177e19608abb642aeea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dc0e3bd6855097519bf701f188e5ecf" id="r_a0dc0e3bd6855097519bf701f188e5ecf"><td class="memItemLeft" align="right" valign="top"><a id="a0dc0e3bd6855097519bf701f188e5ecf" name="a0dc0e3bd6855097519bf701f188e5ecf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BaseMessage</b> (string messageType)</td></tr>
+<tr class="memdesc:a0dc0e3bd6855097519bf701f188e5ecf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that creates a new, empty message for the specified message type. <br /></td></tr>
+<tr class="separator:a0dc0e3bd6855097519bf701f188e5ecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67285d04ed7e729cc7dc7d064fdd54d0" id="r_a67285d04ed7e729cc7dc7d064fdd54d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_base_message.html#a67285d04ed7e729cc7dc7d064fdd54d0">ExtractBusinessIdentifiers</a> (<a class="el" href="class_v_r_d_r_1_1_death_record.html">DeathRecord</a> from)</td></tr>
 <tr class="memdesc:a67285d04ed7e729cc7dc7d064fdd54d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the business identifiers for the message from the supplied death record.  <br /></td></tr>
 <tr class="separator:a67285d04ed7e729cc7dc7d064fdd54d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -985,6 +988,41 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>NCHSIdentifier</b><
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a string representation of this DeathRecordSubmissionMessage in XML format</dd></dl>
+
+</div>
+</div>
+<a id="a37221b3fc177535f1f2bce088a668b26" name="a37221b3fc177535f1f2bce088a668b26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37221b3fc177535f1f2bce088a668b26">&#9670;&#160;</a></span>ValidateMessageHeader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void VRDR.BaseMessage.ValidateMessageHeader </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_v_r_d_r_1_1_base_message.html">BaseMessage</a>&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Validate the fields in a BaseMessage header meet NCHS processing requirements. This function will be used by the STEVE API and NVSS API for validation. Library users can also use this to test their messages meet the validation requirements before submitting. The function throws an error if there are invalid fields. Nothing is returned if the message is valid. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>base message</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
 
 </div>
 </div>

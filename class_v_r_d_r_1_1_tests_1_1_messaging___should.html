@@ -196,6 +196,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>CreateAliasForRecordW
 <tr class="memitem:a5030127f2fd15e98d4e2c7385052b2a6" id="r_a5030127f2fd15e98d4e2c7385052b2a6"><td class="memItemLeft" align="right" valign="top"><a id="a5030127f2fd15e98d4e2c7385052b2a6" name="a5030127f2fd15e98d4e2c7385052b2a6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SelectMessageType</b> ()</td></tr>
 <tr class="separator:a5030127f2fd15e98d4e2c7385052b2a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a522257cf699eeea5596d201ca9c5bb38" id="r_a522257cf699eeea5596d201ca9c5bb38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_tests_1_1_messaging___should.html#a522257cf699eeea5596d201ca9c5bb38">ValidateMessageHeader</a> ()</td></tr>
+<tr class="memdesc:a522257cf699eeea5596d201ca9c5bb38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests the validation of the message header.  <br /></td></tr>
+<tr class="separator:a522257cf699eeea5596d201ca9c5bb38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e004a6d4f479007745c306265655c71" id="r_a9e004a6d4f479007745c306265655c71"><td class="memItemLeft" align="right" valign="top"><a id="a9e004a6d4f479007745c306265655c71" name="a9e004a6d4f479007745c306265655c71"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ParseOldTRXVersionAsGenericMsg</b> ()</td></tr>
 <tr class="separator:a9e004a6d4f479007745c306265655c71"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,6 +215,41 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>CreateExtractionError
 void&#160;</td><td class="memItemRight" valign="bottom"><b>CreateSubmissionFromJSONWithValueCodeableConceptText</b> ()</td></tr>
 <tr class="separator:a0df35cc46fd64157198cdf5757f02d49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a522257cf699eeea5596d201ca9c5bb38" name="a522257cf699eeea5596d201ca9c5bb38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a522257cf699eeea5596d201ca9c5bb38">&#9670;&#160;</a></span>ValidateMessageHeader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VRDR.Tests.Messaging_Should.ValidateMessageHeader </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tests the validation of the message header. </p>
+<p>This test parses a message from a JSON fixture and validates its header. It ensures that the message is of type DeathRecordSubmissionMessage. It also verifies that a MessageRuleException is thrown when the message header is invalid, and checks that the exception message and source message type are correct. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">MessageRuleException</td><td>Thrown when the message header validation fails due to the certificate number being more than 6 digits long. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>VRDR.Tests/<b>Messaging_Should.cs</b></li>
 </ul>

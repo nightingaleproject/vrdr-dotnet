@@ -36,7 +36,7 @@ namespace VRDR
             // Validate bundle type is message
             if (messageBundle?.Type != Bundle.BundleType.Message && !ignoreBundleType)
             {
-                String actualType = messageBundle?.Type == null ? "null" : messageBundle?.Type.ToString();
+                string actualType = messageBundle?.Type == null ? "null" : messageBundle?.Type.ToString();
                 throw new MessageParseException($"The FHIR Bundle must be of type message, not {actualType}", new BaseMessage(messageBundle, true, true));
             }
 
@@ -55,7 +55,7 @@ namespace VRDR
         /// <returns>The first matching Bundle entry</returns>
         protected T findEntry<T>(bool ignoreMissingEntries = false) where T : Resource
         {
-            var typedEntry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource is T);
+            var typedEntry = MessageBundle.Entry.FirstOrDefault(entry => entry.Resource is T);
             if (typedEntry == null && !ignoreMissingEntries)
             {
                 throw new System.ArgumentException($"Failed to find a Bundle Entry containing a Resource of type {typeof(T).FullName}");
@@ -64,7 +64,7 @@ namespace VRDR
         }
 
         /// <summary>Constructor that creates a new, empty message for the specified message type.</summary>
-        protected BaseMessage(String messageType)
+        protected BaseMessage(string messageType)
         {
             // Start with a Bundle.
             MessageBundle = new Bundle();
@@ -97,7 +97,7 @@ namespace VRDR
         protected void ExtractBusinessIdentifiers(DeathRecord from)
         {
             uint certificateNumber;
-            if (UInt32.TryParse(from?.Identifier, out certificateNumber))
+            if (uint.TryParse(from?.Identifier, out certificateNumber))
             {
                 this.CertNo = certificateNumber;
             }
@@ -123,7 +123,7 @@ namespace VRDR
         /// </summary>
         protected void UpdateMessageBundleRecord()
         {
-            MessageBundle.Entry.RemoveAll( entry => entry.Resource is Bundle);
+            MessageBundle.Entry.RemoveAll(entry => entry.Resource is Bundle);
             Header.Focus.Clear();
             Bundle newBundle = MessageBundleRecord;
             if (newBundle != null)
@@ -215,7 +215,7 @@ namespace VRDR
             set
             {
                 Header.Id = value;
-                MessageBundle.Entry.RemoveAll( entry => entry.Resource is MessageHeader );
+                MessageBundle.Entry.RemoveAll(entry => entry.Resource is MessageHeader);
                 MessageBundle.AddResourceEntry(Header, "urn:uuid:" + Header.Id);
             }
         }
@@ -267,10 +267,11 @@ namespace VRDR
             get
             {
                 List<string> destinations = this.MessageDestinations;
-                if (destinations == null || (destinations.Count() == 1 && destinations[0] == null) || destinations.Count() < 1) {
+                if (destinations == null || (destinations.Count() == 1 && destinations[0] == null) || destinations.Count() < 1)
+                {
                     return null;
                 }
-                return String.Join(",", this.MessageDestinations);
+                return string.Join(",", this.MessageDestinations);
             }
             set
             {
@@ -296,7 +297,8 @@ namespace VRDR
                     Header.Destination.Add(dest);
                     return;
                 }
-                foreach (string endpoint in value) {
+                foreach (string endpoint in value)
+                {
                     MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
                     dest.Endpoint = endpoint;
                     Header.Destination.Add(dest);
@@ -308,7 +310,7 @@ namespace VRDR
         protected void SetSingleStringValue(string key, string value)
         {
             Record.Remove(key);
-            if (!String.IsNullOrWhiteSpace(value))
+            if (!string.IsNullOrWhiteSpace(value))
             {
                 Record.Add(key, new FhirString(value));
             }
@@ -360,7 +362,8 @@ namespace VRDR
                 Record.Remove("death_year");
                 if (value != null)
                 {
-                    if (value < 1000 || value > 9999) {
+                    if (value < 1000 || value > 9999)
+                    {
                         throw new ArgumentException("Year of death must be specified using four digits");
                     }
                     Record.Add("death_year", new UnsignedInt((int)value));
@@ -411,7 +414,7 @@ namespace VRDR
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <returns>The deserialized message object</returns>
         /// <exception cref="MessageParseException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
-        public static T Parse<T>(StreamReader source, bool permissive = false) where T: BaseMessage
+        public static T Parse<T>(StreamReader source, bool permissive = false) where T : BaseMessage
         {
             BaseMessage typedMessage = Parse(source, permissive);
             if (!typeof(T).IsInstanceOfType(typedMessage))
@@ -429,7 +432,7 @@ namespace VRDR
         /// <param name="bundle">A FHIR Bundle</param>
         /// <returns>The message object of the appropriate message type</returns>
         /// <exception cref="MessageParseException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
-        public static T Parse<T>(Bundle bundle) where T: BaseMessage
+        public static T Parse<T>(Bundle bundle) where T : BaseMessage
         {
             BaseMessage typedMessage = Parse(bundle);
             if (!typeof(T).IsInstanceOfType(typedMessage))
@@ -448,7 +451,7 @@ namespace VRDR
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <returns>the deserialized message object</returns>
         /// <exception cref="MessageParseException">thrown when source does not represent the same or a subtype of the type parameter.</exception>
-        public static T Parse<T>(string source, bool permissive = false) where T: BaseMessage
+        public static T Parse<T>(string source, bool permissive = false) where T : BaseMessage
         {
             BaseMessage typedMessage = Parse(source, permissive);
             if (!typeof(T).IsInstanceOfType(typedMessage))
@@ -493,11 +496,11 @@ namespace VRDR
         /// <returns>The deserialized bundle object</returns>
         public static Bundle ParseGenericBundle(string source, bool permissive = false)
         {
-            if (!String.IsNullOrEmpty(source) && source.TrimStart().StartsWith("<"))
+            if (!string.IsNullOrEmpty(source) && source.TrimStart().StartsWith("<"))
             {
                 return ParseXML(source, permissive);
             }
-            else if (!String.IsNullOrEmpty(source) && source.TrimStart().StartsWith("{"))
+            else if (!string.IsNullOrEmpty(source) && source.TrimStart().StartsWith("{"))
             {
                 return ParseJSON(source, permissive);
             }
@@ -584,13 +587,58 @@ namespace VRDR
         }
 
         /// <summary>
+        /// Validate the fields in a BaseMessage header meet NCHS processing requirements. This
+        /// function will be used by the STEVE API and NVSS API for validation. Library users can
+        /// also use this to test their messages meet the validation requirements before submitting. The function
+        /// throws an error if there are invalid fields. Nothing is returned if the message is valid.
+        /// </summary>
+        /// <param name="message">base message</param>
+        /// <returns>void</returns>
+        public static void ValidateMessageHeader(BaseMessage message)
+        {
+            if (string.IsNullOrWhiteSpace(message.MessageSource))
+            {
+                throw new MessageRuleException("Message source endpoint cannot be null.", message);
+            }
+            if (string.IsNullOrWhiteSpace(message.MessageDestination))
+            {
+                throw new MessageRuleException("Message destination endpoint cannot be null.", message);
+            }
+            if (string.IsNullOrWhiteSpace(message.MessageId))
+            {
+                throw new MessageRuleException("Message ID cannot be null.", message);
+            }
+            if (string.IsNullOrWhiteSpace(message.GetType().Name))
+            {
+                throw new MessageRuleException("Message event type cannot be null.", message);
+            }
+            if (message.CertNo == null)
+            {
+                throw new MessageRuleException("Message certificate number cannot be null.", message);
+            }
+            if ((uint)message.CertNo.ToString().Length > 6)
+            {
+                throw new MessageRuleException("Message certificate number cannot be more than 6 digits long.", message);
+            }
+            if (string.IsNullOrWhiteSpace(message.JurisdictionId))
+            {
+                throw new MessageRuleException($"Message jurisdiction ID cannot be null.", message);
+            }
+            if (message.DeathYear == null)
+            {
+                throw new MessageRuleException($"Message death year cannot be null.", message);
+            }
+            return;
+        }
+
+        /// <summary>
         /// Convert message to message type and extract the death record
         /// </summary>
         /// <param name="message">base message</param>
         /// <returns>The death record inside the base message</returns>
         public static DeathRecord GetDeathRecordFromMessage(BaseMessage message)
         {
-                
+
             Type messageType = message.GetType();
 
             DeathRecord dr = null;
@@ -598,51 +646,54 @@ namespace VRDR
             switch (messageType.Name)
             {
                 case "DeathRecordSubmissionMessage":
-                {
-                    var drsm = message as DeathRecordSubmissionMessage;
-                    dr = drsm?.DeathRecord;
-                    break;
-                }
+                    {
+                        var drsm = message as DeathRecordSubmissionMessage;
+                        dr = drsm?.DeathRecord;
+                        break;
+                    }
                 case "DeathRecordUpdateMessage":
-                {
-                    var drsm = message as DeathRecordUpdateMessage;
-                    dr = drsm?.DeathRecord;
-                    break;
-                }
+                    {
+                        var drsm = message as DeathRecordUpdateMessage;
+                        dr = drsm?.DeathRecord;
+                        break;
+                    }
                 case "CauseOfDeathCodingMessage":
-                {
-                    var drsm = message as CauseOfDeathCodingMessage;
-                    dr = drsm?.DeathRecord;
-                    break;
-                }
+                    {
+                        var drsm = message as CauseOfDeathCodingMessage;
+                        dr = drsm?.DeathRecord;
+                        break;
+                    }
                 case "CauseOfDeathCodingUpdateMessage":
-                {
-                    var drsm = message as CauseOfDeathCodingUpdateMessage;
-                    dr = drsm?.DeathRecord;
-                    break;
-                }
+                    {
+                        var drsm = message as CauseOfDeathCodingUpdateMessage;
+                        dr = drsm?.DeathRecord;
+                        break;
+                    }
                 case "DemographicsCodingMessage":
-                {
-                    var drsm = message as DemographicsCodingMessage;
-                    dr = drsm?.DeathRecord;
-                    break;
-                }
+                    {
+                        var drsm = message as DemographicsCodingMessage;
+                        dr = drsm?.DeathRecord;
+                        break;
+                    }
                 case "DemographicsCodingUpdateMessage":
-                {
-                    var drsm = message as DemographicsCodingUpdateMessage;
-                    dr = drsm?.DeathRecord;
-                    break;
-                }
+                    {
+                        var drsm = message as DemographicsCodingUpdateMessage;
+                        dr = drsm?.DeathRecord;
+                        break;
+                    }
             }
 
             return dr;
         }
-        
+
         private static ParserSettings GetParserSettings(bool permissive)
         {
-            return new ParserSettings { AcceptUnknownMembers = permissive,
-                                        AllowUnrecognizedEnums = permissive,
-                                        PermissiveParsing = permissive };
+            return new ParserSettings
+            {
+                AcceptUnknownMembers = permissive,
+                AllowUnrecognizedEnums = permissive,
+                PermissiveParsing = permissive
+            };
         }
 
         private static Bundle ParseXML(string content, bool permissive)
@@ -660,7 +711,7 @@ namespace VRDR
                 }
                 if (entries.Count > 0)
                 {
-                    throw new System.ArgumentException(String.Join("; ", entries).TrimEnd());
+                    throw new System.ArgumentException(string.Join("; ", entries).TrimEnd());
                 }
             }
             // Try Parse
@@ -692,7 +743,7 @@ namespace VRDR
                 }
                 if (entries.Count > 0)
                 {
-                    throw new System.ArgumentException(String.Join("; ", entries).TrimEnd());
+                    throw new System.ArgumentException(string.Join("; ", entries).TrimEnd());
                 }
             }
             // Try Parse
@@ -735,6 +786,27 @@ namespace VRDR
             var message = new ExtractionErrorMessage(sourceMessage);
             message.Issues.Add(new Issue(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, this.Message));
             return message;
+        }
+    }
+
+    /// <summary>
+    /// An exception that may be thrown during message validation. This indicates that the message failed business rule validation.
+    /// </summary>
+    public class MessageRuleException : ArgumentException
+    {
+        /// <summary>
+        /// Gets the source message that caused the problem.
+        /// </summary>
+        public readonly BaseMessage SourceMessage;
+
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="errorMessage">A text error message describing the problem</param>
+        /// <param name="sourceMessage">The message that caused the problem</param>
+        public MessageRuleException(string errorMessage, BaseMessage sourceMessage) : base(errorMessage)
+        {
+            SourceMessage = sourceMessage;
         }
     }
 }

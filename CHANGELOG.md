@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.3.0"></a>
+## [4.3.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.3.0) (2024-08-29)
+
+### Features
+
+* add message header validation ([#607](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/607)) ([0d9a348](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/0d9a34825decf77283f0df7bbf32bd3d361760b2))
+
 <a name="4.2.3"></a>
 ## [4.2.3](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.2.3) (2024-08-27)
 

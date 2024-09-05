@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.3.1"></a>
+## [4.3.1](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.3.1) (2024-09-05)
+
+### Bug Fixes
+
+* default invalid address extensions to empty string in the address dictionary ([#611](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/611)) ([0c08541](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/0c08541f6e9325f2bf772ff71b4525e044e57e83))
+
 <a name="4.3.0"></a>
 ## [4.3.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.3.0) (2024-08-29)
 

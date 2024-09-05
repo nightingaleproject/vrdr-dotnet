@@ -641,10 +641,8 @@ namespace VRDR
                 if (addr.CityElement != null)
                 {
                     Extension cityCode = addr.CityElement.Extension.Where(ext => ext.Url == ExtensionURL.CityCode).FirstOrDefault();
-                    if (cityCode != null)
+                    if (cityCode != null && cityCode.Value != null)
                     {
-                        if (cityCode.Value == null) throw new ArgumentException("Found an Extension resource (CityCode) that does not contain a value. All extensions must include a value element.");
-
                         dictionary["addressCityC"] = cityCode.Value.ToString();
                     }
                 }
@@ -652,59 +650,45 @@ namespace VRDR
                 if (addr.DistrictElement != null)
                 {
                     Extension districtCode = addr.DistrictElement.Extension.Where(ext => ext.Url == ExtensionURL.DistrictCode).FirstOrDefault();
-                    if (districtCode != null)
+                    if (districtCode != null && districtCode.Value != null)
                     {
-                        if (districtCode.Value == null) throw new ArgumentException("Found an Extension resource (DistrictCode) that does not contain a value. All extensions must include a value element.");
-
                         dictionary["addressCountyC"] = districtCode.Value.ToString();
                     }
                 }
 
                 Extension stnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetNumber).FirstOrDefault();
-                if (stnum != null)
+                if (stnum != null && stnum.Value != null)
                 {
-                    if (stnum.Value == null) throw new ArgumentException("Found an Extension resource (StreetNumber) that does not contain a value. All extensions must include a value element.");
-
                     dictionary["addressStnum"] = stnum.Value.ToString();
                 }
 
                 Extension predir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PreDirectional).FirstOrDefault();
-                if (predir != null)
+                if (predir != null && predir.Value != null)
                 {
-                    if (predir.Value == null) throw new ArgumentException("Found an Extension resource (PreDirectional) that does not contain a value. All extensions must include a value element.");
-
                     dictionary["addressPredir"] = predir.Value.ToString();
                 }
 
                 Extension stname = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetName).FirstOrDefault();
-                if (stname != null)
+                if (stname != null && stname.Value != null)
                 {
-                    if (stname.Value == null) throw new ArgumentException("Found an Extension resource (StreetName) that does not contain a value. All extensions must include a value element.");
-
                     dictionary["addressStname"] = stname.Value.ToString();
                 }
 
                 Extension stdesig = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetDesignator).FirstOrDefault();
-                if (stdesig != null)
+                if (stdesig != null && stdesig.Value != null)
                 {
-                    if (stdesig.Value == null) throw new ArgumentException("Found an Extension resource (StreetDesignator) that does not contain a value. All extensions must include a value element.");
-
                     dictionary["addressStdesig"] = stdesig.Value.ToString();
                 }
 
                 Extension postdir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PostDirectional).FirstOrDefault();
-                if (postdir != null)
+                if (postdir != null && postdir.Value != null)
                 {
-                    if (postdir.Value == null) throw new ArgumentException("Found an Extension resource (PostDirectional) that does not contain a value. All extensions must include a value element.");
-
                     dictionary["addressPostdir"] = postdir.Value.ToString();
                 }
 
                 Extension unitnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.UnitOrAptNumber).FirstOrDefault();
-                if (unitnum != null)
+                if (unitnum != null && unitnum.Value != null)
                 {
-                    if (unitnum.Value == null) throw new ArgumentException("Found an Extension resource (UnitOrAptNumber) that does not contain a value. All extensions must include a value element.");
-
                     dictionary["addressUnitnum"] = unitnum.Value.ToString();
                 }
 
@@ -717,10 +701,8 @@ namespace VRDR
                 {
                     dictionary["addressJurisdiction"] = addr.State; // by default.  If extension present, override
                     Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
-                    if (stateExt != null)
+                    if (stateExt != null && stateExt.Value != null)
                     {
-                        if (stateExt.Value == null) throw new ArgumentException("Found an Extension resource (LocationJurisdictionId) that does not contain a value. All extensions must include a value element.");
-
                         dictionary["addressJurisdiction"] = stateExt.Value.ToString();
                     }
                 }

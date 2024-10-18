@@ -237,6 +237,11 @@ namespace VRDR
             parameters.Add("client_secret", this.Credentials.ClientSecret);
             parameters.Add("username", this.Credentials.Username);
             parameters.Add("password", this.Credentials.Pass);
+            if (this.Credentials.Scope != null)
+            {
+                parameters.Add("scope", this.Credentials.Scope);
+            }
+            
 
             var request = new HttpRequestMessage(HttpMethod.Post, this.Credentials.Url) { Content = new FormUrlEncodedContent(parameters) };
             var response = await client.SendAsync(request);

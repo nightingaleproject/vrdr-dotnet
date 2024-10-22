@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.4.0"></a>
+## [4.4.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.0) (2024-10-22)
+
+### Features
+
+* add scope parameter to Credentials class ([#614](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/614)) ([1a43c21](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/1a43c21cfa71f4fc9c0dfb730775d71aa2f303c1))
+
 <a name="4.3.1"></a>
 ## [4.3.1](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.3.1) (2024-09-05)
 

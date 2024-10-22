@@ -16,14 +16,18 @@ namespace VRDR
         public String Username { get; }
         /// <summary>The password provided by SAMS</summary>
         public String Pass { get; }
+        /// <summary>The scope of the request</summary>
+        public String? Scope {get;}
+        
         /// <summary>Constructor</summary>
-        public Credentials(String url, String clientID, String clientSecret, String username, String pass)
+        public Credentials(String url, String clientID, String clientSecret, String username, String pass, String? scope = null)
         {
             this.Url = url;
             this.ClientId = clientID;
             this.ClientSecret = clientSecret;
             this.Username = username;
             this.Pass = pass;
+            this.Scope = scope;
         }
     }
 }

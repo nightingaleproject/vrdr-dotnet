@@ -40,7 +40,7 @@ jobs:
           dotnet tool install --global Versionize
       - name: Bump version and create changelog
         run: |
-          versionize --proj-version-bump-logic --skip-tag --changelog-all
+          versionize --skip-tag
       - name: Get current version
         id: get-version
         run: |
@@ -57,7 +57,7 @@ jobs:
           body: ""
           branch: actions/release
           reviewers: ${{ github.actor }}
-          delete-branch: true          
+          delete-branch: true
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
@@ -66,5 +66,5 @@ jobs:
       - name: Enable auto-merge
         run: |
           gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --auto -s
-        env:          
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

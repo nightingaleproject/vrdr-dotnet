@@ -118,6 +118,7 @@
     <None Update="fixtures/json/UnknownDateOfDeath.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/UnknownDateOfInjury.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/DeathRecord1.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/xml/BadMessage.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/AcknowledgementMessage.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/CODandCOUNTYCUnknown.ije" CopyToOutputDirectory="PreserveNewest" />

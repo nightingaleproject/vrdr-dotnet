@@ -1104,8 +1104,11 @@ namespace VRDR.Tests
         [Fact]
         public void ValidateBadMessage()
         {
-            ArgumentException ex = Assert.Throws<ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/BadMessage.json")));
+            FormatException ex = Assert.Throws<FormatException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/BadMessage.json")));
             Assert.Equal("Invalid leading zero before '2'. LineNumber: 57 | BytePositionInLine: 33.", ex.Message);
+
+            FormatException ex_xml = Assert.Throws<FormatException>(() => BaseMessage.Parse(FixtureStream("fixtures/xml/BadMessage.xml")));
+            Assert.Equal("Invalid Xml encountered. Details: '2002YC000182' is an unexpected token. The expected token is '\"' or '''. Line 21, position 18.", ex_xml.Message);
         }
 
         [Fact]

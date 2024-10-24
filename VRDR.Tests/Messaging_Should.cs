@@ -1102,6 +1102,13 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void ValidateBadMessage()
+        {
+            ArgumentException ex = Assert.Throws<ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/BadMessage.json")));
+            Assert.Equal("Invalid leading zero before '2'. LineNumber: 57 | BytePositionInLine: 33.", ex.Message);
+        }
+
+        [Fact]
         public void ParseOldTRXVersionAsGenericMsg()
         {
             // verifies the Generic Message Parser allows for messages based on the old IG 1.2
@@ -1231,6 +1238,8 @@ namespace VRDR.Tests
             Assert.Null(submission.DeathRecord.UsualOccupation);
             Assert.Null(submission.DeathRecord.UsualIndustry);
         }
+
+
 
 
         private string FixturePath(string filePath)

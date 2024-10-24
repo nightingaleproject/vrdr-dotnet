@@ -1,0 +1,73 @@
+{
+  "resourceType": "Bundle",
+  "id": "DeathRecordVoidMessage-Example1",
+  "meta": {
+    "profile": [
+      "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-DeathRecordVoidMessage"
+    ]
+  },
+  "type": "message",
+  "timestamp": "2021-05-20T00:00:00Z",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "VoidHeader-Example1",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-VoidHeader"
+          ]
+        },
+        "eventUri": "http://nchs.cdc.gov/vrdr_submission_void",
+        "destination": [
+          {
+            "endpoint": "http://nchs.cdc.gov/vrdr_submission"
+          }
+        ],
+        "source": {
+          "endpoint": "https://sos.nh.gov/vitalrecords"
+        },
+        "focus": [
+          {
+            "reference": "Parameters/VoidParameters-Example1"
+          }
+        ]
+      },
+      "fullUrl": "http://www.example.org/fhir/Header/VoidHeader-Example1"
+    },
+    {
+      "resource": {
+        "resourceType": "Parameters",
+        "id": "VoidParameters-Example1",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-VoidParameters"
+          ]
+        },
+        "parameter": [
+          {
+            "name": "block_count",
+            "valueUnsignedInt": 10
+          },
+          {
+            "name": "jurisdiction_id",
+            "valueString": "NY"
+          },
+          {
+            "name": "cert_no",
+            "valueUnsignedInt": 023456
+          },
+          {
+            "name": "death_year",
+            "valueUnsignedInt": 2018
+          },
+          {
+            "name": "state_auxiliary_id",
+            "valueString": "abcdef10"
+          }
+        ]
+      },
+      "fullUrl": "http://www.example.org/fhir/Parameters/VoidParameters-Example1"
+    }
+  ]
+}

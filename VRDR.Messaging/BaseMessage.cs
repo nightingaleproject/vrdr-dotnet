@@ -732,6 +732,18 @@ namespace VRDR
         {
             Bundle bundle = null;
 
+            // The purpose of this code is to validate that the content string is a valid JSON.
+            // This address the issue of jurisdictions sending a JSON that is not a valid JSON.
+            // If it is not, the code throws an ArgumentException with a message indicating the error.
+            try
+            {
+                System.Text.Json.JsonDocument.Parse(content);
+            }
+            catch (System.Text.Json.JsonException e)
+            {
+                throw new ArgumentException(e.Message);
+            }
+
             // Grab all errors found by visiting all nodes and report if not permissive
             if (!permissive)
             {

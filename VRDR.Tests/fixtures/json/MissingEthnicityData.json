@@ -986,7 +986,7 @@
               "id": "fff6b99f-0b9c-4199-a72e-e15887baa692",
               "meta": {
                 "profile": [
-                  "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
                 ]
               }
             }

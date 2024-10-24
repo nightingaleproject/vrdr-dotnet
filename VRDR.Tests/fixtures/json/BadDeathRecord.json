@@ -1,15 +1,30 @@
 {
-  "resourceType": "Bundle",
-  "id": "27c1f73d-59a7-4c52-bb20-7073c1778535",
-  "meta": {
-    "profile": [
+  "resourceType" : "Bundle",
+  "id" : "DeathCertificateDocument-Example1",
+  "identifier" : {
+    "extension" : [
+      {
+        "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/CertificateNumber",
+        "valueString" : "000182"
+      },
+      {
+        "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
+        "valueString" : "000000000042"
+      },
+      {
+        "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
+        "valueString" : "100000000001"
+      }
+    ],
+    "value" : "2022YC000182"
+  },
+  "meta" : {
+    "profile" : [
       "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"
     ]
   },
-  "identifier": {
-    "value": "2019MA000001"
-  },
-  "type": "document",
+  "type" : "document",
+  "timestamp" : "2020-10-20T14:48:35.401641-04:00",
   "entry": [
     {
       "fullUrl": "urn:uuid:590aa717-4e8d-413f-a62b-89ceb143539d",
@@ -21,9 +36,36 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
           ]
         },
-        "identifier": {
-          "value": "99999"
-        },
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat",
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "code" : electronic,
+                  "display" : "Electronic",
+                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs"
+                }
+              ]
+            }
+          },
+          {
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus",
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "code" : "original",
+                  "display" : "original record",
+                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-replace-status-cs"
+                }
+              ]
+            }
+          },
+          {
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/StateSpecificField",
+            "valueString" : "State Specific Content"
+          }
+        ],
         "status": "final",
         "type": {
           "coding": [
@@ -75,48 +117,17 @@
         ],
         "section": [
           {
+            "code" : {
+              "coding" : [
+                {
+                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs",
+                  "code" : "DecedentDemographics"
+                }
+              ]
+            },
             "entry": [
               {
                 "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
-              },
-              {
-                "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
-              },
-              {
-                "reference": "urn:uuid:84452aa0-fc31-4f4c-848f-b8f1e5bba1c0"
-              },
-              {
-                "reference": "urn:uuid:2d71d05b-7f52-4c13-bd19-68a251e3544d"
-              },
-              {
-                "reference": "urn:uuid:17e6d6c8-deea-464b-a009-d077ceb30af1"
-              },
-              {
-                "reference": "urn:uuid:cffcc6e0-7324-4898-b876-9107d275eafa"
-              },
-              {
-                "reference": "urn:uuid:c834ea74-e93d-4a51-bc02-60466b9e4f14"
-              },
-              {
-                "reference": "urn:uuid:fe696fc7-7683-4268-92d8-b3a7c88b1587"
-              },
-              {
-                "reference": "urn:uuid:64551ae3-51ac-48e6-8d8a-41fd3ad29916"
-              },
-              {
-                "reference": "urn:uuid:fc27b07f-99c9-48f8-a229-6eb5d8b598f0"
-              },
-              {
-                "reference": "urn:uuid:b66d97ea-56b1-4397-8de3-fb989007485b"
-              },
-              {
-                "reference": "urn:uuid:8b7a9ca6-1276-402f-a521-35155234af14"
-              },
-              {
-                "reference": "urn:uuid:bbae6f36-26c2-4b20-b9d3-735d9c9f6c2f"
-              },
-              {
-                "reference": "urn:uuid:223eaadb-5909-458c-bbe5-604c120c3ce9"
               },
               {
                 "reference": "urn:uuid:097c0d70-6807-48c0-9710-7d4e96726234"
@@ -128,40 +139,49 @@
                 "reference": "urn:uuid:db1ec90f-038a-4ebc-b714-3b92c76b5fb8"
               },
               {
-                "reference": "urn:uuid:79c8753a-bb2b-4e99-800c-cabfe9b97b57"
+                "reference": "urn:uuid:b9a24c57-3f44-4091-b690-2eb4f6748919"
               },
               {
                 "reference": "urn:uuid:327874e2-3e59-4c0d-9fb2-a5a9f9cc7f6c"
               },
               {
+                "reference": "urn:uuid:79c8753a-bb2b-4e99-800c-cabfe9b97b57"
+              },
+              {
+                "reference": "urn:uuid:e9b3c71b-fe74-4046-a47d-c085b8f76c63"
+              },
+              {
                 "reference": "urn:uuid:fee9f666-7099-4259-9a6c-25cf57f75654"
               },
               {
-                "reference": "urn:uuid:fc9de024-0fae-4bda-bfbb-04c08c083a43"
+                "reference": "urn:uuid:17e6d6c8-deea-464b-a009-d077ceb30af1"
               },
               {
-                "reference": "urn:uuid:b0e1c9fd-8ec1-4d61-bf29-1ef39d1d4229"
-              },
+                "reference": "urn:uuid:c1ae4b09-e83a-4b7f-a5ca-5cf9692ff0c6"
+              }
+            ]
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs",
+                  "code" : "DeathInvestigation"
+                }
+              ]
+            },
+            "entry": [
               {
-                "reference": "urn:uuid:b9a24c57-3f44-4091-b690-2eb4f6748919"
+                "reference": "urn:uuid:efbe46f1-522e-4fe9-9a3c-d3a8c1c0810d"
               },
               {
                 "reference": "urn:uuid:19cb645f-c8f9-44fc-9137-6f33b009d355"
               },
               {
-                "reference": "urn:uuid:91ad2d6e-3bd7-45f1-b131-e0bf742cfd7f"
-              },
-              {
-                "reference": "urn:uuid:efbe46f1-522e-4fe9-9a3c-d3a8c1c0810d"
-              },
-              {
                 "reference": "urn:uuid:d15a4ea5-ee1b-4760-b177-fea17fa75c09"
               },
               {
-                "reference": "urn:uuid:3c1f5202-68de-47e8-813f-43a3f7f29129"
-              },
-              {
-                "reference": "urn:uuid:38070a6e-d934-4a56-ac57-bbba133d6df0"
+                "reference": "urn:uuid:b0e1c9fd-8ec1-4d61-bf29-1ef39d1d4229"
               },
               {
                 "reference": "urn:uuid:4678efc2-2529-4a7e-8266-fdc907d89e00"
@@ -170,7 +190,70 @@
                 "reference": "urn:uuid:81899bd9-0441-45f0-9b89-9d91daa08983"
               },
               {
-                "reference": "urn:uuid:a9a45b6c-566c-4ad7-bce7-8c23751b669d"
+                "reference": "urn:uuid:3c1f5202-68de-47e8-813f-43a3f7f29129"
+              },
+              {
+                "reference": "urn:uuid:f384e3f6-2438-4e07-9df2-44e27e3aa72d"
+              }
+            ]
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs",
+                  "code" : "DeathCertification"
+                }
+              ]
+            },
+            "entry" : [
+              {
+                "reference" : "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
+              },
+              {
+                "reference" : "urn:uuid:2d71d05b-7f52-4c13-bd19-68a251e3544d"
+              },
+              {
+                "reference" : "urn:uuid:64551ae3-51ac-48e6-8d8a-41fd3ad29916"
+              },
+              {
+                "reference" : "urn:uuid:b66d97ea-56b1-4397-8de3-fb989007485b"
+              },
+              {
+                "reference" : "urn:uuid:8b7a9ca6-1276-402f-a521-35155234af14"
+              },
+              {
+                "reference" : "urn:uuid:bbae6f36-26c2-4b20-b9d3-735d9c9f6c2f"
+              },
+              {
+                "reference" : "urn:uuid:223eaadb-5909-458c-bbe5-604c120c3ce9"
+              },
+              {
+                "reference" : "urn:uuid:fc27b07f-99c9-48f8-a229-6eb5d8b598f0"
+              }
+            ]
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs",
+                  "code" : "DecedentDisposition"
+                }
+              ]
+            },
+            "entry" : [
+              {
+                "reference" : "urn:uuid:fe696fc7-7683-4268-92d8-b3a7c88b1587"
+              },
+              {
+                "reference" : "urn:uuid:cffcc6e0-7324-4898-b876-9107d275eafa"
+              },
+              {
+                "reference" : "urn:uuid:fc9de024-0fae-4bda-bfbb-04c08c083a43"
+              },
+              {
+                "reference" : "urn:uuid:84452aa0-fc31-4f4c-848f-b8f1e5bba1c0"
               }
             ]
           }
@@ -180,194 +263,153 @@
     {
       "fullUrl": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f",
       "resource": {
-        "resourceType": "Patient",
-        "id": "949354d3-9dcf-4c96-8ec4-6be27dd4c65f",
-        "meta": {
-          "profile": [
+        "resourceType" : "Patient",
+        "id" : "Decedent-Example1",
+        "meta" : {
+          "profile" : [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent"
           ]
         },
-        "extension": [
+        "extension" : [
           {
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
-            "valueCode": "F"
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/SpouseAlive",
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "code" : "Y",
+                  "display": "Yes"
+                }
+              ]
+            }
           },
           {
-            "extension": [
-              {
-                "url": "ombCategory",
-                "valueCoding": {
-                  "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2135-2",
-                  "display": "Hispanic or Latino"
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath",
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "http://hl7.org/fhir/administrative-gender",
+                  "code" : "unknown",
+                  "display" : "Unknown"
                 }
-              },
-              {
-                "url": "detailed",
-                "valueCoding": {
-                  "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2180-8",
-                  "display": "Puerto Rican"
-                }
-              },
-              {
-                "url": "text",
-                "valueString": "Hispanic or Latino, Puerto Rican"
-              }
-            ],
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+              ]
+            }
           },
           {
-            "extension": [
-              {
-                "url": "ombCategory",
-                "valueCoding": {
-                  "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2106-3",
-                  "display": "White"
-                }
-              },
-              {
-                "url": "ombCategory",
-                "valueCoding": {
-                  "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2076-8",
-                  "display": "Native Hawaiian or Other Pacific Islander"
-                }
-              },
-              {
-                "url": "detailed",
-                "valueCoding": {
-                  "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2079-2",
-                  "display": "Native Hawaiian"
-                }
-              },
-              {
-                "url": "text",
-                "valueString": "White, Native Hawaiian or Other Pacific Islander, Native Hawaiian"
-              }
-            ],
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
-          },
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
-            "valueAddress": {
-              "line": [
-                "1011 Example Street",
-                "Line 2"
-              ],
-              "city": "Bedford",
-              "district": "Middlesex",
-              "state": "MA",
-              "postalCode": "01730",
-              "country": "US"
+            "url" : "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+            "valueAddress" : {
+              "city" : "Roanoke",
+              "state" : "VA",
+              "country" : "US"
             }
           }
         ],
-        "identifier": [
+        "identifier" : [
           {
-            "type": {
-              "coding": [
+            "type" : {
+              "coding" : [
                 {
-                  "code": "SB",
-                  "display": "Social Beneficiary Identifier"
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code" : "SB",
+                  "display" : "Social Beneficiary Identifier"
                 }
               ]
             },
-            "system": "http://hl7.org/fhir/sid/us-ssn",
-            "value": "123456789"
+            "system" : "http://hl7.org/fhir/sid/us-ssn",
+            "value" : "987654321"
           }
         ],
-        "name": [
+        "name" : [
           {
             "use": "official",
-            "family": "Last",
+            "family": "Pãtêl",
             "given": [
-              "Example",
-              "Something",
+              "Mædęlyñ",
               "Middle"
             ],
-            "suffix": [
-              "Jr."
-            ]
-          },
-          {
-            "use": "nickname",
-            "family": "LastNameAlias",
-            "given": [
-              "FirstNameAlias",
-              "MiddleAlias"
-            ],
-            "suffix": [
-              "Jr."
-            ]
+            "suffix" : ["Jr."]
           }
         ],
-        "gender": "male",
-        "_birthDate": {
-          "extension": [
-            {
-              "extension": [
-                {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                      "valueCode": "unknown"
-                    }
-                  ],
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                      "valueCode": "unknown"
-                    }
-                  ],
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month"
-                },
-                {
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
-                  "valueUnsignedInt": 24
-                }
-              ],
-              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate"
-            }
-          ]
-        },
-        "address": [
+        "gender" : "female",
+        "birthDate": "1940-02-19",
+        "address" : [
           {
-            "extension": [
+            "extension" : [
               {
-                "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator",
-                "valueCoding": {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
-                  "code": "N",
-                  "display": "No"
+                "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator",
+                "valueCoding" : {
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "code" : "Y",
+                  "display" : "Yes"
                 }
+              },
+              {
+                "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetName",
+                "valueString" : "Lockwood"
               }
             ],
-            "line": [
-              "101 Example Street",
-              "Line 2"
+            "line" : [
+              "5590 Lockwood Drive"
             ],
-            "city": "Bedford",
-            "district": "Middlesex",
-            "state": "MA",
-            "postalCode": "01730",
-            "country": "US"
+            "city" : "Danville",
+            "_city" : {
+              "extension" : [
+                {
+                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode",
+                  "valuePositiveInt" : 1234
+                }
+              ]
+            },
+            "district" : "Fairfax",
+            "_district" : {
+              "extension" : [
+                {
+                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode",
+                  "valuePositiveInt" : 321
+                }
+              ]
+            },
+            "state" : "VA",
+            "postalCode" : "01730",
+            "country" : "US"
           }
         ],
-        "maritalStatus": {
-          "coding": [
+        "maritalStatus" : {
+          "extension" : [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
-              "code": "S",
-              "display": "Never Married"
+              "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag",
+              "valueCodeableConcept" : {
+                "coding" : [
+                  {
+                    "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs",
+                    "code" : "0",
+                    "display": "Edit Passed"
+                  }
+                ]
+              }
             }
-          ]
-        }
+          ],
+          "coding" : [
+            {
+              "system" : "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
+              "code" : "S",
+              "display" : "Never Married"
+            }
+          ],
+          "text":"Single"
+        },
+        "contact" : [
+          {
+            "relationship" : [
+              {
+                "text" : "Friend of family"
+              }
+            ],
+            "name" : {
+              "text" : "Joe Smith"
+            }
+          }
+        ]
       }
     },
     {
@@ -424,7 +466,7 @@
                 {
                   "system": "http://snomed.info/sct",
                   "code": "434641000124105",
-                  "display": "Physician certified and pronounced death certificate"
+                  "display": "Physician"
                 }
               ]
             }
@@ -439,7 +481,7 @@
         "id": "84452aa0-fc31-4f4c-848f-b8f1e5bba1c0",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
           ]
         },
         "identifier": [
@@ -504,9 +546,11 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification"
           ]
         },
-        "identifier": [{
-          "value": "1"
-        }],
+        "identifier": [
+          {
+            "value": "1"
+          }
+        ],
         "status": "completed",
         "category": {
           "coding": [
@@ -534,7 +578,7 @@
                 {
                   "system": "http://snomed.info/sct",
                   "code": "434641000124105",
-                  "display": "Physician"
+                  "display": "Physician certified and pronounced death certificate"
                 }
               ]
             },
@@ -548,42 +592,208 @@
     {
       "fullUrl": "urn:uuid:17e6d6c8-deea-464b-a009-d077ceb30af1",
       "resource": {
-        "resourceType": "Organization",
-        "id": "17e6d6c8-deea-464b-a009-d077ceb30af1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+        "resourceType" : "Observation",
+        "id" : "InputRaceAndEthnicity-Example1",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity"
           ]
         },
-        "identifier": [
+        "status" : "final",
+        "code" : {
+          "coding" : [
+            {
+              "code" : "inputraceandethnicity",
+              "display" : "Input Race and Ethnicity"
+            }
+          ]
+        },
+        "subject" : {
+          "display" : "NCHS generated"
+        },
+        "component" : [
           {
-            "value": "1010101"
-          }
-        ],
-        "active": true,
-        "type": [
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "White",
+                  "display" : "White"
+                }
+              ]
+            },
+            "valueBoolean" : true
+          },
           {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-                "code": "prov",
-                "display": "Healthcare Provider"
-              }
-            ]
-          }
-        ],
-        "name": "Example Hospital",
-        "address": [
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "BlackOrAfricanAmerican",
+                  "display" : "Black Or African American"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
           {
-            "line": [
-              "10 Example Street",
-              "Line 2"
-            ],
-            "city": "Bedford",
-            "district": "Middlesex",
-            "state": "MA",
-            "postalCode": "01730",
-            "country": "US"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "AmericanIndianOrAlaskanNative",
+                  "display" : "AmericanIndianOrAlaskanNative"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "AsianIndian",
+                  "display" : "Asian Indian"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Chinese",
+                  "display" : "Chinese"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Filipino",
+                  "display" : "Filipino"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Japanese",
+                  "display" : "Japanese"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Korean",
+                  "display" : "Korean"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Vietnamese",
+                  "display" : "Vietnamese"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "OtherAsian",
+                  "display" : "Other Asian"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "NativeHawaiian",
+                  "display" : "Native Hawaiian"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "GuamanianOrChamorro",
+                  "display" : "Guamanian Or Chamorro"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Samoan",
+                  "display" : "Samoan"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "OtherPacificIslander",
+                  "display" : "Other Pacific Islander"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "OtherRace",
+                  "display" : "Other Race"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "HispanicMexican",
+                  "display" : "Hispanic Mexican"
+                }
+              ]
+            },
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "code" : "Y"
+                }
+              ]
+            }
           }
         ]
       }
@@ -599,17 +809,15 @@
           ]
         },
         "active": true,
-        "type": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-                "code": "bus",
-                "display": "Non-Healthcare Business or Corporation"
-              }
-            ]
-          }
-        ],
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-organization-type-cs",
+              "code": "funeralhome",
+              "display": "Funeral Home"
+            }
+          ]
+        }],
         "name": "Smith Funeral Home",
         "address": [
           {
@@ -633,7 +841,7 @@
         "id": "c834ea74-e93d-4a51-bc02-60466b9e4f14",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/us-core-practitioner"
           ]
         },
         "practitioner": {
@@ -651,7 +859,7 @@
       }
     },
     {
-      "fullUrl": "fe696fc7-7683-4268-92d8-b3a7c88b1587",
+      "fullUrl": "urn:uuid:fe696fc7-7683-4268-92d8-b3a7c88b1587",
       "resource": {
         "resourceType": "Location",
         "id": "fe696fc7-7683-4268-92d8-b3a7c88b1587",
@@ -660,6 +868,15 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location"
           ]
         },
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "disposition",
+              "display": "disposition location"
+            }
+          ]
+        }],
         "name": "Bedford Cemetery",
         "address": {
           "line": [
@@ -680,6 +897,10 @@
               "display": "Site"
             }
           ]
+        },
+        "position": {
+          "latitude": 38.889248,
+          "longitude": -77.050636
         }
       }
     },
@@ -716,7 +937,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "7878000",
-              "display": "Accident"
+              "display": "Accidental death"
             }
           ]
         }
@@ -964,15 +1185,20 @@
         "patient": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "relationship": [{
-          "coding": [
-            {
-              "code": "FTH"
-            }
-          ]
-        }],
+        "relationship": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "FTH",
+                "display": "father"
+              }
+            ]
+          }
+        ],
         "name": [
           {
+            "use": "official",
             "family": "Last",
             "given": [
               "Father",
@@ -998,15 +1224,20 @@
         "patient": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "relationship": [{
-          "coding": [
-            {
-              "code": "MTH"
-            }
-          ]
-        }],
+        "relationship": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "MTH",
+                "display": "mother"
+              }
+            ]
+          }
+        ],
         "name": [
           {
+            "use": "maiden",
             "family": "Maiden",
             "given": [
               "Mother",
@@ -1015,7 +1246,19 @@
             "suffix": [
               "Dr."
             ]
+          },
+          {
+            "use": "official",
+            "family": "Family",
+            "given": [
+              "Mother",
+              "Middle"
+            ],
+            "suffix": [
+              "Dr."
+            ]
           }
+
         ]
       }
     },
@@ -1032,15 +1275,31 @@
         "patient": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "relationship": [{
-          "coding": [
-            {
-              "code": "SPS"
-            }
-          ]
-        }],
+        "relationship": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "SPS",
+                "display": "spouse"
+              }
+            ]
+          }
+        ],
         "name": [
           {
+            "use": "maiden",
+            "family": "Maiden",
+            "given": [
+              "Spouse",
+              "Middle"
+            ],
+            "suffix": [
+              "Ph.D."
+            ]
+          },
+          {
+            "use": "official",
             "family": "Last",
             "given": [
               "Spouse",
@@ -1049,6 +1308,17 @@
             "suffix": [
               "Ph.D."
             ]
+          },
+          {
+            "family": "Maiden",
+            "given": [
+              "Spouse",
+              "Middle"
+            ],
+            "suffix": [
+              "Ph.D."
+            ],
+            "use": "maiden"
           }
         ]
       }
@@ -1060,7 +1330,7 @@
         "id": "79c8753a-bb2b-4e99-800c-cabfe9b97b57",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-education-level"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-education-level"
           ]
         },
         "status": "final",
@@ -1082,6 +1352,20 @@
               "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
               "code": "BA",
               "display": "Bachelor's Degree"
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs",
+                    "code": "0",
+                    "display": "Edit Passed"
+                  }
+                ]
+              }
             }
           ]
         }
@@ -1133,7 +1417,8 @@
                   "display" : "Birth year"
                 }
               ]
-            }
+            },
+            "valueDateTime" : "1940"
           }
         ]
       }
@@ -1158,9 +1443,9 @@
             }
           ]
         },
-        "effectivePeriod" : {
-          "start" : "1965-01-01",
-          "end" : "2010-01-01"
+        "effectivePeriod": {
+          "start": "1965-01-01",
+          "end": "2010-01-01"
         },
         "valueCodeableConcept": {
           "coding": [
@@ -1240,14 +1525,6 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-disposition-method"
           ]
         },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location",
-            "valueReference": {
-              "reference": "urn:uuid:fe696fc7-7683-4268-92d8-b3a7c88b1587"
-            }
-          }
-        ],
         "status": "final",
         "code": {
           "coding": [
@@ -1348,7 +1625,7 @@
           "coding": [
             {
               "system": "http://loinc.org",
-              "code": "30525-0",
+              "code": "39016-1",
               "display": "Age"
             }
           ]
@@ -1391,6 +1668,20 @@
               "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-pregnancy-status-cs",
               "code": "1",
               "display": "Not pregnant within past year"
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs",
+                    "code": "0",
+                    "display": "Edit Passed"
+                  }
+                ]
+              }
             }
           ]
         }
@@ -1474,6 +1765,15 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "injury",
+              "display": "injury location"
+            }
+          ]
+        }],
         "name": "Example Injury Location Name",
         "description": "Example Injury Location Description",
         "address": {
@@ -1486,6 +1786,10 @@
           "state": "MA",
           "postalCode": "01730",
           "country": "US"
+        },
+        "position": {
+          "latitude": 38.889248,
+          "longitude": -77.050636
         }
       }
     },
@@ -1547,6 +1851,27 @@
             "valueCodeableConcept": {
               "text": "At home, in the kitchen"
             }
+	   },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "69451-3",
+                  "display": "Transportation role of decedent"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "257500003",
+                  "display": "Passenger"
+                }
+              ],
+              "text": "Passenger"
+            }
           }
         ]
       }
@@ -1570,32 +1895,73 @@
             }
           ]
         }],
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                "system": "2.16.840.1.113883.6.92",
-                "code": "25",
-                "display": "MA"
-                }
-              ]
-            }
-          }
-        ],
+
         "name": "Example Death Location Name",
         "description": "Example Death Location Description",
         "address": {
+        "extension": [
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PreDirectional",
+              "valueString": "W"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PostDirectional",
+              "valueString": "E"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetNumber",
+              "valueString": "671"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetName",
+              "valueString": "Example"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetDesignator",
+              "valueString": "Street"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/UnitOrAptNumber",
+              "valueString": "3"
+              }
+            ],
           "line": [
             "671 Example Street",
             "Line 2"
           ],
           "city": "Bedford",
+          "_city": {
+            "extension": [
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode",
+              "valueString": "12345"
+              }
+            ]
+          },
           "district": "Middlesex",
-          "state": "MA",
+          "_district": {
+            "extension": [
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode",
+              "valueString": "123"
+              }
+            ]
+          },
+          "state": "NY",
+          "_state": {
+            "extension": [
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
+              "valueString": "YC"
+              }
+            ]
+          },
           "postalCode": "01730",
           "country": "US"
+        },
+        "position": {
+          "latitude": 38.889248,
+          "longitude": -77.050636
         }
       }
     },
@@ -1622,47 +1988,13 @@
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "effectiveDateTime": "2018-02-19T16:48:06-05:00",
+        "effectiveDateTime": "2019-02-19T16:48:06-05:00",
         "performer": [
           {
             "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
           }
         ],
-        "_valueDateTime": {
-          "extension": [
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
-                  "valueUnsignedInt": 2021
-                },
-                {
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
-                  "valueUnsignedInt": 2
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                      "valueCode": "unknown"
-                    }
-                  ],
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                      "valueCode": "unknown"
-                    }
-                  ],
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"
-                }
-              ],
-              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
-            }
-          ]
-        },
+        "valueDateTime": "2019-02-19T16:48:06-05:00",
         "component": [
           {
             "code": {
@@ -1674,7 +2006,27 @@
                 }
               ]
             },
-            "valueTime": "16:48:06"
+            "valueDateTime": "2018-02-20T16:48:06-05:00"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "58332-8",
+                  "display": "Location of death"
+                }
+              ]
+            },
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "http://snomed.info/sct",
+                  "code" : "440081000124100",
+                  "display": "Death in home"
+                }
+              ]
+            }
           }
         ]
       }
@@ -1715,19 +2067,136 @@
                   "valueUnsignedInt": 3
                 },
                 {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                      "valueCode": "unknown"
-                    }
-                  ],
-                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
+                  "valueUnsignedInt": 18
                 }
               ],
               "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate"
             }
           ]
         }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c1ae4b09-e83a-4b7f-a5ca-5cf9692ff0c6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c1ae4b09-e83a-4b7f-a5ca-5cf9692ff0c6",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues"
+          ]
+        },
+        "status" : "final",
+        "code" : {
+          "coding" : [
+            {
+              "code" : "emergingissues"
+            }
+          ]
+        },
+        "component" : [
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_1"
+                }
+              ]
+            },
+            "valueString" : "A"
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_2"
+                }
+              ]
+            },
+            "valueString" : "B"
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_3"
+                }
+              ]
+            },
+            "valueString" : "C"
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_4"
+                }
+              ]
+            },
+            "valueString" : "D"
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_5"
+                }
+              ]
+            },
+            "valueString" : "E"
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_6"
+                }
+              ]
+            },
+            "valueString" : "F"
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue8_1"
+                }
+              ]
+            },
+            "valueString" : "AAAAAAAA"
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue8_2"
+                }
+              ]
+            },
+            "valueString" : "BBBBBBBB"
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue8_3"
+                }
+              ]
+            },
+            "valueString" : "CCCCCCCC"
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue20"
+                }
+              ]
+            },
+            "valueString" : "AAAAAAAAAAAAAAAAAAAA"
+          }
+        ]
       }
     }
   ]

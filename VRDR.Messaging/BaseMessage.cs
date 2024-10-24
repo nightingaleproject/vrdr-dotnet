@@ -700,6 +700,8 @@ namespace VRDR
         {
             Bundle bundle = null;
 
+
+
             // Grab all errors found by visiting all nodes and report if not permissive
             if (!permissive)
             {
@@ -717,6 +719,11 @@ namespace VRDR
             // Try Parse
             try
             {
+                // // Check if content is well formed using document conformance level.
+                // System.Xml.XmlReaderSettings settings = new System.Xml.XmlReaderSettings();
+                // settings.ConformanceLevel = System.Xml.ConformanceLevel.Document;
+                // System.Xml.XmlReader.Create(new StringReader(content), settings);
+
                 FhirXmlParser parser = new FhirXmlParser(GetParserSettings(permissive));
                 bundle = parser.Parse<Bundle>(content);
             }
@@ -731,6 +738,18 @@ namespace VRDR
         private static Bundle ParseJSON(string content, bool permissive)
         {
             Bundle bundle = null;
+
+            // The purpose of this code is to validate that the content string is a valid JSON.
+            // This address the issue of jurisdictions sending a JSON that is not a valid JSON.
+            // If it is not, the code throws an ArgumentException with a message indicating the error.
+            try
+            {
+                System.Text.Json.JsonDocument.Parse(content);
+            }
+            catch (System.Text.Json.JsonException e)
+            {
+                throw new FormatException(e.Message);
+            }
 
             // Grab all errors found by visiting all nodes and report if not permissive
             if (!permissive)

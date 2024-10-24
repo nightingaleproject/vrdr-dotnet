@@ -3845,6 +3845,14 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void ValidateBadDeathRecord()
+        {
+            // A malformated record JSON record should throw an exception
+            FormatException ex = Assert.Throws<FormatException>(() => new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BadDeathRecord.json"))));
+            Assert.Equal("Invalid Json encountered. Details: Unexpected character encountered while parsing value: e. Path 'entry[0].resource.extension[0].valueCodeableConcept.coding[0].code', line 45, position 27.", ex.Message);
+        }
+
+        [Fact]
         public void TestForOverwrites()
         {
             // This test makes sure that there are no fields that, when writing them, accidentally change another field;

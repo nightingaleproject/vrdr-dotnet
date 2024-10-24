@@ -1632,7 +1632,7 @@
         "id": "3c1f5202-68de-47e8-813f-43a3f7f29129",
         "meta": {
           "profile": [
-            "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
         "type": [{

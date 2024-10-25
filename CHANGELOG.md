@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.4.1"></a>
+## [4.4.1](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.1) (2024-10-25)
+
+### Bug Fixes
+
+* check for well formed source before parsing ([#616](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/616)) ([db10c22](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/db10c229d9f0c985b02ef7404f774cb142d7dcbb))
+
 <a name="4.4.0"></a>
 ## [4.4.0](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.0) (2024-10-22)
 

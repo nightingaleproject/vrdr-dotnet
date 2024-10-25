@@ -1109,15 +1109,15 @@ namespace VRDR.CLI
                 Console.WriteLine($"Filtering file {args[1]}");
 
                 BaseMessage baseMessage = BaseMessage.Parse(File.ReadAllText(args[1]));
-                
+
                 FilterService FilterService = new FilterService("./VRDR.Filter/NCHSIJEFilter.json", "./VRDR.Filter/IJEToFHIRMapping.json");
 
                 var filteredFile = FilterService.filterMessage(baseMessage).ToJson();
                 BaseMessage.Parse(filteredFile);
                 Console.WriteLine($"File successfully filtered and saved to {args[2]}");
-                    
+
                 File.WriteAllText(args[2], filteredFile);
-                
+
                 return 0;
             }
             else

@@ -141,6 +141,18 @@ namespace VRDR
                     }
                     else
                     {
+                        // The purpose of this code is to validate that the content string is a valid JSON.
+                        // This address the issue of jurisdictions sending a JSON that is not a valid JSON.
+                        // If it is not, the code throws an ArgumentException with a message indicating the error.
+                        try
+                        {
+                            System.Text.Json.JsonDocument.Parse(record);
+                        }
+                        catch (System.Text.Json.JsonException e)
+                        {
+                            throw new FormatException(e.Message);
+                        }
+
                         FhirJsonParser parser = new FhirJsonParser(parserSettings);
                         Bundle = parser.Parse<Bundle>(record);
                     }
@@ -668,7 +680,7 @@ namespace VRDR
                     }
                 }
             }
-            
+
         }
     }
 }

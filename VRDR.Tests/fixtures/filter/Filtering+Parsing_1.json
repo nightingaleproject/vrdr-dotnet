@@ -1939,7 +1939,7 @@
                             "id": "5bfd0797-ff44-47a0-a5bb-8691560f5d73",
                             "meta": {
                                 "profile": [
-                                    "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+                                    "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
                                 ]
                             },
                             "name": "BLANK",

@@ -1341,7 +1341,7 @@
         "id": "urn:uuid:62a46c35-e7ea-4cba-aea7-c145522ce173",
         "meta": {
           "profile": [
-            "	http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
         "name": "Example Injury Location Name",

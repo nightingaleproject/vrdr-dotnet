@@ -3,7 +3,6 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
-using System.Net.Http;
 
 namespace VRDR
 {
@@ -27,7 +26,7 @@ namespace VRDR
             {
                 // When testing locally we allow for self signed certificates
                 var handler = new HttpClientHandler();
-                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
                 client = new HttpClient(handler);
             }
             else

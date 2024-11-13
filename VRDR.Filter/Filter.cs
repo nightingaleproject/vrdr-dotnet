@@ -106,12 +106,6 @@ public class FilterService
                         p?.SetValue(outputRecord, updatedDictionary);
                     }
                 }
-                else
-                {
-                    // Need to think about whether this should be an error or if there are situations where a
-                    // dictionary might not always have a value for what is actually a valid key
-                    Console.WriteLine($"Warning: dictionary {keypath[0]} does not have key {keypath[1]}");
-                }
             }
             // copy the entire array property
             else if (property.Contains("[]"))

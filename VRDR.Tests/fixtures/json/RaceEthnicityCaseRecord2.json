@@ -490,6 +490,26 @@
             "valueBoolean" : false
           },
           {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                  "code": "RACEMVR",
+                  "display": "Missing Value Reason"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-missing-value-reason-cs",
+                  "code": "S",
+                  "display": "Sought, but unknown"
+                }
+              ]
+            }
+          },
+          {
             "code" : {
               "coding" : [
                 {

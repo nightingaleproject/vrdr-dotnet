@@ -53,7 +53,7 @@ namespace VRDR
         /// <summary> SecondOtherRaceLiteral </summary>
         public const string SecondOtherRaceLiteral = "SecondOtherRaceLiteral";
         /// <summary> MissingValueReason </summary>
-        public const string MissingValueReason = "MissingValueReason";
+        public const string MissingValueReason = "RACEMVR";
         /// <summary> GetBooleanRaceCodes Returns a list of the Boolean Race Codes, Y or N values </summary>
         public static List<string> GetBooleanRaceCodes()
         {

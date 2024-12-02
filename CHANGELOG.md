@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.4.2"></a>
+## [4.4.2](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.2) (2024-12-02)
+
+### Bug Fixes
+
+* fixed codes used to parse race missing value reason ([#622](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/622)) ([bcdbfe1](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/bcdbfe142f5bcd6bc305cc9d2e387a073a575439))
+
 <a name="4.4.1"></a>
 ## [4.4.1](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.1) (2024-10-25)
 

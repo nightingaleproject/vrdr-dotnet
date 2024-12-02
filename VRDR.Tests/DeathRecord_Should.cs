@@ -324,6 +324,14 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void TestRaceMissingValueReason()
+        {
+            DeathRecord d = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord2.json")));
+            IJEMortality ije1 = new IJEMortality(d);
+            Assert.Equal("S", ije1.RACE_MVR);
+        }
+
+        [Fact]
         public void SetPractitionerAfterParse()
         {
             DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));

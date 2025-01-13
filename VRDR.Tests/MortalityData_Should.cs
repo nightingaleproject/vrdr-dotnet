@@ -986,9 +986,9 @@ namespace VRDR.Tests
             iladdress.Add("addressLine1", "781 Example Street");
             iladdress.Add("addressLine2", "Line 2");
             iladdress.Add("addressCity", "Bedford");
-            iladdress.Add("addressCounty", "Middlesex");
-            iladdress.Add("addressState", "MA");
-            iladdress.Add("addressZip", "01730");
+            iladdress.Add("addressCounty", "Hamilton");
+            iladdress.Add("addressState", "IN");
+            iladdress.Add("addressZip", "46032");
             iladdress.Add("addressCountry", "US");
             deathRecord.InjuryLocationAddress = iladdress;
 

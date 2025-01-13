@@ -4666,8 +4666,7 @@ namespace VRDR
         {
             get
             {
-                var stateCode = Dictionary_Geo_Get("DISPSTATECD", "InjuryLocationAddress", "address", "state", false);
-                //                var mortalityData = MortalityData.Instance;
+                var stateCode = Dictionary_Geo_Get("DISPSTATECD", "DispositionLocationAddress", "address", "state", false);
                 return dataLookup.StateCodeToStateName(stateCode);
             }
             set

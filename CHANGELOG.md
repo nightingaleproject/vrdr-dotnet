@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.4.3"></a>
+## [4.4.3](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.3) (2025-01-13)
+
+### Bug Fixes
+
+* use correct address for DISPSTATE ([#629](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/629)) ([a974d8a](https://www.github.com/nightingaleproject/vrdr-dotnet/commit/a974d8a5ff6c5b57fef25a54b38675323c18eb2f))
+
 <a name="4.4.2"></a>
 ## [4.4.2](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.2) (2024-12-02)
 

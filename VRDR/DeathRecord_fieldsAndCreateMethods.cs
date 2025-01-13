@@ -12,6 +12,9 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Newtonsoft.Json;
+using SemVer;
+using System.ComponentModel.DataAnnotations;
+using VRDR.Validators;
 
 // DeathRecord_fieldsAndCreateMethods.cs
 //     Contains field definitions and associated createXXXX methods used to construct a field
@@ -580,6 +583,26 @@ namespace VRDR
 
         /// <summary>Record Axis Cause of Death</summary>
         private List<Observation> RecordAxisCauseOfDeathObsList;
+        /// <summary>ValidateModel</summary>
+        public void ValidateModel()
+        {
+            var validationResults = new List<ValidationResult>();
+            bool isValid = Validator.TryValidateObject(this, new ValidationContext(this), validationResults, true);
+
+            if (isValid)
+            {
+                Console.WriteLine("death record is valid!");
+            }
+            else
+            {
+                Console.WriteLine("death record failed:");
+                foreach (var validationResult in validationResults)
+                {
+                    Console.WriteLine(validationResult.ErrorMessage);
+                }
+            }
+            Console.ReadLine();
+        }
 
     }
 }

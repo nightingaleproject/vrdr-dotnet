@@ -468,6 +468,9 @@
         <member name="F:VRDR.DeathRecord.RecordAxisCauseOfDeathObsList">
             <summary>Record Axis Cause of Death</summary>
         </member>
+        <member name="M:VRDR.DeathRecord.ValidateModel">
+            <summary>ValidateModel</summary>
+        </member>
         <member name="P:VRDR.DeathRecord.ActivityAtDeath">
             <summary>Activity at Time of Death.</summary>
             <value>the decedent's activity at time of death. A Dictionary representing a code, containing the following key/value pairs:

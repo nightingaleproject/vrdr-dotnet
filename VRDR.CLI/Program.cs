@@ -258,16 +258,16 @@ namespace VRDR.CLI
                 deathRecord.EducationLevel = elevel;
 
                 // BirthRecordId
-                deathRecord.BirthRecordId = "4242123";
+               // deathRecord.BirthRecordId = "4242123";
 
                 // BirthRecordState
-                deathRecord.BirthRecordState = "MA";
+                deathRecord.BirthRecordState = "MA12";
 
                 // BirthRecordYear
                 deathRecord.BirthRecordYear = "1940";
 
                 // UsualOccupation
-                deathRecord.UsualOccupation = "secretary";
+                deathRecord.UsualOccupation = "secretary111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
 
                 // UsualIndustry
                 deathRecord.UsualIndustry = "State agency";
@@ -458,8 +458,18 @@ namespace VRDR.CLI
                 // pronouncerId["value"] = "0000000000";
                 // pronouncerId["system"] = "http://hl7.org/fhir/sid/us-npi";
                 // deathRecord.PronouncerIdentifier = pronouncerId;
+              foreach(var drValidationResult in  deathRecord.DeathRecordValidationResults)
+                    Console.WriteLine($"Property Name: {drValidationResult.PropertyName}\n" +
+                        $"Error Message: {drValidationResult.ErrorMessage}\n" +
+                        $"Provided Value:{drValidationResult.AssignedValue}\n" +
+                        $"Validator: {drValidationResult.ValidatorType}\n\n");
 
-                Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
+                foreach (var drValidationResult in deathRecord.ValidateModel(deathRecord))
+                    Console.WriteLine($"Property Name: {drValidationResult.PropertyName}\n" +
+                        $"Error Message: {drValidationResult.ErrorMessage}\n" +
+                        $"Provided Value:{drValidationResult.AssignedValue}\n" +
+                        $"Validator: {drValidationResult.ValidatorType}\n\n");
+                // Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
                 //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
                 return 0;
             }

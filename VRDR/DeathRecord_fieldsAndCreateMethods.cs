@@ -584,14 +584,16 @@ namespace VRDR
 
         /// <summary>Record Axis Cause of Death</summary>
         private List<Observation> RecordAxisCauseOfDeathObsList;
+
+        private List<DeathRecordValidationResult> _ValidationErrors = new List<DeathRecordValidationResult>();
         /// <summary>ValidateModel</summary>
         public List<DeathRecordValidationResult> ValidateModel(DeathRecord deathRecord)
         {
-            List<DeathRecordValidationResult> validationErrors = new List<DeathRecordValidationResult>();
 
             // Get all properties of the model
             var properties = deathRecord.GetType().GetProperties();
-
+            if(_ValidationErrors == null)
+                _ValidationErrors= new List<DeathRecordValidationResult>();
             foreach (var property in properties)
             {
                 var validationAttributes = property.GetCustomAttributes<ValidationAttribute>();
@@ -603,9 +605,12 @@ namespace VRDR
                     var value = property.GetValue(deathRecord);
                     //attribute.Validate(property, property?.Name);
                     // Check if the validation is successful
-                    if (!attribute.IsValid(value))
+                    if (!attribute.IsValid(value) && _ValidationErrors.Where(
+                            err => err.PropertyName == property.Name &&
+                        err.ErrorMessage == attribute.ErrorMessage).Count() == 0)
                     {
-                        validationErrors.Add(new DeathRecordValidationResult()
+
+                        _ValidationErrors.Add(new DeathRecordValidationResult()
                         {
                             ErrorMessage = attribute.ErrorMessage,
                             PropertyName = property.Name,
@@ -617,7 +622,7 @@ namespace VRDR
                 }
             }
 
-            return validationErrors;
+            return _ValidationErrors;
 
         }
 

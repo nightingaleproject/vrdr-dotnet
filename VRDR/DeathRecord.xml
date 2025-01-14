@@ -3301,6 +3301,7 @@
             <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUseHelper}");</para>
             </example>
         </member>
+        <!-- Badly formed XML comment ignored for member "P:VRDR.DeathRecord.DeathRecordValidationResults" -->
         <member name="M:VRDR.DeathRecord.GetPartialDate(Hl7.Fhir.Model.Extension,System.String)">
             <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read
             from the extension. Returns either a numeric date part, or -1 meaning explicitly unknown, or null meaning not specified.</summary>

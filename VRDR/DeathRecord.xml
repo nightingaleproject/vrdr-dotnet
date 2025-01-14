@@ -468,7 +468,7 @@
         <member name="F:VRDR.DeathRecord.RecordAxisCauseOfDeathObsList">
             <summary>Record Axis Cause of Death</summary>
         </member>
-        <member name="M:VRDR.DeathRecord.ValidateModel">
+        <member name="M:VRDR.DeathRecord.ValidateModel(VRDR.DeathRecord)">
             <summary>ValidateModel</summary>
         </member>
         <member name="P:VRDR.DeathRecord.ActivityAtDeath">

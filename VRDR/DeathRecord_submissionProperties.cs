@@ -3692,7 +3692,7 @@ namespace VRDR
         /// </example>
         [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, IGURL.BirthRecordIdentifier, true, 16)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
-        [Required]
+        [Required(ErrorMessage ="BirthRecordId cannot be empty. It is required Field")]
         public string BirthRecordId
         {
             get
@@ -3856,7 +3856,7 @@ namespace VRDR
         /// </example>
         [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, IGURL.DecedentUsualWork, true, 40)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
-        [StringLength(40)]
+        [StringLength(40,ErrorMessage = "UsualOccupation field cannot have more than 40 characters") ]
         public string UsualOccupation
         {
             get

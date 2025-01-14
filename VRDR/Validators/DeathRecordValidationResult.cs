@@ -5,24 +5,14 @@ using System.Text;
 
 namespace VRDR.Validators
 {
-    internal class DeathRecordValidationResult : ValidationResult
+    public struct DeathRecordValidationResult
     {
+        public string PropertyName { get; set; }
 
-        string _AdditionalInfo = string.Empty;
+        public string ErrorMessage { get; set; }
 
-        public string AdditionalInfo { get { return _AdditionalInfo; } set { _AdditionalInfo = value; } }
-        public DeathRecordValidationResult(string message) : base(message)
-        {
-        }
+        public object AssignedValue { get; set; }
 
-        public DeathRecordValidationResult(string message, IEnumerable<string> memebers) : base
-            (message, memebers)
-        { }
-        public DeathRecordValidationResult(ValidationResult validationResult) : base(validationResult) { }
-
-        public DeathRecordValidationResult(string message, string additionalInfo) : base(message)
-        {
-            _AdditionalInfo = additionalInfo;
-        }
+        public object ValidatorType { get; set; }
     }
 }

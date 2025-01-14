@@ -453,7 +453,8 @@ namespace VRDR
         }
 
         /// <summary>Create Death Date Pronouncement Observation Component Component.</summary>
-        private Observation.ComponentComponent CreateDateOfDeathPronouncementObs() {
+        private Observation.ComponentComponent CreateDateOfDeathPronouncementObs()
+        {
             if (DeathDateObs == null)
             {
                 CreateDeathDateObs(); // Create it
@@ -584,24 +585,40 @@ namespace VRDR
         /// <summary>Record Axis Cause of Death</summary>
         private List<Observation> RecordAxisCauseOfDeathObsList;
         /// <summary>ValidateModel</summary>
-        public void ValidateModel()
+        public List<DeathRecordValidationResult> ValidateModel(DeathRecord deathRecord)
         {
-            var validationResults = new List<ValidationResult>();
-            bool isValid = Validator.TryValidateObject(this, new ValidationContext(this), validationResults, true);
+            List<DeathRecordValidationResult> validationErrors = new List<DeathRecordValidationResult>();
 
-            if (isValid)
+            // Get all properties of the model
+            var properties = deathRecord.GetType().GetProperties();
+
+            foreach (var property in properties)
             {
-                Console.WriteLine("death record is valid!");
-            }
-            else
-            {
-                Console.WriteLine("death record failed:");
-                foreach (var validationResult in validationResults)
+                var validationAttributes = property.GetCustomAttributes<ValidationAttribute>();
+
+                foreach (var attribute in validationAttributes)
                 {
-                    Console.WriteLine(validationResult.ErrorMessage);
+                    // Get the value of the property for validation
+
+                    var value = property.GetValue(deathRecord);
+                    //attribute.Validate(property, property?.Name);
+                    // Check if the validation is successful
+                    if (!attribute.IsValid(value))
+                    {
+                        validationErrors.Add(new DeathRecordValidationResult()
+                        {
+                            ErrorMessage = attribute.ErrorMessage,
+                            PropertyName = property.Name,
+                            AssignedValue = value,
+                            ValidatorType = attribute.TypeId
+                        });
+
+                    }
                 }
             }
-            Console.ReadLine();
+
+            return validationErrors;
+
         }
 
     }

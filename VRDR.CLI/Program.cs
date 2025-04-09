@@ -65,7 +65,7 @@ namespace VRDR.CLI
   - filter: Read in the FHIR death record and filter based on filter array (1 argument: path to death record to filter)
   - jsonstu2-to-stu3:  Read in an VRDR STU2.2 file and convert to STU3 (2 arguments: path to input STU2.2 json input and path to output STU3 json output) 
   - jsonstu3-to-stu2:  Read in an VRDR STU3 file and convert to STU2.2 (2 arguments: path to input STU3 json input and path to output STU2.2 json output) 
-  - rdtripstu2-to-stu3:  Round trip an STU3 file to STU2 and back and check equivalence (1 arguments: path to input STU3 input)
+  - rdtripstu2-to-stu3:  Round trip an STU2 file to STU3 and back and check equivalence (1 arguments: path to input STU2 input)
   - json-diff:   Compare two json files that should be identical except for spacing and ordering of nodes using JsonDiffPatchDotNet
 ";
         static int Main(string[] args)
@@ -1140,14 +1140,14 @@ else if (args.Length >= 3 && args[0] == "jsonstu2-to-stu3")
             }
             else if (args.Length >= 2 && args[0] == "rdtripstu2-to-stu3")
             {
-                //  -rdtripstu3-to-stu2:  Roundtrip STU2 json file to STU3 and compare content
+                //  -rdtripstu2-to-stu3:  Roundtrip STU2 json file to STU3 and compare content
                 DeathRecord d1, d2;
                 Console.WriteLine($"Roundtrip STU2 json file {args[1]} to STU3 and compare content");
 
                 ConvertVersion("./tempSTU3.json", args[1], false, true);         // STU2 to STU3, json
                 ConvertVersion("./tempSTU2.json", "./tempSTU3.json", true, true);// STU3 to STU2, json
-                d1 = new DeathRecord(File.ReadAllText(args[1]));
-                d2 = new DeathRecord(File.ReadAllText("./tempSTU2.json"));
+                d1 = new DeathRecord(File.ReadAllText(args[1]));   // Original STU2 file
+                d2 = new DeathRecord(File.ReadAllText("./tempSTU2.json")); //Round Trip STU2 file
                 return (CompareTwo(d1, d2));
             }
             else if (args.Length >= 2 && args[0] == "json-diff")

@@ -1400,7 +1400,8 @@
           "coding": [
             {
               "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs",
-              "code": "childbirthrecordidentifier"
+              "code": "childbirthrecordidentifier",
+              "display": "Birth Record Identifier of Child"
             }
           ]
         },

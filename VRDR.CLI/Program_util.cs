@@ -207,7 +207,7 @@ namespace VRDR.CLI
                         switch (obs.Code.Coding.First().Code)
                         {
                             case "BR":
-                             obs.Code = new CodeableConcept("http://hl7.org/fhir/us/vr-common-library/CodeSystem/CodeSystem-local-observation-codes-vr", "childbirthrecordidentifier", "Birth Record Identifier of Child", null);
+                             obs.Code = new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs", "childbirthrecordidentifier", "Birth Record Identifier of Child", null);
                                 break;
                         }
                     }

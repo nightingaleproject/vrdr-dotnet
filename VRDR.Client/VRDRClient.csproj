@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
     <LangVersion>latest</LangVersion>
     <RootNamespace>VRDR</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

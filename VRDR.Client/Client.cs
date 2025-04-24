@@ -241,7 +241,7 @@ namespace VRDR
             {
                 parameters.Add("scope", this.Credentials.Scope);
             }
-            
+
 
             var request = new HttpRequestMessage(HttpMethod.Post, this.Credentials.Url) { Content = new FormUrlEncodedContent(parameters) };
             var response = await client.SendAsync(request);

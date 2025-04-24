@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using ICSharpCode.SharpZipLib;
 
 namespace VRDR
 {

@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFramework>netstandard2.1</TargetFramework>
+
     <LangVersion>latest</LangVersion>
     <RootNamespace>VRDR</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -16,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4" Version="4.3.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="5.11.4" />
   </ItemGroup>
 
   <ItemGroup>

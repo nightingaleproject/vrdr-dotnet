@@ -30,12 +30,12 @@ Interactions with NCHS are governed by the CI build version of the VRDR and Vita
 </tr>
 </tr>
 <tr>
-<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2.2 version</a></td>
-<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9.1</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2.2 Published</a></td>
+<td style="text-align: center;"><a href="https://nightingaleproject.github.io/vital_records_fhir_messaging_ig/v1.0.1/index.html">v1.0.1</a></td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.3</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.3"> github</a></td>
+<td style="text-align: center;">V4.4.3</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.4.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.4.3"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.4.3">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.4.3"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2.1/">STU2.1 Published</a></td>

@@ -1,5 +1,8 @@
 # Changelog
 
+<a name="4.4.4"></a>
+## [4.4.4](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.4) (2025-05-08)
+
 <a name="4.4.3"></a>
 ## [4.4.3](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.3) (2025-01-13)
 

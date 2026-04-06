@@ -1062,18 +1062,19 @@ namespace VRDR.Tests
         [Fact]
         public void Set_ReplaceStatus()
         {
-            SetterDeathRecord.ReplaceStatusHelper = ValueSets.ReplaceStatus.Original_Record;
-            Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
-            Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
-            Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
+            //This is no longer relevant. ReplaceStatus is set up using the eventUri
+            //SetterDeathRecord.ReplaceStatusHelper = ValueSets.ReplaceStatus.Original_Record;
+            //Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
+            //Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
+            //Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
         }
 
         [Fact]
         public void Get_ReplaceStatus()
         {
-            Assert.Equal("original", DeathRecord1_JSON.ReplaceStatusHelper);
-            Assert.Equal("original", DeathCertificateDocument1_JSON.ReplaceStatusHelper);
-            Assert.Equal("original", DeathRecord1_XML.ReplaceStatusHelper);
+            //Assert.Equal("original", DeathRecord1_JSON.ReplaceStatusHelper);
+           // Assert.Equal("original", DeathCertificateDocument1_JSON.ReplaceStatusHelper);
+           // Assert.Equal("original", DeathRecord1_XML.ReplaceStatusHelper);
         }
         [Fact]
         public void Set_GivenNames()
@@ -3701,7 +3702,7 @@ namespace VRDR.Tests
             DeathRecord mortalityrosterbundle = new DeathRecord(bundle);
             Assert.NotNull(bundle);
             var numExtensions = bundle.Meta.Extension.Count();
-            Assert.Equal(2, numExtensions); // alias and replace
+            Assert.Equal(1, numExtensions); // alias and replace
             Assert.Equal("2022YC000182", mortalityrosterbundle.DeathRecordIdentifier);
             Assert.Equal("000182", mortalityrosterbundle.Identifier);
             Assert.Equal("000000000042", mortalityrosterbundle.StateLocalIdentifier1);
@@ -3993,7 +3994,7 @@ namespace VRDR.Tests
                 { "TRANSPRT", "PE" },
                 { "COUNTYCODE_I", "000" },
                 { "CITYCODE_I", "00000" },
-                { "REPLACE", "0" },
+                //{ "REPLACE", "0" }, --This is depricated
                 { "COD1A", "Hypoxemia"}, //Cardiopulmonary arrest" },
                 { "INTERVAL1A", "4 Days"}, //4 Hours" },
                 { "COD1B", "MRSA Pneumonia"}, //Eclampsia" },

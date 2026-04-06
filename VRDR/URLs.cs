@@ -211,6 +211,12 @@ namespace VRDR
         /// <summary>URL for DateMonth</summary>
         public const string DateMonth = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month";
 
+        /// <summary>URL for STEVE Endpoint</summary>
+        public const string SteveEndpoint = "http://steve.naphsis.us/vrdr_exchange";
+
+        /// <summary>URL for NCHS Endpoint</summary>
+        public const string NchsEndpoint = "http://nchs.cdc.gov/vrdr_submission";
+
     }
 
     /// <summary>IG URLs</summary>

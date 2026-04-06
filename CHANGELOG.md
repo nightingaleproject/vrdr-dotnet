@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.4.4"></a>
+## [4.4.4](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.4) (2026-04-06)
+
+### Bug Fixes
+
+* use the EventURI along with the destinations endpoints to generate the value of the Replace Status flag ([#630](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/630)) ()
+
 <a name="4.4.3"></a>
 ## [4.4.3](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.3) (2025-01-13)
 

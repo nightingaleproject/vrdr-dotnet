@@ -3454,6 +3454,18 @@
             <summary>Helper method to validate that all PartialDate and PartialDateTime exensions are valid and have the valid required sub-extensions.</summary>
             <param name="bundle">The bundle in which to validate the PartialDate/Time extensions.</param>
         </member>
+        <member name="M:VRDR.DeathRecord.DestinationFound(Hl7.Fhir.Model.Bundle.EntryComponent)">
+             <summary>
+             Helper method to extract the Steve/NCHS endpoint submission status from the MessageHeader component of the bundle.
+             If both Steve and NCHS endpoints are found, this is an original submission. 
+             If only one is found "NCHS" endpoint is fine, this is also an original submission. 
+             If only STEVE is found, this messge should not be submitted to NCHS.
+             Original Record (REPLACE = 0): message destination should include both http://nchs.cdc.gov/vrdr_submission and http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission
+             Updated Record(REPLACE = 1): message destination should include both http://nchs.cdc.gov/vrdr_submission and http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission_update
+             Do not send to NCHS (REPLACE = 2): message destination should include just http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission_update
+            
+             </summary>
+        </member>
         <member name="T:VRDR.Property">
             <summary>Property attribute used to describe a DeathRecord property.</summary>
         </member>
@@ -5184,6 +5196,12 @@
         </member>
         <member name="F:VRDR.ExtensionURL.DateMonth">
             <summary>URL for DateMonth</summary>
+        </member>
+        <member name="F:VRDR.ExtensionURL.SteveEndpoint">
+            <summary>URL for STEVE Endpoint</summary>
+        </member>
+        <member name="F:VRDR.ExtensionURL.NchsEndpoint">
+            <summary>URL for NCHS Endpoint</summary>
         </member>
         <member name="T:VRDR.IGURL">
             <summary>IG URLs</summary>

@@ -389,30 +389,66 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        [FHIRPath("Bundle.Entry.Resource is MessageHeader", "")]
+       // [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
         public Dictionary<string, string> ReplaceStatus
         {
             get
             {
-                if (Composition != null)
+                 Dictionary<string, string> ReplaceStatusDict = new Dictionary<string, string>();
+                 var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                 if (MessageHeaderEntry != null)
                 {
-                    Extension replaceStatus = Composition.Extension.Find(ext => ext.Url == ExtensionURL.ReplaceStatus);
-
-                    if (replaceStatus != null && replaceStatus.Value != null && replaceStatus.Value as CodeableConcept != null)
+                    int ReplaceStatusFlagCode = DestinationFound(MessageHeaderEntry); 
+                    if(ReplaceStatusFlagCode==0)//Original submission
                     {
-                        return CodeableConceptToDict((CodeableConcept)replaceStatus.Value);
+                        //This is an original submission message
+                        ReplaceStatusDict.Add("code", "original");
+                        ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
+                        ReplaceStatusDict.Add("display", "original record");
+                        //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
+                        CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
+                        codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
+                        return CodeableConceptToDict((CodeableConcept)codeableConcept); 
                     }
+                    else if (ReplaceStatusFlagCode==1)  //updated submission
+                    {
+                        //This is an Updated submission message
+                        ReplaceStatusDict.Add("code", "updated");
+                        ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
+                        ReplaceStatusDict.Add("display", "Updated record");
+                        //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
+                        CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
+                        codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
+                        return CodeableConceptToDict((CodeableConcept)codeableConcept); 
+                    }
+                    else if (ReplaceStatusFlagCode==2)  //updated submission
+                    {
+                        //This is an Updated submission message
+                        ReplaceStatusDict.Add("code", "updated_notforNCHS");
+                        ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
+                        ReplaceStatusDict.Add("display", "Updated record not for NCHS");
+                        //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
+                        CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
+                        codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
+                        return CodeableConceptToDict((CodeableConcept)codeableConcept); 
+                    }
+                    else
+                    {
+                        return EmptyCodeableDict();
+                    }  
                 }
                 return EmptyCodeableDict();
             }
             set
             {
                 // TODO: Handle case where Composition == null (either create it or throw exception)
-                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.ReplaceStatus);
-                Extension replaceStatus = new Extension();
-                replaceStatus.Url = ExtensionURL.ReplaceStatus;
-                replaceStatus.Value = DictToCodeableConcept(value);
-                Composition.Extension.Add(replaceStatus);
+                //This field is deprecated according to the IG Version 2.2.0
+                //Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.ReplaceStatus);
+                //Extension replaceStatus = new Extension();
+                //replaceStatus.Url = ExtensionURL.ReplaceStatus;
+                //replaceStatus.Value = DictToCodeableConcept(value);
+                //Composition.Extension.Add(replaceStatus);
             }
         }
 
@@ -428,23 +464,29 @@ namespace VRDR
         /// </example>
         [Property("Replace Status Helper", Property.Types.String, "Death Certification", "Replace Status.", false, IGURL.DeathCertificate, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        [FHIRPath("Bundle.Entry.Resource is MessageHeader", "")]
+       // [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
         public string ReplaceStatusHelper
         {
             get
             {
-                if (ReplaceStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(ReplaceStatus["code"]))
+                var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                if (MessageHeaderEntry != null && ReplaceStatus != null)
                 {
-                    return ReplaceStatus["code"];
+                    if (ReplaceStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(ReplaceStatus["code"]))
+                    {
+                        return ReplaceStatus["code"];
+                    }
                 }
                 return null;
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    SetCodeValue("ReplaceStatus", value, VRDR.ValueSets.ReplaceStatus.Codes);
-                }
+                //This is no longer available in the death record according to the IG Version 2.2.0
+                //if (!String.IsNullOrWhiteSpace(value))
+                //{
+                    //SetCodeValue("ReplaceStatus", value, VRDR.ValueSets.ReplaceStatus.Codes);
+                //}
             }
         }
 

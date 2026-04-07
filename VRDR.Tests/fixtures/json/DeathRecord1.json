@@ -50,18 +50,6 @@
             }
           },
           {
-            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus",
-            "valueCodeableConcept" : {
-              "coding" : [
-                {
-                  "code" : "original",
-                  "display" : "original record",
-                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-replace-status-cs"
-                }
-              ]
-            }
-          },
-          {
             "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/StateSpecificField",
             "valueString" : "State Specific Content"
           }

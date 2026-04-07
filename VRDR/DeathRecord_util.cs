@@ -1172,8 +1172,80 @@ namespace VRDR
                 throw new ArgumentException(errors.ToString());
             }
         }
-    }
+        
+         /// <summary>
+       /// Helper method to extract the Steve/NCHS endpoint submission status from the MessageHeader component of the bundle.
+       /// If both Steve and NCHS endpoints are found, this is an original submission. 
+       /// If only one is found "NCHS" endpoint is fine, this is also an original submission. 
+       /// If only STEVE is found, this messge should not be submitted to NCHS.
+       /// Original Record (REPLACE = 0): message destination should include both http://nchs.cdc.gov/vrdr_submission and http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission
+       /// Updated Record(REPLACE = 1): message destination should include both http://nchs.cdc.gov/vrdr_submission and http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission_update
+       /// Do not send to NCHS (REPLACE = 2): message destination should include just http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission_update
+       ///
+       /// </summary>
+       public int DestinationFound( Bundle.EntryComponent MessageHeaderEntry)
+        {
+           int FoundNchsEndpoint = 0;
+           int FoundSteveEndpoint = 0;  
+           var messageHeaderComponent = (MessageHeader)MessageHeaderEntry.Resource;
+           
+           string eUri = (string)messageHeaderComponent.Event.First().Value;
+           if (messageHeaderComponent.Destination != null)
+           {
+            var destinations = messageHeaderComponent.Destination.Where(dest => dest.Endpoint != null);
+            var DestinationList =  destinations.Where(dest => dest.Endpoint != null);
+            foreach (var dest in DestinationList)
+            {
+                //if destinations are a combination of Steve endpoint and NCHS endpoint, this is an original submission
+                if (dest.Endpoint.TrimEnd().EqualsInsensitive(ExtensionURL.SteveEndpoint))
+                {
+                        FoundSteveEndpoint++;
+                }
+                if (dest.Endpoint.TrimEnd().EqualsInsensitive(ExtensionURL.NchsEndpoint))
+                {
+                        FoundNchsEndpoint++;
+                }
+            }
+            //if both Steve and NCHS endpoints are found and eventUri is ori
+            if (eUri.ToUpper().TrimEnd().EndsWith("VRDR_SUBMISSION"))
+            {
+                if (FoundSteveEndpoint > 0 && FoundNchsEndpoint > 0 && DestinationList.Count() > 1)
+                {
+                    //This is an original submission message
+                    return 0;
+                }
+                else if (FoundNchsEndpoint > 0 && DestinationList.Count() == 1)
+                {
+                    //This is an original submission message, but only NCHS endpoint is found. 
+                    return 0;
+                }
+            }
+            else if (eUri.ToUpper().TrimEnd().EndsWith("VRDR_SUBMISSION_UPDATE"))
+            {
+                if (FoundSteveEndpoint > 0 && FoundNchsEndpoint > 0 && DestinationList.Count() > 1)
+                {
+                    //This is an updated submission message
+                    return 1;
+                }
+                else if (FoundNchsEndpoint > 0 && DestinationList.Count() == 1)
+                {
+                    //This is an updated submission message, but only NCHS endpoint is found. 
+                    return 1;
+                }
+                else if (FoundSteveEndpoint > 0 && FoundNchsEndpoint == 0)
+                {
+                    //This message should not be submitted to NCHS, but STEVE endpoint is found. 
+                    return 2;
+                }
+            }  
+        FoundNchsEndpoint = 0;
+        FoundSteveEndpoint = 0;
+        }
+        return -1; // Default to not found/invalid
+        }
 
+    }
+    
     /// <summary>Property attribute used to describe a DeathRecord property.</summary>
     [System.AttributeUsage(System.AttributeTargets.Property)]
     public class Property : System.Attribute

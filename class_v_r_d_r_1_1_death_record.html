@@ -166,6 +166,8 @@ Composition&#160;</td><td class="memItemRight" valign="bottom"><b>GetComposition
 <tr class="memitem:ad85cec29494e4b08aa27e33daea26bc2" id="r_ad85cec29494e4b08aa27e33daea26bc2"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad85cec29494e4b08aa27e33daea26bc2">ToDescription</a> ()</td></tr>
 <tr class="memdesc:ad85cec29494e4b08aa27e33daea26bc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a JSON encoded structure that maps to the various property annotations found in the <a class="el" href="class_v_r_d_r_1_1_death_record.html" title="Class DeathRecord models a FHIR Vital Records Death Reporting (VRDR) Death Record....">DeathRecord</a> class. This is useful for scenarios where you may want to display the data in user interfaces.  <br /></td></tr>
 <tr class="separator:ad85cec29494e4b08aa27e33daea26bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1349604614eaccac514d241905631772" id="r_a1349604614eaccac514d241905631772"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1349604614eaccac514d241905631772">DestinationFound</a> (Bundle.EntryComponent MessageHeaderEntry)</td></tr>
+<tr class="separator:a1349604614eaccac514d241905631772"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -938,6 +940,32 @@ String&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlagH
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1349604614eaccac514d241905631772" name="a1349604614eaccac514d241905631772"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1349604614eaccac514d241905631772">&#9670;&#160;</a></span>DestinationFound()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int VRDR.DeathRecord.DestinationFound </td>
+          <td>(</td>
+          <td class="paramtype">Bundle.EntryComponent</td>          <td class="paramname"><span class="paramname"><em>MessageHeaderEntry</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Helper method to extract the Steve/NCHS endpoint submission status from the MessageHeader component of the bundle. If both Steve and NCHS endpoints are found, this is an original submission. If only one is found "NCHS" endpoint is fine, this is also an original submission. If only STEVE is found, this messge should not be submitted to NCHS. Original Record (REPLACE = 0): message destination should include both <a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a> and <a href="http://steve.naphsis.us/vrdr_exchange">http://steve.naphsis.us/vrdr_exchange</a> and message should use an eventUri of <a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a> Updated Record(REPLACE = 1): message destination should include both <a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a> and <a href="http://steve.naphsis.us/vrdr_exchange">http://steve.naphsis.us/vrdr_exchange</a> and message should use an eventUri of <a href="http://nchs.cdc.gov/vrdr_submission_update">http://nchs.cdc.gov/vrdr_submission_update</a> Do not send to NCHS (REPLACE = 2): message destination should include just <a href="http://steve.naphsis.us/vrdr_exchange">http://steve.naphsis.us/vrdr_exchange</a> and message should use an eventUri of <a href="http://nchs.cdc.gov/vrdr_submission_update">http://nchs.cdc.gov/vrdr_submission_update</a> </p>
+
+</div>
+</div>
 <a id="ad495b43246933a339d77bb3d5b9cff26" name="ad495b43246933a339d77bb3d5b9cff26"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad495b43246933a339d77bb3d5b9cff26">&#9670;&#160;</a></span>FromDescription()</h2>
 

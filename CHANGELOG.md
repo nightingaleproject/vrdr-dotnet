@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="4.4.6"></a>
+## [4.4.6](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.6) (2026-07-29)
+
+### Bug Fixes
+
+* format the zipCode to remove the hyphen and add a new class to generate the replace status flag based on the submission message ([#631](https://www.github.com/nightingaleproject/vrdr-dotnet/issues/631)) ()
+
 <a name="4.4.4"></a>
 ## [4.4.4](https://www.github.com/nightingaleproject/vrdr-dotnet/releases/tag/v4.4.4) (2026-04-06)
 

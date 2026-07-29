@@ -1064,17 +1064,17 @@ namespace VRDR.Tests
         {
             //This is no longer relevant. ReplaceStatus is set up using the eventUri
             //SetterDeathRecord.ReplaceStatusHelper = ValueSets.ReplaceStatus.Original_Record;
-            //Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
-            //Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
-            //Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
+            Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
+            Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
+            Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
         }
 
         [Fact]
         public void Get_ReplaceStatus()
         {
             //Assert.Equal("original", DeathRecord1_JSON.ReplaceStatusHelper);
-            //Assert.Equal("original", DeathCertificateDocument1_JSON.ReplaceStatusHelper);
-            //Assert.Equal("original", DeathRecord1_XML.ReplaceStatusHelper);
+           // Assert.Equal("original", DeathCertificateDocument1_JSON.ReplaceStatusHelper);
+           // Assert.Equal("original", DeathRecord1_XML.ReplaceStatusHelper);
         }
         [Fact]
         public void Set_GivenNames()

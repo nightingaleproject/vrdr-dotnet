@@ -396,11 +396,11 @@ namespace VRDR
             get
             {
                  Dictionary<string, string> ReplaceStatusDict = new Dictionary<string, string>();
-                 var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
-                 if (MessageHeaderEntry != null)
+                 //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                 if (ReplaceStatusFlag.eventUri.Length > 0)
                 {
-                    int ReplaceStatusFlagCode = DestinationFound(MessageHeaderEntry); 
-                    if(ReplaceStatusFlagCode==0)//Original submission
+                   // int ReplaceStatusFlagCode = DestinationFound(MessageHeaderEntry); 
+                    if(ReplaceStatusFlag.replaceStatusFlagCode == "0")//Original submission
                     {
                         //This is an original submission message
                         ReplaceStatusDict.Add("code", "original");
@@ -411,7 +411,7 @@ namespace VRDR
                         codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
                         return CodeableConceptToDict((CodeableConcept)codeableConcept); 
                     }
-                    else if (ReplaceStatusFlagCode==1)  //updated submission
+                    else if (ReplaceStatusFlag.replaceStatusFlagCode == "1")  //updated submission
                     {
                         //This is an Updated submission message
                         ReplaceStatusDict.Add("code", "updated");
@@ -422,7 +422,7 @@ namespace VRDR
                         codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
                         return CodeableConceptToDict((CodeableConcept)codeableConcept); 
                     }
-                    else if (ReplaceStatusFlagCode==2)  //updated submission
+                    else if (ReplaceStatusFlag.replaceStatusFlagCode == "2")  //updated submission
                     {
                         //This is an Updated submission message
                         ReplaceStatusDict.Add("code", "updated_notforNCHS");
@@ -470,8 +470,8 @@ namespace VRDR
         {
             get
             {
-                var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
-                if (MessageHeaderEntry != null && ReplaceStatus != null)
+                //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                if (ReplaceStatusFlag.eventUri.Length > 0)
                 {
                     if (ReplaceStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(ReplaceStatus["code"]))
                     {

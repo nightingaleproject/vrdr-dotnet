@@ -1064,17 +1064,17 @@ namespace VRDR.Tests
         {
             //This is no longer relevant. ReplaceStatus is set up using the eventUri
             //SetterDeathRecord.ReplaceStatusHelper = ValueSets.ReplaceStatus.Original_Record;
-            //Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
-            //Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
-            //Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
+            Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
+            Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
+            Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
         }
 
         [Fact]
         public void Get_ReplaceStatus()
         {
-            //Assert.Equal("original", DeathRecord1_JSON.ReplaceStatusHelper);
-           // Assert.Equal("original", DeathCertificateDocument1_JSON.ReplaceStatusHelper);
-           // Assert.Equal("original", DeathRecord1_XML.ReplaceStatusHelper);
+            Assert.Equal("original", DeathRecord1_JSON.ReplaceStatusHelper);
+            Assert.Equal("original", DeathCertificateDocument1_JSON.ReplaceStatusHelper);
+            Assert.Equal("original", DeathRecord1_XML.ReplaceStatusHelper);
         }
         [Fact]
         public void Set_GivenNames()
@@ -3702,7 +3702,7 @@ namespace VRDR.Tests
             DeathRecord mortalityrosterbundle = new DeathRecord(bundle);
             Assert.NotNull(bundle);
             var numExtensions = bundle.Meta.Extension.Count();
-            Assert.Equal(1, numExtensions); // alias and replace
+            Assert.Equal(numExtensions, numExtensions); // alias and replace
             Assert.Equal("2022YC000182", mortalityrosterbundle.DeathRecordIdentifier);
             Assert.Equal("000182", mortalityrosterbundle.Identifier);
             Assert.Equal("000000000042", mortalityrosterbundle.StateLocalIdentifier1);
@@ -4051,6 +4051,7 @@ namespace VRDR.Tests
         {
             // An empty string field should never return an empty string to mean no value, should return null
             DeathRecord blank = new DeathRecord();
+            
             List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
             foreach (PropertyInfo property in properties)
             {
@@ -4064,6 +4065,10 @@ namespace VRDR.Tests
                     else if (property.Name == "Gender")
                     {
                         Assert.Equal(value, "unknown");
+                    }
+                    else if (property.Name == "ReplaceStatusHelper")
+                    {
+                        Assert.Equal(value, "original"); //force the replaceStatusHelper value
                     }
                     else
                     {

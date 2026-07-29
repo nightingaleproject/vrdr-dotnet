@@ -63,6 +63,7 @@ namespace VRDR.CLI
   - xml2xml: Read in the IJE death record and print out as XML (1 argument: path to death record in XML format)
   - batch: Read in IJE messages and create a batch submission bundle (2+ arguments: submission URL (for inside bundle) and one or more messages)
   - filter: Read in the FHIR death record and filter based on filter array (1 argument: path to death record to filter)
+  - deathmsg2ije: Read in a FHIR death message and print out as IJE (1 argument: path to death message in JSON format)
 ";
         static int Main(string[] args)
         {
@@ -794,6 +795,31 @@ namespace VRDR.CLI
                         }
                         break;
                 }
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "deathmsg2ije")
+            {  
+                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]), true);
+                switch (message)
+                {
+                    case DeathRecordSubmissionMessage submission:
+                    var dr = submission.DeathRecord;
+                    DeathRecord d = new DeathRecord(dr.ToJson(), true);
+                
+                    IJEMortality ije1 = new IJEMortality(d, true);
+                    // Loop over every property (these are the fields); Order by priority
+                    List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Location).ToList();
+                    foreach (PropertyInfo property in properties)
+                    {
+                        // Grab the field attributes
+                        IJEField info = property.GetCustomAttribute<IJEField>();
+                        // Grab the field value
+                        string field = Convert.ToString(property.GetValue(ije1, null));
+                        // Print the key/value pair to console
+                        Console.WriteLine($"{info.Name}: {field.Trim()}");
+                    }
+                    break;
+                }     
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "submit")

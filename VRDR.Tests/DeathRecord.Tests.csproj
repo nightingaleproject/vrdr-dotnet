@@ -4,7 +4,7 @@
     <RootNamespace>VRDR.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <!-- <GenerateProgramFile>false</GenerateProgramFile> -->
+    <!-- <GenerateProgramFile>false</GenerateProgramFile>- -->
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.2">

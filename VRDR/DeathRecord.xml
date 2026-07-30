@@ -3466,6 +3466,25 @@
             
              </summary>
         </member>
+        <member name="M:VRDR.DeathRecord.DestinationFoundusingStringParameters(System.Collections.Generic.List{System.String},System.String)">
+             <summary>
+             Helper method to extract the Steve/NCHS endpoint submission status from the ReplaceStatusFlag class.
+             If both Steve and NCHS endpoints are found, this is an original submission. 
+             If only one is found "NCHS" endpoint is fine, this is also an original submission. 
+             If only STEVE is found, this messge should not be submitted to NCHS.
+             Original Record (REPLACE = 0): message destination should include both http://nchs.cdc.gov/vrdr_submission and http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission
+             Updated Record(REPLACE = 1): message destination should include both http://nchs.cdc.gov/vrdr_submission and http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission_update
+             Do not send to NCHS (REPLACE = 2): message destination should include just http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission_update
+            
+             </summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.FormatZipCode(System.String)">
+            <summary>
+            Helper method to remove the hyphen within the zip code when the country  is USA.
+            The zip code should be of the following structure: valid 5+4 digit zip code; 3 space 3 for Canada;The zip code is  9 digits long.
+            Unknown portion should remain blank. do not include "-". 
+            </summary>
+        </member>
         <member name="T:VRDR.Property">
             <summary>Property attribute used to describe a DeathRecord property.</summary>
         </member>
@@ -4989,6 +5008,23 @@
         </member>
         <member name="F:VRDR.NvssEthnicity.LiteralDisplay">
             <summary> Hispanic Literal </summary>
+        </member>
+        <member name="T:VRDR.ReplaceStatusFlag">
+            <summary>Helper class to extract Replace Status Flag value based on the MessageHeader Resource</summary>
+        </member>
+        <member name="F:VRDR.ReplaceStatusFlag.destinationEndpoint">
+            <summary>This variable stores the messageheader destination endpoint information so to compute the Replace Status Flag value </summary>
+        </member>
+        <member name="F:VRDR.ReplaceStatusFlag.eventUri">
+            <summary>This variable stores the messageheader event type information</summary>
+        </member>
+        <member name="F:VRDR.ReplaceStatusFlag.replaceStatusFlagCode">
+            <summary>This variable stores the computed replaceStatusFlagCode value </summary>
+        </member>
+        <member name="M:VRDR.ReplaceStatusFlag.GetReplaceStatusFlagCode(System.Collections.Generic.List{System.String},System.String)">
+            <summary>This class stores the messageheader destination endpoint and the event type information so to compute the Replace Status Flag value </summary>
+            <param name="destinationEndpts"> Death Record Destination Endpoints specified in the MessageHeader Resource</param>
+            <param name="eventUri"> Death Record Event Type specified in the MessageHeader Resource</param>
         </member>
         <member name="T:VRDR.ProfileURL">
             <summary>Profile URLs</summary>

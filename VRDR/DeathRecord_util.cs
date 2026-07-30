@@ -495,7 +495,7 @@ namespace VRDR
                 }
                 if (dict.ContainsKey("addressZip") && !String.IsNullOrEmpty(dict["addressZip"]))
                 {
-                    address.PostalCode = dict["addressZip"];
+                    address.PostalCode = FormatZipCode(dict["addressZip"]);
                 }
                 if (dict.ContainsKey("addressCountry") && !String.IsNullOrEmpty(dict["addressCountry"]))
                 {
@@ -716,7 +716,7 @@ namespace VRDR
                 }
                 if (addr.PostalCode != null)
                 {
-                    dictionary["addressZip"] = addr.PostalCode;
+                    dictionary["addressZip"] = FormatZipCode(addr.PostalCode);
                 }
                 if (addr.Country != null)
                 {
@@ -1244,6 +1244,91 @@ namespace VRDR
         return -1; // Default to not found/invalid
         }
 
+         /// <summary>
+       /// Helper method to extract the Steve/NCHS endpoint submission status from the ReplaceStatusFlag class.
+       /// If both Steve and NCHS endpoints are found, this is an original submission. 
+       /// If only one is found "NCHS" endpoint is fine, this is also an original submission. 
+       /// If only STEVE is found, this messge should not be submitted to NCHS.
+       /// Original Record (REPLACE = 0): message destination should include both http://nchs.cdc.gov/vrdr_submission and http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission
+       /// Updated Record(REPLACE = 1): message destination should include both http://nchs.cdc.gov/vrdr_submission and http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission_update
+       /// Do not send to NCHS (REPLACE = 2): message destination should include just http://steve.naphsis.us/vrdr_exchange and message should use an eventUri of http://nchs.cdc.gov/vrdr_submission_update
+       ///
+       /// </summary>
+        public static string DestinationFoundusingStringParameters(List<string> destinationList, String eUri)
+        {
+           int foundNchsEndpoint = 0;
+           int foundSteveEndpoint = 0;  
+
+           if (destinationList.Count > 0)
+           {
+
+            foreach (var dest in destinationList)
+            {
+                //if destinations are a combination of Steve endpoint and NCHS endpoint, this is an original submission
+                if (dest.TrimEnd().EqualsInsensitive(ExtensionURL.SteveEndpoint))
+                {
+                        foundSteveEndpoint++;
+                }
+                if (dest.TrimEnd().EqualsInsensitive(ExtensionURL.NchsEndpoint))
+                {
+                        foundNchsEndpoint++;
+                }
+            }
+            //if both Steve and NCHS endpoints are found and eventUri is ori
+            if (eUri.ToUpper().TrimEnd().EndsWith("VRDR_SUBMISSION"))
+            {
+                if (foundSteveEndpoint > 0 && foundNchsEndpoint > 0 && destinationList.Count() > 1)
+                {
+                    //This is an original submission message
+                    return "0";
+                }
+                else if (foundNchsEndpoint > 0 && destinationList.Count() == 1)
+                {
+                    //This is an original submission message, but only NCHS endpoint is found. 
+                    return "0";
+                }
+            }
+            else if (eUri.ToUpper().TrimEnd().EndsWith("VRDR_SUBMISSION_UPDATE"))
+            {
+                if (foundSteveEndpoint > 0 && foundNchsEndpoint > 0 && destinationList.Count() > 1)
+                {
+                    //This is an updated submission message
+                    return "1";
+                }
+                else if (foundNchsEndpoint > 0 && destinationList.Count() == 1)
+                {
+                    //This is an updated submission message, but only NCHS endpoint is found. 
+                    return "1";
+                }
+                else if (foundSteveEndpoint > 0 && foundNchsEndpoint == 0)
+                {
+                    //This message should not be submitted to NCHS, but STEVE endpoint is found. 
+                    return "2";
+                }
+            }  
+        foundNchsEndpoint = 0;
+        foundSteveEndpoint = 0;
+        }
+        return "-1"; // Default to not found/invalid
+        } 
+
+        /// <summary>
+       /// Helper method to remove the hyphen within the zip code when the country  is USA.
+       /// The zip code should be of the following structure: valid 5+4 digit zip code; 3 space 3 for Canada;The zip code is  9 digits long.
+       /// Unknown portion should remain blank. do not include "-". 
+       /// </summary>
+       private static string FormatZipCode(string zipCode)
+       {
+          string hyphen ="-";
+          string formattedZipCode = "";
+           if (zipCode.Length > 9 || zipCode.Contains(hyphen))
+           {
+                //remove hyphen
+                formattedZipCode = zipCode.Replace(hyphen,"");
+                zipCode = formattedZipCode;
+            }
+           return zipCode;
+       } 
     }
     
     /// <summary>Property attribute used to describe a DeathRecord property.</summary>

@@ -570,6 +570,9 @@ namespace VRDR
                     }
                     throw new MessageParseException(errorText, message);
             }
+            ReplaceStatusFlag.destinationEndpoint = message.MessageDestinations;
+            ReplaceStatusFlag.eventUri =  message.MessageType;
+            ReplaceStatusFlag.GetReplaceStatusFlagCode(ReplaceStatusFlag.destinationEndpoint,ReplaceStatusFlag.eventUri);
             return message;
         }
 

@@ -397,7 +397,7 @@ namespace VRDR
             get
             {
                  Dictionary<string, string> ReplaceStatusDict = new Dictionary<string, string>();
-                 var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                 //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
                 if (Composition != null)
                 {
                     //Check for ReplaceStatus flag extension is present in the compostion

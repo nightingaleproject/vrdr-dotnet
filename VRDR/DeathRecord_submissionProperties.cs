@@ -397,57 +397,47 @@ namespace VRDR
             get
             {
                  Dictionary<string, string> ReplaceStatusDict = new Dictionary<string, string>();
-                 var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
-                if (Composition != null)
+                 //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                 if (ReplaceStatusFlag.eventUri.Length > 0)
                 {
-                    //Check for ReplaceStatus flag extension is present in the compostion
-                    if (Composition.GetExtension(ExtensionURL.ReplaceStatus) != null)
+                   // int ReplaceStatusFlagCode = DestinationFound(MessageHeaderEntry); 
+                    if(ReplaceStatusFlag.replaceStatusFlagCode == "0")//Original submission
                     {
-                        //old version of Deathrecord, the replace status flag is present
-                        //in the deathrecord.
-                        Extension replaceStatusFlgExtension = Composition.Extension.Where(ext => ext.Url == ExtensionURL.ReplaceStatus).FirstOrDefault();
+                        //This is an original submission message
+                        ReplaceStatusDict.Add("code", "original");
+                        ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
+                        ReplaceStatusDict.Add("display", "original record");
+                        //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
+                        CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
+                        codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
+                        return CodeableConceptToDict((CodeableConcept)codeableConcept); 
+                    }
+                    else if (ReplaceStatusFlag.replaceStatusFlagCode == "1")  //updated submission
+                    {
+                        //This is an Updated submission message
+                        ReplaceStatusDict.Add("code", "updated");
+                        ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
+                        ReplaceStatusDict.Add("display", "Updated record");
+                        //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
+                        CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
+                        codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
+                        return CodeableConceptToDict((CodeableConcept)codeableConcept); 
+                    }
+                    else if (ReplaceStatusFlag.replaceStatusFlagCode == "2")  //updated submission
+                    {
+                        //This is an Updated submission message
+                        ReplaceStatusDict.Add("code", "updated_notforNCHS");
+                        ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
+                        ReplaceStatusDict.Add("display", "Updated record not for NCHS");
+                        //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
+                        CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
+                        codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
+                        return CodeableConceptToDict((CodeableConcept)codeableConcept); 
                     }
                     else
                     {
-                    // int ReplaceStatusFlagCode = DestinationFound(MessageHeaderEntry); 
-                        if(ReplaceStatusFlag.replaceStatusFlagCode == "0")//Original submission
-                        {
-                            //This is an original submission message
-                            ReplaceStatusDict.Add("code", "original");
-                            ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
-                            ReplaceStatusDict.Add("display", "original record");
-                            //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
-                            CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
-                            codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
-                            return CodeableConceptToDict((CodeableConcept)codeableConcept); 
-                        }
-                        else if (ReplaceStatusFlag.replaceStatusFlagCode == "1")  //updated submission
-                        {
-                            //This is an Updated submission message
-                            ReplaceStatusDict.Add("code", "updated");
-                            ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
-                            ReplaceStatusDict.Add("display", "Updated record");
-                            //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
-                            CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
-                            codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
-                            return CodeableConceptToDict((CodeableConcept)codeableConcept); 
-                        }
-                        else if (ReplaceStatusFlag.replaceStatusFlagCode == "2")  //updated submission
-                        {
-                            //This is an Updated submission message
-                            ReplaceStatusDict.Add("code", "updated_notforNCHS");
-                            ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
-                            ReplaceStatusDict.Add("display", "Updated record not for NCHS");
-                            //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
-                            CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
-                            codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
-                            return CodeableConceptToDict((CodeableConcept)codeableConcept); 
-                        }
-                        else
-                        {
-                            return EmptyCodeableDict();
-                        }  
-                    }
+                        return EmptyCodeableDict();
+                    }  
                 }
                 return EmptyCodeableDict();
             }

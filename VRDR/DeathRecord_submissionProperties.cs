@@ -398,8 +398,10 @@ namespace VRDR
             {
                  Dictionary<string, string> ReplaceStatusDict = new Dictionary<string, string>();
                  //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+
                 if (Composition != null)
-                {               
+                {
+
                     if (Composition.GetExtension(ExtensionURL.ReplaceStatus) != null)
                     {
                         //old version of Deathrecord, the replace status flag is present

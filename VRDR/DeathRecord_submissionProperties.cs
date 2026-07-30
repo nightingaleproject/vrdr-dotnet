@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Serialization;
 
 // DeathRecord_submissionProperties.cs
 //    These fields are used primarily for submitting death records to NCHS.  Some are also used in response messages from NCHS to EDRS corresponding to TRX and MRE content.
@@ -390,14 +391,21 @@ namespace VRDR
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.Entry.Resource is MessageHeader", "")]
-       // [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        //[FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
         public Dictionary<string, string> ReplaceStatus
         {
             get
             {
                  Dictionary<string, string> ReplaceStatusDict = new Dictionary<string, string>();
-                 //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
-                 if (ReplaceStatusFlag.eventUri.Length > 0)
+                 var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                 Extension replaceStatusFlgExtension = Composition.Extension.Where(ext => ext.Url == ExtensionURL.ReplaceStatus).FirstOrDefault();
+                if (replaceStatusFlgExtension != null)
+                {
+                    //old version of Deathrecord, the replace status flag is present
+                    //in the deathrecord.
+
+                }
+                else
                 {
                    // int ReplaceStatusFlagCode = DestinationFound(MessageHeaderEntry); 
                     if(ReplaceStatusFlag.replaceStatusFlagCode == "0")//Original submission
@@ -470,7 +478,15 @@ namespace VRDR
         {
             get
             {
-                //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                Extension replaceStatusFlgHelperExtension = Composition.Extension.Where(ext => ext.Url == ExtensionURL.ReplaceStatus).FirstOrDefault();
+                if (replaceStatusFlgHelperExtension != null)
+                {
+                    //old version of Deathrecord, the replace status flag is present
+                    //in the deathrecord.
+
+                }
+                else
                 if (ReplaceStatusFlag.eventUri.Length > 0)
                 {
                     if (ReplaceStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(ReplaceStatus["code"]))

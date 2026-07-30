@@ -35,7 +35,7 @@ Interactions with NCHS are governed by the CI build version of the VRDR and Vita
 <td style="text-align: center;">R4</td>
 <td style="text-align: center;">V4.4.6</td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.4.6">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.4.6"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.4.4">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.4.4"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.4.6">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.4.6"> github</a></td>
 </tr>
 <tr>
 <td style="text-align: center;"><a href="http://hl7.org/fhir/us/vrdr/STU2.1/">STU2.1 Published</a></td>

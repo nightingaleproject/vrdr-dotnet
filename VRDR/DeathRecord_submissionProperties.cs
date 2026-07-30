@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Serialization;
 
 // DeathRecord_submissionProperties.cs
 //    These fields are used primarily for submitting death records to NCHS.  Some are also used in response messages from NCHS to EDRS corresponding to TRX and MRE content.
@@ -390,53 +391,63 @@ namespace VRDR
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.Entry.Resource is MessageHeader", "")]
-       // [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        //[FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
         public Dictionary<string, string> ReplaceStatus
         {
             get
             {
                  Dictionary<string, string> ReplaceStatusDict = new Dictionary<string, string>();
-                 //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
-                 if (ReplaceStatusFlag.eventUri.Length > 0)
+                 var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                if (Composition != null)
                 {
-                   // int ReplaceStatusFlagCode = DestinationFound(MessageHeaderEntry); 
-                    if(ReplaceStatusFlag.replaceStatusFlagCode == "0")//Original submission
+                    //Check for ReplaceStatus flag extension is present in the compostion
+                    if (Composition.GetExtension(ExtensionURL.ReplaceStatus) != null)
                     {
-                        //This is an original submission message
-                        ReplaceStatusDict.Add("code", "original");
-                        ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
-                        ReplaceStatusDict.Add("display", "original record");
-                        //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
-                        CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
-                        codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
-                        return CodeableConceptToDict((CodeableConcept)codeableConcept); 
-                    }
-                    else if (ReplaceStatusFlag.replaceStatusFlagCode == "1")  //updated submission
-                    {
-                        //This is an Updated submission message
-                        ReplaceStatusDict.Add("code", "updated");
-                        ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
-                        ReplaceStatusDict.Add("display", "Updated record");
-                        //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
-                        CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
-                        codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
-                        return CodeableConceptToDict((CodeableConcept)codeableConcept); 
-                    }
-                    else if (ReplaceStatusFlag.replaceStatusFlagCode == "2")  //updated submission
-                    {
-                        //This is an Updated submission message
-                        ReplaceStatusDict.Add("code", "updated_notforNCHS");
-                        ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
-                        ReplaceStatusDict.Add("display", "Updated record not for NCHS");
-                        //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
-                        CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
-                        codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
-                        return CodeableConceptToDict((CodeableConcept)codeableConcept); 
+                        //old version of Deathrecord, the replace status flag is present
+                        //in the deathrecord.
+                        Extension replaceStatusFlgExtension = Composition.Extension.Where(ext => ext.Url == ExtensionURL.ReplaceStatus).FirstOrDefault();
                     }
                     else
                     {
-                        return EmptyCodeableDict();
-                    }  
+                    // int ReplaceStatusFlagCode = DestinationFound(MessageHeaderEntry); 
+                        if(ReplaceStatusFlag.replaceStatusFlagCode == "0")//Original submission
+                        {
+                            //This is an original submission message
+                            ReplaceStatusDict.Add("code", "original");
+                            ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
+                            ReplaceStatusDict.Add("display", "original record");
+                            //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
+                            CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
+                            codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
+                            return CodeableConceptToDict((CodeableConcept)codeableConcept); 
+                        }
+                        else if (ReplaceStatusFlag.replaceStatusFlagCode == "1")  //updated submission
+                        {
+                            //This is an Updated submission message
+                            ReplaceStatusDict.Add("code", "updated");
+                            ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
+                            ReplaceStatusDict.Add("display", "Updated record");
+                            //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
+                            CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
+                            codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
+                            return CodeableConceptToDict((CodeableConcept)codeableConcept); 
+                        }
+                        else if (ReplaceStatusFlag.replaceStatusFlagCode == "2")  //updated submission
+                        {
+                            //This is an Updated submission message
+                            ReplaceStatusDict.Add("code", "updated_notforNCHS");
+                            ReplaceStatusDict.Add("system", CodeSystems.ReplaceStatus);
+                            ReplaceStatusDict.Add("display", "Updated record not for NCHS");
+                            //ReplaceStatus.Add(DictToCodeableConcept(ReplaceStatusDict));
+                            CodeableConcept codeableConcept = DictToCodeableConcept(ReplaceStatusDict);
+                            codeableConcept.Coding.Add(new Coding(CodeSystems.ReplaceStatus, ReplaceStatusDict.Values.First()));
+                            return CodeableConceptToDict((CodeableConcept)codeableConcept); 
+                        }
+                        else
+                        {
+                            return EmptyCodeableDict();
+                        }  
+                    }
                 }
                 return EmptyCodeableDict();
             }
@@ -470,7 +481,15 @@ namespace VRDR
         {
             get
             {
-                //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
+                Extension replaceStatusFlgHelperExtension = Composition.Extension.Where(ext => ext.Url == ExtensionURL.ReplaceStatus).FirstOrDefault();
+                if (replaceStatusFlgHelperExtension != null)
+                {
+                    //old version of Deathrecord, the replace status flag is present
+                    //in the deathrecord.
+
+                }
+                else
                 if (ReplaceStatusFlag.eventUri.Length > 0)
                 {
                     if (ReplaceStatus.ContainsKey("code") && !String.IsNullOrWhiteSpace(ReplaceStatus["code"]))

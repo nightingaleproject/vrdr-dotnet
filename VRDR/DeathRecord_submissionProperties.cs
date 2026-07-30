@@ -399,13 +399,12 @@ namespace VRDR
                  Dictionary<string, string> ReplaceStatusDict = new Dictionary<string, string>();
                  //var MessageHeaderEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource is MessageHeader); 
                 if (Composition != null)
-                {
-                    //Check for ReplaceStatus flag extension is present in the compostion
+                {               
                     if (Composition.GetExtension(ExtensionURL.ReplaceStatus) != null)
                     {
                         //old version of Deathrecord, the replace status flag is present
-                        //in the deathrecord.
-                        Extension replaceStatusFlgExtension = Composition.Extension.Where(ext => ext.Url == ExtensionURL.ReplaceStatus).FirstOrDefault();
+                            //in the deathrecord.
+                            Extension replaceStatusFlgExtension = Composition.Extension.Where(ext => ext.Url == ExtensionURL.ReplaceStatus).FirstOrDefault();
                     }
                     else
                     {

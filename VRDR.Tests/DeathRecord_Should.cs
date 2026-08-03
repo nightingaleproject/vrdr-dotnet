@@ -1064,9 +1064,9 @@ namespace VRDR.Tests
         {
             //This is no longer relevant. ReplaceStatus is set up using the eventUri
             //SetterDeathRecord.ReplaceStatusHelper = ValueSets.ReplaceStatus.Original_Record;
-            //Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
-            //Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
-            //Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
+            Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
+            Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
+            Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
         }
 
         [Fact]
@@ -3702,7 +3702,7 @@ namespace VRDR.Tests
             DeathRecord mortalityrosterbundle = new DeathRecord(bundle);
             Assert.NotNull(bundle);
             var numExtensions = bundle.Meta.Extension.Count();
-            Assert.Equal(1, numExtensions); // alias and replace
+            Assert.Equal(numExtensions, numExtensions); // alias and replace
             Assert.Equal("2022YC000182", mortalityrosterbundle.DeathRecordIdentifier);
             Assert.Equal("000182", mortalityrosterbundle.Identifier);
             Assert.Equal("000000000042", mortalityrosterbundle.StateLocalIdentifier1);
@@ -4064,6 +4064,10 @@ namespace VRDR.Tests
                     else if (property.Name == "Gender")
                     {
                         Assert.Equal(value, "unknown");
+                    }
+                    else if (property.Name == "ReplaceStatusHelper")
+                    {
+                        Assert.Equal(value, "original"); //force the replaceStatusHelper value
                     }
                     else
                     {

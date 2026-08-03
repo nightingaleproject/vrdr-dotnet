@@ -177,6 +177,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aec87893df7ca5bfb6614c48a1b3523f3" id="r_aec87893df7ca5bfb6614c48a1b3523f3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec87893df7ca5bfb6614c48a1b3523f3">updateGivenHumanName</a> (string[] value, List&lt; HumanName &gt; names)</td></tr>
 <tr class="memdesc:aec87893df7ca5bfb6614c48a1b3523f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to create a HumanName from a list of strings.  <br /></td></tr>
 <tr class="separator:aec87893df7ca5bfb6614c48a1b3523f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fc261abd6c72642fe8890520b024472" id="r_a8fc261abd6c72642fe8890520b024472"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fc261abd6c72642fe8890520b024472">DestinationFoundusingStringParameters</a> (List&lt; string &gt; destinationList, String eUri)</td></tr>
+<tr class="separator:a8fc261abd6c72642fe8890520b024472"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -963,6 +965,36 @@ String&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditFlagH
 </table>
 </div><div class="memdoc">
 <p>Helper method to extract the Steve/NCHS endpoint submission status from the MessageHeader component of the bundle. If both Steve and NCHS endpoints are found, this is an original submission. If only one is found "NCHS" endpoint is fine, this is also an original submission. If only STEVE is found, this messge should not be submitted to NCHS. Original Record (REPLACE = 0): message destination should include both <a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a> and <a href="http://steve.naphsis.us/vrdr_exchange">http://steve.naphsis.us/vrdr_exchange</a> and message should use an eventUri of <a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a> Updated Record(REPLACE = 1): message destination should include both <a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a> and <a href="http://steve.naphsis.us/vrdr_exchange">http://steve.naphsis.us/vrdr_exchange</a> and message should use an eventUri of <a href="http://nchs.cdc.gov/vrdr_submission_update">http://nchs.cdc.gov/vrdr_submission_update</a> Do not send to NCHS (REPLACE = 2): message destination should include just <a href="http://steve.naphsis.us/vrdr_exchange">http://steve.naphsis.us/vrdr_exchange</a> and message should use an eventUri of <a href="http://nchs.cdc.gov/vrdr_submission_update">http://nchs.cdc.gov/vrdr_submission_update</a> </p>
+
+</div>
+</div>
+<a id="a8fc261abd6c72642fe8890520b024472" name="a8fc261abd6c72642fe8890520b024472"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fc261abd6c72642fe8890520b024472">&#9670;&#160;</a></span>DestinationFoundusingStringParameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static string VRDR.DeathRecord.DestinationFoundusingStringParameters </td>
+          <td>(</td>
+          <td class="paramtype">List&lt; string &gt;</td>          <td class="paramname"><span class="paramname"><em>destinationList</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String</td>          <td class="paramname"><span class="paramname"><em>eUri</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Helper method to extract the Steve/NCHS endpoint submission status from the ReplaceStatusFlag class. If both Steve and NCHS endpoints are found, this is an original submission. If only one is found "NCHS" endpoint is fine, this is also an original submission. If only STEVE is found, this messge should not be submitted to NCHS. Original Record (REPLACE = 0): message destination should include both <a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a> and <a href="http://steve.naphsis.us/vrdr_exchange">http://steve.naphsis.us/vrdr_exchange</a> and message should use an eventUri of <a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a> Updated Record(REPLACE = 1): message destination should include both <a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a> and <a href="http://steve.naphsis.us/vrdr_exchange">http://steve.naphsis.us/vrdr_exchange</a> and message should use an eventUri of <a href="http://nchs.cdc.gov/vrdr_submission_update">http://nchs.cdc.gov/vrdr_submission_update</a> Do not send to NCHS (REPLACE = 2): message destination should include just <a href="http://steve.naphsis.us/vrdr_exchange">http://steve.naphsis.us/vrdr_exchange</a> and message should use an eventUri of <a href="http://nchs.cdc.gov/vrdr_submission_update">http://nchs.cdc.gov/vrdr_submission_update</a> </p>
 
 </div>
 </div>

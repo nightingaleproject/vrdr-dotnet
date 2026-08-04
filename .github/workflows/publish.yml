@@ -4,6 +4,11 @@ on:
     branches:
       - master # Default release branch
   workflow_dispatch:
+
+
+permissions:
+  id-token: write   # Required for OIDC
+  contents: read    # Required to read repo contents
 jobs:
   publish:
     name: list on nuget
@@ -16,6 +21,14 @@ jobs:
           dotnet-version: |
             3.1.408
             6.0.x
+      # Get a short-lived NuGet API key
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          with:
+          # Your NuGet.org VeroBen1 (profile name, not email)
+          user: ${{ secrets.NUGET_USER }}
       # Publish
       - name: publish DeathRecord on version change
         uses: alirezanet/publish-nuget@v3.1.0

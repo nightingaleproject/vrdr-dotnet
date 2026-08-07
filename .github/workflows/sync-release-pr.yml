@@ -37,36 +37,3 @@ jobs:
           dotnet-version: |
             6.0.x
             8.0.x
-      - name: Setup Versionize
-        run: |
-          dotnet tool install --global Versionize
-      - name: Bump version and create changelog
-        run: |
-          versionize --skip-tag
-      - name: Get current version
-        id: get-version
-        run: |
-          echo "version=$(versionize inspect)" >> $GITHUB_OUTPUT
-      - name: Create release Pull Request
-        uses: peter-evans/create-pull-request@v5
-        id: cpr
-        with:
-          token: ${{ secrets.BOT_TOKEN }}
-          commit-message: |
-            chore(release): ${{ steps.get-version.outputs.version }}
-          title: |
-            chore(release): ${{ steps.get-version.outputs.version }}
-          body: ""
-          branch: actions/release
-          reviewers: ${{ github.actor }}
-          delete-branch: true
-      - name: Check outputs
-        if: ${{ steps.cpr.outputs.pull-request-number }}
-        run: |
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
-      - name: Enable auto-merge
-        run: |
-          gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --auto -s
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

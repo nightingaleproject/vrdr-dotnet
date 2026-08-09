@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DeathRecord.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "fakerecord"
+    }
+  }
+}

@@ -12,6 +12,9 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Newtonsoft.Json;
+using SemVer;
+using System.ComponentModel.DataAnnotations;
+using VRDR.Validators;
 
 // DeathRecord_fieldsAndCreateMethods.cs
 //     Contains field definitions and associated createXXXX methods used to construct a field
@@ -450,7 +453,8 @@ namespace VRDR
         }
 
         /// <summary>Create Death Date Pronouncement Observation Component Component.</summary>
-        private Observation.ComponentComponent CreateDateOfDeathPronouncementObs() {
+        private Observation.ComponentComponent CreateDateOfDeathPronouncementObs()
+        {
             if (DeathDateObs == null)
             {
                 CreateDeathDateObs(); // Create it
@@ -580,6 +584,47 @@ namespace VRDR
 
         /// <summary>Record Axis Cause of Death</summary>
         private List<Observation> RecordAxisCauseOfDeathObsList;
+
+        private List<DeathRecordValidationResult> _ValidationErrors = new List<DeathRecordValidationResult>();
+        /// <summary>ValidateModel</summary>
+        public List<DeathRecordValidationResult> ValidateModel(DeathRecord deathRecord)
+        {
+
+            // Get all properties of the model
+            var properties = deathRecord.GetType().GetProperties();
+            if(_ValidationErrors == null)
+                _ValidationErrors= new List<DeathRecordValidationResult>();
+            foreach (var property in properties)
+            {
+                var validationAttributes = property.GetCustomAttributes<ValidationAttribute>();
+
+                foreach (var attribute in validationAttributes)
+                {
+                    // Get the value of the property for validation
+
+                    var value = property.GetValue(deathRecord);
+                    //attribute.Validate(property, property?.Name);
+                    // Check if the validation is successful
+                    if (!attribute.IsValid(value) && _ValidationErrors.Where(
+                            err => err.PropertyName == property.Name &&
+                        err.ErrorMessage == attribute.ErrorMessage).Count() == 0)
+                    {
+
+                        _ValidationErrors.Add(new DeathRecordValidationResult()
+                        {
+                            ErrorMessage = attribute.ErrorMessage,
+                            PropertyName = property.Name,
+                            AssignedValue = value,
+                            ValidatorType = attribute.TypeId
+                        });
+
+                    }
+                }
+            }
+
+            return _ValidationErrors;
+
+        }
 
     }
 }
